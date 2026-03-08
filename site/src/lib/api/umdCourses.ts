@@ -12,21 +12,27 @@ const API_BASE = import.meta.env.VITE_UMD_API_BASE_URL ?? "https://api.umd.io/v1
 type UmdApiCourse = {
   course_id: string;
   dept_id: string;
+  semester?: string;
   credits: string;
   name: string;
-  gen_ed?: string[];
+  gen_ed?: Array<string | string[]>;
   description?: string;
 };
 
 type UmdApiSection = {
   section_id: string;
   course: string;
+  number?: string;
+  semester?: string;
   instructor?: string;
+  instructors?: string[];
   seats?: string;
+  open_seats?: string;
   meetings?: Array<{
     days: string;
     start_time: string;
     end_time: string;
+    building?: string;
     room?: string;
   }>;
 };
@@ -50,15 +56,16 @@ async function getJson<T>(path: string, query?: Record<string, string | number |
   return response.json() as Promise<T>;
 }
 
-function parseTermCode(termCode: string): UmdTerm {
+function parseTermCode(termCodeInput: string | number): UmdTerm {
+  const termCode = String(termCodeInput);
   const year = Number(termCode.slice(0, 4));
   const seasonCode = termCode.slice(4);
   const season =
     seasonCode === "01"
       ? "winter"
-      : seasonCode === "03"
+      : seasonCode === "03" || seasonCode === "05"
         ? "spring"
-        : seasonCode === "06"
+        : seasonCode === "06" || seasonCode === "08"
           ? "summer"
           : "fall";
 
@@ -114,40 +121,80 @@ function parseDays(raw: string): UmdSectionMeeting["days"] {
 }
 
 function parseTimeToMinutes(raw: string): number {
-  const [hourPart, minutePart] = raw.split(":");
-  const hour = Number(hourPart);
+  const match = raw.trim().toLowerCase().match(/^(\d{1,2}):(\d{2})(am|pm)$/);
+  if (!match) {
+    return 0;
+  }
+
+  const [, hourPart, minutePart, suffix] = match;
+  let hour = Number(hourPart);
   const minute = Number(minutePart);
+
+  if (suffix === "am") {
+    if (hour === 12) hour = 0;
+  } else if (hour !== 12) {
+    hour += 12;
+  }
+
   return hour * 60 + minute;
 }
 
-function parseSeats(raw?: string): { openSeats?: number; totalSeats?: number } {
-  if (!raw) {
+function parseSeats(raw?: string, rawOpenSeats?: string): { openSeats?: number; totalSeats?: number } {
+  if (!raw && !rawOpenSeats) {
     return {};
   }
 
-  const [open, total] = raw.split("/").map((value) => Number(value));
+  const total = Number(raw);
+  const open = Number(rawOpenSeats);
+
   return {
     openSeats: Number.isFinite(open) ? open : undefined,
     totalSeats: Number.isFinite(total) ? total : undefined,
   };
 }
 
+function flattenGenEds(rawGenEds?: Array<string | string[]>): string[] {
+  if (!rawGenEds) {
+    return [];
+  }
+
+  return rawGenEds.flatMap((entry) => (Array.isArray(entry) ? entry : [entry])).filter(Boolean);
+}
+
 export async function fetchTerms(): Promise<UmdTerm[]> {
-  const terms = await getJson<string[]>("terms");
+  const terms = await getJson<Array<string | number>>("courses/semesters");
   return terms.map(parseTermCode).sort((a, b) => a.code.localeCompare(b.code));
 }
 
 export async function searchCourses(params: CourseSearchParams): Promise<UmdCourseSummary[]> {
-  const courses = await getJson<UmdApiCourse[]>("courses", {
-    term: params.termCode,
-    search: params.query,
-    dept_id: params.deptId,
-    gen_ed: params.genEdTag,
-    page: params.page,
-    per_page: params.pageSize,
-  });
+  const pageSize = params.pageSize ?? 100;
+  const maxPages = params.query ? 10 : 1;
+  const query = params.query?.trim().toLowerCase();
+  const deptFromQueryMatch = params.query?.trim().toUpperCase().match(/^([A-Z]{2,4})\s*\d*/);
+  const deptFromQuery = deptFromQueryMatch?.[1];
+  const deptFilter = params.deptId ?? deptFromQuery;
+  const allCourses: UmdApiCourse[] = [];
 
-  return courses.map((course) => {
+  for (let page = params.page ?? 1; page < (params.page ?? 1) + maxPages; page += 1) {
+    const pageCourses = await getJson<UmdApiCourse[]>("courses", {
+      semester: params.termCode,
+      dept_id: deptFilter,
+      page,
+      per_page: pageSize,
+    });
+
+    if (pageCourses.length === 0) {
+      break;
+    }
+
+    allCourses.push(...pageCourses);
+
+    if (!query) {
+      break;
+    }
+  }
+
+  const mapped = allCourses.map((course) => {
     const [deptId, number = ""] = course.course_id.split(/(?=\d)/);
 
     return {
@@ -156,27 +203,48 @@ export async function searchCourses(params: CourseSearchParams): Promise<UmdCour
       number,
       title: course.name,
       credits: parseCredits(course.credits),
-      genEdTags: course.gen_ed ?? [],
+      genEdTags: flattenGenEds(course.gen_ed),
       description: course.description,
     };
+  });
+
+  return mapped.filter((course) => {
+    if (deptFilter && course.deptId !== deptFilter) {
+      return false;
+    }
+
+    if (params.genEdTag && !course.genEdTags.includes(params.genEdTag)) {
+      return false;
+    }
+
+    if (!query) {
+      return true;
+    }
+
+    return (
+      course.id.toLowerCase().includes(query) ||
+      course.title.toLowerCase().includes(query) ||
+      course.deptId.toLowerCase().includes(query)
+    );
   });
 }
 
 export async function fetchCourseSections(termCode: string, courseId: string): Promise<UmdSection[]> {
   const sections = await getJson<UmdApiSection[]>("courses/sections", {
-    term: termCode,
-    course: courseId,
+    semester: termCode,
+    course_id: courseId,
   });
 
   return sections.map((section) => {
-    const seats = parseSeats(section.seats);
+    const seats = parseSeats(section.seats, section.open_seats);
+    const instructor = section.instructor ?? section.instructors?.join(", ");
 
     return {
       id: section.section_id,
       courseId: section.course,
-      sectionCode: section.section_id,
+      sectionCode: section.number ?? section.section_id,
       termCode,
-      instructor: section.instructor,
+      instructor,
       openSeats: seats.openSeats,
       totalSeats: seats.totalSeats,
       meetings:
@@ -186,8 +254,8 @@ export async function fetchCourseSections(termCode: string, courseId: string): P
           days: parseDays(meeting.days),
           startMinutes: parseTimeToMinutes(meeting.start_time),
           endMinutes: parseTimeToMinutes(meeting.end_time),
-          location: meeting.room,
-          instructor: section.instructor,
+          location: meeting.building && meeting.room ? `${meeting.building} ${meeting.room}` : meeting.room,
+          instructor,
         })) ?? [],
     };
   });
