@@ -40,3 +40,24 @@ git clone https://github.com/JJFrisch/OrbitUMD.git
 cd OrbitUMD
 npm install
 npm run dev
+
+Roadmap ￼
+
+Planned improvements include:
+
+- Richer degree‑audit visualizations (progress bars, timelines, and alerts)
+
+- Sharper UX for double majors / dual degrees and minors
+
+- Better support for transfer credit and study‑abroad semesters
+
+- Sharing and exporting plans for advisors and friends
+
+License ￼
+
+This project is licensed under the MIT License – see the ‎`LICENSE` file for details.
+
+
+Contact ￼
+
+For questions or collaborations, contact Jake Frischmann at ￼jjfrisch@outlook.com.
