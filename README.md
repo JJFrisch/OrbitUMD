@@ -39,8 +39,8 @@ For example:
 git clone https://github.com/JJFrisch/OrbitUMD.git
 cd OrbitUMD
 npm install
-npm run dev
-'''
+npm run dev'''
+
 
 Roadmap ￼
 
