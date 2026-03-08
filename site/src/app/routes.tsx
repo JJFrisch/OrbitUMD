@@ -10,7 +10,7 @@ import FourYearPlan from "./pages/FourYearPlan";
 import DegreeAudit from "./pages/DegreeAudit";
 import GenEds from "./pages/GenEds";
 import CreditImport from "./pages/CreditImport";
-import DegreeRequirements from "./pages/DegreeRequirements";
+import DegreeRequirements from "./pages/DegreeRequirement";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 

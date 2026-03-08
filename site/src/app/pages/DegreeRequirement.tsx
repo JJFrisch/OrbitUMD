@@ -69,7 +69,9 @@ function DraggableCourse({
 
   return (
     <div
-      ref={(node) => drag(drop(node))}
+      ref={(node) => {
+        drag(drop(node));
+      }}
       className={`flex gap-2 ${isDragging ? 'opacity-50' : ''} ${isOver ? 'border-t-2 border-blue-400' : ''}`}
     >
       <div className="flex items-center text-neutral-500 cursor-grab active:cursor-grabbing">
@@ -175,7 +177,9 @@ function DraggableGroup({
 
   return (
     <div
-      ref={(node) => drag(drop(node))}
+      ref={(node) => {
+        drag(drop(node));
+      }}
       className={`p-4 bg-[#1a1a1a] rounded-lg border ${
         isOver && canDrop ? 'border-blue-400 border-2' : 'border-neutral-800'
       } ${isDragging ? 'opacity-50' : ''}`}
@@ -298,7 +302,12 @@ function SectionDropZone({
   }));
 
   return (
-    <div ref={drop} className={`space-y-3 mb-4 min-h-[100px] ${isOver ? 'bg-blue-600/10 rounded-lg p-2' : ''}`}>
+    <div
+      ref={(node) => {
+        drop(node);
+      }}
+      className={`space-y-3 mb-4 min-h-[100px] ${isOver ? 'bg-blue-600/10 rounded-lg p-2' : ''}`}
+    >
       {children}
     </div>
   );
