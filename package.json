@@ -4,10 +4,10 @@
   "version": "0.1.0",
   "scripts": {
     "postinstall": "npm --prefix site install",
-    "dev": "npm --prefix site run dev",
-    "build": "npm --prefix site run build",
-    "preview": "npm --prefix site run preview",
-    "lint": "npm --prefix site run lint",
-    "test": "npm --prefix site run test"
+    "dev": "npm --prefix site run dev --",
+    "build": "npm --prefix site run build --",
+    "preview": "npm --prefix site run preview --",
+    "lint": "npm --prefix site run lint --",
+    "test": "npm --prefix site run test --"
   }
 }
