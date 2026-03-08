@@ -241,21 +241,25 @@ alter table public.degree_requirements enable row level security;
 alter table public.requirement_course_rules enable row level security;
 alter table public.requirement_gen_ed_rules enable row level security;
 
-create policy if not exists "profiles self-select"
+drop policy if exists "profiles self-select" on public.user_profiles;
+create policy "profiles self-select"
   on public.user_profiles for select
   using (auth.uid() = id);
 
-create policy if not exists "profiles self-upsert"
+drop policy if exists "profiles self-upsert" on public.user_profiles;
+create policy "profiles self-upsert"
   on public.user_profiles for all
   using (auth.uid() = id)
   with check (auth.uid() = id);
 
-create policy if not exists "users manage own schedules"
+drop policy if exists "users manage own schedules" on public.user_schedules;
+create policy "users manage own schedules"
   on public.user_schedules for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "users manage own schedule sections"
+drop policy if exists "users manage own schedule sections" on public.schedule_sections;
+create policy "users manage own schedule sections"
   on public.schedule_sections for all
   using (
     exists (
@@ -274,12 +278,14 @@ create policy if not exists "users manage own schedule sections"
     )
   );
 
-create policy if not exists "users manage own plans"
+drop policy if exists "users manage own plans" on public.four_year_plans;
+create policy "users manage own plans"
   on public.four_year_plans for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "users manage own plan terms"
+drop policy if exists "users manage own plan terms" on public.plan_terms;
+create policy "users manage own plan terms"
   on public.plan_terms for all
   using (
     exists (
@@ -298,7 +304,8 @@ create policy if not exists "users manage own plan terms"
     )
   );
 
-create policy if not exists "users manage own plan courses"
+drop policy if exists "users manage own plan courses" on public.plan_term_courses;
+create policy "users manage own plan courses"
   on public.plan_term_courses for all
   using (
     exists (
@@ -319,45 +326,58 @@ create policy if not exists "users manage own plan courses"
     )
   );
 
-create policy if not exists "users manage own degree links"
+drop policy if exists "users manage own degree links" on public.user_degree_programs;
+create policy "users manage own degree links"
   on public.user_degree_programs for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "users manage own progress overrides"
+drop policy if exists "users manage own progress overrides" on public.user_requirement_progress_overrides;
+create policy "users manage own progress overrides"
   on public.user_requirement_progress_overrides for all
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
-create policy if not exists "terms readable"
+drop policy if exists "terms readable" on public.terms;
+create policy "terms readable"
   on public.terms for select using (true);
 
-create policy if not exists "courses readable"
+drop policy if exists "courses readable" on public.courses;
+create policy "courses readable"
   on public.courses for select using (true);
 
-create policy if not exists "geneds readable"
+drop policy if exists "geneds readable" on public.gen_ed_tags;
+create policy "geneds readable"
   on public.gen_ed_tags for select using (true);
 
-create policy if not exists "course-geneds readable"
+drop policy if exists "course-geneds readable" on public.course_gen_ed_tags;
+create policy "course-geneds readable"
   on public.course_gen_ed_tags for select using (true);
 
-create policy if not exists "offerings readable"
+drop policy if exists "offerings readable" on public.course_offerings;
+create policy "offerings readable"
   on public.course_offerings for select using (true);
 
-create policy if not exists "sections readable"
+drop policy if exists "sections readable" on public.sections;
+create policy "sections readable"
   on public.sections for select using (true);
 
-create policy if not exists "meetings readable"
+drop policy if exists "meetings readable" on public.section_meetings;
+create policy "meetings readable"
   on public.section_meetings for select using (true);
 
-create policy if not exists "degree programs readable"
+drop policy if exists "degree programs readable" on public.degree_programs;
+create policy "degree programs readable"
   on public.degree_programs for select using (true);
 
-create policy if not exists "degree requirements readable"
+drop policy if exists "degree requirements readable" on public.degree_requirements;
+create policy "degree requirements readable"
   on public.degree_requirements for select using (true);
 
-create policy if not exists "requirement course rules readable"
+drop policy if exists "requirement course rules readable" on public.requirement_course_rules;
+create policy "requirement course rules readable"
   on public.requirement_course_rules for select using (true);
 
-create policy if not exists "requirement gened rules readable"
+drop policy if exists "requirement gened rules readable" on public.requirement_gen_ed_rules;
+create policy "requirement gened rules readable"
   on public.requirement_gen_ed_rules for select using (true);

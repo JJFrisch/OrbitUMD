@@ -1,0 +1,39 @@
+name: Sync UMD Catalog
+
+on:
+  workflow_dispatch:
+    inputs:
+      terms:
+        description: "Optional comma-separated term codes (e.g. 202603,202608)"
+        required: false
+        type: string
+  schedule:
+    - cron: "0 8 * * *"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync UMD catalog to Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          UMD_API_BASE_URL: https://api.umd.io/v1
+          UMD_SYNC_TERMS: ${{ github.event.inputs.terms }}
+        run: npm run sync:umd
