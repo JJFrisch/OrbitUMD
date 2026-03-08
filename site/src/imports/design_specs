@@ -1,0 +1,422 @@
+# Design Specs
+
+## Figma
+
+Design a multi-screen web app called “OrbitUMD,” a UMD-focused academic planning tool. The visual style and UX should be consistent across all screens.
+
+GLOBAL STYLE
+- Overall vibe: modern, clean, friendly, “UMD tech platform” rather than a personal project.
+- Layout: desktop-first responsive web app, with a left navigation column and main content area where appropriate, but onboarding can be full-screen modals.
+- Color: dark UI. Background is a very dark charcoal (not pure black). Accent colors inspired by UMD (reds, golds) but kept slightly muted so UI feels professional. Use bright accent colors for primary CTAs and status pills (e.g., green = completed, blue = in progress).
+- Typography: sans-serif, modern, bright, slightly thick letters for main headings. These headings should have a subtle outer glow or soft shadow to pop against the dark background. Body text is lighter-weight, high contrast, easy to read.
+- Components: rounded cards, clear labels, subtle shadows. Every button and page should have a short descriptive subtitle or helper text so the app feels extremely well explained and approachable.
+- Iconography: simple line icons where helpful (info, help, edit, link, calendar, degree cap, checklist).
+
+---
+
+SCREEN 1: ONBOARDING WELCOME
+
+Purpose: First-time welcome.
+
+Content:
+- Full-screen dark background (charcoal).
+- Centered card or centered column layout.
+
+Elements:
+- Large title: “Welcome to OrbitUMD”
+- Subtitle (catchy, clear premise): e.g.
+  “Plan your four-year journey, build smarter schedules, and never lose track of a single requirement.”
+- Short body text block explaining in 1–2 sentences:
+  “OrbitUMD is your all‑in‑one planner for UMD. Import credits, map out majors and minors, explore Gen Eds, and generate class schedules that actually fit your life.”
+- Primary CTA button: “Let’s get started”
+- Secondary button (lower emphasis): “Sign in” / “Log in” (assume they’re not yet authenticated but keep it optional).
+- Small helper text at bottom: “You can change your plan at any time — OrbitUMD updates everything automatically.”
+
+Style:
+- “OrbitUMD” in the hero should use the thicker, bright-font-with-shadow treatment.
+- Subtle background treatment (e.g., soft abstract orbital shapes, faint planet rings, or dots) behind content to suggest ‘orbit’ but not distract.
+
+---
+
+SCREEN 2: ONBOARDING – BASIC PROFILE INPUT
+
+After clicking “Let’s get started,” show a multi-step onboarding form. This is Step 1.
+
+Content:
+- Title at top: “Let’s get started”
+- Subtitle: “Tell us the basics so we can build the right plan for you.”
+
+Form fields (grouped in a card centered on screen):
+- Full Name (text input)
+- UMD Email (school email, with placeholder like “yourid@umd.edu”)
+- UMD UID (short numeric input)
+- Degree type (dropdown): e.g. “B.S. / B.A. / Double Degree / Second Major”
+- Primary Major (dropdown or searchable dropdown)
+- Additional Majors (optional multi-select)
+- Minors (optional multi-select)
+- Starting semester (dropdown, default to next upcoming term, e.g. “Fall 2026”)
+- Expected graduation year (optional dropdown)
+- Checkbox or toggle: “I’m a new student (no previous college credits)” vs “I have previous credits (AP, transfer, etc.)”
+
+Controls:
+- Progress indicator at top (e.g., “Step 1 of 4: Basic Info”) with a thin progress bar.
+- Primary button: “Continue”
+- Secondary button: “Back” (disabled on first step) and a “Skip for now” link for non-essential fields.
+
+UX notes:
+- Each field has a short helper line under it explaining what it’s used for.
+- Small tooltip icon next to “Degree type,” “Additional Majors,” and “Minors” explaining that these can be edited later in Settings.
+
+---
+
+SCREEN 3: ONBOARDING – “WHAT’S YOUR GOAL RIGHT NOW?”
+
+This is a hub screen that defines the main flows. Use a near-black background with four large, well-spaced cards/buttons.
+
+Title:
+- “What’s your goal right now?”
+
+Subtitle:
+- “OrbitUMD can be as lightweight or as in‑depth as you need. Pick what you want to do today. You can always explore the other options later.”
+
+Layout:
+- 4 large cards (2x2 grid on desktop; stacked on mobile). Each card is clickable and has:
+  - Title
+  - Small image or illustrative icon
+  - 1–2 sentence description
+  - Small label/chip like “Quick” vs “Guided” to signal complexity.
+
+CARD 1: “Generate Schedule”
+- Label: “Quick · Like UMD’s Venus”
+- Description: “Already know which classes you want? Plug them in and let OrbitUMD generate possible schedules — just like Venus, but cleaner. Filter by days, times, and format, then pick the schedule that fits your life.”
+- Click → takes user to a Venus-style schedule generator screen.
+
+CARD 2: “Explore Schedules”
+- Better name: “Build My Week” (Feel free to choose between “Explore Schedules” and “Build My Week”, but emphasize exploratory scheduling.)
+- Label: “Interactive · Calendar View”
+- Description: “Search UMD courses, drag them onto a weekly calendar, and experiment with different combinations before you commit. Perfect for exploring what’s even possible this term.”
+- Click → takes user to a calendar-based schedule builder similar to Jupiterp’s Course Planner.
+
+CARD 3: “Make a Four-Year Plan”
+- Label: “Guided · Full Degree Planner”
+- Description: “Map out your entire degree — Gen Eds, majors, minors, and electives — across every semester. We’ll walk you through your credits, requirements, and a clean four-year plan view.”
+- Click → starts a guided setup flow (AP/transfer credits, Gen Eds, major requirements) before showing the four-year plan grid.
+
+CARD 4: “View My Degree Audit”
+- Label: “Overview · Progress Snapshot”
+- Description: “See a clear, interactive view of what you’ve completed, what’s in progress, and what’s left. Click any requirement to see course options or jump directly into planning.”
+- Click → takes user to the Degree Audit-style overview (OrbitUMD’s clean, linked version of the UMD audit).
+
+At bottom:
+- Link: “Skip for now, take me to the dashboard” (for power users).
+
+---
+
+FLOW A: GENERATE SCHEDULE (VENUS-LIKE)
+
+Screen: “Generate Schedule”
+
+Layout:
+- Left side: “Schedule Criteria” panel.
+- Right side: “Generated Schedules” area with a tabbed view (e.g., “Grid view” and “List view”) and a weekly calendar preview.
+
+Criteria panel fields:
+- Term selector (dropdown, default to starting semester).
+- Required Courses: pill inputs where user types course codes (e.g., “CMSC330”) and they autocomplete to full course names. Each required course displays as a chip with a small remove icon.
+- Optional Courses: same pattern, but visually distinguished (lighter border).
+- Credits:
+  - Min Credits (dropdown: 12–18)
+  - Max Credits (dropdown: 12–21)
+- Waitlist / Section filters:
+  - Toggle: “Only show open sections”
+  - Optional dropdown for “Waitlist seats minimum”
+- Delivery & Location:
+  - Delivery method multiselect: Face-to-Face, Blended, Online
+  - Location/Program dropdown: College Park, Shady Grove, etc.
+- Time & Day Exclusions:
+  - A simple control to block times: e.g., horizontal timeline for each weekday with “Add blocked time” button or checkboxes for “No classes before X” and “No classes after Y”.
+  - Example: “No classes before 10:00 AM” or “Block M/W 5–7 PM”.
+- Clear/Reset button at bottom of criteria card.
+
+Main actions:
+- Primary button: “Generate Schedules”
+- After schedules are generated:
+  - Show a row of schedule thumbnails (e.g., Schedule A, B, C) with a small summary (number of days on campus, earliest class, latest class, total credits).
+  - Clicking one opens a larger weekly calendar with colored blocks.
+  - Each section card shows course code, title, section number, instructor (placeholder), and core attributes.
+  - Buttons: “Save this schedule”, “Export to calendar” (future), “Send to Four-Year Plan”.
+
+---
+
+FLOW B: EXPLORE SCHEDULES / BUILD MY WEEK (COURSE PLANNER-LIKE)
+
+Screen: “Build My Week”
+
+Layout:
+- Left side: Search and filters.
+- Right side: Weekly calendar.
+
+Left panel:
+- Title: “Find Courses”
+- Search bar: supports searching by course code, title, or Gen Ed code (e.g., DSHU, DVUP).
+- Filters:
+  - Semester
+  - Departments (dropdown / multiselect)
+  - Gen Ed tags (FSAR, DSHU, DVUP, etc.)
+  - Level (100 / 200 / 300 / 400)
+  - Credits range
+  - Days (M/T/W/Th/F)
+- Results list:
+  - Each result in a card: course code, title, credits, Gen Ed tags, brief description, and a “View sections” button.
+  - “Add to calendar” button per section.
+
+Right panel:
+- Weekly calendar view (Mon–Fri, plus optional Sat).
+- When a course is added, show colored time blocks with labels (code, short title, building/room placeholder).
+- Hover shows details; click to open a side panel with full description, seat info placeholder, and buttons:
+  - “Move to a different section”
+  - “Remove from week”
+  - “Add to Four-Year Plan”
+- Above calendar: small summary bar showing total credits, earliest start time, latest end time.
+
+---
+
+FLOW C: FOUR-YEAR PLAN SETUP AND VIEW
+
+C1 – “Import Your Credits”
+
+Title:
+- “Let’s start with what you’ve already earned”
+
+Subtitle:
+- “Tell us about AP, transfer, exemption, and other credits so we don’t double-count anything.”
+
+Layout:
+- Form with repeating rows for previously earned credits.
+- Fields per row:
+  - Source type (dropdown): AP, IB, Transfer from another university, Exemption exam, For-credit exam, Other.
+  - Original course/exam name (e.g., “AP Calculus BC”).
+  - UMD equivalent course code (text input with autocomplete, e.g., MATH140).
+  - Credits (numeric).
+  - Term awarded (optional).
+- Button: “Add another credit”
+- Info banner: “You can edit these later from your Profile > Credits.”
+- Primary button: “Next: Gen Eds”
+
+C2 – “Gen Eds Overview” (Jupiterp-style but cleaner)
+
+Model the content after a cleaned-up version of the Gen Eds sheet and Jupiterp’s Gen Eds table.
+
+Layout:
+- Title: “General Education Progress”
+- Summary row: show four small cards:
+  - Fundamental Studies: X / Y courses
+  - Distributive Studies: X / Y courses
+  - I-Series / Big Question: X / Y courses
+  - Diversity: X / Y courses
+- Below: a table of Gen Ed codes.
+
+Table columns:
+- Gen Ed code (e.g., FSAW, FSMA, DSHU, DSHS, DSNL, DSNS, DSSP, SCIS, DVUP, DVCC)
+- Category (Fundamental Studies / Distributive Studies / I-Series / Diversity)
+- Status (Not started / In progress / Completed)
+- Required count
+- Completed count
+- Remaining count
+- Fulfilled by (course list with term, like “MUSC204 (Spring 2026)”)
+- “View options” link/button.
+
+Color coding:
+- Completed rows: subtle green highlight and green status pill.
+- In-progress rows: subtle blue highlight and blue status pill.
+- Not started: neutral.
+
+Interaction:
+- Clicking a Gen Ed row or “View options” opens a side panel or modal:
+  - Shows explanation of that requirement (e.g., “Analytic Reasoning requirement.”)
+  - Shows a searchable list of courses that satisfy it (integrate with course search pattern from Build My Week).
+  - Button: “Add planned course to Four-Year Plan.”
+
+C3 – “[Major] Degree Requirements – Structure Builder”
+
+This is the complex screen where the user models the catalog.
+
+Title:
+- “[Major] Degree Requirements”
+Subtitle:
+- “Copy the structure from the UMD catalog and turn it into interactive sections OrbitUMD can track.”
+
+Layout:
+- Left: instructions + link box.
+  - Text: “Open your major in the UMD catalog, then recreate its sections here.”
+  - Button/link: “Open my major in UMD Catalog” (placeholder/link box).
+  - Short bullet-like hints: 
+    - “Use sections like ‘Required Lower Level Courses’ or ‘Upper Level Electives’.”
+    - “Mark whether all courses are required or if students must choose X from a list.”
+- Right: the interactive requirements builder.
+
+Requirements builder:
+- Sections appear stacked vertically as cards.
+
+Each Section card contains:
+- Section title input (e.g., “Required Lower Level Courses”).
+- Section type:
+  - Radio buttons / dropdown:
+    - “All courses in this section are required”
+    - “Choose X courses from this section”
+- If “Choose X” selected: numeric input for X.
+- Course list area:
+  - Rows, each with:
+    - Course code input (with autocomplete, e.g., CMSC330).
+    - Course title (auto-filled or small secondary text).
+    - A grouping control area:
+      - Buttons: “Group with &” and “Group with OR” that allow the user to define groups like `(Course A AND Course B) OR (Course C AND Course D)`.
+  - Visual grouping:
+    - Use brackets or pill groups to show grouped courses clearly, with labels like “(Group 1: AND)” or “(Group 2: OR)”.
+- At bottom of each section card:
+  - Button: “Add course”
+  - Button: “Add group (AND / OR group)”
+  - Small text: “Example: (PHYS161 AND PHYS261) OR (PHYS171 AND PHYS174).”
+
+Below all sections:
+- Button: “Add new section” (lightweight, appears as a faint card prompt beneath existing sections).
+- Primary button: “Save [Major] Requirements”
+- If user has additional majors/minors:
+  - After saving, show a modal: “Add requirements for [Second Major/Minor]?” with “Yes, set up now” or “Skip for later.”
+
+---
+
+C4 – DEGREE AUDIT SUMMARY
+
+Once requirements and credits are in, show a Degree Audit screen.
+
+Title:
+- “Degree Audit”
+Subtitle:
+- “A clean summary of what you’ve done, what’s in progress, and what’s left to graduate.”
+
+Layout:
+- Left: filter sidebar.
+  - Filters:
+    - View: “All”, “Gen Eds”, “Majors”, “Minors”, “Upper Level Concentration”
+    - Status: “Completed”, “In progress”, “Planned”, “Unfulfilled”
+- Right: main audit content in grouped cards.
+
+For each requirement group (e.g., “Total Credits”, “General Education”, “Computer Science Major”, “Physics Major”, “Upper Level Concentration”):
+- Card header:
+  - Group name
+  - Progress bar (e.g., 68/120 credits, 14/40 Gen Ed credits).
+  - Status: OK / In progress / Unfulfilled.
+- Inside card:
+  - Subrequirements listed similarly to UMD’s audit but cleaner:
+    - Line item: requirement name + small status pill + requirement details.
+    - Example: “Upper Level CS Courses · In Progress · Need 5 courses from 3 areas.”
+    - Under each, show the specific courses that are:
+      - Completed (green chip, with course code, title, term).
+      - In progress (blue chip).
+      - Planned (grey chip).
+  - Every course chip is clickable:
+    - Click → context menu:
+      - “View course details”
+      - “Jump to schedule containing this course”
+      - “Jump to Four-Year Plan cell”
+
+Also include:
+- A global summary card at top with:
+  - Total credits completed / in progress / remaining.
+  - Cumulative GPA placeholder.
+  - Quick links: “Open Four-Year Plan”, “Generate Schedule for next term”.
+
+---
+
+C5 – FOUR-YEAR PLAN GRID (CORE VIEW)
+
+Screen: “Four-Year Plan”
+
+Layout:
+- Tabs across top:
+  - “Plan by Semester”
+  - “Requirements”
+  - “Gen Eds”
+  - “Credits & Transfers”
+- By default, show “Plan by Semester”.
+
+Plan by Semester:
+- A grid with rows = terms (e.g., “Fall 2025, Spring 2026, …”), columns = planned courses in that term.
+- Each term row:
+  - Left label: Term name + credits total for that term.
+  - A row of course chips/cards:
+    - Each card shows: course code, short title, credits, requirement tags (e.g., DSHU, Major, Minor).
+    - Color ring or small label indicates status: completed, in progress, planned.
+- At bottom:
+  - “Add term” button (for extra summers or winters).
+- Clicking a course card:
+  - Open side panel with:
+    - Full course description.
+    - Which requirement(s) it fulfills.
+    - Buttons: “Move to another term” (with dropdown), “Send to Build My Week”, “Remove from plan”.
+
+Requirements tab:
+- Show a high-level tree: Gen Eds, each Major, each Minor.
+- Each node shows a progress bar and a count of requirements remaining.
+- Click any node to jump to its section in the Degree Audit screen.
+
+Gen Eds tab:
+- Reuse the Gen Eds table UI from earlier but integrated with plan data.
+
+Credits & Transfers tab:
+- List all imported credits (AP, transfer, etc.) with the mapped UMD course and where they’re being applied (e.g., “Counts toward FSAR and MATH requirement”).
+
+---
+
+GLOBAL NAVIGATION & EXPLANATORY UX
+
+Once onboarding is complete, show a persistent top bar and left nav.
+
+Top bar:
+- OrbitUMD logo/wordmark on left.
+- Term selector, search (for courses, requirements).
+- Profile menu on right (name, email, link to Settings).
+
+Left nav items:
+- “Dashboard” – quick summary and shortcuts.
+- “Generate Schedule”
+- “Build My Week”
+- “Four-Year Plan”
+- “Degree Audit”
+- “Gen Eds”
+- “Settings”
+
+Dashboard:
+- Cards for:
+  - “Next semester status”: courses locked in, total credits.
+  - “Requirements snapshot”: key bars (Gen Eds, primary major).
+  - “Suggested next steps” (e.g., “Add your Physics major requirements”, “Plan Fall 2027 classes”).
+
+Help & clarity:
+- Each major page has a top “info strip” with a one-line explanation and a small “Learn more” link that opens a quick walkthrough modal.
+- Use small “i” tooltips next to complex concepts: “Upper Level Concentration”, “Choose X from Y”, “AND/OR group”.
+- All buttons and icons should have clear labels or tooltips describing exactly what they do.
+
+---
+
+GENERAL INTERACTION NOTES
+
+- Use consistent status colors: green = completed, blue = in progress, grey = planned, red/orange = missing/unfulfilled.
+- Use subtle animations for transitions between onboarding steps and when new sections are added.
+- Ensure all screen designs feel visually unified: same dark background, same bright-thick headline font with shadow, consistent card and button styling.
+
+Generate full screen layouts for:
+1. Welcome to OrbitUMD (onboarding hero).
+2. Basic Profile Input (Step 1).
+3. “What’s your goal right now?” goal selection with 4 large cards.
+4. Generate Schedule (Venus-style).
+5. Build My Week (calendar-based planner).
+6. Credit Import screen for AP/transfer/exams.
+7. Gen Eds overview with filterable table.
+8. [Major] Degree Requirements builder with sections and AND/OR grouping.
+9. Degree Audit summary page with clickable requirements and course chips.
+10. Four-Year Plan grid with semesters and tabs for Requirements, Gen Eds, Credits.
+11. Main Dashboard with left nav and summary cards.
+
+Keep the visual hierarchy very clear and explanatory text prominent, so a brand-new UMD student can understand each page and button without prior context.
