@@ -95,7 +95,7 @@ export function SectionRow({ course, section }: SectionRowProps) {
         })}
 
         <span>{section.openSeats}/{section.totalSeats} seats open</span>
-        {section.openSeats === 0 && (section.waitlist !== undefined || section.holdfile !== undefined) && (
+        {section.openSeats <= 0 && (
           <span>Waitlist: {section.waitlist ?? 0} - Holdfile: {section.holdfile ?? 0}</span>
         )}
       </div>

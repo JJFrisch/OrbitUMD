@@ -7,9 +7,12 @@ import {
   FileCheck2, 
   BookOpen, 
   Settings,
-  Orbit
+  Orbit,
+  PanelLeftClose,
+  PanelLeftOpen
 } from "lucide-react";
 import { cn } from "./ui/utils";
+import { Button } from "./ui/button";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -21,20 +24,43 @@ const navigation = [
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+  collapsed: boolean;
+  onToggleCollapse: () => void;
+}
+
+export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
 
   return (
-    <aside className="w-64 bg-card border-r border-border flex flex-col">
-      <div className="p-6 border-b border-border">
-        <Link to="/dashboard" className="flex items-center gap-2">
-          <Orbit className="w-8 h-8 text-red-500" />
-          <span className="text-2xl tracking-tight text-foreground" style={{ 
-            textShadow: "0 0 20px rgba(239, 68, 68, 0.3)"
-          }}>
-            OrbitUMD
-          </span>
-        </Link>
+    <aside className={cn(
+      "bg-card border-r border-border flex flex-col transition-all duration-200",
+      collapsed ? "w-20" : "w-64"
+    )}>
+      <div className={cn("border-b border-border", collapsed ? "p-3" : "p-6")}>
+        <div className="flex items-center justify-between gap-2">
+          <Link to="/dashboard" className="flex items-center gap-2 min-w-0">
+            <Orbit className="w-8 h-8 text-red-500 shrink-0" />
+            {!collapsed && (
+              <span className="text-2xl tracking-tight text-foreground truncate" style={{
+                textShadow: "0 0 20px rgba(239, 68, 68, 0.3)"
+              }}>
+                OrbitUMD
+              </span>
+            )}
+          </Link>
+
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            onClick={onToggleCollapse}
+            className="shrink-0"
+          >
+            {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+          </Button>
+        </div>
       </div>
       
       <nav className="flex-1 p-4 space-y-1">
@@ -46,13 +72,15 @@ export default function Sidebar() {
               to={item.href}
               className={cn(
                 "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                collapsed && "justify-center px-2",
                 isActive
                   ? "bg-red-600/20 text-red-400 border border-red-600/30"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent"
               )}
+              title={collapsed ? item.name : undefined}
             >
               <item.icon className="w-5 h-5" />
-              <span className="text-sm">{item.name}</span>
+              {!collapsed && <span className="text-sm">{item.name}</span>}
             </Link>
           );
         })}
