@@ -724,6 +724,7 @@ async function fetchPlanetTerpInstructorLookup(signal?: AbortSignal): Promise<In
 
   while (true) {
     const url = new URL("professors", PLANETTERP_BASE.endsWith("/") ? PLANETTERP_BASE : `${PLANETTERP_BASE}/`);
+    url.searchParams.set("type", "professor");
     url.searchParams.set("limit", String(limit));
     url.searchParams.set("offset", String(offset));
 
