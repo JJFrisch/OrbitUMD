@@ -601,6 +601,19 @@
   color: var(--cp-muted);
 }
 
+.cp-inline-link {
+  border: 0;
+  background: transparent;
+  color: #1a4d91;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cp-inline-link:hover {
+  text-decoration: underline;
+}
+
 .cp-error-text {
   color: #b42334;
 }

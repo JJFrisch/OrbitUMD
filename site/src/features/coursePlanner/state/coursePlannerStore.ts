@@ -50,6 +50,7 @@ interface CoursePlannerState {
   setVisibilityMode: (mode: VisibilityMode) => void;
   setPrintMode: (enabled: boolean) => void;
   setTermOverride: (term: SearchFilters["searchTerm"]) => void;
+  setCatalogTerm: (term: string, year: number) => void;
 
   executeSearch: () => Promise<void>;
   loadSectionsForCourse: (course: Course) => Promise<void>;
@@ -77,7 +78,7 @@ function resolveTermYear(term: string, year: number, override: SearchFilters["se
   if (!override) return { term, year };
 
   const mapping: Record<NonNullable<SearchFilters["searchTerm"]>, string> = {
-    Winter: "01",
+    Winter: "12",
     Spring: "01",
     Summer: "05",
     Fall: "08",
@@ -164,6 +165,19 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
   setTermOverride: (termOverride) => {
     set((state) => ({
       filters: { ...state.filters, searchTerm: termOverride },
+    }));
+  },
+
+  setCatalogTerm: (term, year) => {
+    set((state) => ({
+      term,
+      year,
+      resolvedTerm: term,
+      resolvedYear: year,
+      filters: {
+        ...state.filters,
+        searchTerm: "",
+      },
     }));
   },
 

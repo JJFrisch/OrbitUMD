@@ -1,11 +1,16 @@
 import { Search, Loader2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { CourseCard } from "./CourseCard";
 import { CourseFilters } from "./CourseFilters";
 import { useCoursePlannerStore } from "../../state/coursePlannerStore";
 
+const PAGE_SIZE = 50;
+
 export function CourseSearchPanel() {
   const searchInput = useCoursePlannerStore((state) => state.searchInput);
+  const filters = useCoursePlannerStore((state) => state.filters);
+  const term = useCoursePlannerStore((state) => state.term);
+  const year = useCoursePlannerStore((state) => state.year);
   const setSearchInput = useCoursePlannerStore((state) => state.setSearchInput);
   const executeSearch = useCoursePlannerStore((state) => state.executeSearch);
   const pending = useCoursePlannerStore((state) => state.searchPending);
@@ -15,6 +20,9 @@ export function CourseSearchPanel() {
   const highlightedSuggestionIndex = useCoursePlannerStore((state) => state.highlightedSuggestionIndex);
   const highlightSuggestion = useCoursePlannerStore((state) => state.highlightSuggestion);
   const applyHighlightedSuggestion = useCoursePlannerStore((state) => state.applyHighlightedSuggestion);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+
+  const visibleResults = useMemo(() => results.slice(0, visibleCount), [results, visibleCount]);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -22,7 +30,11 @@ export function CourseSearchPanel() {
     }, 180);
 
     return () => window.clearTimeout(timeout);
-  }, [executeSearch, searchInput]);
+  }, [executeSearch, searchInput, filters, term, year]);
+
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [searchInput, filters, term, year]);
 
   return (
     <aside className="cp-search-panel">
@@ -72,10 +84,25 @@ export function CourseSearchPanel() {
       {error && <p className="cp-error-text">{error}</p>}
 
       <div className="cp-results-list">
-        {results.map((course) => (
-          <CourseCard key={course.id} course={course} />
+        {visibleResults.map((course, idx) => (
+          <CourseCard
+            key={course.id}
+            course={course}
+            autoLoadSections
+            preloadDelayMs={idx * 25}
+          />
         ))}
         {!pending && results.length === 0 && <p className="cp-muted-text">No courses found.</p>}
+
+        {!pending && results.length > visibleCount && (
+          <button
+            type="button"
+            className="cp-ghost-btn"
+            onClick={() => setVisibleCount((current) => current + PAGE_SIZE)}
+          >
+            Load more ({Math.min(PAGE_SIZE, results.length - visibleCount)} more)
+          </button>
+        )}
       </div>
     </aside>
   );

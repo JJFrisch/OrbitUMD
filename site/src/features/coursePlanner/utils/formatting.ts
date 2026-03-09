@@ -19,7 +19,6 @@ export function getAppliedFilterCount(filters: SearchFilters): number {
     filters.minCredits !== null,
     filters.maxCredits !== null,
     filters.onlyOpen,
-    Boolean(filters.searchTerm),
   ].filter(Boolean).length;
 }
 

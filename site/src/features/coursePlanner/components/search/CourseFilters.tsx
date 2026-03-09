@@ -2,8 +2,6 @@ import { Filter, RotateCcw } from "lucide-react";
 import { useCoursePlannerStore } from "../../state/coursePlannerStore";
 import { getAppliedFilterCount } from "../../utils/formatting";
 
-const TERM_OPTIONS = ["", "Winter", "Spring", "Summer", "Fall"] as const;
-
 export function CourseFilters() {
   const filters = useCoursePlannerStore((state) => state.filters);
   const setFilters = useCoursePlannerStore((state) => state.setFilters);
@@ -82,26 +80,6 @@ export function CourseFilters() {
             />
           </label>
         </div>
-
-        <label>
-          Term override
-          <select
-            value={filters.searchTerm}
-            onChange={(event) =>
-              setFilters((current) => ({
-                ...current,
-                searchTerm: event.target.value as typeof TERM_OPTIONS[number],
-              }))
-            }
-          >
-            <option value="">Default</option>
-            {TERM_OPTIONS.filter(Boolean).map((term) => (
-              <option key={term} value={term}>
-                {term}
-              </option>
-            ))}
-          </select>
-        </label>
 
         <label className="cp-checkbox-label">
           <input

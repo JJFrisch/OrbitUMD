@@ -7,9 +7,11 @@ import type { Course } from "../../types/coursePlanner";
 
 interface CourseCardProps {
   course: Course;
+  autoLoadSections?: boolean;
+  preloadDelayMs?: number;
 }
 
-export function CourseCard({ course }: CourseCardProps) {
+export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 0 }: CourseCardProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [hasRequestedSections, setHasRequestedSections] = useState(false);
   const loadSectionsForCourse = useCoursePlannerStore((state) => state.loadSectionsForCourse);
@@ -24,6 +26,18 @@ export function CourseCard({ course }: CourseCardProps) {
     setHasRequestedSections(false);
     setLoading(false);
   }, [course.courseCode]);
+
+  useEffect(() => {
+    if (!autoLoadSections || hasRequestedSections || sections.length > 0) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      void requestSectionsIfNeeded();
+    }, preloadDelayMs);
+
+    return () => window.clearTimeout(timeout);
+  }, [autoLoadSections, hasRequestedSections, preloadDelayMs, sections.length]);
 
   async function requestSectionsIfNeeded() {
     if (loading || hasRequestedSections || sections.length > 0) {
@@ -79,18 +93,14 @@ export function CourseCard({ course }: CourseCardProps) {
           <div className="cp-inline-loading"><Loader2 size={14} className="spin" /> Loading sections</div>
         )}
 
-        {!loading && sections.length === 0 && !hasRequestedSections && (
-          <button type="button" className="cp-ghost-btn" onClick={() => void requestSectionsIfNeeded()}>
-            Load sections
-          </button>
-        )}
-
         {!loading && visibleSections.map((section) => (
           <SectionRow key={`${course.courseCode}-${section.sectionCode}`} course={course} section={section} />
         ))}
 
         {!loading && hasRequestedSections && visibleSections.length === 0 && (
-          <p className="cp-muted-text">No sections available.</p>
+          <p className="cp-muted-text">
+            No sections available. <button type="button" className="cp-inline-link" onClick={() => void requestSectionsIfNeeded()}>Retry</button>
+          </p>
         )}
       </div>
     </article>

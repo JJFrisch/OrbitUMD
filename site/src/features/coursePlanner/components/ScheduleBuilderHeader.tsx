@@ -1,12 +1,20 @@
 import { Calendar, Eye, EyeOff, Printer, Save } from "lucide-react";
 import type { VisibilityMode } from "../types/coursePlanner";
 
+interface CatalogTermOption {
+  id: string;
+  label: string;
+}
+
 interface ScheduleBuilderHeaderProps {
   scheduleName: string;
   onScheduleNameChange: (value: string) => void;
   courseCount: number;
   credits: number;
   termLabel: string;
+  termOptions: CatalogTermOption[];
+  selectedTermId: string;
+  onSelectedTermChange: (termId: string) => void;
   visibilityMode: VisibilityMode;
   onToggleVisibility: () => void;
   onExportPrint: () => void;
@@ -18,6 +26,9 @@ export function ScheduleBuilderHeader({
   courseCount,
   credits,
   termLabel,
+  termOptions,
+  selectedTermId,
+  onSelectedTermChange,
   visibilityMode,
   onToggleVisibility,
   onExportPrint,
@@ -49,6 +60,21 @@ export function ScheduleBuilderHeader({
           onChange={(event) => onScheduleNameChange(event.target.value)}
           placeholder="Schedule name..."
         />
+
+        <label>
+          Term:
+          <select
+            aria-label="Catalog term"
+            value={selectedTermId}
+            onChange={(event) => onSelectedTermChange(event.target.value)}
+          >
+            {termOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <div className="cp-builder-stats">
           <span>{termLabel}</span>

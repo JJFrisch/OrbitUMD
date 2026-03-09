@@ -8,6 +8,8 @@ import "./styles/coursePlanner.css";
 
 export function CoursePlannerPage() {
   const [scheduleName, setScheduleName] = useState("Default schedule");
+  const baseTerm = useCoursePlannerStore((state) => state.term);
+  const baseYear = useCoursePlannerStore((state) => state.year);
   const visibilityMode = useCoursePlannerStore((state) => state.visibilityMode);
   const selectedInfoKey = useCoursePlannerStore((state) => state.selectedInfoKey);
   const selections = useCoursePlannerStore((state) => state.selections);
@@ -15,17 +17,38 @@ export function CoursePlannerPage() {
   const resolvedYear = useCoursePlannerStore((state) => state.resolvedYear);
   const setVisibilityMode = useCoursePlannerStore((state) => state.setVisibilityMode);
   const setPrintMode = useCoursePlannerStore((state) => state.setPrintMode);
+  const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const toggleInfoPanel = useCoursePlannerStore((state) => state.toggleInfoPanel);
 
+  const termCodeToLabel = useMemo<Record<string, string>>(() => ({
+    "01": "Spring",
+    "05": "Summer",
+    "08": "Fall",
+    "12": "Winter",
+  }), []);
+
+  const termOptions = useMemo(() => {
+    const years = [baseYear - 1, baseYear, baseYear + 1, baseYear + 2];
+    const orderedTerms: Array<{ term: string; label: string }> = [
+      { term: "12", label: "Winter" },
+      { term: "01", label: "Spring" },
+      { term: "05", label: "Summer" },
+      { term: "08", label: "Fall" },
+    ];
+
+    return years.flatMap((year) => orderedTerms.map((entry) => ({
+      id: `${entry.term}-${year}`,
+      label: `${entry.label} ${year}`,
+      term: entry.term,
+      year,
+    })));
+  }, [baseYear]);
+
+  const selectedTermId = useMemo(() => `${baseTerm}-${baseYear}`, [baseTerm, baseYear]);
+
   const termLabel = useMemo(() => {
-    const termMap: Record<string, string> = {
-      "01": "Spring",
-      "05": "Summer",
-      "08": "Fall",
-      "12": "Winter",
-    };
-    return `${termMap[resolvedTerm] ?? "Term"} ${resolvedYear}`;
-  }, [resolvedTerm, resolvedYear]);
+    return `${termCodeToLabel[resolvedTerm] ?? "Term"} ${resolvedYear}`;
+  }, [resolvedTerm, resolvedYear, termCodeToLabel]);
 
   const stats = useMemo(() => {
     const activeSelections = Object.values(selections);
@@ -46,6 +69,14 @@ export function CoursePlannerPage() {
         courseCount={stats.courseCount}
         credits={stats.credits}
         termLabel={termLabel}
+        termOptions={termOptions}
+        selectedTermId={selectedTermId}
+        onSelectedTermChange={(termId) => {
+          const [termCode, yearText] = termId.split("-");
+          const parsedYear = Number(yearText);
+          if (!termCode || !Number.isFinite(parsedYear)) return;
+          setCatalogTerm(termCode, parsedYear);
+        }}
         visibilityMode={visibilityMode}
         onToggleVisibility={() => setVisibilityMode(visibilityMode === "full" ? "busy_free" : "full")}
         onExportPrint={() => {
