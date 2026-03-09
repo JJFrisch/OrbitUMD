@@ -142,3 +142,114 @@ export async function replaceScheduleSections(scheduleId: string, sectionIds: st
     throw insertError;
   }
 }
+
+// ──────────────────────────────────────────────
+// JSON-based schedule persistence
+// (Works without catalog sync populating public.sections)
+// ──────────────────────────────────────────────
+
+export interface SaveScheduleInput {
+  id?: string;
+  name: string;
+  termCode: string;
+  termYear: number;
+  isPrimary?: boolean;
+  selectionsJson: unknown; // Array of ScheduleSelection objects
+}
+
+export interface ScheduleWithSelections extends UserScheduleRecord {
+  term_code: string | null;
+  term_year: number | null;
+  selections_json: unknown;
+}
+
+export async function saveScheduleWithSelections(input: SaveScheduleInput): Promise<ScheduleWithSelections> {
+  const userId = await getAuthenticatedUserId();
+  const supabase = getSupabaseClient();
+
+  // We need a term_id for the FK. Try to resolve one, or create a placeholder.
+  const { data: term } = await supabase
+    .from("terms")
+    .select("id")
+    .eq("umd_term_code", `${input.termYear}${input.termCode}`)
+    .maybeSingle();
+
+  // If no term row exists, try a looser match or insert one
+  let termId: string;
+  if (term) {
+    termId = term.id;
+  } else {
+    const seasonMap: Record<string, string> = {
+      "01": "spring", "05": "summer", "08": "fall", "12": "winter",
+    };
+    const { data: newTerm, error: termInsertErr } = await supabase
+      .from("terms")
+      .upsert({
+        umd_term_code: `${input.termYear}${input.termCode}`,
+        year: input.termYear,
+        season: seasonMap[input.termCode] ?? "fall",
+      }, { onConflict: "umd_term_code" })
+      .select("id")
+      .single();
+
+    if (termInsertErr) throw termInsertErr;
+    termId = newTerm.id;
+  }
+
+  const payload: Record<string, unknown> = {
+    user_id: userId,
+    term_id: termId,
+    name: input.name,
+    is_primary: input.isPrimary ?? false,
+    term_code: input.termCode,
+    term_year: input.termYear,
+    selections_json: input.selectionsJson,
+  };
+
+  if (input.id) {
+    payload.id = input.id;
+  }
+
+  const { data, error } = await supabase
+    .from("user_schedules")
+    .upsert(payload, { onConflict: "id" })
+    .select("*")
+    .single();
+
+  if (error) throw error;
+  return data as ScheduleWithSelections;
+}
+
+export async function listSchedulesForTerm(
+  termCode: string,
+  termYear: number,
+): Promise<ScheduleWithSelections[]> {
+  const userId = await getAuthenticatedUserId();
+  const supabase = getSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("user_schedules")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("term_code", termCode)
+    .eq("term_year", termYear)
+    .order("updated_at", { ascending: false });
+
+  if (error) throw error;
+  return (data ?? []) as ScheduleWithSelections[];
+}
+
+export async function loadScheduleById(scheduleId: string): Promise<ScheduleWithSelections | null> {
+  const userId = await getAuthenticatedUserId();
+  const supabase = getSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("user_schedules")
+    .select("*")
+    .eq("id", scheduleId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return data as ScheduleWithSelections | null;
+}

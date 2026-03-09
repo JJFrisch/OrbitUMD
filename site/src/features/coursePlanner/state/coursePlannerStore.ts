@@ -2,6 +2,12 @@ import { create } from "zustand";
 import { buildCalendarMeetings, assignConflictIndexes, computeVisibleHourBounds } from "../utils/scheduleLayout";
 import { extractDeptPrefix, getSectionIdentityKey, normalizeSearchInput } from "../utils/formatting";
 import { getActiveInstructors, getDepartments, getInstructorLookup, getSectionsForCourse, searchCoursesWithStrategy } from "../services/courseSearchService";
+import {
+  saveScheduleWithSelections,
+  listSchedulesForTerm,
+  loadScheduleById,
+  type ScheduleWithSelections,
+} from "../../../lib/repositories/userSchedulesRepository";
 import type {
   CalendarMeeting,
   Course,
@@ -62,6 +68,16 @@ interface CoursePlannerState {
 
   calendarMeetings: () => CalendarMeeting[];
   calendarBounds: () => { startHour: number; endHour: number };
+
+  // Schedule persistence
+  activeScheduleId: string | null;
+  savedSchedules: ScheduleWithSelections[];
+  savePending: boolean;
+  saveError?: string;
+
+  saveSchedule: (name: string) => Promise<void>;
+  loadSchedule: (scheduleId: string) => Promise<void>;
+  refreshScheduleList: () => Promise<void>;
 }
 
 const DEFAULT_FILTERS: SearchFilters = {
@@ -123,6 +139,11 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
   selections: {},
   hoveredSelection: null,
   selectedInfoKey: null,
+
+  activeScheduleId: null,
+  savedSchedules: [],
+  savePending: false,
+  saveError: undefined,
 
   latestRequestToken: 0,
 
@@ -354,5 +375,68 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
   calendarBounds: () => {
     const meetings = get().calendarMeetings().filter((meeting) => meeting.day !== "Other");
     return computeVisibleHourBounds(meetings, { printMode: get().printMode });
+  },
+
+  saveSchedule: async (name) => {
+    const { selections, resolvedTerm, resolvedYear, activeScheduleId } = get();
+    set({ savePending: true, saveError: undefined });
+    try {
+      const selectionsArray = Object.values(selections);
+      const saved = await saveScheduleWithSelections({
+        id: activeScheduleId ?? undefined,
+        name,
+        termCode: resolvedTerm,
+        termYear: resolvedYear,
+        selectionsJson: selectionsArray,
+      });
+      set({
+        activeScheduleId: saved.id,
+        savePending: false,
+      });
+      await get().refreshScheduleList();
+    } catch (error) {
+      set({
+        savePending: false,
+        saveError: error instanceof Error ? error.message : "Save failed",
+      });
+    }
+  },
+
+  loadSchedule: async (scheduleId) => {
+    set({ savePending: true, saveError: undefined });
+    try {
+      const record = await loadScheduleById(scheduleId);
+      if (!record) {
+        set({ savePending: false, saveError: "Schedule not found" });
+        return;
+      }
+
+      const selectionsArray = (record.selections_json ?? []) as ScheduleSelection[];
+      const selectionsMap: Record<string, ScheduleSelection> = {};
+      for (const sel of selectionsArray) {
+        selectionsMap[sel.sectionKey] = sel;
+      }
+
+      set({
+        activeScheduleId: record.id,
+        selections: selectionsMap,
+        savePending: false,
+      });
+    } catch (error) {
+      set({
+        savePending: false,
+        saveError: error instanceof Error ? error.message : "Load failed",
+      });
+    }
+  },
+
+  refreshScheduleList: async () => {
+    const { resolvedTerm, resolvedYear } = get();
+    try {
+      const schedules = await listSchedulesForTerm(resolvedTerm, resolvedYear);
+      set({ savedSchedules: schedules });
+    } catch {
+      // Non-critical – list will be stale
+    }
   },
 }));

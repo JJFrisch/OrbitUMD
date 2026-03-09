@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import { CourseSearchPanel } from "./components/search/CourseSearchPanel";
 import { CalendarView } from "./components/schedule/CalendarView";
 import { ScheduleDetailsOverlay } from "./components/schedule/ScheduleDetailsOverlay";
@@ -19,6 +19,13 @@ export function CoursePlannerPage() {
   const setPrintMode = useCoursePlannerStore((state) => state.setPrintMode);
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const toggleInfoPanel = useCoursePlannerStore((state) => state.toggleInfoPanel);
+
+  const activeScheduleId = useCoursePlannerStore((state) => state.activeScheduleId);
+  const savedSchedules = useCoursePlannerStore((state) => state.savedSchedules);
+  const savePending = useCoursePlannerStore((state) => state.savePending);
+  const saveSchedule = useCoursePlannerStore((state) => state.saveSchedule);
+  const loadSchedule = useCoursePlannerStore((state) => state.loadSchedule);
+  const refreshScheduleList = useCoursePlannerStore((state) => state.refreshScheduleList);
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -61,6 +68,27 @@ export function CoursePlannerPage() {
     void useCoursePlannerStore.getState().executeSearch();
   }, []);
 
+  // Load saved schedules for the current term
+  useEffect(() => {
+    void refreshScheduleList();
+  }, [resolvedTerm, resolvedYear, refreshScheduleList]);
+
+  const handleSave = useCallback(() => {
+    void saveSchedule(scheduleName);
+  }, [saveSchedule, scheduleName]);
+
+  const handleLoadSchedule = useCallback((scheduleId: string) => {
+    void loadSchedule(scheduleId).then(() => {
+      const match = savedSchedules.find((s) => s.id === scheduleId);
+      if (match) setScheduleName(match.name);
+    });
+  }, [loadSchedule, savedSchedules]);
+
+  const scheduleOptions = useMemo(
+    () => savedSchedules.map((s) => ({ id: s.id, name: s.name })),
+    [savedSchedules],
+  );
+
   return (
     <div className="course-planner-root">
       <ScheduleBuilderHeader
@@ -86,6 +114,11 @@ export function CoursePlannerPage() {
             setTimeout(() => setPrintMode(false), 200);
           });
         }}
+        savedSchedules={scheduleOptions}
+        activeScheduleId={activeScheduleId}
+        onSave={handleSave}
+        onLoadSchedule={handleLoadSchedule}
+        savePending={savePending}
       />
 
       <div className="course-planner-layout">

@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Badge } from "../components/ui/badge";
-import { Plus, X, Info, Link as LinkIcon, GripVertical, Save } from "lucide-react";
+import { Plus, X, Info, Link as LinkIcon, GripVertical, Save, Loader2 } from "lucide-react";
 import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
 import {
   Tooltip,
@@ -15,6 +15,15 @@ import {
 } from "../components/ui/tooltip";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { useSearchParams } from "react-router";
+import type { RequirementSection, RequirementNode } from "../../lib/types/requirements";
+import {
+  fetchProgramRequirements,
+  saveProgramRequirements,
+} from "../../lib/repositories/degreeRequirementsRepository";
+import {
+  listUserDegreePrograms,
+  type UserDegreeProgram,
+} from "../../lib/repositories/degreeProgramsRepository";
 
 interface Course {
   code: string;
@@ -358,34 +367,113 @@ function removeItemAtPath(sections: Section[], sectionIndex: number, path: numbe
 
 export default function DegreeRequirements() {
   const [searchParams] = useSearchParams();
-  const initialProgram = searchParams.get('program') || 'major';
+  const initialProgram = searchParams.get('program') || '';
   const [activeTab, setActiveTab] = useState(initialProgram);
   
-  // Store sections for each program type
-  const [programSections, setProgramSections] = useState<Record<string, Section[]>>({
-    major: [
-      {
-        title: "Required Lower Level Courses",
-        requirementType: "all",
-        items: [
-          { code: "CMSC131" },
-          { code: "CMSC132" },
-          { code: "CMSC216" },
-          { code: "CMSC250" },
-        ],
-      },
-    ],
-    minor: [
-      {
-        title: "Physics Minor Core",
-        requirementType: "all",
-        items: [
-          { code: "PHYS161" },
-          { code: "PHYS260" },
-        ],
-      },
-    ],
+  // Data loading state
+  const [userPrograms, setUserPrograms] = useState<UserDegreeProgram[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Store sections keyed by program ID
+  const [programSections, setProgramSections] = useState<Record<string, Section[]>>({});
+  // Track which programs have been loaded from DB
+  const [loadedPrograms, setLoadedPrograms] = useState<Set<string>>(new Set());
+
+  // ── Conversion helpers: DB model ↔ UI model ──
+
+  const dbNodeToUI = (node: RequirementNode): Course | CourseGroup => {
+    if (node.nodeType === 'COURSE') {
+      return { code: node.courseCode ?? '' };
+    }
+    if (node.nodeType === 'AND_GROUP' || node.nodeType === 'OR_GROUP') {
+      return {
+        type: node.nodeType === 'AND_GROUP' ? 'AND' : 'OR',
+        items: node.children.map(dbNodeToUI),
+      };
+    }
+    // GEN_ED / WILDCARD — show as course with a code prefix for now
+    if (node.nodeType === 'GEN_ED') {
+      return { code: `[GenEd: ${node.genEdCode ?? ''}]` };
+    }
+    return { code: `[${node.wildcardDept ?? ''}${node.wildcardLevel ?? ''}*]` };
+  };
+
+  const dbSectionToUI = (section: RequirementSection): Section => ({
+    title: section.title,
+    requirementType: section.sectionType === 'all_required' ? 'all' : 'choose',
+    chooseCount: section.minCount,
+    items: section.nodes.map(dbNodeToUI),
   });
+
+  const uiItemToDbNode = (item: Course | CourseGroup, position: number): RequirementNode => {
+    if (isGroup(item)) {
+      return {
+        nodeType: item.type === 'AND' ? 'AND_GROUP' : 'OR_GROUP',
+        position,
+        children: item.items.map((child, i) => uiItemToDbNode(child, i)),
+      };
+    }
+    return {
+      nodeType: 'COURSE',
+      courseCode: item.code || undefined,
+      position,
+      children: [],
+    };
+  };
+
+  const uiSectionToDb = (section: Section, programId: string, position: number): RequirementSection => ({
+    programId,
+    title: section.title,
+    sectionType: section.requirementType === 'all' ? 'all_required' : 'choose_n',
+    minCount: section.requirementType === 'choose' ? section.chooseCount : undefined,
+    position,
+    nodes: section.items.map((item, i) => uiItemToDbNode(item, i)),
+  });
+
+  // ── Load user programs on mount ──
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        setLoading(true);
+        const programs = await listUserDegreePrograms();
+        if (cancelled) return;
+        setUserPrograms(programs);
+        // Default to first program if no query param
+        if (!activeTab && programs.length > 0) {
+          setActiveTab(programs[0].programId);
+        }
+      } catch (err: any) {
+        if (!cancelled) setError(err.message ?? 'Failed to load programs');
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Load requirements when tab changes ──
+
+  const loadRequirementsForProgram = useCallback(async (programId: string) => {
+    if (!programId || loadedPrograms.has(programId)) return;
+    try {
+      const sections = await fetchProgramRequirements(programId);
+      const uiSections = sections.map(dbSectionToUI);
+      setProgramSections(prev => ({ ...prev, [programId]: uiSections }));
+      setLoadedPrograms(prev => new Set(prev).add(programId));
+    } catch (err: any) {
+      setError(err.message ?? 'Failed to load requirements');
+    }
+  }, [loadedPrograms]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (activeTab) {
+      loadRequirementsForProgram(activeTab);
+    }
+  }, [activeTab, loadRequirementsForProgram]);
 
   const sections = programSections[activeTab] || [];
   const setSections = (newSections: Section[]) => {
@@ -433,16 +521,53 @@ export default function DegreeRequirements() {
     setSections(newSections);
   };
 
-  const saveRequirements = () => {
-    // Save logic here
-    console.log("Saving requirements for", activeTab, programSections[activeTab]);
-    alert(`Requirements saved for ${activeTab === 'major' ? 'Computer Science Major' : 'Physics Minor'}!`);
+  const saveRequirements = async () => {
+    if (!activeTab) return;
+    try {
+      setSaving(true);
+      setError(null);
+      const dbSections = sections.map((s, i) => uiSectionToDb(s, activeTab, i));
+      await saveProgramRequirements(activeTab, dbSections);
+      // Refresh loaded data
+      setLoadedPrograms(prev => {
+        const next = new Set(prev);
+        next.delete(activeTab);
+        return next;
+      });
+      await loadRequirementsForProgram(activeTab);
+    } catch (err: any) {
+      setError(err.message ?? 'Failed to save requirements');
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const programNames = {
-    major: 'Computer Science Major',
-    minor: 'Physics Minor',
-  };
+  const activeProgram = userPrograms.find(p => p.programId === activeTab);
+  const activeProgramName = activeProgram?.programName ?? 'Program';
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="w-8 h-8 animate-spin text-neutral-400" />
+      </div>
+    );
+  }
+
+  if (userPrograms.length === 0) {
+    return (
+      <div className="p-8">
+        <div className="max-w-5xl mx-auto">
+          <h1 className="text-4xl text-white mb-4">Degree Requirements Builder</h1>
+          <Card className="p-6 bg-[#252525] border-neutral-800">
+            <p className="text-neutral-400">
+              You haven't declared any degree programs yet. Add a program in your
+              Settings page first, then return here to build its requirements.
+            </p>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">
@@ -458,22 +583,31 @@ export default function DegreeRequirements() {
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
           <TabsList className="bg-[#252525] border border-neutral-800">
-            <TabsTrigger value="major" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
-              Computer Science (Major)
-            </TabsTrigger>
-            <TabsTrigger value="minor" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
-              Physics (Minor)
-            </TabsTrigger>
+            {userPrograms.map(p => (
+              <TabsTrigger
+                key={p.programId}
+                value={p.programId}
+                className="data-[state=active]:bg-red-600 data-[state=active]:text-white"
+              >
+                {p.programName}{p.degreeType ? ` (${p.degreeType})` : ''}
+              </TabsTrigger>
+            ))}
           </TabsList>
 
           <TabsContent value={activeTab} className="mt-6">
+            {error && (
+              <div className="mb-4 p-3 rounded-lg bg-red-600/10 border border-red-600/30 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
             <Card className="p-6 bg-[#252525] border-neutral-800 mb-6">
               <div className="flex items-start gap-4">
                 <LinkIcon className="w-5 h-5 text-blue-400 mt-1" />
                 <div className="flex-1">
                   <h3 className="text-white mb-2">Quick Reference</h3>
                   <p className="text-neutral-400 text-sm mb-3">
-                    Open your {programNames[activeTab as keyof typeof programNames]} in the UMD catalog, then recreate its sections
+                    Open your {activeProgramName} in the UMD catalog, then recreate its sections
                     here.
                   </p>
                   <ul className="text-sm text-neutral-400 space-y-1 list-disc list-inside mb-3">
@@ -688,9 +822,9 @@ export default function DegreeRequirements() {
                 <Plus className="w-4 h-4 mr-2" />
                 Add New Section
               </Button>
-              <Button onClick={saveRequirements} className="flex-1 bg-red-600 hover:bg-red-700">
-                <Save className="w-4 h-4 mr-2" />
-                Save {activeTab === 'major' ? 'Major' : 'Minor'} Requirements
+              <Button onClick={saveRequirements} disabled={saving} className="flex-1 bg-red-600 hover:bg-red-700 disabled:opacity-50">
+                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                {saving ? 'Saving…' : `Save ${activeProgramName} Requirements`}
               </Button>
             </div>
 

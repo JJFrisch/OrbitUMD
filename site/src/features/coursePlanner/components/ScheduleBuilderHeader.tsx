@@ -1,9 +1,14 @@
-import { Calendar, Eye, EyeOff, Printer, Save } from "lucide-react";
+import { Calendar, Eye, EyeOff, Loader2, Printer, Save } from "lucide-react";
 import type { VisibilityMode } from "../types/coursePlanner";
 
 interface CatalogTermOption {
   id: string;
   label: string;
+}
+
+interface SavedScheduleOption {
+  id: string;
+  name: string;
 }
 
 interface ScheduleBuilderHeaderProps {
@@ -18,6 +23,11 @@ interface ScheduleBuilderHeaderProps {
   visibilityMode: VisibilityMode;
   onToggleVisibility: () => void;
   onExportPrint: () => void;
+  savedSchedules: SavedScheduleOption[];
+  activeScheduleId: string | null;
+  onSave: () => void;
+  onLoadSchedule: (scheduleId: string) => void;
+  savePending: boolean;
 }
 
 export function ScheduleBuilderHeader({
@@ -32,6 +42,11 @@ export function ScheduleBuilderHeader({
   visibilityMode,
   onToggleVisibility,
   onExportPrint,
+  savedSchedules,
+  activeScheduleId,
+  onSave,
+  onLoadSchedule,
+  savePending,
 }: ScheduleBuilderHeaderProps) {
   return (
     <header className="cp-builder-header">
@@ -49,9 +64,18 @@ export function ScheduleBuilderHeader({
       <div className="cp-builder-controls">
         <label>
           Schedule:
-          <select defaultValue="default">
-            <option value="default">Default schedule</option>
-            <option value="new">+ Create New Schedule</option>
+          <select
+            value={activeScheduleId ?? "__new"}
+            onChange={(event) => {
+              const val = event.target.value;
+              if (val === "__new") return;
+              onLoadSchedule(val);
+            }}
+          >
+            <option value="__new">+ New Schedule</option>
+            {savedSchedules.map((s) => (
+              <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
           </select>
         </label>
 
@@ -91,8 +115,9 @@ export function ScheduleBuilderHeader({
           <Printer size={13} /> Export / Print
         </button>
 
-        <button type="button" className="cp-builder-save-btn">
-          <Save size={13} /> Save
+        <button type="button" className="cp-builder-save-btn" onClick={onSave} disabled={savePending}>
+          {savePending ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+          {savePending ? "Saving…" : "Save"}
         </button>
       </div>
 
