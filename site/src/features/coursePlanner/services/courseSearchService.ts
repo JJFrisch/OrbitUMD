@@ -18,7 +18,7 @@ import type {
   MergeConflict,
   Section,
 } from "../types/coursePlanner";
-import { fetchCourseSections as fetchPlannerSectionsFallback } from "@/lib/api/umdCourses";
+import { fetchCourseSections as fetchPlannerSectionsFallback, searchCourses as searchCatalogCourses } from "@/lib/api/umdCourses";
 
 const UMD_BASE = import.meta.env.VITE_UMD_API_BASE_URL ?? "https://api.umd.io/v1";
 const JUPITER_BASE = import.meta.env.VITE_JUPITER_API_BASE_URL;
@@ -497,7 +497,7 @@ function applyClientFilters(courses: Course[], params: CourseSearchParams): Cour
 }
 
 async function fetchJupiterCourses(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
-  if (!JUPITER_BASE) throw new Error("Jupiter API URL not configured");
+  if (!JUPITER_BASE) return [];
 
   const url = new URL("/v0/courses/withSections", JUPITER_BASE);
   url.searchParams.set("limit", "300");
@@ -538,6 +538,37 @@ async function fetchJupiterCourses(params: CourseSearchParams, signal?: AbortSig
       mapped.sections = [];
     }
     return mapped;
+  });
+}
+
+async function fetchCatalogCourses(params: CourseSearchParams): Promise<Course[]> {
+  const termCode = `${params.year}${params.term}`;
+  const summaries = await searchCatalogCourses({
+    termCode,
+    query: params.normalizedInput,
+    genEdTag: params.filters.genEds[0],
+    page: 1,
+    pageSize: 300,
+  });
+
+  return summaries.map((summary) => {
+    const dept = summary.deptId || summary.id.slice(0, 4);
+    return {
+      id: `${summary.id}-${params.year}${params.term}`,
+      courseCode: summary.id,
+      name: summary.title,
+      deptId: dept,
+      credits: summary.credits,
+      minCredits: summary.credits,
+      maxCredits: summary.credits,
+      description: summary.description,
+      genEds: summary.genEdTags,
+      term: params.term,
+      year: params.year,
+      sections: [],
+      sources: ["umd"],
+      mergeConflicts: [],
+    } as Course;
   });
 }
 
@@ -757,25 +788,33 @@ export async function searchCoursesWithStrategy(
     filters: params.filters,
   });
 
-  const jKey = `jupiter:${baseKey}`;
+  const cKey = `catalog:${baseKey}`;
   const uKey = `umd:${baseKey}`;
+  const jKey = `jupiter:${baseKey}`;
 
-  const [jResult, uResult] = await Promise.all([
-    settledSource(() => searchJupiterCache.getOrSet(jKey, () => fetchJupiterCourses(params, signal))),
-    settledSource(() => searchUmdCache.getOrSet(uKey, () => fetchUmdCourses(params, signal))),
-  ]);
-
-  if (!jResult.data && !uResult.data) {
-    throw new Error(jResult.error ?? uResult.error ?? "All course sources failed");
+  // 1) Database-backed catalog path (includes same-season fallback in lib/api/umdCourses).
+  const catalog = await settledSource(() => searchUmdCache.getOrSet(cKey, () => fetchCatalogCourses(params)));
+  if (catalog.data && catalog.data.length > 0) {
+    return applyClientFilters(catalog.data, params);
   }
 
-  const stamp = `${getSourceTimestamp(searchJupiterCache, jKey)}-${getSourceTimestamp(searchUmdCache, uKey)}`;
-  const mergedKey = `merged:${baseKey}:${stamp}`;
+  // 2) Direct UMD API path.
+  const umd = await settledSource(() => searchUmdCache.getOrSet(uKey, () => fetchUmdCourses(params, signal)));
+  if (umd.data && umd.data.length > 0) {
+    return applyClientFilters(umd.data, params);
+  }
 
-  return mergedSearchCache.getOrSet(mergedKey, async () => {
-    const merged = mergeCourses(jResult.data ?? [], uResult.data ?? []);
-    return applyClientFilters(merged, params);
-  });
+  // 3) Jupiter fallback path.
+  const jupiter = await settledSource(() => searchJupiterCache.getOrSet(jKey, () => fetchJupiterCourses(params, signal)));
+  if (jupiter.data && jupiter.data.length > 0) {
+    return applyClientFilters(jupiter.data, params);
+  }
+
+  if (catalog.error || umd.error || jupiter.error) {
+    throw new Error(catalog.error ?? umd.error ?? jupiter.error ?? "All course sources failed");
+  }
+
+  return [];
 }
 
 export async function getSectionsForCourse(
@@ -785,30 +824,34 @@ export async function getSectionsForCourse(
   signal?: AbortSignal
 ): Promise<Section[]> {
   const baseKey = `${year}${term}:${courseCode}`;
-  const jKey = `jupiter-sections:${baseKey}`;
-  const uKey = `umd-sections:${baseKey}`;
 
-  const [jResult, uResult] = await Promise.all([
-    settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal))),
-    settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal))),
-  ]);
-
-  if (!jResult.data && !uResult.data) {
-    const fallbackSections = await settledSource(async () => {
-      const termCode = `${year}${term}`;
-      const rows = await fetchPlannerSectionsFallback(termCode, courseCode);
-      return rows.map(toPlannerSectionFromFallback);
-    });
-
-    if (fallbackSections.data) {
-      return fallbackSections.data;
-    }
-
-    throw new Error(fallbackSections.error ?? jResult.error ?? uResult.error ?? "All section sources failed");
+  // 1) Database-backed catalog path.
+  const catalogSections = await settledSource(async () => {
+    const termCode = `${year}${term}`;
+    const rows = await fetchPlannerSectionsFallback(termCode, courseCode);
+    return rows.map(toPlannerSectionFromFallback);
+  });
+  if (catalogSections.data && catalogSections.data.length > 0) {
+    return catalogSections.data;
   }
 
-  const stamp = `${getSourceTimestamp(sectionJupiterCache, jKey)}-${getSourceTimestamp(sectionUmdCache, uKey)}`;
-  const mergedKey = `merged-sections:${baseKey}:${stamp}`;
+  // 2) Direct UMD path.
+  const uKey = `umd-sections:${baseKey}`;
+  const umdSections = await settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal)));
+  if (umdSections.data && umdSections.data.length > 0) {
+    return umdSections.data;
+  }
 
-  return mergedSectionCache.getOrSet(mergedKey, async () => mergeSections(courseCode, jResult.data ?? [], uResult.data ?? []));
+  // 3) Jupiter fallback path.
+  const jKey = `jupiter-sections:${baseKey}`;
+  const jupiterSections = await settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal)));
+  if (jupiterSections.data && jupiterSections.data.length > 0) {
+    return jupiterSections.data;
+  }
+
+  if (catalogSections.error || umdSections.error || jupiterSections.error) {
+    throw new Error(catalogSections.error ?? umdSections.error ?? jupiterSections.error ?? "All section sources failed");
+  }
+
+  return [];
 }

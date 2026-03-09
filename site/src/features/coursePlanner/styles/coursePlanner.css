@@ -384,7 +384,7 @@
 
 .cp-section-row a,
 .cp-info-panel a {
-  color: #1a4d91;
+  color: #b42334;
   text-decoration: none;
 }
 
@@ -404,7 +404,7 @@
   align-items: center;
   gap: 6px;
   width: fit-content;
-  color: #1a4d91;
+  color: #b42334;
   text-decoration: none;
   font-size: 11px;
 }
@@ -414,7 +414,7 @@
 }
 
 .cp-prof-stars {
-  color: #f2a214;
+  color: #d4a017;
   letter-spacing: 0.06em;
   font-size: 10px;
 }
@@ -575,6 +575,10 @@
   font-size: 12px;
 }
 
+.cp-overlay-grid a {
+  color: #b42334;
+}
+
 .cp-info-panel h4 {
   margin: 0 0 6px;
 }
@@ -604,7 +608,7 @@
 .cp-inline-link {
   border: 0;
   background: transparent;
-  color: #1a4d91;
+  color: #b42334;
   font-size: 12px;
   cursor: pointer;
   padding: 0;

@@ -103,11 +103,11 @@ function parseTermCode(termCodeInput: string | number): UmdTerm {
   const year = Number(termCode.slice(0, 4));
   const seasonCode = termCode.slice(4);
   const season =
-    seasonCode === "01"
+    seasonCode === "12"
       ? "winter"
-      : seasonCode === "03" || seasonCode === "05"
+      : seasonCode === "01"
         ? "spring"
-        : seasonCode === "06" || seasonCode === "08"
+        : seasonCode === "05"
           ? "summer"
           : "fall";
 
@@ -234,6 +234,34 @@ async function fetchTermsFromCatalog(): Promise<UmdTerm[]> {
   }));
 }
 
+async function resolveCatalogTermWithFallback(termCodeInput: string): Promise<{ year: number; termCode: string }> {
+  const { year, termCode } = splitTermCode(termCodeInput);
+  const supabase = getSupabaseClient();
+
+  const { data, error } = await supabase
+    .from(CATALOG_TERMS_VIEW)
+    .select("term_code, year, active")
+    .eq("active", true)
+    .eq("term_code", termCode)
+    .lte("year", year)
+    .order("year", { ascending: false })
+    .limit(1);
+
+  if (error) {
+    throw error;
+  }
+
+  const row = (data ?? [])[0] as Pick<CatalogTermRow, "term_code" | "year"> | undefined;
+  if (!row) {
+    return { year, termCode };
+  }
+
+  return {
+    year: row.year,
+    termCode: row.term_code,
+  };
+}
+
 async function searchCoursesFromCatalog(params: CourseSearchParams): Promise<UmdCourseSummary[]> {
   const supabase = getSupabaseClient();
   const page = params.page ?? 1;
@@ -243,7 +271,7 @@ async function searchCoursesFromCatalog(params: CourseSearchParams): Promise<Umd
   const normalizedQuery = params.query?.trim().toUpperCase();
   const deptFromQuery = params.query?.trim().toUpperCase().match(/^([A-Z]{2,4})\s*\d*/)?.[1];
   const deptFilter = params.deptId ?? deptFromQuery;
-  const { year, termCode } = splitTermCode(params.termCode);
+  const { year, termCode } = await resolveCatalogTermWithFallback(params.termCode);
 
   let query = supabase
     .from(CATALOG_COURSES_VIEW)
@@ -287,13 +315,13 @@ async function searchCoursesFromCatalog(params: CourseSearchParams): Promise<Umd
 
 async function fetchCourseSectionsFromCatalog(termCode: string, courseId: string): Promise<UmdSection[]> {
   const supabase = getSupabaseClient();
-  const { year, termCode: seasonCode } = splitTermCode(termCode);
+  const resolved = await resolveCatalogTermWithFallback(termCode);
 
   const { data: sectionData, error: sectionError } = await supabase
     .from(CATALOG_SECTIONS_VIEW)
     .select("section_key, course_code, section_code, instructor, open_seats, total_seats")
-    .eq("year", year)
-    .eq("term_code", seasonCode)
+    .eq("year", resolved.year)
+    .eq("term_code", resolved.termCode)
     .eq("course_code", courseId)
     .order("section_code", { ascending: true });
 
