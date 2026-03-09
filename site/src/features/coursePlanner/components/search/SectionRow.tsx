@@ -60,6 +60,7 @@ export function SectionRow({ course, section }: SectionRowProps) {
             <ProfessorLink
               key={`${section.sectionCode}-${name}`}
               name={name}
+              slug={!meta?.ambiguous ? meta?.slug : undefined}
               rating={!meta?.ambiguous ? meta?.averageRating : undefined}
               className="cp-prof-link"
               onClick={(event) => event.stopPropagation()}

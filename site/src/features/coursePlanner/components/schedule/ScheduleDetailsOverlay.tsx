@@ -55,6 +55,7 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
             <ProfessorLink
               key={`${selection.section.sectionCode}-${name}`}
               name={name}
+              slug={!meta?.ambiguous ? meta?.slug : undefined}
               rating={meta?.averageRating}
               className="cp-prof-link"
             />

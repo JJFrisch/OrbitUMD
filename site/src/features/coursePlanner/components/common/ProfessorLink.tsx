@@ -3,20 +3,21 @@ import { getPlanetTerpUrlForProfessor, formatRatingStars } from "../../utils/pro
 
 interface ProfessorLinkProps {
   name: string;
+  slug?: string;
   rating?: number;
   className?: string;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   onMouseDown?: (event: MouseEvent<HTMLAnchorElement>) => void;
 }
 
-export function ProfessorLink({ name, rating, className, onClick, onMouseDown }: ProfessorLinkProps) {
+export function ProfessorLink({ name, slug, rating, className, onClick, onMouseDown }: ProfessorLinkProps) {
   const safeName = name?.trim() || "Staff";
   const hasRating = rating !== undefined && Number.isFinite(rating);
 
   return (
     <a
       className={className ?? "cp-prof-link"}
-      href={getPlanetTerpUrlForProfessor(safeName)}
+      href={getPlanetTerpUrlForProfessor(safeName, slug)}
       target="_blank"
       rel="noreferrer"
       onClick={onClick}
