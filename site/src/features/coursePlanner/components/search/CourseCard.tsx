@@ -14,6 +14,7 @@ interface CourseCardProps {
 export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 0 }: CourseCardProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [hasRequestedSections, setHasRequestedSections] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const loadSectionsForCourse = useCoursePlannerStore((state) => state.loadSectionsForCourse);
   const filters = useCoursePlannerStore((state) => state.filters);
   const [loading, setLoading] = useState(false);
@@ -25,6 +26,7 @@ export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 
     setDetailsOpen(false);
     setHasRequestedSections(false);
     setLoading(false);
+    setLoadError(null);
   }, [course.courseCode]);
 
   useEffect(() => {
@@ -45,9 +47,12 @@ export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 
     }
 
     setHasRequestedSections(true);
+    setLoadError(null);
     setLoading(true);
     try {
       await loadSectionsForCourse(course);
+    } catch (error) {
+      setLoadError(error instanceof Error ? error.message : "Unable to load sections");
     } finally {
       setLoading(false);
     }
@@ -97,7 +102,13 @@ export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 
           <SectionRow key={`${course.courseCode}-${section.sectionCode}`} course={course} section={section} />
         ))}
 
-        {!loading && hasRequestedSections && visibleSections.length === 0 && (
+        {!loading && loadError && (
+          <p className="cp-muted-text">
+            Could not load sections. <button type="button" className="cp-inline-link" onClick={() => void requestSectionsIfNeeded(true)}>Retry</button>
+          </p>
+        )}
+
+        {!loading && !loadError && hasRequestedSections && visibleSections.length === 0 && (
           <p className="cp-muted-text">
             No sections available. <button type="button" className="cp-inline-link" onClick={() => void requestSectionsIfNeeded(true)}>Retry</button>
           </p>

@@ -21,7 +21,7 @@ import type {
 import { fetchCourseSections as fetchPlannerSectionsFallback, searchCourses as searchCatalogCourses } from "@/lib/api/umdCourses";
 
 const UMD_BASE = import.meta.env.VITE_UMD_API_BASE_URL ?? "https://api.umd.io/v1";
-const JUPITER_BASE = import.meta.env.VITE_JUPITER_API_BASE_URL;
+const JUPITER_BASE = import.meta.env.VITE_JUPITER_API_BASE_URL ?? "https://api.jupiterp.com";
 const PLANETTERP_BASE = import.meta.env.VITE_PLANETTERP_API_BASE_URL ?? "https://planetterp.com/api/v1";
 
 type SourceStatus = "ok" | "degraded" | "failed";
@@ -252,19 +252,43 @@ function toUmdSection(raw: any, courseCode: string): Section {
   };
 }
 
+function formatMinutesToClock(minutes: number | undefined): string | undefined {
+  if (!Number.isFinite(minutes)) {
+    return undefined;
+  }
+
+  const bounded = Math.max(0, Math.min(23 * 60 + 59, Math.floor(minutes as number)));
+  const hour24 = Math.floor(bounded / 60);
+  const minute = bounded % 60;
+  const suffix = hour24 >= 12 ? "pm" : "am";
+  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+  return `${hour12}:${String(minute).padStart(2, "0")}${suffix}`;
+}
+
+function toSectionCodeFromFallback(raw: Awaited<ReturnType<typeof fetchPlannerSectionsFallback>>[number]): string {
+  const explicit = sanitizeNullableText(raw.sectionCode);
+  if (explicit) return explicit;
+
+  const idTail = sanitizeNullableText(raw.id)?.split("-").pop();
+  return idTail || "TBA";
+}
+
 function toPlannerSectionFromFallback(raw: Awaited<ReturnType<typeof fetchPlannerSectionsFallback>>[number]): Section {
+  const openSeats = raw.openSeats ?? 0;
+  const totalSeats = Math.max(raw.totalSeats ?? 0, openSeats);
+
   return {
     id: raw.id,
     courseCode: raw.courseId,
-    sectionCode: raw.sectionCode,
+    sectionCode: toSectionCodeFromFallback(raw),
     instructor: raw.instructor ?? "",
     instructors: raw.instructor ? [raw.instructor] : [],
-    totalSeats: raw.totalSeats ?? 0,
-    openSeats: raw.openSeats ?? 0,
+    totalSeats,
+    openSeats,
     meetings: (raw.meetings ?? []).map((meeting) => ({
       days: meeting.days.length > 0 ? meeting.days.join("") : "TBA",
-      startTime: undefined,
-      endTime: undefined,
+      startTime: formatMinutesToClock(meeting.startMinutes),
+      endTime: formatMinutesToClock(meeting.endMinutes),
       location: meeting.location,
       classtype: undefined,
     })),

@@ -329,10 +329,28 @@ async function fetchCourseSectionsFromCatalog(termCode: string, courseId: string
     throw sectionError;
   }
 
-  const sections = (sectionData ?? []) as CatalogSectionRow[];
-  if (sections.length === 0) {
+  const rawSections = (sectionData ?? []) as CatalogSectionRow[];
+  if (rawSections.length === 0) {
     return [];
   }
+
+  // Defensive dedupe: some view definitions can surface repeated rows per section key.
+  const sectionsByKey = new Map<string, CatalogSectionRow>();
+  for (const section of rawSections) {
+    const existing = sectionsByKey.get(section.section_key);
+    if (!existing) {
+      sectionsByKey.set(section.section_key, section);
+      continue;
+    }
+
+    sectionsByKey.set(section.section_key, {
+      ...existing,
+      open_seats: Math.max(existing.open_seats ?? 0, section.open_seats ?? 0),
+      total_seats: Math.max(existing.total_seats ?? 0, section.total_seats ?? 0),
+      instructor: existing.instructor ?? section.instructor,
+    });
+  }
+  const sections = Array.from(sectionsByKey.values());
 
   const sectionKeys = sections.map((section) => section.section_key);
   const { data: meetingData, error: meetingError } = await supabase

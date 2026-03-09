@@ -1,7 +1,10 @@
 import crypto from "node:crypto";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import pg from "pg";
 
 const { Pool } = pg;
+const execFileAsync = promisify(execFile);
 
 const TERM_CODE_BY_LABEL = {
   Winter: "12",
@@ -97,12 +100,53 @@ function toTermLabel(termCode, year) {
   return `${byCode[termCode] ?? "Term"} ${year}`;
 }
 
+async function fetchJsonViaCurl(url) {
+  const { stdout } = await execFileAsync("curl", [
+    "-fsSL",
+    "--retry",
+    "2",
+    "--retry-delay",
+    "1",
+    "--max-time",
+    "25",
+    url,
+  ]);
+  return JSON.parse(stdout);
+}
+
 async function getJson(url) {
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Fetch failed ${response.status}: ${url}`);
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Fetch failed ${response.status}: ${url}`);
+      }
+
+      const text = await response.text();
+      try {
+        return JSON.parse(text);
+      } catch {
+        throw new Error(`Non-JSON response from ${url}`);
+      }
+    } catch (error) {
+      lastError = error;
+    }
   }
-  return response.json();
+
+  try {
+    return await fetchJsonViaCurl(url);
+  } catch (curlError) {
+    const fetchMessage = lastError instanceof Error ? lastError.message : String(lastError);
+    const curlMessage = curlError instanceof Error ? curlError.message : String(curlError);
+    throw new Error(`Failed to fetch JSON for ${url} (fetch: ${fetchMessage}; curl: ${curlMessage})`);
+  }
 }
 
 async function fetchJupiterCatalog({ jupiterBase, termCode, year }) {
