@@ -694,6 +694,8 @@ function buildInstructorLookup(rows: any[]): InstructorLookup {
     if (isConflict) {
       byKey.set(key, {
         name: existing.name,
+        slug: existing.slug ?? slug,
+        averageRating: existing.averageRating ?? averageRating,
         ambiguous: true,
       });
       continue;

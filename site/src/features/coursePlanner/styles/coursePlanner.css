@@ -11,6 +11,25 @@
   --cp-header-border: rgba(255, 255, 255, 0.18);
   --cp-builder-btn: rgba(255, 255, 255, 0.08);
   --cp-builder-btn-hover: rgba(255, 255, 255, 0.14);
+  --cp-surface: #ffffff;
+  --cp-surface-subtle: #fcfcff;
+  --cp-surface-muted: #f7f7fb;
+  --cp-surface-hover: #f1f1f6;
+  --cp-divider: #ececf2;
+  --cp-link: #b42334;
+  --cp-link-muted: #9ba3b5;
+  --cp-link-star: #d4a017;
+  --cp-danger: #d7263d;
+  --cp-danger-foreground: #ffffff;
+  --cp-header-option-text: #1f2538;
+  --cp-select-text: var(--cp-text);
+  --cp-class-block-text: #262630;
+  --cp-sheet-bg: #ffffff;
+  --cp-sheet-border: #d8ddea;
+  --cp-sheet-header-border: #ebedf5;
+  --cp-sheet-close-bg: #f7f9fd;
+  --cp-sheet-close-border: #d5dae8;
+  --cp-sheet-close-text: #2f3a59;
   display: grid;
   gap: 16px;
 }
@@ -72,8 +91,9 @@
 }
 
 .cp-builder-action-btn.is-primary {
-  background: #d7263d;
-  border-color: #d7263d;
+  background: var(--cp-danger);
+  border-color: var(--cp-danger);
+  color: var(--cp-danger-foreground);
 }
 
 .cp-builder-controls {
@@ -106,7 +126,7 @@
 }
 
 .cp-builder-controls select option {
-  color: #1f2538;
+  color: var(--cp-header-option-text);
 }
 
 .cp-builder-stats {
@@ -177,7 +197,8 @@
 .cp-suggestions button {
   width: 100%;
   border: 0;
-  background: white;
+  background: var(--cp-surface);
+  color: var(--cp-select-text);
   text-align: left;
   padding: 6px 8px;
   cursor: pointer;
@@ -185,13 +206,13 @@
 
 .cp-suggestions button.is-active,
 .cp-suggestions button:hover {
-  background: #f1f1f6;
+  background: var(--cp-surface-hover);
 }
 
 .cp-filters {
   border: 1px solid var(--cp-border);
   border-radius: 8px;
-  background: #fcfcff;
+  background: var(--cp-surface-subtle);
   padding: 8px;
 }
 
@@ -218,7 +239,7 @@
   align-items: center;
   justify-content: center;
   background: var(--cp-accent);
-  color: white;
+  color: var(--cp-danger-foreground);
   font-size: 11px;
 }
 
@@ -240,7 +261,8 @@
   border-radius: 6px;
   padding: 6px;
   font-size: 12px;
-  background: white;
+  background: var(--cp-surface);
+  color: var(--cp-select-text);
 }
 
 .cp-filter-row {
@@ -258,7 +280,7 @@
 .cp-ghost-btn {
   margin-top: 6px;
   border: 1px solid var(--cp-border);
-  background: white;
+  background: var(--cp-surface);
   color: var(--cp-muted);
   border-radius: 6px;
   width: 100%;
@@ -272,7 +294,7 @@
 
 .cp-toolbar-btn {
   border: 1px solid var(--cp-border);
-  background: white;
+  background: var(--cp-surface);
   color: var(--cp-muted);
   border-radius: 6px;
   padding: 6px 10px;
@@ -294,7 +316,7 @@
 .cp-course-card {
   border: 1px solid var(--cp-border);
   border-radius: 8px;
-  background: white;
+  background: var(--cp-surface);
   padding: 8px;
 }
 
@@ -318,13 +340,13 @@
 }
 
 .cp-course-extra {
-  border: 1px solid #ececf2;
+  border: 1px solid var(--cp-divider);
   border-radius: 8px;
   padding: 7px;
   margin-top: 8px;
   display: grid;
   gap: 4px;
-  background: #fcfcff;
+  background: var(--cp-surface-subtle);
 }
 
 .cp-course-meta {
@@ -336,7 +358,7 @@
 
 .cp-course-meta button {
   border: 1px solid var(--cp-border);
-  background: #f7f7fb;
+  background: var(--cp-surface-muted);
   border-radius: 4px;
   width: 24px;
   height: 24px;
@@ -345,16 +367,16 @@
 .cp-sections-list {
   margin-top: 8px;
   padding-top: 8px;
-  border-top: 1px solid #ececf2;
+  border-top: 1px solid var(--cp-divider);
   display: grid;
   gap: 6px;
 }
 
 .cp-section-row {
   width: 100%;
-  border: 1px solid #e2e2ea;
+  border: 1px solid var(--cp-divider);
   border-radius: 6px;
-  background: #fbfbfd;
+  background: var(--cp-surface-subtle);
   text-align: left;
   padding: 6px 8px;
   cursor: pointer;
@@ -363,8 +385,8 @@
 }
 
 .cp-section-row.is-selected {
-  border-color: #e39ca8;
-  background: #ffeef2;
+  border-color: color-mix(in srgb, var(--cp-accent) 40%, var(--cp-border));
+  background: color-mix(in srgb, var(--cp-accent) 12%, var(--cp-surface));
 }
 
 .cp-section-row.is-closed {
@@ -384,7 +406,7 @@
 
 .cp-section-row a,
 .cp-info-panel a {
-  color: #b42334;
+  color: var(--cp-link);
   text-decoration: none;
 }
 
@@ -404,7 +426,7 @@
   align-items: center;
   gap: 6px;
   width: fit-content;
-  color: #b42334;
+  color: var(--cp-link);
   text-decoration: none;
   font-size: 11px;
 }
@@ -414,14 +436,14 @@
 }
 
 .cp-prof-stars {
-  color: #d4a017;
+  color: var(--cp-link-star);
   letter-spacing: 0.06em;
   font-size: 10px;
 }
 
 .cp-prof-stars.is-muted,
 .cp-prof-rating-na {
-  color: #9ba3b5;
+  color: var(--cp-link-muted);
   font-size: 10px;
 }
 
@@ -483,7 +505,7 @@
   border-radius: 8px;
   padding: 6px;
   font-size: 10px;
-  color: #262630;
+  color: var(--cp-class-block-text);
   box-shadow: 0 1px 2px rgba(20, 20, 40, 0.12);
   overflow: hidden;
 }
@@ -491,6 +513,10 @@
 .cp-class-block strong {
   display: block;
   font-size: 11px;
+}
+
+.cp-class-block span {
+  display: block;
 }
 
 .cp-class-block.is-preview {
@@ -532,10 +558,10 @@
   right: 0;
   bottom: 0;
   z-index: 40;
-  background: #ffffff;
+  background: var(--cp-sheet-bg);
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
-  border: 1px solid #d8ddea;
+  border: 1px solid var(--cp-sheet-border);
   box-shadow: 0 -16px 32px rgba(16, 25, 47, 0.22);
   max-height: min(64vh, 520px);
   display: grid;
@@ -546,14 +572,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ebedf5;
+  border-bottom: 1px solid var(--cp-sheet-header-border);
   padding: 10px 14px;
 }
 
 .cp-sheet-close {
-  border: 1px solid #d5dae8;
-  background: #f7f9fd;
-  color: #2f3a59;
+  border: 1px solid var(--cp-sheet-close-border);
+  background: var(--cp-sheet-close-bg);
+  color: var(--cp-sheet-close-text);
   border-radius: 8px;
   font-size: 12px;
   padding: 5px 10px;
@@ -576,7 +602,7 @@
 }
 
 .cp-overlay-grid a {
-  color: #b42334;
+  color: var(--cp-link);
 }
 
 .cp-info-panel h4 {
@@ -608,7 +634,7 @@
 .cp-inline-link {
   border: 0;
   background: transparent;
-  color: #b42334;
+  color: var(--cp-link);
   font-size: 12px;
   cursor: pointer;
   padding: 0;
@@ -619,7 +645,7 @@
 }
 
 .cp-error-text {
-  color: #b42334;
+  color: var(--cp-link);
 }
 
 .spin {

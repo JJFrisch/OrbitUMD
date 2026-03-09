@@ -328,7 +328,7 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       })
     );
 
-    if (hoveredSelection) {
+    if (hoveredSelection && !selections[hoveredSelection.sectionKey]) {
       meetings.push(
         ...buildCalendarMeetings({
           sectionKey: hoveredSelection.sectionKey,

@@ -51,8 +51,8 @@ export function CourseInfoPanel() {
             <ProfessorLink
               key={`${selection.section.sectionCode}-${name}`}
               name={name}
-              slug={!meta?.ambiguous ? meta?.slug : undefined}
-              rating={!meta?.ambiguous ? meta?.averageRating : undefined}
+              slug={meta?.slug}
+              rating={meta?.averageRating}
               className="cp-prof-link"
               onClick={(event) => event.stopPropagation()}
               onMouseDown={(event) => event.stopPropagation()}
