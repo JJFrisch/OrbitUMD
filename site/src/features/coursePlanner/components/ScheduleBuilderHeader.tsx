@@ -23,11 +23,13 @@ interface ScheduleBuilderHeaderProps {
   visibilityMode: VisibilityMode;
   onToggleVisibility: () => void;
   onExportPrint: () => void;
+  onViewAllSchedules: () => void;
   savedSchedules: SavedScheduleOption[];
   activeScheduleId: string | null;
   onSave: () => void;
-  onLoadSchedule: (scheduleId: string) => void;
+  onScheduleSelect: (scheduleId: string | "__new") => void;
   savePending: boolean;
+  saveMessage?: string;
 }
 
 export function ScheduleBuilderHeader({
@@ -42,11 +44,13 @@ export function ScheduleBuilderHeader({
   visibilityMode,
   onToggleVisibility,
   onExportPrint,
+  onViewAllSchedules,
   savedSchedules,
   activeScheduleId,
   onSave,
-  onLoadSchedule,
+  onScheduleSelect,
   savePending,
+  saveMessage,
 }: ScheduleBuilderHeaderProps) {
   return (
     <header className="cp-builder-header">
@@ -57,7 +61,7 @@ export function ScheduleBuilderHeader({
         </div>
         <div className="cp-builder-actions">
           <button type="button" className="cp-builder-action-btn is-primary">Build Schedules</button>
-          <button type="button" className="cp-builder-action-btn">View All Schedules</button>
+          <button type="button" className="cp-builder-action-btn" onClick={onViewAllSchedules}>View All Schedules</button>
         </div>
       </div>
 
@@ -68,8 +72,7 @@ export function ScheduleBuilderHeader({
             value={activeScheduleId ?? "__new"}
             onChange={(event) => {
               const val = event.target.value;
-              if (val === "__new") return;
-              onLoadSchedule(val);
+              onScheduleSelect(val === "__new" ? "__new" : val);
             }}
           >
             <option value="__new">+ New Schedule</option>
@@ -120,6 +123,8 @@ export function ScheduleBuilderHeader({
           {savePending ? "Saving…" : "Save"}
         </button>
       </div>
+
+      {saveMessage && <div className="cp-builder-subtitle">{saveMessage}</div>}
 
       <div className="cp-builder-subtitle">
         <Calendar size={14} /> Weekly Schedule

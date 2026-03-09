@@ -16,6 +16,7 @@ import {
   saveScheduleWithSelections,
   listSchedulesForTerm,
   loadScheduleById,
+  listAllSchedulesWithSelections,
 } from "../repositories/userSchedulesRepository";
 import {
   fetchProgramRequirements,
@@ -33,6 +34,7 @@ export const plannerApi = {
   saveScheduleWithSelections,
   listSchedulesForTerm,
   loadScheduleById,
+  listAllSchedulesWithSelections,
   // Four-year plans
   listFourYearPlans,
   createFourYearPlan,

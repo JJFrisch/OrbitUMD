@@ -27,15 +27,32 @@ export function getSupabaseClient(): SupabaseClient {
 
 export async function getAuthenticatedUserId(): Promise<string> {
   const supabase = getSupabaseClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    throw error;
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError) {
+    throw sessionError;
   }
 
-  if (!data.user) {
-    throw new Error("No authenticated user");
+  const user = sessionData.session?.user;
+  if (!user) {
+    throw new Error("Please sign in to save and load schedules.");
   }
 
-  return data.user.id;
+  // Ensure FK-backed user tables (e.g. user_schedules.user_id) always have a profile row.
+  const { error: profileError } = await supabase
+    .from("user_profiles")
+    .upsert({
+      id: user.id,
+      email: user.email ?? null,
+      display_name:
+        (user.user_metadata?.full_name as string | undefined)
+        ?? (user.user_metadata?.name as string | undefined)
+        ?? user.email
+        ?? null,
+    }, { onConflict: "id" });
+
+  if (profileError) {
+    throw profileError;
+  }
+
+  return user.id;
 }

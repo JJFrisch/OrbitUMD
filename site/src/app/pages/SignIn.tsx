@@ -1,0 +1,118 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
+import { getSupabaseClient } from "@/lib/supabase/client";
+
+export default function SignIn() {
+  const navigate = useNavigate();
+  const supabase = getSupabaseClient();
+
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const run = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session?.user) {
+        navigate("/dashboard", { replace: true });
+      }
+    };
+
+    void run();
+  }, [navigate, supabase.auth]);
+
+  const handleEmailSignIn = async () => {
+    setLoading(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const { error: signInError } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
+      if (signInError) {
+        throw signInError;
+      }
+
+      setMessage("Check your email for a sign-in link.");
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unable to sign in with email.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOAuth = async (provider: "google" | "apple") => {
+    setLoading(true);
+    setError(null);
+    setMessage(null);
+
+    try {
+      const { error: oauthError } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
+      if (oauthError) {
+        throw oauthError;
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : `Unable to sign in with ${provider}.`;
+      setError(msg);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>Sign in to OrbitUMD</CardTitle>
+          <CardDescription>Use email, Google, or Apple.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="email" className="text-sm text-muted-foreground">Email</label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@umd.edu"
+            />
+            <Button
+              className="w-full"
+              onClick={handleEmailSignIn}
+              disabled={loading || !email.trim()}
+            >
+              Continue With Email
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <Button variant="outline" onClick={() => void handleOAuth("google")} disabled={loading}>
+              Continue With Google
+            </Button>
+            <Button variant="outline" onClick={() => void handleOAuth("apple")} disabled={loading}>
+              Continue With Apple
+            </Button>
+          </div>
+
+          {message && <p className="text-sm text-green-600">{message}</p>}
+          {error && <p className="text-sm text-red-600">{error}</p>}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

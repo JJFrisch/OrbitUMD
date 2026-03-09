@@ -1,5 +1,13 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
 
+function normalizeScheduleError(error: unknown): never {
+  const message = error instanceof Error ? error.message : String(error ?? "Unknown error");
+  if (message.toLowerCase().includes("auth session missing")) {
+    throw new Error("Please sign in to save and load schedules.");
+  }
+  throw error;
+}
+
 export interface UserScheduleRecord {
   id: string;
   user_id: string;
@@ -35,7 +43,7 @@ export async function listUserSchedules(): Promise<UserScheduleRecord[]> {
     .order("created_at", { ascending: false });
 
   if (error) {
-    throw error;
+    normalizeScheduleError(error);
   }
 
   return (data ?? []) as UserScheduleRecord[];
@@ -60,7 +68,7 @@ export async function upsertUserSchedule(input: UpsertUserScheduleInput): Promis
     .single();
 
   if (error) {
-    throw error;
+    normalizeScheduleError(error);
   }
 
   return data as UserScheduleRecord;
@@ -77,7 +85,7 @@ export async function deleteUserSchedule(scheduleId: string): Promise<void> {
     .eq("user_id", userId);
 
   if (error) {
-    throw error;
+    normalizeScheduleError(error);
   }
 }
 
@@ -92,7 +100,7 @@ export async function listSectionsForSchedule(scheduleId: string): Promise<Sched
     .eq("user_schedules.user_id", userId);
 
   if (error) {
-    throw error;
+    normalizeScheduleError(error);
   }
 
   return (data ?? []).map((row: any) => ({
@@ -115,7 +123,7 @@ export async function replaceScheduleSections(scheduleId: string, sectionIds: st
     .maybeSingle();
 
   if (ownershipError) {
-    throw ownershipError;
+    normalizeScheduleError(ownershipError);
   }
 
   if (!ownedSchedule) {
@@ -124,7 +132,7 @@ export async function replaceScheduleSections(scheduleId: string, sectionIds: st
 
   const { error: deleteError } = await supabase.from("schedule_sections").delete().eq("schedule_id", scheduleId);
   if (deleteError) {
-    throw deleteError;
+    normalizeScheduleError(deleteError);
   }
 
   if (sectionIds.length === 0) {
@@ -139,7 +147,7 @@ export async function replaceScheduleSections(scheduleId: string, sectionIds: st
 
   const { error: insertError } = await supabase.from("schedule_sections").insert(payload);
   if (insertError) {
-    throw insertError;
+    normalizeScheduleError(insertError);
   }
 }
 
@@ -192,7 +200,7 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
       .select("id")
       .single();
 
-    if (termInsertErr) throw termInsertErr;
+    if (termInsertErr) normalizeScheduleError(termInsertErr);
     termId = newTerm.id;
   }
 
@@ -216,7 +224,7 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
     .select("*")
     .single();
 
-  if (error) throw error;
+  if (error) normalizeScheduleError(error);
   return data as ScheduleWithSelections;
 }
 
@@ -235,7 +243,7 @@ export async function listSchedulesForTerm(
     .eq("term_year", termYear)
     .order("updated_at", { ascending: false });
 
-  if (error) throw error;
+  if (error) normalizeScheduleError(error);
   return (data ?? []) as ScheduleWithSelections[];
 }
 
@@ -250,6 +258,20 @@ export async function loadScheduleById(scheduleId: string): Promise<ScheduleWith
     .eq("user_id", userId)
     .maybeSingle();
 
-  if (error) throw error;
+  if (error) normalizeScheduleError(error);
   return data as ScheduleWithSelections | null;
+}
+
+export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSelections[]> {
+  const userId = await getAuthenticatedUserId();
+  const supabase = getSupabaseClient();
+
+  const { data, error } = await supabase
+    .from("user_schedules")
+    .select("*")
+    .eq("user_id", userId)
+    .order("updated_at", { ascending: true });
+
+  if (error) normalizeScheduleError(error);
+  return (data ?? []) as ScheduleWithSelections[];
 }

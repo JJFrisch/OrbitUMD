@@ -775,3 +775,92 @@
     page-break-inside: avoid;
   }
 }
+
+.cp-library-root {
+  display: grid;
+  gap: 12px;
+}
+
+.cp-library-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cp-library-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cp-library-controls input,
+.cp-library-controls select {
+  border: 1px solid var(--cp-border);
+  border-radius: 8px;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+  padding: 7px 9px;
+  font-size: 12px;
+}
+
+.cp-library-list {
+  display: grid;
+  gap: 12px;
+}
+
+.cp-library-card {
+  display: grid;
+  grid-template-columns: minmax(260px, 340px) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid var(--cp-border);
+  border-radius: 10px;
+  background: var(--cp-panel);
+  padding: 10px;
+}
+
+.cp-library-info {
+  display: grid;
+  gap: 6px;
+}
+
+.cp-library-info h2 {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 16px;
+}
+
+.cp-library-info p {
+  margin: 0;
+  color: var(--cp-muted);
+  font-size: 12px;
+}
+
+.cp-library-classes {
+  margin: 0;
+  padding-left: 16px;
+  color: var(--cp-text);
+  font-size: 12px;
+  display: grid;
+  gap: 3px;
+}
+
+.cp-calendar-preview {
+  min-height: 230px;
+}
+
+.cp-calendar-preview .cp-grid {
+  min-width: 560px;
+}
+
+.cp-calendar-preview .cp-day-track {
+  height: 420px;
+}
+
+@media (max-width: 980px) {
+  .cp-library-card {
+    grid-template-columns: 1fr;
+  }
+}

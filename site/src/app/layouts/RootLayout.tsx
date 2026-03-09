@@ -14,7 +14,10 @@ export default function RootLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(readCollapsed);
   
   // Hide navigation on onboarding and welcome pages
-  const isOnboarding = location.pathname === "/" || location.pathname.includes("/onboarding");
+  const isOnboarding =
+    location.pathname === "/"
+    || location.pathname.includes("/onboarding")
+    || location.pathname === "/sign-in";
 
   if (isOnboarding) {
     return (

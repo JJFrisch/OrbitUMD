@@ -78,6 +78,7 @@ interface CoursePlannerState {
   saveSchedule: (name: string) => Promise<void>;
   loadSchedule: (scheduleId: string) => Promise<void>;
   refreshScheduleList: () => Promise<void>;
+  startNewSchedule: () => void;
 }
 
 const DEFAULT_FILTERS: SearchFilters = {
@@ -112,6 +113,41 @@ function computeSuggestions(input: string, departments: Department[]): string[] 
   const matches = departments.filter((dept) => dept.code.startsWith(prefix));
   if (matches.length <= 1) return [];
   return matches.slice(0, 8).map((dept) => dept.code);
+}
+
+interface StoredScheduleSelectionsPayload {
+  sectionIds?: string[];
+  selections?: ScheduleSelection[];
+}
+
+function getSelectionId(selection: ScheduleSelection): string {
+  return selection.section.id || selection.sectionKey;
+}
+
+function mapSelectionsToSectionIds(selections: Record<string, ScheduleSelection>): string[] {
+  const deduped = new Set<string>();
+  for (const selection of Object.values(selections)) {
+    deduped.add(getSelectionId(selection));
+  }
+  return Array.from(deduped);
+}
+
+function mapStoredSelectionsToState(stored: unknown): Record<string, ScheduleSelection> {
+  const payload = (stored ?? []) as StoredScheduleSelectionsPayload | ScheduleSelection[];
+  const rawSelections = Array.isArray(payload)
+    ? payload
+    : Array.isArray(payload.selections)
+      ? payload.selections
+      : [];
+
+  const selectionsMap: Record<string, ScheduleSelection> = {};
+  for (const sel of rawSelections) {
+    if (sel?.sectionKey) {
+      selectionsMap[sel.sectionKey] = sel;
+    }
+  }
+
+  return selectionsMap;
 }
 
 export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
@@ -377,22 +413,54 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
     return computeVisibleHourBounds(meetings, { printMode: get().printMode });
   },
 
+  refreshScheduleList: async () => {
+    const { resolvedTerm, resolvedYear } = get();
+    try {
+      const schedules = await listSchedulesForTerm(resolvedTerm, resolvedYear);
+      set({ savedSchedules: schedules, saveError: undefined });
+    } catch (error) {
+      set({
+        saveError: error instanceof Error ? error.message : "Failed to load schedules",
+      });
+    }
+  },
+
+  startNewSchedule: () => {
+    set({
+      activeScheduleId: null,
+      selections: {},
+      hoveredSelection: null,
+      selectedInfoKey: null,
+      saveError: undefined,
+    });
+  },
+
   saveSchedule: async (name) => {
     const { selections, resolvedTerm, resolvedYear, activeScheduleId } = get();
     set({ savePending: true, saveError: undefined });
     try {
       const selectionsArray = Object.values(selections);
+      const sectionIds = mapSelectionsToSectionIds(selections);
       const saved = await saveScheduleWithSelections({
         id: activeScheduleId ?? undefined,
         name,
         termCode: resolvedTerm,
         termYear: resolvedYear,
-        selectionsJson: selectionsArray,
+        selectionsJson: {
+          sectionIds,
+          selections: selectionsArray,
+        },
       });
+
       set({
         activeScheduleId: saved.id,
+        savedSchedules: [
+          saved,
+          ...get().savedSchedules.filter((schedule) => schedule.id !== saved.id),
+        ],
         savePending: false,
       });
+
       await get().refreshScheduleList();
     } catch (error) {
       set({
@@ -411,15 +479,13 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
         return;
       }
 
-      const selectionsArray = (record.selections_json ?? []) as ScheduleSelection[];
-      const selectionsMap: Record<string, ScheduleSelection> = {};
-      for (const sel of selectionsArray) {
-        selectionsMap[sel.sectionKey] = sel;
-      }
+      const selectionsMap = mapStoredSelectionsToState(record.selections_json);
 
       set({
         activeScheduleId: record.id,
         selections: selectionsMap,
+        hoveredSelection: null,
+        selectedInfoKey: null,
         savePending: false,
       });
     } catch (error) {
@@ -427,16 +493,6 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
         savePending: false,
         saveError: error instanceof Error ? error.message : "Load failed",
       });
-    }
-  },
-
-  refreshScheduleList: async () => {
-    const { resolvedTerm, resolvedYear } = get();
-    try {
-      const schedules = await listSchedulesForTerm(resolvedTerm, resolvedYear);
-      set({ savedSchedules: schedules });
-    } catch {
-      // Non-critical – list will be stale
     }
   },
 }));
