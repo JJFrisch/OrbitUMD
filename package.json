@@ -2,12 +2,17 @@
   "name": "orbitumd",
   "private": true,
   "version": "0.1.0",
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
   "scripts": {
     "postinstall": "npm --prefix site install",
     "dev": "npm --prefix site run dev --",
     "build": "npm --prefix site run build --",
     "preview": "npm --prefix site run preview --",
     "lint": "npm --prefix site run lint --",
-    "test": "npm --prefix site run test --"
+    "test": "npm --prefix site run test --",
+    "sync:catalog": "node data-sync/sync-worker.mjs",
+    "sync:catalog:dry": "node data-sync/sync-worker.mjs --dry-run=true"
   }
 }
