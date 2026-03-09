@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import {
   formatRatingStars,
   getPlanetTerpUrlForProfessor,
-  resolvePlanetTerpSlugByName,
+  resolvePlanetTerpProfessorMetaByName,
 } from "../../utils/professors";
 
 interface ProfessorLinkProps {
   name: string;
   slug?: string;
-  rating?: number;
+  rating?: number | string;
   className?: string;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
   onMouseDown?: (event: MouseEvent<HTMLAnchorElement>) => void;
@@ -17,21 +17,33 @@ interface ProfessorLinkProps {
 
 export function ProfessorLink({ name, slug, rating, className, onClick, onMouseDown }: ProfessorLinkProps) {
   const safeName = name?.trim() || "Staff";
-  const hasRating = rating !== undefined && Number.isFinite(rating);
+  const parsedIncomingRating = typeof rating === "number" ? rating : Number(rating);
   const [resolvedSlug, setResolvedSlug] = useState<string | undefined>(slug);
+  const [resolvedRating, setResolvedRating] = useState<number | undefined>(
+    Number.isFinite(parsedIncomingRating) ? parsedIncomingRating : undefined
+  );
+
+  const hasRating = resolvedRating !== undefined && Number.isFinite(resolvedRating);
 
   useEffect(() => {
     let cancelled = false;
 
-    void resolvePlanetTerpSlugByName(safeName).then((canonicalSlug) => {
+    if (Number.isFinite(parsedIncomingRating)) {
+      setResolvedRating(parsedIncomingRating);
+    }
+
+    void resolvePlanetTerpProfessorMetaByName(safeName).then((meta) => {
       if (cancelled) return;
-      setResolvedSlug(canonicalSlug ?? slug);
+      setResolvedSlug(meta?.slug ?? slug);
+      if (!Number.isFinite(parsedIncomingRating) && Number.isFinite(meta?.averageRating)) {
+        setResolvedRating(meta?.averageRating);
+      }
     });
 
     return () => {
       cancelled = true;
     };
-  }, [safeName, slug]);
+  }, [parsedIncomingRating, safeName, slug]);
 
   return (
     <a
@@ -45,8 +57,9 @@ export function ProfessorLink({ name, slug, rating, className, onClick, onMouseD
     >
       <span>{safeName}</span>
       <span className={`cp-prof-stars ${hasRating ? "" : "is-muted"}`}>
-        {formatRatingStars(hasRating ? rating : undefined)}
+        {formatRatingStars(hasRating ? resolvedRating : undefined)}
       </span>
+      {hasRating && <span className="cp-prof-rating-value">{resolvedRating?.toFixed(1)}</span>}
       {!hasRating && <span className="cp-prof-rating-na">N/A</span>}
     </a>
   );
