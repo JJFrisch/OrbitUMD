@@ -11,6 +11,7 @@ interface CourseCardProps {
 
 export function CourseCard({ course }: CourseCardProps) {
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [hasRequestedSections, setHasRequestedSections] = useState(false);
   const loadSectionsForCourse = useCoursePlannerStore((state) => state.loadSectionsForCourse);
   const filters = useCoursePlannerStore((state) => state.filters);
   const [loading, setLoading] = useState(false);
@@ -19,21 +20,32 @@ export function CourseCard({ course }: CourseCardProps) {
   const visibleSections = filters.onlyOpen ? sections.filter((section) => section.openSeats > 0) : sections;
 
   useEffect(() => {
-    if (sections.length > 0) return;
+    setDetailsOpen(false);
+    setHasRequestedSections(false);
+    setLoading(false);
+  }, [course.courseCode]);
 
-    let mounted = true;
+  async function requestSectionsIfNeeded() {
+    if (loading || hasRequestedSections || sections.length > 0) {
+      return;
+    }
+
+    setHasRequestedSections(true);
     setLoading(true);
-    void loadSectionsForCourse(course)
-      .finally(() => {
-        if (mounted) {
-          setLoading(false);
-        }
-      });
+    try {
+      await loadSectionsForCourse(course);
+    } finally {
+      setLoading(false);
+    }
+  }
 
-    return () => {
-      mounted = false;
-    };
-  }, [course, loadSectionsForCourse, sections.length]);
+  function handleToggleDetails() {
+    const next = !detailsOpen;
+    setDetailsOpen(next);
+    if (next) {
+      void requestSectionsIfNeeded();
+    }
+  }
 
   return (
     <article className="cp-course-card">
@@ -46,7 +58,7 @@ export function CourseCard({ course }: CourseCardProps) {
           <span>{formatCredits(course.minCredits, course.maxCredits)}</span>
           <button
             type="button"
-            onClick={() => setDetailsOpen((current) => !current)}
+            onClick={handleToggleDetails}
             aria-label="toggle sections"
             aria-expanded={detailsOpen}
           >
@@ -67,11 +79,17 @@ export function CourseCard({ course }: CourseCardProps) {
           <div className="cp-inline-loading"><Loader2 size={14} className="spin" /> Loading sections</div>
         )}
 
+        {!loading && sections.length === 0 && !hasRequestedSections && (
+          <button type="button" className="cp-ghost-btn" onClick={() => void requestSectionsIfNeeded()}>
+            Load sections
+          </button>
+        )}
+
         {!loading && visibleSections.map((section) => (
           <SectionRow key={`${course.courseCode}-${section.sectionCode}`} course={course} section={section} />
         ))}
 
-        {!loading && visibleSections.length === 0 && (
+        {!loading && hasRequestedSections && visibleSections.length === 0 && (
           <p className="cp-muted-text">No sections available.</p>
         )}
       </div>
