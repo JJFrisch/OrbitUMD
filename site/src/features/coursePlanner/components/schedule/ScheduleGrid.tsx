@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import type { CalendarMeeting, Weekday } from "../../types/coursePlanner";
+import { buildSectionColorMap } from "../../utils/colorPalette";
 import { DayColumn } from "./DayColumn";
 
 const DAYS: Array<{ key: Weekday; label: string }> = [
@@ -20,6 +22,8 @@ interface ScheduleGridProps {
 }
 
 export function ScheduleGrid({ meetings, bounds, readOnly, showDetails, onOpenInfo, onRemove }: ScheduleGridProps) {
+  const colorBySection = useMemo(() => buildSectionColorMap(meetings), [meetings]);
+
   return (
     <div className="cp-grid">
       {DAYS.map((day) => (
@@ -31,6 +35,7 @@ export function ScheduleGrid({ meetings, bounds, readOnly, showDetails, onOpenIn
           bounds={bounds}
           readOnly={readOnly}
           showDetails={showDetails}
+          colorBySection={colorBySection}
           onOpenInfo={onOpenInfo}
           onRemove={onRemove}
         />

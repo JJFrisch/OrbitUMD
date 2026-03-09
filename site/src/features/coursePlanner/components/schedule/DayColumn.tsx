@@ -9,11 +9,22 @@ interface DayColumnProps {
   bounds: { startHour: number; endHour: number };
   readOnly: boolean;
   showDetails: boolean;
+  colorBySection: Record<string, string>;
   onOpenInfo: (sectionKey: string) => void;
   onRemove: (sectionKey: string) => void;
 }
 
-export function DayColumn({ day, label, meetings, bounds, readOnly, showDetails, onOpenInfo, onRemove }: DayColumnProps) {
+export function DayColumn({
+  day,
+  label,
+  meetings,
+  bounds,
+  readOnly,
+  showDetails,
+  colorBySection,
+  onOpenInfo,
+  onRemove,
+}: DayColumnProps) {
   const dayMeetings = meetings.filter((meeting) => meeting.day === day);
 
   return (
@@ -21,7 +32,7 @@ export function DayColumn({ day, label, meetings, bounds, readOnly, showDetails,
       <div className="cp-day-header">{label}</div>
       <div className="cp-day-track">
         {dayMeetings.map((meeting) => {
-          const color = getCourseColor(meeting.courseCode);
+          const color = colorBySection[meeting.sectionKey] ?? getCourseColor(meeting.courseCode);
           const textColor = getReadableTextColor(color);
 
           return (

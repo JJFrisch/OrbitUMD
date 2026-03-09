@@ -1,3 +1,5 @@
+import type { CalendarMeeting } from "../types/coursePlanner";
+
 const COURSE_PALETTE = [
   "#D94949",
   "#3B82F6",
@@ -9,6 +11,16 @@ const COURSE_PALETTE = [
   "#6366F1",
   "#06B6D4",
   "#E11D48",
+  "#22C55E",
+  "#0EA5E9",
+  "#F97316",
+  "#14B8A6",
+  "#A855F7",
+  "#F43F5E",
+  "#84CC16",
+  "#EF4444",
+  "#06B6D4",
+  "#F59E0B",
 ];
 
 function hashString(value: string): number {
@@ -28,6 +40,29 @@ export function getCourseColor(courseCode: string): string {
   const normalized = normalizeCourseCode(courseCode);
   const idx = hashString(normalized) % COURSE_PALETTE.length;
   return COURSE_PALETTE[idx];
+}
+
+function generatedColor(index: number): string {
+  const hue = (index * 137.508) % 360;
+  return `hsl(${Math.round(hue)} 70% 52%)`;
+}
+
+export function buildSectionColorMap(meetings: CalendarMeeting[]): Record<string, string> {
+  const colorBySection: Record<string, string> = {};
+  const seen = new Set<string>();
+  const sectionOrder: string[] = [];
+
+  for (const meeting of meetings) {
+    if (seen.has(meeting.sectionKey)) continue;
+    seen.add(meeting.sectionKey);
+    sectionOrder.push(meeting.sectionKey);
+  }
+
+  sectionOrder.forEach((sectionKey, idx) => {
+    colorBySection[sectionKey] = COURSE_PALETTE[idx] ?? generatedColor(idx);
+  });
+
+  return colorBySection;
 }
 
 export function getReadableTextColor(backgroundHex: string): string {

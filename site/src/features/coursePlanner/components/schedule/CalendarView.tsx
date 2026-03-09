@@ -14,7 +14,7 @@ export function CalendarView() {
   const removeSelection = useCoursePlannerStore((state) => state.removeSelection);
 
   const meetings = useMemo(() => {
-    const base = Object.values(selections).flatMap((selection) =>
+    const selectedMeetings = Object.values(selections).flatMap((selection) =>
       buildCalendarMeetings({
         sectionKey: selection.sectionKey,
         courseCode: selection.course.courseCode,
@@ -25,21 +25,27 @@ export function CalendarView() {
       })
     );
 
-    if (hoveredSelection) {
-      base.push(
-        ...buildCalendarMeetings({
-          sectionKey: hoveredSelection.sectionKey,
-          courseCode: hoveredSelection.course.courseCode,
-          sectionCode: hoveredSelection.section.sectionCode,
-          title: hoveredSelection.course.name,
-          instructor: hoveredSelection.section.instructor,
-          meetings: hoveredSelection.section.meetings,
-          isHoverPreview: true,
-        })
-      );
+    const laidOutSelectedMeetings = assignConflictIndexes(selectedMeetings);
+
+    if (!hoveredSelection || selections[hoveredSelection.sectionKey]) {
+      return laidOutSelectedMeetings;
     }
 
-    return assignConflictIndexes(base);
+    const hoverPreviewMeetings = buildCalendarMeetings({
+      sectionKey: hoveredSelection.sectionKey,
+      courseCode: hoveredSelection.course.courseCode,
+      sectionCode: hoveredSelection.section.sectionCode,
+      title: hoveredSelection.course.name,
+      instructor: hoveredSelection.section.instructor,
+      meetings: hoveredSelection.section.meetings,
+      isHoverPreview: true,
+    }).map((meeting) => ({
+      ...meeting,
+      conflictIndex: 0,
+      conflictTotal: 1,
+    }));
+
+    return [...laidOutSelectedMeetings, ...hoverPreviewMeetings];
   }, [hoveredSelection, selections]);
 
   const bounds = useMemo(

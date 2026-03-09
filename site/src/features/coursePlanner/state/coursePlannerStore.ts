@@ -328,21 +328,27 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       })
     );
 
-    if (hoveredSelection && !selections[hoveredSelection.sectionKey]) {
-      meetings.push(
-        ...buildCalendarMeetings({
-          sectionKey: hoveredSelection.sectionKey,
-          courseCode: hoveredSelection.course.courseCode,
-          sectionCode: hoveredSelection.section.sectionCode,
-          title: hoveredSelection.course.name,
-          instructor: hoveredSelection.section.instructor,
-          meetings: hoveredSelection.section.meetings,
-          isHoverPreview: true,
-        })
-      );
+    const laidOutSelections = assignConflictIndexes(meetings);
+
+    if (!hoveredSelection || selections[hoveredSelection.sectionKey]) {
+      return laidOutSelections;
     }
 
-    return assignConflictIndexes(meetings);
+    const hoverPreviewMeetings = buildCalendarMeetings({
+      sectionKey: hoveredSelection.sectionKey,
+      courseCode: hoveredSelection.course.courseCode,
+      sectionCode: hoveredSelection.section.sectionCode,
+      title: hoveredSelection.course.name,
+      instructor: hoveredSelection.section.instructor,
+      meetings: hoveredSelection.section.meetings,
+      isHoverPreview: true,
+    }).map((meeting) => ({
+      ...meeting,
+      conflictIndex: 0,
+      conflictTotal: 1,
+    }));
+
+    return [...laidOutSelections, ...hoverPreviewMeetings];
   },
 
   calendarBounds: () => {
