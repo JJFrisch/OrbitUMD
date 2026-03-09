@@ -5,6 +5,16 @@ import {
   extractDeptPrefix,
   normalizeSearchInput,
 } from "../utils/formatting";
+import {
+  buildPlanetTerpProfessorLink,
+  buildTestudoCourseLink,
+  buildUmdMapLink,
+  convertRatingToPercent,
+  formatClassDayTime,
+  formatCredits,
+  formatLocation,
+  sanitizeNullableText,
+} from "../utils/courseDetails";
 
 describe("search parser", () => {
   it("normalizes by stripping spaces and uppercasing", () => {
@@ -24,5 +34,35 @@ describe("search parser", () => {
   it("extracts dept prefix from first 1-4 letters", () => {
     expect(extractDeptPrefix("CMSC131")).toBe("CMSC");
     expect(extractDeptPrefix("MATH")).toBe("MATH");
+  });
+});
+
+describe("course detail utilities", () => {
+  it("sanitizes null-like values", () => {
+    expect(sanitizeNullableText("null")).toBeNull();
+    expect(sanitizeNullableText(" undefined ")).toBeNull();
+    expect(sanitizeNullableText("  prereqs here  ")).toBe("prereqs here");
+  });
+
+  it("formats credit ranges", () => {
+    expect(formatCredits(3, 3)).toBe("3 credits");
+    expect(formatCredits(1, 3)).toBe("1 - 3 credits");
+  });
+
+  it("formats class day/time and location", () => {
+    expect(formatClassDayTime({ days: "M", startTime: "2:00pm", endTime: "2:50pm" })).toBe("M 2:00pm - 2:50pm");
+    expect(formatLocation({ building: "PHY", room: "1402" })).toBe("PHY 1402");
+  });
+
+  it("builds deterministic outbound links", () => {
+    expect(buildTestudoCourseLink("PHYS487", "202608")).toContain("courseId=PHYS487");
+    expect(buildPlanetTerpProfessorLink("sarah-eno")).toBe("https://planetterp.com/professor/sarah-eno");
+    expect(buildUmdMapLink("PHY")).toContain("search=PHY");
+  });
+
+  it("converts ratings to star fill percent", () => {
+    expect(convertRatingToPercent(5)).toBe(100);
+    expect(convertRatingToPercent("2.5")).toBe(50);
+    expect(convertRatingToPercent("NaN")).toBe(0);
   });
 });

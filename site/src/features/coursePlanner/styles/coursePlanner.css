@@ -1,28 +1,141 @@
 .course-planner-root {
   --cp-border: #d7d7df;
-  --cp-bg: #f8f8fb;
+  --cp-bg: #eef2f8;
   --cp-panel: #ffffff;
   --cp-text: #20212a;
   --cp-muted: #6a6b78;
   --cp-accent: #e21833;
+  --cp-header-bg: linear-gradient(140deg, #141a2f 0%, #0f1530 60%, #0c2238 100%);
+  --cp-header-text: #f3f6ff;
+  --cp-header-muted: #b6bfd6;
+  --cp-header-border: rgba(255, 255, 255, 0.18);
+  --cp-builder-btn: rgba(255, 255, 255, 0.08);
+  --cp-builder-btn-hover: rgba(255, 255, 255, 0.14);
   display: grid;
   gap: 16px;
 }
 
-.course-planner-topbar {
+.cp-builder-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--cp-header-bg);
+  color: var(--cp-header-text);
+  border: 1px solid #111a34;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 12px 24px rgba(10, 16, 34, 0.24);
+}
+
+.cp-builder-top-row {
   display: flex;
   justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.cp-builder-top-row h1 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 0.01em;
+}
+
+.cp-builder-top-row p {
+  margin: 4px 0 0;
+  color: var(--cp-header-muted);
+  font-size: 13px;
+}
+
+.cp-builder-actions {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.cp-builder-action-btn,
+.cp-builder-save-btn {
+  border: 1px solid var(--cp-header-border);
+  background: var(--cp-builder-btn);
+  color: var(--cp-header-text);
+  border-radius: 8px;
+  padding: 7px 12px;
+  display: inline-flex;
   align-items: center;
-  gap: 12px;
-  background: var(--cp-panel);
-  border: 1px solid var(--cp-border);
-  border-radius: 10px;
-  padding: 10px 12px;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.cp-builder-action-btn:hover,
+.cp-builder-save-btn:hover {
+  background: var(--cp-builder-btn-hover);
+}
+
+.cp-builder-action-btn.is-primary {
+  background: #d7263d;
+  border-color: #d7263d;
+}
+
+.cp-builder-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.cp-builder-controls label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cp-header-muted);
+  font-size: 12px;
+}
+
+.cp-builder-controls select,
+.cp-builder-controls input {
+  border: 1px solid var(--cp-header-border);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--cp-header-text);
+  border-radius: 8px;
+  padding: 7px 9px;
+  font-size: 12px;
+}
+
+.cp-builder-controls input {
+  min-width: 220px;
+}
+
+.cp-builder-controls select option {
+  color: #1f2538;
+}
+
+.cp-builder-stats {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 11px;
+}
+
+.cp-builder-stats span {
+  border: 1px solid var(--cp-header-border);
+  border-radius: 999px;
+  padding: 4px 8px;
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.cp-builder-subtitle {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--cp-header-muted);
 }
 
 .course-planner-layout {
   display: grid;
-  grid-template-columns: 340px minmax(0, 1fr) 280px;
+  grid-template-columns: 340px minmax(0, 1fr);
   gap: 14px;
   min-height: calc(100vh - 260px);
 }
@@ -204,6 +317,16 @@
   color: var(--cp-muted);
 }
 
+.cp-course-extra {
+  border: 1px solid #ececf2;
+  border-radius: 8px;
+  padding: 7px;
+  margin-top: 8px;
+  display: grid;
+  gap: 4px;
+  background: #fcfcff;
+}
+
 .cp-course-meta {
   display: inline-flex;
   align-items: center;
@@ -257,6 +380,49 @@
 .cp-section-row span {
   font-size: 11px;
   color: #4f5060;
+}
+
+.cp-section-row a,
+.cp-info-panel a {
+  color: #1a4d91;
+  text-decoration: none;
+}
+
+.cp-section-row a:hover,
+.cp-info-panel a:hover {
+  text-decoration: underline;
+}
+
+.cp-instructor-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cp-prof-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  color: #1a4d91;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+.cp-prof-link:hover {
+  text-decoration: underline;
+}
+
+.cp-prof-stars {
+  color: #f2a214;
+  letter-spacing: 0.06em;
+  font-size: 10px;
+}
+
+.cp-prof-stars.is-muted,
+.cp-prof-rating-na {
+  color: #9ba3b5;
+  font-size: 10px;
 }
 
 .cp-calendar {
@@ -352,6 +518,63 @@
   color: var(--cp-text);
 }
 
+.cp-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  border: 0;
+  background: rgba(8, 12, 24, 0.44);
+  z-index: 39;
+}
+
+.cp-bottom-sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: #ffffff;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  border: 1px solid #d8ddea;
+  box-shadow: 0 -16px 32px rgba(16, 25, 47, 0.22);
+  max-height: min(64vh, 520px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.cp-bottom-sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ebedf5;
+  padding: 10px 14px;
+}
+
+.cp-sheet-close {
+  border: 1px solid #d5dae8;
+  background: #f7f9fd;
+  color: #2f3a59;
+  border-radius: 8px;
+  font-size: 12px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.cp-bottom-sheet-content {
+  overflow: auto;
+  padding: 14px;
+}
+
+.cp-overlay-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.cp-overlay-grid p,
+.cp-overlay-grid a {
+  font-size: 12px;
+}
+
 .cp-info-panel h4 {
   margin: 0 0 6px;
 }
@@ -361,6 +584,14 @@
   margin: 0;
   font-size: 12px;
   color: var(--cp-muted);
+}
+
+.cp-info-lines {
+  display: grid;
+  gap: 4px;
+  margin: 8px 0;
+  padding-left: 0;
+  list-style: none;
 }
 
 .cp-inline-loading,
@@ -386,13 +617,31 @@
   .course-planner-layout {
     grid-template-columns: 320px minmax(0, 1fr);
   }
-
-  .cp-info-panel {
-    grid-column: 1 / -1;
-  }
 }
 
 @media (max-width: 980px) {
+  .cp-builder-top-row {
+    flex-direction: column;
+  }
+
+  .cp-builder-actions {
+    width: 100%;
+  }
+
+  .cp-builder-action-btn,
+  .cp-builder-save-btn {
+    flex: 1;
+  }
+
+  .cp-builder-controls {
+    align-items: stretch;
+  }
+
+  .cp-builder-controls input {
+    min-width: 0;
+    width: 100%;
+  }
+
   .course-planner-layout {
     grid-template-columns: 1fr;
   }
@@ -413,8 +662,7 @@
   }
 
   .cp-search-panel,
-  .cp-info-panel,
-  .course-planner-topbar,
+  .cp-builder-header,
   .topbar,
   nav,
   aside,

@@ -6,6 +6,7 @@ import { formatHourDecimal } from "../../utils/scheduleFormatting";
 interface ClassBlockProps {
   meeting: CalendarMeeting;
   color: string;
+  textColor: string;
   bounds: { startHour: number; endHour: number };
   readOnly: boolean;
   showDetails: boolean;
@@ -13,7 +14,7 @@ interface ClassBlockProps {
   onRemove: (sectionKey: string) => void;
 }
 
-export function ClassBlock({ meeting, color, bounds, readOnly, showDetails, onOpenInfo, onRemove }: ClassBlockProps) {
+export function ClassBlock({ meeting, color, textColor, bounds, readOnly, showDetails, onOpenInfo, onRemove }: ClassBlockProps) {
   const geometry = getBlockGeometry(meeting, bounds);
 
   return (
@@ -25,6 +26,7 @@ export function ClassBlock({ meeting, color, bounds, readOnly, showDetails, onOp
         left: `${geometry.leftPct}%`,
         width: `${geometry.widthPct}%`,
         background: color,
+        color: textColor,
       }}
       onClick={() => onOpenInfo(meeting.sectionKey)}
       role="button"

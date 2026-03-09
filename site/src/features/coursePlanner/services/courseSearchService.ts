@@ -1,26 +1,41 @@
 import { CourseDataCache } from "./courseDataCache";
-import { fetchCourseSections } from "@/lib/api/umdCourses";
 import {
   EXACT_COURSE_CODE_REGEX,
   NUMBER_SEARCH_REGEX,
   extractDeptPrefix,
   fallbackTextMatch,
 } from "../utils/formatting";
+import { sanitizeNullableText } from "../utils/courseDetails";
 import type {
   Course,
+  CourseConditions,
   CourseSearchParams,
+  DataSource,
   Department,
+  InstructorLookup,
+  InstructorMeta,
   Meeting,
+  MergeConflict,
   Section,
 } from "../types/coursePlanner";
 
 const UMD_BASE = import.meta.env.VITE_UMD_API_BASE_URL ?? "https://api.umd.io/v1";
 const JUPITER_BASE = import.meta.env.VITE_JUPITER_API_BASE_URL;
-const SOURCE_MODE = (import.meta.env.VITE_COURSE_SOURCE_MODE ?? "auto") as "auto" | "umd" | "jupiter";
+const PLANETTERP_BASE = import.meta.env.VITE_PLANETTERP_API_BASE_URL ?? "https://planetterp.com/api/v1";
 
-const searchCache = new CourseDataCache<Course[]>(20, 3 * 60 * 1000);
+type SourceStatus = "ok" | "degraded" | "failed";
+
+const searchJupiterCache = new CourseDataCache<Course[]>(20, 3 * 60 * 1000);
+const searchUmdCache = new CourseDataCache<Course[]>(20, 3 * 60 * 1000);
+const mergedSearchCache = new CourseDataCache<Course[]>(20, 3 * 60 * 1000);
+
+const sectionJupiterCache = new CourseDataCache<Section[]>(80, 3 * 60 * 1000);
+const sectionUmdCache = new CourseDataCache<Section[]>(80, 3 * 60 * 1000);
+const mergedSectionCache = new CourseDataCache<Section[]>(80, 3 * 60 * 1000);
+
 const deptCache = new CourseDataCache<Department[]>(1, 15 * 60 * 1000);
 const instructorCache = new CourseDataCache<string[]>(5, 10 * 60 * 1000);
+const instructorLookupCache = new CourseDataCache<InstructorLookup>(3, 20 * 60 * 1000);
 
 async function getJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(url, { signal });
@@ -30,124 +45,411 @@ async function getJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-function toCourse(raw: any, term: string, year: number): Course {
-  const genEdRaw = Array.isArray(raw.gen_ed) ? raw.gen_ed : [];
-  const genEds = genEdRaw.flatMap((value: string | string[]) => (Array.isArray(value) ? value : [value]));
+function toNumber(value: unknown): number | undefined {
+  const n = typeof value === "number" ? value : Number(value);
+  return Number.isFinite(n) ? n : undefined;
+}
+
+function parseCreditsRange(raw: unknown): { minCredits: number; maxCredits: number } {
+  const text = sanitizeNullableText(String(raw ?? ""));
+  if (!text) {
+    return { minCredits: 0, maxCredits: 0 };
+  }
+
+  const split = text.split("-").map((entry) => Number(entry.trim()));
+  if (split.length === 2 && split.every((value) => Number.isFinite(value))) {
+    return { minCredits: split[0], maxCredits: split[1] };
+  }
+
+  const single = Number(text);
+  if (Number.isFinite(single)) {
+    return { minCredits: single, maxCredits: single };
+  }
+
+  return { minCredits: 0, maxCredits: 0 };
+}
+
+function dedupeStrings(values: Array<string | null | undefined>): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+
+  for (const value of values) {
+    const clean = sanitizeNullableText(value);
+    if (!clean) continue;
+    const key = clean.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(clean);
+  }
+
+  return out;
+}
+
+function canonicalMeetingKey(meeting: Meeting): string {
+  return [
+    sanitizeNullableText(meeting.days)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.startTime)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.endTime)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.building)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.room)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.location)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.classtype)?.toLowerCase() ?? "",
+  ].join("|");
+}
+
+function dedupeMeetings(meetings: Meeting[]): Meeting[] {
+  const seen = new Set<string>();
+  const out: Meeting[] = [];
+
+  for (const meeting of meetings) {
+    const key = canonicalMeetingKey(meeting);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(meeting);
+  }
+
+  return out;
+}
+
+function normalizeMeeting(raw: any): Meeting {
+  return {
+    days: sanitizeNullableText(raw.days) ?? "TBA",
+    startTime: sanitizeNullableText(raw.start_time ?? raw.startTime),
+    endTime: sanitizeNullableText(raw.end_time ?? raw.endTime),
+    building: sanitizeNullableText(raw.building),
+    room: sanitizeNullableText(raw.room),
+    location: sanitizeNullableText(raw.location ?? [raw.building, raw.room].filter(Boolean).join(" ")),
+    classtype: sanitizeNullableText(raw.classtype ?? raw.meeting_type),
+  };
+}
+
+function normalizeConditions(raw: any): CourseConditions | undefined {
+  const prereqs = sanitizeNullableText(raw.prereqs ?? raw.prerequisites ?? raw.requisite_text ?? raw.requisites);
+  const restrictions = sanitizeNullableText(raw.restrictions ?? raw.restriction_text);
+  const additionalInfo = sanitizeNullableText(raw.additional_info ?? raw.additionalInfo ?? raw.notes);
+  const creditGrantedFor = sanitizeNullableText(raw.credit_granted_for ?? raw.creditGrantedFor);
+
+  const rawConditions = dedupeStrings([
+    ...(Array.isArray(raw.conditions) ? raw.conditions : []),
+    ...(Array.isArray(raw.condition_text) ? raw.condition_text : []),
+    sanitizeNullableText(raw.condition),
+  ]);
+
+  if (!prereqs && !restrictions && !additionalInfo && !creditGrantedFor && rawConditions.length === 0) {
+    return undefined;
+  }
 
   return {
-    id: `${raw.course_id}-${raw.semester ?? `${year}${term}`}`,
-    courseCode: raw.course_id,
-    name: raw.name,
-    deptId: raw.dept_id,
-    credits: Number(raw.credits) || 0,
-    description: raw.description,
+    prereqs: prereqs ?? undefined,
+    restrictions: restrictions ?? undefined,
+    additionalInfo: additionalInfo ?? undefined,
+    creditGrantedFor: creditGrantedFor ?? undefined,
+    rawConditions: rawConditions.length > 0 ? rawConditions : undefined,
+  };
+}
+
+function toJupiterCourse(raw: any, term: string, year: number): Course {
+  const courseCode = sanitizeNullableText(raw.courseCode ?? raw.course_id) ?? "";
+  const name = sanitizeNullableText(raw.name ?? raw.title) ?? courseCode;
+  const deptId = sanitizeNullableText(raw.deptId ?? raw.dept_id ?? courseCode.slice(0, 4)) ?? "GENR";
+
+  const minFromSource = toNumber(raw.minCredits ?? raw.min_credits);
+  const maxFromSource = toNumber(raw.maxCredits ?? raw.max_credits);
+  const parsed = parseCreditsRange(raw.credits);
+  const minCredits = minFromSource ?? parsed.minCredits;
+  const maxCredits = maxFromSource ?? parsed.maxCredits;
+
+  const genEds = dedupeStrings(
+    (Array.isArray(raw.genEds) ? raw.genEds : Array.isArray(raw.gen_ed) ? raw.gen_ed.flat() : []) as string[]
+  );
+
+  const sections = Array.isArray(raw.sections) ? raw.sections.map((section: any) => toJupiterSection(section, courseCode)) : [];
+
+  return {
+    id: `${courseCode}-${year}${term}`,
+    courseCode,
+    name,
+    deptId,
+    credits: maxCredits,
+    minCredits,
+    maxCredits,
+    description: sanitizeNullableText(raw.description) ?? undefined,
     genEds,
+    conditions: normalizeConditions(raw),
     term,
     year,
+    sections,
+    sources: ["jupiter"],
+    mergeConflicts: [],
   };
 }
 
-function toSection(raw: any): Section {
-  const meetings: Meeting[] = (raw.meetings ?? []).map((meeting: any) => ({
-    days: meeting.days ?? "",
-    startTime: meeting.start_time,
-    endTime: meeting.end_time,
-    location: [meeting.building, meeting.room].filter(Boolean).join(" "),
-    building: meeting.building,
-    room: meeting.room,
-    classtype: meeting.classtype,
-  }));
-
-  const instructors = Array.isArray(raw.instructors)
-    ? raw.instructors
-    : raw.instructor
-      ? [raw.instructor]
-      : [];
+function toJupiterSection(raw: any, courseCode: string): Section {
+  const instructors = dedupeStrings(Array.isArray(raw.instructors) ? raw.instructors : [raw.instructor]);
 
   return {
-    id: raw.section_id,
-    courseCode: raw.course,
-    sectionCode: raw.number ?? raw.section_id,
+    id: sanitizeNullableText(raw.id ?? raw.section_id ?? `${courseCode}-${raw.sectionCode ?? raw.number}`) ?? `${courseCode}-section`,
+    courseCode,
+    sectionCode: sanitizeNullableText(raw.sectionCode ?? raw.number ?? raw.section_id) ?? "TBA",
     instructor: instructors.join(", "),
     instructors,
-    totalSeats: Number(raw.seats) || 0,
-    openSeats: Number(raw.open_seats) || 0,
-    meetings,
+    totalSeats: toNumber(raw.totalSeats ?? raw.seats) ?? 0,
+    openSeats: toNumber(raw.openSeats ?? raw.open_seats) ?? 0,
+    waitlist: toNumber(raw.waitlist),
+    holdfile: toNumber(raw.holdfile),
+    updatedAt: sanitizeNullableText(raw.updatedAt ?? raw.updated_at) ?? undefined,
+    meetings: dedupeMeetings((Array.isArray(raw.meetings) ? raw.meetings : []).map(normalizeMeeting)),
+    sources: ["jupiter"],
+    mergeConflicts: [],
   };
 }
 
-async function searchFromUmd(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
-  const departmentPrefix = extractDeptPrefix(params.normalizedInput);
-  const pageLimit = params.normalizedInput ? 12 : 2;
-  const all: Course[] = [];
+function toUmdCourse(raw: any, term: string, year: number): Course {
+  const courseCode = sanitizeNullableText(raw.course_id ?? raw.courseCode) ?? "";
+  const deptId = sanitizeNullableText(raw.dept_id ?? raw.deptId ?? courseCode.slice(0, 4)) ?? "GENR";
+  const name = sanitizeNullableText(raw.name ?? raw.title) ?? courseCode;
+  const parsedCredits = parseCreditsRange(raw.credits);
+  const genEds = dedupeStrings(
+    (Array.isArray(raw.gen_ed) ? raw.gen_ed.flat() : Array.isArray(raw.genEds) ? raw.genEds : []) as string[]
+  );
 
-  for (let page = 1; page <= pageLimit; page += 1) {
-    const url = new URL("courses", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
-    url.searchParams.set("semester", `${params.year}${params.term}`);
-    url.searchParams.set("per_page", "80");
-    url.searchParams.set("page", String(page));
-    if (departmentPrefix) {
-      url.searchParams.set("dept_id", departmentPrefix);
-    }
-
-    const rows = await getJson<any[]>(url.toString(), signal);
-    if (!rows.length) break;
-    all.push(...rows.map((row) => toCourse(row, params.term, params.year)));
-  }
-
-  return applyClientFilters(all, params);
+  return {
+    id: `${courseCode}-${year}${term}`,
+    courseCode,
+    name,
+    deptId,
+    credits: parsedCredits.maxCredits,
+    minCredits: parsedCredits.minCredits,
+    maxCredits: parsedCredits.maxCredits,
+    description: sanitizeNullableText(raw.description) ?? undefined,
+    genEds,
+    conditions: normalizeConditions(raw),
+    term,
+    year,
+    sections: [],
+    sources: ["umd"],
+    mergeConflicts: [],
+  };
 }
 
-async function searchFromJupiter(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
-  if (!JUPITER_BASE) {
-    throw new Error("Jupiter API URL not configured");
-  }
+function toUmdSection(raw: any, courseCode: string): Section {
+  const instructors = dedupeStrings(Array.isArray(raw.instructors) ? raw.instructors : [raw.instructor]);
+  return {
+    id: sanitizeNullableText(raw.section_id ?? raw.id ?? `${courseCode}-${raw.number}`) ?? `${courseCode}-section`,
+    courseCode,
+    sectionCode: sanitizeNullableText(raw.number ?? raw.sectionCode ?? raw.section_id) ?? "TBA",
+    instructor: instructors.join(", "),
+    instructors,
+    totalSeats: toNumber(raw.seats ?? raw.totalSeats) ?? 0,
+    openSeats: toNumber(raw.open_seats ?? raw.openSeats) ?? 0,
+    waitlist: toNumber(raw.waitlist),
+    holdfile: toNumber(raw.holdfile),
+    updatedAt: sanitizeNullableText(raw.updated_at ?? raw.updatedAt) ?? undefined,
+    meetings: dedupeMeetings((Array.isArray(raw.meetings) ? raw.meetings : []).map(normalizeMeeting)),
+    sources: ["umd"],
+    mergeConflicts: [],
+  };
+}
 
-  const url = new URL("/v0/courses/withSections", JUPITER_BASE);
-  url.searchParams.set("limit", "100");
-  url.searchParams.set("offset", "0");
-  url.searchParams.set("term", params.term);
-  url.searchParams.set("year", String(params.year));
-  if (params.normalizedInput) {
-    if (EXACT_COURSE_CODE_REGEX.test(params.normalizedInput)) {
-      url.searchParams.set("courseCodes", params.normalizedInput);
-    } else if (NUMBER_SEARCH_REGEX.test(params.normalizedInput)) {
-      url.searchParams.set("number", params.normalizedInput);
-    } else {
-      const prefix = extractDeptPrefix(params.normalizedInput);
-      if (prefix) {
-        url.searchParams.set("prefix", prefix);
+function preferTimestampedSeatValue(jupiter: Section, umd: Section): { openSeats: number; totalSeats: number; waitlist?: number; holdfile?: number; chosen: DataSource } {
+  const jTime = sanitizeNullableText(jupiter.updatedAt);
+  const uTime = sanitizeNullableText(umd.updatedAt);
+
+  if (jTime && uTime) {
+    const jMs = Date.parse(jTime);
+    const uMs = Date.parse(uTime);
+    if (Number.isFinite(jMs) && Number.isFinite(uMs)) {
+      if (uMs > jMs) {
+        return {
+          openSeats: umd.openSeats,
+          totalSeats: umd.totalSeats,
+          waitlist: umd.waitlist,
+          holdfile: umd.holdfile,
+          chosen: "umd",
+        };
       }
+      return {
+        openSeats: jupiter.openSeats,
+        totalSeats: jupiter.totalSeats,
+        waitlist: jupiter.waitlist,
+        holdfile: jupiter.holdfile,
+        chosen: "jupiter",
+      };
     }
   }
 
-  if (params.filters.genEds.length > 0) {
-    url.searchParams.set("genEds", params.filters.genEds.join(","));
+  const jHasSeats = jupiter.totalSeats > 0 || jupiter.openSeats >= 0;
+  if (jHasSeats) {
+    return {
+      openSeats: jupiter.openSeats,
+      totalSeats: jupiter.totalSeats,
+      waitlist: jupiter.waitlist,
+      holdfile: jupiter.holdfile,
+      chosen: "jupiter",
+    };
   }
 
-  if (params.filters.instructor) {
-    url.searchParams.set("instructor", params.filters.instructor);
+  return {
+    openSeats: umd.openSeats,
+    totalSeats: umd.totalSeats,
+    waitlist: umd.waitlist,
+    holdfile: umd.holdfile,
+    chosen: "umd",
+  };
+}
+
+function addConflict(conflicts: MergeConflict[], conflict: MergeConflict): void {
+  conflicts.push(conflict);
+}
+
+function mergeConditions(jupiter?: CourseConditions, umd?: CourseConditions): CourseConditions | undefined {
+  const prereqs = jupiter?.prereqs ?? umd?.prereqs;
+  const restrictions = jupiter?.restrictions ?? umd?.restrictions;
+  const additionalInfo = jupiter?.additionalInfo ?? umd?.additionalInfo;
+  const creditGrantedFor = jupiter?.creditGrantedFor ?? umd?.creditGrantedFor;
+  const rawConditions = dedupeStrings([...(jupiter?.rawConditions ?? []), ...(umd?.rawConditions ?? [])]);
+
+  if (!prereqs && !restrictions && !additionalInfo && !creditGrantedFor && rawConditions.length === 0) {
+    return undefined;
   }
 
-  if (params.filters.minCredits !== null || params.filters.maxCredits !== null) {
-    const min = params.filters.minCredits ?? 0;
-    const max = params.filters.maxCredits ?? 30;
-    url.searchParams.set("credits", `${min}-${max}`);
+  return {
+    prereqs,
+    restrictions,
+    additionalInfo,
+    creditGrantedFor,
+    rawConditions: rawConditions.length ? rawConditions : undefined,
+  };
+}
+
+function mergeSections(courseCode: string, jSections: Section[], uSections: Section[]): Section[] {
+  const byKey = new Map<string, { j?: Section; u?: Section }>();
+
+  for (const section of jSections) {
+    byKey.set(`${courseCode}::${section.sectionCode}`, { j: section });
   }
 
-  url.searchParams.set("onlyOpen", String(params.filters.onlyOpen));
-  url.searchParams.set("sortBy", "courseCode");
+  for (const section of uSections) {
+    const key = `${courseCode}::${section.sectionCode}`;
+    byKey.set(key, { ...(byKey.get(key) ?? {}), u: section });
+  }
 
-  const rows = await getJson<any[]>(url.toString(), signal);
-  return applyClientFilters(rows.map((row) => toCourse(row, params.term, params.year)), params);
+  const merged: Section[] = [];
+
+  for (const [key, pair] of byKey.entries()) {
+    if (pair.j && pair.u) {
+      const conflicts: MergeConflict[] = [];
+      const seatChoice = preferTimestampedSeatValue(pair.j, pair.u);
+      const mergedMeetings = dedupeMeetings([...(pair.j.meetings ?? []), ...(pair.u.meetings ?? [])]);
+
+      if (canonicalMeetingKey({ days: pair.j.meetings[0]?.days ?? "", location: pair.j.meetings[0]?.location } as Meeting) !==
+          canonicalMeetingKey({ days: pair.u.meetings[0]?.days ?? "", location: pair.u.meetings[0]?.location } as Meeting) &&
+          pair.j.meetings.length > 0 && pair.u.meetings.length > 0) {
+        addConflict(conflicts, {
+          field: "meetings",
+          courseCode,
+          sectionCode: pair.j.sectionCode,
+          chosenSource: "jupiter",
+          jupiterValue: JSON.stringify(pair.j.meetings),
+          umdValue: JSON.stringify(pair.u.meetings),
+        });
+      }
+
+      if (pair.j.openSeats !== pair.u.openSeats || pair.j.totalSeats !== pair.u.totalSeats) {
+        addConflict(conflicts, {
+          field: "seats",
+          courseCode,
+          sectionCode: pair.j.sectionCode,
+          chosenSource: seatChoice.chosen,
+          jupiterValue: `${pair.j.openSeats}/${pair.j.totalSeats}`,
+          umdValue: `${pair.u.openSeats}/${pair.u.totalSeats}`,
+        });
+      }
+
+      const primary = pair.j;
+      const secondary = pair.u;
+      merged.push({
+        ...primary,
+        id: primary.id || secondary.id,
+        instructor: dedupeStrings([primary.instructor, secondary.instructor]).join(", "),
+        instructors: dedupeStrings([...(primary.instructors ?? []), ...(secondary.instructors ?? [])]),
+        meetings: mergedMeetings,
+        openSeats: seatChoice.openSeats,
+        totalSeats: seatChoice.totalSeats,
+        waitlist: seatChoice.waitlist ?? primary.waitlist ?? secondary.waitlist,
+        holdfile: seatChoice.holdfile ?? primary.holdfile ?? secondary.holdfile,
+        sources: ["jupiter", "umd"],
+        mergeConflicts: conflicts,
+      });
+      continue;
+    }
+
+    const single = pair.j ?? pair.u;
+    if (single) {
+      merged.push(single);
+    }
+  }
+
+  return merged.sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+}
+
+function mergeCourses(jCourses: Course[], uCourses: Course[]): Course[] {
+  const byCode = new Map<string, { j?: Course; u?: Course }>();
+
+  for (const course of jCourses) {
+    byCode.set(course.courseCode, { j: course });
+  }
+
+  for (const course of uCourses) {
+    byCode.set(course.courseCode, { ...(byCode.get(course.courseCode) ?? {}), u: course });
+  }
+
+  const merged: Course[] = [];
+
+  for (const [, pair] of byCode.entries()) {
+    if (pair.j && pair.u) {
+      const conflicts: MergeConflict[] = [];
+      if ((pair.j.description ?? "") !== (pair.u.description ?? "") && pair.j.description && pair.u.description) {
+        addConflict(conflicts, {
+          field: "description",
+          courseCode: pair.j.courseCode,
+          chosenSource: "jupiter",
+          jupiterValue: pair.j.description,
+          umdValue: pair.u.description,
+        });
+      }
+
+      const sections = mergeSections(pair.j.courseCode, pair.j.sections ?? [], pair.u.sections ?? []);
+
+      merged.push({
+        ...pair.j,
+        name: pair.j.name || pair.u.name,
+        description: pair.j.description ?? pair.u.description,
+        minCredits: pair.j.minCredits || pair.u.minCredits,
+        maxCredits: pair.j.maxCredits || pair.u.maxCredits,
+        credits: pair.j.credits || pair.u.credits,
+        genEds: dedupeStrings([...(pair.j.genEds ?? []), ...(pair.u.genEds ?? [])]),
+        conditions: mergeConditions(pair.j.conditions, pair.u.conditions),
+        sections,
+        sources: ["jupiter", "umd"],
+        mergeConflicts: conflicts,
+      });
+      continue;
+    }
+
+    const single = pair.j ?? pair.u;
+    if (single) merged.push(single);
+  }
+
+  return merged.sort((a, b) => a.courseCode.localeCompare(b.courseCode));
 }
 
 function applyClientFilters(courses: Course[], params: CourseSearchParams): Course[] {
   const query = params.normalizedInput;
 
   return courses.filter((course) => {
-    if (params.filters.minCredits !== null && course.credits < params.filters.minCredits) return false;
-    if (params.filters.maxCredits !== null && course.credits > params.filters.maxCredits) return false;
+    if (params.filters.minCredits !== null && course.maxCredits < params.filters.minCredits) return false;
+    if (params.filters.maxCredits !== null && course.minCredits > params.filters.maxCredits) return false;
 
     if (params.filters.genEds.length > 0 && !params.filters.genEds.some((code) => course.genEds.includes(code))) {
       return false;
@@ -172,6 +474,195 @@ function applyClientFilters(courses: Course[], params: CourseSearchParams): Cour
   });
 }
 
+async function fetchJupiterCourses(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
+  if (!JUPITER_BASE) throw new Error("Jupiter API URL not configured");
+
+  const url = new URL("/v0/courses/withSections", JUPITER_BASE);
+  url.searchParams.set("limit", "300");
+  url.searchParams.set("offset", "0");
+  url.searchParams.set("term", params.term);
+  url.searchParams.set("year", String(params.year));
+  if (params.normalizedInput) {
+    if (EXACT_COURSE_CODE_REGEX.test(params.normalizedInput)) {
+      url.searchParams.set("courseCodes", params.normalizedInput);
+    } else if (NUMBER_SEARCH_REGEX.test(params.normalizedInput)) {
+      url.searchParams.set("number", params.normalizedInput);
+    } else {
+      const prefix = extractDeptPrefix(params.normalizedInput);
+      if (prefix) url.searchParams.set("prefix", prefix);
+    }
+  }
+
+  if (params.filters.genEds.length > 0) {
+    url.searchParams.set("genEds", params.filters.genEds.join(","));
+  }
+
+  if (params.filters.instructor) {
+    url.searchParams.set("instructor", params.filters.instructor);
+  }
+
+  if (params.filters.minCredits !== null || params.filters.maxCredits !== null) {
+    const min = params.filters.minCredits ?? 0;
+    const max = params.filters.maxCredits ?? 30;
+    url.searchParams.set("credits", `${min}-${max}`);
+  }
+
+  url.searchParams.set("onlyOpen", String(params.filters.onlyOpen));
+
+  const rows = await getJson<any[]>(url.toString(), signal);
+  return rows.map((row) => {
+    const mapped = toJupiterCourse(row, params.term, params.year);
+    if (!params.includeSections) {
+      mapped.sections = [];
+    }
+    return mapped;
+  });
+}
+
+async function fetchUmdCourses(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
+  const departmentPrefix = extractDeptPrefix(params.normalizedInput);
+  const pageLimit = params.normalizedInput ? 6 : 2;
+  const allRows: any[] = [];
+
+  for (let page = 1; page <= pageLimit; page += 1) {
+    const url = new URL("courses", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
+    url.searchParams.set("semester", `${params.year}${params.term}`);
+    url.searchParams.set("per_page", "120");
+    url.searchParams.set("page", String(page));
+    if (departmentPrefix) {
+      url.searchParams.set("dept_id", departmentPrefix);
+    }
+
+    const rows = await getJson<any[]>(url.toString(), signal);
+    if (!rows.length) break;
+    allRows.push(...rows);
+  }
+
+  const baseCourses = allRows.map((row) => toUmdCourse(row, params.term, params.year));
+
+  if (!params.includeSections || baseCourses.length === 0) {
+    return baseCourses;
+  }
+
+  const sectionsByCourse = await Promise.all(
+    baseCourses.map(async (course) => {
+      try {
+        const sections = await fetchUmdSectionsForCourse(course.courseCode, params.term, params.year, signal);
+        return [course.courseCode, sections] as const;
+      } catch {
+        return [course.courseCode, [] as Section[]] as const;
+      }
+    })
+  );
+
+  const sectionMap = new Map<string, Section[]>(sectionsByCourse);
+
+  return baseCourses.map((course) => ({
+    ...course,
+    sections: sectionMap.get(course.courseCode) ?? [],
+  }));
+}
+
+async function fetchJupiterSectionsForCourse(courseCode: string, term: string, year: number, signal?: AbortSignal): Promise<Section[]> {
+  if (!JUPITER_BASE) return [];
+  const url = new URL("/v0/courses/withSections", JUPITER_BASE);
+  url.searchParams.set("courseCodes", courseCode);
+  url.searchParams.set("term", term);
+  url.searchParams.set("year", String(year));
+  const rows = await getJson<any[]>(url.toString(), signal);
+  const rawSections = rows[0]?.sections ?? [];
+  return rawSections.map((raw: any) => toJupiterSection(raw, courseCode));
+}
+
+async function fetchUmdSectionsForCourse(courseCode: string, term: string, year: number, signal?: AbortSignal): Promise<Section[]> {
+  const url = new URL("courses/sections", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
+  url.searchParams.set("semester", `${year}${term}`);
+  url.searchParams.set("course_id", courseCode);
+  const rows = await getJson<any[]>(url.toString(), signal);
+  return rows.map((row) => toUmdSection(row, courseCode));
+}
+
+function normalizeInstructorKey(name: string): string {
+  return name.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function toPlanetTerpProfessorRows(raw: unknown): any[] {
+  if (Array.isArray(raw)) return raw;
+  if (raw && typeof raw === "object") {
+    const maybeRows = (raw as any).results;
+    if (Array.isArray(maybeRows)) return maybeRows;
+  }
+  return [];
+}
+
+function buildInstructorLookup(rows: any[]): InstructorLookup {
+  const byKey = new Map<string, InstructorMeta>();
+
+  for (const row of rows) {
+    const name = sanitizeNullableText(row.name ?? row.professor ?? row.display_name);
+    if (!name) continue;
+    const key = normalizeInstructorKey(name);
+    const slug = sanitizeNullableText(row.slug ?? row.professor_slug) ?? undefined;
+    const averageRating = toNumber(row.average_rating ?? row.averageRating ?? row.avg_rating);
+
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, { name, slug, averageRating, ambiguous: false });
+      continue;
+    }
+
+    const isConflict = (existing.slug && slug && existing.slug !== slug) ||
+      (existing.averageRating !== undefined && averageRating !== undefined && existing.averageRating !== averageRating);
+
+    if (isConflict) {
+      byKey.set(key, {
+        name: existing.name,
+        ambiguous: true,
+      });
+      continue;
+    }
+
+    byKey.set(key, {
+      name: existing.name,
+      slug: existing.slug ?? slug,
+      averageRating: existing.averageRating ?? averageRating,
+      ambiguous: false,
+    });
+  }
+
+  const byName: Record<string, InstructorMeta> = {};
+  for (const [key, value] of byKey.entries()) {
+    byName[key] = value;
+  }
+
+  return { byName };
+}
+
+async function fetchPlanetTerpInstructorLookup(signal?: AbortSignal): Promise<InstructorLookup> {
+  const limit = 500;
+  let offset = 0;
+  const rows: any[] = [];
+
+  while (true) {
+    const url = new URL("professors", PLANETTERP_BASE.endsWith("/") ? PLANETTERP_BASE : `${PLANETTERP_BASE}/`);
+    url.searchParams.set("limit", String(limit));
+    url.searchParams.set("offset", String(offset));
+
+    const chunkRaw = await getJson<unknown>(url.toString(), signal).catch(() => []);
+    const chunk = toPlanetTerpProfessorRows(chunkRaw);
+    if (chunk.length === 0) break;
+    rows.push(...chunk);
+    if (chunk.length < limit) break;
+    offset += limit;
+  }
+
+  return buildInstructorLookup(rows);
+}
+
+export function getInstructorMeta(lookup: InstructorLookup, instructorName: string): InstructorMeta | undefined {
+  return lookup.byName[normalizeInstructorKey(instructorName)];
+}
+
 export async function getDepartments(signal?: AbortSignal): Promise<Department[]> {
   return deptCache.getOrSet("departments", async () => {
     const url = new URL("courses/departments", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
@@ -185,54 +676,83 @@ export async function getDepartments(signal?: AbortSignal): Promise<Department[]
 
 export async function getActiveInstructors(term: string, year: number, signal?: AbortSignal): Promise<string[]> {
   return instructorCache.getOrSet(`${term}-${year}`, async () => {
-    if (JUPITER_BASE) {
-      const all: string[] = [];
-      let offset = 0;
-      const limit = 500;
+    if (!JUPITER_BASE) return [];
 
-      while (true) {
-        const url = new URL("/v0/instructors/active", JUPITER_BASE);
-        url.searchParams.set("term", term);
-        url.searchParams.set("year", String(year));
-        url.searchParams.set("offset", String(offset));
-        url.searchParams.set("limit", String(limit));
+    const all: string[] = [];
+    let offset = 0;
+    const limit = 500;
 
-        const rows = await getJson<string[]>(url.toString(), signal).catch(() => []);
-        if (!rows.length) break;
-        all.push(...rows);
-        if (rows.length < limit) break;
-        offset += limit;
-      }
+    while (true) {
+      const url = new URL("/v0/instructors/active", JUPITER_BASE);
+      url.searchParams.set("term", term);
+      url.searchParams.set("year", String(year));
+      url.searchParams.set("offset", String(offset));
+      url.searchParams.set("limit", String(limit));
 
-      if (all.length > 0) {
-        return Array.from(new Set(all)).sort();
-      }
+      const rows = await getJson<string[]>(url.toString(), signal).catch(() => []);
+      if (!rows.length) break;
+      all.push(...rows);
+      if (rows.length < limit) break;
+      offset += limit;
     }
 
-    return [];
+    return Array.from(new Set(all.map((name) => name.trim()).filter(Boolean))).sort();
   });
+}
+
+export async function getInstructorLookup(term: string, year: number, signal?: AbortSignal): Promise<InstructorLookup> {
+  return instructorLookupCache.getOrSet(`${term}-${year}`, async () => {
+    return fetchPlanetTerpInstructorLookup(signal);
+  });
+}
+
+async function settledSource<T>(fn: () => Promise<T>): Promise<{ status: SourceStatus; data: T | null; error?: string }> {
+  try {
+    const data = await fn();
+    return { status: "ok", data };
+  } catch (error) {
+    return {
+      status: "degraded",
+      data: null,
+      error: error instanceof Error ? error.message : "source failed",
+    };
+  }
+}
+
+function getSourceTimestamp(cache: CourseDataCache<unknown>, key: string): string {
+  return String(cache.getUpdatedAt(key) ?? 0);
 }
 
 export async function searchCoursesWithStrategy(
   params: CourseSearchParams,
   signal?: AbortSignal
 ): Promise<Course[]> {
-  const cacheKey = JSON.stringify(params);
+  const baseKey = JSON.stringify({
+    q: params.normalizedInput,
+    term: params.term,
+    year: params.year,
+    includeSections: params.includeSections,
+    filters: params.filters,
+  });
 
-  return searchCache.getOrSet(cacheKey, async () => {
-    if (SOURCE_MODE === "umd") {
-      return searchFromUmd(params, signal);
-    }
+  const jKey = `jupiter:${baseKey}`;
+  const uKey = `umd:${baseKey}`;
 
-    if (SOURCE_MODE === "jupiter") {
-      return searchFromJupiter(params, signal);
-    }
+  const [jResult, uResult] = await Promise.all([
+    settledSource(() => searchJupiterCache.getOrSet(jKey, () => fetchJupiterCourses(params, signal))),
+    settledSource(() => searchUmdCache.getOrSet(uKey, () => fetchUmdCourses(params, signal))),
+  ]);
 
-    try {
-      return await searchFromJupiter(params, signal);
-    } catch {
-      return searchFromUmd(params, signal);
-    }
+  if (!jResult.data && !uResult.data) {
+    throw new Error(jResult.error ?? uResult.error ?? "All course sources failed");
+  }
+
+  const stamp = `${getSourceTimestamp(searchJupiterCache, jKey)}-${getSourceTimestamp(searchUmdCache, uKey)}`;
+  const mergedKey = `merged:${baseKey}:${stamp}`;
+
+  return mergedSearchCache.getOrSet(mergedKey, async () => {
+    const merged = mergeCourses(jResult.data ?? [], uResult.data ?? []);
+    return applyClientFilters(merged, params);
   });
 }
 
@@ -242,34 +762,21 @@ export async function getSectionsForCourse(
   year: number,
   signal?: AbortSignal
 ): Promise<Section[]> {
-  if (JUPITER_BASE) {
-    try {
-      const url = new URL("/v0/courses/withSections", JUPITER_BASE);
-      url.searchParams.set("courseCodes", courseCode);
-      url.searchParams.set("term", term);
-      url.searchParams.set("year", String(year));
-      const rows = await getJson<any[]>(url.toString(), signal);
-      const rawSections = rows[0]?.sections ?? [];
-      if (rawSections.length) return rawSections.map(toSection);
-    } catch {
-      // fall through to UMD
-    }
+  const baseKey = `${year}${term}:${courseCode}`;
+  const jKey = `jupiter-sections:${baseKey}`;
+  const uKey = `umd-sections:${baseKey}`;
+
+  const [jResult, uResult] = await Promise.all([
+    settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal))),
+    settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal))),
+  ]);
+
+  if (!jResult.data && !uResult.data) {
+    throw new Error(jResult.error ?? uResult.error ?? "All section sources failed");
   }
 
-  const rows = await fetchCourseSections(`${year}${term}`, courseCode);
-  return rows.map((section) => ({
-    id: section.id,
-    courseCode: section.courseId,
-    sectionCode: section.sectionCode,
-    instructor: section.instructor ?? "",
-    instructors: (section.instructor ?? "").split(",").map((value) => value.trim()).filter(Boolean),
-    totalSeats: section.totalSeats ?? 0,
-    openSeats: section.openSeats ?? 0,
-    meetings: section.meetings.map((meeting) => ({
-      days: meeting.days.join(""),
-      startTime: `${Math.floor(meeting.startMinutes / 60) % 12 || 12}:${String(meeting.startMinutes % 60).padStart(2, "0")}${meeting.startMinutes >= 12 * 60 ? "pm" : "am"}`,
-      endTime: `${Math.floor(meeting.endMinutes / 60) % 12 || 12}:${String(meeting.endMinutes % 60).padStart(2, "0")}${meeting.endMinutes >= 12 * 60 ? "pm" : "am"}`,
-      location: meeting.location,
-    })),
-  }));
+  const stamp = `${getSourceTimestamp(sectionJupiterCache, jKey)}-${getSourceTimestamp(sectionUmdCache, uKey)}`;
+  const mergedKey = `merged-sections:${baseKey}:${stamp}`;
+
+  return mergedSectionCache.getOrSet(mergedKey, async () => mergeSections(courseCode, jResult.data ?? [], uResult.data ?? []));
 }

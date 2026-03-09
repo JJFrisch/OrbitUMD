@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { buildCalendarMeetings, assignConflictIndexes, computeVisibleHourBounds } from "../utils/scheduleLayout";
 import { extractDeptPrefix, getSectionIdentityKey, normalizeSearchInput } from "../utils/formatting";
-import { getActiveInstructors, getDepartments, getSectionsForCourse, searchCoursesWithStrategy } from "../services/courseSearchService";
+import { getActiveInstructors, getDepartments, getInstructorLookup, getSectionsForCourse, searchCoursesWithStrategy } from "../services/courseSearchService";
 import type {
   CalendarMeeting,
   Course,
   Department,
+  InstructorLookup,
   ScheduleSelection,
   SearchFilters,
   VisibilityMode,
@@ -29,6 +30,7 @@ interface CoursePlannerState {
   searchResults: Course[];
   departments: Department[];
   instructors: string[];
+  instructorLookup: InstructorLookup;
   suggestions: string[];
   highlightedSuggestionIndex: number;
 
@@ -111,6 +113,7 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
   searchResults: [],
   departments: [],
   instructors: [],
+  instructorLookup: { byName: {} },
   suggestions: [],
   highlightedSuggestionIndex: -1,
 
@@ -180,8 +183,9 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       set({ resolvedTerm: resolved.term, resolvedYear: resolved.year });
 
       const instructors = await getActiveInstructors(resolved.term, resolved.year).catch(() => []);
+      const instructorLookup = await getInstructorLookup(resolved.term, resolved.year).catch(() => ({ byName: {} }));
       if (get().latestRequestToken === token) {
-        set({ instructors });
+        set({ instructors, instructorLookup });
       }
 
       let instructor: string | undefined;

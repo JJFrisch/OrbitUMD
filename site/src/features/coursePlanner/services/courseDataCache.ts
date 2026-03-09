@@ -38,6 +38,12 @@ export class CourseDataCache<T> {
     return value;
   }
 
+  getUpdatedAt(key: string): number | undefined {
+    const existing = this.cache.get(key);
+    if (!existing) return undefined;
+    return existing.updatedAt;
+  }
+
   clear(): void {
     this.cache.clear();
   }

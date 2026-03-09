@@ -2,6 +2,8 @@ export type Weekday = "M" | "Tu" | "W" | "Th" | "F" | "Other";
 
 export type VisibilityMode = "full" | "busy_free" | "off";
 
+export type DataSource = "jupiter" | "umd";
+
 export interface Department {
   code: string;
   name: string;
@@ -17,6 +19,23 @@ export interface Meeting {
   classtype?: string;
 }
 
+export interface MergeConflict {
+  field: string;
+  courseCode: string;
+  sectionCode?: string;
+  chosenSource: DataSource;
+  jupiterValue?: string;
+  umdValue?: string;
+}
+
+export interface CourseConditions {
+  prereqs?: string;
+  restrictions?: string;
+  additionalInfo?: string;
+  creditGrantedFor?: string;
+  rawConditions?: string[];
+}
+
 export interface Section {
   id: string;
   courseCode: string;
@@ -25,7 +44,12 @@ export interface Section {
   instructors: string[];
   totalSeats: number;
   openSeats: number;
+  waitlist?: number;
+  holdfile?: number;
+  updatedAt?: string;
   meetings: Meeting[];
+  sources?: DataSource[];
+  mergeConflicts?: MergeConflict[];
 }
 
 export interface Course {
@@ -34,11 +58,27 @@ export interface Course {
   name: string;
   deptId: string;
   credits: number;
+  minCredits: number;
+  maxCredits: number;
   description?: string;
   genEds: string[];
+  conditions?: CourseConditions;
   term: string;
   year: number;
   sections?: Section[];
+  sources?: DataSource[];
+  mergeConflicts?: MergeConflict[];
+}
+
+export interface InstructorMeta {
+  name: string;
+  slug?: string;
+  averageRating?: number;
+  ambiguous?: boolean;
+}
+
+export interface InstructorLookup {
+  byName: Record<string, InstructorMeta>;
 }
 
 export interface CalendarMeeting {

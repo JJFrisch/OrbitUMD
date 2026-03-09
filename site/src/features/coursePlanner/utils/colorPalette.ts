@@ -1,46 +1,40 @@
-const BASE_SEQUENCE = [
-  "#A6C0E9",
-  "#E8B0B0",
-  "#9CD1C8",
-  "#C5A9DD",
-  "#D3C97B",
-  "#E7BD8D",
-  "#A5D8E7",
-  "#B7B7E8",
+const COURSE_PALETTE = [
+  "#D94949",
+  "#3B82F6",
+  "#0EA5A4",
+  "#8B5CF6",
+  "#F59E0B",
+  "#10B981",
+  "#EC4899",
+  "#6366F1",
+  "#06B6D4",
+  "#E11D48",
 ];
 
-function clampChannel(value: number): number {
-  return Math.max(0, Math.min(255, value));
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash << 5) - hash + value.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash);
 }
 
-function toRgb(hex: string): [number, number, number] {
-  const clean = hex.replace("#", "");
-  return [
-    Number.parseInt(clean.slice(0, 2), 16),
-    Number.parseInt(clean.slice(2, 4), 16),
-    Number.parseInt(clean.slice(4, 6), 16),
-  ];
+function normalizeCourseCode(courseCode: string): string {
+  return courseCode.trim().toUpperCase();
 }
 
-function toHex([r, g, b]: [number, number, number]): string {
-  return `#${[r, g, b]
-    .map((channel) => clampChannel(channel).toString(16).padStart(2, "0"))
-    .join("")}`;
+export function getCourseColor(courseCode: string): string {
+  const normalized = normalizeCourseCode(courseCode);
+  const idx = hashString(normalized) % COURSE_PALETTE.length;
+  return COURSE_PALETTE[idx];
 }
 
-function blendToWhite(hex: string, ratio = 0.55): string {
-  const [r, g, b] = toRgb(hex);
-  return toHex([
-    Math.round(r + (255 - r) * ratio),
-    Math.round(g + (255 - g) * ratio),
-    Math.round(b + (255 - b) * ratio),
-  ]);
-}
-
-export function getPastelColor(index: number): string {
-  return blendToWhite(BASE_SEQUENCE[index % BASE_SEQUENCE.length], 0.55);
-}
-
-export function getPastelPalette(count: number): string[] {
-  return Array.from({ length: count }, (_, idx) => getPastelColor(idx));
+export function getReadableTextColor(backgroundHex: string): string {
+  const clean = backgroundHex.replace("#", "");
+  const r = parseInt(clean.slice(0, 2), 16);
+  const g = parseInt(clean.slice(2, 4), 16);
+  const b = parseInt(clean.slice(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? "#111827" : "#F9FAFB";
 }
