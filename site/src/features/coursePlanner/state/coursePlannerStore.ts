@@ -225,9 +225,21 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       if (get().latestRequestToken !== token) return;
 
       set((state) => ({
-        searchResults: results,
+        searchResults: results.map((result) => {
+          const existing = state.searchResults.find((course) => course.courseCode === result.courseCode);
+          if (result.sections.length > 0) {
+            return result;
+          }
+          if (existing && existing.sections.length > 0) {
+            return {
+              ...result,
+              sections: existing.sections,
+            };
+          }
+          return result;
+        }),
         searchPending: false,
-        filters: { ...state.filters, instructor },
+        filters: state.filters.instructor === instructor ? state.filters : { ...state.filters, instructor },
         suggestions: computeSuggestions(state.normalizedInput, state.departments),
       }));
     } catch (error) {

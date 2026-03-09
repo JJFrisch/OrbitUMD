@@ -18,6 +18,7 @@ import type {
   MergeConflict,
   Section,
 } from "../types/coursePlanner";
+import { fetchCourseSections as fetchPlannerSectionsFallback } from "@/lib/api/umdCourses";
 
 const UMD_BASE = import.meta.env.VITE_UMD_API_BASE_URL ?? "https://api.umd.io/v1";
 const JUPITER_BASE = import.meta.env.VITE_JUPITER_API_BASE_URL;
@@ -246,6 +247,27 @@ function toUmdSection(raw: any, courseCode: string): Section {
     holdfile: toNumber(raw.holdfile),
     updatedAt: sanitizeNullableText(raw.updated_at ?? raw.updatedAt) ?? undefined,
     meetings: dedupeMeetings((Array.isArray(raw.meetings) ? raw.meetings : []).map(normalizeMeeting)),
+    sources: ["umd"],
+    mergeConflicts: [],
+  };
+}
+
+function toPlannerSectionFromFallback(raw: Awaited<ReturnType<typeof fetchPlannerSectionsFallback>>[number]): Section {
+  return {
+    id: raw.id,
+    courseCode: raw.courseId,
+    sectionCode: raw.sectionCode,
+    instructor: raw.instructor ?? "",
+    instructors: raw.instructor ? [raw.instructor] : [],
+    totalSeats: raw.totalSeats ?? 0,
+    openSeats: raw.openSeats ?? 0,
+    meetings: (raw.meetings ?? []).map((meeting) => ({
+      days: meeting.days.length > 0 ? meeting.days.join("") : "TBA",
+      startTime: undefined,
+      endTime: undefined,
+      location: meeting.location,
+      classtype: undefined,
+    })),
     sources: ["umd"],
     mergeConflicts: [],
   };
@@ -772,7 +794,17 @@ export async function getSectionsForCourse(
   ]);
 
   if (!jResult.data && !uResult.data) {
-    throw new Error(jResult.error ?? uResult.error ?? "All section sources failed");
+    const fallbackSections = await settledSource(async () => {
+      const termCode = `${year}${term}`;
+      const rows = await fetchPlannerSectionsFallback(termCode, courseCode);
+      return rows.map(toPlannerSectionFromFallback);
+    });
+
+    if (fallbackSections.data) {
+      return fallbackSections.data;
+    }
+
+    throw new Error(fallbackSections.error ?? jResult.error ?? uResult.error ?? "All section sources failed");
   }
 
   const stamp = `${getSourceTimestamp(sectionJupiterCache, jKey)}-${getSourceTimestamp(sectionUmdCache, uKey)}`;

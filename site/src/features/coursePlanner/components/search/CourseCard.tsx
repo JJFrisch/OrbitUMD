@@ -39,8 +39,8 @@ export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 
     return () => window.clearTimeout(timeout);
   }, [autoLoadSections, hasRequestedSections, preloadDelayMs, sections.length]);
 
-  async function requestSectionsIfNeeded() {
-    if (loading || hasRequestedSections || sections.length > 0) {
+  async function requestSectionsIfNeeded(forceRetry = false) {
+    if (loading || (!forceRetry && hasRequestedSections) || sections.length > 0) {
       return;
     }
 
@@ -99,7 +99,7 @@ export function CourseCard({ course, autoLoadSections = false, preloadDelayMs = 
 
         {!loading && hasRequestedSections && visibleSections.length === 0 && (
           <p className="cp-muted-text">
-            No sections available. <button type="button" className="cp-inline-link" onClick={() => void requestSectionsIfNeeded()}>Retry</button>
+            No sections available. <button type="button" className="cp-inline-link" onClick={() => void requestSectionsIfNeeded(true)}>Retry</button>
           </p>
         )}
       </div>
