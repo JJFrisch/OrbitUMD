@@ -113,6 +113,26 @@ function dedupeMeetings(meetings: Meeting[]): Meeting[] {
 }
 
 function normalizeMeeting(raw: any): Meeting {
+  if (typeof raw === "string") {
+    const [daysRaw, startRaw, endRaw, ...locationParts] = raw.split("-");
+    const days = sanitizeNullableText(daysRaw) ?? "TBA";
+    const startTime = sanitizeNullableText(startRaw);
+    const endTime = sanitizeNullableText(endRaw);
+    const building = sanitizeNullableText(locationParts[0]);
+    const room = sanitizeNullableText(locationParts[1]);
+    const location = sanitizeNullableText(locationParts.join(" ")) ?? sanitizeNullableText([building, room].filter(Boolean).join(" "));
+
+    return {
+      days,
+      startTime,
+      endTime,
+      building,
+      room,
+      location,
+      classtype: undefined,
+    };
+  }
+
   return {
     days: sanitizeNullableText(raw.days) ?? "TBA",
     startTime: sanitizeNullableText(raw.start_time ?? raw.startTime),
@@ -189,12 +209,12 @@ function toJupiterSection(raw: any, courseCode: string): Section {
   const instructors = dedupeStrings(Array.isArray(raw.instructors) ? raw.instructors : [raw.instructor]);
 
   return {
-    id: sanitizeNullableText(raw.id ?? raw.section_id ?? `${courseCode}-${raw.sectionCode ?? raw.number}`) ?? `${courseCode}-section`,
+    id: sanitizeNullableText(raw.id ?? raw.section_id ?? `${courseCode}-${raw.sectionCode ?? raw.sec_code ?? raw.number}`) ?? `${courseCode}-section`,
     courseCode,
-    sectionCode: sanitizeNullableText(raw.sectionCode ?? raw.number ?? raw.section_id) ?? "TBA",
+    sectionCode: sanitizeNullableText(raw.sectionCode ?? raw.sec_code ?? raw.number ?? raw.section_id) ?? "TBA",
     instructor: instructors.join(", "),
     instructors,
-    totalSeats: toNumber(raw.totalSeats ?? raw.seats) ?? 0,
+    totalSeats: toNumber(raw.totalSeats ?? raw.total_seats ?? raw.seats) ?? 0,
     openSeats: toNumber(raw.openSeats ?? raw.open_seats) ?? 0,
     waitlist: toNumber(raw.waitlist),
     holdfile: toNumber(raw.holdfile),

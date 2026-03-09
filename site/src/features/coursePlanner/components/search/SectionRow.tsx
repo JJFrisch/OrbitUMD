@@ -94,9 +94,10 @@ export function SectionRow({ course, section }: SectionRowProps) {
           );
         })}
 
-        <span>{section.openSeats}/{section.totalSeats} seats available</span>
-        {section.openSeats === 0 && section.waitlist !== undefined && <span>Waitlist: {section.waitlist}</span>}
-        {section.holdfile !== undefined && <span>Holdfile: {section.holdfile}</span>}
+        <span>{section.openSeats}/{section.totalSeats} seats open</span>
+        {section.openSeats === 0 && (section.waitlist !== undefined || section.holdfile !== undefined) && (
+          <span>Waitlist: {section.waitlist ?? 0} - Holdfile: {section.holdfile ?? 0}</span>
+        )}
       </div>
       <div>
         <span>{section.meetings[0]?.days || "Other"}</span>

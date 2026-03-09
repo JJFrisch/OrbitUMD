@@ -75,9 +75,10 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
           </p>
         ))}
 
-        <p>{selection.section.openSeats} / {selection.section.totalSeats} seats available</p>
-        {selection.section.openSeats === 0 && selection.section.waitlist !== undefined && <p>Waitlist: {selection.section.waitlist}</p>}
-        {selection.section.holdfile !== undefined && <p>Holdfile: {selection.section.holdfile}</p>}
+        <p>{selection.section.openSeats}/{selection.section.totalSeats} seats open</p>
+        {selection.section.openSeats === 0 && (selection.section.waitlist !== undefined || selection.section.holdfile !== undefined) && (
+          <p>Waitlist: {selection.section.waitlist ?? 0} - Holdfile: {selection.section.holdfile ?? 0}</p>
+        )}
 
         {sanitizeNullableText(selection.course.conditions?.prereqs) && <p>prereqs: {selection.course.conditions?.prereqs}</p>}
         {sanitizeNullableText(selection.course.conditions?.restrictions) && <p>restrictions: {selection.course.conditions?.restrictions}</p>}
