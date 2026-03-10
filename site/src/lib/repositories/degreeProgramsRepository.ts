@@ -105,7 +105,6 @@ export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
-    sortOrder: row.sortOrder,
       .from("user_degree_programs")
       .select(
         `
