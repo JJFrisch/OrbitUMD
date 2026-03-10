@@ -1047,12 +1047,17 @@
 }
 
 .cp-view-course-pills span {
-  border-radius: 999px;
+  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--cp-accent) 30%, var(--cp-border));
   background: color-mix(in srgb, var(--cp-accent) 14%, var(--cp-surface));
   color: color-mix(in srgb, var(--cp-accent) 76%, var(--cp-text));
   font-size: 10px;
   padding: 2px 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1;
 }
 
 .cp-view-edited-line,
@@ -1438,7 +1443,8 @@
 
   .cp-view-course-pills span {
     font-size: 9px;
-    padding: 1px 6px;
+    padding: 2px 6px;
+    border-radius: 5px;
   }
 
   .cp-view-edited-line,

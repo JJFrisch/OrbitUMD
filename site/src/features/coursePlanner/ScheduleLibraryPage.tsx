@@ -135,7 +135,7 @@ function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
         meetings={meetings}
         bounds={bounds}
         readOnly
-        showDetails={false}
+        showDetails
         onOpenInfo={() => {}}
         onRemove={() => {}}
       />
