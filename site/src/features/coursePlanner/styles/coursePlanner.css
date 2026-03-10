@@ -953,6 +953,25 @@
   min-width: 0;
 }
 
+.cp-view-rename-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+}
+
+.cp-view-rename-row input {
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--cp-border);
+  border-radius: 6px;
+  background: var(--cp-surface-subtle);
+  color: var(--cp-text);
+  padding: 4px 7px;
+  font-size: 12px;
+}
+
 .cp-view-card-title-row h3 {
   margin: 0;
   font-size: 13px;
@@ -1326,5 +1345,89 @@
 
   .cp-library-card {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .cp-view-layout {
+    gap: 10px;
+  }
+
+  .cp-view-toolbar {
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .cp-view-sort-row {
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .cp-view-sort-chip {
+    padding: 2px 7px;
+    font-size: 10px;
+  }
+
+  .cp-view-term-groups {
+    padding: 8px;
+    gap: 10px;
+  }
+
+  .cp-view-card {
+    padding: 7px;
+    gap: 6px;
+    border-radius: 8px;
+  }
+
+  .cp-view-card-head {
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .cp-view-card-title-row h3 {
+    font-size: 12px;
+  }
+
+  .cp-view-main-pill {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+
+  .cp-view-card-actions .cp-inline-link {
+    padding: 2px;
+    line-height: 1;
+  }
+
+  .cp-view-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+
+  .cp-view-stat-grid div {
+    padding: 4px;
+  }
+
+  .cp-view-stat-grid small {
+    font-size: 9px;
+  }
+
+  .cp-view-stat-grid strong {
+    font-size: 10px;
+  }
+
+  .cp-view-course-pills {
+    gap: 3px;
+    max-height: 22px;
+    overflow: hidden;
+  }
+
+  .cp-view-course-pills span {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+
+  .cp-view-edited-line,
+  .cp-view-main-line {
+    font-size: 9px;
   }
 }

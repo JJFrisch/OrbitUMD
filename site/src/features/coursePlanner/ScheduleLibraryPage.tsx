@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { ArrowUpDown, BookOpen, Calendar, Clock, Edit2, Plus, Star, Trash2 } from "lucide-react";
+import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Plus, Star, Trash2, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds } from "./utils/scheduleLayout";
 import { Timeline } from "./components/schedule/Timeline";
@@ -151,6 +151,8 @@ export function ScheduleLibraryPage() {
   const [termFilter, setTermFilter] = useState("all");
   const [searchInput, setSearchInput] = useState("");
   const [previewScheduleId, setPreviewScheduleId] = useState<string>("");
+  const [renameScheduleId, setRenameScheduleId] = useState<string | null>(null);
+  const [renameDraft, setRenameDraft] = useState("");
   const [actionPendingId, setActionPendingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -320,6 +322,54 @@ export function ScheduleLibraryPage() {
     }
   };
 
+  const handleStartRename = (schedule: ScheduleWithSelections) => {
+    setRenameScheduleId(schedule.id);
+    setRenameDraft(schedule.name);
+  };
+
+  const handleCancelRename = () => {
+    setRenameScheduleId(null);
+    setRenameDraft("");
+  };
+
+  const handleSubmitRename = async (schedule: ScheduleWithSelections) => {
+    const term = parseTermFromSchedule(schedule);
+    if (!term) {
+      setErrorMessage("Cannot rename because this schedule has no resolvable term.");
+      return;
+    }
+
+    const nextName = renameDraft.trim();
+    if (nextName.length === 0) {
+      setErrorMessage("Schedule name cannot be empty.");
+      return;
+    }
+
+    if (nextName === schedule.name) {
+      handleCancelRename();
+      return;
+    }
+
+    setActionPendingId(schedule.id);
+    try {
+      await plannerApi.saveScheduleWithSelections({
+        id: schedule.id,
+        name: nextName,
+        termCode: term.termCode,
+        termYear: term.termYear,
+        isPrimary: schedule.is_primary,
+        selectionsJson: schedule.selections_json,
+      });
+      await refreshSchedules();
+      setRenameScheduleId(null);
+      setRenameDraft("");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to rename schedule.");
+    } finally {
+      setActionPendingId(null);
+    }
+  };
+
   return (
     <div className="course-planner-root cp-view-root">
       <div className="cp-view-header">
@@ -407,6 +457,7 @@ export function ScheduleLibraryPage() {
                       const totalCredits = totalCreditsForSchedule(schedule);
                       const selected = schedule.id === previewScheduleId;
                       const busy = actionPendingId === schedule.id;
+                      const renaming = renameScheduleId === schedule.id;
 
                       return (
                         <div
@@ -416,7 +467,46 @@ export function ScheduleLibraryPage() {
                         >
                           <div className="cp-view-card-head">
                             <div className="cp-view-card-title-row">
-                              <h3>{schedule.name}</h3>
+                              {renaming ? (
+                                <div className="cp-view-rename-row" onClick={(event) => event.stopPropagation()}>
+                                  <input
+                                    value={renameDraft}
+                                    onChange={(event) => setRenameDraft(event.target.value)}
+                                    onKeyDown={(event) => {
+                                      if (event.key === "Enter") {
+                                        event.preventDefault();
+                                        void handleSubmitRename(schedule);
+                                      }
+                                      if (event.key === "Escape") {
+                                        event.preventDefault();
+                                        handleCancelRename();
+                                      }
+                                    }}
+                                    autoFocus
+                                    aria-label="Rename schedule"
+                                  />
+                                  <button
+                                    type="button"
+                                    className="cp-inline-link"
+                                    disabled={busy}
+                                    onClick={() => void handleSubmitRename(schedule)}
+                                    aria-label="Save schedule name"
+                                  >
+                                    <Check size={13} />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="cp-inline-link"
+                                    disabled={busy}
+                                    onClick={handleCancelRename}
+                                    aria-label="Cancel rename"
+                                  >
+                                    <X size={13} />
+                                  </button>
+                                </div>
+                              ) : (
+                                <h3>{schedule.name}</h3>
+                              )}
                               {schedule.is_primary ? (
                                 <span className="cp-view-main-pill"><Star size={11} /> MAIN</span>
                               ) : null}
@@ -439,12 +529,8 @@ export function ScheduleLibraryPage() {
                                 type="button"
                                 className="cp-inline-link"
                                 disabled={busy}
-                                onClick={() => {
-                                  const term = parseTermFromSchedule(schedule);
-                                  const termParam = term ? `${term.termCode}-${term.termYear}` : "";
-                                  navigate(`/schedule-builder?scheduleId=${schedule.id}&term=${termParam}`);
-                                }}
-                                aria-label="Edit schedule"
+                                onClick={() => handleStartRename(schedule)}
+                                aria-label="Rename schedule"
                               >
                                 <Edit2 size={13} />
                               </button>
