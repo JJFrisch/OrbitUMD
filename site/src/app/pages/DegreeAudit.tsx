@@ -11,6 +11,7 @@ import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import {
   buildCourseContributionMap,
   evaluateRequirementSection,
@@ -59,6 +60,7 @@ interface RequirementSectionCardProps {
   section: any; // RequirementSectionBundle
   sectionEval: any; // Section evaluation result
   allCourses: AuditCourse[]; // All available courses for lookup
+  courseDetails: Map<string, CourseDetails>; // Course details from database
   byCourseCode: Map<string, AuditCourseStatus>; // Course code -> status map
   expandedSectionIds: Set<string>;
   setExpandedSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
@@ -68,26 +70,49 @@ function RequirementSectionCard({
   section,
   sectionEval,
   allCourses,
+  courseDetails,
   byCourseCode,
   expandedSectionIds,
   setExpandedSectionIds,
 }: RequirementSectionCardProps) {
-  // Get courses for this section
+  // Get courses for this section, enriched with database details
   const sectionCourses = useMemo(() => {
     const coursesByCode = new Map(allCourses.map((c) => [c.code.toUpperCase(), c]));
     const courses: AuditCourse[] = [];
 
     // Add courses from the section's course list
     for (const code of section.courseCodes) {
-      const course = coursesByCode.get(code.toUpperCase());
-      if (course) {
-        courses.push(course);
-      } else {
-        // Placeholder course if not found in audit data
-        const status = byCourseCode.get(code.toUpperCase()) ?? "not_started";
+      const baseCode = code.toUpperCase();
+      const auditCourse = coursesByCode.get(baseCode);
+      const details = courseDetails.get(baseCode);
+
+      if (auditCourse && details) {
+        // Merge audit course with database details
         courses.push({
-          code: code.toUpperCase(),
-          title: `${code} (Details not loaded)`,
+          ...auditCourse,
+          title: details.title || auditCourse.title,
+          credits: details.credits || auditCourse.credits,
+          genEds: details.genEds || auditCourse.genEds,
+        });
+      } else if (details) {
+        // Use database details only
+        const status = byCourseCode.get(baseCode) ?? "not_started";
+        courses.push({
+          code: details.code,
+          title: details.title,
+          credits: details.credits,
+          genEds: details.genEds,
+          status,
+        });
+      } else if (auditCourse) {
+        // Use audit course
+        courses.push(auditCourse);
+      } else {
+        // Placeholder course
+        const status = byCourseCode.get(baseCode) ?? "not_started";
+        courses.push({
+          code: baseCode,
+          title: `${baseCode}`,
           credits: 0,
           genEds: [],
           status,
@@ -96,7 +121,7 @@ function RequirementSectionCard({
     }
 
     return courses;
-  }, [section, allCourses, byCourseCode]);
+  }, [section, allCourses, courseDetails, byCourseCode]);
 
   return (
     <Card className="bg-input-background border-border p-4">
@@ -173,6 +198,7 @@ export default function DegreeAudit() {
   const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
   const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
   const [courses, setCourses] = useState<AuditCourse[]>([]);
+  const [courseDetails, setCourseDetails] = useState<Map<string, CourseDetails>>(new Map());
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeProgramIndex, setActiveProgramIndex] = useState(0);
@@ -252,7 +278,9 @@ export default function DegreeAudit() {
     });
 
     setBundles(updatedBundles);
-  }, [selectedSpecialization, bundles]);
+    // Note: only depend on selectedSpecialization, not bundles, to avoid infinite loops
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedSpecialization]);
 
   useEffect(() => {
     let active = true;
@@ -358,6 +386,40 @@ export default function DegreeAudit() {
       active = false;
     };
   }, []);
+
+  // Load course details from database
+  useEffect(() => {
+    let active = true;
+
+    const run = async () => {
+      // Collect all course codes from all bundles
+      const allCourseCodes = new Set<string>();
+      for (const bundle of bundles) {
+        for (const section of bundle.sections) {
+          for (const code of section.courseCodes) {
+            allCourseCodes.add(code.toUpperCase());
+          }
+        }
+      }
+
+      if (allCourseCodes.size === 0) return;
+
+      try {
+        const details = await lookupCourseDetails(Array.from(allCourseCodes));
+        if (active) {
+          setCourseDetails(details);
+        }
+      } catch (error) {
+        console.error("Failed to load course details:", error);
+        // Continue without course details rather than failing
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [bundles]);
 
   const byCourseCode = useMemo(() => {
     const map = new Map<string, AuditCourseStatus>();
@@ -635,6 +697,7 @@ export default function DegreeAudit() {
                                     section={section}
                                     sectionEval={sectionEval}
                                     allCourses={courses}
+                                    courseDetails={courseDetails}
                                     byCourseCode={byCourseCode}
                                     expandedSectionIds={expandedSectionIds}
                                     setExpandedSectionIds={setExpandedSectionIds}
@@ -654,6 +717,7 @@ export default function DegreeAudit() {
                                           section={section}
                                           sectionEval={sectionEval}
                                           allCourses={courses}
+                                          courseDetails={courseDetails}
                                           byCourseCode={byCourseCode}
                                           expandedSectionIds={expandedSectionIds}
                                           setExpandedSectionIds={setExpandedSectionIds}

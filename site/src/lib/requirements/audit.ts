@@ -42,6 +42,16 @@ interface ScrapedProgram {
     rules?: string[];
     items?: Array<{ type?: "OR" | "AND"; code?: string; items?: Array<{ code?: string }> }>;
   }>;
+  requirementCourseBlocks?: Array<{
+    kind?: string;
+    courses?: Array<{ code?: string; name?: string; credits?: number }>;
+    builderSections?: Array<{
+      title: string;
+      requirementType: "all" | "choose";
+      chooseCount?: number;
+      courses?: Array<{ code?: string; name?: string; credits?: number }>;
+    }>;
+  }>;
 }
 
 function createId(): string {
@@ -422,6 +432,42 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
     }
 
     const scraped = findScrapedProgram(program);
+    
+    // Collect sections from both builderSections and requirementCourseBlocks
+    const sections: RequirementSectionBundle[] = [];
+    
+    // Add sections from builderSections (primary source)
+    if (scraped?.builderSections) {
+      sections.push(...scraped.builderSections.map(mapScrapedSection));
+    }
+    
+    // Add sections from requirementCourseBlocks (fallback/supplementary)
+    if (scraped?.requirementCourseBlocks) {
+      for (const block of scraped.requirementCourseBlocks) {
+        if (block.builderSections) {
+          sections.push(...block.builderSections.map(mapScrapedSection));
+        }
+        // Also extract courses directly from the block's course list if no builderSections
+        if (!block.builderSections && block.courses) {
+          const courseCodes = dedupeCodes(block.courses.map((c) => c.code ?? ""));
+          if (courseCodes.length > 0) {
+            sections.push({
+              id: createId(),
+              title: `Course Block ${sections.length + 1}`,
+              requirementType: "all",
+              chooseCount: undefined,
+              notes: [],
+              special: false,
+              courseCodes,
+              optionGroups: [courseCodes],
+              standaloneCodes: courseCodes,
+              logicBlocks: [{ type: "AND", codes: courseCodes }],
+            });
+          }
+        }
+      }
+    }
+
     bundles.push({
       programId: program.programId,
       programName: program.programName,
@@ -429,7 +475,7 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       kind: resolveProgramKind(program),
       source: "scraped",
       specializations: scraped?.specializations ?? [],
-      sections: (scraped?.builderSections ?? []).map(mapScrapedSection),
+      sections: sections.length > 0 ? sections : [],
     });
   }
 
