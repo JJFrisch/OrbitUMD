@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
@@ -13,7 +13,9 @@ function buildAppRedirectUrl(path: string): string {
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const supabase = getSupabaseClient();
+  const nextPath = searchParams.get("next") || "/dashboard";
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -24,12 +26,12 @@ export default function SignIn() {
     const run = async () => {
       const { data } = await supabase.auth.getSession();
       if (data.session?.user) {
-        navigate("/dashboard", { replace: true });
+        navigate(nextPath, { replace: true });
       }
     };
 
     void run();
-  }, [navigate, supabase.auth]);
+  }, [navigate, nextPath, supabase.auth]);
 
   const handleEmailSignIn = async () => {
     setLoading(true);
@@ -41,7 +43,7 @@ export default function SignIn() {
         email,
         options: {
           // Route auth callbacks through an app route that always exists under the configured base path.
-          emailRedirectTo: buildAppRedirectUrl("/sign-in"),
+          emailRedirectTo: buildAppRedirectUrl(`/sign-in?next=${encodeURIComponent(nextPath)}`),
         },
       });
 
@@ -67,7 +69,7 @@ export default function SignIn() {
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: buildAppRedirectUrl("/sign-in"),
+          redirectTo: buildAppRedirectUrl(`/sign-in?next=${encodeURIComponent(nextPath)}`),
         },
       });
 

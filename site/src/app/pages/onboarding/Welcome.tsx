@@ -40,7 +40,7 @@ export default function Welcome() {
         <div className="flex gap-4 justify-center mb-8">
           <Button 
             size="lg"
-            onClick={() => navigate("/onboarding/profile")}
+            onClick={() => navigate("/sign-in?next=/onboarding/profile")}
             className="bg-primary hover:bg-primary/90 px-8"
           >
             Let's get started

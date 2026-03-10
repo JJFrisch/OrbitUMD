@@ -36,7 +36,7 @@ interface TermOption {
 }
 
 export default function Settings() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, setTheme } = useTheme();
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -82,7 +82,7 @@ export default function Settings() {
         const [{ data: profileRow, error: profileError }, { data: terms, error: termError }, priorCredits] = await Promise.all([
           supabase
             .from("user_profiles")
-            .select("display_name, email, university_uid")
+            .select("display_name, email, university_uid, preferred_theme, default_term_id, schedule_view")
             .eq("id", authUser.id)
             .maybeSingle(),
           supabase
@@ -111,6 +111,11 @@ export default function Settings() {
         setFullName(String(profileRow?.display_name ?? authUser.user_metadata?.full_name ?? authUser.user_metadata?.name ?? ""));
         setEmail(String(profileRow?.email ?? authUser.email ?? ""));
         setUid(String(profileRow?.university_uid ?? ""));
+        if (profileRow?.preferred_theme === "light" || profileRow?.preferred_theme === "dark") {
+          setTheme(profileRow.preferred_theme);
+        }
+        setDefaultTerm(String(profileRow?.default_term_id ?? localStorage.getItem("orbitumd-default-term") ?? "none"));
+        setScheduleView(String(profileRow?.schedule_view ?? localStorage.getItem("orbitumd-schedule-view") ?? "weekly"));
         setTermOptions((terms ?? []).map((row: any) => ({
           id: row.id,
           label: `${seasonLabel[row.season] ?? row.season} ${row.year}`,
@@ -134,7 +139,7 @@ export default function Settings() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [setTheme]);
 
   const addablePrograms = useMemo(() => {
     const existingNames = new Set(userPrograms.map((program) => program.programName.toLowerCase()));
@@ -262,9 +267,54 @@ export default function Settings() {
   };
 
   const handleSavePreferences = () => {
-    localStorage.setItem("orbitumd-default-term", defaultTerm);
-    localStorage.setItem("orbitumd-schedule-view", scheduleView);
-    setSaveMessage("Preferences saved on this device.");
+    const run = async () => {
+      localStorage.setItem("orbitumd-default-term", defaultTerm);
+      localStorage.setItem("orbitumd-schedule-view", scheduleView);
+
+      if (!userId) {
+        setSaveMessage("Preferences saved on this device.");
+        return;
+      }
+
+      const supabase = getSupabaseClient();
+      const { error } = await supabase.from("user_profiles").upsert(
+        {
+          id: userId,
+          default_term_id: defaultTerm === "none" ? null : defaultTerm,
+          schedule_view: scheduleView,
+        },
+        { onConflict: "id" },
+      );
+
+      if (error) throw error;
+      setSaveMessage("Preferences saved.");
+    };
+
+    void run().catch((error) => {
+      setSaveMessage(error instanceof Error ? error.message : "Unable to save preferences.");
+    });
+  };
+
+  const handleToggleAppearance = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    toggleTheme();
+
+    const run = async () => {
+      if (!userId) return;
+      const supabase = getSupabaseClient();
+      const { error } = await supabase.from("user_profiles").upsert(
+        {
+          id: userId,
+          preferred_theme: nextTheme,
+        },
+        { onConflict: "id" },
+      );
+      if (error) throw error;
+    };
+
+    void run().catch((error) => {
+      setSaveMessage(error instanceof Error ? error.message : "Unable to save appearance preference.");
+    });
   };
 
   return (
@@ -296,7 +346,7 @@ export default function Settings() {
                   <Label htmlFor="theme-toggle">Dark Mode</Label>
                   <p className="text-xs text-muted-foreground mt-1">Toggle between light and dark theme.</p>
                 </div>
-                <Switch id="theme-toggle" checked={theme === "dark"} onCheckedChange={toggleTheme} />
+                <Switch id="theme-toggle" checked={theme === "dark"} onCheckedChange={handleToggleAppearance} />
               </div>
             </Card>
 
