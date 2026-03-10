@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router";
+import { ArrowUpDown, BookOpen, Calendar, Clock, Edit2, Plus, Star, Trash2 } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds } from "./utils/scheduleLayout";
 import { Timeline } from "./components/schedule/Timeline";
@@ -8,6 +10,7 @@ import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRep
 import "./styles/coursePlanner.css";
 
 type SortOrder = "asc" | "desc";
+type SortBy = "name" | "lastEdited" | "credits" | "courses";
 
 function parseSelections(stored: unknown): ScheduleSelection[] {
   const payload = (stored ?? []) as { selections?: ScheduleSelection[] } | ScheduleSelection[];
@@ -32,6 +35,69 @@ function formatTermLabel(termCode: string | null, termYear: number | null): stri
   }
 
   return `${termMap[code]} ${year}`;
+}
+
+function parseTermFromSchedule(schedule: ScheduleWithSelections): { termCode: string; termYear: number } | null {
+  if (schedule.term_code && schedule.term_year) {
+    return { termCode: schedule.term_code, termYear: schedule.term_year };
+  }
+  return null;
+}
+
+function totalCreditsForSchedule(schedule: ScheduleWithSelections): number {
+  return parseSelections(schedule.selections_json).reduce(
+    (sum, selection) => sum + (selection.course.maxCredits || selection.course.credits || 0),
+    0
+  );
+}
+
+function getEarliestLatest(schedule: ScheduleWithSelections): { earliest: string; latest: string } {
+  const selections = parseSelections(schedule.selections_json);
+  const values: number[] = [];
+
+  const parseClock = (raw: string | undefined) => {
+    if (!raw) return Number.NaN;
+    const normalized = raw.trim().toLowerCase();
+    const match = normalized.match(/^(\d{1,2}):(\d{2})(am|pm)$/);
+    if (!match) return Number.NaN;
+    const [, hourRaw, minuteRaw, suffix] = match;
+    let hour = Number(hourRaw);
+    const minute = Number(minuteRaw);
+
+    if (suffix === "am") {
+      if (hour === 12) hour = 0;
+    } else if (hour !== 12) {
+      hour += 12;
+    }
+
+    return hour + minute / 60;
+  };
+
+  const toClock = (hourValue: number) => {
+    const hour24 = Math.floor(hourValue);
+    const minute = Math.round((hourValue - hour24) * 60);
+    const suffix = hour24 >= 12 ? "pm" : "am";
+    const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+    return `${hour12}:${String(minute).padStart(2, "0")}${suffix}`;
+  };
+
+  for (const selection of selections) {
+    for (const meeting of selection.section.meetings) {
+      const start = parseClock(meeting.startTime);
+      const end = parseClock(meeting.endTime);
+      if (Number.isFinite(start)) values.push(start);
+      if (Number.isFinite(end)) values.push(end);
+    }
+  }
+
+  if (values.length === 0) {
+    return { earliest: "-", latest: "-" };
+  }
+
+  return {
+    earliest: toClock(Math.min(...values)),
+    latest: toClock(Math.max(...values)),
+  };
 }
 
 function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
@@ -78,12 +144,28 @@ function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
 }
 
 export function ScheduleLibraryPage() {
+  const navigate = useNavigate();
   const [schedules, setSchedules] = useState<ScheduleWithSelections[]>([]);
-  const [sortOrder, setSortOrder] = useState<SortOrder>("asc");
+  const [sortBy, setSortBy] = useState<SortBy>("lastEdited");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [termFilter, setTermFilter] = useState("all");
   const [searchInput, setSearchInput] = useState("");
+  const [previewScheduleId, setPreviewScheduleId] = useState<string>("");
+  const [actionPendingId, setActionPendingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const refreshSchedules = async () => {
+    const results = await plannerApi.listAllSchedulesWithSelections();
+    setSchedules(results);
+    setErrorMessage(null);
+    setPreviewScheduleId((current) => {
+      if (current && results.some((schedule) => schedule.id === current)) {
+        return current;
+      }
+      return results[0]?.id ?? "";
+    });
+  };
 
   useEffect(() => {
     let active = true;
@@ -93,6 +175,7 @@ export function ScheduleLibraryPage() {
         if (!active) return;
         setSchedules(results);
         setErrorMessage(null);
+        setPreviewScheduleId(results[0]?.id ?? "");
       } catch (error) {
         if (!active) return;
         const msg = error instanceof Error ? error.message : "Failed to load schedules.";
@@ -110,7 +193,17 @@ export function ScheduleLibraryPage() {
     };
   }, []);
 
-  const ordered = useMemo(() => {
+  const toggleSort = (key: SortBy) => {
+    if (sortBy === key) {
+      setSortOrder((current) => (current === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setSortBy(key);
+    setSortOrder("asc");
+  };
+
+  const filteredAndSorted = useMemo(() => {
     const needle = searchInput.trim().toLowerCase();
 
     const filtered = schedules.filter((schedule) => {
@@ -134,12 +227,42 @@ export function ScheduleLibraryPage() {
 
     const copy = [...filtered];
     copy.sort((a, b) => {
-      const aTime = new Date(a.updated_at).getTime();
-      const bTime = new Date(b.updated_at).getTime();
-      return sortOrder === "asc" ? aTime - bTime : bTime - aTime;
+      let cmp = 0;
+      if (sortBy === "name") {
+        cmp = a.name.localeCompare(b.name);
+      } else if (sortBy === "lastEdited") {
+        cmp = new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime();
+      } else if (sortBy === "credits") {
+        cmp = totalCreditsForSchedule(a) - totalCreditsForSchedule(b);
+      } else if (sortBy === "courses") {
+        cmp = parseSelections(a.selections_json).length - parseSelections(b.selections_json).length;
+      }
+
+      return sortOrder === "asc" ? cmp : -cmp;
     });
+
     return copy;
-  }, [schedules, sortOrder, searchInput, termFilter]);
+  }, [schedules, searchInput, sortBy, sortOrder, termFilter]);
+
+  const groupedByTerm = useMemo(() => {
+    const groupMap = new Map<string, ScheduleWithSelections[]>();
+    for (const schedule of filteredAndSorted) {
+      const key = formatTermLabel(schedule.term_code, schedule.term_year);
+      const existing = groupMap.get(key) ?? [];
+      existing.push(schedule);
+      groupMap.set(key, existing);
+    }
+
+    return Array.from(groupMap.entries()).map(([term, groupSchedules]) => ({
+      term,
+      schedules: groupSchedules,
+    }));
+  }, [filteredAndSorted]);
+
+  const previewSchedule = useMemo(
+    () => schedules.find((schedule) => schedule.id === previewScheduleId) ?? null,
+    [previewScheduleId, schedules]
+  );
 
   const termOptions = useMemo(() => {
     const keys = new Set<string>();
@@ -160,61 +283,262 @@ export function ScheduleLibraryPage() {
       .sort((a, b) => a.label.localeCompare(b.label));
   }, [schedules]);
 
+  const handleSetMain = async (schedule: ScheduleWithSelections) => {
+    const term = parseTermFromSchedule(schedule);
+    if (!term) {
+      setErrorMessage("Cannot set MAIN because this schedule has no resolvable term.");
+      return;
+    }
+
+    setActionPendingId(schedule.id);
+    try {
+      await plannerApi.saveScheduleWithSelections({
+        id: schedule.id,
+        name: schedule.name,
+        termCode: term.termCode,
+        termYear: term.termYear,
+        isPrimary: true,
+        selectionsJson: schedule.selections_json,
+      });
+      await refreshSchedules();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to set MAIN schedule.");
+    } finally {
+      setActionPendingId(null);
+    }
+  };
+
+  const handleDelete = async (scheduleId: string) => {
+    setActionPendingId(scheduleId);
+    try {
+      await plannerApi.deleteUserSchedule(scheduleId);
+      await refreshSchedules();
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Unable to delete schedule.");
+    } finally {
+      setActionPendingId(null);
+    }
+  };
+
   return (
-    <div className="cp-library-root">
-      <div className="cp-library-header">
-        <h1>All Schedules</h1>
-        <div className="cp-library-controls">
-          <input
-            value={searchInput}
-            onChange={(event) => setSearchInput(event.target.value)}
-            placeholder="Search by schedule name or class..."
-          />
-          <select value={termFilter} onChange={(event) => setTermFilter(event.target.value)}>
-            <option value="all">All Terms</option>
-            {termOptions.map((option) => (
-              <option key={option.value} value={option.value}>{option.label}</option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className="cp-builder-action-btn"
-            onClick={() => setSortOrder((current) => (current === "asc" ? "desc" : "asc"))}
-          >
-            Sort by Last Edited: {sortOrder === "asc" ? "Ascending" : "Descending"}
+    <div className="course-planner-root cp-view-root">
+      <div className="cp-view-header">
+        <div>
+          <h1>All Schedules</h1>
+          <p>Compare schedules by term, set MAIN per term, and open any option in Schedule Builder.</p>
+        </div>
+
+        <div className="cp-view-actions">
+          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder")}>
+            <Plus size={13} /> New Schedule
           </button>
         </div>
       </div>
 
-      {loading && <p className="cp-muted-text">Loading schedules...</p>}
+      <div className="cp-view-layout">
+        <section className="cp-view-list-panel">
+          <div className="cp-view-toolbar">
+            <div className="cp-view-sort-row">
+              <ArrowUpDown size={13} />
+              <span>Sort:</span>
+              {([
+                { key: "lastEdited", label: "Recent" },
+                { key: "name", label: "Name" },
+                { key: "credits", label: "Credits" },
+                { key: "courses", label: "Courses" },
+              ] as const).map((entry) => (
+                <button
+                  key={entry.key}
+                  type="button"
+                  className={`cp-view-sort-chip ${sortBy === entry.key ? "is-active" : ""}`}
+                  onClick={() => toggleSort(entry.key)}
+                >
+                  {entry.label}
+                  {sortBy === entry.key ? <span>{sortOrder === "asc" ? "\u2191" : "\u2193"}</span> : null}
+                </button>
+              ))}
 
-      {!loading && errorMessage && <p className="cp-error-text">{errorMessage}</p>}
+              <span className="cp-view-total-pill">{filteredAndSorted.length} shown</span>
+            </div>
 
-      {!loading && !errorMessage && ordered.length === 0 && <p className="cp-muted-text">No saved schedules yet.</p>}
+            <div className="cp-library-controls">
+              <input
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+                placeholder="Search schedule name or class..."
+              />
+              <select value={termFilter} onChange={(event) => setTermFilter(event.target.value)}>
+                <option value="all">All Terms</option>
+                {termOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
-      <div className="cp-library-list">
-        {ordered.map((schedule) => {
-          const selections = parseSelections(schedule.selections_json);
+          {loading && <p className="cp-muted-text">Loading schedules...</p>}
+          {!loading && errorMessage && <p className="cp-error-text">{errorMessage}</p>}
+          {!loading && !errorMessage && groupedByTerm.length === 0 && (
+            <div className="cp-view-empty-state">
+              <Calendar size={34} />
+              <p>No schedules yet.</p>
+            </div>
+          )}
 
-          return (
-            <article key={schedule.id} className="cp-library-card">
-              <div className="cp-library-info">
-                <h2>{schedule.name}</h2>
-                <p>Term: {formatTermLabel(schedule.term_code, schedule.term_year)}</p>
-                <p>Last edited: {new Date(schedule.updated_at).toLocaleString()}</p>
-                <p>Classes: {selections.length}</p>
-                <ul className="cp-library-classes">
-                  {selections.map((selection) => (
-                    <li key={selection.sectionKey}>
-                      {selection.course.courseCode} - {selection.section.sectionCode}
-                    </li>
-                  ))}
-                </ul>
+          <div className="cp-view-term-groups">
+            {groupedByTerm.map((group) => {
+              const mainSchedule = group.schedules.find((schedule) => schedule.is_primary);
+
+              return (
+                <article key={group.term} className="cp-view-term-group">
+                  <div className="cp-view-term-header">
+                    <div className="cp-view-term-dot" />
+                    <h2>{group.term}</h2>
+                    <div className="cp-view-term-divider" />
+                    <span>{group.schedules.length} schedules</span>
+                  </div>
+
+                  <div className="cp-view-cards">
+                    {group.schedules.map((schedule) => {
+                      const selections = parseSelections(schedule.selections_json);
+                      const stats = getEarliestLatest(schedule);
+                      const totalCredits = totalCreditsForSchedule(schedule);
+                      const selected = schedule.id === previewScheduleId;
+                      const busy = actionPendingId === schedule.id;
+
+                      return (
+                        <div
+                          key={schedule.id}
+                          className={`cp-view-card ${selected ? "is-selected" : ""} ${schedule.is_primary ? "is-main" : ""}`}
+                          onClick={() => setPreviewScheduleId(schedule.id)}
+                        >
+                          <div className="cp-view-card-head">
+                            <div className="cp-view-card-title-row">
+                              <h3>{schedule.name}</h3>
+                              {schedule.is_primary ? (
+                                <span className="cp-view-main-pill"><Star size={11} /> MAIN</span>
+                              ) : null}
+                            </div>
+
+                            <div className="cp-view-card-actions" onClick={(event) => event.stopPropagation()}>
+                              {!schedule.is_primary && (
+                                <button
+                                  type="button"
+                                  className="cp-inline-link"
+                                  disabled={busy}
+                                  onClick={() => void handleSetMain(schedule)}
+                                  aria-label="Set as MAIN"
+                                >
+                                  <Star size={13} />
+                                </button>
+                              )}
+
+                              <button
+                                type="button"
+                                className="cp-inline-link"
+                                disabled={busy}
+                                onClick={() => {
+                                  const term = parseTermFromSchedule(schedule);
+                                  const termParam = term ? `${term.termCode}-${term.termYear}` : "";
+                                  navigate(`/schedule-builder?scheduleId=${schedule.id}&term=${termParam}`);
+                                }}
+                                aria-label="Edit schedule"
+                              >
+                                <Edit2 size={13} />
+                              </button>
+
+                              <button
+                                type="button"
+                                className="cp-inline-link"
+                                disabled={busy}
+                                onClick={() => void handleDelete(schedule.id)}
+                                aria-label="Delete schedule"
+                              >
+                                <Trash2 size={13} />
+                              </button>
+                            </div>
+                          </div>
+
+                          <div className="cp-view-stat-grid">
+                            <div><small>Courses</small><strong>{selections.length}</strong></div>
+                            <div><small>Credits</small><strong>{totalCredits}</strong></div>
+                            <div><small>Earliest</small><strong>{stats.earliest}</strong></div>
+                            <div><small>Latest</small><strong>{stats.latest}</strong></div>
+                          </div>
+
+                          <div className="cp-view-course-pills">
+                            {selections.map((selection) => (
+                              <span key={selection.sectionKey}>{selection.course.courseCode}</span>
+                            ))}
+                          </div>
+
+                          <p className="cp-view-edited-line">
+                            Edited {new Date(schedule.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <p className="cp-view-main-line">
+                    {mainSchedule ? (
+                      <>
+                        <Star size={11} /> {mainSchedule.name} feeds your Four-Year Plan.
+                      </>
+                    ) : (
+                      <>No MAIN set for this term.</>
+                    )}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="cp-view-preview-panel">
+          <div className="cp-view-preview-head">
+            <div className="cp-view-preview-title">
+              <Clock size={16} />
+              <h3>{previewSchedule ? previewSchedule.name : "Schedule Preview"}</h3>
+              {previewSchedule ? (
+                <span className="cp-view-term-pill">{formatTermLabel(previewSchedule.term_code, previewSchedule.term_year)}</span>
+              ) : null}
+              {previewSchedule?.is_primary ? <span className="cp-view-main-pill"><Star size={11} /> MAIN</span> : null}
+            </div>
+
+            {previewSchedule ? (
+              <button
+                type="button"
+                className="cp-builder-action-btn"
+                onClick={() => {
+                  const term = parseTermFromSchedule(previewSchedule);
+                  const termParam = term ? `${term.termCode}-${term.termYear}` : "";
+                  navigate(`/schedule-builder?scheduleId=${previewSchedule.id}&term=${termParam}`);
+                }}
+              >
+                <Edit2 size={13} /> Edit In Builder
+              </button>
+            ) : null}
+          </div>
+
+          <div className="cp-view-preview-body">
+            {!previewSchedule ? (
+              <div className="cp-view-empty-state">
+                <BookOpen size={36} />
+                <p>Select a schedule from the left to preview.</p>
               </div>
-              <ScheduleSnapshot selections={selections} />
-            </article>
-          );
-        })}
+            ) : parseSelections(previewSchedule.selections_json).length === 0 ? (
+              <div className="cp-view-empty-state">
+                <Calendar size={36} />
+                <p>This schedule has no courses.</p>
+              </div>
+            ) : (
+              <ScheduleSnapshot selections={parseSelections(previewSchedule.selections_json)} />
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );

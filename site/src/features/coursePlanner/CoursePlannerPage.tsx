@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
-import { useNavigate } from "react-router";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useNavigate, useSearchParams } from "react-router";
 import { CourseSearchPanel } from "./components/search/CourseSearchPanel";
 import { CalendarView } from "./components/schedule/CalendarView";
 import { ScheduleDetailsOverlay } from "./components/schedule/ScheduleDetailsOverlay";
@@ -11,6 +11,8 @@ const DEFAULT_SCHEDULE_NAME = "Default Schedule";
 
 export function CoursePlannerPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const lastProcessedDeepLink = useRef<string>("");
   const [scheduleName, setScheduleName] = useState(DEFAULT_SCHEDULE_NAME);
   const [saveMessage, setSaveMessage] = useState<string | undefined>(undefined);
   const baseTerm = useCoursePlannerStore((state) => state.term);
@@ -79,6 +81,40 @@ export function CoursePlannerPage() {
   useEffect(() => {
     void refreshScheduleList();
   }, [resolvedTerm, resolvedYear, refreshScheduleList]);
+
+  // Support deep-linking from the Schedule Library, e.g.
+  // /schedule-builder?scheduleId=<id>&term=08-2026
+  useEffect(() => {
+    const rawTerm = searchParams.get("term");
+    const scheduleId = searchParams.get("scheduleId");
+    const key = `${rawTerm ?? ""}|${scheduleId ?? ""}`;
+
+    if (!rawTerm && !scheduleId) {
+      return;
+    }
+
+    if (lastProcessedDeepLink.current === key) {
+      return;
+    }
+    lastProcessedDeepLink.current = key;
+
+    if (rawTerm) {
+      const [termCode, termYearRaw] = rawTerm.split("-");
+      const termYear = Number(termYearRaw);
+      if (termCode && Number.isFinite(termYear)) {
+        setCatalogTerm(termCode, termYear);
+      }
+    }
+
+    if (scheduleId) {
+      void loadSchedule(scheduleId).then(() => {
+        const match = useCoursePlannerStore.getState().savedSchedules.find((s) => s.id === scheduleId);
+        if (match) {
+          setScheduleName(match.name);
+        }
+      });
+    }
+  }, [loadSchedule, searchParams, setCatalogTerm]);
 
   const handleSaveClick = useCallback(() => {
     if (!activeScheduleId && scheduleName.trim().toLowerCase() === DEFAULT_SCHEDULE_NAME.toLowerCase()) {
