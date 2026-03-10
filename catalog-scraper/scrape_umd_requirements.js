@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// npm run scrape:requirements -- --output site/src/lib/data/current_degree_requirements_umd.json
+
 const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");

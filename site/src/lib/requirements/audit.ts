@@ -37,8 +37,15 @@ interface ScrapedProgram {
     requirementType: "all" | "choose";
     chooseCount?: number;
     rules?: string[];
-    items?: Array<{ type?: "OR" | "AND"; items?: Array<{ code?: string }> }>;
+    items?: Array<{ type?: "OR" | "AND"; code?: string; items?: Array<{ code?: string }> }>;
   }>;
+}
+
+function createId(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
 function normalizeName(value: string): string {
@@ -105,7 +112,7 @@ function mapDbSection(section: RequirementSection): RequirementSectionBundle {
   ];
 
   return {
-    id: section.id ?? crypto.randomUUID(),
+    id: section.id ?? createId(),
     title: section.title,
     requirementType: section.sectionType === "choose_n" ? "choose" : "all",
     chooseCount: section.minCount,
@@ -124,7 +131,20 @@ function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"
   const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }> = [];
 
   for (const item of section.items ?? []) {
-    const itemCodes = dedupeCodes((item.items ?? []).map((row) => row.code ?? ""));
+    if (!item || typeof item !== "object") {
+      continue;
+    }
+
+    const directCode = typeof (item as { code?: string }).code === "string" ? (item as { code?: string }).code : "";
+    const nestedCodes = Array.isArray((item as { items?: Array<{ code?: string }> }).items)
+      ? (item as { items?: Array<{ code?: string }> }).items ?? []
+      : [];
+
+    const itemCodes = dedupeCodes([
+      directCode,
+      ...nestedCodes.map((row) => row?.code ?? ""),
+    ]);
+
     if (item.type === "OR" && itemCodes.length > 0) {
       optionGroups.push(itemCodes);
       logicBlocks.push({ type: "OR", codes: itemCodes });
@@ -139,7 +159,7 @@ function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"
   const courseCodes = dedupeCodes([...optionGroups.flat(), ...standalone]);
 
   return {
-    id: crypto.randomUUID(),
+    id: createId(),
     title: section.title,
     requirementType: section.requirementType,
     chooseCount: section.chooseCount,
@@ -203,7 +223,14 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
   const bundles: ProgramRequirementBundle[] = [];
 
   for (const program of programs) {
-    const dbSections = await fetchProgramRequirements(program.programId);
+    let dbSections: RequirementSection[] = [];
+    try {
+      dbSections = await fetchProgramRequirements(program.programId);
+    } catch {
+      // Fall back to scraped catalog data when DB requirements are unavailable.
+      dbSections = [];
+    }
+
     if (dbSections.length > 0) {
       bundles.push({
         programId: program.programId,
