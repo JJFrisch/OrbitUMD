@@ -377,7 +377,7 @@ export default function Dashboard() {
         <p className="text-muted-foreground">Live overview from your saved schedules and selected programs</p>
       </div>
 
-      {loading && <p className="text-neutral-400">Loading dashboard...</p>}
+      {loading && <p className="text-muted-foreground">Loading dashboard...</p>}
       {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
       {!loading && !errorMessage && (
@@ -531,7 +531,7 @@ export default function Dashboard() {
 
             <div className="space-y-3">
               {suggestions.map((suggestion) => (
-                <div key={suggestion.id} className="flex items-center justify-between rounded-lg border border-neutral-700 bg-input-background p-4 gap-4">
+                <div key={suggestion.id} className="flex items-center justify-between rounded-lg border border-border bg-input-background p-4 gap-4">
                   <div>
                     <p className="mb-1">{suggestion.title}</p>
                     <p className="text-sm text-muted-foreground">{suggestion.subtitle}</p>

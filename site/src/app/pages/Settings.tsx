@@ -350,13 +350,13 @@ export default function Settings() {
           <p className="text-muted-foreground">Manage your profile, programs, and planning preferences</p>
         </div>
 
-        {loading && <p className="text-neutral-400">Loading settings...</p>}
+        {loading && <p className="text-muted-foreground">Loading settings...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
         {!loading && !errorMessage && (
           <div className="space-y-6">
             {saveMessage && (
-              <Card className="p-4 bg-[#252525] border-neutral-800">
-                <p className="text-sm text-neutral-200">{saveMessage}</p>
+              <Card className="p-4 bg-card border-border">
+                <p className="text-sm text-foreground/80">{saveMessage}</p>
               </Card>
             )}
 
@@ -410,17 +410,17 @@ export default function Settings() {
               </div>
 
               <div className="mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="rounded-lg border border-neutral-700 bg-input-background p-3">
-                  <p className="text-xs text-neutral-400">Prior Credit Total</p>
-                  <p className="text-xl text-white">{priorCreditSummary.totalCredits}</p>
+                <div className="rounded-lg border border-border bg-input-background p-3">
+                  <p className="text-xs text-muted-foreground">Prior Credit Total</p>
+                  <p className="text-xl text-foreground">{priorCreditSummary.totalCredits}</p>
                 </div>
-                <div className="rounded-lg border border-neutral-700 bg-input-background p-3">
-                  <p className="text-xs text-neutral-400">AP Credits</p>
-                  <p className="text-xl text-white">{priorCreditSummary.apCredits}</p>
+                <div className="rounded-lg border border-border bg-input-background p-3">
+                  <p className="text-xs text-muted-foreground">AP Credits</p>
+                  <p className="text-xl text-foreground">{priorCreditSummary.apCredits}</p>
                 </div>
-                <div className="rounded-lg border border-neutral-700 bg-input-background p-3">
-                  <p className="text-xs text-neutral-400">AP Records</p>
-                  <p className="text-xl text-white">{priorCreditSummary.apRecords}</p>
+                <div className="rounded-lg border border-border bg-input-background p-3">
+                  <p className="text-xs text-muted-foreground">AP Records</p>
+                  <p className="text-xl text-foreground">{priorCreditSummary.apRecords}</p>
                 </div>
               </div>
 
@@ -439,17 +439,17 @@ export default function Settings() {
                           onDragStart={() => setDraggingProgramId(program.id)}
                           onDragOver={(event) => event.preventDefault()}
                           onDrop={() => void handleDropProgram(program.id)}
-                          className="flex items-center justify-between rounded-lg border border-neutral-700 bg-input-background p-3 gap-3 cursor-grab active:cursor-grabbing"
+                          className="flex items-center justify-between rounded-lg border border-border bg-input-background p-3 gap-3 cursor-grab active:cursor-grabbing"
                         >
                           <div>
-                            <p className="text-sm text-white">{program.programName}</p>
-                            <p className="text-xs text-neutral-400">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
+                            <p className="text-sm text-foreground">{program.programName}</p>
+                            <p className="text-xs text-muted-foreground">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
                           </div>
                           <div className="flex items-center gap-2">
                             {program.isPrimary ? (
                               <Badge className="bg-blue-600/20 text-blue-300 border border-blue-600/30"><Star className="w-3 h-3 mr-1" />Primary</Badge>
                             ) : (
-                              <Button variant="outline" size="sm" className="border-neutral-700" onClick={() => handleSetPrimaryProgram(program.id)}>
+                              <Button variant="outline" size="sm" className="border-border" onClick={() => handleSetPrimaryProgram(program.id)}>
                                 Set Primary
                               </Button>
                             )}

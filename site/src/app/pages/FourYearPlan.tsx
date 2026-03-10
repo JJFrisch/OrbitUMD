@@ -66,13 +66,13 @@ function statusBadge(status: AcademicProgressStatus) {
   if (status === "in_progress") {
     return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
   }
-  return <Badge variant="outline" className="border-neutral-700">Planned</Badge>;
+  return <Badge variant="outline" className="border-border">Planned</Badge>;
 }
 
 function termCardAccent(status: AcademicProgressStatus): string {
   if (status === "completed") return "border-green-600/30";
   if (status === "in_progress") return "border-blue-600/35 shadow-lg shadow-blue-900/10";
-  return "border-neutral-800";
+  return "border-border";
 }
 
 function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
@@ -261,8 +261,8 @@ export default function FourYearPlan() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-4xl text-white mb-2">Four-Year Plan</h1>
-            <p className="text-neutral-400">
+            <h1 className="text-4xl text-foreground mb-2">Four-Year Plan</h1>
+            <p className="text-muted-foreground">
               Built from your saved MAIN schedules. Past terms count as completed, current term as in progress, and future terms as planned.
             </p>
           </div>
@@ -273,57 +273,57 @@ export default function FourYearPlan() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card className="p-4 bg-[#252525] border-neutral-800">
+          <Card className="p-4 bg-card border-border">
             <div className="flex items-center gap-2 mb-2">
               <GraduationCap className="w-5 h-5 text-red-400" />
-              <h3 className="text-sm text-neutral-400">Total Credits</h3>
+              <h3 className="text-sm text-muted-foreground">Total Credits</h3>
             </div>
-            <p className="text-3xl text-white">{summary.totalCredits}</p>
+            <p className="text-3xl text-foreground">{summary.totalCredits}</p>
           </Card>
 
-          <Card className="p-4 bg-[#252525] border-neutral-800">
+          <Card className="p-4 bg-card border-border">
             <div className="flex items-center gap-2 mb-2">
               <CheckCircle2 className="w-5 h-5 text-green-400" />
-              <h3 className="text-sm text-neutral-400">Completed</h3>
+              <h3 className="text-sm text-muted-foreground">Completed</h3>
             </div>
-            <p className="text-3xl text-white">{summary.completedCredits}</p>
+            <p className="text-3xl text-foreground">{summary.completedCredits}</p>
           </Card>
 
-          <Card className="p-4 bg-[#252525] border-neutral-800">
+          <Card className="p-4 bg-card border-border">
             <div className="flex items-center gap-2 mb-2">
               <Clock3 className="w-5 h-5 text-blue-400" />
-              <h3 className="text-sm text-neutral-400">In Progress</h3>
+              <h3 className="text-sm text-muted-foreground">In Progress</h3>
             </div>
-            <p className="text-3xl text-white">{summary.inProgressCredits}</p>
+            <p className="text-3xl text-foreground">{summary.inProgressCredits}</p>
           </Card>
 
-          <Card className="p-4 bg-[#252525] border-neutral-800">
+          <Card className="p-4 bg-card border-border">
             <div className="flex items-center gap-2 mb-2">
-              <Calendar className="w-5 h-5 text-neutral-400" />
-              <h3 className="text-sm text-neutral-400">Planned</h3>
+              <Calendar className="w-5 h-5 text-muted-foreground" />
+              <h3 className="text-sm text-muted-foreground">Planned</h3>
             </div>
-            <p className="text-3xl text-white">{summary.plannedCredits}</p>
+            <p className="text-3xl text-foreground">{summary.plannedCredits}</p>
           </Card>
         </div>
 
-        <Card className="p-4 bg-[#252525] border-neutral-800 mb-6">
+        <Card className="p-4 bg-card border-border mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ArrowUpDown className="w-4 h-4 text-neutral-400" />
-              <span className="text-neutral-300">Sort Terms</span>
+              <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
+              <span className="text-foreground/80">Sort Terms</span>
             </div>
             <div className="flex items-center gap-3">
               <Button
                 type="button"
                 variant="outline"
-                className={`border-neutral-700 ${showContributionHighlight ? "text-cyan-300" : "text-neutral-300"}`}
+                className={`border-border ${showContributionHighlight ? "text-cyan-300" : "text-foreground/80"}`}
                 onClick={() => setShowContributionHighlight((current) => !current)}
               >
                 {showContributionHighlight ? "Contribution Highlight: On" : "Contribution Highlight: Off"}
               </Button>
 
               <Select value={sortOrder} onValueChange={(value: SortOrder) => setSortOrder(value)}>
-                <SelectTrigger className="w-56 bg-[#1a1a1a] border-neutral-700">
+                <SelectTrigger className="w-56 bg-input-background border-border">
                 <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -336,13 +336,13 @@ export default function FourYearPlan() {
           </div>
         </Card>
 
-        {loading && <p className="text-neutral-400">Loading four-year plan...</p>}
+        {loading && <p className="text-muted-foreground">Loading four-year plan...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
         {!loading && !errorMessage && visibleTerms.length === 0 && (
-          <Card className="p-8 bg-[#252525] border-neutral-800 text-center">
-            <h2 className="text-xl text-white mb-2">No MAIN schedules yet</h2>
-            <p className="text-neutral-400 mb-4">
+          <Card className="p-8 bg-card border-border text-center">
+            <h2 className="text-xl text-foreground mb-2">No MAIN schedules yet</h2>
+            <p className="text-muted-foreground mb-4">
               Set one schedule as MAIN for each term in All Schedules to build your four-year plan automatically.
             </p>
             <Link to="/schedules">
@@ -355,22 +355,22 @@ export default function FourYearPlan() {
           {visibleTerms.map((term) => {
             const isCollapsed = collapsedTerms.has(term.id);
             return (
-              <Card key={term.id} className={`bg-[#252525] ${termCardAccent(term.status)}`}>
+              <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>
                 <div
-                  className="p-5 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
+                  className="p-5 cursor-pointer hover:bg-popover transition-colors"
                   onClick={() => toggleTerm(term.id)}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="text-xl text-white">{term.termLabel}</h3>
-                      <Badge variant="outline" className="border-neutral-700">{term.credits} credits</Badge>
+                      <h3 className="text-xl text-foreground">{term.termLabel}</h3>
+                      <Badge variant="outline" className="border-border">{term.credits} credits</Badge>
                       {statusBadge(term.status)}
-                      <Badge variant="outline" className="border-neutral-700 text-neutral-300">MAIN: {term.scheduleName}</Badge>
+                      <Badge variant="outline" className="border-border text-foreground/80">MAIN: {term.scheduleName}</Badge>
                     </div>
                     {isCollapsed ? (
-                      <ChevronDown className="w-5 h-5 text-neutral-400" />
+                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
                     ) : (
-                      <ChevronUp className="w-5 h-5 text-neutral-400" />
+                      <ChevronUp className="w-5 h-5 text-muted-foreground" />
                     )}
                   </div>
                 </div>
@@ -378,7 +378,7 @@ export default function FourYearPlan() {
                 {!isCollapsed && (
                   <div className="px-5 pb-5">
                     {term.courses.length === 0 ? (
-                      <p className="text-neutral-400">No classes in this MAIN schedule.</p>
+                      <p className="text-muted-foreground">No classes in this MAIN schedule.</p>
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
                         {term.courses.map((course) => (
@@ -393,19 +393,19 @@ export default function FourYearPlan() {
                                 ? "border-green-600/40 bg-green-600/10"
                                 : course.status === "in_progress"
                                   ? "border-blue-600/40 bg-blue-600/10"
-                                  : "border-neutral-700 bg-neutral-800/40"
+                                  : "border-border bg-accent/40"
                             }`}
                             style={cardStyle}
                           >
                             <div className="flex items-start justify-between gap-3 mb-1">
-                              <h4 className="text-white font-medium">{course.code}</h4>
-                              <Badge variant="outline" className="border-neutral-700 text-xs">{course.credits}cr</Badge>
+                              <h4 className="text-foreground font-medium">{course.code}</h4>
+                              <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
                             </div>
-                            <p className="text-xs text-neutral-300 mb-2 line-clamp-2">{course.title}</p>
-                            <p className="text-[11px] text-neutral-400 mb-2">Section {course.sectionCode}</p>
+                            <p className="text-xs text-foreground/80 mb-2 line-clamp-2">{course.title}</p>
+                            <p className="text-[11px] text-muted-foreground mb-2">Section {course.sectionCode}</p>
 
                             {contributionLabels.length > 0 && (
-                              <p className="text-[11px] text-neutral-300 mb-2">
+                              <p className="text-[11px] text-foreground/80 mb-2">
                                 Contributes to: {contributionLabels.join("; ")}
                               </p>
                             )}
@@ -445,7 +445,7 @@ export default function FourYearPlan() {
                     )}
 
                     <div className="mt-3 text-right">
-                      <span className="text-xs text-neutral-500">
+                      <span className="text-xs text-muted-foreground">
                         Last updated {new Date(term.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                       </span>
                     </div>

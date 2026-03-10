@@ -108,41 +108,41 @@ export default function BasicProfile() {
       <div className="w-full max-w-2xl">
         <div className="flex items-center gap-2 mb-8 justify-center">
           <Orbit className="w-8 h-8 text-red-500" />
-          <span className="text-2xl text-white">OrbitUMD</span>
+          <span className="text-2xl text-foreground">OrbitUMD</span>
         </div>
 
         <div className="mb-8">
-          <p className="text-sm text-neutral-400 text-center mb-2">Step 1 of 4: Basic Info</p>
+          <p className="text-sm text-muted-foreground text-center mb-2">Step 1 of 4: Basic Info</p>
           <Progress value={25} className="h-2" />
         </div>
 
-        <Card className="p-8 bg-[#252525] border-neutral-800">
+        <Card className="p-8 bg-card border-border">
           <div className="mb-6">
-            <h2 className="text-3xl text-white mb-2">Let's get started</h2>
-            <p className="text-neutral-400">Tell us the basics so we can build the right plan for you.</p>
+            <h2 className="text-3xl text-foreground mb-2">Let's get started</h2>
+            <p className="text-muted-foreground">Tell us the basics so we can build the right plan for you.</p>
           </div>
 
           <div className="space-y-6">
             <div>
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your full name" className="bg-[#1a1a1a] border-neutral-700" />
-              <p className="text-xs text-neutral-500 mt-1">We'll use this to personalize your experience</p>
+              <Input id="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your full name" className="bg-input-background border-border" />
+              <p className="text-xs text-muted-foreground mt-1">We'll use this to personalize your experience</p>
             </div>
 
             <div>
               <Label htmlFor="email">UMD Email</Label>
-              <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="yourid@umd.edu" className="bg-[#1a1a1a] border-neutral-700" />
-              <p className="text-xs text-neutral-500 mt-1">Your official university email address</p>
+              <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="yourid@umd.edu" className="bg-input-background border-border" />
+              <p className="text-xs text-muted-foreground mt-1">Your official university email address</p>
             </div>
 
             <div>
               <Label htmlFor="uid">UMD UID</Label>
-              <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} placeholder="123456789" className="bg-[#1a1a1a] border-neutral-700" />
-              <p className="text-xs text-neutral-500 mt-1">Your 9-digit university ID number</p>
+              <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} placeholder="123456789" className="bg-input-background border-border" />
+              <p className="text-xs text-muted-foreground mt-1">Your 9-digit university ID number</p>
             </div>
 
             {message && (
-              <p className="text-sm text-neutral-300">{message}</p>
+              <p className="text-sm text-foreground/80">{message}</p>
             )}
 
             <div>
@@ -151,16 +151,16 @@ export default function BasicProfile() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Info className="w-4 h-4 text-neutral-500 cursor-help" />
+                      <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
-                    <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
+                    <TooltipContent className="bg-popover border-border">
                       <p>You can change this later in Settings</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
               <Select defaultValue="bs">
-                <SelectTrigger className="bg-[#1a1a1a] border-neutral-700">
+                <SelectTrigger className="bg-input-background border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -178,16 +178,16 @@ export default function BasicProfile() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Info className="w-4 h-4 text-neutral-500 cursor-help" />
+                      <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                     </TooltipTrigger>
-                    <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
+                    <TooltipContent className="bg-popover border-border">
                       <p>This can be edited later</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
               <Select defaultValue="cmsc">
-                <SelectTrigger className="bg-[#1a1a1a] border-neutral-700">
+                <SelectTrigger className="bg-input-background border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -205,7 +205,7 @@ export default function BasicProfile() {
                 <Label htmlFor="starting-semester">Starting Semester</Label>
               </div>
               <Select defaultValue="fall2026">
-                <SelectTrigger className="bg-[#1a1a1a] border-neutral-700">
+                <SelectTrigger className="bg-input-background border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -219,7 +219,7 @@ export default function BasicProfile() {
             <div>
               <Label htmlFor="graduation-year">Expected Graduation Year (Optional)</Label>
               <Select>
-                <SelectTrigger className="bg-[#1a1a1a] border-neutral-700">
+                <SelectTrigger className="bg-input-background border-border">
                   <SelectValue placeholder="Select year..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -230,7 +230,7 @@ export default function BasicProfile() {
               </Select>
             </div>
 
-            <div className="flex items-center space-x-2 p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
+            <div className="flex items-center space-x-2 p-4 bg-input-background rounded-lg border border-border">
               <Checkbox 
                 id="new-student" 
                 checked={isNewStudent}
@@ -238,7 +238,7 @@ export default function BasicProfile() {
               />
               <label
                 htmlFor="new-student"
-                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-neutral-300"
+                className="text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-foreground/80"
               >
                 I'm a new student (no previous college credits)
               </label>
@@ -249,7 +249,7 @@ export default function BasicProfile() {
             <Button 
               variant="outline" 
               onClick={() => navigate("/")}
-              className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
+              className="border-border text-foreground/80 hover:bg-accent"
             >
               Back
             </Button>

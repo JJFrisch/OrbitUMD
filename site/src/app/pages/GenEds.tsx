@@ -95,7 +95,7 @@ function getStatusBadge(status: GenEdRow["status"]) {
   if (status === "In progress") {
     return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
   }
-  return <Badge variant="outline" className="border-neutral-700">Not Started</Badge>;
+  return <Badge variant="outline" className="border-border">Not Started</Badge>;
 }
 
 function getStatusIcon(status: GenEdRow["status"]) {
@@ -340,94 +340,94 @@ export default function GenEds() {
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-4xl text-white mb-2">General Education Progress</h1>
-          <p className="text-neutral-400">Live Gen Ed tracking from your MAIN schedules and prior credits.</p>
+          <h1 className="text-4xl text-foreground mb-2">General Education Progress</h1>
+          <p className="text-muted-foreground">Live Gen Ed tracking from your MAIN schedules and prior credits.</p>
         </div>
 
-        {loading && <p className="text-neutral-400">Loading Gen Ed progress...</p>}
+        {loading && <p className="text-muted-foreground">Loading Gen Ed progress...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
         {!loading && !errorMessage && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <Card className="p-4 bg-[#252525] border-neutral-800">
+              <Card className="p-4 bg-card border-border">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm text-neutral-400">Fundamental Studies</h3>
+                  <h3 className="text-sm text-muted-foreground">Fundamental Studies</h3>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Info className="w-4 h-4 text-neutral-500 cursor-help" />
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                       </TooltipTrigger>
-                      <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
+                      <TooltipContent className="bg-popover border-border">
                         <p>Core writing, communication, and reasoning requirements.</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-                <p className="text-2xl text-white mb-2">{summaryByCategory.fundamental.completed} / {summaryByCategory.fundamental.total}</p>
+                <p className="text-2xl text-foreground mb-2">{summaryByCategory.fundamental.completed} / {summaryByCategory.fundamental.total}</p>
                 <Progress
                   value={summaryByCategory.fundamental.total === 0 ? 0 : (summaryByCategory.fundamental.completed / summaryByCategory.fundamental.total) * 100}
                   className="h-2"
                 />
               </Card>
 
-              <Card className="p-4 bg-[#252525] border-neutral-800">
+              <Card className="p-4 bg-card border-border">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm text-neutral-400">Distributive Studies</h3>
+                  <h3 className="text-sm text-muted-foreground">Distributive Studies</h3>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Info className="w-4 h-4 text-neutral-500 cursor-help" />
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                       </TooltipTrigger>
-                      <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
+                      <TooltipContent className="bg-popover border-border">
                         <p>Breadth requirements across sciences, social sciences, and humanities.</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-                <p className="text-2xl text-white mb-2">{summaryByCategory.distributive.completed} / {summaryByCategory.distributive.total}</p>
+                <p className="text-2xl text-foreground mb-2">{summaryByCategory.distributive.completed} / {summaryByCategory.distributive.total}</p>
                 <Progress
                   value={summaryByCategory.distributive.total === 0 ? 0 : (summaryByCategory.distributive.completed / summaryByCategory.distributive.total) * 100}
                   className="h-2"
                 />
               </Card>
 
-              <Card className="p-4 bg-[#252525] border-neutral-800">
+              <Card className="p-4 bg-card border-border">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm text-neutral-400">I-Series</h3>
+                  <h3 className="text-sm text-muted-foreground">I-Series</h3>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Info className="w-4 h-4 text-neutral-500 cursor-help" />
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                       </TooltipTrigger>
-                      <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
+                      <TooltipContent className="bg-popover border-border">
                         <p>Interdisciplinary big question courses.</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-                <p className="text-2xl text-white mb-2">{summaryByCategory.iSeries.completed} / {summaryByCategory.iSeries.total}</p>
+                <p className="text-2xl text-foreground mb-2">{summaryByCategory.iSeries.completed} / {summaryByCategory.iSeries.total}</p>
                 <Progress
                   value={summaryByCategory.iSeries.total === 0 ? 0 : (summaryByCategory.iSeries.completed / summaryByCategory.iSeries.total) * 100}
                   className="h-2"
                 />
               </Card>
 
-              <Card className="p-4 bg-[#252525] border-neutral-800">
+              <Card className="p-4 bg-card border-border">
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-sm text-neutral-400">Diversity</h3>
+                  <h3 className="text-sm text-muted-foreground">Diversity</h3>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <Info className="w-4 h-4 text-neutral-500 cursor-help" />
+                        <Info className="w-4 h-4 text-muted-foreground cursor-help" />
                       </TooltipTrigger>
-                      <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
+                      <TooltipContent className="bg-popover border-border">
                         <p>Plural societies and cultural competence requirements.</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
-                <p className="text-2xl text-white mb-2">{summaryByCategory.diversity.completed} / {summaryByCategory.diversity.total}</p>
+                <p className="text-2xl text-foreground mb-2">{summaryByCategory.diversity.completed} / {summaryByCategory.diversity.total}</p>
                 <Progress
                   value={summaryByCategory.diversity.total === 0 ? 0 : (summaryByCategory.diversity.completed / summaryByCategory.diversity.total) * 100}
                   className="h-2"
@@ -435,12 +435,12 @@ export default function GenEds() {
               </Card>
             </div>
 
-            <Card className="p-4 bg-[#252525] border-neutral-800 mb-6">
+            <Card className="p-4 bg-card border-border mb-6">
               <div className="flex items-center gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-400">Category:</span>
+                  <span className="text-sm text-muted-foreground">Category:</span>
                   <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                    <SelectTrigger className="w-48 bg-[#1a1a1a] border-neutral-700">
+                    <SelectTrigger className="w-48 bg-input-background border-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -452,9 +452,9 @@ export default function GenEds() {
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-neutral-400">Status:</span>
+                  <span className="text-sm text-muted-foreground">Status:</span>
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-40 bg-[#1a1a1a] border-neutral-700">
+                    <SelectTrigger className="w-40 bg-input-background border-border">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -468,31 +468,31 @@ export default function GenEds() {
                 <input
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
-                  className="h-9 rounded-md border border-neutral-700 bg-[#1a1a1a] px-3 text-sm text-neutral-200 placeholder:text-neutral-500"
+                  className="h-9 rounded-md border border-border bg-input-background px-3 text-sm text-foreground/80 placeholder:text-muted-foreground"
                   placeholder="Search Gen Ed code/name"
                 />
               </div>
             </Card>
 
-            <Card className="bg-[#252525] border-neutral-800 overflow-hidden">
+            <Card className="bg-card border-border overflow-hidden">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-neutral-800 hover:bg-transparent">
-                    <TableHead className="text-neutral-400">Gen Ed</TableHead>
-                    <TableHead className="text-neutral-400">Category</TableHead>
-                    <TableHead className="text-neutral-400">Status</TableHead>
-                    <TableHead className="text-neutral-400 text-center">Required</TableHead>
-                    <TableHead className="text-neutral-400 text-center">Completed</TableHead>
-                    <TableHead className="text-neutral-400 text-center">Remaining</TableHead>
-                    <TableHead className="text-neutral-400">Fulfilled By</TableHead>
-                    <TableHead className="text-neutral-400 text-right">Actions</TableHead>
+                  <TableRow className="border-border hover:bg-transparent">
+                    <TableHead className="text-muted-foreground">Gen Ed</TableHead>
+                    <TableHead className="text-muted-foreground">Category</TableHead>
+                    <TableHead className="text-muted-foreground">Status</TableHead>
+                    <TableHead className="text-muted-foreground text-center">Required</TableHead>
+                    <TableHead className="text-muted-foreground text-center">Completed</TableHead>
+                    <TableHead className="text-muted-foreground text-center">Remaining</TableHead>
+                    <TableHead className="text-muted-foreground">Fulfilled By</TableHead>
+                    <TableHead className="text-muted-foreground text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredData.map((item) => (
                     <TableRow
                       key={item.code}
-                      className={`border-neutral-800 ${
+                      className={`border-border ${
                         item.status === "Completed" ? "bg-green-600/5" : item.status === "In progress" ? "bg-blue-600/5" : ""
                       }`}
                     >
@@ -500,27 +500,27 @@ export default function GenEds() {
                         <div className="flex items-center gap-2">
                           {getStatusIcon(item.status)}
                           <div>
-                            <p className="text-white">{item.code}</p>
-                            <p className="text-xs text-neutral-400">{item.name}</p>
+                            <p className="text-foreground">{item.code}</p>
+                            <p className="text-xs text-muted-foreground">{item.name}</p>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="text-neutral-300">{item.category}</TableCell>
+                      <TableCell className="text-foreground/80">{item.category}</TableCell>
                       <TableCell>{getStatusBadge(item.status)}</TableCell>
-                      <TableCell className="text-center text-white">{item.required}</TableCell>
-                      <TableCell className="text-center text-white">{item.completed}</TableCell>
-                      <TableCell className="text-center text-white">{item.remaining}</TableCell>
+                      <TableCell className="text-center text-foreground">{item.required}</TableCell>
+                      <TableCell className="text-center text-foreground">{item.completed}</TableCell>
+                      <TableCell className="text-center text-foreground">{item.remaining}</TableCell>
                       <TableCell>
                         {item.fulfilledBy.length > 0 ? (
                           <div className="flex flex-wrap gap-1">
                             {item.fulfilledBy.slice(0, 3).map((course) => (
-                              <Badge key={`${item.code}-${course.code}`} variant="outline" className="border-neutral-700 text-xs">
+                              <Badge key={`${item.code}-${course.code}`} variant="outline" className="border-border text-xs">
                                 {course.code} ({course.termLabel})
                               </Badge>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-neutral-500 text-sm">-</span>
+                          <span className="text-muted-foreground text-sm">-</span>
                         )}
                       </TableCell>
                       <TableCell className="text-right">
@@ -528,7 +528,7 @@ export default function GenEds() {
                           size="sm"
                           variant="outline"
                           onClick={() => setSelectedGenEd(item)}
-                          className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
+                          className="border-border text-foreground/80 hover:bg-accent"
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           View Options
@@ -542,43 +542,43 @@ export default function GenEds() {
 
             {selectedGenEd && (
               <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <Card className="max-w-3xl w-full p-6 bg-[#252525] border-neutral-800 max-h-[80vh] overflow-y-auto">
+                <Card className="max-w-3xl w-full p-6 bg-card border-border max-h-[80vh] overflow-y-auto">
                   <div className="flex items-start justify-between mb-4 gap-4">
                     <div>
-                      <h3 className="text-2xl text-white mb-1">{selectedGenEd.code} · {selectedGenEd.name}</h3>
-                      <p className="text-neutral-400 mb-3">{selectedGenEd.description}</p>
+                      <h3 className="text-2xl text-foreground mb-1">{selectedGenEd.code} · {selectedGenEd.name}</h3>
+                      <p className="text-muted-foreground mb-3">{selectedGenEd.description}</p>
                       <div className="flex gap-2 flex-wrap">
                         {getStatusBadge(selectedGenEd.status)}
-                        <Badge variant="outline" className="border-neutral-700">{selectedGenEd.category}</Badge>
+                        <Badge variant="outline" className="border-border">{selectedGenEd.category}</Badge>
                       </div>
                     </div>
                     <Button
                       size="icon"
                       variant="ghost"
                       onClick={() => setSelectedGenEd(null)}
-                      className="hover:bg-neutral-800"
+                      className="hover:bg-accent"
                     >
                       <XCircle className="w-5 h-5" />
                     </Button>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="text-white mb-2">Progress</h4>
+                    <h4 className="text-foreground mb-2">Progress</h4>
                     <div className="flex items-center gap-4 text-sm">
-                      <span className="text-neutral-400">Required: {selectedGenEd.required}</span>
-                      <span className="text-neutral-400">Completed: {selectedGenEd.completed}</span>
-                      <span className="text-neutral-400">Remaining: {selectedGenEd.remaining}</span>
+                      <span className="text-muted-foreground">Required: {selectedGenEd.required}</span>
+                      <span className="text-muted-foreground">Completed: {selectedGenEd.completed}</span>
+                      <span className="text-muted-foreground">Remaining: {selectedGenEd.remaining}</span>
                     </div>
                   </div>
 
                   {selectedGenEd.fulfilledBy.length > 0 && (
                     <div className="mb-6">
-                      <h4 className="text-white mb-3">Satisfied By Your Courses</h4>
+                      <h4 className="text-foreground mb-3">Satisfied By Your Courses</h4>
                       <div className="space-y-2">
                         {selectedGenEd.fulfilledBy.map((course) => (
-                          <div key={`${selectedGenEd.code}-${course.code}-${course.termLabel}`} className="p-3 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                            <p className="text-white">{course.code} - {course.title}</p>
-                            <p className="text-sm text-neutral-400">{course.termLabel}</p>
+                          <div key={`${selectedGenEd.code}-${course.code}-${course.termLabel}`} className="p-3 bg-input-background rounded-lg border border-border">
+                            <p className="text-foreground">{course.code} - {course.title}</p>
+                            <p className="text-sm text-muted-foreground">{course.termLabel}</p>
                           </div>
                         ))}
                       </div>
@@ -586,21 +586,21 @@ export default function GenEds() {
                   )}
 
                   <div>
-                    <h4 className="text-white mb-3">Courses Matching {selectedGenEd.code}</h4>
-                    <p className="text-sm text-neutral-400 mb-3">
+                    <h4 className="text-foreground mb-3">Courses Matching {selectedGenEd.code}</h4>
+                    <p className="text-sm text-muted-foreground mb-3">
                       Live lookup for recent catalog offerings tagged with this Gen Ed requirement.
                     </p>
                     {loadingSamples ? (
-                      <p className="text-neutral-400">Loading matching courses...</p>
+                      <p className="text-muted-foreground">Loading matching courses...</p>
                     ) : sampleCourses.length === 0 ? (
-                      <p className="text-neutral-400">No sample courses were returned for this tag right now.</p>
+                      <p className="text-muted-foreground">No sample courses were returned for this tag right now.</p>
                     ) : (
                       <div className="space-y-2">
                         {sampleCourses.map((course) => (
-                          <div key={`${course.code}-${course.title}`} className="p-3 bg-[#1a1a1a] rounded-lg border border-neutral-800 flex items-center justify-between gap-3">
+                          <div key={`${course.code}-${course.title}`} className="p-3 bg-input-background rounded-lg border border-border flex items-center justify-between gap-3">
                             <div>
-                              <p className="text-white">{course.code} - {course.title}</p>
-                              <p className="text-xs text-neutral-400">{course.credits} credits</p>
+                              <p className="text-foreground">{course.code} - {course.title}</p>
+                              <p className="text-xs text-muted-foreground">{course.credits} credits</p>
                             </div>
                             <Badge variant="outline" className="border-red-600/40 text-red-300">{selectedGenEd.code}</Badge>
                           </div>
@@ -609,7 +609,7 @@ export default function GenEds() {
                     )}
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-neutral-800">
+                  <div className="mt-6 pt-4 border-t border-border">
                     <Button
                       className="w-full bg-red-600 hover:bg-red-700"
                       onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}

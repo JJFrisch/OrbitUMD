@@ -50,7 +50,7 @@ function statusBadge(status: AuditCourseStatus) {
   if (status === "in_progress") {
     return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
   }
-  return <Badge variant="outline" className="border-neutral-700">Planned</Badge>;
+  return <Badge variant="outline" className="border-border">Planned</Badge>;
 }
 
 export default function DegreeAudit() {
@@ -285,52 +285,52 @@ export default function DegreeAudit() {
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-4xl text-white mb-2">Degree Audit</h1>
-          <p className="text-neutral-400">
+          <h1 className="text-4xl text-foreground mb-2">Degree Audit</h1>
+          <p className="text-muted-foreground">
             Live audit powered by selected major/minor requirements and your MAIN schedules.
           </p>
         </div>
 
-        {loading && <p className="text-neutral-400">Running degree audit...</p>}
+        {loading && <p className="text-muted-foreground">Running degree audit...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
         {!loading && !errorMessage && (
           <>
-            <Card className="p-6 bg-[#252525] border-neutral-800 mb-6">
+            <Card className="p-6 bg-card border-border mb-6">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="w-5 h-5 text-blue-400" />
-                    <h3 className="text-sm text-neutral-400">Total Credits</h3>
+                    <h3 className="text-sm text-muted-foreground">Total Credits</h3>
                   </div>
-                  <p className="text-3xl text-white">{summary.totalCredits}</p>
+                  <p className="text-3xl text-foreground">{summary.totalCredits}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <CheckCircle2 className="w-5 h-5 text-green-400" />
-                    <h3 className="text-sm text-neutral-400">Completed</h3>
+                    <h3 className="text-sm text-muted-foreground">Completed</h3>
                   </div>
-                  <p className="text-3xl text-white">{summary.completedCredits} cr</p>
+                  <p className="text-3xl text-foreground">{summary.completedCredits} cr</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <Clock className="w-5 h-5 text-blue-400" />
-                    <h3 className="text-sm text-neutral-400">In Progress</h3>
+                    <h3 className="text-sm text-muted-foreground">In Progress</h3>
                   </div>
-                  <p className="text-3xl text-white">{summary.inProgressCredits} cr</p>
+                  <p className="text-3xl text-foreground">{summary.inProgressCredits} cr</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <AlertCircle className="w-5 h-5 text-amber-400" />
-                    <h3 className="text-sm text-neutral-400">Planned</h3>
+                    <h3 className="text-sm text-muted-foreground">Planned</h3>
                   </div>
-                  <p className="text-3xl text-white">{summary.plannedCredits} cr</p>
+                  <p className="text-3xl text-foreground">{summary.plannedCredits} cr</p>
                 </div>
               </div>
 
-              <div className="flex gap-3 mt-6 pt-6 border-t border-neutral-800">
+              <div className="flex gap-3 mt-6 pt-6 border-t border-border">
                 <Link to="/four-year-plan" className="flex-1">
-                  <Button variant="outline" className="w-full border-neutral-700 text-neutral-300 hover:bg-neutral-800">
+                  <Button variant="outline" className="w-full border-border text-foreground/80 hover:bg-accent">
                     Open Four-Year Plan
                   </Button>
                 </Link>
@@ -341,14 +341,14 @@ export default function DegreeAudit() {
             </Card>
 
             {programAudits.length > 0 && (
-              <Card className="bg-[#252525] border-neutral-800 mb-6 p-4">
+              <Card className="bg-card border-border mb-6 p-4">
                 <div className="flex items-center justify-between gap-3 mb-3">
-                  <h2 className="text-xl text-white">Program Audits</h2>
+                  <h2 className="text-xl text-foreground">Program Audits</h2>
                   <div className="flex items-center gap-2">
                     <Button
                       size="icon"
                       variant="outline"
-                      className="border-neutral-700"
+                      className="border-border"
                       onClick={() => {
                         const next = Math.max(0, activeProgramIndex - 1);
                         setActiveProgramIndex(next);
@@ -361,7 +361,7 @@ export default function DegreeAudit() {
                     <Button
                       size="icon"
                       variant="outline"
-                      className="border-neutral-700"
+                      className="border-border"
                       onClick={() => {
                         const next = Math.min(programAudits.length - 1, activeProgramIndex + 1);
                         setActiveProgramIndex(next);
@@ -379,7 +379,7 @@ export default function DegreeAudit() {
                     <Button
                       key={`tab-${programAudit.bundle.programId}-${index}`}
                       variant={index === activeProgramIndex ? "default" : "outline"}
-                      className={index === activeProgramIndex ? "bg-red-600 hover:bg-red-700" : "border-neutral-700 text-neutral-300"}
+                      className={index === activeProgramIndex ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"}
                       onClick={() => {
                         setActiveProgramIndex(index);
                         scrollToProgram(index);
@@ -404,11 +404,11 @@ export default function DegreeAudit() {
                 >
                   {programAudits.map((programAudit, index) => (
                     <div key={`${programAudit.bundle.programId}-${index}`} className="min-w-full snap-start">
-                      <Card className="bg-[#252525] border-neutral-800 p-5">
+                      <Card className="bg-card border-border p-5">
                         <div className="flex items-center justify-between gap-3 mb-3">
                           <div>
-                            <h2 className="text-2xl text-white">{programAudit.bundle.programName}</h2>
-                            <p className="text-sm text-neutral-400 mt-1">
+                            <h2 className="text-2xl text-foreground">{programAudit.bundle.programName}</h2>
+                            <p className="text-sm text-muted-foreground mt-1">
                               {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
                             </p>
                           </div>
@@ -417,17 +417,17 @@ export default function DegreeAudit() {
 
                         <div className="flex items-center gap-4 mb-5">
                           <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
-                          <span className="text-white text-sm">
+                          <span className="text-foreground text-sm">
                             {programAudit.completedSlots + programAudit.inProgressSlots} / {programAudit.requiredSlots} slots active
                           </span>
                         </div>
 
                         <div className="space-y-3">
                           {programAudit.sectionRows.map(({ section, eval: sectionEval }) => (
-                            <Card key={section.id} className="bg-[#1a1a1a] border-neutral-800 p-4">
+                            <Card key={section.id} className="bg-input-background border-border p-4">
                               <div className="flex items-center justify-between gap-3 mb-2">
                                 <div className="flex items-center gap-2 flex-wrap">
-                                  <h3 className="text-white">{section.title}</h3>
+                                  <h3 className="text-foreground">{section.title}</h3>
                                   {section.special && (
                                     <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
                                   )}
@@ -458,20 +458,20 @@ export default function DegreeAudit() {
 
                               {expandedSectionIds.has(section.id) ? (
                                 <>
-                                  <p className="text-xs text-neutral-400 mb-2">
+                                  <p className="text-xs text-muted-foreground mb-2">
                                     Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
                                   </p>
 
                                   {section.notes.length > 0 && (
                                     <ul className="space-y-1">
                                       {section.notes.map((note, idx) => (
-                                        <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">{note}</li>
+                                        <li key={`${section.id}-note-${idx}`} className="text-sm text-foreground/80">{note}</li>
                                       ))}
                                     </ul>
                                   )}
                                 </>
                               ) : (
-                                <p className="text-xs text-neutral-500">Collapsed. Tap to expand details.</p>
+                                <p className="text-xs text-muted-foreground">Collapsed. Tap to expand details.</p>
                               )}
                             </Card>
                           ))}
@@ -498,31 +498,31 @@ export default function DegreeAudit() {
               </Card>
             )}
 
-            <Card className="bg-[#252525] border-neutral-800 mt-6 p-5">
+            <Card className="bg-card border-border mt-6 p-5">
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-2xl text-white">Elective Overflow</h2>
-                <Badge variant="outline" className="border-neutral-700 text-neutral-300">{electiveCredits} credits</Badge>
+                <h2 className="text-2xl text-foreground">Elective Overflow</h2>
+                <Badge variant="outline" className="border-border text-foreground/80">{electiveCredits} credits</Badge>
               </div>
-              <p className="text-sm text-neutral-400 mb-4">
+              <p className="text-sm text-muted-foreground mb-4">
                 Courses below currently do not map to selected major/minor requirements.
               </p>
 
               {electiveOverflow.length === 0 ? (
-                <div className="p-3 rounded-lg bg-[#1a1a1a] border border-neutral-800 text-neutral-300">
+                <div className="p-3 rounded-lg bg-input-background border border-border text-foreground/80">
                   No overflow electives detected.
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   {electiveOverflow.map((course) => (
-                    <Card key={course.code} className="bg-[#1a1a1a] border-neutral-800 p-3">
+                    <Card key={course.code} className="bg-input-background border-border p-3">
                       <div className="flex items-center justify-between gap-3">
                         <div>
-                          <p className="text-white">{course.code}</p>
-                          <p className="text-xs text-neutral-400">{course.title}</p>
+                          <p className="text-foreground">{course.code}</p>
+                          <p className="text-xs text-muted-foreground">{course.title}</p>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm text-white">{course.credits} cr</p>
-                          <p className="text-xs text-neutral-400">{course.status.replace("_", " ")}</p>
+                          <p className="text-sm text-foreground">{course.credits} cr</p>
+                          <p className="text-xs text-muted-foreground">{course.status.replace("_", " ")}</p>
                         </div>
                       </div>
                     </Card>
@@ -531,8 +531,8 @@ export default function DegreeAudit() {
               )}
             </Card>
 
-            <Card className="bg-[#252525] border-neutral-800 mt-6 p-4">
-              <div className="flex items-center gap-2 text-neutral-300">
+            <Card className="bg-card border-border mt-6 p-4">
+              <div className="flex items-center gap-2 text-foreground/80">
                 <Info className="w-4 h-4" />
                 <p className="text-sm">
                   Audit status is driven by MAIN schedules only: past terms = completed, current term = in progress, future terms = planned.
