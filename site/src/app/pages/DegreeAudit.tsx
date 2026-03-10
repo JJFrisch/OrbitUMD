@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, Clock, FileText, Info } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, Clock, FileText, Info } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -58,6 +58,8 @@ export default function DegreeAudit() {
   const [courses, setCourses] = useState<AuditCourse[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [activeProgramIndex, setActiveProgramIndex] = useState(0);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -194,25 +196,6 @@ export default function DegreeAudit() {
     };
   }, [courses]);
 
-  const genEdSummary = useMemo(() => {
-    const tags = new Map<string, AuditCourseStatus>();
-
-    for (const course of courses) {
-      for (const tag of course.genEds ?? []) {
-        const existing = tags.get(tag);
-        tags.set(tag, existing ? mergeStatus(existing, course.status) : course.status);
-      }
-    }
-
-    const rows = Array.from(tags.entries())
-      .map(([tag, status]) => ({ tag, status }))
-      .sort((a, b) => a.tag.localeCompare(b.tag));
-
-    const done = rows.filter((row) => row.status === "completed").length;
-    const inProg = rows.filter((row) => row.status === "in_progress").length;
-    return { rows, done, inProg, total: rows.length };
-  }, [courses]);
-
   const programAudits = useMemo(() => {
     return bundles.map((bundle) => {
       const sectionRows = bundle.sections.map((section) => ({
@@ -246,8 +229,7 @@ export default function DegreeAudit() {
   const electiveOverflow = useMemo(() => {
     return courses.filter((course) => {
       const contributes = (contributionMap.get(course.code) ?? []).length > 0;
-      const hasGenEd = (course.genEds ?? []).length > 0;
-      return !contributes && !hasGenEd;
+      return !contributes;
     });
   }, [contributionMap, courses]);
 
@@ -312,85 +294,124 @@ export default function DegreeAudit() {
               </div>
             </Card>
 
-            <Card className="bg-[#252525] border-neutral-800 mb-6 p-5">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-2xl text-white">General Education Signals</h2>
-                <Badge variant="outline" className="border-neutral-700 text-neutral-300">
-                  {genEdSummary.done + genEdSummary.inProg}/{genEdSummary.total} tags active
-                </Badge>
-              </div>
-              {genEdSummary.rows.length === 0 ? (
-                <p className="text-neutral-400">No Gen Ed tags found on MAIN-schedule courses.</p>
-              ) : (
-                <div className="flex flex-wrap gap-2">
-                  {genEdSummary.rows.map((row) => (
-                    <Badge key={row.tag} className={
-                      row.status === "completed"
-                        ? "bg-green-600/20 text-green-300 border border-green-600/30"
-                        : row.status === "in_progress"
-                          ? "bg-blue-600/20 text-blue-300 border border-blue-600/30"
-                          : "bg-neutral-700/40 text-neutral-200 border border-neutral-600"
-                    }>
-                      {row.tag}: {row.status.replace("_", " ")}
-                    </Badge>
+            {programAudits.length > 0 && (
+              <Card className="bg-[#252525] border-neutral-800 mb-6 p-4">
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <h2 className="text-xl text-white">Program Audits</h2>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-neutral-700"
+                      onClick={() => {
+                        const next = Math.max(0, activeProgramIndex - 1);
+                        setActiveProgramIndex(next);
+                        sliderRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                      }}
+                      disabled={activeProgramIndex === 0}
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="outline"
+                      className="border-neutral-700"
+                      onClick={() => {
+                        const next = Math.min(programAudits.length - 1, activeProgramIndex + 1);
+                        setActiveProgramIndex(next);
+                        sliderRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                      }}
+                      disabled={activeProgramIndex === programAudits.length - 1}
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {programAudits.map((programAudit, index) => (
+                    <Button
+                      key={`tab-${programAudit.bundle.programId}-${index}`}
+                      variant={index === activeProgramIndex ? "default" : "outline"}
+                      className={index === activeProgramIndex ? "bg-red-600 hover:bg-red-700" : "border-neutral-700 text-neutral-300"}
+                      onClick={() => {
+                        setActiveProgramIndex(index);
+                        sliderRef.current?.children[index]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                      }}
+                    >
+                      {programAudit.bundle.kind.toUpperCase()}: {programAudit.bundle.programName}
+                    </Button>
                   ))}
                 </div>
-              )}
-            </Card>
 
-            <div className="space-y-6">
-              {programAudits.map((programAudit) => (
-                <Card key={programAudit.bundle.programId} className="bg-[#252525] border-neutral-800 p-5">
-                  <div className="flex items-center justify-between gap-3 mb-3">
-                    <div>
-                      <h2 className="text-2xl text-white">{programAudit.bundle.programName}</h2>
-                      <p className="text-sm text-neutral-400 mt-1">
-                        {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
-                      </p>
-                    </div>
-                    {statusBadge(programAudit.status)}
-                  </div>
-
-                  <div className="flex items-center gap-4 mb-5">
-                    <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
-                    <span className="text-white text-sm">
-                      {programAudit.completedSlots + programAudit.inProgressSlots} / {programAudit.requiredSlots} slots active
-                    </span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {programAudit.sectionRows.map(({ section, eval: sectionEval }) => (
-                      <Card key={section.id} className="bg-[#1a1a1a] border-neutral-800 p-4">
-                        <div className="flex items-center justify-between gap-3 mb-2">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-white">{section.title}</h3>
-                            {section.special && (
-                              <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
-                            )}
-                            {section.requirementType === "choose" && (
-                              <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
-                            )}
+                <div
+                  ref={sliderRef}
+                  className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2"
+                  onScroll={(event) => {
+                    const target = event.currentTarget;
+                    const width = target.clientWidth || 1;
+                    const idx = Math.round(target.scrollLeft / width);
+                    if (idx !== activeProgramIndex) {
+                      setActiveProgramIndex(Math.min(Math.max(idx, 0), programAudits.length - 1));
+                    }
+                  }}
+                >
+                  {programAudits.map((programAudit, index) => (
+                    <div key={`${programAudit.bundle.programId}-${index}`} className="min-w-full snap-start">
+                      <Card className="bg-[#252525] border-neutral-800 p-5">
+                        <div className="flex items-center justify-between gap-3 mb-3">
+                          <div>
+                            <h2 className="text-2xl text-white">{programAudit.bundle.programName}</h2>
+                            <p className="text-sm text-neutral-400 mt-1">
+                              {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
+                            </p>
                           </div>
-                          {statusBadge(sectionEval.status)}
+                          {statusBadge(programAudit.status)}
                         </div>
 
-                        <p className="text-xs text-neutral-400 mb-2">
-                          Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
-                        </p>
+                        <div className="flex items-center gap-4 mb-5">
+                          <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
+                          <span className="text-white text-sm">
+                            {programAudit.completedSlots + programAudit.inProgressSlots} / {programAudit.requiredSlots} slots active
+                          </span>
+                        </div>
 
-                        {section.notes.length > 0 && (
-                          <ul className="space-y-1">
-                            {section.notes.map((note, idx) => (
-                              <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">{note}</li>
-                            ))}
-                          </ul>
-                        )}
+                        <div className="space-y-3">
+                          {programAudit.sectionRows.map(({ section, eval: sectionEval }) => (
+                            <Card key={section.id} className="bg-[#1a1a1a] border-neutral-800 p-4">
+                              <div className="flex items-center justify-between gap-3 mb-2">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <h3 className="text-white">{section.title}</h3>
+                                  {section.special && (
+                                    <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
+                                  )}
+                                  {section.requirementType === "choose" && (
+                                    <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
+                                  )}
+                                </div>
+                                {statusBadge(sectionEval.status)}
+                              </div>
+
+                              <p className="text-xs text-neutral-400 mb-2">
+                                Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
+                              </p>
+
+                              {section.notes.length > 0 && (
+                                <ul className="space-y-1">
+                                  {section.notes.map((note, idx) => (
+                                    <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">{note}</li>
+                                  ))}
+                                </ul>
+                              )}
+                            </Card>
+                          ))}
+                        </div>
                       </Card>
-                    ))}
-                  </div>
-                </Card>
-              ))}
-            </div>
+                    </div>
+                  ))}
+                </div>
+              </Card>
+            )}
 
             <Card className="bg-[#252525] border-neutral-800 mt-6 p-5">
               <div className="flex items-center justify-between mb-3">
@@ -398,7 +419,7 @@ export default function DegreeAudit() {
                 <Badge variant="outline" className="border-neutral-700 text-neutral-300">{electiveCredits} credits</Badge>
               </div>
               <p className="text-sm text-neutral-400 mb-4">
-                Courses below currently do not map to selected major/minor requirements or Gen Ed tags.
+                Courses below currently do not map to selected major/minor requirements.
               </p>
 
               {electiveOverflow.length === 0 ? (
