@@ -859,6 +859,143 @@
   height: 420px;
 }
 
+.cp-generate-root {
+  gap: 14px;
+}
+
+.cp-generate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--cp-header-bg);
+  color: var(--cp-header-text);
+  border: 1px solid #111a34;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.cp-generate-header h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.cp-generate-header p {
+  margin: 5px 0 0;
+  color: var(--cp-header-muted);
+  font-size: 13px;
+}
+
+.cp-generate-layout {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 14px;
+}
+
+.cp-generate-criteria {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.cp-generate-card {
+  background: var(--cp-panel);
+  border: 1px solid var(--cp-border);
+  border-radius: 10px;
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.cp-generate-card h2 {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 14px;
+}
+
+.cp-generate-card label {
+  display: grid;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--cp-muted);
+}
+
+.cp-generate-card input,
+.cp-generate-card select {
+  border: 1px solid var(--cp-border);
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 12px;
+  background: var(--cp-surface);
+  color: var(--cp-text);
+}
+
+.cp-generate-delivery-row,
+.cp-generate-days-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cp-generate-results {
+  background: var(--cp-panel);
+  border: 1px solid var(--cp-border);
+  border-radius: 10px;
+  padding: 12px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 10px;
+  min-height: 540px;
+}
+
+.cp-generate-results-header {
+  border-bottom: 1px solid var(--cp-divider);
+  padding-bottom: 8px;
+}
+
+.cp-generate-result-list {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  overflow: auto;
+}
+
+.cp-generate-result-card {
+  border: 1px solid var(--cp-border);
+  border-radius: 8px;
+  background: var(--cp-surface);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.cp-generate-result-card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cp-generate-result-card h3 {
+  margin: 0;
+  color: var(--cp-text);
+  font-size: 14px;
+}
+
+.cp-generate-result-card span {
+  font-size: 12px;
+  color: var(--cp-muted);
+}
+
+@media (max-width: 980px) {
+  .cp-generate-header {
+    flex-direction: column;
+  }
+
+  .cp-generate-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 980px) {
   .cp-library-card {
     grid-template-columns: 1fr;

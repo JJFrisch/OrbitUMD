@@ -2,6 +2,13 @@ import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
 
 let termCodeColumnsSupported: boolean | null = null;
 
+const TERM_CODE_TO_SEASON: Record<string, string> = {
+  "01": "spring",
+  "05": "summer",
+  "08": "fall",
+  "12": "winter",
+};
+
 function messageFromUnknownError(error: unknown): string {
   if (error instanceof Error && error.message.trim().length > 0) {
     return error.message;
@@ -90,6 +97,66 @@ async function supportsTermCodeColumns(): Promise<boolean> {
   }
 
   normalizeScheduleError(error);
+}
+
+async function resolveTermIdWithFallback(input: SaveScheduleInput): Promise<string | null> {
+  const supabase = getSupabaseClient();
+  const umdTermCode = `${input.termYear}${input.termCode}`;
+  const season = TERM_CODE_TO_SEASON[input.termCode] ?? "fall";
+
+  const { data: exactTerm, error: exactTermError } = await supabase
+    .from("terms")
+    .select("id")
+    .eq("umd_term_code", umdTermCode)
+    .maybeSingle();
+
+  if (exactTermError) normalizeScheduleError(exactTermError);
+  if (exactTerm?.id) return exactTerm.id;
+
+  const { data: yearSeasonTerm, error: yearSeasonErr } = await supabase
+    .from("terms")
+    .select("id")
+    .eq("year", input.termYear)
+    .eq("season", season)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (yearSeasonErr) normalizeScheduleError(yearSeasonErr);
+  if (yearSeasonTerm?.id) return yearSeasonTerm.id;
+
+  const { data: fallbackTerm, error: fallbackErr } = await supabase
+    .from("terms")
+    .select("id")
+    .eq("season", season)
+    .order("year", { ascending: false })
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (fallbackErr) normalizeScheduleError(fallbackErr);
+  if (fallbackTerm?.id) return fallbackTerm.id;
+
+  // Last resort: ask the DB to create the requested term row via SECURITY DEFINER RPC.
+  // This keeps client RLS intact while eliminating save failures on new environments.
+  const { data: createdTermId, error: createTermError } = await supabase.rpc("ensure_term_row", {
+    p_year: input.termYear,
+    p_term_code: input.termCode,
+  });
+
+  if (createTermError) {
+    // Keep compatibility with older DBs where the RPC migration has not run yet.
+    if (errorCode(createTermError) === "42883") {
+      return null;
+    }
+    normalizeScheduleError(createTermError);
+  }
+
+  if (typeof createdTermId === "string" && createdTermId.trim().length > 0) {
+    return createdTermId;
+  }
+
+  return null;
 }
 
 export interface UserScheduleRecord {
@@ -265,56 +332,11 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
 
   // We need a term_id for the FK. Terms are read-only for clients under RLS,
   // so resolve from existing rows instead of trying to insert/upsert.
-  const umdTermCode = `${input.termYear}${input.termCode}`;
-  const seasonMap: Record<string, string> = {
-    "01": "spring",
-    "05": "summer",
-    "08": "fall",
-    "12": "winter",
-  };
-  const season = seasonMap[input.termCode] ?? "fall";
-
-  const { data: exactTerm, error: exactTermError } = await supabase
-    .from("terms")
-    .select("id")
-    .eq("umd_term_code", umdTermCode)
-    .maybeSingle();
-
-  if (exactTermError) normalizeScheduleError(exactTermError);
-
-  let termId: string | undefined = exactTerm?.id;
-
-  if (!termId) {
-    const { data: yearSeasonTerm, error: yearSeasonErr } = await supabase
-      .from("terms")
-      .select("id")
-      .eq("year", input.termYear)
-      .eq("season", season)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (yearSeasonErr) normalizeScheduleError(yearSeasonErr);
-    termId = yearSeasonTerm?.id;
-  }
-
-  if (!termId) {
-    const { data: fallbackTerm, error: fallbackErr } = await supabase
-      .from("terms")
-      .select("id")
-      .eq("season", season)
-      .order("year", { ascending: false })
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-
-    if (fallbackErr) normalizeScheduleError(fallbackErr);
-    termId = fallbackTerm?.id;
-  }
+  const termId = await resolveTermIdWithFallback(input);
 
   if (!termId) {
     throw new Error(
-      "Unable to resolve a valid term for this schedule. No term rows are available for this season/year. Add rows to public.terms (catalog sync/seed) and try again.",
+      "Unable to resolve a valid term for this schedule. Sync catalog terms or run the latest DB migrations and try again.",
     );
   }
 

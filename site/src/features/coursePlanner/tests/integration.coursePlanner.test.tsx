@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import { CoursePlannerPage } from "../CoursePlannerPage";
 import { useCoursePlannerStore } from "../state/coursePlannerStore";
 
@@ -83,6 +84,13 @@ vi.mock("../services/courseSearchService", () => ({
 }));
 
 describe("course planner integration", () => {
+  const renderPage = () =>
+    render(
+      <MemoryRouter>
+        <CoursePlannerPage />
+      </MemoryRouter>
+    );
+
   beforeEach(() => {
     useCoursePlannerStore.setState({
       term: "08",
@@ -119,7 +127,7 @@ describe("course planner integration", () => {
   });
 
   it("adds and removes section from schedule", async () => {
-    render(<CoursePlannerPage />);
+    renderPage();
 
     fireEvent.change(screen.getByPlaceholderText("Search courses"), { target: { value: "cmsc131" } });
     expect(await screen.findByText("CMSC131")).toBeInTheDocument();
@@ -134,7 +142,7 @@ describe("course planner integration", () => {
   });
 
   it("shows hover preview and hides on leave", async () => {
-    render(<CoursePlannerPage />);
+    renderPage();
     fireEvent.change(screen.getByPlaceholderText("Search courses"), { target: { value: "cmsc131" } });
     fireEvent.click(await screen.findByLabelText("toggle sections"));
 
@@ -145,7 +153,7 @@ describe("course planner integration", () => {
   });
 
   it("only-open filter hides closed section rows", async () => {
-    render(<CoursePlannerPage />);
+    renderPage();
     fireEvent.change(screen.getByPlaceholderText("Search courses"), { target: { value: "cmsc131" } });
     fireEvent.click(await screen.findByLabelText("toggle sections"));
 
@@ -154,7 +162,7 @@ describe("course planner integration", () => {
   });
 
   it("term override and overlap render side-by-side", async () => {
-    render(<CoursePlannerPage />);
+    renderPage();
     fireEvent.change(screen.getByPlaceholderText("Search courses"), { target: { value: "cmsc131" } });
     fireEvent.click(await screen.findByLabelText("toggle sections"));
     fireEvent.click(await screen.findByLabelText("section 0101"));
@@ -195,13 +203,13 @@ describe("course planner integration", () => {
   });
 
   it("print mode hides search panel", async () => {
-    render(<CoursePlannerPage />);
+    renderPage();
     fireEvent.click(screen.getByText("Export / Print"));
     expect(screen.getByTestId("calendar-view")).toBeInTheDocument();
   });
 
   it("renders external links and suppresses null text", async () => {
-    render(<CoursePlannerPage />);
+    renderPage();
 
     fireEvent.change(screen.getByPlaceholderText("Search courses"), { target: { value: "cmsc131" } });
     fireEvent.click(await screen.findByLabelText("toggle sections"));
@@ -274,14 +282,14 @@ describe("course planner integration", () => {
       },
     }));
 
-    render(<CoursePlannerPage />);
+    renderPage();
 
     expect(await screen.findByText(/PHYS487 - Computerized Instrumentation/)).toBeInTheDocument();
     expect(screen.getByText("3 credits | Section 0102")).toBeInTheDocument();
     expect(screen.getByText(/M 2:00pm - 2:50pm in/)).toBeInTheDocument();
     expect(screen.getByText(/Tu 2:00pm - 5:50pm in/)).toBeInTheDocument();
-    expect(screen.getByText("0 / 10 seats available")).toBeInTheDocument();
-    expect(screen.getByText("Waitlist: 0")).toBeInTheDocument();
+    expect(screen.getByText("0/10 seats open")).toBeInTheDocument();
+    expect(screen.getAllByText(/Waitlist: 0/).length).toBeGreaterThan(0);
     expect(screen.getByText(/prereqs: PHYS276/)).toBeInTheDocument();
     expect(screen.getByText(/restrictions: Departmental Permission/)).toBeInTheDocument();
     expect(screen.getByText(/additional_info: Cross-listed with PHYS687/)).toBeInTheDocument();

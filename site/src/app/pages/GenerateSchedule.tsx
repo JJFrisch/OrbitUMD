@@ -1,5 +1,5 @@
-import { CoursePlannerPage } from "@/features/coursePlanner/CoursePlannerPage";
+import { AutoGenerateSchedulePage } from "@/features/coursePlanner/AutoGenerateSchedulePage";
 
 export default function GenerateSchedule() {
-  return <CoursePlannerPage />;
+  return <AutoGenerateSchedulePage />;
 }

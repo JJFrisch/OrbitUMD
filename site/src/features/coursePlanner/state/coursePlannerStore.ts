@@ -65,6 +65,7 @@ interface CoursePlannerState {
   setHoveredSection: (course: Course, section: ScheduleSelection["section"] | null) => void;
   toggleInfoPanel: (sectionKey: string) => void;
   removeSelection: (sectionKey: string) => void;
+  replaceSelections: (selections: ScheduleSelection[]) => void;
 
   calendarMeetings: () => CalendarMeeting[];
   calendarBounds: () => { startHour: number; endHour: number };
@@ -392,6 +393,23 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
         selections: next,
         selectedInfoKey: state.selectedInfoKey === sectionKey ? null : state.selectedInfoKey,
       };
+    });
+  },
+
+  replaceSelections: (nextSelections) => {
+    const selectionMap: Record<string, ScheduleSelection> = {};
+    for (const selection of nextSelections) {
+      if (selection?.sectionKey) {
+        selectionMap[selection.sectionKey] = selection;
+      }
+    }
+
+    set({
+      selections: selectionMap,
+      hoveredSelection: null,
+      selectedInfoKey: null,
+      activeScheduleId: null,
+      saveError: undefined,
     });
   },
 
