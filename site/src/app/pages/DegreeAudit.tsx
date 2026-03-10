@@ -13,6 +13,7 @@ import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import {
   buildCourseContributionMap,
   evaluateRequirementSection,
+  getCsRequirementSectionsForSpecialization,
   loadProgramRequirementBundles,
   type AuditCourseStatus,
   type ProgramRequirementBundle,
@@ -63,6 +64,7 @@ export default function DegreeAudit() {
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
   const [expandedStorageKey, setExpandedStorageKey] = useState("orbitumd:audit-expanded:anon");
   const [expandedLoaded, setExpandedLoaded] = useState(false);
+  const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(new Map());
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToProgram = (index: number) => {
@@ -106,6 +108,25 @@ export default function DegreeAudit() {
     if (!expandedLoaded) return;
     localStorage.setItem(expandedStorageKey, JSON.stringify(Array.from(expandedSectionIds)));
   }, [expandedLoaded, expandedSectionIds, expandedStorageKey]);
+
+  // Handle specialization selection changes
+  useEffect(() => {
+    if (bundles.length === 0) return;
+
+    const updatedBundles = bundles.map((bundle, index) => {
+      if (bundle.source !== "cs-specialized") return bundle;
+
+      const selectedSpecId = selectedSpecialization.get(index);
+      const newSections = getCsRequirementSectionsForSpecialization(selectedSpecId);
+
+      return {
+        ...bundle,
+        sections: newSections,
+      };
+    });
+
+    setBundles(updatedBundles);
+  }, [selectedSpecialization, bundles]);
 
   useEffect(() => {
     let active = true;
@@ -421,6 +442,45 @@ export default function DegreeAudit() {
                             {programAudit.completedSlots + programAudit.inProgressSlots} / {programAudit.requiredSlots} slots active
                           </span>
                         </div>
+
+                        {programAudit.bundle.specializationOptions && programAudit.bundle.specializationOptions.length > 0 && (
+                          <div className="mb-5 p-4 bg-input-background border border-border rounded-lg">
+                            <p className="text-sm text-muted-foreground mb-2">Choose a specialization:</p>
+                            <div className="flex flex-wrap gap-2">
+                              <Button
+                                size="sm"
+                                variant={!selectedSpecialization.has(index) ? "default" : "outline"}
+                                className={!selectedSpecialization.has(index) ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"}
+                                onClick={() => {
+                                  setSelectedSpecialization((prev) => {
+                                    const next = new Map(prev);
+                                    next.delete(index);
+                                    return next;
+                                  });
+                                }}
+                              >
+                                General Track
+                              </Button>
+                              {programAudit.bundle.specializationOptions.map((spec) => (
+                                <Button
+                                  key={spec.id}
+                                  size="sm"
+                                  variant={selectedSpecialization.get(index) === spec.id ? "default" : "outline"}
+                                  className={selectedSpecialization.get(index) === spec.id ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"}
+                                  onClick={() => {
+                                    setSelectedSpecialization((prev) => {
+                                      const next = new Map(prev);
+                                      next.set(index, spec.id);
+                                      return next;
+                                    });
+                                  }}
+                                >
+                                  {spec.name}
+                                </Button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
 
                         <div className="space-y-3">
                           {programAudit.sectionRows.map(({ section, eval: sectionEval }) => (

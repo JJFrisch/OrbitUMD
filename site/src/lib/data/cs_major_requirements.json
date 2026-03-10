@@ -1,0 +1,420 @@
+{
+  "id": "computer-science-major",
+  "name": "Computer Science Major",
+  "type": "major",
+  "hasSpecializations": true,
+  "baseRequirements": [
+    {
+      "id": "req-lower-level-core",
+      "title": "Required Lower Level Courses (Unless Exempt)",
+      "description": "All students must complete these foundational CS courses",
+      "type": "ALL",
+      "courses": [
+        { "code": "MATH140", "title": "Calculus I", "credits": 4 },
+        { "code": "MATH141", "title": "Calculus II", "credits": 4 },
+        { "code": "CMSC131", "title": "Object-Oriented Programming I", "credits": 4 },
+        { "code": "CMSC132", "title": "Object-Oriented Programming II", "credits": 4 },
+        { "code": "CMSC216", "title": "Introduction to Computer Systems", "credits": 4 },
+        { "code": "CMSC250", "title": "Discrete Structures", "credits": 4 }
+      ],
+      "totalCredits": 24,
+      "notes": [
+        "Students may fulfill CMSC131, CMSC132, CMSC216 or CMSC250 by passing proficiency exams.",
+        "A 'C-' or better must be earned in all major requirements."
+      ]
+    },
+    {
+      "id": "req-additional-required",
+      "title": "Additional Required Courses",
+      "description": "Required upper-level prerequisite courses",
+      "type": "ALL",
+      "items": [
+        {
+          "title": "Core Programming & Algorithms",
+          "type": "ALL",
+          "courses": [
+            { "code": "CMSC330", "title": "Organization of Programming Languages", "credits": 3 },
+            { "code": "CMSC351", "title": "Algorithms", "credits": 3 }
+          ]
+        },
+        {
+          "title": "Mathematics/Statistics (Choose 2)",
+          "type": "CHOOSE_N",
+          "count": 2,
+          "options": [
+            {
+              "type": "SINGLE",
+              "code": "STAT4XX",
+              "description": "Any STAT 400-level course"
+            },
+            {
+              "type": "SINGLE",
+              "code": "MATH/AMSC/STATXXX",
+              "description": "Any MATH, AMSC, or STAT course 300+ level"
+            }
+          ],
+          "credits": "3-4"
+        }
+      ],
+      "totalCredits": "6-7"
+    },
+    {
+      "id": "req-upper-level-cs",
+      "title": "Upper Level Computer Science Courses",
+      "description": "Select five 400-level courses from at least three different areas, with no more than three courses in a single area",
+      "type": "CHOOSE_N",
+      "count": 5,
+      "minAreas": 3,
+      "maxPerArea": 3,
+      "totalCredits": 15,
+      "areas": [
+        {
+          "id": "area-1-systems",
+          "name": "Area 1: Systems",
+          "courses": [
+            { "code": "CMSC411", "title": "Computer Systems Architecture", "credits": 3 },
+            { "code": "CMSC412", "title": "Operating Systems", "credits": 3 },
+            { "code": "CMSC414", "title": "Computer and Network Security", "credits": 3 },
+            { "code": "CMSC416", "title": "Introduction to Parallel Computing", "credits": 3 },
+            { "code": "CMSC417", "title": "Computer Networks", "credits": 3 }
+          ]
+        },
+        {
+          "id": "area-2-information-processing",
+          "name": "Area 2: Information Processing",
+          "courses": [
+            { "code": "CMSC420", "title": "Advanced Data Structures", "credits": 3 },
+            { "code": "CMSC421", "title": "Introduction to Artificial Intelligence", "credits": 3 },
+            { "code": "CMSC422", "title": "Introduction to Machine Learning", "credits": 3 },
+            { "code": "CMSC423", "title": "Bioinformatic Algorithms, Databases, and Tools", "credits": 3 },
+            { "code": "CMSC424", "title": "Database Design", "credits": 3 },
+            { "code": "CMSC426", "title": "Computer Vision", "credits": 3 },
+            { "code": "CMSC427", "title": "Computer Graphics", "credits": 3 },
+            { "code": "CMSC470", "title": "Introduction to Natural Language Processing", "credits": 3 },
+            { "code": "CMSC471", "title": "Introduction to Data Visualization", "credits": 3 },
+            { "code": "CMSC472", "title": "Introduction to Deep Learning", "credits": 3 }
+          ]
+        },
+        {
+          "id": "area-3-software-engineering",
+          "name": "Area 3: Software Engineering and Programming Languages",
+          "courses": [
+            { "code": "CMSC430", "title": "Introduction to Compilers", "credits": 3 },
+            { "code": "CMSC433", "title": "Programming Language Technologies and Paradigms", "credits": 3 },
+            { "code": "CMSC434", "title": "Introduction to Human-Computer Interaction", "credits": 3 },
+            { "code": "CMSC435", "title": "Software Engineering", "credits": 3 },
+            { "code": "CMSC436", "title": "Programming Handheld Systems", "credits": 3 }
+          ]
+        },
+        {
+          "id": "area-4-theory",
+          "name": "Area 4: Theory",
+          "courses": [
+            { "code": "CMSC451", "title": "Design and Analysis of Computer Algorithms", "credits": 3 },
+            { "code": "CMSC452", "title": "Elementary Theory of Computation", "credits": 3 },
+            { "code": "CMSC454", "title": "Algorithms for Data Science", "credits": 3 },
+            { "code": "CMSC456", "title": "Cryptography", "credits": 3 },
+            { "code": "CMSC457", "title": "Introduction to Quantum Computing", "credits": 3 },
+            { "code": "CMSC474", "title": "Introduction to Computational Game Theory", "credits": 3 }
+          ]
+        },
+        {
+          "id": "area-5-numerical-analysis",
+          "name": "Area 5: Numerical Analysis",
+          "courses": [
+            { "code": "CMSC460", "title": "Computational Methods", "credits": 3 },
+            { "code": "CMSC466", "title": "Introduction to Numerical Analysis I", "credits": 3 }
+          ],
+          "note": "Credit given for CMSC460 or CMSC466, not both"
+        }
+      ]
+    },
+    {
+      "id": "req-upper-level-electives",
+      "title": "Upper Level Additional Electives",
+      "description": "Two additional electives (6 credits total) at 300+ level CMSC, or overflow from upper-level requirement if >3 courses per area",
+      "type": "CHOOSE_N",
+      "count": 2,
+      "credits": 6,
+      "note": "If you take more than three 400-level courses from a single area, the overflow counts toward this requirement. You can also use one winter 1-credit course, independent research/study, or other 300-400 level CS courses."
+    },
+    {
+      "id": "req-outside-concentration",
+      "title": "Outside Concentration Requirement",
+      "description": "Select at least 12 credits of 300-400 level courses from one discipline outside CMSC",
+      "type": "CHOOSE_N",
+      "count": 1,
+      "credits": 12,
+      "constraint": "Must be from a single non-CMSC discipline; no cross-listed CMSC courses allowed; minimum 2.0 average; each course minimum 3 credits; maximum 1 special topics/independent study course",
+      "note": "Choose one discipline (e.g., MATH, PHYS, STAT, AMSC, ECON, etc.) and take at least 12 credits from that discipline at the 300-400 level."
+    }
+  ],
+  "specializations": [
+    {
+      "id": "cybersecurity-specialization",
+      "name": "Cybersecurity Specialization",
+      "shortName": "Cybersecurity",
+      "description": "Focus on computer and network security, cryptography, and secure systems.",
+      "totalCredits": "21-22",
+      "requirements": [
+        {
+          "id": "cyber-req-base-shared",
+          "title": "Shared Base Requirements",
+          "description": "All specializations must complete the same lower-level core and additional required courses as the general track",
+          "type": "REFERENCE",
+          "referenceSectionIds": ["req-lower-level-core", "req-additional-required", "req-outside-concentration"]
+        },
+        {
+          "id": "cyber-req-core",
+          "title": "Required Cybersecurity Courses",
+          "type": "ALL",
+          "courses": [
+            { "code": "CMSC414", "title": "Computer and Network Security", "credits": 3 },
+            { "code": "CMSC456", "title": "Cryptography", "credits": 3 }
+          ],
+          "totalCredits": 6
+        },
+        {
+          "id": "cyber-req-choose-4",
+          "title": "Choose Four Courses",
+          "description": "Select four courses from this list",
+          "type": "CHOOSE_N",
+          "count": 4,
+          "credits": "12-13",
+          "courses": [
+            { "code": "CMSC411", "title": "Computer Systems Architecture", "credits": 3 },
+            { "code": "CMSC412", "title": "Operating Systems", "credits": 3 },
+            { "code": "CMSC417", "title": "Computer Networks", "credits": 3 },
+            { "code": "CMSC430", "title": "Introduction to Compilers", "credits": 3 },
+            { "code": "CMSC433", "title": "Programming Language Technologies and Paradigms", "credits": 3 },
+            { "code": "CMSC451", "title": "Design and Analysis of Computer Algorithms", "credits": 3 }
+          ]
+        },
+        {
+          "id": "cyber-req-elective",
+          "title": "Upper Level Elective",
+          "description": "Three credits from CMSC3XX or CMSC4XX, excluding CMSC330 and CMSC351",
+          "type": "CHOOSE_N",
+          "count": 1,
+          "credits": 3,
+          "note": "Can be used to fulfill an Area requirement from the general track if applicable"
+        }
+      ]
+    },
+    {
+      "id": "data-science-specialization",
+      "name": "Data Science Specialization",
+      "shortName": "Data Science",
+      "description": "Focus on data science, machine learning, and database systems.",
+      "totalCredits": "18-19",
+      "requirements": [
+        {
+          "id": "ds-req-base-shared",
+          "title": "Shared Base Requirements",
+          "description": "Completes lower-level core and special math/stat requirements (STAT400, MATH240)",
+          "type": "REFERENCE",
+          "referenceSectionIds": ["req-lower-level-core", "req-outside-concentration"],
+          "note": "Data Science specialization requires STAT400 and MATH240 instead of the general additional-required options"
+        },
+        {
+          "id": "ds-req-core",
+          "title": "Required Data Science Courses",
+          "type": "ALL",
+          "courses": [
+            { "code": "CMSC320", "title": "Introduction to Data Science", "credits": 3 },
+            { "code": "CMSC422", "title": "Introduction to Machine Learning", "credits": 3 },
+            { "code": "CMSC424", "title": "Database Design", "credits": 3 }
+          ],
+          "totalCredits": 9
+        },
+        {
+          "id": "ds-req-select-1-first",
+          "title": "Select One Course (Group 1)",
+          "type": "CHOOSE_N",
+          "count": 1,
+          "credits": 3,
+          "courses": [
+            { "code": "CMSC420", "title": "Advanced Data Structures", "credits": 3 },
+            { "code": "CMSC421", "title": "Introduction to Artificial Intelligence", "credits": 3 },
+            { "code": "CMSC423", "title": "Bioinformatic Algorithms, Databases, and Tools", "credits": 3 },
+            { "code": "CMSC425", "title": "Game Programming", "credits": 3 },
+            { "code": "CMSC426", "title": "Computer Vision", "credits": 3 },
+            { "code": "CMSC427", "title": "Computer Graphics", "credits": 3 },
+            { "code": "CMSC470", "title": "Introduction to Natural Language Processing", "credits": 3 }
+          ]
+        },
+        {
+          "id": "ds-req-select-1-second",
+          "title": "Select One Course (Group 2)",
+          "type": "CHOOSE_N",
+          "count": 1,
+          "credits": 3,
+          "courses": [
+            { "code": "CMSC420", "title": "Advanced Data Structures", "credits": 3 },
+            { "code": "CMSC421", "title": "Introduction to Artificial Intelligence", "credits": 3 },
+            { "code": "CMSC451", "title": "Design and Analysis of Computer Algorithms", "credits": 3 },
+            { "code": "CMSC454", "title": "Algorithms for Data Science", "credits": 3 },
+            { "code": "CMSC460", "title": "Computational Methods", "credits": 3 }
+          ]
+        },
+        {
+          "id": "ds-req-select-2",
+          "title": "Select Two Courses",
+          "type": "CHOOSE_N",
+          "count": 2,
+          "credits": "6-7",
+          "courses": [
+            { "code": "CMSC411", "title": "Computer Systems Architecture", "credits": 3 },
+            { "code": "CMSC412", "title": "Operating Systems", "credits": 3 },
+            { "code": "CMSC414", "title": "Computer and Network Security", "credits": 3 },
+            { "code": "CMSC417", "title": "Computer Networks", "credits": 3 },
+            { "code": "CMSC430", "title": "Introduction to Compilers", "credits": 3 },
+            { "code": "CMSC433", "title": "Programming Language Technologies and Paradigms", "credits": 3 },
+            { "code": "CMSC434", "title": "Introduction to Human-Computer Interaction", "credits": 3 },
+            { "code": "CMSC435", "title": "Software Engineering", "credits": 3 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "machine-learning-specialization",
+      "name": "Machine Learning Specialization",
+      "shortName": "Machine Learning",
+      "description": "Focus on machine learning, deep learning, and AI systems.",
+      "totalCredits": 21,
+      "requirements": [
+        {
+          "id": "ml-req-base-shared",
+          "title": "Shared Base Requirements",
+          "description": "Completes lower-level core and special math requirements (STAT4xx, MATH240)",
+          "type": "REFERENCE",
+          "referenceSectionIds": ["req-lower-level-core", "req-outside-concentration"],
+          "note": "Machine Learning specialization requires STAT4xx and MATH240 instead of basic additional-required options"
+        },
+        {
+          "id": "ml-req-core",
+          "title": "Required Machine Learning Courses",
+          "type": "ALL",
+          "courses": [
+            { "code": "CMSC320", "title": "Introduction to Data Science", "credits": 3 },
+            { "code": "CMSC421", "title": "Introduction to Artificial Intelligence", "credits": 3 },
+            { "code": "CMSC422", "title": "Introduction to Machine Learning", "credits": 3 }
+          ],
+          "totalCredits": 9
+        },
+        {
+          "id": "ml-req-select-2",
+          "title": "Select Two Courses",
+          "type": "CHOOSE_N",
+          "count": 2,
+          "credits": 6,
+          "courses": [
+            { "code": "CMSC426", "title": "Computer Vision", "credits": 3 },
+            { "code": "CMSC/AMSC460", "title": "Computational Methods", "credits": 3 },
+            { "code": "CMSC/AMSC466", "title": "Introduction to Numerical Analysis I", "credits": 3 },
+            { "code": "MATH401", "title": "Applications of Linear Algebra", "credits": 3 },
+            { "code": "CMSC470", "title": "Introduction to Natural Language Processing", "credits": 3 },
+            { "code": "CMSC472", "title": "Introduction to Deep Learning", "credits": 3 },
+            { "code": "CMSC473", "title": "Capstone in Machine Learning", "credits": 3 },
+            { "code": "CMSC474", "title": "Introduction to Computational Game Theory", "credits": 3 },
+            { "code": "CMSC476", "title": "[Course Title]", "credits": 3 }
+          ]
+        },
+        {
+          "id": "ml-req-elective",
+          "title": "Upper Level Elective",
+          "description": "Six credits from CMSC3XX or CMSC4XX, excluding CMSC330 and CMSC351",
+          "type": "CHOOSE_N",
+          "count": 2,
+          "credits": 6,
+          "note": "Can be used to fulfill an Area requirement from the general track if applicable"
+        }
+      ]
+    },
+    {
+      "id": "quantum-information-specialization",
+      "name": "Quantum Information Specialization",
+      "shortName": "Quantum Information",
+      "description": "Focus on quantum computing and quantum information systems.",
+      "totalCredits": "21-22",
+      "requirements": [
+        {
+          "id": "qi-req-base-shared",
+          "title": "Shared Base Requirements",
+          "description": "Completes lower-level core and special math/stat requirements (STAT4xx, MATH240)",
+          "type": "REFERENCE",
+          "referenceSectionIds": ["req-lower-level-core", "req-outside-concentration"],
+          "note": "Quantum Information also includes requirements for PHYS467"
+        },
+        {
+          "id": "qi-req-core",
+          "title": "Required Quantum Courses",
+          "type": "ALL",
+          "courses": [
+            { "code": "CMSC457", "title": "Introduction to Quantum Computing", "credits": 3 },
+            { "code": "PHYS467", "title": "Introduction to Quantum Technology", "credits": 3 }
+          ],
+          "totalCredits": 6
+        },
+        {
+          "id": "qi-req-select-4-areas",
+          "title": "Select Four 400-Level Courses",
+          "description": "Select four 400-level courses from at least two areas (excluding Area 4: Theory), with no more than three courses in a single area",
+          "type": "CHOOSE_N",
+          "count": 4,
+          "credits": "12-13",
+          "minAreas": 2,
+          "maxPerArea": 3,
+          "excludeAreas": ["area-4-theory"],
+          "areas": [
+            {
+              "id": "area-1-systems",
+              "name": "Area 1: Systems",
+              "courses": [
+                { "code": "CMSC411", "title": "Computer Systems Architecture", "credits": 3 },
+                { "code": "CMSC412", "title": "Operating Systems", "credits": 3 },
+                { "code": "CMSC414", "title": "Computer and Network Security", "credits": 3 },
+                { "code": "CMSC416", "title": "Introduction to Parallel Computing", "credits": 3 },
+                { "code": "CMSC417", "title": "Computer Networks", "credits": 3 }
+              ]
+            },
+            {
+              "id": "area-2-information-processing",
+              "name": "Area 2: Information Processing",
+              "courses": [
+                { "code": "CMSC420", "title": "Advanced Data Structures", "credits": 3 },
+                { "code": "CMSC421", "title": "Introduction to Artificial Intelligence", "credits": 3 },
+                { "code": "CMSC422", "title": "Introduction to Machine Learning", "credits": 3 },
+                { "code": "CMSC423", "title": "Bioinformatic Algorithms, Databases, and Tools", "credits": 3 },
+                { "code": "CMSC424", "title": "Database Design", "credits": 3 },
+                { "code": "CMSC426", "title": "Computer Vision", "credits": 3 },
+                { "code": "CMSC427", "title": "Computer Graphics", "credits": 3 },
+                { "code": "CMSC470", "title": "Introduction to Natural Language Processing", "credits": 3 }
+              ]
+            },
+            {
+              "id": "area-3-software-engineering",
+              "name": "Area 3: Software Engineering and Programming Languages",
+              "courses": [
+                { "code": "CMSC430", "title": "Introduction to Compilers", "credits": 3 },
+                { "code": "CMSC433", "title": "Programming Language Technologies and Paradigms", "credits": 3 },
+                { "code": "CMSC434", "title": "Introduction to Human-Computer Interaction", "credits": 3 },
+                { "code": "CMSC435", "title": "Software Engineering", "credits": 3 },
+                { "code": "CMSC436", "title": "Programming Handheld Systems", "credits": 3 }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "qi-req-elective",
+          "title": "Upper Level Elective",
+          "description": "Three credits from CMSC3XX or CMSC4XX, excluding CMSC330 and CMSC351",
+          "type": "CHOOSE_N",
+          "count": 1,
+          "credits": 3,
+          "note": "Can be used to fulfill an Area requirement if applicable"
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@ import { fetchProgramRequirements } from "@/lib/repositories/degreeRequirementsR
 import type { UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import type { RequirementNode, RequirementSection } from "@/lib/types/requirements";
 import requirementsCatalog from "@/lib/data/current_degree_requirements_umd.json";
+import csRequirements from "@/lib/data/cs_major_requirements.json";
 
 export type AuditCourseStatus = "completed" | "in_progress" | "planned" | "not_started";
 
@@ -16,6 +17,7 @@ export interface RequirementSectionBundle {
   optionGroups: string[][];
   standaloneCodes: string[];
   logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }>;
+  specializationId?: string; // For tracking which specialization a section belongs to
 }
 
 export interface ProgramRequirementBundle {
@@ -23,9 +25,10 @@ export interface ProgramRequirementBundle {
   programName: string;
   programCode: string;
   kind: "major" | "minor" | "program";
-  source: "db" | "scraped";
+  source: "db" | "scraped" | "cs-specialized";
   specializations: string[];
   sections: RequirementSectionBundle[];
+  specializationOptions?: Array<{ id: string; name: string }>; // For CS major
 }
 
 interface ScrapedProgram {
@@ -172,6 +175,150 @@ function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"
   };
 }
 
+/**
+ * Convert CS Major requirements structure to RequirementSectionBundle[].
+ * Handles both base requirements and specialization-specific requirements.
+ */
+function mapCsRequirementsToSections(
+  csReq: typeof csRequirements,
+  selectedSpecializationId?: string
+): RequirementSectionBundle[] {
+  const sections: RequirementSectionBundle[] = [];
+
+  // Always include base requirements
+  for (const req of csReq.baseRequirements) {
+    const courseCodes = extractCoursesFromCsRequirement(req);
+    const optionGroups = extractOptionGroupsFromCsRequirement(req);
+
+    sections.push({
+      id: req.id,
+      title: req.title,
+      requirementType: req.type === "CHOOSE_N" ? "choose" : "all",
+      chooseCount: (req as any).count,
+      notes: (req as any).notes || [],
+      special: false,
+      courseCodes,
+      optionGroups,
+      standaloneCodes: courseCodes.filter((c) => !optionGroups.some((og) => og.includes(c))),
+      logicBlocks: [],
+    });
+  }
+
+  // If specialization is selected, add specialization requirements
+  if (selectedSpecializationId) {
+    const spec = csReq.specializations.find((s) => s.id === selectedSpecializationId);
+    if (spec) {
+      for (const req of spec.requirements) {
+        // Skip REFERENCE types (they're already in base)
+        if ((req as any).type === "REFERENCE") continue;
+
+        const courseCodes = extractCoursesFromCsRequirement(req);
+        const optionGroups = extractOptionGroupsFromCsRequirement(req);
+
+        sections.push({
+          id: req.id,
+          title: req.title,
+          requirementType: req.type === "CHOOSE_N" ? "choose" : "all",
+          chooseCount: (req as any).count,
+          notes: (req as any).notes || [],
+          special: false,
+          courseCodes,
+          optionGroups,
+          standaloneCodes: courseCodes.filter((c) => !optionGroups.some((og) => og.includes(c))),
+          logicBlocks: [],
+          specializationId: selectedSpecializationId,
+        });
+      }
+    }
+  }
+
+  return sections;
+}
+
+/**
+ * Extract all course codes from a CS requirement object
+ */
+function extractCoursesFromCsRequirement(req: any): string[] {
+  const codes = new Set<string>();
+
+  if (req.courses && Array.isArray(req.courses)) {
+    for (const course of req.courses) {
+      if (course.code) codes.add(course.code.toUpperCase());
+    }
+  }
+
+  if (req.areas && Array.isArray(req.areas)) {
+    for (const area of req.areas) {
+      if (area.courses && Array.isArray(area.courses)) {
+        for (const course of area.courses) {
+          if (course.code) codes.add(course.code.toUpperCase());
+        }
+      }
+    }
+  }
+
+  if (req.items && Array.isArray(req.items)) {
+    for (const item of req.items) {
+      if (item.courses && Array.isArray(item.courses)) {
+        for (const course of item.courses) {
+          if (course.code) codes.add(course.code.toUpperCase());
+        }
+      }
+      if (item.options && Array.isArray(item.options)) {
+        for (const option of item.options) {
+          if (option.code) codes.add(option.code.toUpperCase());
+        }
+      }
+    }
+  }
+
+  return Array.from(codes);
+}
+
+/**
+ * Extract option groups (OR groups) from a CS requirement
+ */
+function extractOptionGroupsFromCsRequirement(req: any): string[][] {
+  const groups: string[][] = [];
+
+  if (req.courses && Array.isArray(req.courses)) {
+    const codes = req.courses
+      .filter((c: any) => c.code)
+      .map((c: any) => c.code.toUpperCase());
+    if (codes.length > 0) groups.push(codes);
+  }
+
+  if (req.areas && Array.isArray(req.areas)) {
+    for (const area of req.areas) {
+      if (area.courses && Array.isArray(area.courses)) {
+        const codes = area.courses
+          .filter((c: any) => c.code)
+          .map((c: any) => c.code.toUpperCase());
+        if (codes.length > 0) groups.push(codes);
+      }
+    }
+  }
+
+  if (req.items && Array.isArray(req.items)) {
+    for (const item of req.items) {
+      if (item.courses && Array.isArray(item.courses)) {
+        const codes = item.courses
+          .filter((c: any) => c.code)
+          .map((c: any) => c.code.toUpperCase());
+        if (codes.length > 0) groups.push(codes);
+      }
+      if (item.options && Array.isArray(item.options)) {
+        const codes = item.options
+          .filter((o: any) => o.code)
+          .map((o: any) => o.code.toUpperCase());
+        if (codes.length > 0) groups.push(codes);
+      }
+    }
+  }
+
+  return groups;
+}
+
 function resolveProgramKind(program: UserDegreeProgram): "major" | "minor" | "program" {
   const text = `${program.programName} ${program.degreeType ?? ""}`.toLowerCase();
   if (text.includes("minor")) return "minor";
@@ -219,10 +366,40 @@ function findScrapedProgram(program: UserDegreeProgram): ScrapedProgram | null {
   return bestScore >= 8 ? best : null;
 }
 
+/**
+ * Load sections for a CS major specialization.
+ * Returns base sections + specialization sections for the selected specialization.
+ */
+export function getCsRequirementSectionsForSpecialization(
+  specializationId: string | undefined
+): RequirementSectionBundle[] {
+  return mapCsRequirementsToSections(csRequirements, specializationId);
+}
+
 export async function loadProgramRequirementBundles(programs: UserDegreeProgram[]): Promise<ProgramRequirementBundle[]> {
   const bundles: ProgramRequirementBundle[] = [];
 
   for (const program of programs) {
+    // Check if this is Computer Science Major - use specialized structure
+    if (program.programName.toLowerCase().includes("computer science")) {
+      const specializationOptions = csRequirements.specializations.map((s) => ({
+        id: s.id,
+        name: s.name,
+      }));
+
+      bundles.push({
+        programId: program.programId,
+        programName: program.programName,
+        programCode: program.programCode,
+        kind: "major",
+        source: "cs-specialized",
+        specializations: csRequirements.specializations.map((s) => s.name),
+        sections: mapCsRequirementsToSections(csRequirements, undefined),
+        specializationOptions,
+      });
+      continue;
+    }
+
     let dbSections: RequirementSection[] = [];
     try {
       dbSections = await fetchProgramRequirements(program.programId);
