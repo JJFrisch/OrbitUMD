@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:pages": "vite build --base=/OrbitUMD/",
+    "build:pages": "vite build --base=/OrbitUMD/ && cp dist/index.html dist/404.html",
     "preview": "vite preview",
     "lint": "tsc --noEmit -p tsconfig.app.json",
     "test": "vitest run",
