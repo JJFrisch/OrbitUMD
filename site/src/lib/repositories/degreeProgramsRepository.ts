@@ -399,48 +399,85 @@ export async function removeUserDegreeProgram(
 }
 
 /**
- * Load the user's saved CS specialization preference from their profile.
- * Returns the specialization ID string, or null/undefined if not set.
+ * Load all saved program specialization preferences from the user's profile.
+ * Returns a map of programId -> specializationId.
  */
-export async function loadCsSpecializationPreference(): Promise<string | null> {
+export async function loadProgramSpecializationPreferences(): Promise<Map<string, string>> {
   try {
     const userId = await getAuthenticatedUserId();
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
       .from("user_profiles")
-      .select("cs_specialization_id")
+      .select("program_specializations")
       .eq("user_id", userId)
       .single();
 
-    if (error) {
-      // Profile might not exist yet, which is fine
-      return null;
+    if (error || !data?.program_specializations) {
+      return new Map();
     }
 
-    return data?.cs_specialization_id ?? null;
+    const specs = data.program_specializations as Record<string, string>;
+    return new Map(Object.entries(specs));
   } catch {
-    return null;
+    return new Map();
   }
 }
 
 /**
- * Save the user's CS specialization preference to their profile.
- * Pass null/undefined to clear the preference.
+ * Save specialization preference for a specific program.
+ * Pass programId with null/undefined specializationId to clear that program's preference.
  */
-export async function saveCsSpecializationPreference(specializationId: string | null | undefined): Promise<void> {
+export async function saveProgramSpecializationPreference(
+  programId: string,
+  specializationId: string | null | undefined,
+): Promise<void> {
   try {
     const userId = await getAuthenticatedUserId();
     const supabase = getSupabaseClient();
 
+    // Fetch current preferences
+    const { data } = await supabase
+      .from("user_profiles")
+      .select("program_specializations")
+      .eq("user_id", userId)
+      .single();
+
+    const current = (data?.program_specializations ?? {}) as Record<string, string>;
+    const next = { ...current };
+
+    if (specializationId) {
+      next[programId] = specializationId;
+    } else {
+      delete next[programId];
+    }
+
     const { error } = await supabase
       .from("user_profiles")
-      .update({ cs_specialization_id: specializationId ?? null })
+      .update({ program_specializations: next })
       .eq("user_id", userId);
 
     if (error) throw error;
   } catch (err) {
-    console.error("Failed to save CS specialization preference:", err);
+    console.error(`Failed to save program specialization for ${programId}:`, err);
     // Don't throw; let specialization selection work locally even if save fails
   }
+}
+
+/**
+ * Legacy wrapper for backward compatibility with CS specialization code.
+ * Maps to the generic program specialization system using computer-science-major as programId.
+ */
+export async function loadCsSpecializationPreference(): Promise<string | null> {
+  const prefs = await loadProgramSpecializationPreferences();
+  return prefs.get("computer-science-major") ?? null;
+}
+
+/**
+ * Legacy wrapper for backward compatibility with CS specialization code.
+ */
+export async function saveCsSpecializationPreference(
+  specializationId: string | null | undefined,
+): Promise<void> {
+  return saveProgramSpecializationPreference("computer-science-major", specializationId);
 }

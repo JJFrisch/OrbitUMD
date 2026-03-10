@@ -5,6 +5,7 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
+import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { plannerApi } from "@/lib/api/planner";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
@@ -57,6 +58,8 @@ function statusBadge(status: AuditCourseStatus) {
 interface RequirementSectionCardProps {
   section: any; // RequirementSectionBundle
   sectionEval: any; // Section evaluation result
+  allCourses: AuditCourse[]; // All available courses for lookup
+  byCourseCode: Map<string, AuditCourseStatus>; // Course code -> status map
   expandedSectionIds: Set<string>;
   setExpandedSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
 }
@@ -64,9 +67,37 @@ interface RequirementSectionCardProps {
 function RequirementSectionCard({
   section,
   sectionEval,
+  allCourses,
+  byCourseCode,
   expandedSectionIds,
   setExpandedSectionIds,
 }: RequirementSectionCardProps) {
+  // Get courses for this section
+  const sectionCourses = useMemo(() => {
+    const coursesByCode = new Map(allCourses.map((c) => [c.code.toUpperCase(), c]));
+    const courses: AuditCourse[] = [];
+
+    // Add courses from the section's course list
+    for (const code of section.courseCodes) {
+      const course = coursesByCode.get(code.toUpperCase());
+      if (course) {
+        courses.push(course);
+      } else {
+        // Placeholder course if not found in audit data
+        const status = byCourseCode.get(code.toUpperCase()) ?? "not_started";
+        courses.push({
+          code: code.toUpperCase(),
+          title: `${code} (Details not loaded)`,
+          credits: 0,
+          genEds: [],
+          status,
+        });
+      }
+    }
+
+    return courses;
+  }, [section, allCourses, byCourseCode]);
+
   return (
     <Card className="bg-input-background border-border p-4">
       <div className="flex items-center justify-between gap-3 mb-2">
@@ -102,20 +133,37 @@ function RequirementSectionCard({
 
       {expandedSectionIds.has(section.id) ? (
         <>
-          <p className="text-xs text-muted-foreground mb-2">
-            Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
-          </p>
+          {sectionCourses.length > 0 ? (
+            // Show individual course rows
+            <div className="mt-3 border border-border/30 rounded-md overflow-hidden">
+              {sectionCourses.map((course) => (
+                <CourseRowDisplay
+                  key={course.code}
+                  courseCode={course.code}
+                  courseTitle={course.title}
+                  credits={course.credits}
+                  genEds={course.genEds}
+                  status={course.status}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground mt-3">No courses in this section.</p>
+          )}
 
           {section.notes.length > 0 && (
-            <ul className="space-y-1">
-              {section.notes.map((note: string, idx: number) => (
-                <li key={`${section.id}-note-${idx}`} className="text-sm text-foreground/80">{note}</li>
-              ))}
-            </ul>
+            <div className="mt-3 pt-3 border-t border-border/30">
+              <p className="text-xs font-medium text-muted-foreground mb-2">Notes:</p>
+              <ul className="space-y-1">
+                {section.notes.map((note, idx) => (
+                  <li key={`${section.id}-note-${idx}`} className="text-xs text-foreground/70">• {note}</li>
+                ))}
+              </ul>
+            </div>
           )}
         </>
       ) : (
-        <p className="text-xs text-muted-foreground">Collapsed. Tap to expand details.</p>
+        <p className="text-xs text-muted-foreground">Collapsed. Tap to expand course details.</p>
       )}
     </Card>
   );
@@ -586,6 +634,8 @@ export default function DegreeAudit() {
                                     key={section.id}
                                     section={section}
                                     sectionEval={sectionEval}
+                                    allCourses={courses}
+                                    byCourseCode={byCourseCode}
                                     expandedSectionIds={expandedSectionIds}
                                     setExpandedSectionIds={setExpandedSectionIds}
                                   />
@@ -603,6 +653,8 @@ export default function DegreeAudit() {
                                           key={section.id}
                                           section={section}
                                           sectionEval={sectionEval}
+                                          allCourses={courses}
+                                          byCourseCode={byCourseCode}
                                           expandedSectionIds={expandedSectionIds}
                                           setExpandedSectionIds={setExpandedSectionIds}
                                         />
