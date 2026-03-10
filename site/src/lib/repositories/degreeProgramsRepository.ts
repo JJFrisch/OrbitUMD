@@ -397,3 +397,50 @@ export async function removeUserDegreeProgram(
 
   if (error) throw error;
 }
+
+/**
+ * Load the user's saved CS specialization preference from their profile.
+ * Returns the specialization ID string, or null/undefined if not set.
+ */
+export async function loadCsSpecializationPreference(): Promise<string | null> {
+  try {
+    const userId = await getAuthenticatedUserId();
+    const supabase = getSupabaseClient();
+
+    const { data, error } = await supabase
+      .from("user_profiles")
+      .select("cs_specialization_id")
+      .eq("user_id", userId)
+      .single();
+
+    if (error) {
+      // Profile might not exist yet, which is fine
+      return null;
+    }
+
+    return data?.cs_specialization_id ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Save the user's CS specialization preference to their profile.
+ * Pass null/undefined to clear the preference.
+ */
+export async function saveCsSpecializationPreference(specializationId: string | null | undefined): Promise<void> {
+  try {
+    const userId = await getAuthenticatedUserId();
+    const supabase = getSupabaseClient();
+
+    const { error } = await supabase
+      .from("user_profiles")
+      .update({ cs_specialization_id: specializationId ?? null })
+      .eq("user_id", userId);
+
+    if (error) throw error;
+  } catch (err) {
+    console.error("Failed to save CS specialization preference:", err);
+    // Don't throw; let specialization selection work locally even if save fails
+  }
+}

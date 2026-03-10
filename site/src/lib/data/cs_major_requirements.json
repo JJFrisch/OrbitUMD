@@ -7,6 +7,7 @@
     {
       "id": "req-lower-level-core",
       "title": "Required Lower Level Courses (Unless Exempt)",
+      "displayLabel": "Lower-Level Core",
       "description": "All students must complete these foundational CS courses",
       "type": "ALL",
       "courses": [
@@ -26,6 +27,7 @@
     {
       "id": "req-additional-required",
       "title": "Additional Required Courses",
+      "displayLabel": "Additional Requirements",
       "description": "Required upper-level prerequisite courses",
       "type": "ALL",
       "items": [
@@ -61,6 +63,7 @@
     {
       "id": "req-upper-level-cs",
       "title": "Upper Level Computer Science Courses",
+      "displayLabel": "Upper-Level CS (400-level)",
       "description": "Select five 400-level courses from at least three different areas, with no more than three courses in a single area",
       "type": "CHOOSE_N",
       "count": 5,
@@ -132,6 +135,7 @@
     {
       "id": "req-upper-level-electives",
       "title": "Upper Level Additional Electives",
+      "displayLabel": "Additional Electives (300-400 level)",
       "description": "Two additional electives (6 credits total) at 300+ level CMSC, or overflow from upper-level requirement if >3 courses per area",
       "type": "CHOOSE_N",
       "count": 2,
@@ -141,6 +145,7 @@
     {
       "id": "req-outside-concentration",
       "title": "Outside Concentration Requirement",
+      "displayLabel": "Outside Concentration (12+ cr)",
       "description": "Select at least 12 credits of 300-400 level courses from one discipline outside CMSC",
       "type": "CHOOSE_N",
       "count": 1,
@@ -160,6 +165,7 @@
         {
           "id": "cyber-req-base-shared",
           "title": "Shared Base Requirements",
+          "displayLabel": "Base Requirements (Shared)",
           "description": "All specializations must complete the same lower-level core and additional required courses as the general track",
           "type": "REFERENCE",
           "referenceSectionIds": ["req-lower-level-core", "req-additional-required", "req-outside-concentration"]
@@ -167,6 +173,7 @@
         {
           "id": "cyber-req-core",
           "title": "Required Cybersecurity Courses",
+          "displayLabel": "Cybersecurity Core",
           "type": "ALL",
           "courses": [
             { "code": "CMSC414", "title": "Computer and Network Security", "credits": 3 },
@@ -177,6 +184,7 @@
         {
           "id": "cyber-req-choose-4",
           "title": "Choose Four Courses",
+          "displayLabel": "Choose 4 Security Courses",
           "description": "Select four courses from this list",
           "type": "CHOOSE_N",
           "count": 4,
@@ -193,6 +201,7 @@
         {
           "id": "cyber-req-elective",
           "title": "Upper Level Elective",
+          "displayLabel": "Electives (3 cr)",
           "description": "Three credits from CMSC3XX or CMSC4XX, excluding CMSC330 and CMSC351",
           "type": "CHOOSE_N",
           "count": 1,
@@ -211,6 +220,7 @@
         {
           "id": "ds-req-base-shared",
           "title": "Shared Base Requirements",
+          "displayLabel": "Base Requirements (Shared)",
           "description": "Completes lower-level core and special math/stat requirements (STAT400, MATH240)",
           "type": "REFERENCE",
           "referenceSectionIds": ["req-lower-level-core", "req-outside-concentration"],
@@ -219,6 +229,7 @@
         {
           "id": "ds-req-core",
           "title": "Required Data Science Courses",
+          "displayLabel": "Data Science Core",
           "type": "ALL",
           "courses": [
             { "code": "CMSC320", "title": "Introduction to Data Science", "credits": 3 },
@@ -230,6 +241,7 @@
         {
           "id": "ds-req-select-1-first",
           "title": "Select One Course (Group 1)",
+          "displayLabel": "Choose 1 Course (Group 1)",
           "type": "CHOOSE_N",
           "count": 1,
           "credits": 3,
@@ -246,6 +258,7 @@
         {
           "id": "ds-req-select-1-second",
           "title": "Select One Course (Group 2)",
+          "displayLabel": "Choose 1 Course (Group 2)",
           "type": "CHOOSE_N",
           "count": 1,
           "credits": 3,
@@ -260,6 +273,7 @@
         {
           "id": "ds-req-select-2",
           "title": "Select Two Courses",
+          "displayLabel": "Choose 2 Courses",
           "type": "CHOOSE_N",
           "count": 2,
           "credits": "6-7",
@@ -286,6 +300,7 @@
         {
           "id": "ml-req-base-shared",
           "title": "Shared Base Requirements",
+          "displayLabel": "Base Requirements (Shared)",
           "description": "Completes lower-level core and special math requirements (STAT4xx, MATH240)",
           "type": "REFERENCE",
           "referenceSectionIds": ["req-lower-level-core", "req-outside-concentration"],
@@ -294,6 +309,7 @@
         {
           "id": "ml-req-core",
           "title": "Required Machine Learning Courses",
+          "displayLabel": "ML Core",
           "type": "ALL",
           "courses": [
             { "code": "CMSC320", "title": "Introduction to Data Science", "credits": 3 },
@@ -305,6 +321,7 @@
         {
           "id": "ml-req-select-2",
           "title": "Select Two Courses",
+          "displayLabel": "Choose 2 Courses",
           "type": "CHOOSE_N",
           "count": 2,
           "credits": 6,
@@ -323,6 +340,7 @@
         {
           "id": "ml-req-elective",
           "title": "Upper Level Elective",
+          "displayLabel": "Electives (6 cr)",
           "description": "Six credits from CMSC3XX or CMSC4XX, excluding CMSC330 and CMSC351",
           "type": "CHOOSE_N",
           "count": 2,
@@ -341,6 +359,7 @@
         {
           "id": "qi-req-base-shared",
           "title": "Shared Base Requirements",
+          "displayLabel": "Base Requirements (Shared)",
           "description": "Completes lower-level core and special math/stat requirements (STAT4xx, MATH240)",
           "type": "REFERENCE",
           "referenceSectionIds": ["req-lower-level-core", "req-outside-concentration"],
@@ -349,6 +368,7 @@
         {
           "id": "qi-req-core",
           "title": "Required Quantum Courses",
+          "displayLabel": "Quantum Core",
           "type": "ALL",
           "courses": [
             { "code": "CMSC457", "title": "Introduction to Quantum Computing", "credits": 3 },
@@ -359,6 +379,7 @@
         {
           "id": "qi-req-select-4-areas",
           "title": "Select Four 400-Level Courses",
+          "displayLabel": "Choose 4 Courses (2+ Areas)",
           "description": "Select four 400-level courses from at least two areas (excluding Area 4: Theory), with no more than three courses in a single area",
           "type": "CHOOSE_N",
           "count": 4,
@@ -408,6 +429,7 @@
         {
           "id": "qi-req-elective",
           "title": "Upper Level Elective",
+          "displayLabel": "Electives (3 cr)",
           "description": "Three credits from CMSC3XX or CMSC4XX, excluding CMSC330 and CMSC351",
           "type": "CHOOSE_N",
           "count": 1,

@@ -7,7 +7,7 @@ import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
 import { plannerApi } from "@/lib/api/planner";
 import { getSupabaseClient } from "@/lib/supabase/client";
-import { listUserDegreePrograms, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
+import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import {
@@ -54,6 +54,73 @@ function statusBadge(status: AuditCourseStatus) {
   return <Badge variant="outline" className="border-border">Planned</Badge>;
 }
 
+interface RequirementSectionCardProps {
+  section: any; // RequirementSectionBundle
+  sectionEval: any; // Section evaluation result
+  expandedSectionIds: Set<string>;
+  setExpandedSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
+}
+
+function RequirementSectionCard({
+  section,
+  sectionEval,
+  expandedSectionIds,
+  setExpandedSectionIds,
+}: RequirementSectionCardProps) {
+  return (
+    <Card className="bg-input-background border-border p-4">
+      <div className="flex items-center justify-between gap-3 mb-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h3 className="text-foreground">{section.title}</h3>
+          {section.special && (
+            <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
+          )}
+          {section.requirementType === "choose" && (
+            <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {statusBadge(sectionEval.status)}
+          <Button
+            type="button"
+            size="icon"
+            variant="ghost"
+            className="h-7 w-7"
+            onClick={() => {
+              setExpandedSectionIds((prev) => {
+                const next = new Set(prev);
+                if (next.has(section.id)) next.delete(section.id);
+                else next.add(section.id);
+                return next;
+              });
+            }}
+          >
+            <ChevronDown className={`h-4 w-4 transition-transform ${expandedSectionIds.has(section.id) ? "rotate-180" : ""}`} />
+          </Button>
+        </div>
+      </div>
+
+      {expandedSectionIds.has(section.id) ? (
+        <>
+          <p className="text-xs text-muted-foreground mb-2">
+            Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
+          </p>
+
+          {section.notes.length > 0 && (
+            <ul className="space-y-1">
+              {section.notes.map((note: string, idx: number) => (
+                <li key={`${section.id}-note-${idx}`} className="text-sm text-foreground/80">{note}</li>
+              ))}
+            </ul>
+          )}
+        </>
+      ) : (
+        <p className="text-xs text-muted-foreground">Collapsed. Tap to expand details.</p>
+      )}
+    </Card>
+  );
+}
+
 export default function DegreeAudit() {
   const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
   const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
@@ -82,6 +149,17 @@ export default function DegreeAudit() {
         const { data } = await supabase.auth.getUser();
         if (!active) return;
         setExpandedStorageKey(`orbitumd:audit-expanded:${data.user?.id ?? "anon"}`);
+
+        // Load saved CS specialization preference
+        const savedSpecialization = await loadCsSpecializationPreference();
+        if (active && savedSpecialization) {
+          // Set to first CS major program (index 0 for now; could be enhanced)
+          setSelectedSpecialization((prev) => {
+            const next = new Map(prev);
+            next.set(0, savedSpecialization);
+            return next;
+          });
+        }
       } catch {
         if (active) setExpandedStorageKey("orbitumd:audit-expanded:anon");
       }
@@ -439,7 +517,7 @@ export default function DegreeAudit() {
                         <div className="flex items-center gap-4 mb-5">
                           <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
                           <span className="text-foreground text-sm">
-                            {programAudit.completedSlots + programAudit.inProgressSlots} / {programAudit.requiredSlots} slots active
+                            {Math.round((programAudit.completedSlots + programAudit.inProgressSlots) / 3)} / {Math.round(programAudit.requiredSlots / 3)} courses active
                           </span>
                         </div>
 
@@ -457,6 +535,7 @@ export default function DegreeAudit() {
                                     next.delete(index);
                                     return next;
                                   });
+                                  void saveCsSpecializationPreference(null);
                                 }}
                               >
                                 General Track
@@ -473,6 +552,7 @@ export default function DegreeAudit() {
                                       next.set(index, spec.id);
                                       return next;
                                     });
+                                    void saveCsSpecializationPreference(spec.id);
                                   }}
                                 >
                                   {spec.name}
@@ -483,58 +563,56 @@ export default function DegreeAudit() {
                         )}
 
                         <div className="space-y-3">
-                          {programAudit.sectionRows.map(({ section, eval: sectionEval }) => (
-                            <Card key={section.id} className="bg-input-background border-border p-4">
-                              <div className="flex items-center justify-between gap-3 mb-2">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <h3 className="text-foreground">{section.title}</h3>
-                                  {section.special && (
-                                    <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
-                                  )}
-                                  {section.requirementType === "choose" && (
-                                    <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
-                                  )}
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  {statusBadge(sectionEval.status)}
-                                  <Button
-                                    type="button"
-                                    size="icon"
-                                    variant="ghost"
-                                    className="h-7 w-7"
-                                    onClick={() => {
-                                      setExpandedSectionIds((prev) => {
-                                        const next = new Set(prev);
-                                        if (next.has(section.id)) next.delete(section.id);
-                                        else next.add(section.id);
-                                        return next;
-                                      });
-                                    }}
-                                  >
-                                    <ChevronDown className={`h-4 w-4 transition-transform ${expandedSectionIds.has(section.id) ? "rotate-180" : ""}`} />
-                                  </Button>
-                                </div>
-                              </div>
+                          {(() => {
+                            // Get selected specialization for this program
+                            const selectedSpecId = selectedSpecialization.get(index);
+                            const selectedSpec = programAudit.bundle.specializationOptions?.find(
+                              (spec) => spec.id === selectedSpecId
+                            );
 
-                              {expandedSectionIds.has(section.id) ? (
-                                <>
-                                  <p className="text-xs text-muted-foreground mb-2">
-                                    Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
-                                  </p>
+                            // Separate base and specialization sections
+                            const baseSections = programAudit.sectionRows.filter(
+                              ({ section }) => !section.specializationId
+                            );
+                            const specializationSections = programAudit.sectionRows.filter(
+                              ({ section }) => section.specializationId
+                            );
 
-                                  {section.notes.length > 0 && (
-                                    <ul className="space-y-1">
-                                      {section.notes.map((note, idx) => (
-                                        <li key={`${section.id}-note-${idx}`} className="text-sm text-foreground/80">{note}</li>
+                            return (
+                              <>
+                                {/* Base requirements */}
+                                {baseSections.map(({ section, eval: sectionEval }) => (
+                                  <RequirementSectionCard
+                                    key={section.id}
+                                    section={section}
+                                    sectionEval={sectionEval}
+                                    expandedSectionIds={expandedSectionIds}
+                                    setExpandedSectionIds={setExpandedSectionIds}
+                                  />
+                                ))}
+
+                                {/* Specialization-specific sections */}
+                                {specializationSections.length > 0 && selectedSpec && (
+                                  <div className="mt-6 pt-4 border-t border-border">
+                                    <h3 className="text-lg text-foreground mb-3 font-semibold">
+                                      Specialization Requirements: {selectedSpec.name}
+                                    </h3>
+                                    <div className="space-y-3">
+                                      {specializationSections.map(({ section, eval: sectionEval }) => (
+                                        <RequirementSectionCard
+                                          key={section.id}
+                                          section={section}
+                                          sectionEval={sectionEval}
+                                          expandedSectionIds={expandedSectionIds}
+                                          setExpandedSectionIds={setExpandedSectionIds}
+                                        />
                                       ))}
-                                    </ul>
-                                  )}
-                                </>
-                              ) : (
-                                <p className="text-xs text-muted-foreground">Collapsed. Tap to expand details.</p>
-                              )}
-                            </Card>
-                          ))}
+                                    </div>
+                                  </div>
+                                )}
+                              </>
+                            );
+                          })()}
                         </div>
                       </Card>
                     </div>
