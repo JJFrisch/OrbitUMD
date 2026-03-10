@@ -17,11 +17,14 @@ import { Separator } from "../components/ui/separator";
 import { useTheme } from "../contexts/ThemeContext";
 import { Link } from "react-router";
 import {
-  addUserDegreeProgram,
-  listDegreePrograms,
+  addUserDegreeProgramFromCatalogOption,
   listUserDegreePrograms,
   removeUserDegreeProgram,
-  type DegreeProgram,
+  listProgramCatalogOptions,
+  removeLocalCatalogProgramSelection,
+  setLocalCatalogExpectedGraduationTerm,
+  setLocalCatalogPrimaryProgram,
+  type CatalogProgramOption,
   type UserDegreeProgram,
 } from "@/lib/repositories/degreeProgramsRepository";
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -44,7 +47,7 @@ export default function Settings() {
   const [uid, setUid] = useState("");
 
   const [userPrograms, setUserPrograms] = useState<UserDegreeProgram[]>([]);
-  const [allPrograms, setAllPrograms] = useState<DegreeProgram[]>([]);
+  const [allPrograms, setAllPrograms] = useState<CatalogProgramOption[]>([]);
   const [selectedProgramToAdd, setSelectedProgramToAdd] = useState("");
 
   const [termOptions, setTermOptions] = useState<TermOption[]>([]);
@@ -54,7 +57,7 @@ export default function Settings() {
   const [scheduleView, setScheduleView] = useState(() => localStorage.getItem("orbitumd-schedule-view") ?? "weekly");
 
   const refreshAcademicData = async () => {
-    const [declared, available] = await Promise.all([listUserDegreePrograms(), listDegreePrograms()]);
+    const [declared, available] = await Promise.all([listUserDegreePrograms(), listProgramCatalogOptions()]);
     setUserPrograms(declared);
     setAllPrograms(available);
 
@@ -125,8 +128,8 @@ export default function Settings() {
   }, []);
 
   const addablePrograms = useMemo(() => {
-    const existingIds = new Set(userPrograms.map((program) => program.programId));
-    return allPrograms.filter((program) => !existingIds.has(program.id));
+    const existingNames = new Set(userPrograms.map((program) => program.programName.toLowerCase()));
+    return allPrograms.filter((program) => !existingNames.has(program.name.toLowerCase()));
   }, [allPrograms, userPrograms]);
 
   const primaryProgram = useMemo(() => userPrograms.find((program) => program.isPrimary) ?? null, [userPrograms]);
@@ -157,7 +160,12 @@ export default function Settings() {
     if (!selectedProgramToAdd) return;
 
     try {
-      await addUserDegreeProgram(selectedProgramToAdd, userPrograms.length === 0);
+      const option = allPrograms.find((program) => program.key === selectedProgramToAdd);
+      if (!option) {
+        throw new Error("Selected program option could not be resolved.");
+      }
+
+      await addUserDegreeProgramFromCatalogOption(option);
       setSelectedProgramToAdd("");
       await refreshAcademicData();
       setSaveMessage("Program added.");
@@ -168,7 +176,11 @@ export default function Settings() {
 
   const handleRemoveProgram = async (userDegreeProgramId: string) => {
     try {
-      await removeUserDegreeProgram(userDegreeProgramId);
+      if (userDegreeProgramId.startsWith("local-link:")) {
+        await removeLocalCatalogProgramSelection(userDegreeProgramId);
+      } else {
+        await removeUserDegreeProgram(userDegreeProgramId);
+      }
       await refreshAcademicData();
       setSaveMessage("Program removed.");
     } catch (error) {
@@ -180,6 +192,13 @@ export default function Settings() {
     if (!userId) return;
 
     try {
+      if (programLinkId.startsWith("local-link:")) {
+        await setLocalCatalogPrimaryProgram(programLinkId);
+        await refreshAcademicData();
+        setSaveMessage("Primary program updated.");
+        return;
+      }
+
       const supabase = getSupabaseClient();
       const { error: clearError } = await supabase
         .from("user_degree_programs")
@@ -205,6 +224,16 @@ export default function Settings() {
     if (!primaryProgram || !userId) return;
 
     try {
+      if (primaryProgram.id.startsWith("local-link:")) {
+        await setLocalCatalogExpectedGraduationTerm(
+          primaryProgram.id,
+          expectedGraduationTermId === "none" ? null : expectedGraduationTermId,
+        );
+        await refreshAcademicData();
+        setSaveMessage("Expected graduation term saved.");
+        return;
+      }
+
       const supabase = getSupabaseClient();
       const { error } = await supabase
         .from("user_degree_programs")
@@ -334,7 +363,7 @@ export default function Settings() {
                       </SelectTrigger>
                       <SelectContent>
                         {addablePrograms.map((program) => (
-                          <SelectItem key={program.id} value={program.id}>{program.name}</SelectItem>
+                          <SelectItem key={program.key} value={program.key}>{program.name} ({program.type})</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
