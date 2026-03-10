@@ -17,7 +17,7 @@ import { Button } from "./ui/button";
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
-  { name: "Schedule Builder", href: "/schedule-builder", icon: CalendarDays },
+  { name: "Schedules", href: "/schedules", icon: CalendarDays },
   { name: "Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
   { name: "Degree Audit", href: "/degree-audit", icon: FileCheck2 },
   { name: "Gen Eds", href: "/gen-eds", icon: BookOpen },
@@ -65,7 +65,10 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       
       <nav className="flex-1 p-4 space-y-1">
         {navigation.map((item) => {
-          const isActive = location.pathname === item.href;
+          const isSchedulesTab = item.href === "/schedules";
+          const isActive = isSchedulesTab
+            ? location.pathname === "/schedules" || location.pathname === "/schedule-builder" || location.pathname === "/build-my-week"
+            : location.pathname === item.href;
           return (
             <Link
               key={item.name}
