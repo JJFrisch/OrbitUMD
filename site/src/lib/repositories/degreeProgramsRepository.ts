@@ -127,7 +127,7 @@ export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
 
     if (error) throw error;
 
-    const remotePrograms = (data ?? []).map((row: any) => ({
+    const remotePrograms: UserDegreeProgram[] = (data ?? []).map((row: any) => ({
       id: row.id,
       userId: row.user_id,
       programId: row.program_id,

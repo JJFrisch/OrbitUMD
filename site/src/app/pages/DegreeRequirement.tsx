@@ -10,15 +10,16 @@ import {
 } from "@/lib/requirements/audit";
 
 function RequirementTypeBadge({ section }: { section: RequirementSectionBundle }) {
+  const optionUniverse = section.courseCodes.length;
   if (section.requirementType === "choose") {
     return (
       <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">
-        Choose {section.chooseCount ?? 1}
+        Choose {section.chooseCount ?? 1} of {optionUniverse || section.chooseCount || 1}
       </Badge>
     );
   }
 
-  return <Badge variant="outline" className="border-neutral-700 text-neutral-300">All Required</Badge>;
+  return <Badge variant="outline" className="border-neutral-700 text-neutral-300">All Required ({optionUniverse})</Badge>;
 }
 
 function SectionCard({ section }: { section: RequirementSectionBundle }) {
@@ -42,6 +43,23 @@ function SectionCard({ section }: { section: RequirementSectionBundle }) {
             <div key={`${section.id}-group-${index}`} className="p-3 bg-[#1a1a1a] border border-neutral-800 rounded-lg">
               <p className="text-xs text-neutral-400 mb-2">Option Group {index + 1}</p>
               <p className="text-sm text-neutral-200">{group.join(" or ")}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {section.logicBlocks.length > 0 && (
+        <div className="mb-3 space-y-2">
+          <p className="text-xs text-neutral-400">Requirement Logic</p>
+          {section.logicBlocks.map((block, index) => (
+            <div key={`${section.id}-logic-${index}`} className="p-3 bg-[#1a1a1a] border border-neutral-800 rounded-lg">
+              <div className="flex items-center justify-between mb-1">
+                <Badge variant="outline" className="border-neutral-700 text-neutral-300">{block.type} Block</Badge>
+                <span className="text-xs text-neutral-500">{block.codes.length} course{block.codes.length === 1 ? "" : "s"}</span>
+              </div>
+              <p className="text-sm text-neutral-200">
+                {block.type === "OR" ? block.codes.join(" or ") : block.codes.join(" and ")}
+              </p>
             </div>
           ))}
         </div>

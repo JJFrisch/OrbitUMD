@@ -15,6 +15,7 @@ export interface RequirementSectionBundle {
   courseCodes: string[];
   optionGroups: string[][];
   standaloneCodes: string[];
+  logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }>;
 }
 
 export interface ProgramRequirementBundle {
@@ -98,6 +99,10 @@ function mapDbSection(section: RequirementSection): RequirementSectionBundle {
   const optionGroups = collectOptionGroups(section.nodes);
   const optionCodeSet = new Set(optionGroups.flat());
   const standaloneCodes = courseCodes.filter((code) => !optionCodeSet.has(code));
+  const logicBlocks = [
+    ...optionGroups.map((codes) => ({ type: "OR" as const, codes })),
+    ...standaloneCodes.map((code) => ({ type: "AND" as const, codes: [code] })),
+  ];
 
   return {
     id: section.id ?? crypto.randomUUID(),
@@ -109,19 +114,25 @@ function mapDbSection(section: RequirementSection): RequirementSectionBundle {
     courseCodes,
     optionGroups,
     standaloneCodes,
+    logicBlocks,
   };
 }
 
 function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"]>[number]): RequirementSectionBundle {
   const optionGroups: string[][] = [];
   const standalone: string[] = [];
+  const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }> = [];
 
   for (const item of section.items ?? []) {
     const itemCodes = dedupeCodes((item.items ?? []).map((row) => row.code ?? ""));
     if (item.type === "OR" && itemCodes.length > 0) {
       optionGroups.push(itemCodes);
+      logicBlocks.push({ type: "OR", codes: itemCodes });
     } else {
       itemCodes.forEach((code) => standalone.push(code));
+      if (itemCodes.length > 0) {
+        logicBlocks.push({ type: "AND", codes: itemCodes });
+      }
     }
   }
 
@@ -137,6 +148,7 @@ function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"
     courseCodes,
     optionGroups,
     standaloneCodes: dedupeCodes(standalone),
+    logicBlocks,
   };
 }
 

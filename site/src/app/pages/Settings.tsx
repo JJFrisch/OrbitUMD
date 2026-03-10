@@ -189,8 +189,6 @@ export default function Settings() {
   };
 
   const handleSetPrimaryProgram = async (programLinkId: string) => {
-    if (!userId) return;
-
     try {
       if (programLinkId.startsWith("local-link:")) {
         await setLocalCatalogPrimaryProgram(programLinkId);
@@ -198,6 +196,8 @@ export default function Settings() {
         setSaveMessage("Primary program updated.");
         return;
       }
+
+      if (!userId) return;
 
       const supabase = getSupabaseClient();
       const { error: clearError } = await supabase
@@ -221,7 +221,7 @@ export default function Settings() {
   };
 
   const handleSaveGraduationTerm = async () => {
-    if (!primaryProgram || !userId) return;
+    if (!primaryProgram) return;
 
     try {
       if (primaryProgram.id.startsWith("local-link:")) {
@@ -233,6 +233,8 @@ export default function Settings() {
         setSaveMessage("Expected graduation term saved.");
         return;
       }
+
+      if (!userId) return;
 
       const supabase = getSupabaseClient();
       const { error } = await supabase
