@@ -19,6 +19,7 @@ import { Link } from "react-router";
 import {
   addUserDegreeProgramFromCatalogOption,
   listUserDegreePrograms,
+  reorderUserDegreePrograms,
   removeUserDegreeProgram,
   listProgramCatalogOptions,
   removeLocalCatalogProgramSelection,
@@ -48,6 +49,7 @@ export default function Settings() {
   const [uid, setUid] = useState("");
 
   const [userPrograms, setUserPrograms] = useState<UserDegreeProgram[]>([]);
+  const [draggingProgramId, setDraggingProgramId] = useState<string | null>(null);
   const [allPrograms, setAllPrograms] = useState<CatalogProgramOption[]>([]);
   const [selectedProgramToAdd, setSelectedProgramToAdd] = useState("");
 
@@ -266,6 +268,29 @@ export default function Settings() {
     }
   };
 
+  const handleDropProgram = async (targetProgramId: string) => {
+    if (!draggingProgramId || draggingProgramId === targetProgramId) return;
+
+    const fromIndex = userPrograms.findIndex((program) => program.id === draggingProgramId);
+    const toIndex = userPrograms.findIndex((program) => program.id === targetProgramId);
+    if (fromIndex < 0 || toIndex < 0) return;
+
+    const reordered = [...userPrograms];
+    const [moved] = reordered.splice(fromIndex, 1);
+    reordered.splice(toIndex, 0, moved);
+    setUserPrograms(reordered);
+
+    try {
+      await reorderUserDegreePrograms(reordered.map((program) => program.id));
+      setSaveMessage("Program order saved.");
+    } catch (error) {
+      setSaveMessage(error instanceof Error ? error.message : "Unable to save program order.");
+      await refreshAcademicData();
+    } finally {
+      setDraggingProgramId(null);
+    }
+  };
+
   const handleSavePreferences = () => {
     const run = async () => {
       localStorage.setItem("orbitumd-default-term", defaultTerm);
@@ -402,12 +427,20 @@ export default function Settings() {
               <div className="space-y-4">
                 <div>
                   <Label className="mb-2 block">Declared Programs</Label>
+                  <p className="text-xs text-muted-foreground mb-2">Drag and drop to reorder your majors/minors.</p>
                   {userPrograms.length === 0 ? (
                     <p className="text-sm text-muted-foreground">No declared programs yet.</p>
                   ) : (
                     <div className="space-y-2">
                       {userPrograms.map((program) => (
-                        <div key={program.id} className="flex items-center justify-between rounded-lg border border-neutral-700 bg-input-background p-3 gap-3">
+                        <div
+                          key={program.id}
+                          draggable
+                          onDragStart={() => setDraggingProgramId(program.id)}
+                          onDragOver={(event) => event.preventDefault()}
+                          onDrop={() => void handleDropProgram(program.id)}
+                          className="flex items-center justify-between rounded-lg border border-neutral-700 bg-input-background p-3 gap-3 cursor-grab active:cursor-grabbing"
+                        >
                           <div>
                             <p className="text-sm text-white">{program.programName}</p>
                             <p className="text-xs text-neutral-400">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>

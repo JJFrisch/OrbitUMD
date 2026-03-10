@@ -6,6 +6,7 @@ import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
 import { plannerApi } from "@/lib/api/planner";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
@@ -60,6 +61,8 @@ export default function DegreeAudit() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeProgramIndex, setActiveProgramIndex] = useState(0);
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
+  const [expandedStorageKey, setExpandedStorageKey] = useState("orbitumd:audit-expanded:anon");
+  const [expandedLoaded, setExpandedLoaded] = useState(false);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToProgram = (index: number) => {
@@ -68,6 +71,41 @@ export default function DegreeAudit() {
     if (!slider || !child) return;
     slider.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    let active = true;
+    const run = async () => {
+      try {
+        const supabase = getSupabaseClient();
+        const { data } = await supabase.auth.getUser();
+        if (!active) return;
+        setExpandedStorageKey(`orbitumd:audit-expanded:${data.user?.id ?? "anon"}`);
+      } catch {
+        if (active) setExpandedStorageKey("orbitumd:audit-expanded:anon");
+      }
+    };
+    void run();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(expandedStorageKey);
+      const parsed = raw ? JSON.parse(raw) : [];
+      setExpandedSectionIds(new Set(Array.isArray(parsed) ? parsed.map(String) : []));
+    } catch {
+      setExpandedSectionIds(new Set());
+    } finally {
+      setExpandedLoaded(true);
+    }
+  }, [expandedStorageKey]);
+
+  useEffect(() => {
+    if (!expandedLoaded) return;
+    localStorage.setItem(expandedStorageKey, JSON.stringify(Array.from(expandedSectionIds)));
+  }, [expandedLoaded, expandedSectionIds, expandedStorageKey]);
 
   useEffect(() => {
     let active = true;

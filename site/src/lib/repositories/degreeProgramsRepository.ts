@@ -8,6 +8,7 @@ type LocalSelectedProgram = {
   userId?: string;
   programId: string;
   isPrimary: boolean;
+  sortOrder?: number;
   startedTermId?: string;
   expectedGraduationTermId?: string;
   createdAt: string;
@@ -71,6 +72,7 @@ export interface UserDegreeProgram {
   userId: string;
   programId: string;
   isPrimary: boolean;
+  sortOrder?: number;
   startedTermId?: string;
   expectedGraduationTermId?: string;
   createdAt: string;
@@ -103,6 +105,7 @@ export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
     const supabase = getSupabaseClient();
 
     const { data, error } = await supabase
+    sortOrder: row.sortOrder,
       .from("user_degree_programs")
       .select(
         `
@@ -110,6 +113,7 @@ export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
         user_id,
         program_id,
         is_primary,
+        sort_order,
         started_term_id,
         expected_graduation_term_id,
         created_at,
@@ -123,7 +127,8 @@ export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
       `,
       )
       .eq("user_id", userId)
-      .order("is_primary", { ascending: false });
+      .order("sort_order", { ascending: true, nullsFirst: false })
+      .order("created_at", { ascending: true });
 
     if (error) throw error;
 
@@ -140,6 +145,7 @@ export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
       college: row.degree_programs.college ?? undefined,
       degreeType: row.degree_programs.degree_type ?? undefined,
       catalogYear: row.degree_programs.catalog_year ?? undefined,
+      sortOrder: row.sort_order ?? undefined,
     }));
 
     const merged = [...remotePrograms];
@@ -228,6 +234,7 @@ export async function addLocalCatalogProgramSelection(option: CatalogProgramOpti
     id: `local-link:${crypto.randomUUID()}`,
     programId: option.key,
     isPrimary: current.length === 0,
+    sortOrder: current.length + 1,
     createdAt: new Date().toISOString(),
     programCode: option.programCode,
     programName: option.name,
@@ -262,6 +269,39 @@ export async function setLocalCatalogExpectedGraduationTerm(userDegreeProgramId:
   safeWriteLocalSelectedPrograms(next);
 }
 
+export async function reorderUserDegreePrograms(orderedProgramIds: string[]): Promise<void> {
+  if (orderedProgramIds.length === 0) return;
+
+  const rank = new Map(orderedProgramIds.map((id, index) => [id, index + 1]));
+
+  const localRows = safeReadLocalSelectedPrograms();
+  if (localRows.length > 0) {
+    const nextLocal = localRows
+      .map((row) => ({ ...row, sortOrder: rank.get(row.id) ?? row.sortOrder }))
+      .sort((a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER));
+    safeWriteLocalSelectedPrograms(nextLocal);
+  }
+
+  const remoteIds = orderedProgramIds.filter((id) => !id.startsWith("local-link:"));
+  if (remoteIds.length === 0) return;
+
+  const userId = await getAuthenticatedUserId();
+  const supabase = getSupabaseClient();
+
+  const updates = await Promise.all(
+    remoteIds.map((id, index) =>
+      supabase
+        .from("user_degree_programs")
+        .update({ sort_order: index + 1 })
+        .eq("id", id)
+        .eq("user_id", userId)
+    )
+  );
+
+  const error = updates.find((result) => result.error)?.error;
+  if (error) throw error;
+}
+
 /**
  * Attempt to declare a program in DB, and if DB cannot accept new links/programs,
  * persist as local catalog selection so requirements pages still work.
@@ -293,6 +333,7 @@ function _mapDbRow(row: any): UserDegreeProgram {
     college: row.degree_programs.college ?? undefined,
     degreeType: row.degree_programs.degree_type ?? undefined,
     catalogYear: row.degree_programs.catalog_year ?? undefined,
+    sortOrder: row.sort_order ?? undefined,
   };
 }
 

@@ -120,11 +120,20 @@ export default function Dashboard() {
           listUserPriorCredits(),
         ]);
 
+        const { data: profileRow } = authUser.user
+          ? await supabase
+            .from("user_profiles")
+            .select("display_name")
+            .eq("id", authUser.user.id)
+            .maybeSingle()
+          : { data: null as { display_name?: string } | null };
+
         const profileName =
-          (authUser.user?.user_metadata?.full_name as string | undefined)
-          ?? (authUser.user?.user_metadata?.name as string | undefined)
-          ?? authUser.user?.email
-          ?? "Student";
+          String(profileRow?.display_name ?? "").trim()
+          || (authUser.user?.user_metadata?.full_name as string | undefined)
+          || (authUser.user?.user_metadata?.name as string | undefined)
+          || authUser.user?.email
+          || "Student";
 
         const mainSchedules = schedules.filter((schedule) => schedule.is_primary && schedule.term_code && schedule.term_year);
 
