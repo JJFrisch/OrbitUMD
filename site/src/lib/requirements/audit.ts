@@ -44,15 +44,24 @@ interface ScrapedProgram {
   }>;
   requirementCourseBlocks?: Array<{
     kind?: string;
-    courses?: Array<{ code?: string; name?: string; credits?: number }>;
+    courses?: Array<{ code?: string; courseCode?: string; name?: string; credits?: number }>;
     builderSections?: Array<{
       title: string;
       requirementType: "all" | "choose";
       chooseCount?: number;
-      courses?: Array<{ code?: string; name?: string; credits?: number }>;
+      courses?: Array<{ code?: string; courseCode?: string; name?: string; credits?: number }>;
     }>;
   }>;
 }
+
+const BIOLOGY_SPECIALIZATION_ORDER = [
+  { id: "bio-cell-biology-genetics", name: "Cell Biology and Genetics" },
+  { id: "bio-ecology-evolution", name: "Ecology and Evolution" },
+  { id: "bio-general-biology", name: "General Biology" },
+  { id: "bio-microbiology", name: "Microbiology" },
+  { id: "bio-physiology-neurobiology", name: "Physiology and Neurobiology" },
+  { id: "bio-individualized-studies", name: "Individualized Studies" },
+] as const;
 
 function createId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -148,7 +157,9 @@ function mapScrapedSection(
   const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }> = [];
 
   // Some scraped sections are represented as a direct course list instead of items[] blocks.
-  const sectionCourseCodes = dedupeCodes(((section as { courses?: Array<{ code?: string }> }).courses ?? []).map((c) => c?.code ?? ""));
+  const sectionCourseCodes = dedupeCodes(
+    ((section as { courses?: Array<{ code?: string; courseCode?: string }> }).courses ?? []).map((c) => c?.code ?? c?.courseCode ?? "")
+  );
   if (sectionCourseCodes.length > 0) {
     optionGroups.push(sectionCourseCodes);
     logicBlocks.push({ type: "OR", codes: sectionCourseCodes });
@@ -351,6 +362,45 @@ function resolveProgramKind(program: UserDegreeProgram): "major" | "minor" | "pr
   return "program";
 }
 
+function isBiologicalSciencesMajor(program: UserDegreeProgram): boolean {
+  return normalizeName(program.programName).includes("biological sciences");
+}
+
+function mapBiologyScrapedSections(scraped: ScrapedProgram): {
+  sections: RequirementSectionBundle[];
+  specializationOptions: Array<{ id: string; name: string }>;
+} {
+  const sections: RequirementSectionBundle[] = [];
+  const blocks = scraped.requirementCourseBlocks ?? [];
+
+  if (blocks.length > 0) {
+    // Block 0 is shared core requirements shown before specialization tracks.
+    const baseSections = blocks[0]?.builderSections ?? [];
+    sections.push(...baseSections.map((section) => mapScrapedSection(section)));
+
+    // Remaining blocks map to specialization tracks in catalog order.
+    const mappedTrackBlocks = blocks.slice(1, 6);
+    mappedTrackBlocks.forEach((block, idx) => {
+      const spec = BIOLOGY_SPECIALIZATION_ORDER[idx];
+      if (!spec || !block?.builderSections) return;
+
+      const specSections = block.builderSections.map((section) => ({
+        ...mapScrapedSection(section),
+        specializationId: spec.id,
+      }));
+      sections.push(...specSections);
+    });
+  } else {
+    // Fallback when course blocks are unavailable.
+    sections.push(...(scraped.builderSections ?? []).map(mapScrapedSection));
+  }
+
+  return {
+    sections,
+    specializationOptions: BIOLOGY_SPECIALIZATION_ORDER.map((spec) => ({ id: spec.id, name: spec.name })),
+  };
+}
+
 function findScrapedProgram(program: UserDegreeProgram): ScrapedProgram | null {
   const entries = ((requirementsCatalog as any)?.programs ?? []) as ScrapedProgram[];
   const target = normalizeName(program.programName);
@@ -447,37 +497,41 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
     }
 
     const scraped = findScrapedProgram(program);
-    
-    // Collect sections from both builderSections and requirementCourseBlocks
-    const sections: RequirementSectionBundle[] = [];
-    
-    // Add sections from builderSections (primary source)
-    if (scraped?.builderSections) {
-      sections.push(...scraped.builderSections.map(mapScrapedSection));
-    }
-    
-    // Add sections from requirementCourseBlocks (fallback/supplementary)
-    if (scraped?.requirementCourseBlocks) {
-      for (const block of scraped.requirementCourseBlocks) {
-        if (block.builderSections) {
-          sections.push(...block.builderSections.map(mapScrapedSection));
-        }
-        // Also extract courses directly from the block's course list if no builderSections
-        if (!block.builderSections && block.courses) {
-          const courseCodes = dedupeCodes(block.courses.map((c) => c.code ?? ""));
-          if (courseCodes.length > 0) {
-            sections.push({
-              id: createId(),
-              title: `Course Block ${sections.length + 1}`,
-              requirementType: "all",
-              chooseCount: undefined,
-              notes: [],
-              special: false,
-              courseCodes,
-              optionGroups: [courseCodes],
-              standaloneCodes: courseCodes,
-              logicBlocks: [{ type: "AND", codes: courseCodes }],
-            });
+
+    let sections: RequirementSectionBundle[] = [];
+    let specializationOptions: Array<{ id: string; name: string }> | undefined;
+
+    if (scraped && isBiologicalSciencesMajor(program)) {
+      const mapped = mapBiologyScrapedSections(scraped);
+      sections = mapped.sections;
+      specializationOptions = mapped.specializationOptions;
+    } else {
+      // Generic scraped path: combine available section sources.
+      if (scraped?.builderSections) {
+        sections.push(...scraped.builderSections.map(mapScrapedSection));
+      }
+
+      if (scraped?.requirementCourseBlocks) {
+        for (const block of scraped.requirementCourseBlocks) {
+          if (block.builderSections) {
+            sections.push(...block.builderSections.map(mapScrapedSection));
+          }
+          if (!block.builderSections && block.courses) {
+            const courseCodes = dedupeCodes(block.courses.map((c) => c.code ?? c.courseCode ?? ""));
+            if (courseCodes.length > 0) {
+              sections.push({
+                id: createId(),
+                title: `Course Block ${sections.length + 1}`,
+                requirementType: "all",
+                chooseCount: undefined,
+                notes: [],
+                special: false,
+                courseCodes,
+                optionGroups: [courseCodes],
+                standaloneCodes: courseCodes,
+                logicBlocks: [{ type: "AND", codes: courseCodes }],
+              });
+            }
           }
         }
       }
@@ -490,6 +544,7 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       kind: resolveProgramKind(program),
       source: "scraped",
       specializations: scraped?.specializations ?? [],
+      specializationOptions,
       sections: sections.length > 0 ? sections : [],
     });
   }

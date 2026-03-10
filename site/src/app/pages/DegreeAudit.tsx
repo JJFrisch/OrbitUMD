@@ -645,10 +645,12 @@ export default function DegreeAudit() {
                                     next.delete(index);
                                     return next;
                                   });
-                                  void saveCsSpecializationPreference(null);
+                                  if (programAudit.bundle.source === "cs-specialized") {
+                                    void saveCsSpecializationPreference(null);
+                                  }
                                 }}
                               >
-                                General Track
+                                {programAudit.bundle.source === "cs-specialized" ? "General Track" : "Core Requirements Only"}
                               </Button>
                               {programAudit.bundle.specializationOptions.map((spec) => (
                                 <Button
@@ -662,7 +664,9 @@ export default function DegreeAudit() {
                                       next.set(index, spec.id);
                                       return next;
                                     });
-                                    void saveCsSpecializationPreference(spec.id);
+                                    if (programAudit.bundle.source === "cs-specialized") {
+                                      void saveCsSpecializationPreference(spec.id);
+                                    }
                                   }}
                                 >
                                   {spec.name}
@@ -685,7 +689,7 @@ export default function DegreeAudit() {
                               ({ section }) => !section.specializationId
                             );
                             const specializationSections = programAudit.sectionRows.filter(
-                              ({ section }) => section.specializationId
+                              ({ section }) => section.specializationId && section.specializationId === selectedSpecId
                             );
 
                             return (
@@ -703,6 +707,14 @@ export default function DegreeAudit() {
                                     setExpandedSectionIds={setExpandedSectionIds}
                                   />
                                 ))}
+
+                                {programAudit.bundle.specializationOptions && programAudit.bundle.specializationOptions.length > 0 && !selectedSpecId && (
+                                  <Card className="bg-input-background border-border p-3">
+                                    <p className="text-sm text-muted-foreground">
+                                      Select a specialization above to view track-specific requirements.
+                                    </p>
+                                  </Card>
+                                )}
 
                                 {/* Specialization-specific sections */}
                                 {specializationSections.length > 0 && selectedSpec && (
