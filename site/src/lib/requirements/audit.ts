@@ -158,7 +158,10 @@ function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"
       ...nestedCodes.map((row) => row?.code ?? ""),
     ]);
 
-    if (item.type === "OR" && itemCodes.length > 0) {
+    // Treat items with nested items as option groups (OR logic), even if type is not explicitly set
+    const isOptionGroup = item.type === "OR" || (nestedCodes.length > 0 && !directCode);
+
+    if (isOptionGroup && itemCodes.length > 0) {
       optionGroups.push(itemCodes);
       logicBlocks.push({ type: "OR", codes: itemCodes });
     } else {
