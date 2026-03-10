@@ -1,7 +1,7 @@
 import { fetchProgramRequirements } from "@/lib/repositories/degreeRequirementsRepository";
 import type { UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import type { RequirementNode, RequirementSection } from "@/lib/types/requirements";
-import requirementsCatalog from "@/lib/data/current_degree_requirements_umd.json";
+import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import csRequirements from "@/lib/data/cs_major_requirements.json";
 
 export type AuditCourseStatus = "completed" | "in_progress" | "planned" | "not_started";
@@ -138,12 +138,23 @@ function mapDbSection(section: RequirementSection): RequirementSectionBundle {
   };
 }
 
-function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"]>[number]): RequirementSectionBundle {
+function mapScrapedSection(
+  section:
+    | NonNullable<ScrapedProgram["builderSections"]>[number]
+    | NonNullable<NonNullable<ScrapedProgram["requirementCourseBlocks"]>[number]["builderSections"]>[number]
+): RequirementSectionBundle {
   const optionGroups: string[][] = [];
   const standalone: string[] = [];
   const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }> = [];
 
-  for (const item of section.items ?? []) {
+  // Some scraped sections are represented as a direct course list instead of items[] blocks.
+  const sectionCourseCodes = dedupeCodes(((section as { courses?: Array<{ code?: string }> }).courses ?? []).map((c) => c?.code ?? ""));
+  if (sectionCourseCodes.length > 0) {
+    optionGroups.push(sectionCourseCodes);
+    logicBlocks.push({ type: "OR", codes: sectionCourseCodes });
+  }
+
+  for (const item of (section as { items?: Array<{ type?: "OR" | "AND"; code?: string; items?: Array<{ code?: string }> }> }).items ?? []) {
     if (!item || typeof item !== "object") {
       continue;
     }
@@ -173,14 +184,15 @@ function mapScrapedSection(section: NonNullable<ScrapedProgram["builderSections"
   }
 
   const courseCodes = dedupeCodes([...optionGroups.flat(), ...standalone]);
+  const notes = (section as { rules?: string[] }).rules ?? [];
 
   return {
     id: createId(),
     title: section.title,
     requirementType: section.requirementType,
     chooseCount: section.chooseCount,
-    notes: section.rules ?? [],
-    special: isSpecialSection(section.title, section.rules ?? []),
+    notes,
+    special: isSpecialSection(section.title, notes),
     courseCodes,
     optionGroups,
     standaloneCodes: dedupeCodes(standalone),

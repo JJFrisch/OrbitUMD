@@ -34,7 +34,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
 
   return (
     <aside className={cn(
-      "bg-card border-r border-border flex flex-col transition-all duration-200",
+      "bg-card border-r border-border flex flex-col transition-all duration-200 h-screen sticky top-0 overflow-y-auto",
       collapsed ? "w-20" : "w-64"
     )}>
       <div className={cn("border-b border-border", collapsed ? "p-3" : "p-6")}>
