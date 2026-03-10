@@ -132,6 +132,29 @@ function mapSelectionsToSectionIds(selections: Record<string, ScheduleSelection>
   return Array.from(deduped);
 }
 
+function errorMessage(error: unknown, fallback: string): string {
+  if (error instanceof Error && error.message.trim().length > 0) {
+    return error.message;
+  }
+
+  if (typeof error === "string" && error.trim().length > 0) {
+    return error;
+  }
+
+  if (error && typeof error === "object") {
+    const record = error as Record<string, unknown>;
+    const message = typeof record.message === "string" ? record.message.trim() : "";
+    const details = typeof record.details === "string" ? record.details.trim() : "";
+    const hint = typeof record.hint === "string" ? record.hint.trim() : "";
+    const parts = [message, details, hint].filter((part) => part.length > 0);
+    if (parts.length > 0) {
+      return parts.join(" | ");
+    }
+  }
+
+  return fallback;
+}
+
 function mapStoredSelectionsToState(stored: unknown): Record<string, ScheduleSelection> {
   const payload = (stored ?? []) as StoredScheduleSelectionsPayload | ScheduleSelection[];
   const rawSelections = Array.isArray(payload)
@@ -303,7 +326,7 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       if (get().latestRequestToken !== token) return;
       set({
         searchPending: false,
-        searchError: error instanceof Error ? error.message : "Search failed",
+        searchError: errorMessage(error, "Search failed"),
       });
     }
   },
@@ -420,7 +443,7 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       set({ savedSchedules: schedules, saveError: undefined });
     } catch (error) {
       set({
-        saveError: error instanceof Error ? error.message : "Failed to load schedules",
+        saveError: errorMessage(error, "Failed to load schedules"),
       });
     }
   },
@@ -465,7 +488,7 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
     } catch (error) {
       set({
         savePending: false,
-        saveError: error instanceof Error ? error.message : "Save failed",
+        saveError: errorMessage(error, "Save failed"),
       });
     }
   },
@@ -491,7 +514,7 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
     } catch (error) {
       set({
         savePending: false,
-        saveError: error instanceof Error ? error.message : "Load failed",
+        saveError: errorMessage(error, "Load failed"),
       });
     }
   },

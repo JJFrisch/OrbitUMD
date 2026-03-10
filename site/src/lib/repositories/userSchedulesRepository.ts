@@ -1,11 +1,95 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
 
+let termCodeColumnsSupported: boolean | null = null;
+
+function messageFromUnknownError(error: unknown): string {
+  if (error instanceof Error && error.message.trim().length > 0) {
+    return error.message;
+  }
+
+  if (typeof error === "string" && error.trim().length > 0) {
+    return error;
+  }
+
+  if (error && typeof error === "object") {
+    const errorRecord = error as Record<string, unknown>;
+    const message = typeof errorRecord.message === "string" ? errorRecord.message.trim() : "";
+    const details = typeof errorRecord.details === "string" ? errorRecord.details.trim() : "";
+    const hint = typeof errorRecord.hint === "string" ? errorRecord.hint.trim() : "";
+    const code = typeof errorRecord.code === "string" ? errorRecord.code.trim() : "";
+
+    const parts = [message, details, hint].filter((part) => part.length > 0);
+    if (parts.length > 0) {
+      const combined = parts.join(" | ");
+      return code ? `${combined} (code: ${code})` : combined;
+    }
+
+    try {
+      return JSON.stringify(errorRecord);
+    } catch {
+      return "Unknown error";
+    }
+  }
+
+  return "Unknown error";
+}
+
 function normalizeScheduleError(error: unknown): never {
-  const message = error instanceof Error ? error.message : String(error ?? "Unknown error");
+  const message = messageFromUnknownError(error);
   if (message.toLowerCase().includes("auth session missing")) {
     throw new Error("Please sign in to save and load schedules.");
   }
-  throw error;
+
+  if (message.toLowerCase().includes("duplicate key value") && message.includes("user_schedules_user_id_term_id_name_key")) {
+    throw new Error("A schedule with this name already exists for this term. Please rename it or open the existing one.");
+  }
+
+  throw new Error(message);
+}
+
+function errorCode(error: unknown): string | null {
+  if (error && typeof error === "object") {
+    const code = (error as Record<string, unknown>).code;
+    return typeof code === "string" ? code : null;
+  }
+  return null;
+}
+
+function mapScheduleRowWithDerivedTerm(row: any): ScheduleWithSelections {
+  const umdTermCode = typeof row?.terms?.umd_term_code === "string" ? row.terms.umd_term_code : null;
+  const derivedTermCode = umdTermCode && umdTermCode.length >= 2 ? umdTermCode.slice(-2) : null;
+  const derivedTermYear = typeof row?.terms?.year === "number" ? row.terms.year : null;
+
+  return {
+    ...(row as UserScheduleRecord),
+    term_code: row?.term_code ?? derivedTermCode,
+    term_year: row?.term_year ?? derivedTermYear,
+    selections_json: row?.selections_json ?? [],
+  };
+}
+
+async function supportsTermCodeColumns(): Promise<boolean> {
+  if (termCodeColumnsSupported !== null) {
+    return termCodeColumnsSupported;
+  }
+
+  const supabase = getSupabaseClient();
+  const { error } = await supabase
+    .from("user_schedules")
+    .select("term_code")
+    .limit(1);
+
+  if (!error) {
+    termCodeColumnsSupported = true;
+    return true;
+  }
+
+  if (errorCode(error) === "42703") {
+    termCodeColumnsSupported = false;
+    return false;
+  }
+
+  normalizeScheduleError(error);
 }
 
 export interface UserScheduleRecord {
@@ -65,10 +149,14 @@ export async function upsertUserSchedule(input: UpsertUserScheduleInput): Promis
     .from("user_schedules")
     .upsert(payload, { onConflict: "id" })
     .select("*")
-    .single();
+    .maybeSingle();
 
   if (error) {
     normalizeScheduleError(error);
+  }
+
+  if (!data) {
+    throw new Error("Schedule was saved but could not be fetched for this user. Please check row-level security policies and try again.");
   }
 
   return data as UserScheduleRecord;
@@ -175,33 +263,59 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
-  // We need a term_id for the FK. Try to resolve one, or create a placeholder.
-  const { data: term } = await supabase
+  // We need a term_id for the FK. Terms are read-only for clients under RLS,
+  // so resolve from existing rows instead of trying to insert/upsert.
+  const umdTermCode = `${input.termYear}${input.termCode}`;
+  const seasonMap: Record<string, string> = {
+    "01": "spring",
+    "05": "summer",
+    "08": "fall",
+    "12": "winter",
+  };
+  const season = seasonMap[input.termCode] ?? "fall";
+
+  const { data: exactTerm, error: exactTermError } = await supabase
     .from("terms")
     .select("id")
-    .eq("umd_term_code", `${input.termYear}${input.termCode}`)
+    .eq("umd_term_code", umdTermCode)
     .maybeSingle();
 
-  // If no term row exists, try a looser match or insert one
-  let termId: string;
-  if (term) {
-    termId = term.id;
-  } else {
-    const seasonMap: Record<string, string> = {
-      "01": "spring", "05": "summer", "08": "fall", "12": "winter",
-    };
-    const { data: newTerm, error: termInsertErr } = await supabase
-      .from("terms")
-      .upsert({
-        umd_term_code: `${input.termYear}${input.termCode}`,
-        year: input.termYear,
-        season: seasonMap[input.termCode] ?? "fall",
-      }, { onConflict: "umd_term_code" })
-      .select("id")
-      .single();
+  if (exactTermError) normalizeScheduleError(exactTermError);
 
-    if (termInsertErr) normalizeScheduleError(termInsertErr);
-    termId = newTerm.id;
+  let termId: string | undefined = exactTerm?.id;
+
+  if (!termId) {
+    const { data: yearSeasonTerm, error: yearSeasonErr } = await supabase
+      .from("terms")
+      .select("id")
+      .eq("year", input.termYear)
+      .eq("season", season)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (yearSeasonErr) normalizeScheduleError(yearSeasonErr);
+    termId = yearSeasonTerm?.id;
+  }
+
+  if (!termId) {
+    const { data: fallbackTerm, error: fallbackErr } = await supabase
+      .from("terms")
+      .select("id")
+      .eq("season", season)
+      .order("year", { ascending: false })
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (fallbackErr) normalizeScheduleError(fallbackErr);
+    termId = fallbackTerm?.id;
+  }
+
+  if (!termId) {
+    throw new Error(
+      "Unable to resolve a valid term for this schedule. No term rows are available for this season/year. Add rows to public.terms (catalog sync/seed) and try again.",
+    );
   }
 
   const payload: Record<string, unknown> = {
@@ -209,23 +323,44 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
     term_id: termId,
     name: input.name,
     is_primary: input.isPrimary ?? false,
-    term_code: input.termCode,
-    term_year: input.termYear,
     selections_json: input.selectionsJson,
   };
 
+  if (await supportsTermCodeColumns()) {
+    payload.term_code = input.termCode;
+    payload.term_year = input.termYear;
+  }
+
   if (input.id) {
     payload.id = input.id;
+  } else {
+    // Keep create idempotent by name within a term instead of failing
+    // on unique(user_id, term_id, name).
+    const { data: existingByName, error: existingByNameError } = await supabase
+      .from("user_schedules")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("term_id", termId)
+      .eq("name", input.name)
+      .maybeSingle();
+
+    if (existingByNameError) normalizeScheduleError(existingByNameError);
+    if (existingByName?.id) payload.id = existingByName.id;
   }
 
   const { data, error } = await supabase
     .from("user_schedules")
     .upsert(payload, { onConflict: "id" })
-    .select("*")
-    .single();
+    .select("*, terms(umd_term_code, year)")
+    .maybeSingle();
 
   if (error) normalizeScheduleError(error);
-  return data as ScheduleWithSelections;
+
+  if (!data) {
+    throw new Error("Schedule was saved but could not be read back. Please verify RLS policies and try again.");
+  }
+
+  return mapScheduleRowWithDerivedTerm(data);
 }
 
 export async function listSchedulesForTerm(
@@ -234,17 +369,17 @@ export async function listSchedulesForTerm(
 ): Promise<ScheduleWithSelections[]> {
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
+  const umdTermCode = `${termYear}${termCode}`;
 
   const { data, error } = await supabase
     .from("user_schedules")
-    .select("*")
+    .select("*, terms!inner(umd_term_code, year)")
     .eq("user_id", userId)
-    .eq("term_code", termCode)
-    .eq("term_year", termYear)
+    .eq("terms.umd_term_code", umdTermCode)
     .order("updated_at", { ascending: false });
 
   if (error) normalizeScheduleError(error);
-  return (data ?? []) as ScheduleWithSelections[];
+  return (data ?? []).map(mapScheduleRowWithDerivedTerm);
 }
 
 export async function loadScheduleById(scheduleId: string): Promise<ScheduleWithSelections | null> {
@@ -253,13 +388,13 @@ export async function loadScheduleById(scheduleId: string): Promise<ScheduleWith
 
   const { data, error } = await supabase
     .from("user_schedules")
-    .select("*")
+    .select("*, terms(umd_term_code, year)")
     .eq("id", scheduleId)
     .eq("user_id", userId)
     .maybeSingle();
 
   if (error) normalizeScheduleError(error);
-  return data as ScheduleWithSelections | null;
+  return data ? mapScheduleRowWithDerivedTerm(data) : null;
 }
 
 export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSelections[]> {
@@ -268,10 +403,10 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
 
   const { data, error } = await supabase
     .from("user_schedules")
-    .select("*")
+    .select("*, terms(umd_term_code, year)")
     .eq("user_id", userId)
     .order("updated_at", { ascending: true });
 
   if (error) normalizeScheduleError(error);
-  return (data ?? []) as ScheduleWithSelections[];
+  return (data ?? []).map(mapScheduleRowWithDerivedTerm);
 }
