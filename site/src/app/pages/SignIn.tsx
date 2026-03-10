@@ -5,6 +5,12 @@ import { Input } from "../components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
+function buildAppRedirectUrl(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${window.location.origin}${base}${normalizedPath}`;
+}
+
 export default function SignIn() {
   const navigate = useNavigate();
   const supabase = getSupabaseClient();
@@ -34,7 +40,8 @@ export default function SignIn() {
       const { error: signInError } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
+          // Route auth callbacks through an app route that always exists under the configured base path.
+          emailRedirectTo: buildAppRedirectUrl("/sign-in"),
         },
       });
 
@@ -60,7 +67,7 @@ export default function SignIn() {
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/dashboard`,
+          redirectTo: buildAppRedirectUrl("/sign-in"),
         },
       });
 
