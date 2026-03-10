@@ -47,6 +47,16 @@ interface EditApState {
   termAwarded: string;
 }
 
+interface EditManualState {
+  id: string;
+  sourceType: "IB" | "transfer";
+  originalName: string;
+  umdCourseCode: string;
+  credits: string;
+  genEdCodes: string;
+  termAwarded: string;
+}
+
 function parseGenEdCodes(raw: string): string[] {
   return raw.split(",").map((value) => value.trim().toUpperCase()).filter(Boolean);
 }
@@ -96,6 +106,8 @@ export default function CreditImport() {
   const [saving, setSaving] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<string | null>(null);
   const [editingAp, setEditingAp] = useState<EditApState | null>(null);
+  const [editingManual, setEditingManual] = useState<EditManualState | null>(null);
+  const [manualSearchQuery, setManualSearchQuery] = useState("");
   const [manualCreditForm, setManualCreditForm] = useState<ManualCreditForm>({
     sourceType: "IB",
     originalName: "",
@@ -127,6 +139,24 @@ export default function CreditImport() {
     () => savedPriorCredits.filter((record) => record.sourceType === "AP"),
     [savedPriorCredits],
   );
+
+  const manualSavedRecords = useMemo(
+    () => savedPriorCredits.filter((record) => record.sourceType === activeSource),
+    [activeSource, savedPriorCredits],
+  );
+
+  const filteredManualSavedRecords = useMemo(() => {
+    const query = manualSearchQuery.trim().toLowerCase();
+    if (!query) return manualSavedRecords;
+    return manualSavedRecords.filter((record) => {
+      const haystack = [
+        record.originalName,
+        record.umdCourseCode ?? "",
+        record.genEdCodes.join(" "),
+      ].join(" ").toLowerCase();
+      return haystack.includes(query);
+    });
+  }, [manualSavedRecords, manualSearchQuery]);
 
   const totals = useMemo(() => {
     let totalCredits = 0;
@@ -242,6 +272,59 @@ export default function CreditImport() {
     } catch (error) {
       setSavedPriorCredits(previous);
       toast.error(error instanceof Error ? error.message : "Unable to delete AP record.");
+    }
+  };
+
+  const handleUpdateManualRecord = async () => {
+    if (!editingManual) return;
+    const credits = Number(editingManual.credits);
+    if (!editingManual.originalName.trim() || !Number.isFinite(credits) || credits < 0) {
+      toast.error("Provide a valid title and credits.");
+      return;
+    }
+
+    const previous = savedPriorCredits;
+    const optimistic: UserPriorCreditRecord = {
+      id: editingManual.id,
+      userId: savedPriorCredits.find((record) => record.id === editingManual.id)?.userId ?? "",
+      sourceType: editingManual.sourceType,
+      originalName: editingManual.originalName.trim(),
+      umdCourseCode: editingManual.umdCourseCode.trim() || undefined,
+      credits,
+      genEdCodes: parseGenEdCodes(editingManual.genEdCodes),
+      termAwarded: editingManual.termAwarded.trim() || undefined,
+      createdAt: savedPriorCredits.find((record) => record.id === editingManual.id)?.createdAt ?? new Date().toISOString(),
+    };
+
+    setSavedPriorCredits((prev) => prev.map((record) => (record.id === optimistic.id ? optimistic : record)));
+    try {
+      const updated = await updatePriorCredit(editingManual.id, {
+        originalName: optimistic.originalName,
+        umdCourseCode: optimistic.umdCourseCode,
+        credits: optimistic.credits,
+        genEdCodes: optimistic.genEdCodes,
+        termAwarded: optimistic.termAwarded,
+      });
+      setSavedPriorCredits((prev) => prev.map((record) => (record.id === updated.id ? updated : record)));
+      setEditingManual(null);
+      setLastSavedAt(new Date().toISOString());
+      toast.success("Record updated.");
+    } catch (error) {
+      setSavedPriorCredits(previous);
+      toast.error(error instanceof Error ? error.message : "Unable to update record.");
+    }
+  };
+
+  const handleDeleteManualRecord = async (recordId: string) => {
+    const previous = savedPriorCredits;
+    setSavedPriorCredits((prev) => prev.filter((record) => record.id !== recordId));
+    try {
+      await deletePriorCredit(recordId);
+      setLastSavedAt(new Date().toISOString());
+      toast.success("Record deleted.");
+    } catch (error) {
+      setSavedPriorCredits(previous);
+      toast.error(error instanceof Error ? error.message : "Unable to delete record.");
     }
   };
 
@@ -381,6 +464,57 @@ export default function CreditImport() {
                 </div>
                 {activeSource === "transfer" && <p className="mt-3 text-sm text-neutral-400">Need UMD transfer equivalencies? Use the Transfer Credit Services database: <a href="https://app.transfercredit.umd.edu/" className="text-blue-400 underline" target="_blank" rel="noreferrer">app.transfercredit.umd.edu</a></p>}
                 <Button className="mt-4 w-full bg-green-700 hover:bg-green-600" onClick={() => void handleManualImport()} disabled={saving}>{saving ? "Saving..." : `Save ${activeSource === "IB" ? "IB" : "Transfer"} Credit`}</Button>
+              </div>
+
+              <div className="rounded-lg border border-neutral-800 bg-[#1a1a1a] p-4">
+                <h3 className="text-white mb-3">Saved {activeSource === "IB" ? "IB" : "Transfer"} Records</h3>
+                <div className="mb-3">
+                  <Input
+                    value={manualSearchQuery}
+                    onChange={(event) => setManualSearchQuery(event.target.value)}
+                    placeholder={`Filter saved ${activeSource === "IB" ? "IB" : "transfer"} records`}
+                    className="bg-[#252525] border-neutral-700"
+                  />
+                </div>
+                {loadingSaved ? (
+                  <p className="text-sm text-neutral-400">Loading saved records...</p>
+                ) : filteredManualSavedRecords.length === 0 ? (
+                  <p className="text-sm text-neutral-400">No saved records yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {filteredManualSavedRecords.map((record) => (
+                      <div key={record.id} className="rounded-md border border-neutral-700 bg-[#252525] p-3">
+                        {editingManual?.id === record.id ? (
+                          <div className="space-y-3">
+                            <div><Label>Title</Label><Input value={editingManual.originalName} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, originalName: event.target.value } : prev)} className="bg-[#1a1a1a] border-neutral-700" /></div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                              <div><Label>UMD Course</Label><Input value={editingManual.umdCourseCode} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, umdCourseCode: event.target.value.toUpperCase() } : prev)} className="bg-[#1a1a1a] border-neutral-700" /></div>
+                              <div><Label>Credits</Label><Input value={editingManual.credits} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, credits: event.target.value } : prev)} className="bg-[#1a1a1a] border-neutral-700" /></div>
+                              <div><Label>Term</Label><Input value={editingManual.termAwarded} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, termAwarded: event.target.value } : prev)} className="bg-[#1a1a1a] border-neutral-700" /></div>
+                            </div>
+                            <div><Label>Gen Ed Tags (comma-separated)</Label><Input value={editingManual.genEdCodes} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, genEdCodes: event.target.value } : prev)} className="bg-[#1a1a1a] border-neutral-700" /></div>
+                            <div className="flex gap-2">
+                              <Button className="bg-green-700 hover:bg-green-600" onClick={() => void handleUpdateManualRecord()}>Save</Button>
+                              <Button variant="outline" className="border-neutral-700 text-neutral-300" onClick={() => setEditingManual(null)}>Cancel</Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="text-sm text-neutral-200">
+                              <p className="font-medium text-white">{record.originalName}</p>
+                              <p className="text-neutral-400">Course: {record.umdCourseCode ?? "Elective/unspecified"}</p>
+                              <p className="text-neutral-400">Credits: {record.credits} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
+                            </div>
+                            <div className="flex gap-2">
+                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingManual({ id: record.id, sourceType: record.sourceType as "IB" | "transfer", originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD" })}><Pencil className="h-4 w-4" /></Button>
+                              <Button size="icon" variant="ghost" className="hover:bg-red-600/20 hover:text-red-400" onClick={() => void handleDeleteManualRecord(record.id)}><Trash2 className="h-4 w-4" /></Button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           )}
