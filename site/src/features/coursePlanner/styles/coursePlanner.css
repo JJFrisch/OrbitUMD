@@ -981,6 +981,21 @@
   text-overflow: ellipsis;
 }
 
+.cp-view-title-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  min-width: 0;
+  text-align: left;
+  cursor: text;
+}
+
+.cp-view-title-btn:hover h3 {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+
 .cp-view-main-pill {
   display: inline-flex;
   align-items: center;

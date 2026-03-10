@@ -505,7 +505,17 @@ export function ScheduleLibraryPage() {
                                   </button>
                                 </div>
                               ) : (
-                                <h3>{schedule.name}</h3>
+                                <button
+                                  type="button"
+                                  className="cp-view-title-btn"
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    handleStartRename(schedule);
+                                  }}
+                                  aria-label={`Rename ${schedule.name}`}
+                                >
+                                  <h3>{schedule.name}</h3>
+                                </button>
                               )}
                               {schedule.is_primary ? (
                                 <span className="cp-view-main-pill"><Star size={11} /> MAIN</span>
