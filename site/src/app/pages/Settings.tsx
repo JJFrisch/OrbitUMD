@@ -27,6 +27,7 @@ import {
   type CatalogProgramOption,
   type UserDegreeProgram,
 } from "@/lib/repositories/degreeProgramsRepository";
+import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
 interface TermOption {
@@ -52,6 +53,7 @@ export default function Settings() {
 
   const [termOptions, setTermOptions] = useState<TermOption[]>([]);
   const [expectedGraduationTermId, setExpectedGraduationTermId] = useState<string>("none");
+  const [priorCreditSummary, setPriorCreditSummary] = useState({ totalCredits: 0, apCredits: 0, apRecords: 0 });
 
   const [defaultTerm, setDefaultTerm] = useState(() => localStorage.getItem("orbitumd-default-term") ?? "none");
   const [scheduleView, setScheduleView] = useState(() => localStorage.getItem("orbitumd-schedule-view") ?? "weekly");
@@ -77,7 +79,7 @@ export default function Settings() {
         const authUser = authData.user;
         if (!authUser) throw new Error("Please sign in to manage settings.");
 
-        const [{ data: profileRow, error: profileError }, { data: terms, error: termError }] = await Promise.all([
+        const [{ data: profileRow, error: profileError }, { data: terms, error: termError }, priorCredits] = await Promise.all([
           supabase
             .from("user_profiles")
             .select("display_name, email, university_uid")
@@ -88,6 +90,7 @@ export default function Settings() {
             .select("id, year, season")
             .order("year", { ascending: false })
             .limit(20),
+          listUserPriorCredits(),
         ]);
 
         if (profileError) throw profileError;
@@ -112,6 +115,12 @@ export default function Settings() {
           id: row.id,
           label: `${seasonLabel[row.season] ?? row.season} ${row.year}`,
         })));
+        const apOnly = priorCredits.filter((record) => record.sourceType === "AP");
+        setPriorCreditSummary({
+          totalCredits: priorCredits.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
+          apCredits: apOnly.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
+          apRecords: apOnly.length,
+        });
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -323,6 +332,21 @@ export default function Settings() {
               <div className="flex items-center gap-2 mb-6">
                 <GraduationCap className="w-5 h-5 text-blue-400" />
                 <h2 className="text-2xl">Academic Information</h2>
+              </div>
+
+              <div className="mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div className="rounded-lg border border-neutral-700 bg-input-background p-3">
+                  <p className="text-xs text-neutral-400">Prior Credit Total</p>
+                  <p className="text-xl text-white">{priorCreditSummary.totalCredits}</p>
+                </div>
+                <div className="rounded-lg border border-neutral-700 bg-input-background p-3">
+                  <p className="text-xs text-neutral-400">AP Credits</p>
+                  <p className="text-xl text-white">{priorCreditSummary.apCredits}</p>
+                </div>
+                <div className="rounded-lg border border-neutral-700 bg-input-background p-3">
+                  <p className="text-xs text-neutral-400">AP Records</p>
+                  <p className="text-xl text-white">{priorCreditSummary.apRecords}</p>
+                </div>
               </div>
 
               <div className="space-y-4">

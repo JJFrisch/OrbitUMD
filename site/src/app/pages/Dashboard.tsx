@@ -22,6 +22,7 @@ import { plannerApi } from "@/lib/api/planner";
 import { getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
+import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { evaluateRequirementSection, loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/requirements/audit";
 
 interface CourseSnapshot {
@@ -112,10 +113,11 @@ export default function Dashboard() {
     const run = async () => {
       try {
         const supabase = getSupabaseClient();
-        const [{ data: authUser }, schedules, programs] = await Promise.all([
+        const [{ data: authUser }, schedules, programs, priorCredits] = await Promise.all([
           supabase.auth.getUser(),
           plannerApi.listAllSchedulesWithSelections(),
           listUserDegreePrograms(),
+          listUserPriorCredits(),
         ]);
 
         const profileName =
@@ -162,6 +164,37 @@ export default function Dashboard() {
             courseCount: uniqueCodes.size,
             credits,
           });
+        }
+
+        for (const credit of priorCredits) {
+          const creditCodes = String(credit.umdCourseCode ?? "")
+            .split(/[|,]/)
+            .map((value) => value.trim().toUpperCase())
+            .filter(Boolean);
+
+          if (creditCodes.length === 0) {
+            creditCodes.push(`PRIOR:${credit.id}`);
+          }
+
+          for (const code of creditCodes) {
+            const existing = byCourse.get(code);
+            const nextCourse: CourseSnapshot = {
+              code,
+              credits: Number(credit.credits ?? 0) || 0,
+              status: "completed",
+              genEds: Array.isArray(credit.genEdCodes) ? credit.genEdCodes.map(String) : [],
+            };
+
+            if (!existing || statusRank(nextCourse.status) > statusRank(existing.status)) {
+              byCourse.set(code, nextCourse);
+            } else {
+              byCourse.set(code, {
+                ...existing,
+                credits: Math.max(existing.credits, nextCourse.credits),
+                genEds: Array.from(new Set([...(existing.genEds ?? []), ...(nextCourse.genEds ?? [])])),
+              });
+            }
+          }
         }
 
         termRows.sort((a, b) => (a.year * 10 + Number(a.code)) - (b.year * 10 + Number(b.code)));

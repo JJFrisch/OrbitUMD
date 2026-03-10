@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Plus, X, Orbit, Info } from "lucide-react";
+import { Plus, X, Orbit, CheckCircle2 } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -12,33 +11,94 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
+import { AP_CREDIT_CATALOG, getApAward } from "@/lib/data/apCreditCatalog";
+import { replacePriorCreditsBySource, type SavePriorCreditInput } from "@/lib/repositories/priorCreditsRepository";
 
-interface Credit {
-  source: string;
-  examName: string;
-  umdEquivalent: string;
-  credits: string;
-  term: string;
+interface ApSelection {
+  examId: string;
+  score: string;
+}
+
+function buildApRows(selection: ApSelection): SavePriorCreditInput[] {
+  const score = Number(selection.score);
+  if (!selection.examId || !Number.isFinite(score)) return [];
+
+  const exam = AP_CREDIT_CATALOG.find((item) => item.id === selection.examId);
+  const award = getApAward(selection.examId, score);
+  if (!exam || !award) return [];
+
+  const rows: SavePriorCreditInput[] = [];
+  const note = `AP ${exam.label} (Score ${score})`;
+
+  if (award.courseCodes.length === 0 || award.ambiguousCourseChoice) {
+    rows.push({
+      sourceType: "AP",
+      originalName: note,
+      credits: award.credits,
+      genEdCodes: award.genEdCodes,
+      termAwarded: "Prior to UMD",
+    });
+    return rows;
+  }
+
+  award.courseCodes.forEach((courseCode, idx) => {
+    rows.push({
+      sourceType: "AP",
+      originalName: note,
+      umdCourseCode: courseCode,
+      credits: idx === 0 ? award.credits : 0,
+      genEdCodes: idx === 0 ? award.genEdCodes : [],
+      termAwarded: "Prior to UMD",
+    });
+  });
+
+  return rows;
 }
 
 export default function CreditImport() {
   const navigate = useNavigate();
-  const [credits, setCredits] = useState<Credit[]>([
-    { source: "AP", examName: "AP Calculus BC", umdEquivalent: "MATH140", credits: "4", term: "Fall 2025" }
-  ]);
+  const [apSelections, setApSelections] = useState<ApSelection[]>([{ examId: "", score: "" }]);
+  const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const totals = useMemo(() => {
+    let totalCredits = 0;
+    let totalCourses = 0;
+    let totalGenEds = 0;
+
+    for (const selection of apSelections) {
+      const score = Number(selection.score);
+      if (!selection.examId || !Number.isFinite(score)) continue;
+      const award = getApAward(selection.examId, score);
+      if (!award) continue;
+      totalCredits += award.credits;
+      totalCourses += award.courseCodes.length;
+      totalGenEds += award.genEdCodes.length;
+    }
+
+    return { totalCredits, totalCourses, totalGenEds };
+  }, [apSelections]);
 
   const addCredit = () => {
-    setCredits([...credits, { source: "AP", examName: "", umdEquivalent: "", credits: "", term: "" }]);
+    setApSelections((prev) => [...prev, { examId: "", score: "" }]);
   };
 
   const removeCredit = (index: number) => {
-    setCredits(credits.filter((_, i) => i !== index));
+    setApSelections((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    setSaveMessage(null);
+    try {
+      const rows = apSelections.flatMap(buildApRows);
+      await replacePriorCreditsBySource("AP", rows);
+      setSaveMessage(`Saved ${rows.length} AP credit record(s).`);
+    } catch (error) {
+      setSaveMessage(error instanceof Error ? error.message : "Unable to save AP credits.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -53,16 +113,27 @@ export default function CreditImport() {
           <div className="mb-6">
             <h2 className="text-3xl text-white mb-2">Let's start with what you've already earned</h2>
             <p className="text-neutral-400">
-              Tell us about AP, transfer, exemption, and other credits so we don't double-count anything.
+              Add your AP exams and scores to automatically receive mapped UMD courses, Gen Ed tags, and elective credits.
             </p>
           </div>
 
+          {saveMessage && (
+            <div className="mb-4 rounded-lg border border-neutral-700 bg-[#1a1a1a] px-4 py-3 text-sm text-neutral-200">
+              {saveMessage}
+            </div>
+          )}
+
           <div className="space-y-6">
-            {credits.map((credit, index) => (
+            {apSelections.map((credit, index) => {
+              const exam = AP_CREDIT_CATALOG.find((item) => item.id === credit.examId);
+              const scoreNumber = Number(credit.score);
+              const award = Number.isFinite(scoreNumber) ? getApAward(credit.examId, scoreNumber) : null;
+
+              return (
               <div key={index} className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-white">Credit {index + 1}</h3>
-                  {credits.length > 1 && (
+                  <h3 className="text-white">AP Credit {index + 1}</h3>
+                  {apSelections.length > 1 && (
                     <Button
                       size="icon"
                       variant="ghost"
@@ -76,96 +147,84 @@ export default function CreditImport() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label>Source Type</Label>
-                    <Select value={credit.source} onValueChange={(value) => {
-                      const newCredits = [...credits];
-                      newCredits[index].source = value;
-                      setCredits(newCredits);
+                    <Label>AP Exam</Label>
+                    <Select value={credit.examId} onValueChange={(value) => {
+                      const next = [...apSelections];
+                      next[index] = { ...next[index], examId: value };
+                      setApSelections(next);
                     }}>
                       <SelectTrigger className="bg-[#252525] border-neutral-700">
-                        <SelectValue />
+                        <SelectValue placeholder="Select an AP exam" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="AP">AP Exam</SelectItem>
-                        <SelectItem value="IB">IB Exam</SelectItem>
-                        <SelectItem value="Transfer">Transfer from another university</SelectItem>
-                        <SelectItem value="Exemption">Exemption exam</SelectItem>
-                        <SelectItem value="Other">Other</SelectItem>
+                        {AP_CREDIT_CATALOG.map((item) => (
+                          <SelectItem key={item.id} value={item.id}>{item.label}{item.apNumber ? ` (${item.apNumber})` : ""}</SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <div>
-                    <Label>Original Course/Exam Name</Label>
-                    <Input
-                      placeholder="e.g., AP Calculus BC"
-                      value={credit.examName}
-                      onChange={(e) => {
-                        const newCredits = [...credits];
-                        newCredits[index].examName = e.target.value;
-                        setCredits(newCredits);
-                      }}
-                      className="bg-[#252525] border-neutral-700"
-                    />
+                    <Label>Score</Label>
+                    <Select value={credit.score} onValueChange={(value) => {
+                      const next = [...apSelections];
+                      next[index] = { ...next[index], score: value };
+                      setApSelections(next);
+                    }}>
+                      <SelectTrigger className="bg-[#252525] border-neutral-700">
+                        <SelectValue placeholder="Select score" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[1, 2, 3, 4, 5].map((score) => (
+                          <SelectItem key={score} value={String(score)}>{score}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Label>UMD Equivalent Course</Label>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Info className="w-3 h-3 text-neutral-500 cursor-help" />
-                          </TooltipTrigger>
-                          <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
-                            <p>The UMD course this credit replaces</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                  <div className="md:col-span-2 rounded-lg border border-neutral-700 bg-[#252525] p-3">
+                    <div className="flex items-center gap-2 mb-2 text-sm text-neutral-300">
+                      <CheckCircle2 className="h-4 w-4 text-green-400" />
+                      Award Preview
                     </div>
-                    <Input
-                      placeholder="e.g., MATH140"
-                      value={credit.umdEquivalent}
-                      onChange={(e) => {
-                        const newCredits = [...credits];
-                        newCredits[index].umdEquivalent = e.target.value;
-                        setCredits(newCredits);
-                      }}
-                      className="bg-[#252525] border-neutral-700"
-                    />
+                    {!credit.examId || !credit.score ? (
+                      <p className="text-sm text-neutral-400">Choose an exam and score to preview awarded credits.</p>
+                    ) : !award ? (
+                      <p className="text-sm text-amber-300">No published credit award for this score.</p>
+                    ) : (
+                      <div className="text-sm text-neutral-200 space-y-1">
+                        <p><span className="text-neutral-400">UMD Equivalency:</span> {award.equivalency}</p>
+                        <p><span className="text-neutral-400">Credits:</span> {award.credits}</p>
+                        <p><span className="text-neutral-400">Course Credit:</span> {award.courseCodes.length > 0 ? award.courseCodes.join(", ") : "No direct course equivalent"}</p>
+                        <p><span className="text-neutral-400">Gen Ed Tags:</span> {award.genEdCodes.length > 0 ? award.genEdCodes.join(", ") : "None"}</p>
+                      </div>
+                    )}
                   </div>
 
-                  <div>
-                    <Label>Credits</Label>
-                    <Input
-                      type="number"
-                      placeholder="4"
-                      value={credit.credits}
-                      onChange={(e) => {
-                        const newCredits = [...credits];
-                        newCredits[index].credits = e.target.value;
-                        setCredits(newCredits);
-                      }}
-                      className="bg-[#252525] border-neutral-700"
-                    />
-                  </div>
-
-                  <div className="md:col-span-2">
-                    <Label>Term Awarded (Optional)</Label>
-                    <Input
-                      placeholder="e.g., Fall 2025"
-                      value={credit.term}
-                      onChange={(e) => {
-                        const newCredits = [...credits];
-                        newCredits[index].term = e.target.value;
-                        setCredits(newCredits);
-                      }}
-                      className="bg-[#252525] border-neutral-700"
-                    />
-                  </div>
+                  {exam && (
+                    <div className="md:col-span-2 text-xs text-neutral-500">
+                      Source: UMD AP Gen Ed chart (2023-2025 exams)
+                    </div>
+                  )}
                 </div>
               </div>
-            ))}
+            );
+            })}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="rounded-lg border border-neutral-800 bg-[#1a1a1a] p-3">
+                <p className="text-xs text-neutral-400">Total AP Credits</p>
+                <p className="text-xl text-white">{totals.totalCredits}</p>
+              </div>
+              <div className="rounded-lg border border-neutral-800 bg-[#1a1a1a] p-3">
+                <p className="text-xs text-neutral-400">Mapped Courses</p>
+                <p className="text-xl text-white">{totals.totalCourses}</p>
+              </div>
+              <div className="rounded-lg border border-neutral-800 bg-[#1a1a1a] p-3">
+                <p className="text-xs text-neutral-400">Gen Ed Tags Applied</p>
+                <p className="text-xl text-white">{totals.totalGenEds}</p>
+              </div>
+            </div>
 
             <Button
               variant="outline"
@@ -173,14 +232,22 @@ export default function CreditImport() {
               className="w-full border-neutral-700 text-neutral-300 hover:bg-neutral-800"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add Another Credit
+              Add Another AP Exam
             </Button>
-          </div>
 
-          <div className="mt-6 p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg">
-            <p className="text-sm text-blue-400">
-              💡 You can edit these later from your Profile → Credits section
-            </p>
+            <Button
+              onClick={() => void handleSave()}
+              className="w-full bg-green-700 hover:bg-green-600"
+              disabled={saving}
+            >
+              {saving ? "Saving AP Credits..." : "Save AP Credits"}
+            </Button>
+
+            <div className="mt-2 p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg">
+              <p className="text-sm text-blue-400">
+                Saved AP credits are applied to Gen Eds, degree audit requirements, and total/elective credit calculations.
+              </p>
+            </div>
           </div>
 
           <div className="flex gap-3 mt-8">

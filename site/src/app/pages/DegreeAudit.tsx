@@ -7,6 +7,7 @@ import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
 import { plannerApi } from "@/lib/api/planner";
 import { listUserDegreePrograms, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
+import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import {
   buildCourseContributionMap,
@@ -63,9 +64,10 @@ export default function DegreeAudit() {
 
     const run = async () => {
       try {
-        const [selectedPrograms, schedules] = await Promise.all([
+        const [selectedPrograms, schedules, priorCredits] = await Promise.all([
           listUserDegreePrograms(),
           plannerApi.listAllSchedulesWithSelections(),
+          listUserPriorCredits(),
         ]);
 
         if (!active) return;
@@ -89,6 +91,40 @@ export default function DegreeAudit() {
               credits: Number(selection?.course?.maxCredits ?? selection?.course?.credits ?? 0) || 0,
               genEds: Array.isArray(selection?.course?.genEds) ? selection.course.genEds : [],
               status: scheduleStatus,
+            };
+
+            const existing = byCode.get(code);
+            if (!existing) {
+              byCode.set(code, current);
+            } else {
+              byCode.set(code, {
+                ...existing,
+                credits: Math.max(existing.credits, current.credits),
+                title: existing.title || current.title,
+                genEds: Array.from(new Set([...(existing.genEds ?? []), ...(current.genEds ?? [])])),
+                status: mergeStatus(existing.status, current.status),
+              });
+            }
+          }
+        }
+
+        for (const credit of priorCredits) {
+          const creditCodes = String(credit.umdCourseCode ?? "")
+            .split(/[|,]/)
+            .map((value) => value.trim().toUpperCase())
+            .filter(Boolean);
+
+          if (creditCodes.length === 0) {
+            creditCodes.push(`PRIOR:${credit.id}`);
+          }
+
+          for (const code of creditCodes) {
+            const current: AuditCourse = {
+              code,
+              title: credit.originalName,
+              credits: Number(credit.credits ?? 0) || 0,
+              genEds: Array.isArray(credit.genEdCodes) ? credit.genEdCodes : [],
+              status: "completed",
             };
 
             const existing = byCode.get(code);
