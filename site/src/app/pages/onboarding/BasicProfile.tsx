@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
@@ -20,10 +20,88 @@ import {
   TooltipTrigger,
 } from "../../components/ui/tooltip";
 import { Checkbox } from "../../components/ui/checkbox";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 export default function BasicProfile() {
   const navigate = useNavigate();
   const [isNewStudent, setIsNewStudent] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [uid, setUid] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    const run = async () => {
+      try {
+        const supabase = getSupabaseClient();
+        const { data: authData } = await supabase.auth.getUser();
+        const authUser = authData.user;
+        if (!authUser) {
+          if (mounted) {
+            setName(localStorage.getItem("orbitumd-onboarding-name") ?? "");
+            setEmail(localStorage.getItem("orbitumd-onboarding-email") ?? "");
+            setUid(localStorage.getItem("orbitumd-onboarding-uid") ?? "");
+          }
+          return;
+        }
+
+        const { data: profileRow } = await supabase
+          .from("user_profiles")
+          .select("display_name, email, university_uid")
+          .eq("id", authUser.id)
+          .maybeSingle();
+
+        if (!mounted) return;
+        setName(String(profileRow?.display_name ?? authUser.user_metadata?.full_name ?? authUser.user_metadata?.name ?? ""));
+        setEmail(String(profileRow?.email ?? authUser.email ?? ""));
+        setUid(String(profileRow?.university_uid ?? ""));
+      } catch {
+        // Keep onboarding usable even when profile lookup fails.
+      }
+    };
+    void run();
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const handleContinue = async () => {
+    setSaving(true);
+    setMessage(null);
+    try {
+      const supabase = getSupabaseClient();
+      const { data: authData } = await supabase.auth.getUser();
+      const authUser = authData.user;
+
+      if (!authUser) {
+        localStorage.setItem("orbitumd-onboarding-name", name.trim());
+        localStorage.setItem("orbitumd-onboarding-email", email.trim());
+        localStorage.setItem("orbitumd-onboarding-uid", uid.trim());
+        navigate("/onboarding/goals");
+        return;
+      }
+
+      const { error } = await supabase.from("user_profiles").upsert(
+        {
+          id: authUser.id,
+          display_name: name.trim() || null,
+          email: email.trim() || null,
+          university_uid: uid.trim() || null,
+        },
+        { onConflict: "id" },
+      );
+      if (error) throw error;
+
+      setMessage("Profile saved.");
+      navigate("/onboarding/goals");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Unable to save profile.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center p-8">
@@ -47,21 +125,25 @@ export default function BasicProfile() {
           <div className="space-y-6">
             <div>
               <Label htmlFor="name">Full Name</Label>
-              <Input id="name" placeholder="Your full name" className="bg-[#1a1a1a] border-neutral-700" />
+              <Input id="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your full name" className="bg-[#1a1a1a] border-neutral-700" />
               <p className="text-xs text-neutral-500 mt-1">We'll use this to personalize your experience</p>
             </div>
 
             <div>
               <Label htmlFor="email">UMD Email</Label>
-              <Input id="email" type="email" placeholder="yourid@umd.edu" className="bg-[#1a1a1a] border-neutral-700" />
+              <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="yourid@umd.edu" className="bg-[#1a1a1a] border-neutral-700" />
               <p className="text-xs text-neutral-500 mt-1">Your official university email address</p>
             </div>
 
             <div>
               <Label htmlFor="uid">UMD UID</Label>
-              <Input id="uid" placeholder="123456789" className="bg-[#1a1a1a] border-neutral-700" />
+              <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} placeholder="123456789" className="bg-[#1a1a1a] border-neutral-700" />
               <p className="text-xs text-neutral-500 mt-1">Your 9-digit university ID number</p>
             </div>
+
+            {message && (
+              <p className="text-sm text-neutral-300">{message}</p>
+            )}
 
             <div>
               <div className="flex items-center gap-2 mb-2">
@@ -173,9 +255,10 @@ export default function BasicProfile() {
             </Button>
             <Button 
               className="flex-1 bg-red-600 hover:bg-red-700"
-              onClick={() => navigate("/onboarding/goals")}
+              onClick={() => void handleContinue()}
+              disabled={saving}
             >
-              Continue
+              {saving ? "Saving..." : "Continue"}
             </Button>
           </div>
         </Card>

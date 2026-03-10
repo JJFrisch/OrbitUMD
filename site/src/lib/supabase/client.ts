@@ -43,11 +43,6 @@ export async function getAuthenticatedUserId(): Promise<string> {
     .upsert({
       id: user.id,
       email: user.email ?? null,
-      display_name:
-        (user.user_metadata?.full_name as string | undefined)
-        ?? (user.user_metadata?.name as string | undefined)
-        ?? user.email
-        ?? null,
     }, { onConflict: "id" });
 
   if (profileError) {

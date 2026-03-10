@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronLeft, ChevronRight, Clock, FileText, Info } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, FileText, Info } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -59,7 +59,15 @@ export default function DegreeAudit() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeProgramIndex, setActiveProgramIndex] = useState(0);
+  const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
   const sliderRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollToProgram = (index: number) => {
+    const slider = sliderRef.current;
+    const child = slider?.children[index] as HTMLElement | undefined;
+    if (!slider || !child) return;
+    slider.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+  };
 
   useEffect(() => {
     let active = true;
@@ -306,7 +314,7 @@ export default function DegreeAudit() {
                       onClick={() => {
                         const next = Math.max(0, activeProgramIndex - 1);
                         setActiveProgramIndex(next);
-                        sliderRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                        scrollToProgram(next);
                       }}
                       disabled={activeProgramIndex === 0}
                     >
@@ -319,7 +327,7 @@ export default function DegreeAudit() {
                       onClick={() => {
                         const next = Math.min(programAudits.length - 1, activeProgramIndex + 1);
                         setActiveProgramIndex(next);
-                        sliderRef.current?.children[next]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                        scrollToProgram(next);
                       }}
                       disabled={activeProgramIndex === programAudits.length - 1}
                     >
@@ -336,7 +344,7 @@ export default function DegreeAudit() {
                       className={index === activeProgramIndex ? "bg-red-600 hover:bg-red-700" : "border-neutral-700 text-neutral-300"}
                       onClick={() => {
                         setActiveProgramIndex(index);
-                        sliderRef.current?.children[index]?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+                        scrollToProgram(index);
                       }}
                     >
                       {programAudit.bundle.kind.toUpperCase()}: {programAudit.bundle.programName}
@@ -389,25 +397,64 @@ export default function DegreeAudit() {
                                     <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
                                   )}
                                 </div>
-                                {statusBadge(sectionEval.status)}
+                                <div className="flex items-center gap-2">
+                                  {statusBadge(sectionEval.status)}
+                                  <Button
+                                    type="button"
+                                    size="icon"
+                                    variant="ghost"
+                                    className="h-7 w-7"
+                                    onClick={() => {
+                                      setExpandedSectionIds((prev) => {
+                                        const next = new Set(prev);
+                                        if (next.has(section.id)) next.delete(section.id);
+                                        else next.add(section.id);
+                                        return next;
+                                      });
+                                    }}
+                                  >
+                                    <ChevronDown className={`h-4 w-4 transition-transform ${expandedSectionIds.has(section.id) ? "rotate-180" : ""}`} />
+                                  </Button>
+                                </div>
                               </div>
 
-                              <p className="text-xs text-neutral-400 mb-2">
-                                Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
-                              </p>
+                              {expandedSectionIds.has(section.id) ? (
+                                <>
+                                  <p className="text-xs text-neutral-400 mb-2">
+                                    Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
+                                  </p>
 
-                              {section.notes.length > 0 && (
-                                <ul className="space-y-1">
-                                  {section.notes.map((note, idx) => (
-                                    <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">{note}</li>
-                                  ))}
-                                </ul>
+                                  {section.notes.length > 0 && (
+                                    <ul className="space-y-1">
+                                      {section.notes.map((note, idx) => (
+                                        <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">{note}</li>
+                                      ))}
+                                    </ul>
+                                  )}
+                                </>
+                              ) : (
+                                <p className="text-xs text-neutral-500">Collapsed. Tap to expand details.</p>
                               )}
                             </Card>
                           ))}
                         </div>
                       </Card>
                     </div>
+                  ))}
+                </div>
+
+                <div className="mt-3 flex items-center justify-center gap-2">
+                  {programAudits.map((programAudit, index) => (
+                    <button
+                      key={`dot-${programAudit.bundle.programId}-${index}`}
+                      type="button"
+                      aria-label={`Go to ${programAudit.bundle.programName}`}
+                      onClick={() => {
+                        setActiveProgramIndex(index);
+                        scrollToProgram(index);
+                      }}
+                      className={`h-2.5 w-2.5 rounded-full transition-colors ${index === activeProgramIndex ? "bg-red-500" : "bg-neutral-600 hover:bg-neutral-500"}`}
+                    />
                   ))}
                 </div>
               </Card>
