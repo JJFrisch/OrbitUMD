@@ -1,7 +1,7 @@
 import { fetchProgramRequirements } from "@/lib/repositories/degreeRequirementsRepository";
 import type { UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import type { RequirementNode, RequirementSection } from "@/lib/types/requirements";
-import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
+import requirementsCatalog from "@/lib/data/current_degree_requirements_umd.json";
 
 export type AuditCourseStatus = "completed" | "in_progress" | "planned" | "not_started";
 
