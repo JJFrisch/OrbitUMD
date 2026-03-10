@@ -1,377 +1,404 @@
-import { useState } from "react";
-import { Card } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Badge } from "../components/ui/badge";
-import { Progress } from "../components/ui/progress";
-import { CheckCircle2, Clock, AlertCircle, Info, FileText, Edit, ChevronDown, ChevronUp } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
+import { AlertCircle, CheckCircle2, Clock, FileText, Info } from "lucide-react";
+import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Card } from "../components/ui/card";
+import { Progress } from "../components/ui/progress";
+import { plannerApi } from "@/lib/api/planner";
+import { listUserDegreePrograms, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
+import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import {
+  buildCourseContributionMap,
+  evaluateRequirementSection,
+  loadProgramRequirementBundles,
+  type AuditCourseStatus,
+  type ProgramRequirementBundle,
+} from "@/lib/requirements/audit";
+
+interface AuditCourse {
+  code: string;
+  title: string;
+  credits: number;
+  genEds: string[];
+  status: AuditCourseStatus;
+}
+
+function parseSelections(stored: unknown): Array<any> {
+  const payload = (stored ?? []) as { selections?: any[] } | any[];
+  if (Array.isArray(payload)) return payload;
+  return Array.isArray(payload.selections) ? payload.selections : [];
+}
+
+function rank(status: AuditCourseStatus): number {
+  if (status === "completed") return 3;
+  if (status === "in_progress") return 2;
+  if (status === "planned") return 1;
+  return 0;
+}
+
+function mergeStatus(a: AuditCourseStatus, b: AuditCourseStatus): AuditCourseStatus {
+  return rank(a) >= rank(b) ? a : b;
+}
+
+function statusBadge(status: AuditCourseStatus) {
+  if (status === "completed") {
+    return <Badge className="bg-green-600/20 text-green-400 border border-green-600/30">Completed</Badge>;
+  }
+  if (status === "in_progress") {
+    return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
+  }
+  return <Badge variant="outline" className="border-neutral-700">Planned</Badge>;
+}
 
 export default function DegreeAudit() {
-  const [genEdExpanded, setGenEdExpanded] = useState(true);
-  const [majorExpanded, setMajorExpanded] = useState(true);
-  const [minorExpanded, setMinorExpanded] = useState(true);
+  const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
+  const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
+  const [courses, setCourses] = useState<AuditCourse[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const run = async () => {
+      try {
+        const [selectedPrograms, schedules] = await Promise.all([
+          listUserDegreePrograms(),
+          plannerApi.listAllSchedulesWithSelections(),
+        ]);
+
+        if (!active) return;
+
+        const mainSchedules = schedules.filter((schedule) => schedule.is_primary && schedule.term_code && schedule.term_year);
+
+        const byCode = new Map<string, AuditCourse>();
+        for (const schedule of mainSchedules) {
+          const scheduleStatus = getAcademicProgressStatus({
+            termCode: schedule.term_code!,
+            termYear: schedule.term_year!,
+          });
+
+          for (const selection of parseSelections(schedule.selections_json)) {
+            const code = String(selection?.course?.courseCode ?? "").toUpperCase();
+            if (!code) continue;
+
+            const current: AuditCourse = {
+              code,
+              title: String(selection?.course?.name ?? "Untitled Course"),
+              credits: Number(selection?.course?.maxCredits ?? selection?.course?.credits ?? 0) || 0,
+              genEds: Array.isArray(selection?.course?.genEds) ? selection.course.genEds : [],
+              status: scheduleStatus,
+            };
+
+            const existing = byCode.get(code);
+            if (!existing) {
+              byCode.set(code, current);
+            } else {
+              byCode.set(code, {
+                ...existing,
+                credits: Math.max(existing.credits, current.credits),
+                title: existing.title || current.title,
+                genEds: Array.from(new Set([...(existing.genEds ?? []), ...(current.genEds ?? [])])),
+                status: mergeStatus(existing.status, current.status),
+              });
+            }
+          }
+        }
+
+        const auditCourses = Array.from(byCode.values()).sort((a, b) => a.code.localeCompare(b.code));
+        const loadedBundles = await loadProgramRequirementBundles(selectedPrograms);
+        if (!active) return;
+
+        setPrograms(selectedPrograms);
+        setBundles(loadedBundles);
+        setCourses(auditCourses);
+        setErrorMessage(null);
+      } catch (error) {
+        if (!active) return;
+        setErrorMessage(error instanceof Error ? error.message : "Unable to load degree audit.");
+      } finally {
+        if (active) setLoading(false);
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const byCourseCode = useMemo(() => {
+    const map = new Map<string, AuditCourseStatus>();
+    for (const course of courses) {
+      map.set(course.code, course.status);
+    }
+    return map;
+  }, [courses]);
+
+  const contributionMap = useMemo(() => buildCourseContributionMap(bundles), [bundles]);
+
+  const summary = useMemo(() => {
+    let completedCredits = 0;
+    let inProgressCredits = 0;
+    let plannedCredits = 0;
+
+    for (const course of courses) {
+      if (course.status === "completed") completedCredits += course.credits;
+      else if (course.status === "in_progress") inProgressCredits += course.credits;
+      else plannedCredits += course.credits;
+    }
+
+    const totalCredits = completedCredits + inProgressCredits + plannedCredits;
+    return {
+      totalCredits,
+      completedCredits,
+      inProgressCredits,
+      plannedCredits,
+    };
+  }, [courses]);
+
+  const genEdSummary = useMemo(() => {
+    const tags = new Map<string, AuditCourseStatus>();
+
+    for (const course of courses) {
+      for (const tag of course.genEds ?? []) {
+        const existing = tags.get(tag);
+        tags.set(tag, existing ? mergeStatus(existing, course.status) : course.status);
+      }
+    }
+
+    const rows = Array.from(tags.entries())
+      .map(([tag, status]) => ({ tag, status }))
+      .sort((a, b) => a.tag.localeCompare(b.tag));
+
+    const done = rows.filter((row) => row.status === "completed").length;
+    const inProg = rows.filter((row) => row.status === "in_progress").length;
+    return { rows, done, inProg, total: rows.length };
+  }, [courses]);
+
+  const programAudits = useMemo(() => {
+    return bundles.map((bundle) => {
+      const sectionRows = bundle.sections.map((section) => ({
+        section,
+        eval: evaluateRequirementSection(section, byCourseCode),
+      }));
+
+      const requiredSlots = sectionRows.reduce((sum, row) => sum + row.eval.requiredSlots, 0);
+      const completedSlots = sectionRows.reduce((sum, row) => sum + row.eval.completedSlots, 0);
+      const inProgressSlots = sectionRows.reduce((sum, row) => sum + row.eval.inProgressSlots, 0);
+      const plannedSlots = sectionRows.reduce((sum, row) => sum + row.eval.plannedSlots, 0);
+
+      let status: AuditCourseStatus = "not_started";
+      if (completedSlots >= requiredSlots) status = "completed";
+      else if (completedSlots + inProgressSlots >= requiredSlots) status = "in_progress";
+      else if (completedSlots + inProgressSlots + plannedSlots >= requiredSlots) status = "planned";
+
+      return {
+        bundle,
+        sectionRows,
+        requiredSlots,
+        completedSlots,
+        inProgressSlots,
+        plannedSlots,
+        status,
+        progressPercent: requiredSlots === 0 ? 0 : Math.round(((completedSlots + inProgressSlots) / requiredSlots) * 100),
+      };
+    });
+  }, [bundles, byCourseCode]);
+
+  const electiveOverflow = useMemo(() => {
+    return courses.filter((course) => {
+      const contributes = (contributionMap.get(course.code) ?? []).length > 0;
+      const hasGenEd = (course.genEds ?? []).length > 0;
+      return !contributes && !hasGenEd;
+    });
+  }, [contributionMap, courses]);
+
+  const electiveCredits = electiveOverflow.reduce((sum, course) => sum + course.credits, 0);
 
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <h1 className="text-4xl text-white mb-2">Degree Audit</h1>
-          <p className="text-neutral-400">Track your progress toward graduation</p>
+          <p className="text-neutral-400">
+            Live audit powered by selected major/minor requirements and your MAIN schedules.
+          </p>
         </div>
 
-        {/* Summary Card */}
-        <Card className="p-6 bg-[#252525] border-neutral-800 mb-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <FileText className="w-5 h-5 text-blue-400" />
-                <h3 className="text-sm text-neutral-400">Total Credits</h3>
-              </div>
-              <p className="text-3xl text-white mb-1">71 / 120</p>
-              <Progress value={59} className="h-2" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <CheckCircle2 className="w-5 h-5 text-green-400" />
-                <h3 className="text-sm text-neutral-400">Completed</h3>
-              </div>
-              <p className="text-3xl text-white">55 cr</p>
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <Clock className="w-5 h-5 text-blue-400" />
-                <h3 className="text-sm text-neutral-400">In Progress</h3>
-              </div>
-              <p className="text-3xl text-white">16 cr</p>
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <AlertCircle className="w-5 h-5 text-amber-400" />
-                <h3 className="text-sm text-neutral-400">Remaining</h3>
-              </div>
-              <p className="text-3xl text-white">49 cr</p>
-            </div>
-          </div>
+        {loading && <p className="text-neutral-400">Running degree audit...</p>}
+        {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
-          <div className="flex gap-3 mt-6 pt-6 border-t border-neutral-800">
-            <Link to="/four-year-plan" className="flex-1">
-              <Button variant="outline" className="w-full border-neutral-700 text-neutral-300 hover:bg-neutral-800">
-                Open Four-Year Plan
-              </Button>
-            </Link>
-            <Link to="/generate-schedule" className="flex-1">
-              <Button className="w-full bg-red-600 hover:bg-red-700">
-                Generate Next Schedule
-              </Button>
-            </Link>
-          </div>
-        </Card>
-
-        {/* Requirements Sections */}
-        <div className="space-y-6">
-          {/* General Education */}
-          <Card className="bg-[#252525] border-neutral-800">
-            <div 
-              className="p-6 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
-              onClick={() => setGenEdExpanded(!genEdExpanded)}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-2xl text-white">General Education</h2>
-                  <Badge className="bg-amber-600/20 text-amber-400 border border-amber-600/30">
-                    In Progress
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Info className="w-5 h-5 text-neutral-500 cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
-                        <p>UMD General Education requirements for all students</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  {genEdExpanded ? (
-                    <ChevronUp className="w-5 h-5 text-neutral-400" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-neutral-400" />
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center gap-4 mt-4">
-                <Progress value={90} className="flex-1 h-3" />
-                <span className="text-white">38 / 42 credits</span>
-              </div>
-            </div>
-
-            {genEdExpanded && (
-              <div className="px-6 pb-6 space-y-4">
-                <div className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-white">Fundamental Studies</h3>
-                    <Badge className="bg-amber-600/20 text-amber-400 border border-amber-600/30">
-                      4 / 5 complete
-                    </Badge>
+        {!loading && !errorMessage && (
+          <>
+            <Card className="p-6 bg-[#252525] border-neutral-800 mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <FileText className="w-5 h-5 text-blue-400" />
+                    <h3 className="text-sm text-neutral-400">Total Credits</h3>
                   </div>
-                  <div className="space-y-2 mt-3">
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-400" />
-                      <span className="text-sm text-neutral-300">FSMA (Math) - MATH140 (Fall 2025)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-green-400" />
-                      <span className="text-sm text-neutral-300">FSOC (Oral Comm) - COMM107 (Fall 2025)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-blue-400" />
-                      <span className="text-sm text-neutral-300">FSPW (Prof Writing) - ENGL393 (Spring 2027)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 text-amber-400" />
-                      <span className="text-sm text-neutral-300">FSAR (Analytic Reasoning) - Not fulfilled</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 text-amber-400" />
-                      <span className="text-sm text-neutral-300">FSAW (Academic Writing) - Not fulfilled</span>
-                    </div>
-                  </div>
+                  <p className="text-3xl text-white">{summary.totalCredits}</p>
                 </div>
-
-                <div className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="text-white">Distributive Studies</h3>
-                    <Badge className="bg-green-600/20 text-green-400 border border-green-600/30">
-                      6 / 8 complete
-                    </Badge>
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle2 className="w-5 h-5 text-green-400" />
+                    <h3 className="text-sm text-neutral-400">Completed</h3>
                   </div>
-                  <p className="text-sm text-neutral-400 mt-2">
-                    View detailed breakdown in{" "}
-                    <Link to="/gen-eds" className="text-red-400 hover:underline">
-                      Gen Eds page
-                    </Link>
-                  </p>
+                  <p className="text-3xl text-white">{summary.completedCredits} cr</p>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Clock className="w-5 h-5 text-blue-400" />
+                    <h3 className="text-sm text-neutral-400">In Progress</h3>
+                  </div>
+                  <p className="text-3xl text-white">{summary.inProgressCredits} cr</p>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertCircle className="w-5 h-5 text-amber-400" />
+                    <h3 className="text-sm text-neutral-400">Planned</h3>
+                  </div>
+                  <p className="text-3xl text-white">{summary.plannedCredits} cr</p>
                 </div>
               </div>
-            )}
-          </Card>
 
-          {/* Computer Science Major */}
-          <Card className="bg-[#252525] border-neutral-800">
-            <div 
-              className="p-6 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
-              onClick={() => setMajorExpanded(!majorExpanded)}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-2xl text-white">Computer Science Major</h2>
-                  <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">
-                    In Progress
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Link to="/degree-requirements?program=major" onClick={(e) => e.stopPropagation()}>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
-                    >
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit Requirements
-                    </Button>
-                  </Link>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Info className="w-5 h-5 text-neutral-500 cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
-                        <p>Computer Science B.S. major requirements</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                  {majorExpanded ? (
-                    <ChevronUp className="w-5 h-5 text-neutral-400" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-neutral-400" />
-                  )}
-                </div>
+              <div className="flex gap-3 mt-6 pt-6 border-t border-neutral-800">
+                <Link to="/four-year-plan" className="flex-1">
+                  <Button variant="outline" className="w-full border-neutral-700 text-neutral-300 hover:bg-neutral-800">
+                    Open Four-Year Plan
+                  </Button>
+                </Link>
+                <Link to="/degree-requirements" className="flex-1">
+                  <Button className="w-full bg-red-600 hover:bg-red-700">Review Requirement Details</Button>
+                </Link>
               </div>
-              <div className="flex items-center gap-4 mt-4">
-                <Progress value={70} className="flex-1 h-3" />
-                <span className="text-white">29 / 42 credits</span>
+            </Card>
+
+            <Card className="bg-[#252525] border-neutral-800 mb-6 p-5">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl text-white">General Education Signals</h2>
+                <Badge variant="outline" className="border-neutral-700 text-neutral-300">
+                  {genEdSummary.done + genEdSummary.inProg}/{genEdSummary.total} tags active
+                </Badge>
               </div>
-            </div>
-
-            {majorExpanded && (
-              <div className="px-6 pb-6 space-y-4">
-                <div className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-white">Lower Level Core Courses</h3>
-                    <Badge className="bg-green-600/20 text-green-400 border border-green-600/30">
-                      Complete
+              {genEdSummary.rows.length === 0 ? (
+                <p className="text-neutral-400">No Gen Ed tags found on MAIN-schedule courses.</p>
+              ) : (
+                <div className="flex flex-wrap gap-2">
+                  {genEdSummary.rows.map((row) => (
+                    <Badge key={row.tag} className={
+                      row.status === "completed"
+                        ? "bg-green-600/20 text-green-300 border border-green-600/30"
+                        : row.status === "in_progress"
+                          ? "bg-blue-600/20 text-blue-300 border border-blue-600/30"
+                          : "bg-neutral-700/40 text-neutral-200 border border-neutral-600"
+                    }>
+                      {row.tag}: {row.status.replace("_", " ")}
                     </Badge>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="border-green-600/50 text-green-400">
-                      CMSC131 (Fall 2025)
-                    </Badge>
-                    <Badge variant="outline" className="border-green-600/50 text-green-400">
-                      CMSC132 (Spring 2026)
-                    </Badge>
-                    <Badge variant="outline" className="border-green-600/50 text-green-400">
-                      CMSC216 (Fall 2026)
-                    </Badge>
-                    <Badge variant="outline" className="border-green-600/50 text-green-400">
-                      CMSC250 (Fall 2026)
-                    </Badge>
-                  </div>
+                  ))}
                 </div>
+              )}
+            </Card>
 
-                <div className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-white">Upper Level Core Courses</h3>
-                    <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">
-                      2 / 5 complete
-                    </Badge>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="outline" className="border-blue-600/50 text-blue-400">
-                      CMSC330 (Spring 2027)
-                    </Badge>
-                    <Badge variant="outline" className="border-blue-600/50 text-blue-400">
-                      CMSC351 (Spring 2027)
-                    </Badge>
-                    <Badge variant="outline" className="border-neutral-700">
-                      CMSC420 (Planned Fall 2027)
-                    </Badge>
-                    <Badge variant="outline" className="border-neutral-700">
-                      CMSC421 (Planned Fall 2027)
-                    </Badge>
-                    <Badge variant="outline" className="border-neutral-700">
-                      CMSC424 (Planned Spring 2028)
-                    </Badge>
-                  </div>
-                </div>
-
-                <div className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-white">Upper Level Electives</h3>
-                    <Badge variant="outline" className="border-neutral-700">
-                      0 / 4 complete
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-neutral-400">Need to select 4 upper-level CMSC electives</p>
-                </div>
-
-                {/* Call to action to customize requirements */}
-                <div className="mt-4 p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <Edit className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-sm text-blue-400 mb-2">
-                        <strong>Customize Your Requirements</strong>
+            <div className="space-y-6">
+              {programAudits.map((programAudit) => (
+                <Card key={programAudit.bundle.programId} className="bg-[#252525] border-neutral-800 p-5">
+                  <div className="flex items-center justify-between gap-3 mb-3">
+                    <div>
+                      <h2 className="text-2xl text-white">{programAudit.bundle.programName}</h2>
+                      <p className="text-sm text-neutral-400 mt-1">
+                        {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
                       </p>
-                      <p className="text-xs text-blue-400/80 mb-3">
-                        Build your own degree structure with AND/OR course groupings. Perfect for creating
-                        custom majors, special programs, or tracking alternative requirements.
-                      </p>
-                      <Link to="/degree-requirements?program=major">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-blue-600 text-blue-400 hover:bg-blue-600/20"
-                        >
-                          <Edit className="w-4 h-4 mr-2" />
-                          Go to Degree Requirements Builder
-                        </Button>
-                      </Link>
                     </div>
+                    {statusBadge(programAudit.status)}
                   </div>
-                </div>
-              </div>
-            )}
-          </Card>
 
-          {/* Physics Minor */}
-          <Card className="bg-[#252525] border-neutral-800">
-            <div 
-              className="p-6 cursor-pointer hover:bg-[#2a2a2a] transition-colors"
-              onClick={() => setMinorExpanded(!minorExpanded)}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-2xl text-white">Physics Minor</h2>
-                  <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">
-                    In Progress
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Link to="/degree-requirements?program=minor" onClick={(e) => e.stopPropagation()}>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
-                    >
-                      <Edit className="w-4 h-4 mr-2" />
-                      Edit Requirements
-                    </Button>
-                  </Link>
-                  {minorExpanded ? (
-                    <ChevronUp className="w-5 h-5 text-neutral-400" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5 text-neutral-400" />
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center gap-4 mt-4">
-                <Progress value={67} className="flex-1 h-3" />
-                <span className="text-white">12 / 18 credits</span>
-              </div>
+                  <div className="flex items-center gap-4 mb-5">
+                    <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
+                    <span className="text-white text-sm">
+                      {programAudit.completedSlots + programAudit.inProgressSlots} / {programAudit.requiredSlots} slots active
+                    </span>
+                  </div>
+
+                  <div className="space-y-3">
+                    {programAudit.sectionRows.map(({ section, eval: sectionEval }) => (
+                      <Card key={section.id} className="bg-[#1a1a1a] border-neutral-800 p-4">
+                        <div className="flex items-center justify-between gap-3 mb-2">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-white">{section.title}</h3>
+                            {section.special && (
+                              <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
+                            )}
+                            {section.requirementType === "choose" && (
+                              <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
+                            )}
+                          </div>
+                          {statusBadge(sectionEval.status)}
+                        </div>
+
+                        <p className="text-xs text-neutral-400 mb-2">
+                          Slots: {sectionEval.completedSlots} completed, {sectionEval.inProgressSlots} in progress, {sectionEval.plannedSlots} planned / {sectionEval.requiredSlots} required
+                        </p>
+
+                        {section.notes.length > 0 && (
+                          <ul className="space-y-1">
+                            {section.notes.map((note, idx) => (
+                              <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">{note}</li>
+                            ))}
+                          </ul>
+                        )}
+                      </Card>
+                    ))}
+                  </div>
+                </Card>
+              ))}
             </div>
 
-            {minorExpanded && (
-              <div className="px-6 pb-6">
-                <div className="p-4 bg-[#1a1a1a] rounded-lg border border-neutral-800">
-                  <p className="text-neutral-400 mb-3">Completed: PHYS161, PHYS260, PHYS375 (in progress)</p>
-                  <p className="text-neutral-400">Remaining: 3 upper-level physics courses</p>
-                </div>
-                
-                {/* Call to action for minor */}
-                <div className="mt-4 p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg">
-                  <div className="flex items-start gap-3">
-                    <Edit className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1">
-                      <p className="text-sm text-blue-400 mb-2">
-                        <strong>Customize Minor Requirements</strong>
-                      </p>
-                      <p className="text-xs text-blue-400/80 mb-3">
-                        Define your Physics minor requirements with custom sections and course groupings.
-                      </p>
-                      <Link to="/degree-requirements?program=minor">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-blue-600 text-blue-400 hover:bg-blue-600/20"
-                        >
-                          <Edit className="w-4 h-4 mr-2" />
-                          Go to Degree Requirements Builder
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+            <Card className="bg-[#252525] border-neutral-800 mt-6 p-5">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-2xl text-white">Elective Overflow</h2>
+                <Badge variant="outline" className="border-neutral-700 text-neutral-300">{electiveCredits} credits</Badge>
               </div>
-            )}
-          </Card>
-        </div>
+              <p className="text-sm text-neutral-400 mb-4">
+                Courses below currently do not map to selected major/minor requirements or Gen Ed tags.
+              </p>
+
+              {electiveOverflow.length === 0 ? (
+                <div className="p-3 rounded-lg bg-[#1a1a1a] border border-neutral-800 text-neutral-300">
+                  No overflow electives detected.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {electiveOverflow.map((course) => (
+                    <Card key={course.code} className="bg-[#1a1a1a] border-neutral-800 p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <p className="text-white">{course.code}</p>
+                          <p className="text-xs text-neutral-400">{course.title}</p>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm text-white">{course.credits} cr</p>
+                          <p className="text-xs text-neutral-400">{course.status.replace("_", " ")}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </Card>
+
+            <Card className="bg-[#252525] border-neutral-800 mt-6 p-4">
+              <div className="flex items-center gap-2 text-neutral-300">
+                <Info className="w-4 h-4" />
+                <p className="text-sm">
+                  Audit status is driven by MAIN schedules only: past terms = completed, current term = in progress, future terms = planned.
+                </p>
+              </div>
+            </Card>
+          </>
+        )}
       </div>
     </div>
   );

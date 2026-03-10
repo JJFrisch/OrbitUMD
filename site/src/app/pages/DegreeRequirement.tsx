@@ -1,842 +1,219 @@
-import { useState, useEffect, useCallback } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import { Card } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { useEffect, useMemo, useState } from "react";
 import { Badge } from "../components/ui/badge";
-import { Plus, X, Info, Link as LinkIcon, GripVertical, Save, Loader2 } from "lucide-react";
-import { RadioGroup, RadioGroupItem } from "../components/ui/radio-group";
+import { Card } from "../components/ui/card";
+import { AlertCircle, BookOpenCheck, Info } from "lucide-react";
+import { listUserDegreePrograms, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
-import { useSearchParams } from "react-router";
-import type { RequirementSection, RequirementNode } from "../../lib/types/requirements";
-import {
-  fetchProgramRequirements,
-  saveProgramRequirements,
-} from "../../lib/repositories/degreeRequirementsRepository";
-import {
-  listUserDegreePrograms,
-  type UserDegreeProgram,
-} from "../../lib/repositories/degreeProgramsRepository";
+  loadProgramRequirementBundles,
+  type ProgramRequirementBundle,
+  type RequirementSectionBundle,
+} from "@/lib/requirements/audit";
 
-interface Course {
-  code: string;
+function RequirementTypeBadge({ section }: { section: RequirementSectionBundle }) {
+  if (section.requirementType === "choose") {
+    return (
+      <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">
+        Choose {section.chooseCount ?? 1}
+      </Badge>
+    );
+  }
+
+  return <Badge variant="outline" className="border-neutral-700 text-neutral-300">All Required</Badge>;
 }
 
-interface CourseGroup {
-  type: "AND" | "OR";
-  items: (Course | CourseGroup)[]; // Allow nesting
-}
-
-interface Section {
-  title: string;
-  requirementType: "all" | "choose";
-  chooseCount?: number;
-  items: (Course | CourseGroup)[];
-}
-
-const ItemTypes = {
-  COURSE: 'course',
-  GROUP: 'group',
-};
-
-// Draggable Course Component
-function DraggableCourse({
-  course,
-  sectionIndex,
-  itemPath,
-  onUpdate,
-  onRemove,
-}: {
-  course: Course;
-  sectionIndex: number;
-  itemPath: number[];
-  onUpdate: (code: string) => void;
-  onRemove: () => void;
-}) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.COURSE,
-    item: { type: ItemTypes.COURSE, sectionIndex, itemPath, data: course },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
-
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: [ItemTypes.COURSE, ItemTypes.GROUP],
-    hover: () => {},
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }));
-
+function SectionCard({ section }: { section: RequirementSectionBundle }) {
   return (
-    <div
-      ref={(node) => {
-        drag(drop(node));
-      }}
-      className={`flex gap-2 ${isDragging ? 'opacity-50' : ''} ${isOver ? 'border-t-2 border-blue-400' : ''}`}
-    >
-      <div className="flex items-center text-neutral-500 cursor-grab active:cursor-grabbing">
-        <GripVertical className="w-4 h-4" />
-      </div>
-      <Input
-        value={course.code}
-        onChange={(e) => onUpdate(e.target.value)}
-        placeholder="e.g., CMSC330"
-        className="bg-[#1a1a1a] border-neutral-700"
-      />
-      <Button
-        size="icon"
-        variant="ghost"
-        className="hover:bg-red-600/20 hover:text-red-400"
-        onClick={onRemove}
-      >
-        <X className="w-4 h-4" />
-      </Button>
-    </div>
-  );
-}
-
-// Draggable Group Component
-function DraggableGroup({
-  group,
-  sectionIndex,
-  itemPath,
-  onUpdate,
-  onRemove,
-  sections,
-  setSections,
-}: {
-  group: CourseGroup;
-  sectionIndex: number;
-  itemPath: number[];
-  onUpdate: (group: CourseGroup) => void;
-  onRemove: () => void;
-  sections: Section[];
-  setSections: (sections: Section[]) => void;
-}) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.GROUP,
-    item: { type: ItemTypes.GROUP, sectionIndex, itemPath, data: group },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
-
-  const [{ isOver, canDrop }, drop] = useDrop(() => ({
-    accept: [ItemTypes.COURSE, ItemTypes.GROUP],
-    drop: (item: any, monitor) => {
-      if (monitor.didDrop()) return;
-      
-      // Don't allow dropping an item into itself
-      if (item.sectionIndex === sectionIndex && 
-          JSON.stringify(item.itemPath) === JSON.stringify(itemPath)) {
-        return;
-      }
-
-      // Remove item from original location
-      const newSections = [...sections];
-      const removedItem = removeItemAtPath(newSections, item.sectionIndex, item.itemPath);
-      
-      if (removedItem) {
-        // Add to this group
-        const targetGroup = getItemAtPath(newSections, sectionIndex, itemPath) as CourseGroup;
-        if (targetGroup && targetGroup.items) {
-          targetGroup.items.push(removedItem);
-        }
-        setSections(newSections);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver({ shallow: true }),
-      canDrop: monitor.canDrop(),
-    }),
-  }));
-
-  const addItemToGroup = (item: Course | CourseGroup) => {
-    const updatedGroup = {
-      ...group,
-      items: [...group.items, item],
-    };
-    onUpdate(updatedGroup);
-  };
-
-  const removeItemFromGroup = (index: number) => {
-    const updatedGroup = {
-      ...group,
-      items: group.items.filter((_, i) => i !== index),
-    };
-    onUpdate(updatedGroup);
-  };
-
-  const updateItemInGroup = (index: number, item: Course | CourseGroup) => {
-    const updatedGroup = {
-      ...group,
-      items: group.items.map((existing, i) => i === index ? item : existing),
-    };
-    onUpdate(updatedGroup);
-  };
-
-  return (
-    <div
-      ref={(node) => {
-        drag(drop(node));
-      }}
-      className={`p-4 bg-[#1a1a1a] rounded-lg border ${
-        isOver && canDrop ? 'border-blue-400 border-2' : 'border-neutral-800'
-      } ${isDragging ? 'opacity-50' : ''}`}
-    >
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <div className="text-neutral-500 cursor-grab active:cursor-grabbing">
-            <GripVertical className="w-4 h-4" />
-          </div>
-          <Badge
-            className={
-              group.type === "AND"
-                ? "bg-blue-600/20 text-blue-400 border border-blue-600/30"
-                : "bg-purple-600/20 text-purple-400 border border-purple-600/30"
-            }
-          >
-            {group.type} Group
-          </Badge>
+    <Card className="bg-[#252525] border-neutral-800 p-5">
+      <div className="flex items-center justify-between gap-3 mb-3">
+        <h3 className="text-lg text-white">{section.title}</h3>
+        <div className="flex items-center gap-2 flex-wrap">
+          {section.special && (
+            <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">
+              Specialization / Option
+            </Badge>
+          )}
+          <RequirementTypeBadge {...{ section }} />
         </div>
-        <Button
-          size="icon"
-          variant="ghost"
-          className="hover:bg-red-600/20 hover:text-red-400"
-          onClick={onRemove}
-        >
-          <X className="w-4 h-4" />
-        </Button>
       </div>
-      <div className="space-y-2 mb-2">
-        {group.items.map((item, index) => (
-          <div key={index}>
-            {isGroup(item) ? (
-              <DraggableGroup
-                group={item}
-                sectionIndex={sectionIndex}
-                itemPath={[...itemPath, index]}
-                onUpdate={(updatedGroup) => updateItemInGroup(index, updatedGroup)}
-                onRemove={() => removeItemFromGroup(index)}
-                sections={sections}
-                setSections={setSections}
-              />
-            ) : (
-              <DraggableCourse
-                course={item}
-                sectionIndex={sectionIndex}
-                itemPath={[...itemPath, index]}
-                onUpdate={(code) => updateItemInGroup(index, { code })}
-                onRemove={() => removeItemFromGroup(index)}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-      <div className="flex gap-2">
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => addItemToGroup({ code: "" })}
-          className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
-        >
-          <Plus className="w-4 h-4 mr-1" />
-          Add Course
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => addItemToGroup({ type: "AND", items: [{ code: "" }] })}
-          className="border-blue-700 text-blue-400 hover:bg-blue-600/10"
-        >
-          <Plus className="w-4 h-4 mr-1" />
-          AND
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => addItemToGroup({ type: "OR", items: [{ code: "" }] })}
-          className="border-purple-700 text-purple-400 hover:bg-purple-600/10"
-        >
-          <Plus className="w-4 h-4 mr-1" />
-          OR
-        </Button>
-      </div>
-    </div>
+
+      {section.optionGroups.length > 0 && (
+        <div className="mb-3 space-y-2">
+          {section.optionGroups.map((group, index) => (
+            <div key={`${section.id}-group-${index}`} className="p-3 bg-[#1a1a1a] border border-neutral-800 rounded-lg">
+              <p className="text-xs text-neutral-400 mb-2">Option Group {index + 1}</p>
+              <p className="text-sm text-neutral-200">{group.join(" or ")}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {section.standaloneCodes.length > 0 && (
+        <div className="mb-3 flex flex-wrap gap-2">
+          {section.standaloneCodes.map((code) => (
+            <Badge key={`${section.id}-${code}`} variant="outline" className="border-blue-600/30 text-blue-300 bg-blue-600/10">
+              {code}
+            </Badge>
+          ))}
+        </div>
+      )}
+
+      {section.notes.length > 0 && (
+        <div className="p-3 bg-[#1a1a1a] border border-neutral-800 rounded-lg">
+          <p className="text-xs text-neutral-400 mb-2">Notes</p>
+          <ul className="space-y-1">
+            {section.notes.map((note, idx) => (
+              <li key={`${section.id}-note-${idx}`} className="text-sm text-neutral-300">
+                {note}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </Card>
   );
 }
 
-// Drop zone for section items
-function SectionDropZone({
-  sectionIndex,
-  sections,
-  setSections,
-  children,
-}: {
-  sectionIndex: number;
-  sections: Section[];
-  setSections: (sections: Section[]) => void;
-  children: React.ReactNode;
-}) {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: [ItemTypes.COURSE, ItemTypes.GROUP],
-    drop: (item: any, monitor) => {
-      if (monitor.didDrop()) return;
-
-      // Don't allow dropping in the same section (handled by reordering)
-      if (item.sectionIndex === sectionIndex && item.itemPath.length === 1) {
-        return;
-      }
-
-      const newSections = [...sections];
-      const removedItem = removeItemAtPath(newSections, item.sectionIndex, item.itemPath);
-      
-      if (removedItem) {
-        newSections[sectionIndex].items.push(removedItem);
-        setSections(newSections);
-      }
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver({ shallow: true }),
-    }),
-  }));
-
-  return (
-    <div
-      ref={(node) => {
-        drop(node);
-      }}
-      className={`space-y-3 mb-4 min-h-[100px] ${isOver ? 'bg-blue-600/10 rounded-lg p-2' : ''}`}
-    >
-      {children}
-    </div>
-  );
-}
-
-// Helper functions
-function isGroup(item: Course | CourseGroup): item is CourseGroup {
-  return "type" in item && "items" in item;
-}
-
-function getItemAtPath(sections: Section[], sectionIndex: number, path: number[]): Course | CourseGroup | null {
-  if (path.length === 0) return null;
-  
-  let current: any = sections[sectionIndex].items[path[0]];
-  
-  for (let i = 1; i < path.length; i++) {
-    if (!current || !isGroup(current)) return null;
-    current = current.items[path[i]];
-  }
-  
-  return current;
-}
-
-function removeItemAtPath(sections: Section[], sectionIndex: number, path: number[]): Course | CourseGroup | null {
-  if (path.length === 0) return null;
-  
-  if (path.length === 1) {
-    // Top level item
-    const removed = sections[sectionIndex].items[path[0]];
-    sections[sectionIndex].items.splice(path[0], 1);
-    return removed;
-  }
-  
-  // Nested item
-  let parent: any = sections[sectionIndex].items[path[0]];
-  
-  for (let i = 1; i < path.length - 1; i++) {
-    if (!parent || !isGroup(parent)) return null;
-    parent = parent.items[path[i]];
-  }
-  
-  if (!parent || !isGroup(parent)) return null;
-  
-  const removed = parent.items[path[path.length - 1]];
-  parent.items.splice(path[path.length - 1], 1);
-  return removed;
-}
-
-export default function DegreeRequirements() {
-  const [searchParams] = useSearchParams();
-  const initialProgram = searchParams.get('program') || '';
-  const [activeTab, setActiveTab] = useState(initialProgram);
-  
-  // Data loading state
-  const [userPrograms, setUserPrograms] = useState<UserDegreeProgram[]>([]);
+export default function DegreeRequirementsPage() {
+  const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
+  const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
+  const [activeProgramId, setActiveProgramId] = useState<string>("");
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  
-  // Store sections keyed by program ID
-  const [programSections, setProgramSections] = useState<Record<string, Section[]>>({});
-  // Track which programs have been loaded from DB
-  const [loadedPrograms, setLoadedPrograms] = useState<Set<string>>(new Set());
-
-  // ── Conversion helpers: DB model ↔ UI model ──
-
-  const dbNodeToUI = (node: RequirementNode): Course | CourseGroup => {
-    if (node.nodeType === 'COURSE') {
-      return { code: node.courseCode ?? '' };
-    }
-    if (node.nodeType === 'AND_GROUP' || node.nodeType === 'OR_GROUP') {
-      return {
-        type: node.nodeType === 'AND_GROUP' ? 'AND' : 'OR',
-        items: node.children.map(dbNodeToUI),
-      };
-    }
-    // GEN_ED / WILDCARD — show as course with a code prefix for now
-    if (node.nodeType === 'GEN_ED') {
-      return { code: `[GenEd: ${node.genEdCode ?? ''}]` };
-    }
-    return { code: `[${node.wildcardDept ?? ''}${node.wildcardLevel ?? ''}*]` };
-  };
-
-  const dbSectionToUI = (section: RequirementSection): Section => ({
-    title: section.title,
-    requirementType: section.sectionType === 'all_required' ? 'all' : 'choose',
-    chooseCount: section.minCount,
-    items: section.nodes.map(dbNodeToUI),
-  });
-
-  const uiItemToDbNode = (item: Course | CourseGroup, position: number): RequirementNode => {
-    if (isGroup(item)) {
-      return {
-        nodeType: item.type === 'AND' ? 'AND_GROUP' : 'OR_GROUP',
-        position,
-        children: item.items.map((child, i) => uiItemToDbNode(child, i)),
-      };
-    }
-    return {
-      nodeType: 'COURSE',
-      courseCode: item.code || undefined,
-      position,
-      children: [],
-    };
-  };
-
-  const uiSectionToDb = (section: Section, programId: string, position: number): RequirementSection => ({
-    programId,
-    title: section.title,
-    sectionType: section.requirementType === 'all' ? 'all_required' : 'choose_n',
-    minCount: section.requirementType === 'choose' ? section.chooseCount : undefined,
-    position,
-    nodes: section.items.map((item, i) => uiItemToDbNode(item, i)),
-  });
-
-  // ── Load user programs on mount ──
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
+    let active = true;
+
+    const run = async () => {
       try {
-        setLoading(true);
-        const programs = await listUserDegreePrograms();
-        if (cancelled) return;
-        setUserPrograms(programs);
-        // Default to first program if no query param
-        if (!activeTab && programs.length > 0) {
-          setActiveTab(programs[0].programId);
-        }
-      } catch (err: any) {
-        if (!cancelled) setError(err.message ?? 'Failed to load programs');
+        const selected = await listUserDegreePrograms();
+        if (!active) return;
+
+        setPrograms(selected);
+
+        const loadedBundles = await loadProgramRequirementBundles(selected);
+        if (!active) return;
+
+        setBundles(loadedBundles);
+        setActiveProgramId((current) => current || loadedBundles[0]?.programId || "");
+        setErrorMessage(null);
+      } catch (error) {
+        if (!active) return;
+        setErrorMessage(error instanceof Error ? error.message : "Unable to load degree requirements.");
       } finally {
-        if (!cancelled) setLoading(false);
+        if (active) setLoading(false);
       }
-    })();
-    return () => { cancelled = true; };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    };
 
-  // ── Load requirements when tab changes ──
+    void run();
+    return () => {
+      active = false;
+    };
+  }, []);
 
-  const loadRequirementsForProgram = useCallback(async (programId: string) => {
-    if (!programId || loadedPrograms.has(programId)) return;
-    try {
-      const sections = await fetchProgramRequirements(programId);
-      const uiSections = sections.map(dbSectionToUI);
-      setProgramSections(prev => ({ ...prev, [programId]: uiSections }));
-      setLoadedPrograms(prev => new Set(prev).add(programId));
-    } catch (err: any) {
-      setError(err.message ?? 'Failed to load requirements');
-    }
-  }, [loadedPrograms]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  useEffect(() => {
-    if (activeTab) {
-      loadRequirementsForProgram(activeTab);
-    }
-  }, [activeTab, loadRequirementsForProgram]);
-
-  const sections = programSections[activeTab] || [];
-  const setSections = (newSections: Section[]) => {
-    setProgramSections({
-      ...programSections,
-      [activeTab]: newSections,
-    });
-  };
-
-  const addSection = () => {
-    setSections([
-      ...sections,
-      {
-        title: "",
-        requirementType: "all",
-        items: [],
-      },
-    ]);
-  };
-
-  const addCourse = (sectionIndex: number) => {
-    const newSections = [...sections];
-    newSections[sectionIndex].items.push({ code: "" });
-    setSections(newSections);
-  };
-
-  const addGroup = (sectionIndex: number, type: "AND" | "OR") => {
-    const newSections = [...sections];
-    newSections[sectionIndex].items.push({
-      type,
-      items: [{ code: "" }, { code: "" }],
-    });
-    setSections(newSections);
-  };
-
-  const updateItem = (sectionIndex: number, itemIndex: number, item: Course | CourseGroup) => {
-    const newSections = [...sections];
-    newSections[sectionIndex].items[itemIndex] = item;
-    setSections(newSections);
-  };
-
-  const removeItem = (sectionIndex: number, itemIndex: number) => {
-    const newSections = [...sections];
-    newSections[sectionIndex].items.splice(itemIndex, 1);
-    setSections(newSections);
-  };
-
-  const saveRequirements = async () => {
-    if (!activeTab) return;
-    try {
-      setSaving(true);
-      setError(null);
-      const dbSections = sections.map((s, i) => uiSectionToDb(s, activeTab, i));
-      await saveProgramRequirements(activeTab, dbSections);
-      // Refresh loaded data
-      setLoadedPrograms(prev => {
-        const next = new Set(prev);
-        next.delete(activeTab);
-        return next;
-      });
-      await loadRequirementsForProgram(activeTab);
-    } catch (err: any) {
-      setError(err.message ?? 'Failed to save requirements');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const activeProgram = userPrograms.find(p => p.programId === activeTab);
-  const activeProgramName = activeProgram?.programName ?? 'Program';
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-neutral-400" />
-      </div>
-    );
-  }
-
-  if (userPrograms.length === 0) {
-    return (
-      <div className="p-8">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl text-white mb-4">Degree Requirements Builder</h1>
-          <Card className="p-6 bg-[#252525] border-neutral-800">
-            <p className="text-neutral-400">
-              You haven't declared any degree programs yet. Add a program in your
-              Settings page first, then return here to build its requirements.
-            </p>
-          </Card>
-        </div>
-      </div>
-    );
-  }
+  const activeBundle = useMemo(
+    () => bundles.find((bundle) => bundle.programId === activeProgramId) ?? null,
+    [activeProgramId, bundles]
+  );
 
   return (
     <div className="p-8">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-4xl text-white mb-2">
-            Degree Requirements Builder
-          </h1>
+          <h1 className="text-4xl text-white mb-2">Degree Requirements</h1>
           <p className="text-neutral-400">
-            Customize requirements for your majors and minors
+            Requirements are shown per selected major/minor and grouped with explicit notes, options, and course lists.
           </p>
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
-          <TabsList className="bg-[#252525] border border-neutral-800">
-            {userPrograms.map(p => (
-              <TabsTrigger
-                key={p.programId}
-                value={p.programId}
-                className="data-[state=active]:bg-red-600 data-[state=active]:text-white"
-              >
-                {p.programName}{p.degreeType ? ` (${p.degreeType})` : ''}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        {loading && <p className="text-neutral-400">Loading requirements...</p>}
+        {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
-          <TabsContent value={activeTab} className="mt-6">
-            {error && (
-              <div className="mb-4 p-3 rounded-lg bg-red-600/10 border border-red-600/30 text-red-400 text-sm">
-                {error}
-              </div>
-            )}
+        {!loading && !errorMessage && programs.length === 0 && (
+          <Card className="bg-[#252525] border-neutral-800 p-6 text-center">
+            <AlertCircle className="w-7 h-7 text-amber-400 mx-auto mb-2" />
+            <p className="text-white mb-1">No selected major/minor programs found.</p>
+            <p className="text-neutral-400">Select programs first to view requirement tabs.</p>
+          </Card>
+        )}
 
-            <Card className="p-6 bg-[#252525] border-neutral-800 mb-6">
-              <div className="flex items-start gap-4">
-                <LinkIcon className="w-5 h-5 text-blue-400 mt-1" />
-                <div className="flex-1">
-                  <h3 className="text-white mb-2">Quick Reference</h3>
-                  <p className="text-neutral-400 text-sm mb-3">
-                    Open your {activeProgramName} in the UMD catalog, then recreate its sections
-                    here.
-                  </p>
-                  <ul className="text-sm text-neutral-400 space-y-1 list-disc list-inside mb-3">
-                    <li>
-                      Use sections like "Required Lower Level Courses" or "Upper
-                      Level Electives"
-                    </li>
-                    <li>
-                      Mark whether all courses are required or if students must
-                      choose X from a list
-                    </li>
-                    <li>
-                      Use AND/OR groups for complex requirements like "(PHYS161 AND
-                      PHYS261) OR (PHYS171 AND PHYS174)"
-                    </li>
-                    <li className="text-blue-400">
-                      ✨ Drag items to reorder or nest groups within each other!
-                    </li>
-                  </ul>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
-                    onClick={() =>
-                      window.open("https://academiccatalog.umd.edu", "_blank")
-                    }
-                  >
-                    Open UMD Catalog
-                  </Button>
-                </div>
+        {!loading && !errorMessage && programs.length > 0 && (
+          <>
+            <Card className="bg-[#252525] border-neutral-800 p-3 mb-5">
+              <div className="flex flex-wrap gap-2">
+                {bundles.map((bundle) => {
+                  const active = bundle.programId === activeProgramId;
+                  return (
+                    <button
+                      key={bundle.programId}
+                      type="button"
+                      onClick={() => setActiveProgramId(bundle.programId)}
+                      className={`px-3 py-2 rounded-lg border text-sm transition-colors ${
+                        active
+                          ? "bg-red-600/20 border-red-600/40 text-red-300"
+                          : "bg-[#1a1a1a] border-neutral-700 text-neutral-300 hover:bg-[#2a2a2a]"
+                      }`}
+                    >
+                      {bundle.programName}
+                    </button>
+                  );
+                })}
               </div>
             </Card>
 
-            <div className="space-y-6">
-              {sections.map((section, sectionIndex) => (
-                <Card
-                  key={sectionIndex}
-                  className="p-6 bg-[#252525] border-neutral-800"
-                >
-                  <div className="mb-6">
-                    <Label>Section Title</Label>
-                    <Input
-                      value={section.title}
-                      onChange={(e) => {
-                        const newSections = [...sections];
-                        newSections[sectionIndex].title = e.target.value;
-                        setSections(newSections);
-                      }}
-                      placeholder="e.g., Required Lower Level Courses"
-                      className="bg-[#1a1a1a] border-neutral-700 text-lg"
-                    />
-                  </div>
-
-                  <div className="mb-6">
-                    <Label className="mb-3 block">Section Type</Label>
-                    <RadioGroup
-                      value={section.requirementType}
-                      onValueChange={(value: "all" | "choose") => {
-                        const newSections = [...sections];
-                        newSections[sectionIndex].requirementType = value;
-                        setSections(newSections);
-                      }}
-                    >
-                      <div className="flex items-center space-x-2 mb-2">
-                        <RadioGroupItem
-                          value="all"
-                          id={`all-${sectionIndex}`}
-                        />
-                        <Label
-                          htmlFor={`all-${sectionIndex}`}
-                          className="cursor-pointer"
-                        >
-                          All courses in this section are required
-                        </Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem
-                          value="choose"
-                          id={`choose-${sectionIndex}`}
-                        />
-                        <Label
-                          htmlFor={`choose-${sectionIndex}`}
-                          className="cursor-pointer"
-                        >
-                          Choose X courses from this section
-                        </Label>
-                      </div>
-                    </RadioGroup>
-
-                    {section.requirementType === "choose" && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <Label>Number to choose:</Label>
-                        <Input
-                          type="number"
-                          min="1"
-                          value={section.chooseCount || ""}
-                          onChange={(e) => {
-                            const newSections = [...sections];
-                            newSections[sectionIndex].chooseCount = parseInt(
-                              e.target.value
-                            );
-                            setSections(newSections);
-                          }}
-                          className="w-20 bg-[#1a1a1a] border-neutral-700"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mb-4">
-                    <div className="flex items-center justify-between mb-3">
-                      <Label>Courses</Label>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Info className="w-4 h-4 text-neutral-500 cursor-help" />
-                          </TooltipTrigger>
-                          <TooltipContent className="bg-[#2a2a2a] border-neutral-700">
-                            <p>Drag items to reorder or nest groups</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+            {activeBundle && (
+              <div className="space-y-5">
+                <Card className="bg-[#252525] border-neutral-800 p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <h2 className="text-2xl text-white">{activeBundle.programName}</h2>
+                      <p className="text-sm text-neutral-400 mt-1">
+                        Source: {activeBundle.source === "db" ? "Saved Custom Requirements" : "Scraped Catalog Requirements"}
+                      </p>
                     </div>
-
-                    <SectionDropZone
-                      sectionIndex={sectionIndex}
-                      sections={sections}
-                      setSections={setSections}
-                    >
-                      {section.items.map((item, itemIndex) => (
-                        <div key={itemIndex}>
-                          {isGroup(item) ? (
-                            <DraggableGroup
-                              group={item}
-                              sectionIndex={sectionIndex}
-                              itemPath={[itemIndex]}
-                              onUpdate={(updatedGroup) =>
-                                updateItem(sectionIndex, itemIndex, updatedGroup)
-                              }
-                              onRemove={() => removeItem(sectionIndex, itemIndex)}
-                              sections={sections}
-                              setSections={setSections}
-                            />
-                          ) : (
-                            <DraggableCourse
-                              course={item}
-                              sectionIndex={sectionIndex}
-                              itemPath={[itemIndex]}
-                              onUpdate={(code) =>
-                                updateItem(sectionIndex, itemIndex, { code })
-                              }
-                              onRemove={() => removeItem(sectionIndex, itemIndex)}
-                            />
-                          )}
-                        </div>
-                      ))}
-                    </SectionDropZone>
+                    <div className="flex items-center gap-2">
+                      <Badge variant="outline" className="border-neutral-700 text-neutral-200">
+                        {activeBundle.kind.toUpperCase()}
+                      </Badge>
+                      <Badge variant="outline" className="border-neutral-700 text-neutral-200">
+                        {activeBundle.sections.length} Sections
+                      </Badge>
+                    </div>
                   </div>
 
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => addCourse(sectionIndex)}
-                      className="border-neutral-700 text-neutral-300 hover:bg-neutral-800"
-                    >
-                      <Plus className="w-4 h-4 mr-1" />
-                      Add Course
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => addGroup(sectionIndex, "AND")}
-                      className="border-blue-700 text-blue-400 hover:bg-blue-600/10"
-                    >
-                      <Plus className="w-4 h-4 mr-1" />
-                      Add AND Group
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => addGroup(sectionIndex, "OR")}
-                      className="border-purple-700 text-purple-400 hover:bg-purple-600/10"
-                    >
-                      <Plus className="w-4 h-4 mr-1" />
-                      Add OR Group
-                    </Button>
-                  </div>
-
-                  {sectionIndex > 0 && (
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() =>
-                        setSections(sections.filter((_, i) => i !== sectionIndex))
-                      }
-                      className="mt-4 w-full hover:bg-red-600/20 hover:text-red-400"
-                    >
-                      Remove Section
-                    </Button>
+                  {activeBundle.specializations.length > 0 && (
+                    <div className="mt-4 p-3 rounded-lg border border-purple-600/30 bg-purple-600/10">
+                      <div className="flex items-center gap-2 mb-2">
+                        <BookOpenCheck className="w-4 h-4 text-purple-300" />
+                        <p className="text-purple-200 text-sm">Specializations / Tracks</p>
+                      </div>
+                      <ul className="space-y-1">
+                        {activeBundle.specializations.map((line, idx) => (
+                          <li key={`${activeBundle.programId}-spec-${idx}`} className="text-sm text-purple-100/90">
+                            {line}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
+
+                  <div className="mt-4 p-3 rounded-lg border border-neutral-700 bg-[#1a1a1a]">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Info className="w-4 h-4 text-neutral-300" />
+                      <p className="text-sm text-neutral-200">How To Read This</p>
+                    </div>
+                    <p className="text-sm text-neutral-400">
+                      Sections marked "Choose" indicate options/specializations where you only need a subset. Notes preserve catalog wording for constraints and exceptions.
+                    </p>
+                  </div>
                 </Card>
-              ))}
-            </div>
 
-            <div className="flex gap-3 mt-6">
-              <Button
-                variant="outline"
-                onClick={addSection}
-                className="flex-1 border-neutral-700 text-neutral-300 hover:bg-neutral-800"
-              >
-                <Plus className="w-4 h-4 mr-2" />
-                Add New Section
-              </Button>
-              <Button onClick={saveRequirements} disabled={saving} className="flex-1 bg-red-600 hover:bg-red-700 disabled:opacity-50">
-                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                {saving ? 'Saving…' : `Save ${activeProgramName} Requirements`}
-              </Button>
-            </div>
-
-            <div className="mt-6 p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg">
-              <p className="text-sm text-blue-400">
-                💡 <strong>Tip:</strong> Create nested requirements by dragging an AND or OR group
-                into another group. For example, drag two AND groups into an OR group
-                to create: (PHYS161 AND PHYS261) OR (PHYS171 AND PHYS174)
-              </p>
-            </div>
-          </TabsContent>
-        </Tabs>
+                {activeBundle.sections.map((section) => (
+                  <SectionCard key={section.id} section={section} />
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

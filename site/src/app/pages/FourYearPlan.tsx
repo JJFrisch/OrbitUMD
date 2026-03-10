@@ -13,7 +13,9 @@ import {
 } from "../components/ui/select";
 import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
+import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { buildCourseContributionMap, loadProgramRequirementBundles, type ProgramRequirementBundle } from "@/lib/requirements/audit";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -121,18 +123,27 @@ function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
 export default function FourYearPlan() {
   const [sortOrder, setSortOrder] = useState<SortOrder>("current");
   const [collapsedTerms, setCollapsedTerms] = useState<Set<string>>(new Set());
+  const [showContributionHighlight, setShowContributionHighlight] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
+  const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
 
   useEffect(() => {
     let active = true;
 
     const run = async () => {
       try {
-        const all = await plannerApi.listAllSchedulesWithSelections();
+        const [all, selectedPrograms] = await Promise.all([
+          plannerApi.listAllSchedulesWithSelections(),
+          listUserDegreePrograms(),
+        ]);
+
+        const bundles = await loadProgramRequirementBundles(selectedPrograms);
         if (!active) return;
+
         setMainSchedules(all.filter((schedule) => schedule.is_primary));
+        setRequirementBundles(bundles);
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -176,6 +187,8 @@ export default function FourYearPlan() {
     return [...current, ...future, ...completed];
   }, [sortOrder, terms]);
 
+  const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
+
   const summary = useMemo(() => {
     const allCourses = terms.flatMap((term) => term.courses);
     const completedCredits = allCourses
@@ -204,6 +217,43 @@ export default function FourYearPlan() {
       next.add(termId);
     }
     setCollapsedTerms(next);
+  };
+
+  const contributionPalette = [
+    { border: "#0ea5e9", bg: "rgba(14,165,233,0.16)", text: "#7dd3fc" },
+    { border: "#f97316", bg: "rgba(249,115,22,0.16)", text: "#fdba74" },
+    { border: "#22c55e", bg: "rgba(34,197,94,0.16)", text: "#86efac" },
+    { border: "#e11d48", bg: "rgba(225,29,72,0.16)", text: "#fda4af" },
+    { border: "#f59e0b", bg: "rgba(245,158,11,0.16)", text: "#fcd34d" },
+  ] as const;
+
+  const contributionBadgeStyle = (label: string) => {
+    const index = Math.abs(label.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
+    return contributionPalette[index];
+  };
+
+  const contributionCardStyle = (labels: string[]) => {
+    if (!showContributionHighlight || labels.length === 0) return {};
+    const styles = labels.map((label) => contributionBadgeStyle(label));
+
+    if (styles.length === 1) {
+      return {
+        borderColor: styles[0].border,
+        backgroundColor: styles[0].bg,
+      };
+    }
+
+    const segments = styles.map((style, idx) => {
+      const start = Math.round((idx / styles.length) * 100);
+      const end = Math.round(((idx + 1) / styles.length) * 100);
+      return `${style.border} ${start}% ${end}%`;
+    });
+
+    return {
+      borderColor: "transparent",
+      borderImage: `linear-gradient(90deg, ${segments.join(", ")}) 1`,
+      backgroundColor: "rgba(38, 38, 38, 0.92)",
+    };
   };
 
   return (
@@ -262,16 +312,27 @@ export default function FourYearPlan() {
               <ArrowUpDown className="w-4 h-4 text-neutral-400" />
               <span className="text-neutral-300">Sort Terms</span>
             </div>
-            <Select value={sortOrder} onValueChange={(value: SortOrder) => setSortOrder(value)}>
-              <SelectTrigger className="w-56 bg-[#1a1a1a] border-neutral-700">
+            <div className="flex items-center gap-3">
+              <Button
+                type="button"
+                variant="outline"
+                className={`border-neutral-700 ${showContributionHighlight ? "text-cyan-300" : "text-neutral-300"}`}
+                onClick={() => setShowContributionHighlight((current) => !current)}
+              >
+                {showContributionHighlight ? "Contribution Highlight: On" : "Contribution Highlight: Off"}
+              </Button>
+
+              <Select value={sortOrder} onValueChange={(value: SortOrder) => setSortOrder(value)}>
+                <SelectTrigger className="w-56 bg-[#1a1a1a] border-neutral-700">
                 <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="current">Current First</SelectItem>
-                <SelectItem value="ascending">Ascending (Oldest First)</SelectItem>
-                <SelectItem value="descending">Descending (Newest First)</SelectItem>
-              </SelectContent>
-            </Select>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="current">Current First</SelectItem>
+                  <SelectItem value="ascending">Ascending (Oldest First)</SelectItem>
+                  <SelectItem value="descending">Descending (Newest First)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </Card>
 
@@ -321,6 +382,10 @@ export default function FourYearPlan() {
                     ) : (
                       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
                         {term.courses.map((course) => (
+                          (() => {
+                            const contributionLabels = contributionMap.get(course.code.toUpperCase()) ?? [];
+                            const cardStyle = contributionCardStyle(contributionLabels);
+                            return (
                           <Card
                             key={course.sectionKey}
                             className={`p-4 border ${
@@ -330,6 +395,7 @@ export default function FourYearPlan() {
                                   ? "border-blue-600/40 bg-blue-600/10"
                                   : "border-neutral-700 bg-neutral-800/40"
                             }`}
+                            style={cardStyle}
                           >
                             <div className="flex items-start justify-between gap-3 mb-1">
                               <h4 className="text-white font-medium">{course.code}</h4>
@@ -337,6 +403,13 @@ export default function FourYearPlan() {
                             </div>
                             <p className="text-xs text-neutral-300 mb-2 line-clamp-2">{course.title}</p>
                             <p className="text-[11px] text-neutral-400 mb-2">Section {course.sectionCode}</p>
+
+                            {contributionLabels.length > 0 && (
+                              <p className="text-[11px] text-neutral-300 mb-2">
+                                Contributes to: {contributionLabels.join("; ")}
+                              </p>
+                            )}
+
                             <div className="flex items-center justify-between gap-2 flex-wrap">
                               <div className="flex flex-wrap gap-1">
                                 {course.tags.slice(0, 2).map((tag) => (
@@ -344,10 +417,29 @@ export default function FourYearPlan() {
                                     {tag}
                                   </Badge>
                                 ))}
+
+                                {showContributionHighlight && contributionLabels.slice(0, 2).map((label) => {
+                                  const palette = contributionBadgeStyle(label);
+                                  return (
+                                    <Badge
+                                      key={`${course.sectionKey}-${label}`}
+                                      className="text-xs border"
+                                      style={{
+                                        color: palette.text,
+                                        borderColor: palette.border,
+                                        backgroundColor: palette.bg,
+                                      }}
+                                    >
+                                      {label}
+                                    </Badge>
+                                  );
+                                })}
                               </div>
                               {statusBadge(course.status)}
                             </div>
                           </Card>
+                            );
+                          })()
                         ))}
                       </div>
                     )}
