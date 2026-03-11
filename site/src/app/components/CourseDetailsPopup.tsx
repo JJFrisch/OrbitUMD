@@ -133,6 +133,7 @@ export function CourseDetailsPopup({
   const shownTitle = activeDetails?.title ?? (activeCourseCode === courseCode ? courseTitle : `${activeCourseCode} (Course details unavailable)`);
   const shownCredits = activeDetails?.credits ?? (activeCourseCode === courseCode ? credits : 0);
   const shownGenEds = activeDetails?.genEds ?? (activeCourseCode === courseCode ? genEds : []);
+  const isOriginalCourse = activeCourseCode === courseCode;
 
   const splitDetails = useMemo(
     () => splitDescriptionAndPrerequisites(activeDetails?.description),
@@ -164,7 +165,11 @@ export function CourseDetailsPopup({
           {/* Status */}
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-muted-foreground">Status:</span>
-            <Badge className={statusColor(status)}>{statusLabel(status)}</Badge>
+            {isOriginalCourse ? (
+              <Badge className={statusColor(status)}>{statusLabel(status)}</Badge>
+            ) : (
+              <Badge variant="outline" className="border-border text-muted-foreground">Not in current audit selection</Badge>
+            )}
           </div>
 
           {/* Gen Eds */}
