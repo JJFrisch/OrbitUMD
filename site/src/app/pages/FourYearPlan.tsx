@@ -15,7 +15,12 @@ import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
-import { buildCourseContributionMap, loadProgramRequirementBundles, type ProgramRequirementBundle } from "@/lib/requirements/audit";
+import {
+  buildCourseContributionMap,
+  getContributionLabelsForCourseCode,
+  loadProgramRequirementBundles,
+  type ProgramRequirementBundle,
+} from "@/lib/requirements/audit";
 import { useTheme } from "../contexts/ThemeContext";
 
 type SortOrder = "current" | "ascending" | "descending";
@@ -435,7 +440,7 @@ export default function FourYearPlan() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
                         {term.courses.map((course) => (
                           (() => {
-                            const contributionLabels = contributionMap.get(course.code.toUpperCase()) ?? [];
+                            const contributionLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
                             const cardStyle = contributionCardStyle(contributionLabels);
                             const duplicateCount = duplicateCountsByCode.get(course.code.toUpperCase()) ?? 0;
                             const isDuplicate = duplicateCount > 1;

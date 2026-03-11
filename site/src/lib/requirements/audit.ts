@@ -20,7 +20,7 @@ export interface RequirementSectionBundle {
   courseCodes: string[];
   optionGroups: string[][];
   standaloneCodes: string[];
-  logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }>;
+  logicBlocks: Array<{ type: "AND" | "OR"; codes: string[]; title?: string }>;
   specializationId?: string; // For tracking which specialization a section belongs to
 }
 
@@ -73,16 +73,17 @@ function coerceRequirementSectionBundles(raw: unknown): RequirementSectionBundle
       standaloneCodes,
       logicBlocks: Array.isArray(section.logicBlocks)
         ? section.logicBlocks
-            .map((block) => {
+            .map((block): { type: "AND" | "OR"; codes: string[]; title?: string } | null => {
               if (!block || typeof block !== "object") return null;
               const typed = block as Record<string, unknown>;
               const codes = Array.isArray(typed.codes)
                 ? typed.codes.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
                 : [];
-              const type = typed.type === "OR" ? "OR" : "AND";
-              return { type, codes };
+              const type: "AND" | "OR" = typed.type === "OR" ? "OR" : "AND";
+              const title = typeof typed.title === "string" ? typed.title.trim() : "";
+              return { type, codes, title: title || undefined };
             })
-            .filter((block): block is { type: "AND" | "OR"; codes: string[] } => Boolean(block))
+            .filter((block) => block !== null)
         : [],
     });
   }
@@ -141,6 +142,45 @@ function normalizeName(value: string): string {
 
 function dedupeCodes(codes: string[]): string[] {
   return Array.from(new Set(codes.map((c) => c.trim().toUpperCase()).filter(Boolean)));
+}
+
+function parseCourseCode(raw: string): { department: string; level: number } | null {
+  const normalized = String(raw ?? "").toUpperCase().trim();
+  const match = normalized.match(/^([A-Z]{4})(\d{3})[A-Z]?$/);
+  if (!match) return null;
+  return {
+    department: match[1],
+    level: Number(match[2]),
+  };
+}
+
+function wildcardMatchesCourseCode(wildcardToken: string, courseCode: string): boolean {
+  const token = wildcardToken.toUpperCase().trim();
+  const parsedCourse = parseCourseCode(courseCode);
+  if (!parsedCourse) return false;
+
+  const fixedDeptRange = token.match(/^([A-Z]{4})([1-5])XX$/);
+  if (fixedDeptRange) {
+    if (parsedCourse.department !== fixedDeptRange[1]) return false;
+    const minLevel = Number(fixedDeptRange[2]) * 100;
+    return parsedCourse.level >= minLevel && parsedCourse.level < minLevel + 100;
+  }
+
+  const multiDeptRange = token.match(/^([A-Z]{4}(?:\/[A-Z]{4})*)([1-5])XX$/);
+  if (multiDeptRange) {
+    const depts = multiDeptRange[1].split("/");
+    if (!depts.includes(parsedCourse.department)) return false;
+    const minLevel = Number(multiDeptRange[2]) * 100;
+    return parsedCourse.level >= minLevel && parsedCourse.level < minLevel + 100;
+  }
+
+  const anyLevelDept = token.match(/^([A-Z]{4}(?:\/[A-Z]{4})*)XXX$/);
+  if (anyLevelDept) {
+    const depts = anyLevelDept[1].split("/");
+    return depts.includes(parsedCourse.department);
+  }
+
+  return false;
 }
 
 function flattenNodeCourseCodes(nodes: RequirementNode[]): string[] {
@@ -213,7 +253,7 @@ function mapScrapedSection(
 ): RequirementSectionBundle {
   const optionGroups: string[][] = [];
   const standalone: string[] = [];
-  const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[] }> = [];
+  const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[]; title?: string }> = [];
 
   // Some scraped sections are represented as a direct course list instead of items[] blocks.
   const sectionCourseCodes = dedupeCodes(
@@ -733,4 +773,23 @@ export function buildCourseContributionMap(bundles: ProgramRequirementBundle[]):
     collapsed.set(code, Array.from(labels));
   }
   return collapsed;
+}
+
+export function getContributionLabelsForCourseCode(
+  courseCode: string,
+  contributionMap: Map<string, string[]>,
+): string[] {
+  const normalizedCode = courseCode.toUpperCase();
+  const labels = new Set<string>(contributionMap.get(normalizedCode) ?? []);
+
+  for (const [token, tokenLabels] of contributionMap.entries()) {
+    if (token === normalizedCode) continue;
+    if (!token.includes("XX")) continue;
+    if (!wildcardMatchesCourseCode(token, normalizedCode)) continue;
+    for (const label of tokenLabels) {
+      labels.add(label);
+    }
+  }
+
+  return Array.from(labels);
 }

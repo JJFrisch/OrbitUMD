@@ -68,9 +68,17 @@ function SectionCard({ section }: { section: RequirementSectionBundle }) {
         <div className="mb-3 space-y-2">
           <p className="text-xs text-muted-foreground">Requirement Logic</p>
           {section.logicBlocks.map((block, index) => (
-            <div key={`${section.id}-logic-${index}`} className="p-3 bg-input-background border border-border rounded-lg">
+            <div
+              key={`${section.id}-logic-${index}`}
+              className={`p-3 border rounded-lg ${
+                block.type === "OR"
+                  ? "border-amber-300 bg-amber-100 dark:border-amber-600/40 dark:bg-amber-600/10"
+                  : "border-sky-300 bg-sky-100 dark:border-sky-600/40 dark:bg-sky-600/10"
+              }`}
+            >
               <div className="flex items-center justify-between mb-1">
                 <Badge variant="outline" className="border-border text-foreground/80">{block.type} Block</Badge>
+                {block.title && <span className="text-xs text-foreground/80">{block.title}</span>}
                 <span className="text-xs text-muted-foreground">{block.codes.length} course{block.codes.length === 1 ? "" : "s"}</span>
               </div>
               <p className="text-sm text-foreground/80">
@@ -122,6 +130,7 @@ export default function DegreeRequirementsPage() {
   const [draftRequirementType, setDraftRequirementType] = useState<"all" | "choose">("all");
   const [draftChooseCount, setDraftChooseCount] = useState("1");
   const [draftCourseCodes, setDraftCourseCodes] = useState("");
+  const [draftWildcardToken, setDraftWildcardToken] = useState("");
   const [draftNotes, setDraftNotes] = useState("");
   const [draftSpecial, setDraftSpecial] = useState(false);
   const [draftSpecializationId, setDraftSpecializationId] = useState("none");
@@ -183,6 +192,7 @@ export default function DegreeRequirementsPage() {
     setDraftRequirementType("all");
     setDraftChooseCount("1");
     setDraftCourseCodes("");
+    setDraftWildcardToken("");
     setDraftNotes("");
     setDraftSpecial(false);
     setDraftSpecializationId("none");
@@ -201,6 +211,21 @@ export default function DegreeRequirementsPage() {
       .split(/\n/g)
       .map((entry) => entry.trim())
       .filter((entry) => entry.length > 0);
+  };
+
+  const handleAddWildcardToDraft = () => {
+    const token = draftWildcardToken.trim().toUpperCase();
+    if (!token) return;
+    if (!/^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-5]XX)$/.test(token)) {
+      setAdminMessage("Wildcard must look like BSCI3XX, BSCI4XX, or CMSC/MATHXXX.");
+      return;
+    }
+
+    setDraftCourseCodes((prev) => {
+      const current = prev.trim();
+      return current.length > 0 ? `${current}, ${token}` : token;
+    });
+    setDraftWildcardToken("");
   };
 
   const handleAdminClearAll = () => {
@@ -560,6 +585,16 @@ export default function DegreeRequirementsPage() {
                               placeholder="Course codes (comma or newline separated)"
                               className="min-h-[90px]"
                             />
+                            <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2">
+                              <Input
+                                value={draftWildcardToken}
+                                onChange={(event) => setDraftWildcardToken(event.target.value)}
+                                placeholder="Add wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
+                              />
+                              <Button type="button" variant="outline" onClick={handleAddWildcardToDraft}>
+                                Insert Wildcard
+                              </Button>
+                            </div>
                             <Textarea
                               value={draftNotes}
                               onChange={(event) => setDraftNotes(event.target.value)}

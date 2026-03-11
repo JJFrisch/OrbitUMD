@@ -18,6 +18,7 @@ import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import {
   buildCourseContributionMap,
   evaluateRequirementSection,
+  getContributionLabelsForCourseCode,
   getCsRequirementSectionsForSpecialization,
   loadProgramRequirementBundles,
   type AuditCourseStatus,
@@ -35,6 +36,7 @@ interface AuditCourse {
 interface EditableLogicBlock {
   id: string;
   type: "AND" | "OR";
+  title?: string;
   codes: string[];
 }
 
@@ -57,6 +59,8 @@ type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
 const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
+
+const WILDCARD_TOKEN_PATTERN = /^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-5]XX)$/;
 
 function normalizeProgramName(value: string): string {
   return value
@@ -105,6 +109,7 @@ function draftFromSection(section: any): SectionDraft {
     .map((block: { type: "AND" | "OR"; codes: string[] }, idx: number) => ({
       id: createLocalId(`blk-${idx}`),
       type: block.type,
+      title: (block as { title?: string }).title,
       codes: [...new Set((block.codes ?? []).map((code) => String(code).toUpperCase().trim()).filter(Boolean))],
     }));
 
@@ -122,6 +127,7 @@ function sectionFromDraft(draft: SectionDraft, existingSectionId?: string) {
   const normalizedBlocks = draft.blocks
     .map((block) => ({
       type: block.type,
+      title: block.title?.trim() || undefined,
       codes: [...new Set(block.codes.map((code) => code.toUpperCase().trim()).filter(Boolean))],
     }))
     .filter((block) => block.codes.length > 0);
@@ -141,7 +147,7 @@ function sectionFromDraft(draft: SectionDraft, existingSectionId?: string) {
     courseCodes,
     optionGroups,
     standaloneCodes,
-    logicBlocks: normalizedBlocks,
+      logicBlocks: normalizedBlocks,
   };
 }
 
@@ -391,6 +397,31 @@ function RequirementSectionCard({
 
       {expandedSectionIds.has(section.id) ? (
         <>
+          {section.logicBlocks?.length > 0 && (
+            <div className="mt-3 mb-3 space-y-2">
+              {section.logicBlocks.map((block: any, idx: number) => (
+                <div
+                  key={`${section.id}-logic-${idx}`}
+                  className={`rounded-md border p-2 ${
+                    block.type === "OR"
+                      ? "border-amber-300 bg-amber-50 dark:border-amber-600/40 dark:bg-amber-600/10"
+                      : "border-sky-300 bg-sky-50 dark:border-sky-600/40 dark:bg-sky-600/10"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1">
+                    <Badge variant="outline" className="text-xs border-border">
+                      {block.type} Group {idx + 1}
+                    </Badge>
+                    {block.title && <span className="text-xs text-foreground/80">{block.title}</span>}
+                  </div>
+                  <p className="text-xs text-foreground/80">
+                    {(block.codes ?? []).join(block.type === "OR" ? " or " : " and ")}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
           {sectionCourses.length > 0 ? (
             // Show individual course rows
             <div className="mt-3 border border-border/30 rounded-md overflow-hidden">
@@ -442,6 +473,7 @@ export default function DegreeAudit() {
   const [sectionDraft, setSectionDraft] = useState<SectionDraft | null>(null);
   const [activeDraftBlockId, setActiveDraftBlockId] = useState<string | null>(null);
   const [courseSearchQuery, setCourseSearchQuery] = useState("");
+  const [wildcardTokenInput, setWildcardTokenInput] = useState("");
   const [courseSearchPending, setCourseSearchPending] = useState(false);
   const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
@@ -615,6 +647,69 @@ export default function DegreeAudit() {
     } finally {
       setCourseSearchPending(false);
     }
+  };
+
+  const addCodeToActiveBlock = (code: string) => {
+    if (!activeDraftBlockId) return;
+    const normalized = code.toUpperCase().trim();
+    if (!normalized) return;
+
+    setSectionDraft((prev) => prev ? {
+      ...prev,
+      blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
+        ? { ...block, codes: Array.from(new Set([...block.codes, normalized])) }
+        : block),
+    } : prev);
+  };
+
+  const addWildcardTokenToActiveBlock = () => {
+    const normalized = wildcardTokenInput.toUpperCase().trim();
+    if (!WILDCARD_TOKEN_PATTERN.test(normalized)) {
+      setCourseSearchMessage("Wildcard format must look like BSCI3XX, BSCI4XX, or CMSC/MATHXXX.");
+      return;
+    }
+
+    addCodeToActiveBlock(normalized);
+    setWildcardTokenInput("");
+    setCourseSearchMessage(null);
+  };
+
+  const reorderCodeWithinBlock = (blockId: string, code: string, direction: "up" | "down") => {
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        blocks: prev.blocks.map((block) => {
+          if (block.id !== blockId) return block;
+          const idx = block.codes.findIndex((value) => value === code);
+          if (idx < 0) return block;
+          const target = direction === "up" ? idx - 1 : idx + 1;
+          if (target < 0 || target >= block.codes.length) return block;
+          const nextCodes = [...block.codes];
+          [nextCodes[idx], nextCodes[target]] = [nextCodes[target], nextCodes[idx]];
+          return { ...block, codes: nextCodes };
+        }),
+      };
+    });
+  };
+
+  const moveCodeAcrossBlocks = (sourceBlockId: string, code: string, targetBlockId: string) => {
+    if (sourceBlockId === targetBlockId) return;
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        blocks: prev.blocks.map((block) => {
+          if (block.id === sourceBlockId) {
+            return { ...block, codes: block.codes.filter((value) => value !== code) };
+          }
+          if (block.id === targetBlockId) {
+            return { ...block, codes: Array.from(new Set([...block.codes, code])) };
+          }
+          return block;
+        }),
+      };
+    });
   };
 
   useEffect(() => {
@@ -975,7 +1070,7 @@ export default function DegreeAudit() {
 
   const electiveOverflow = useMemo(() => {
     return courses.filter((course) => {
-      const contributes = (contributionMap.get(course.code) ?? []).length > 0;
+      const contributes = getContributionLabelsForCourseCode(course.code, contributionMap).length > 0;
       return !contributes;
     });
   }, [contributionMap, courses]);
@@ -1332,6 +1427,17 @@ export default function DegreeAudit() {
                                                   <option value="OR">OR</option>
                                                 </select>
                                                 <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Classes Included</Button>
+                                                <Input
+                                                  value={block.title ?? ""}
+                                                  onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                    ...prev,
+                                                    blocks: prev.blocks.map((item) => item.id === block.id
+                                                      ? { ...item, title: event.target.value }
+                                                      : item),
+                                                  } : prev)}
+                                                  placeholder="Optional group title"
+                                                  className="h-8 text-xs"
+                                                />
                                                 <Button
                                                   type="button"
                                                   size="sm"
@@ -1344,10 +1450,43 @@ export default function DegreeAudit() {
                                                   Remove
                                                 </Button>
                                               </div>
-                                              <div className="flex flex-wrap gap-2">
+                                              <div
+                                                className="flex flex-wrap gap-2"
+                                                onDragOver={(event) => event.preventDefault()}
+                                                onDrop={(event) => {
+                                                  const raw = event.dataTransfer.getData("text/plain");
+                                                  const [sourceBlockId, code] = raw.split("::");
+                                                  if (!sourceBlockId || !code) return;
+                                                  moveCodeAcrossBlocks(sourceBlockId, code, block.id);
+                                                }}
+                                              >
                                                 {block.codes.map((code) => (
-                                                  <Badge key={`${block.id}-${code}`} variant="outline" className="border-border text-foreground/80">
+                                                  <Badge
+                                                    key={`${block.id}-${code}`}
+                                                    variant="outline"
+                                                    className="border-border text-foreground/80 cursor-move"
+                                                    draggable
+                                                    onDragStart={(event) => {
+                                                      event.dataTransfer.setData("text/plain", `${block.id}::${code}`);
+                                                    }}
+                                                  >
                                                     {code}
+                                                    <button
+                                                      type="button"
+                                                      className="ml-2 text-[10px]"
+                                                      onClick={() => reorderCodeWithinBlock(block.id, code, "up")}
+                                                      title="Move up"
+                                                    >
+                                                      ^
+                                                    </button>
+                                                    <button
+                                                      type="button"
+                                                      className="ml-1 text-[10px]"
+                                                      onClick={() => reorderCodeWithinBlock(block.id, code, "down")}
+                                                      title="Move down"
+                                                    >
+                                                      v
+                                                    </button>
                                                     <button
                                                       type="button"
                                                       className="ml-2"
@@ -1412,6 +1551,17 @@ export default function DegreeAudit() {
                                           </Button>
                                         </div>
 
+                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                          <Input
+                                            value={wildcardTokenInput}
+                                            onChange={(event) => setWildcardTokenInput(event.target.value)}
+                                            placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
+                                          />
+                                          <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock}>
+                                            Add Wildcard
+                                          </Button>
+                                        </div>
+
                                         {courseSearchMessage && <p className="text-xs text-muted-foreground mb-2">{courseSearchMessage}</p>}
                                         {courseSearchResults.length > 0 && (
                                           <div className="max-h-40 overflow-y-auto border border-border rounded-md p-2 space-y-1 mb-3">
@@ -1426,13 +1576,7 @@ export default function DegreeAudit() {
                                                   size="sm"
                                                   variant="outline"
                                                   onClick={() => {
-                                                    if (!activeDraftBlockId) return;
-                                                    setSectionDraft((prev) => prev ? {
-                                                      ...prev,
-                                                      blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
-                                                        ? { ...block, codes: Array.from(new Set([...block.codes, course.code])) }
-                                                        : block),
-                                                    } : prev);
+                                                    addCodeToActiveBlock(course.code);
                                                   }}
                                                 >
                                                   Add to Block
@@ -1563,6 +1707,17 @@ export default function DegreeAudit() {
                                               <option value="OR">OR</option>
                                             </select>
                                             <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Classes Included</Button>
+                                            <Input
+                                              value={block.title ?? ""}
+                                              onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                ...prev,
+                                                blocks: prev.blocks.map((item) => item.id === block.id
+                                                  ? { ...item, title: event.target.value }
+                                                  : item),
+                                              } : prev)}
+                                              placeholder="Optional group title"
+                                              className="h-8 text-xs"
+                                            />
                                             <Button
                                               type="button"
                                               size="sm"
@@ -1575,10 +1730,43 @@ export default function DegreeAudit() {
                                               Remove
                                             </Button>
                                           </div>
-                                          <div className="flex flex-wrap gap-2">
+                                          <div
+                                            className="flex flex-wrap gap-2"
+                                            onDragOver={(event) => event.preventDefault()}
+                                            onDrop={(event) => {
+                                              const raw = event.dataTransfer.getData("text/plain");
+                                              const [sourceBlockId, code] = raw.split("::");
+                                              if (!sourceBlockId || !code) return;
+                                              moveCodeAcrossBlocks(sourceBlockId, code, block.id);
+                                            }}
+                                          >
                                             {block.codes.map((code) => (
-                                              <Badge key={`${block.id}-${code}`} variant="outline" className="border-border text-foreground/80">
+                                              <Badge
+                                                key={`${block.id}-${code}`}
+                                                variant="outline"
+                                                className="border-border text-foreground/80 cursor-move"
+                                                draggable
+                                                onDragStart={(event) => {
+                                                  event.dataTransfer.setData("text/plain", `${block.id}::${code}`);
+                                                }}
+                                              >
                                                 {code}
+                                                <button
+                                                  type="button"
+                                                  className="ml-2 text-[10px]"
+                                                  onClick={() => reorderCodeWithinBlock(block.id, code, "up")}
+                                                  title="Move up"
+                                                >
+                                                  ^
+                                                </button>
+                                                <button
+                                                  type="button"
+                                                  className="ml-1 text-[10px]"
+                                                  onClick={() => reorderCodeWithinBlock(block.id, code, "down")}
+                                                  title="Move down"
+                                                >
+                                                  v
+                                                </button>
                                                 <button
                                                   type="button"
                                                   className="ml-2"
@@ -1643,6 +1831,17 @@ export default function DegreeAudit() {
                                       </Button>
                                     </div>
 
+                                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                      <Input
+                                        value={wildcardTokenInput}
+                                        onChange={(event) => setWildcardTokenInput(event.target.value)}
+                                        placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
+                                      />
+                                      <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock}>
+                                        Add Wildcard
+                                      </Button>
+                                    </div>
+
                                     {courseSearchMessage && <p className="text-xs text-muted-foreground mb-2">{courseSearchMessage}</p>}
                                     {courseSearchResults.length > 0 && (
                                       <div className="max-h-40 overflow-y-auto border border-border rounded-md p-2 space-y-1 mb-3">
@@ -1657,13 +1856,7 @@ export default function DegreeAudit() {
                                               size="sm"
                                               variant="outline"
                                               onClick={() => {
-                                                if (!activeDraftBlockId) return;
-                                                setSectionDraft((prev) => prev ? {
-                                                  ...prev,
-                                                  blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
-                                                    ? { ...block, codes: Array.from(new Set([...block.codes, course.code])) }
-                                                    : block),
-                                                } : prev);
+                                                    addCodeToActiveBlock(course.code);
                                               }}
                                             >
                                               Add to Block
@@ -1775,6 +1968,17 @@ export default function DegreeAudit() {
                                                         <option value="OR">OR</option>
                                                       </select>
                                                       <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Classes Included</Button>
+                                                      <Input
+                                                        value={block.title ?? ""}
+                                                        onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                          ...prev,
+                                                          blocks: prev.blocks.map((item) => item.id === block.id
+                                                            ? { ...item, title: event.target.value }
+                                                            : item),
+                                                        } : prev)}
+                                                        placeholder="Optional group title"
+                                                        className="h-8 text-xs"
+                                                      />
                                                       <Button
                                                         type="button"
                                                         size="sm"
@@ -1787,10 +1991,43 @@ export default function DegreeAudit() {
                                                         Remove
                                                       </Button>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-2">
+                                                    <div
+                                                      className="flex flex-wrap gap-2"
+                                                      onDragOver={(event) => event.preventDefault()}
+                                                      onDrop={(event) => {
+                                                        const raw = event.dataTransfer.getData("text/plain");
+                                                        const [sourceBlockId, code] = raw.split("::");
+                                                        if (!sourceBlockId || !code) return;
+                                                        moveCodeAcrossBlocks(sourceBlockId, code, block.id);
+                                                      }}
+                                                    >
                                                       {block.codes.map((code) => (
-                                                        <Badge key={`${block.id}-${code}`} variant="outline" className="border-border text-foreground/80">
+                                                        <Badge
+                                                          key={`${block.id}-${code}`}
+                                                          variant="outline"
+                                                          className="border-border text-foreground/80 cursor-move"
+                                                          draggable
+                                                          onDragStart={(event) => {
+                                                            event.dataTransfer.setData("text/plain", `${block.id}::${code}`);
+                                                          }}
+                                                        >
                                                           {code}
+                                                          <button
+                                                            type="button"
+                                                            className="ml-2 text-[10px]"
+                                                            onClick={() => reorderCodeWithinBlock(block.id, code, "up")}
+                                                            title="Move up"
+                                                          >
+                                                            ^
+                                                          </button>
+                                                          <button
+                                                            type="button"
+                                                            className="ml-1 text-[10px]"
+                                                            onClick={() => reorderCodeWithinBlock(block.id, code, "down")}
+                                                            title="Move down"
+                                                          >
+                                                            v
+                                                          </button>
                                                           <button
                                                             type="button"
                                                             className="ml-2"
@@ -1855,6 +2092,17 @@ export default function DegreeAudit() {
                                                 </Button>
                                               </div>
 
+                                              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                                <Input
+                                                  value={wildcardTokenInput}
+                                                  onChange={(event) => setWildcardTokenInput(event.target.value)}
+                                                  placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
+                                                />
+                                                <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock}>
+                                                  Add Wildcard
+                                                </Button>
+                                              </div>
+
                                               {courseSearchMessage && <p className="text-xs text-muted-foreground mb-2">{courseSearchMessage}</p>}
                                               {courseSearchResults.length > 0 && (
                                                 <div className="max-h-40 overflow-y-auto border border-border rounded-md p-2 space-y-1 mb-3">
@@ -1869,13 +2117,7 @@ export default function DegreeAudit() {
                                                         size="sm"
                                                         variant="outline"
                                                         onClick={() => {
-                                                          if (!activeDraftBlockId) return;
-                                                          setSectionDraft((prev) => prev ? {
-                                                            ...prev,
-                                                            blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
-                                                              ? { ...block, codes: Array.from(new Set([...block.codes, course.code])) }
-                                                              : block),
-                                                          } : prev);
+                                                          addCodeToActiveBlock(course.code);
                                                         }}
                                                       >
                                                         Add to Block
