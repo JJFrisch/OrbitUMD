@@ -14,6 +14,7 @@ import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository"
 import { listUserRequirementSectionEdits, saveUserRequirementSectionEdit } from "@/lib/repositories/userRequirementSectionEditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { getCurrentTermCode, lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
+import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import {
   buildCourseContributionMap,
   evaluateRequirementSection,
@@ -55,6 +56,41 @@ interface CourseSearchResult {
 type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
+
+function normalizeProgramName(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/\b(major|minor|program|bachelor|science|arts|bs|ba)\b/g, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function getCatalogRequirementsUrl(bundle: ProgramRequirementBundle): string | null {
+  if (bundle.source !== "scraped") return null;
+
+  const target = normalizeProgramName(bundle.programName);
+  if (!target) return null;
+
+  const entries = ((requirementsCatalog as any)?.programs ?? []) as Array<{
+    name?: string;
+    type?: string;
+    requirementsUrl?: string;
+    programUrl?: string;
+  }>;
+
+  const targetType = bundle.kind === "minor" ? "minor" : "major";
+  const matched = entries.find((entry) => {
+    const entryName = normalizeProgramName(String(entry.name ?? ""));
+    if (!entryName) return false;
+    const entryType = entry.type === "minor" ? "minor" : "major";
+    if (entryType !== targetType) return false;
+    return entryName === target || entryName.includes(target) || target.includes(entryName);
+  });
+
+  return matched?.requirementsUrl ?? matched?.programUrl ?? null;
+}
 
 function createLocalId(prefix: string): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -880,6 +916,23 @@ export default function DegreeAudit() {
                             <h2 className="text-2xl text-foreground">{programAudit.bundle.programName}</h2>
                             <p className="text-sm text-muted-foreground mt-1">
                               {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
+                              {(() => {
+                                const catalogUrl = getCatalogRequirementsUrl(programAudit.bundle);
+                                if (!catalogUrl) return null;
+                                return (
+                                  <>
+                                    {" "}
+                                    <a
+                                      href={catalogUrl}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="text-red-500 hover:text-red-600 underline"
+                                    >
+                                      If info is not correct, go here and edit it.
+                                    </a>
+                                  </>
+                                );
+                              })()}
                             </p>
                           </div>
                           {statusBadge(programAudit.status)}
@@ -969,24 +1022,235 @@ export default function DegreeAudit() {
                             return (
                               <>
                                 {/* Base requirements */}
-                                {baseSections.map(({ section, eval: sectionEval }) => (
-                                  <RequirementSectionCard
-                                    key={section.id}
-                                    section={section}
-                                    sectionEval={sectionEval}
-                                    allCourses={courses}
-                                    courseDetails={courseDetails}
-                                    byCourseCode={byCourseCode}
-                                    expandedSectionIds={expandedSectionIds}
-                                    setExpandedSectionIds={setExpandedSectionIds}
-                                    onEdit={() => startEditingSection(index, section)}
-                                  />
-                                ))}
+                                {baseSections.map(({ section, eval: sectionEval }) => {
+                                  const editingThisSection = editingProgramIndex === index && editingSectionId === section.id && sectionDraft;
+                                  if (editingThisSection) {
+                                    return (
+                                      <Card key={section.id} ref={editorCardRef} className="bg-input-background border-border p-4">
+                                        <div className="flex items-center justify-between gap-2 mb-3">
+                                          <h4 className="text-foreground">Edit Section</h4>
+                                          <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
+                                            <X className="h-4 w-4" />
+                                          </Button>
+                                        </div>
 
-                                {editingProgramIndex === index && sectionDraft && (
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                          <Input
+                                            value={sectionDraft.title}
+                                            onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
+                                            placeholder="Section title"
+                                          />
+                                          <select
+                                            className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
+                                            value={sectionDraft.requirementType}
+                                            onChange={(event) => setSectionDraft((prev) => prev ? {
+                                              ...prev,
+                                              requirementType: event.target.value === "choose" ? "choose" : "all",
+                                            } : prev)}
+                                          >
+                                            <option value="all">All Required</option>
+                                            <option value="choose">Choose N</option>
+                                          </select>
+                                          <Input
+                                            type="number"
+                                            min={1}
+                                            value={sectionDraft.chooseCount ?? 1}
+                                            onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
+                                            placeholder="Choose count"
+                                            disabled={sectionDraft.requirementType !== "choose"}
+                                          />
+                                        </div>
+
+                                        <Textarea
+                                          value={sectionDraft.notesText}
+                                          onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
+                                          placeholder="Notes (one per line)"
+                                          className="mb-3"
+                                        />
+
+                                        <div className="space-y-2 mb-3">
+                                          {sectionDraft.blocks.map((block) => (
+                                            <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
+                                              <div className="flex items-center gap-2 mb-2">
+                                                <select
+                                                  className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
+                                                  value={block.type}
+                                                  onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                    ...prev,
+                                                    blocks: prev.blocks.map((item) => item.id === block.id ? {
+                                                      ...item,
+                                                      type: event.target.value === "OR" ? "OR" : "AND",
+                                                    } : item),
+                                                  } : prev)}
+                                                >
+                                                  <option value="AND">AND</option>
+                                                  <option value="OR">OR</option>
+                                                </select>
+                                                <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Select Block</Button>
+                                                <Button
+                                                  type="button"
+                                                  size="sm"
+                                                  variant="ghost"
+                                                  onClick={() => setSectionDraft((prev) => prev ? {
+                                                    ...prev,
+                                                    blocks: prev.blocks.filter((item) => item.id !== block.id),
+                                                  } : prev)}
+                                                >
+                                                  Remove
+                                                </Button>
+                                              </div>
+                                              <div className="flex flex-wrap gap-2">
+                                                {block.codes.map((code) => (
+                                                  <Badge key={`${block.id}-${code}`} variant="outline" className="border-border text-foreground/80">
+                                                    {code}
+                                                    <button
+                                                      type="button"
+                                                      className="ml-2"
+                                                      onClick={() => setSectionDraft((prev) => prev ? {
+                                                        ...prev,
+                                                        blocks: prev.blocks.map((item) => item.id === block.id
+                                                          ? { ...item, codes: item.codes.filter((value) => value !== code) }
+                                                          : item),
+                                                      } : prev)}
+                                                    >
+                                                      x
+                                                    </button>
+                                                  </Badge>
+                                                ))}
+                                                {block.codes.length === 0 && <span className="text-xs text-muted-foreground">No courses in this block yet.</span>}
+                                              </div>
+                                            </div>
+                                          ))}
+                                        </div>
+
+                                        <div className="flex flex-wrap gap-2 mb-3">
+                                          <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => {
+                                              const blockId = createLocalId("block");
+                                              setSectionDraft((prev) => prev ? {
+                                                ...prev,
+                                                blocks: [...prev.blocks, { id: blockId, type: "AND", codes: [] }],
+                                              } : prev);
+                                              setActiveDraftBlockId(blockId);
+                                            }}
+                                          >
+                                            <Plus className="h-3.5 w-3.5 mr-1" /> Add AND Block
+                                          </Button>
+                                          <Button
+                                            type="button"
+                                            size="sm"
+                                            variant="outline"
+                                            onClick={() => {
+                                              const blockId = createLocalId("block");
+                                              setSectionDraft((prev) => prev ? {
+                                                ...prev,
+                                                blocks: [...prev.blocks, { id: blockId, type: "OR", codes: [] }],
+                                              } : prev);
+                                              setActiveDraftBlockId(blockId);
+                                            }}
+                                          >
+                                            <Plus className="h-3.5 w-3.5 mr-1" /> Add OR Block
+                                          </Button>
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                          <Input
+                                            value={courseSearchQuery}
+                                            onChange={(event) => setCourseSearchQuery(event.target.value)}
+                                            placeholder="Search courses (e.g. BSCI330 or genetics)"
+                                          />
+                                          <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending}>
+                                            {courseSearchPending ? "Searching..." : "Search"}
+                                          </Button>
+                                        </div>
+
+                                        {courseSearchMessage && <p className="text-xs text-muted-foreground mb-2">{courseSearchMessage}</p>}
+                                        {courseSearchResults.length > 0 && (
+                                          <div className="max-h-40 overflow-y-auto border border-border rounded-md p-2 space-y-1 mb-3">
+                                            {courseSearchResults.map((course) => (
+                                              <div key={`${course.code}-${course.title}`} className="flex items-center justify-between gap-2 p-1">
+                                                <div>
+                                                  <p className="text-sm text-foreground">{course.code}</p>
+                                                  <p className="text-xs text-muted-foreground">{course.title}</p>
+                                                </div>
+                                                <Button
+                                                  type="button"
+                                                  size="sm"
+                                                  variant="outline"
+                                                  onClick={() => {
+                                                    if (!activeDraftBlockId) return;
+                                                    setSectionDraft((prev) => prev ? {
+                                                      ...prev,
+                                                      blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
+                                                        ? { ...block, codes: Array.from(new Set([...block.codes, course.code])) }
+                                                        : block),
+                                                    } : prev);
+                                                  }}
+                                                >
+                                                  Add to Block
+                                                </Button>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        )}
+
+                                        <div className="flex gap-2 justify-end">
+                                          <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
+                                          <Button
+                                            type="button"
+                                            variant="outline"
+                                            className="border-red-600/40 text-red-400"
+                                            onClick={() => {
+                                              const nextSections = programAudit.bundle.sections.filter((item) => item.id !== editingSectionId);
+                                              persistProgramSections(programAudit.bundle.programId, nextSections);
+                                              resetDraftEditor();
+                                            }}
+                                          >
+                                            Delete Section
+                                          </Button>
+                                          <Button
+                                            type="button"
+                                            className="bg-red-600 hover:bg-red-700"
+                                            onClick={() => {
+                                              if (!sectionDraft) return;
+                                              const updatedSection = sectionFromDraft(sectionDraft, editingSectionId ?? undefined);
+                                              const nextSections = programAudit.bundle.sections.map((item) => item.id === editingSectionId ? {
+                                                ...updatedSection,
+                                                specializationId: item.specializationId,
+                                              } : item);
+                                              persistProgramSections(programAudit.bundle.programId, nextSections);
+                                              resetDraftEditor();
+                                            }}
+                                          >
+                                            <Save className="h-3.5 w-3.5 mr-1" /> Save Section
+                                          </Button>
+                                        </div>
+                                      </Card>
+                                    );
+                                  }
+
+                                  return (
+                                    <RequirementSectionCard
+                                      key={section.id}
+                                      section={section}
+                                      sectionEval={sectionEval}
+                                      allCourses={courses}
+                                      courseDetails={courseDetails}
+                                      byCourseCode={byCourseCode}
+                                      expandedSectionIds={expandedSectionIds}
+                                      setExpandedSectionIds={setExpandedSectionIds}
+                                      onEdit={() => startEditingSection(index, section)}
+                                    />
+                                  );
+                                })}
+
+                                {editingProgramIndex === index && sectionDraft && editingSectionId === null && (
                                   <Card ref={editorCardRef} className="bg-input-background border-border p-4">
                                     <div className="flex items-center justify-between gap-2 mb-3">
-                                      <h4 className="text-foreground">{editingSectionId ? "Edit Section" : "Add Section"}</h4>
+                                      <h4 className="text-foreground">Add Section</h4>
                                       <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
                                         <X className="h-4 w-4" />
                                       </Button>
@@ -1157,20 +1421,6 @@ export default function DegreeAudit() {
 
                                     <div className="flex gap-2 justify-end">
                                       <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
-                                      {editingSectionId && (
-                                        <Button
-                                          type="button"
-                                          variant="outline"
-                                          className="border-red-600/40 text-red-400"
-                                          onClick={() => {
-                                            const nextSections = programAudit.bundle.sections.filter((section) => section.id !== editingSectionId);
-                                            persistProgramSections(programAudit.bundle.programId, nextSections);
-                                            resetDraftEditor();
-                                          }}
-                                        >
-                                          Delete Section
-                                        </Button>
-                                      )}
                                       <Button
                                         type="button"
                                         className="bg-red-600 hover:bg-red-700"
@@ -1178,14 +1428,7 @@ export default function DegreeAudit() {
                                           if (!sectionDraft) return;
                                           const updatedSection = sectionFromDraft(sectionDraft, editingSectionId ?? undefined);
                                           let nextSections = programAudit.bundle.sections;
-                                          if (editingSectionId) {
-                                            nextSections = nextSections.map((section) => section.id === editingSectionId ? {
-                                              ...updatedSection,
-                                              specializationId: section.specializationId,
-                                            } : section);
-                                          } else {
-                                            nextSections = [...nextSections, updatedSection];
-                                          }
+                                          nextSections = [...nextSections, updatedSection];
                                           persistProgramSections(programAudit.bundle.programId, nextSections);
                                           resetDraftEditor();
                                         }}
@@ -1211,19 +1454,230 @@ export default function DegreeAudit() {
                                       Specialization Requirements: {selectedSpec.name}
                                     </h3>
                                     <div className="space-y-3">
-                                      {specializationSections.map(({ section, eval: sectionEval }) => (
-                                        <RequirementSectionCard
-                                          key={section.id}
-                                          section={section}
-                                          sectionEval={sectionEval}
-                                          allCourses={courses}
-                                          courseDetails={courseDetails}
-                                          byCourseCode={byCourseCode}
-                                          expandedSectionIds={expandedSectionIds}
-                                          setExpandedSectionIds={setExpandedSectionIds}
-                                          onEdit={() => startEditingSection(index, section)}
-                                        />
-                                      ))}
+                                      {specializationSections.map(({ section, eval: sectionEval }) => {
+                                        const editingThisSection = editingProgramIndex === index && editingSectionId === section.id && sectionDraft;
+                                        if (editingThisSection) {
+                                          return (
+                                            <Card key={section.id} ref={editorCardRef} className="bg-input-background border-border p-4">
+                                              <div className="flex items-center justify-between gap-2 mb-3">
+                                                <h4 className="text-foreground">Edit Section</h4>
+                                                <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
+                                                  <X className="h-4 w-4" />
+                                                </Button>
+                                              </div>
+
+                                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                                <Input
+                                                  value={sectionDraft.title}
+                                                  onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
+                                                  placeholder="Section title"
+                                                />
+                                                <select
+                                                  className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
+                                                  value={sectionDraft.requirementType}
+                                                  onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                    ...prev,
+                                                    requirementType: event.target.value === "choose" ? "choose" : "all",
+                                                  } : prev)}
+                                                >
+                                                  <option value="all">All Required</option>
+                                                  <option value="choose">Choose N</option>
+                                                </select>
+                                                <Input
+                                                  type="number"
+                                                  min={1}
+                                                  value={sectionDraft.chooseCount ?? 1}
+                                                  onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
+                                                  placeholder="Choose count"
+                                                  disabled={sectionDraft.requirementType !== "choose"}
+                                                />
+                                              </div>
+
+                                              <Textarea
+                                                value={sectionDraft.notesText}
+                                                onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
+                                                placeholder="Notes (one per line)"
+                                                className="mb-3"
+                                              />
+
+                                              <div className="space-y-2 mb-3">
+                                                {sectionDraft.blocks.map((block) => (
+                                                  <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
+                                                    <div className="flex items-center gap-2 mb-2">
+                                                      <select
+                                                        className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
+                                                        value={block.type}
+                                                        onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                          ...prev,
+                                                          blocks: prev.blocks.map((item) => item.id === block.id ? {
+                                                            ...item,
+                                                            type: event.target.value === "OR" ? "OR" : "AND",
+                                                          } : item),
+                                                        } : prev)}
+                                                      >
+                                                        <option value="AND">AND</option>
+                                                        <option value="OR">OR</option>
+                                                      </select>
+                                                      <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Select Block</Button>
+                                                      <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant="ghost"
+                                                        onClick={() => setSectionDraft((prev) => prev ? {
+                                                          ...prev,
+                                                          blocks: prev.blocks.filter((item) => item.id !== block.id),
+                                                        } : prev)}
+                                                      >
+                                                        Remove
+                                                      </Button>
+                                                    </div>
+                                                    <div className="flex flex-wrap gap-2">
+                                                      {block.codes.map((code) => (
+                                                        <Badge key={`${block.id}-${code}`} variant="outline" className="border-border text-foreground/80">
+                                                          {code}
+                                                          <button
+                                                            type="button"
+                                                            className="ml-2"
+                                                            onClick={() => setSectionDraft((prev) => prev ? {
+                                                              ...prev,
+                                                              blocks: prev.blocks.map((item) => item.id === block.id
+                                                                ? { ...item, codes: item.codes.filter((value) => value !== code) }
+                                                                : item),
+                                                            } : prev)}
+                                                          >
+                                                            x
+                                                          </button>
+                                                        </Badge>
+                                                      ))}
+                                                      {block.codes.length === 0 && <span className="text-xs text-muted-foreground">No courses in this block yet.</span>}
+                                                    </div>
+                                                  </div>
+                                                ))}
+                                              </div>
+
+                                              <div className="flex flex-wrap gap-2 mb-3">
+                                                <Button
+                                                  type="button"
+                                                  size="sm"
+                                                  variant="outline"
+                                                  onClick={() => {
+                                                    const blockId = createLocalId("block");
+                                                    setSectionDraft((prev) => prev ? {
+                                                      ...prev,
+                                                      blocks: [...prev.blocks, { id: blockId, type: "AND", codes: [] }],
+                                                    } : prev);
+                                                    setActiveDraftBlockId(blockId);
+                                                  }}
+                                                >
+                                                  <Plus className="h-3.5 w-3.5 mr-1" /> Add AND Block
+                                                </Button>
+                                                <Button
+                                                  type="button"
+                                                  size="sm"
+                                                  variant="outline"
+                                                  onClick={() => {
+                                                    const blockId = createLocalId("block");
+                                                    setSectionDraft((prev) => prev ? {
+                                                      ...prev,
+                                                      blocks: [...prev.blocks, { id: blockId, type: "OR", codes: [] }],
+                                                    } : prev);
+                                                    setActiveDraftBlockId(blockId);
+                                                  }}
+                                                >
+                                                  <Plus className="h-3.5 w-3.5 mr-1" /> Add OR Block
+                                                </Button>
+                                              </div>
+
+                                              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                                <Input
+                                                  value={courseSearchQuery}
+                                                  onChange={(event) => setCourseSearchQuery(event.target.value)}
+                                                  placeholder="Search courses (e.g. BSCI330 or genetics)"
+                                                />
+                                                <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending}>
+                                                  {courseSearchPending ? "Searching..." : "Search"}
+                                                </Button>
+                                              </div>
+
+                                              {courseSearchMessage && <p className="text-xs text-muted-foreground mb-2">{courseSearchMessage}</p>}
+                                              {courseSearchResults.length > 0 && (
+                                                <div className="max-h-40 overflow-y-auto border border-border rounded-md p-2 space-y-1 mb-3">
+                                                  {courseSearchResults.map((course) => (
+                                                    <div key={`${course.code}-${course.title}`} className="flex items-center justify-between gap-2 p-1">
+                                                      <div>
+                                                        <p className="text-sm text-foreground">{course.code}</p>
+                                                        <p className="text-xs text-muted-foreground">{course.title}</p>
+                                                      </div>
+                                                      <Button
+                                                        type="button"
+                                                        size="sm"
+                                                        variant="outline"
+                                                        onClick={() => {
+                                                          if (!activeDraftBlockId) return;
+                                                          setSectionDraft((prev) => prev ? {
+                                                            ...prev,
+                                                            blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
+                                                              ? { ...block, codes: Array.from(new Set([...block.codes, course.code])) }
+                                                              : block),
+                                                          } : prev);
+                                                        }}
+                                                      >
+                                                        Add to Block
+                                                      </Button>
+                                                    </div>
+                                                  ))}
+                                                </div>
+                                              )}
+
+                                              <div className="flex gap-2 justify-end">
+                                                <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
+                                                <Button
+                                                  type="button"
+                                                  variant="outline"
+                                                  className="border-red-600/40 text-red-400"
+                                                  onClick={() => {
+                                                    const nextSections = programAudit.bundle.sections.filter((item) => item.id !== editingSectionId);
+                                                    persistProgramSections(programAudit.bundle.programId, nextSections);
+                                                    resetDraftEditor();
+                                                  }}
+                                                >
+                                                  Delete Section
+                                                </Button>
+                                                <Button
+                                                  type="button"
+                                                  className="bg-red-600 hover:bg-red-700"
+                                                  onClick={() => {
+                                                    if (!sectionDraft) return;
+                                                    const updatedSection = sectionFromDraft(sectionDraft, editingSectionId ?? undefined);
+                                                    const nextSections = programAudit.bundle.sections.map((item) => item.id === editingSectionId ? {
+                                                      ...updatedSection,
+                                                      specializationId: item.specializationId,
+                                                    } : item);
+                                                    persistProgramSections(programAudit.bundle.programId, nextSections);
+                                                    resetDraftEditor();
+                                                  }}
+                                                >
+                                                  <Save className="h-3.5 w-3.5 mr-1" /> Save Section
+                                                </Button>
+                                              </div>
+                                            </Card>
+                                          );
+                                        }
+
+                                        return (
+                                          <RequirementSectionCard
+                                            key={section.id}
+                                            section={section}
+                                            sectionEval={sectionEval}
+                                            allCourses={courses}
+                                            courseDetails={courseDetails}
+                                            byCourseCode={byCourseCode}
+                                            expandedSectionIds={expandedSectionIds}
+                                            setExpandedSectionIds={setExpandedSectionIds}
+                                            onEdit={() => startEditingSection(index, section)}
+                                          />
+                                        );
+                                      })}
                                     </div>
                                   </div>
                                 )}
