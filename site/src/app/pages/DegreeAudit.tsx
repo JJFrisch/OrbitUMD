@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, FileText, Info, Pencil, Plus, Save, X } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, Info, Loader2, Pencil, Plus, Save, X } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -52,6 +52,8 @@ interface CourseSearchResult {
   code: string;
   title: string;
 }
+
+type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
 
@@ -307,7 +309,9 @@ export default function DegreeAudit() {
   const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
+  const [sectionEditSyncState, setSectionEditSyncState] = useState<SectionEditSyncState>("idle");
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  const saveRequestIdRef = useRef(0);
 
   useEffect(() => {
     try {
@@ -333,8 +337,10 @@ export default function DegreeAudit() {
           ...prev,
           ...serverEdits,
         }));
+        setSectionEditSyncState("synced");
       } catch {
         // Keep local fallback only if remote persistence is unavailable.
+        if (active) setSectionEditSyncState("local");
       }
     };
 
@@ -408,9 +414,22 @@ export default function DegreeAudit() {
         : bundle
     )));
 
-    void saveUserRequirementSectionEdit(programId, sections).catch(() => {
-      // Ignore remote save failures; local persistence still keeps edits.
-    });
+    const requestId = saveRequestIdRef.current + 1;
+    saveRequestIdRef.current = requestId;
+    setSectionEditSyncState("saving");
+
+    void saveUserRequirementSectionEdit(programId, sections)
+      .then(() => {
+        if (saveRequestIdRef.current === requestId) {
+          setSectionEditSyncState("synced");
+        }
+      })
+      .catch(() => {
+        // Ignore remote save failures; local persistence still keeps edits.
+        if (saveRequestIdRef.current === requestId) {
+          setSectionEditSyncState("local");
+        }
+      });
   };
 
   const runCourseSearch = async () => {
@@ -800,6 +819,15 @@ export default function DegreeAudit() {
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <h2 className="text-xl text-foreground">Program Audits</h2>
                   <div className="flex items-center gap-2">
+                    <Badge variant="outline" className="border-border text-foreground/80">
+                      {sectionEditSyncState === "saving" && <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />}
+                      {sectionEditSyncState === "synced" && <Cloud className="w-3.5 h-3.5 mr-1" />}
+                      {sectionEditSyncState === "local" && <CloudOff className="w-3.5 h-3.5 mr-1" />}
+                      {sectionEditSyncState === "saving" && "Saving edits..."}
+                      {sectionEditSyncState === "synced" && "Edits synced to cloud"}
+                      {sectionEditSyncState === "local" && "Edits saved locally"}
+                      {sectionEditSyncState === "idle" && "Section edits ready"}
+                    </Badge>
                     <Button
                       size="icon"
                       variant="outline"

@@ -1,4 +1,5 @@
-import { createBrowserRouter } from "react-router";
+import { ReactNode, useEffect, useState } from "react";
+import { Navigate, createBrowserRouter, useLocation } from "react-router";
 import RootLayout from "./layouts/RootLayout";
 import Welcome from "./pages/onboarding/Welcome";
 import BasicProfile from "./pages/onboarding/BasicProfile";
@@ -15,8 +16,49 @@ import DegreeRequirements from "./pages/DegreeRequirement";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function RequireAuth({ children }: { children: ReactNode }) {
+  const [checking, setChecking] = useState(true);
+  const [isAuthed, setIsAuthed] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    let active = true;
+    const supabase = getSupabaseClient();
+
+    const run = async () => {
+      try {
+        const { data } = await supabase.auth.getSession();
+        if (!active) return;
+        setIsAuthed(Boolean(data.session?.user));
+      } catch {
+        if (!active) return;
+        setIsAuthed(false);
+      } finally {
+        if (active) setChecking(false);
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  if (checking) {
+    return <div className="p-6 text-sm text-muted-foreground">Checking session...</div>;
+  }
+
+  if (!isAuthed) {
+    const next = `${location.pathname}${location.search}`;
+    return <Navigate to={`/sign-in?next=${encodeURIComponent(next)}`} replace />;
+  }
+
+  return <>{children}</>;
+}
 
 export const router = createBrowserRouter([
   {
@@ -26,7 +68,7 @@ export const router = createBrowserRouter([
       { index: true, element: <Welcome /> },
       { path: "onboarding/profile", element: <BasicProfile /> },
       { path: "onboarding/goals", element: <GoalSelection /> },
-      { path: "dashboard", element: <Dashboard /> },
+      { path: "dashboard", element: <RequireAuth><Dashboard /></RequireAuth> },
       { path: "sign-in", element: <SignIn /> },
       { path: "generate-schedule", element: <GenerateSchedule /> },
       { path: "schedule-builder", element: <ScheduleBuilder /> },
@@ -37,7 +79,7 @@ export const router = createBrowserRouter([
       { path: "gen-eds", element: <GenEds /> },
       { path: "credit-import", element: <CreditImport /> },
       { path: "degree-requirements", element: <DegreeRequirements /> },
-      { path: "settings", element: <Settings /> },
+      { path: "settings", element: <RequireAuth><Settings /></RequireAuth> },
       { path: "*", element: <NotFound /> },
     ],
   },
