@@ -365,9 +365,9 @@ export default function Dashboard() {
   }, [programSummary, terms.length]);
 
   const toneClass = (tone: "amber" | "blue" | "green") => {
-    if (tone === "amber") return "border-amber-600/30 text-amber-400 hover:bg-amber-600/10";
-    if (tone === "blue") return "border-blue-600/30 text-blue-400 hover:bg-blue-600/10";
-    return "border-green-600/30 text-green-400 hover:bg-green-600/10";
+    if (tone === "amber") return "border-amber-300 bg-amber-100 text-amber-900 hover:bg-amber-200 dark:border-amber-600/30 dark:bg-transparent dark:text-amber-300 dark:hover:bg-amber-600/10";
+    if (tone === "blue") return "border-blue-300 bg-blue-100 text-blue-900 hover:bg-blue-200 dark:border-blue-600/30 dark:bg-transparent dark:text-blue-300 dark:hover:bg-blue-600/10";
+    return "border-green-300 bg-green-100 text-green-900 hover:bg-green-200 dark:border-green-600/30 dark:bg-transparent dark:text-green-300 dark:hover:bg-green-600/10";
   };
 
   return (
@@ -388,7 +388,7 @@ export default function Dashboard() {
                 <div className="mb-2 flex items-center gap-2">
                   <h2 className="text-2xl">{currentTerm ? `${currentTerm.label} Status` : "No Active Term"}</h2>
                   {currentTerm && (
-                    <Badge variant="outline" className="border-blue-600/30 bg-blue-600/20 text-blue-400">
+                    <Badge variant="outline" className="border-blue-300 bg-blue-100 text-blue-900 dark:border-blue-600/30 dark:bg-blue-600/20 dark:text-blue-300">
                       {currentTerm.status === "completed" ? "Completed" : currentTerm.status === "in_progress" ? "In Progress" : "Planned"}
                     </Badge>
                   )}

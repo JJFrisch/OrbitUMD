@@ -741,13 +741,17 @@ export default function DegreeAudit() {
     }
 
     const totalCredits = completedCredits + inProgressCredits + plannedCredits;
+    const majorProgramCount = bundles.filter((bundle) => bundle.kind === "major").length;
+    const requiredCredits = majorProgramCount >= 2 ? 150 : 120;
+
     return {
       totalCredits,
       completedCredits,
       inProgressCredits,
       plannedCredits,
+      requiredCredits,
     };
-  }, [courses]);
+  }, [courses, bundles]);
 
   const programAudits = useMemo(() => {
     return bundles.map((bundle) => {
@@ -810,7 +814,7 @@ export default function DegreeAudit() {
                     <FileText className="w-5 h-5 text-blue-400" />
                     <h3 className="text-sm text-muted-foreground">Total Credits</h3>
                   </div>
-                  <p className="text-3xl text-foreground">{summary.totalCredits}</p>
+                  <p className="text-3xl text-foreground">{summary.totalCredits} / {summary.requiredCredits}</p>
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
@@ -839,10 +843,10 @@ export default function DegreeAudit() {
                 <p className="text-sm text-muted-foreground mb-3">Credits Progress</p>
                 <div className="h-4 w-full rounded bg-muted overflow-hidden border border-border/60 flex">
                   {(() => {
-                    const total = Math.max(1, summary.totalCredits);
-                    const completedPct = (summary.completedCredits / total) * 100;
-                    const inProgressPct = (summary.inProgressCredits / total) * 100;
-                    const plannedPct = Math.max(0, 100 - completedPct - inProgressPct);
+                    const total = Math.max(1, summary.requiredCredits);
+                    const completedPct = Math.min(100, (summary.completedCredits / total) * 100);
+                    const inProgressPct = Math.min(Math.max(0, 100 - completedPct), (summary.inProgressCredits / total) * 100);
+                    const plannedPct = Math.min(Math.max(0, 100 - completedPct - inProgressPct), (summary.plannedCredits / total) * 100);
                     return (
                       <>
                         <div className="h-full bg-green-500" style={{ width: `${completedPct}%` }} />
@@ -852,6 +856,10 @@ export default function DegreeAudit() {
                     );
                   })()}
                 </div>
+
+                <p className="mt-2 text-xs text-muted-foreground">
+                  Required credits: {summary.requiredCredits} ({summary.requiredCredits === 150 ? "Dual degree" : "Standard degree"})
+                </p>
 
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
                   <Badge className="bg-green-100 text-green-900 border border-green-300 dark:bg-green-600/20 dark:text-green-300 dark:border-green-600/40">Complete: {summary.completedCredits} cr</Badge>

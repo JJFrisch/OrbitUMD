@@ -11,7 +11,7 @@ const goals = [
     icon: Calendar,
     description: "Already know which classes you want? Plug them in and let OrbitUMD generate possible schedules — just like Venus, but cleaner. Filter by days, times, and format, then pick the schedule that fits your life.",
     route: "/generate-schedule",
-    color: "text-blue-400 border-blue-600/30 bg-blue-600/10"
+    color: "text-blue-900 border-blue-300 bg-blue-100 dark:text-blue-300 dark:border-blue-600/30 dark:bg-blue-600/10"
   },
   {
     id: "explore",
@@ -20,7 +20,7 @@ const goals = [
     icon: CalendarDays,
     description: "Search UMD courses, drag them onto a weekly calendar, and experiment with different combinations before you commit. Perfect for exploring what's even possible this term.",
     route: "/build-my-week",
-    color: "text-green-400 border-green-600/30 bg-green-600/10"
+    color: "text-green-900 border-green-300 bg-green-100 dark:text-green-300 dark:border-green-600/30 dark:bg-green-600/10"
   },
   {
     id: "plan",
@@ -29,7 +29,7 @@ const goals = [
     icon: GraduationCap,
     description: "Map out your entire degree — Gen Eds, majors, minors, and electives — across every semester. We'll walk you through your credits, requirements, and a clean four-year plan view.",
     route: "/credit-import",
-    color: "text-purple-400 border-purple-600/30 bg-purple-600/10"
+    color: "text-purple-900 border-purple-300 bg-purple-100 dark:text-purple-300 dark:border-purple-600/30 dark:bg-purple-600/10"
   },
   {
     id: "audit",
@@ -38,7 +38,7 @@ const goals = [
     icon: FileCheck2,
     description: "See a clear, interactive view of what you've completed, what's in progress, and what's left. Click any requirement to see course options or jump directly into planning.",
     route: "/degree-audit",
-    color: "text-amber-400 border-amber-600/30 bg-amber-600/10"
+    color: "text-amber-900 border-amber-300 bg-amber-100 dark:text-amber-300 dark:border-amber-600/30 dark:bg-amber-600/10"
   }
 ];
 

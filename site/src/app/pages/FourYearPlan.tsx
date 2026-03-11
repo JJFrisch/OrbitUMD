@@ -451,15 +451,15 @@ export default function FourYearPlan() {
                             }`}
                             style={cardStyle}
                           >
-                            <div className="flex items-start justify-between gap-2 mb-1">
-                              <h4 className="text-foreground font-medium text-sm">{course.code}</h4>
+                            <div className="flex items-start justify-between gap-2 mb-0.5">
+                              <h4 className="text-foreground font-medium text-sm leading-tight">{course.code}</h4>
                               <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
                             </div>
-                            <p className="text-[11px] text-foreground/80 mb-1 line-clamp-1">{course.title}</p>
-                            <p className="text-[10px] text-muted-foreground mb-1">Section {course.sectionCode}</p>
+                            <p className="text-[11px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">{course.title}</p>
+                            <p className="text-[10px] text-muted-foreground mb-0.5 leading-tight">Section {course.sectionCode}</p>
 
                             {contributionLabels.length > 0 && (
-                              <p className="text-[10px] text-foreground/80 mb-1 line-clamp-1">
+                              <p className="text-[10px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">
                                 Contributes to: {contributionLabels.join("; ")}
                               </p>
                             )}
