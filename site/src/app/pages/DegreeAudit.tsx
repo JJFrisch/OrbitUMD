@@ -12,6 +12,7 @@ import { plannerApi } from "@/lib/api/planner";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
+import { listUserRequirementSectionEdits, saveUserRequirementSectionEdit } from "@/lib/repositories/userRequirementSectionEditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { getCurrentTermCode, lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import {
@@ -322,6 +323,29 @@ export default function DegreeAudit() {
   }, []);
 
   useEffect(() => {
+    let active = true;
+
+    const run = async () => {
+      try {
+        const serverEdits = await listUserRequirementSectionEdits();
+        if (!active) return;
+        setCustomSectionsByProgram((prev) => ({
+          ...prev,
+          ...serverEdits,
+        }));
+      } catch {
+        // Keep local fallback only if remote persistence is unavailable.
+      }
+    };
+
+    void run();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
     try {
       localStorage.setItem(CUSTOM_AUDIT_SECTIONS_KEY, JSON.stringify(customSectionsByProgram));
     } catch {
@@ -383,6 +407,10 @@ export default function DegreeAudit() {
         ? { ...bundle, sections }
         : bundle
     )));
+
+    void saveUserRequirementSectionEdit(programId, sections).catch(() => {
+      // Ignore remote save failures; local persistence still keeps edits.
+    });
   };
 
   const runCourseSearch = async () => {

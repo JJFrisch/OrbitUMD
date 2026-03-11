@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { Moon, Sun } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/card";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { useTheme } from "../contexts/ThemeContext";
 
 function buildAppRedirectUrl(path: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -15,6 +17,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const supabase = getSupabaseClient();
+  const { theme, toggleTheme } = useTheme();
   const nextPath = searchParams.get("next") || "/dashboard";
 
   const [email, setEmail] = useState("");
@@ -23,15 +26,55 @@ export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let active = true;
+
+    const ensureProfile = async () => {
+      const { data: authData } = await supabase.auth.getUser();
+      const authUser = authData.user;
+      if (!authUser) return;
+
+      const displayName =
+        String(authUser.user_metadata?.full_name ?? authUser.user_metadata?.name ?? "").trim() || null;
+
+      await supabase
+        .from("user_profiles")
+        .upsert(
+          {
+            id: authUser.id,
+            email: authUser.email ?? null,
+            display_name: displayName,
+          },
+          { onConflict: "id" },
+        );
+    };
+
     const run = async () => {
       const { data } = await supabase.auth.getSession();
+      if (!active) return;
       if (data.session?.user) {
+        await ensureProfile();
         navigate(nextPath, { replace: true });
       }
     };
 
     void run();
-  }, [navigate, nextPath, supabase.auth]);
+
+    const { data: authSubscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      if (session?.user) {
+        void ensureProfile().finally(() => {
+          if (active) {
+            navigate(nextPath, { replace: true });
+          }
+        });
+      }
+    });
+
+    return () => {
+      active = false;
+      authSubscription.subscription.unsubscribe();
+    };
+  }, [navigate, nextPath, supabase]);
 
   const handleEmailSignIn = async () => {
     setLoading(true);
@@ -42,6 +85,7 @@ export default function SignIn() {
       const { error: signInError } = await supabase.auth.signInWithOtp({
         email,
         options: {
+          shouldCreateUser: true,
           // Route auth callbacks through an app route that always exists under the configured base path.
           emailRedirectTo: buildAppRedirectUrl(`/sign-in?next=${encodeURIComponent(nextPath)}`),
         },
@@ -85,6 +129,12 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6">
+      <div className="fixed top-4 right-4">
+        <Button type="button" variant="outline" size="sm" onClick={toggleTheme}>
+          {theme === "dark" ? <Sun className="w-4 h-4 mr-1" /> : <Moon className="w-4 h-4 mr-1" />}
+          {theme === "dark" ? "Light" : "Dark"}
+        </Button>
+      </div>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Sign in to OrbitUMD</CardTitle>
