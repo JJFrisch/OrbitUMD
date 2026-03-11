@@ -87,16 +87,23 @@ export function CoursePlannerPage() {
   useEffect(() => {
     const rawTerm = searchParams.get("term");
     const scheduleId = searchParams.get("scheduleId");
-    const key = `${rawTerm ?? ""}|${scheduleId ?? ""}`;
-
-    if (!rawTerm && !scheduleId) {
-      return;
-    }
+    const shouldStartNew = searchParams.get("new") === "1";
+    const key = `${rawTerm ?? ""}|${scheduleId ?? ""}|${shouldStartNew ? "new" : "existing"}`;
 
     if (lastProcessedDeepLink.current === key) {
       return;
     }
     lastProcessedDeepLink.current = key;
+
+    if (shouldStartNew) {
+      startNewSchedule();
+      setScheduleName(DEFAULT_SCHEDULE_NAME);
+      return;
+    }
+
+    if (!rawTerm && !scheduleId) {
+      return;
+    }
 
     if (rawTerm) {
       const [termCode, termYearRaw] = rawTerm.split("-");
@@ -114,7 +121,7 @@ export function CoursePlannerPage() {
         }
       });
     }
-  }, [loadSchedule, searchParams, setCatalogTerm]);
+  }, [loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
 
   const handleSaveClick = useCallback(() => {
     if (!activeScheduleId && scheduleName.trim().toLowerCase() === DEFAULT_SCHEDULE_NAME.toLowerCase()) {

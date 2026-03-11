@@ -370,6 +370,12 @@ export function ScheduleLibraryPage() {
     }
   };
 
+  const openInBuilder = (schedule: ScheduleWithSelections) => {
+    const term = parseTermFromSchedule(schedule);
+    const termParam = term ? `${term.termCode}-${term.termYear}` : "";
+    navigate(`/schedule-builder?scheduleId=${schedule.id}&term=${termParam}`);
+  };
+
   return (
     <div className="course-planner-root cp-view-root">
       <div className="cp-view-header">
@@ -379,7 +385,9 @@ export function ScheduleLibraryPage() {
         </div>
 
         <div className="cp-view-actions">
-          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder")}>
+          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>Build Schedules</button>
+          <button type="button" className="cp-builder-action-btn is-primary">View All Schedules</button>
+          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>
             <Plus size={13} /> New Schedule
           </button>
         </div>
@@ -464,6 +472,7 @@ export function ScheduleLibraryPage() {
                           key={schedule.id}
                           className={`cp-view-card ${selected ? "is-selected" : ""} ${schedule.is_primary ? "is-main" : ""}`}
                           onClick={() => setPreviewScheduleId(schedule.id)}
+                          onDoubleClick={() => openInBuilder(schedule)}
                         >
                           <div className="cp-view-card-head">
                             <div className="cp-view-card-title-row">
@@ -608,13 +617,9 @@ export function ScheduleLibraryPage() {
               <button
                 type="button"
                 className="cp-builder-action-btn"
-                onClick={() => {
-                  const term = parseTermFromSchedule(previewSchedule);
-                  const termParam = term ? `${term.termCode}-${term.termYear}` : "";
-                  navigate(`/schedule-builder?scheduleId=${previewSchedule.id}&term=${termParam}`);
-                }}
+                onClick={() => openInBuilder(previewSchedule)}
               >
-                <Edit2 size={13} /> Edit In Builder
+                <Edit2 size={13} /> Edit Schedule
               </button>
             ) : null}
           </div>
