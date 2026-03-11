@@ -171,6 +171,16 @@ function statusBadge(status: AuditCourseStatus) {
   return <Badge variant="outline" className="border-border">Planned</Badge>;
 }
 
+function sectionHeaderClass(sectionEval: { requiredSlots: number; completedSlots: number; inProgressSlots: number }): string {
+  if (sectionEval.requiredSlots > 0 && sectionEval.completedSlots >= sectionEval.requiredSlots) {
+    return "text-green-500";
+  }
+  if (sectionEval.completedSlots > 0 || sectionEval.inProgressSlots > 0) {
+    return "text-blue-500";
+  }
+  return "text-foreground";
+}
+
 interface RequirementSectionCardProps {
   section: any; // RequirementSectionBundle
   sectionEval: any; // Section evaluation result
@@ -244,7 +254,7 @@ function RequirementSectionCard({
     <Card className="bg-input-background border-border p-4">
       <div className="flex items-center justify-between gap-3 mb-2">
         <div className="flex items-center gap-2 flex-wrap">
-          <h3 className="text-foreground">{section.title}</h3>
+          <h3 className={sectionHeaderClass(sectionEval)}>{section.title}</h3>
           {section.special && (
             <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
           )}
@@ -825,6 +835,31 @@ export default function DegreeAudit() {
                 </div>
               </div>
 
+              <div className="mt-6 rounded-lg border border-border bg-input-background p-4">
+                <p className="text-sm text-muted-foreground mb-3">Credits Progress</p>
+                <div className="h-4 w-full rounded bg-muted overflow-hidden border border-border/60 flex">
+                  {(() => {
+                    const total = Math.max(1, summary.totalCredits);
+                    const completedPct = (summary.completedCredits / total) * 100;
+                    const inProgressPct = (summary.inProgressCredits / total) * 100;
+                    const plannedPct = Math.max(0, 100 - completedPct - inProgressPct);
+                    return (
+                      <>
+                        <div className="h-full bg-green-500" style={{ width: `${completedPct}%` }} />
+                        <div className="h-full bg-blue-500" style={{ width: `${inProgressPct}%` }} />
+                        <div className="h-full bg-amber-500" style={{ width: `${plannedPct}%` }} />
+                      </>
+                    );
+                  })()}
+                </div>
+
+                <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                  <Badge className="bg-green-600/20 text-green-300 border border-green-600/40">Complete: {summary.completedCredits} cr</Badge>
+                  <Badge className="bg-blue-600/20 text-blue-300 border border-blue-600/40">In Progress: {summary.inProgressCredits} cr</Badge>
+                  <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/40">Planned: {summary.plannedCredits} cr</Badge>
+                </div>
+              </div>
+
               <div className="flex gap-3 mt-6 pt-6 border-t border-border">
                 <Link to="/four-year-plan" className="flex-1">
                   <Button variant="outline" className="w-full border-border text-foreground/80 hover:bg-accent">
@@ -913,7 +948,17 @@ export default function DegreeAudit() {
                       <Card className="bg-card border-border p-5">
                         <div className="flex items-center justify-between gap-3 mb-3">
                           <div>
-                            <h2 className="text-2xl text-foreground">{programAudit.bundle.programName}</h2>
+                            <h2
+                              className={`text-2xl ${
+                                programAudit.requiredSlots > 0 && programAudit.completedSlots >= programAudit.requiredSlots
+                                  ? "text-green-500"
+                                  : (programAudit.completedSlots > 0 || programAudit.inProgressSlots > 0)
+                                    ? "text-blue-500"
+                                    : "text-foreground"
+                              }`}
+                            >
+                              {programAudit.bundle.programName}
+                            </h2>
                             <p className="text-sm text-muted-foreground mt-1">
                               {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
                               {(() => {

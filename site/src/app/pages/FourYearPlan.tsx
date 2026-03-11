@@ -120,6 +120,12 @@ function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
   };
 }
 
+function statusRank(status: AcademicProgressStatus): number {
+  if (status === "completed") return 3;
+  if (status === "in_progress") return 2;
+  return 1;
+}
+
 export default function FourYearPlan() {
   const [sortOrder, setSortOrder] = useState<SortOrder>("current");
   const [collapsedTerms, setCollapsedTerms] = useState<Set<string>>(new Set());
@@ -190,23 +196,50 @@ export default function FourYearPlan() {
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
   const summary = useMemo(() => {
-    const allCourses = terms.flatMap((term) => term.courses);
-    const completedCredits = allCourses
+    const uniqueByCode = new Map<string, PlannedCourse>();
+    for (const course of terms.flatMap((term) => term.courses)) {
+      const key = course.code.toUpperCase();
+      const existing = uniqueByCode.get(key);
+      if (!existing) {
+        uniqueByCode.set(key, course);
+        continue;
+      }
+
+      // Keep one instance of duplicate-credit courses, preferring strongest status.
+      if (statusRank(course.status) > statusRank(existing.status)) {
+        uniqueByCode.set(key, course);
+      }
+    }
+
+    const uniqueCourses = Array.from(uniqueByCode.values());
+    const completedCredits = uniqueCourses
       .filter((course) => course.status === "completed")
       .reduce((sum, course) => sum + course.credits, 0);
-    const inProgressCredits = allCourses
+    const inProgressCredits = uniqueCourses
       .filter((course) => course.status === "in_progress")
       .reduce((sum, course) => sum + course.credits, 0);
-    const plannedCredits = allCourses
+    const plannedCredits = uniqueCourses
       .filter((course) => course.status === "planned")
       .reduce((sum, course) => sum + course.credits, 0);
+
+    const duplicateCourseCount = Math.max(0, terms.flatMap((term) => term.courses).length - uniqueCourses.length);
 
     return {
       totalCredits: completedCredits + inProgressCredits + plannedCredits,
       completedCredits,
       inProgressCredits,
       plannedCredits,
+      duplicateCourseCount,
     };
+  }, [terms]);
+
+  const duplicateCountsByCode = useMemo(() => {
+    const map = new Map<string, number>();
+    for (const course of terms.flatMap((term) => term.courses)) {
+      const key = course.code.toUpperCase();
+      map.set(key, (map.get(key) ?? 0) + 1);
+    }
+    return map;
   }, [terms]);
 
   const toggleTerm = (termId: string) => {
@@ -306,6 +339,15 @@ export default function FourYearPlan() {
           </Card>
         </div>
 
+        {!loading && summary.duplicateCourseCount > 0 && (
+          <Card className="p-3 mb-6 bg-amber-500/10 border-amber-500/30">
+            <p className="text-sm text-amber-300">
+              Duplicate credit notice: {summary.duplicateCourseCount} repeated course{summary.duplicateCourseCount === 1 ? "" : "s"} detected in this plan.
+              Repeated courses are flagged below and counted once in total credits.
+            </p>
+          </Card>
+        )}
+
         <Card className="p-4 bg-card border-border mb-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -380,15 +422,17 @@ export default function FourYearPlan() {
                     {term.courses.length === 0 ? (
                       <p className="text-muted-foreground">No classes in this MAIN schedule.</p>
                     ) : (
-                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
                         {term.courses.map((course) => (
                           (() => {
                             const contributionLabels = contributionMap.get(course.code.toUpperCase()) ?? [];
                             const cardStyle = contributionCardStyle(contributionLabels);
+                            const duplicateCount = duplicateCountsByCode.get(course.code.toUpperCase()) ?? 0;
+                            const isDuplicate = duplicateCount > 1;
                             return (
                           <Card
                             key={course.sectionKey}
-                            className={`p-4 border ${
+                            className={`p-2 border ${
                               course.status === "completed"
                                 ? "border-green-600/40 bg-green-600/10"
                                 : course.status === "in_progress"
@@ -397,21 +441,26 @@ export default function FourYearPlan() {
                             }`}
                             style={cardStyle}
                           >
-                            <div className="flex items-start justify-between gap-3 mb-1">
-                              <h4 className="text-foreground font-medium">{course.code}</h4>
+                            <div className="flex items-start justify-between gap-2 mb-1">
+                              <h4 className="text-foreground font-medium text-sm">{course.code}</h4>
                               <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
                             </div>
-                            <p className="text-xs text-foreground/80 mb-2 line-clamp-2">{course.title}</p>
-                            <p className="text-[11px] text-muted-foreground mb-2">Section {course.sectionCode}</p>
+                            <p className="text-[11px] text-foreground/80 mb-1 line-clamp-1">{course.title}</p>
+                            <p className="text-[10px] text-muted-foreground mb-1">Section {course.sectionCode}</p>
 
                             {contributionLabels.length > 0 && (
-                              <p className="text-[11px] text-foreground/80 mb-2">
+                              <p className="text-[10px] text-foreground/80 mb-1 line-clamp-1">
                                 Contributes to: {contributionLabels.join("; ")}
                               </p>
                             )}
 
                             <div className="flex items-center justify-between gap-2 flex-wrap">
                               <div className="flex flex-wrap gap-1">
+                                {isDuplicate && (
+                                  <Badge className="text-[10px] bg-amber-600/20 text-amber-300 border border-amber-500/40">
+                                    Duplicate credit
+                                  </Badge>
+                                )}
                                 {course.tags.slice(0, 2).map((tag) => (
                                   <Badge key={`${course.sectionKey}-${tag}`} className="bg-red-600/20 text-red-400 border border-red-600/30 text-xs">
                                     {tag}
