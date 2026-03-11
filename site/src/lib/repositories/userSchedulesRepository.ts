@@ -56,7 +56,7 @@ function normalizeScheduleError(error: unknown): never {
 
 function errorCode(error: unknown): string | null {
   if (error && typeof error === "object") {
-    const code = (error as Record<string, unknown>).code;
+    const { code } = error as Record<string, unknown>;
     return typeof code === "string" ? code : null;
   }
   return null;
@@ -73,6 +73,41 @@ function mapScheduleRowWithDerivedTerm(row: any): ScheduleWithSelections {
     term_year: row?.term_year ?? derivedTermYear,
     selections_json: row?.selections_json ?? [],
   };
+}
+
+function extractSelectionsArray(raw: unknown): unknown[] {
+  if (Array.isArray(raw)) return raw;
+  if (raw && typeof raw === "object") {
+    const payload = raw as Record<string, unknown>;
+    if (Array.isArray(payload.selections)) {
+      return payload.selections as unknown[];
+    }
+  }
+  return [];
+}
+
+function isAutoSeededFirstScheduleRow(row: any): boolean {
+  const name = typeof row?.name === "string" ? row.name.trim().toLowerCase() : "";
+  if (name !== "first") return false;
+  return extractSelectionsArray(row?.selections_json).length === 0;
+}
+
+async function stripAutoSeededFirstSchedules(rows: any[] | null | undefined): Promise<any[]> {
+  const data = rows ?? [];
+  const toDelete = data
+    .filter(isAutoSeededFirstScheduleRow)
+    .map((row) => row.id)
+    .filter((id): id is string => typeof id === "string");
+
+  if (toDelete.length === 0) {
+    return data;
+  }
+
+  const supabase = getSupabaseClient();
+  await supabase.from("user_schedules").delete().in("id", toDelete);
+
+  const dropSet = new Set(toDelete);
+  return data.filter((row) => !dropSet.has(row.id));
 }
 
 async function supportsTermCodeColumns(): Promise<boolean> {
@@ -401,7 +436,8 @@ export async function listSchedulesForTerm(
     .order("updated_at", { ascending: false });
 
   if (error) normalizeScheduleError(error);
-  return (data ?? []).map(mapScheduleRowWithDerivedTerm);
+  const cleaned = await stripAutoSeededFirstSchedules(data ?? []);
+  return cleaned.map(mapScheduleRowWithDerivedTerm);
 }
 
 export async function loadScheduleById(scheduleId: string): Promise<ScheduleWithSelections | null> {
@@ -430,5 +466,6 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
     .order("updated_at", { ascending: true });
 
   if (error) normalizeScheduleError(error);
-  return (data ?? []).map(mapScheduleRowWithDerivedTerm);
+  const cleaned = await stripAutoSeededFirstSchedules(data ?? []);
+  return cleaned.map(mapScheduleRowWithDerivedTerm);
 }
