@@ -2,7 +2,7 @@ import { fetchProgramRequirements } from "@/lib/repositories/degreeRequirementsR
 import type { UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import {
   buildProgramTemplateKey,
-  fetchProgramRequirementTemplateByKey,
+  fetchProgramRequirementTemplatePayloadByKey,
 } from "@/lib/repositories/programRequirementTemplatesRepository";
 import type { RequirementNode, RequirementSection } from "@/lib/types/requirements";
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
@@ -522,8 +522,8 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
     });
 
     try {
-      const officialTemplate = await fetchProgramRequirementTemplateByKey(programTemplateKey);
-      const officialSections = coerceRequirementSectionBundles(officialTemplate);
+      const officialTemplate = await fetchProgramRequirementTemplatePayloadByKey(programTemplateKey);
+      const officialSections = coerceRequirementSectionBundles(officialTemplate?.sections ?? []);
       if (officialSections.length > 0) {
         bundles.push({
           programId: program.programId,
@@ -531,7 +531,7 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
           programCode: program.programCode,
           kind: resolveProgramKind(program),
           source: "official",
-          specializations: [],
+          specializations: officialTemplate?.specializations ?? [],
           sections: officialSections,
         });
         continue;

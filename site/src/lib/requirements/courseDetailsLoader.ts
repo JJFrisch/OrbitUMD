@@ -69,7 +69,7 @@ export async function lookupCourseDetails(courseCodes: string[]): Promise<Map<st
             code: course.id ?? code,
             title: course.title ?? `${code} - Unknown Course`,
             credits: course.credits ?? 0,
-            genEds: course.genEds ?? [],
+            genEds: course.genEdTags ?? [],
             description: course.description,
           });
         } else {

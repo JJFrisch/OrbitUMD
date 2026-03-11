@@ -15,6 +15,11 @@ export interface ProgramRequirementTemplateRow {
   updated_at: string;
 }
 
+export interface ProgramRequirementTemplatePayload {
+  sections: any[];
+  specializations: string[];
+}
+
 function normalizeText(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
@@ -38,6 +43,14 @@ export function buildProgramTemplateKey(program: ProgramTemplateProgramLike): st
 }
 
 export async function fetchProgramRequirementTemplateByKey(programKey: string): Promise<any[] | null> {
+  const payload = await fetchProgramRequirementTemplatePayloadByKey(programKey);
+  if (!payload) return null;
+  return payload.sections;
+}
+
+export async function fetchProgramRequirementTemplatePayloadByKey(
+  programKey: string,
+): Promise<ProgramRequirementTemplatePayload | null> {
   const supabase = getSupabaseClient();
   const { data, error } = await supabase
     .from("program_requirement_templates")
@@ -51,10 +64,40 @@ export async function fetchProgramRequirementTemplateByKey(programKey: string): 
   }
 
   if (!data) return null;
-  return Array.isArray(data.sections_json) ? (data.sections_json as any[]) : [];
+
+  // Backward compatible format:
+  // 1) array -> sections only
+  // 2) object { sections: [...], specializations: [...] }
+  if (Array.isArray(data.sections_json)) {
+    return {
+      sections: data.sections_json as any[],
+      specializations: [],
+    };
+  }
+
+  if (data.sections_json && typeof data.sections_json === "object") {
+    const json = data.sections_json as Record<string, unknown>;
+    const sections = Array.isArray(json.sections) ? (json.sections as any[]) : [];
+    const specializations = Array.isArray(json.specializations)
+      ? json.specializations.map((entry) => String(entry ?? "")).filter((entry) => entry.length > 0)
+      : [];
+    return { sections, specializations };
+  }
+
+  return { sections: [], specializations: [] };
 }
 
 export async function saveProgramRequirementTemplate(programKey: string, sections: any[]): Promise<void> {
+  await saveProgramRequirementTemplatePayload(programKey, {
+    sections,
+    specializations: [],
+  });
+}
+
+export async function saveProgramRequirementTemplatePayload(
+  programKey: string,
+  payload: ProgramRequirementTemplatePayload,
+): Promise<void> {
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -63,7 +106,10 @@ export async function saveProgramRequirementTemplate(programKey: string, section
     .upsert(
       {
         program_key: programKey,
-        sections_json: sections,
+        sections_json: {
+          sections: payload.sections,
+          specializations: payload.specializations,
+        },
         updated_by: userId,
         updated_at: new Date().toISOString(),
       },
