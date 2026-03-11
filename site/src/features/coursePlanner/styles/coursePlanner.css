@@ -493,6 +493,7 @@
 }
 
 .cp-calendar {
+  --cp-day-header-height: 29px;
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr);
   background: var(--cp-panel);
@@ -503,7 +504,7 @@
 
 .cp-timeline {
   border-right: 1px solid var(--cp-grid-line);
-  padding-top: 26px;
+  padding-top: var(--cp-day-header-height);
 }
 
 .cp-time-label {
@@ -528,9 +529,13 @@
   position: sticky;
   top: 0;
   z-index: 2;
+  height: var(--cp-day-header-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--cp-day-header-bg);
   border-bottom: 1px solid var(--cp-grid-line);
-  padding: 6px;
+  padding: 0 6px;
   text-align: center;
   font-size: 12px;
   font-weight: 600;

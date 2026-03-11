@@ -9,7 +9,6 @@ import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { plannerApi } from "@/lib/api/planner";
-import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { listUserRequirementSectionEdits, saveUserRequirementSectionEdit } from "@/lib/repositories/userRequirementSectionEditsRepository";
@@ -297,8 +296,6 @@ export default function DegreeAudit() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeProgramIndex, setActiveProgramIndex] = useState(0);
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
-  const [expandedStorageKey, setExpandedStorageKey] = useState("orbitumd:audit-expanded:anon");
-  const [expandedLoaded, setExpandedLoaded] = useState(false);
   const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(new Map());
   const [editingProgramIndex, setEditingProgramIndex] = useState<number | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
@@ -311,6 +308,7 @@ export default function DegreeAudit() {
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
   const [sectionEditSyncState, setSectionEditSyncState] = useState<SectionEditSyncState>("idle");
   const sliderRef = useRef<HTMLDivElement | null>(null);
+  const editorCardRef = useRef<HTMLDivElement | null>(null);
   const saveRequestIdRef = useRef(0);
 
   useEffect(() => {
@@ -466,15 +464,10 @@ export default function DegreeAudit() {
     let active = true;
     const run = async () => {
       try {
-        const supabase = getSupabaseClient();
-        const { data } = await supabase.auth.getUser();
-        if (!active) return;
-        setExpandedStorageKey(`orbitumd:audit-expanded:${data.user?.id ?? "anon"}`);
-
-        // Load saved CS specialization preference
+        // Load saved CS specialization preference.
         const savedSpecialization = await loadCsSpecializationPreference();
         if (active && savedSpecialization) {
-          // Set to first CS major program (index 0 for now; could be enhanced)
+          // Set to first CS major program (index 0 for now; could be enhanced).
           setSelectedSpecialization((prev) => {
             const next = new Map(prev);
             next.set(0, savedSpecialization);
@@ -482,7 +475,7 @@ export default function DegreeAudit() {
           });
         }
       } catch {
-        if (active) setExpandedStorageKey("orbitumd:audit-expanded:anon");
+        // noop
       }
     };
     void run();
@@ -492,21 +485,15 @@ export default function DegreeAudit() {
   }, []);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(expandedStorageKey);
-      const parsed = raw ? JSON.parse(raw) : [];
-      setExpandedSectionIds(new Set(Array.isArray(parsed) ? parsed.map(String) : []));
-    } catch {
-      setExpandedSectionIds(new Set());
-    } finally {
-      setExpandedLoaded(true);
-    }
-  }, [expandedStorageKey]);
+    if (bundles.length === 0) return;
+    const ids = bundles.flatMap((bundle) => bundle.sections.map((section) => String(section.id)));
+    setExpandedSectionIds(new Set(ids));
+  }, [bundles]);
 
   useEffect(() => {
-    if (!expandedLoaded) return;
-    localStorage.setItem(expandedStorageKey, JSON.stringify(Array.from(expandedSectionIds)));
-  }, [expandedLoaded, expandedSectionIds, expandedStorageKey]);
+    if (editingProgramIndex === null || !sectionDraft) return;
+    editorCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [editingProgramIndex, sectionDraft]);
 
   // Handle specialization selection changes
   useEffect(() => {
@@ -997,7 +984,7 @@ export default function DegreeAudit() {
                                 ))}
 
                                 {editingProgramIndex === index && sectionDraft && (
-                                  <Card className="bg-input-background border-border p-4">
+                                  <Card ref={editorCardRef} className="bg-input-background border-border p-4">
                                     <div className="flex items-center justify-between gap-2 mb-3">
                                       <h4 className="text-foreground">{editingSectionId ? "Edit Section" : "Add Section"}</h4>
                                       <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
