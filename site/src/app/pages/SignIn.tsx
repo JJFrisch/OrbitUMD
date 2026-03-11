@@ -7,6 +7,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../co
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { useTheme } from "../contexts/ThemeContext";
 
+const AUTH_FLOW_KEY = "orbitumd:auth:flow";
+
 function buildAppRedirectUrl(path: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -17,7 +19,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const supabase = getSupabaseClient();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const nextPath = searchParams.get("next") || "/dashboard";
   const isAuthCallback = ["code", "access_token", "refresh_token", "token_hash", "type", "error_description"]
     .some((key) => searchParams.has(key));
@@ -51,15 +53,17 @@ export default function SignIn() {
     };
 
     const run = async () => {
-      if (!isAuthCallback) {
+      const authFlowPending = sessionStorage.getItem(AUTH_FLOW_KEY) === "pending";
+
+      if (!isAuthCallback && !authFlowPending) {
         // Enforce explicit re-auth whenever the sign-in screen is opened directly.
         await supabase.auth.signOut({ scope: "local" });
-        return;
       }
 
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       if (data.session?.user) {
+        sessionStorage.removeItem(AUTH_FLOW_KEY);
         await ensureProfile();
         navigate(nextPath, { replace: true });
       }
@@ -70,6 +74,7 @@ export default function SignIn() {
     const { data: authSubscription } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!active) return;
       if (session?.user) {
+        sessionStorage.removeItem(AUTH_FLOW_KEY);
         void ensureProfile().finally(() => {
           if (active) {
             navigate(nextPath, { replace: true });
@@ -90,6 +95,7 @@ export default function SignIn() {
     setMessage(null);
 
     try {
+      sessionStorage.setItem(AUTH_FLOW_KEY, "pending");
       const { error: signInError } = await supabase.auth.signInWithOtp({
         email,
         options: {
@@ -105,6 +111,7 @@ export default function SignIn() {
 
       setMessage("Check your email for a sign-in link.");
     } catch (err) {
+      sessionStorage.removeItem(AUTH_FLOW_KEY);
       const msg = err instanceof Error ? err.message : "Unable to sign in with email.";
       setError(msg);
     } finally {
@@ -118,6 +125,7 @@ export default function SignIn() {
     setMessage(null);
 
     try {
+      sessionStorage.setItem(AUTH_FLOW_KEY, "pending");
       const { error: oauthError } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
@@ -129,6 +137,7 @@ export default function SignIn() {
         throw oauthError;
       }
     } catch (err) {
+      sessionStorage.removeItem(AUTH_FLOW_KEY);
       const msg = err instanceof Error ? err.message : `Unable to sign in with ${provider}.`;
       setError(msg);
       setLoading(false);
@@ -138,9 +147,14 @@ export default function SignIn() {
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6">
       <div className="fixed top-4 right-4">
-        <Button type="button" variant="outline" size="sm" onClick={toggleTheme}>
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        >
           {theme === "dark" ? <Sun className="w-4 h-4 mr-1" /> : <Moon className="w-4 h-4 mr-1" />}
-          {theme === "dark" ? "Light" : "Dark"}
+          Theme: {theme === "dark" ? "Dark" : "Light"}
         </Button>
       </div>
       <Card className="w-full max-w-md">

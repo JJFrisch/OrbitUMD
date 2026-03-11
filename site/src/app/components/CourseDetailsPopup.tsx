@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../components/ui/dialog";
 import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
 import type { AuditCourseStatus } from "@/lib/requirements/audit";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 
@@ -100,9 +102,39 @@ export function CourseDetailsPopup({
   const [activeCourseCode, setActiveCourseCode] = useState(courseCode);
   const [activeDetails, setActiveDetails] = useState<CourseDetails | null>(null);
   const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState<string[]>([courseCode]);
+  const [historyIndex, setHistoryIndex] = useState(0);
+
+  const selectCourse = (courseCodeToOpen: string) => {
+    const normalized = normalizeCourseCode(courseCodeToOpen);
+    setHistory((prev) => {
+      const base = prev.slice(0, historyIndex + 1);
+      if (base[base.length - 1] === normalized) return base;
+      const next = [...base, normalized];
+      setHistoryIndex(next.length - 1);
+      return next;
+    });
+    setActiveCourseCode(normalized);
+  };
+
+  const goBack = () => {
+    if (historyIndex <= 0) return;
+    const nextIndex = historyIndex - 1;
+    setHistoryIndex(nextIndex);
+    setActiveCourseCode(history[nextIndex]);
+  };
+
+  const goForward = () => {
+    if (historyIndex >= history.length - 1) return;
+    const nextIndex = historyIndex + 1;
+    setHistoryIndex(nextIndex);
+    setActiveCourseCode(history[nextIndex]);
+  };
 
   useEffect(() => {
     if (!isOpen) return;
+    setHistory([courseCode]);
+    setHistoryIndex(0);
     setActiveCourseCode(courseCode);
   }, [courseCode, isOpen]);
 
@@ -149,7 +181,17 @@ export function CourseDetailsPopup({
     >
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle className="text-2xl">{activeCourseCode} {shownTitle} ({shownCredits} Credits)</DialogTitle>
+          <div className="flex items-center justify-between gap-3">
+            <DialogTitle className="text-2xl">{activeCourseCode} {shownTitle} ({shownCredits} Credits)</DialogTitle>
+            <div className="flex items-center gap-1">
+              <Button type="button" size="icon" variant="outline" onClick={goBack} disabled={historyIndex <= 0}>
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              <Button type="button" size="icon" variant="outline" onClick={goForward} disabled={historyIndex >= history.length - 1}>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
           <DialogDescription className="text-sm text-muted-foreground mt-2">
             Click any course code in the description or prerequisites to open it here.
           </DialogDescription>
@@ -192,7 +234,7 @@ export function CourseDetailsPopup({
               <p className="text-sm text-muted-foreground">Loading course details...</p>
             ) : splitDetails.description ? (
               <p className="text-sm leading-6 text-foreground/90 whitespace-pre-wrap">
-                {renderLinkedText(splitDetails.description, setActiveCourseCode)}
+                {renderLinkedText(splitDetails.description, selectCourse)}
               </p>
             ) : (
               <p className="text-sm text-muted-foreground">No description available.</p>
@@ -205,7 +247,7 @@ export function CourseDetailsPopup({
               <p className="text-sm text-muted-foreground">Loading prerequisites...</p>
             ) : splitDetails.prerequisites ? (
               <p className="text-sm leading-6 text-foreground/90 whitespace-pre-wrap">
-                {renderLinkedText(splitDetails.prerequisites, setActiveCourseCode)}
+                {renderLinkedText(splitDetails.prerequisites, selectCourse)}
               </p>
             ) : (
               <p className="text-sm text-muted-foreground">No prerequisite information available.</p>

@@ -28,6 +28,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     } else {
       root.classList.remove('dark');
     }
+
+    // Keep browser-native controls (inputs, scrollbars) in sync with theme.
+    root.style.colorScheme = theme;
   }, [theme]);
 
   const toggleTheme = () => {

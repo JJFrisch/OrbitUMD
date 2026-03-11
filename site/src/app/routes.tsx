@@ -43,8 +43,16 @@ function RequireAuth({ children }: { children: ReactNode }) {
     };
 
     void run();
+
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      setIsAuthed(Boolean(session?.user));
+      setChecking(false);
+    });
+
     return () => {
       active = false;
+      subscription.subscription.unsubscribe();
     };
   }, []);
 
