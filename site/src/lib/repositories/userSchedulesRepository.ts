@@ -51,6 +51,10 @@ function normalizeScheduleError(error: unknown): never {
     throw new Error("A schedule with this name already exists for this term. Please rename it or open the existing one.");
   }
 
+  if (message.toLowerCase().includes("duplicate key value") && message.includes("idx_user_schedules_primary_term")) {
+    throw new Error("A MAIN schedule already exists for this term. Open that term in Schedule Library and switch MAIN there.");
+  }
+
   throw new Error(message);
 }
 
@@ -159,18 +163,6 @@ async function resolveTermIdWithFallback(input: SaveScheduleInput): Promise<stri
 
   if (yearSeasonErr) normalizeScheduleError(yearSeasonErr);
   if (yearSeasonTerm?.id) return yearSeasonTerm.id;
-
-  const { data: fallbackTerm, error: fallbackErr } = await supabase
-    .from("terms")
-    .select("id")
-    .eq("season", season)
-    .order("year", { ascending: false })
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (fallbackErr) normalizeScheduleError(fallbackErr);
-  if (fallbackTerm?.id) return fallbackTerm.id;
 
   // Last resort: ask the DB to create the requested term row via SECURITY DEFINER RPC.
   // This keeps client RLS intact while eliminating save failures on new environments.

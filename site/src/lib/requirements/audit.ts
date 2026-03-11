@@ -1,5 +1,9 @@
 import { fetchProgramRequirements } from "@/lib/repositories/degreeRequirementsRepository";
 import type { UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
+import {
+  buildProgramTemplateKey,
+  fetchProgramRequirementTemplateByKey,
+} from "@/lib/repositories/programRequirementTemplatesRepository";
 import type { RequirementNode, RequirementSection } from "@/lib/types/requirements";
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import csRequirements from "@/lib/data/cs_major_requirements.json";
@@ -25,10 +29,65 @@ export interface ProgramRequirementBundle {
   programName: string;
   programCode: string;
   kind: "major" | "minor" | "program";
-  source: "db" | "scraped" | "cs-specialized";
+  source: "db" | "scraped" | "cs-specialized" | "official";
   specializations: string[];
   sections: RequirementSectionBundle[];
   specializationOptions?: Array<{ id: string; name: string }>; // For CS major
+}
+
+function coerceRequirementSectionBundles(raw: unknown): RequirementSectionBundle[] {
+  if (!Array.isArray(raw)) return [];
+  const out: RequirementSectionBundle[] = [];
+
+  for (const entry of raw) {
+    if (!entry || typeof entry !== "object") continue;
+    const section = entry as Record<string, unknown>;
+    const title = typeof section.title === "string" ? section.title : "";
+    if (!title) continue;
+
+    const requirementType = section.requirementType === "choose" ? "choose" : "all";
+    const optionGroups = Array.isArray(section.optionGroups)
+      ? section.optionGroups.map((group) =>
+          Array.isArray(group)
+            ? group.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
+            : [],
+        )
+      : [];
+    const standaloneCodes = Array.isArray(section.standaloneCodes)
+      ? section.standaloneCodes.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
+      : [];
+    const courseCodesRaw = Array.isArray(section.courseCodes)
+      ? section.courseCodes.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
+      : [];
+    const courseCodes = dedupeCodes([...courseCodesRaw, ...optionGroups.flat(), ...standaloneCodes]);
+
+    out.push({
+      id: typeof section.id === "string" && section.id ? section.id : createId(),
+      title,
+      requirementType,
+      chooseCount: typeof section.chooseCount === "number" ? section.chooseCount : undefined,
+      notes: Array.isArray(section.notes) ? section.notes.map((note) => String(note ?? "")) : [],
+      special: Boolean(section.special),
+      courseCodes,
+      optionGroups,
+      standaloneCodes,
+      logicBlocks: Array.isArray(section.logicBlocks)
+        ? section.logicBlocks
+            .map((block) => {
+              if (!block || typeof block !== "object") return null;
+              const typed = block as Record<string, unknown>;
+              const codes = Array.isArray(typed.codes)
+                ? typed.codes.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
+                : [];
+              const type = typed.type === "OR" ? "OR" : "AND";
+              return { type, codes };
+            })
+            .filter((block): block is { type: "AND" | "OR"; codes: string[] } => Boolean(block))
+        : [],
+    });
+  }
+
+  return out;
 }
 
 interface ScrapedProgram {
@@ -455,6 +514,32 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
   const bundles: ProgramRequirementBundle[] = [];
 
   for (const program of programs) {
+    const programTemplateKey = buildProgramTemplateKey({
+      programId: program.programId,
+      programCode: program.programCode,
+      programName: program.programName,
+      degreeType: program.degreeType,
+    });
+
+    try {
+      const officialTemplate = await fetchProgramRequirementTemplateByKey(programTemplateKey);
+      const officialSections = coerceRequirementSectionBundles(officialTemplate);
+      if (officialSections.length > 0) {
+        bundles.push({
+          programId: program.programId,
+          programName: program.programName,
+          programCode: program.programCode,
+          kind: resolveProgramKind(program),
+          source: "official",
+          specializations: [],
+          sections: officialSections,
+        });
+        continue;
+      }
+    } catch {
+      // Table may be unavailable or unreachable; continue through normal fallbacks.
+    }
+
     // Check if this is Computer Science Major - use specialized structure
     if (program.programName.toLowerCase().includes("computer science")) {
       const specializationOptions = csRequirements.specializations.map((s) => ({

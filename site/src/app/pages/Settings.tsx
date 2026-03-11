@@ -3,6 +3,7 @@ import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import { Textarea } from "../components/ui/textarea";
 import { Badge } from "../components/ui/badge";
 import { Switch } from "../components/ui/switch";
 import { User, Mail, GraduationCap, Settings2, Moon, Sun, Edit, Plus, Trash2, Star } from "lucide-react";
@@ -30,11 +31,18 @@ import {
 } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { loadProgramRequirementBundles } from "@/lib/requirements/audit";
+import {
+  buildProgramTemplateKey,
+  saveProgramRequirementTemplate,
+} from "@/lib/repositories/programRequirementTemplatesRepository";
 
 interface TermOption {
   id: string;
   label: string;
 }
+
+const ADMIN_UNLOCK_PASSWORD = "qim*fu2";
 
 export default function Settings() {
   const { theme, toggleTheme, setTheme } = useTheme();
@@ -60,6 +68,12 @@ export default function Settings() {
   const [defaultTerm, setDefaultTerm] = useState(() => localStorage.getItem("orbitumd-default-term") ?? "none");
   const [scheduleView, setScheduleView] = useState(() => localStorage.getItem("orbitumd-schedule-view") ?? "weekly");
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminProgramId, setAdminProgramId] = useState("");
+  const [adminTemplateJson, setAdminTemplateJson] = useState("[]");
+  const [adminTemplateMessage, setAdminTemplateMessage] = useState<string | null>(null);
+
   const refreshAcademicData = async () => {
     const [declared, available] = await Promise.all([listUserDegreePrograms(), listProgramCatalogOptions()]);
     setUserPrograms(declared);
@@ -84,7 +98,7 @@ export default function Settings() {
         const [{ data: profileRow, error: profileError }, { data: terms, error: termError }, priorCredits] = await Promise.all([
           supabase
             .from("user_profiles")
-            .select("display_name, email, university_uid, preferred_theme, default_term_id, schedule_view")
+            .select("display_name, email, university_uid, preferred_theme, default_term_id, schedule_view, role")
             .eq("id", authUser.id)
             .maybeSingle(),
           supabase
@@ -118,6 +132,7 @@ export default function Settings() {
         }
         setDefaultTerm(String(profileRow?.default_term_id ?? localStorage.getItem("orbitumd-default-term") ?? "none"));
         setScheduleView(String(profileRow?.schedule_view ?? localStorage.getItem("orbitumd-schedule-view") ?? "weekly"));
+        setIsAdmin(profileRow?.role === "ADMIN");
         setTermOptions((terms ?? []).map((row: any) => ({
           id: row.id,
           label: `${seasonLabel[row.season] ?? row.season} ${row.year}`,
@@ -142,6 +157,14 @@ export default function Settings() {
       active = false;
     };
   }, [setTheme]);
+
+  useEffect(() => {
+    if (adminProgramId) {
+      const stillExists = userPrograms.some((program) => program.id === adminProgramId);
+      if (stillExists) return;
+    }
+    setAdminProgramId(userPrograms[0]?.id ?? "");
+  }, [adminProgramId, userPrograms]);
 
   const addablePrograms = useMemo(() => {
     const existingNames = new Set(userPrograms.map((program) => program.programName.toLowerCase()));
@@ -340,6 +363,68 @@ export default function Settings() {
     void run().catch((error) => {
       setSaveMessage(error instanceof Error ? error.message : "Unable to save appearance preference.");
     });
+  };
+
+  const handleUnlockAdmin = async () => {
+    if (adminPassword !== ADMIN_UNLOCK_PASSWORD) {
+      setAdminTemplateMessage("Admin password is incorrect.");
+      return;
+    }
+
+    try {
+      if (!userId) throw new Error("Please sign in to enable admin mode.");
+
+      const supabase = getSupabaseClient();
+      const { error } = await supabase
+        .from("user_profiles")
+        .upsert({ id: userId, role: "ADMIN" }, { onConflict: "id" });
+
+      if (error) throw error;
+
+      setIsAdmin(true);
+      setAdminPassword("");
+      setAdminTemplateMessage("Admin mode enabled.");
+    } catch (error) {
+      setAdminTemplateMessage(error instanceof Error ? error.message : "Unable to enable admin mode.");
+    }
+  };
+
+  const handleLoadTemplateDraft = async () => {
+    try {
+      const selectedProgram = userPrograms.find((program) => program.id === adminProgramId);
+      if (!selectedProgram) throw new Error("Select one of your declared programs first.");
+
+      const bundles = await loadProgramRequirementBundles([selectedProgram]);
+      const sections = bundles[0]?.sections ?? [];
+      setAdminTemplateJson(JSON.stringify(sections, null, 2));
+      setAdminTemplateMessage(`Loaded ${sections.length} sections for ${selectedProgram.programName}.`);
+    } catch (error) {
+      setAdminTemplateMessage(error instanceof Error ? error.message : "Unable to load template draft.");
+    }
+  };
+
+  const handleSaveOfficialTemplate = async () => {
+    try {
+      const selectedProgram = userPrograms.find((program) => program.id === adminProgramId);
+      if (!selectedProgram) throw new Error("Select one of your declared programs first.");
+
+      const parsed = JSON.parse(adminTemplateJson);
+      if (!Array.isArray(parsed)) {
+        throw new Error("Template JSON must be an array of requirement sections.");
+      }
+
+      const programKey = buildProgramTemplateKey({
+        programId: selectedProgram.programId,
+        programCode: selectedProgram.programCode,
+        programName: selectedProgram.programName,
+        degreeType: selectedProgram.degreeType,
+      });
+
+      await saveProgramRequirementTemplate(programKey, parsed);
+      setAdminTemplateMessage(`Official template saved for ${selectedProgram.programName}.`);
+    } catch (error) {
+      setAdminTemplateMessage(error instanceof Error ? error.message : "Unable to save official template.");
+    }
   };
 
   return (
@@ -563,6 +648,87 @@ export default function Settings() {
                   Save Preferences
                 </Button>
               </div>
+            </Card>
+
+            <Card className="p-6 bg-card border-border">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <div>
+                  <h2 className="text-2xl">Admin</h2>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Admins can save official requirement template JSON for majors/minors.
+                  </p>
+                </div>
+                {isAdmin ? (
+                  <Badge className="bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-600/20 dark:text-emerald-300 dark:border-emerald-600/30">
+                    ADMIN
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="border-border text-foreground/70">USER</Badge>
+                )}
+              </div>
+
+              {!isAdmin && (
+                <div className="space-y-3">
+                  <Label htmlFor="admin-password">Admin Password</Label>
+                  <div className="flex gap-2">
+                    <Input
+                      id="admin-password"
+                      type="password"
+                      value={adminPassword}
+                      onChange={(event) => setAdminPassword(event.target.value)}
+                      className="bg-input-background border-border"
+                      placeholder="Enter admin password"
+                    />
+                    <Button variant="outline" className="border-border" onClick={() => void handleUnlockAdmin()}>
+                      Become Admin
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {isAdmin && (
+                <div className="space-y-4">
+                  <div>
+                    <Label>Program Template Target</Label>
+                    <Select value={adminProgramId} onValueChange={setAdminProgramId}>
+                      <SelectTrigger className="bg-input-background border-border mt-2">
+                        <SelectValue placeholder="Select one of your declared programs" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {userPrograms.map((program) => (
+                          <SelectItem key={program.id} value={program.id}>
+                            {program.programName} ({program.degreeType ?? "program"})
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      The selected program's key determines which default template future users will receive.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    <Button variant="outline" className="border-border" onClick={() => void handleLoadTemplateDraft()} disabled={!adminProgramId}>
+                      Load Current Template Draft
+                    </Button>
+                    <Button className="bg-primary hover:bg-primary/90" onClick={() => void handleSaveOfficialTemplate()} disabled={!adminProgramId}>
+                      Save Official Template JSON
+                    </Button>
+                  </div>
+
+                  <div>
+                    <Label htmlFor="admin-template-json">Official Requirement Template JSON</Label>
+                    <Textarea
+                      id="admin-template-json"
+                      value={adminTemplateJson}
+                      onChange={(event) => setAdminTemplateJson(event.target.value)}
+                      className="mt-2 min-h-[280px] font-mono text-xs"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {adminTemplateMessage && <p className="text-sm text-foreground/80 mt-4">{adminTemplateMessage}</p>}
             </Card>
 
             <Card className="p-6 bg-card border-border">

@@ -185,7 +185,11 @@ export default function DegreeRequirementsPage() {
                     <div>
                       <h2 className="text-2xl text-foreground">{activeBundle.programName}</h2>
                       <p className="text-sm text-muted-foreground mt-1">
-                        Source: {activeBundle.source === "db" ? "Saved Custom Requirements" : "Scraped Catalog Requirements"}
+                        Source: {activeBundle.source === "official"
+                          ? "Official Admin Template"
+                          : activeBundle.source === "db"
+                            ? "Saved Custom Requirements"
+                            : "Scraped Catalog Requirements"}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
