@@ -1,17 +1,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, FileText, Info } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, FileText, Info, Pencil, Plus, Save, X } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
 import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { plannerApi } from "@/lib/api/planner";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
-import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
+import { getCurrentTermCode, lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import {
   buildCourseContributionMap,
   evaluateRequirementSection,
@@ -27,6 +29,81 @@ interface AuditCourse {
   credits: number;
   genEds: string[];
   status: AuditCourseStatus;
+}
+
+interface EditableLogicBlock {
+  id: string;
+  type: "AND" | "OR";
+  codes: string[];
+}
+
+interface SectionDraft {
+  id?: string;
+  title: string;
+  requirementType: "all" | "choose";
+  chooseCount?: number;
+  notesText: string;
+  blocks: EditableLogicBlock[];
+}
+
+interface CourseSearchResult {
+  id?: string;
+  code: string;
+  title: string;
+}
+
+const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
+
+function createLocalId(prefix: string): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return `${prefix}-${crypto.randomUUID()}`;
+  }
+  return `${prefix}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+function draftFromSection(section: any): SectionDraft {
+  const blocks = (section.logicBlocks?.length ? section.logicBlocks : section.optionGroups?.map((codes: string[]) => ({ type: "OR", codes })) ?? [])
+    .map((block: { type: "AND" | "OR"; codes: string[] }, idx: number) => ({
+      id: createLocalId(`blk-${idx}`),
+      type: block.type,
+      codes: [...new Set((block.codes ?? []).map((code) => String(code).toUpperCase().trim()).filter(Boolean))],
+    }));
+
+  return {
+    id: section.id,
+    title: section.title ?? "",
+    requirementType: section.requirementType ?? "all",
+    chooseCount: section.chooseCount,
+    notesText: (section.notes ?? []).join("\n"),
+    blocks,
+  };
+}
+
+function sectionFromDraft(draft: SectionDraft, existingSectionId?: string) {
+  const normalizedBlocks = draft.blocks
+    .map((block) => ({
+      type: block.type,
+      codes: [...new Set(block.codes.map((code) => code.toUpperCase().trim()).filter(Boolean))],
+    }))
+    .filter((block) => block.codes.length > 0);
+
+  const optionGroups = normalizedBlocks.filter((b) => b.type === "OR").map((b) => b.codes);
+  const standaloneCodes = normalizedBlocks.filter((b) => b.type === "AND").flatMap((b) => b.codes);
+  const courseCodes = [...new Set([...optionGroups.flat(), ...standaloneCodes])];
+  const notes = draft.notesText.split("\n").map((line) => line.trim()).filter(Boolean);
+
+  return {
+    id: existingSectionId ?? draft.id ?? createLocalId("section"),
+    title: draft.title.trim() || "Untitled Section",
+    requirementType: draft.requirementType,
+    chooseCount: draft.requirementType === "choose" ? Math.max(1, Number(draft.chooseCount ?? 1)) : undefined,
+    notes,
+    special: normalizedBlocks.some((b) => b.type === "OR") || draft.requirementType === "choose",
+    courseCodes,
+    optionGroups,
+    standaloneCodes,
+    logicBlocks: normalizedBlocks,
+  };
 }
 
 function parseSelections(stored: unknown): Array<any> {
@@ -64,6 +141,7 @@ interface RequirementSectionCardProps {
   byCourseCode: Map<string, AuditCourseStatus>; // Course code -> status map
   expandedSectionIds: Set<string>;
   setExpandedSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
+  onEdit?: (section: any) => void;
 }
 
 function RequirementSectionCard({
@@ -74,6 +152,7 @@ function RequirementSectionCard({
   byCourseCode,
   expandedSectionIds,
   setExpandedSectionIds,
+  onEdit,
 }: RequirementSectionCardProps) {
   // Get courses for this section, enriched with database details
   const sectionCourses = useMemo(() => {
@@ -136,6 +215,18 @@ function RequirementSectionCard({
           )}
         </div>
         <div className="flex items-center gap-2">
+          {onEdit && (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              className="border-border text-foreground/80"
+              onClick={() => onEdit(section)}
+            >
+              <Pencil className="h-3.5 w-3.5 mr-1" />
+              Edit
+            </Button>
+          )}
           {statusBadge(sectionEval.status)}
           <Button
             type="button"
@@ -206,13 +297,122 @@ export default function DegreeAudit() {
   const [expandedStorageKey, setExpandedStorageKey] = useState("orbitumd:audit-expanded:anon");
   const [expandedLoaded, setExpandedLoaded] = useState(false);
   const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(new Map());
+  const [editingProgramIndex, setEditingProgramIndex] = useState<number | null>(null);
+  const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
+  const [sectionDraft, setSectionDraft] = useState<SectionDraft | null>(null);
+  const [activeDraftBlockId, setActiveDraftBlockId] = useState<string | null>(null);
+  const [courseSearchQuery, setCourseSearchQuery] = useState("");
+  const [courseSearchPending, setCourseSearchPending] = useState(false);
+  const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
+  const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
+  const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
   const sliderRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(CUSTOM_AUDIT_SECTIONS_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw) as Record<string, any[]>;
+      if (parsed && typeof parsed === "object") {
+        setCustomSectionsByProgram(parsed);
+      }
+    } catch {
+      // noop
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(CUSTOM_AUDIT_SECTIONS_KEY, JSON.stringify(customSectionsByProgram));
+    } catch {
+      // noop
+    }
+  }, [customSectionsByProgram]);
 
   const scrollToProgram = (index: number) => {
     const slider = sliderRef.current;
     const child = slider?.children[index] as HTMLElement | undefined;
     if (!slider || !child) return;
     slider.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
+  };
+
+  const resetDraftEditor = () => {
+    setEditingSectionId(null);
+    setSectionDraft(null);
+    setActiveDraftBlockId(null);
+    setCourseSearchQuery("");
+    setCourseSearchResults([]);
+    setCourseSearchMessage(null);
+  };
+
+  const startEditingSection = (programIndex: number, section: any) => {
+    const draft = draftFromSection(section);
+    setEditingProgramIndex(programIndex);
+    setEditingSectionId(section.id);
+    setSectionDraft(draft);
+    setActiveDraftBlockId(draft.blocks[0]?.id ?? null);
+    setCourseSearchQuery("");
+    setCourseSearchResults([]);
+    setCourseSearchMessage(null);
+  };
+
+  const startAddingSection = (programIndex: number) => {
+    const blockId = createLocalId("block");
+    setEditingProgramIndex(programIndex);
+    setEditingSectionId(null);
+    setSectionDraft({
+      title: "",
+      requirementType: "all",
+      chooseCount: 1,
+      notesText: "",
+      blocks: [{ id: blockId, type: "AND", codes: [] }],
+    });
+    setActiveDraftBlockId(blockId);
+    setCourseSearchQuery("");
+    setCourseSearchResults([]);
+    setCourseSearchMessage(null);
+  };
+
+  const persistProgramSections = (programId: string, sections: any[]) => {
+    setCustomSectionsByProgram((prev) => ({
+      ...prev,
+      [programId]: sections,
+    }));
+    setBundles((prev) => prev.map((bundle) => (
+      bundle.programId === programId
+        ? { ...bundle, sections }
+        : bundle
+    )));
+  };
+
+  const runCourseSearch = async () => {
+    if (!courseSearchQuery.trim()) {
+      setCourseSearchResults([]);
+      setCourseSearchMessage("Enter a course code or title to search.");
+      return;
+    }
+
+    setCourseSearchPending(true);
+    setCourseSearchMessage(null);
+    try {
+      const termCode = await getCurrentTermCode();
+      const results = await plannerApi.searchCourses(courseSearchQuery.trim(), termCode);
+      const mapped = (results ?? []).map((course) => ({
+        id: course.id,
+        code: String(course.id ?? "").toUpperCase(),
+        title: String(course.title ?? "Untitled"),
+      })).filter((course) => course.code);
+
+      setCourseSearchResults(mapped.slice(0, 20));
+      if (mapped.length === 0) {
+        setCourseSearchMessage("No courses found.");
+      }
+    } catch {
+      setCourseSearchMessage("Course search failed. Try again.");
+      setCourseSearchResults([]);
+    } finally {
+      setCourseSearchPending(false);
+    }
   };
 
   useEffect(() => {
@@ -369,8 +569,16 @@ export default function DegreeAudit() {
         const loadedBundles = await loadProgramRequirementBundles(selectedPrograms);
         if (!active) return;
 
+        const withCustomSections = loadedBundles.map((bundle) => {
+          const customSections = customSectionsByProgram[bundle.programId];
+          if (!customSections || customSections.length === 0) {
+            return bundle;
+          }
+          return { ...bundle, sections: customSections };
+        });
+
         setPrograms(selectedPrograms);
-        setBundles(loadedBundles);
+        setBundles(withCustomSections);
         setCourses(auditCourses);
         setErrorMessage(null);
       } catch (error) {
@@ -385,7 +593,17 @@ export default function DegreeAudit() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [customSectionsByProgram]);
+
+  useEffect(() => {
+    if (bundles.length === 0) return;
+    setBundles((prev) => prev.map((bundle) => {
+      const customSections = customSectionsByProgram[bundle.programId];
+      if (!customSections || customSections.length === 0) return bundle;
+      if (bundle.sections === customSections) return bundle;
+      return { ...bundle, sections: customSections };
+    }));
+  }, [customSectionsByProgram]);
 
   // Load course details from database
   useEffect(() => {
@@ -676,6 +894,19 @@ export default function DegreeAudit() {
                           </div>
                         )}
 
+                        <div className="mb-4 flex justify-end">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="border-border text-foreground/80"
+                            onClick={() => startAddingSection(index)}
+                          >
+                            <Plus className="h-3.5 w-3.5 mr-1" />
+                            Add Section
+                          </Button>
+                        </div>
+
                         <div className="space-y-3">
                           {(() => {
                             // Get selected specialization for this program
@@ -705,8 +936,222 @@ export default function DegreeAudit() {
                                     byCourseCode={byCourseCode}
                                     expandedSectionIds={expandedSectionIds}
                                     setExpandedSectionIds={setExpandedSectionIds}
+                                    onEdit={() => startEditingSection(index, section)}
                                   />
                                 ))}
+
+                                {editingProgramIndex === index && sectionDraft && (
+                                  <Card className="bg-input-background border-border p-4">
+                                    <div className="flex items-center justify-between gap-2 mb-3">
+                                      <h4 className="text-foreground">{editingSectionId ? "Edit Section" : "Add Section"}</h4>
+                                      <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
+                                        <X className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                      <Input
+                                        value={sectionDraft.title}
+                                        onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
+                                        placeholder="Section title"
+                                      />
+                                      <select
+                                        className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
+                                        value={sectionDraft.requirementType}
+                                        onChange={(event) => setSectionDraft((prev) => prev ? {
+                                          ...prev,
+                                          requirementType: event.target.value === "choose" ? "choose" : "all",
+                                        } : prev)}
+                                      >
+                                        <option value="all">All Required</option>
+                                        <option value="choose">Choose N</option>
+                                      </select>
+                                      <Input
+                                        type="number"
+                                        min={1}
+                                        value={sectionDraft.chooseCount ?? 1}
+                                        onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
+                                        placeholder="Choose count"
+                                        disabled={sectionDraft.requirementType !== "choose"}
+                                      />
+                                    </div>
+
+                                    <Textarea
+                                      value={sectionDraft.notesText}
+                                      onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
+                                      placeholder="Notes (one per line)"
+                                      className="mb-3"
+                                    />
+
+                                    <div className="space-y-2 mb-3">
+                                      {sectionDraft.blocks.map((block) => (
+                                        <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
+                                          <div className="flex items-center gap-2 mb-2">
+                                            <select
+                                              className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
+                                              value={block.type}
+                                              onChange={(event) => setSectionDraft((prev) => prev ? {
+                                                ...prev,
+                                                blocks: prev.blocks.map((item) => item.id === block.id ? {
+                                                  ...item,
+                                                  type: event.target.value === "OR" ? "OR" : "AND",
+                                                } : item),
+                                              } : prev)}
+                                            >
+                                              <option value="AND">AND</option>
+                                              <option value="OR">OR</option>
+                                            </select>
+                                            <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Select Block</Button>
+                                            <Button
+                                              type="button"
+                                              size="sm"
+                                              variant="ghost"
+                                              onClick={() => setSectionDraft((prev) => prev ? {
+                                                ...prev,
+                                                blocks: prev.blocks.filter((item) => item.id !== block.id),
+                                              } : prev)}
+                                            >
+                                              Remove
+                                            </Button>
+                                          </div>
+                                          <div className="flex flex-wrap gap-2">
+                                            {block.codes.map((code) => (
+                                              <Badge key={`${block.id}-${code}`} variant="outline" className="border-border text-foreground/80">
+                                                {code}
+                                                <button
+                                                  type="button"
+                                                  className="ml-2"
+                                                  onClick={() => setSectionDraft((prev) => prev ? {
+                                                    ...prev,
+                                                    blocks: prev.blocks.map((item) => item.id === block.id
+                                                      ? { ...item, codes: item.codes.filter((value) => value !== code) }
+                                                      : item),
+                                                  } : prev)}
+                                                >
+                                                  x
+                                                </button>
+                                              </Badge>
+                                            ))}
+                                            {block.codes.length === 0 && <span className="text-xs text-muted-foreground">No courses in this block yet.</span>}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                      <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => {
+                                          const blockId = createLocalId("block");
+                                          setSectionDraft((prev) => prev ? {
+                                            ...prev,
+                                            blocks: [...prev.blocks, { id: blockId, type: "AND", codes: [] }],
+                                          } : prev);
+                                          setActiveDraftBlockId(blockId);
+                                        }}
+                                      >
+                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add AND Block
+                                      </Button>
+                                      <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="outline"
+                                        onClick={() => {
+                                          const blockId = createLocalId("block");
+                                          setSectionDraft((prev) => prev ? {
+                                            ...prev,
+                                            blocks: [...prev.blocks, { id: blockId, type: "OR", codes: [] }],
+                                          } : prev);
+                                          setActiveDraftBlockId(blockId);
+                                        }}
+                                      >
+                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add OR Block
+                                      </Button>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                      <Input
+                                        value={courseSearchQuery}
+                                        onChange={(event) => setCourseSearchQuery(event.target.value)}
+                                        placeholder="Search courses (e.g. BSCI330 or genetics)"
+                                      />
+                                      <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending}>
+                                        {courseSearchPending ? "Searching..." : "Search"}
+                                      </Button>
+                                    </div>
+
+                                    {courseSearchMessage && <p className="text-xs text-muted-foreground mb-2">{courseSearchMessage}</p>}
+                                    {courseSearchResults.length > 0 && (
+                                      <div className="max-h-40 overflow-y-auto border border-border rounded-md p-2 space-y-1 mb-3">
+                                        {courseSearchResults.map((course) => (
+                                          <div key={`${course.code}-${course.title}`} className="flex items-center justify-between gap-2 p-1">
+                                            <div>
+                                              <p className="text-sm text-foreground">{course.code}</p>
+                                              <p className="text-xs text-muted-foreground">{course.title}</p>
+                                            </div>
+                                            <Button
+                                              type="button"
+                                              size="sm"
+                                              variant="outline"
+                                              onClick={() => {
+                                                if (!activeDraftBlockId) return;
+                                                setSectionDraft((prev) => prev ? {
+                                                  ...prev,
+                                                  blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
+                                                    ? { ...block, codes: Array.from(new Set([...block.codes, course.code])) }
+                                                    : block),
+                                                } : prev);
+                                              }}
+                                            >
+                                              Add to Block
+                                            </Button>
+                                          </div>
+                                        ))}
+                                      </div>
+                                    )}
+
+                                    <div className="flex gap-2 justify-end">
+                                      <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
+                                      {editingSectionId && (
+                                        <Button
+                                          type="button"
+                                          variant="outline"
+                                          className="border-red-600/40 text-red-400"
+                                          onClick={() => {
+                                            const nextSections = programAudit.bundle.sections.filter((section) => section.id !== editingSectionId);
+                                            persistProgramSections(programAudit.bundle.programId, nextSections);
+                                            resetDraftEditor();
+                                          }}
+                                        >
+                                          Delete Section
+                                        </Button>
+                                      )}
+                                      <Button
+                                        type="button"
+                                        className="bg-red-600 hover:bg-red-700"
+                                        onClick={() => {
+                                          if (!sectionDraft) return;
+                                          const updatedSection = sectionFromDraft(sectionDraft, editingSectionId ?? undefined);
+                                          let nextSections = programAudit.bundle.sections;
+                                          if (editingSectionId) {
+                                            nextSections = nextSections.map((section) => section.id === editingSectionId ? {
+                                              ...updatedSection,
+                                              specializationId: section.specializationId,
+                                            } : section);
+                                          } else {
+                                            nextSections = [...nextSections, updatedSection];
+                                          }
+                                          persistProgramSections(programAudit.bundle.programId, nextSections);
+                                          resetDraftEditor();
+                                        }}
+                                      >
+                                        <Save className="h-3.5 w-3.5 mr-1" /> Save Section
+                                      </Button>
+                                    </div>
+                                  </Card>
+                                )}
 
                                 {programAudit.bundle.specializationOptions && programAudit.bundle.specializationOptions.length > 0 && !selectedSpecId && (
                                   <Card className="bg-input-background border-border p-3">
@@ -733,6 +1178,7 @@ export default function DegreeAudit() {
                                           byCourseCode={byCourseCode}
                                           expandedSectionIds={expandedSectionIds}
                                           setExpandedSectionIds={setExpandedSectionIds}
+                                          onEdit={() => startEditingSection(index, section)}
                                         />
                                       ))}
                                     </div>

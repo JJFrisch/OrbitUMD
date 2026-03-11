@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 import type { CalendarMeeting, Weekday } from "../../types/coursePlanner";
-import { buildSectionColorMap } from "../../utils/colorPalette";
+import { COURSE_PALETTE, getCourseColor } from "../../utils/colorPalette";
 import { DayColumn } from "./DayColumn";
 
 const DAYS: Array<{ key: Weekday; label: string }> = [
@@ -22,7 +22,51 @@ interface ScheduleGridProps {
 }
 
 export function ScheduleGrid({ meetings, bounds, readOnly, showDetails, onOpenInfo, onRemove }: ScheduleGridProps) {
-  const colorBySection = useMemo(() => buildSectionColorMap(meetings), [meetings]);
+  const colorMapRef = useRef<Record<string, string>>({});
+
+  const colorBySection = useMemo(() => {
+    const next = { ...colorMapRef.current };
+    const persistentSectionKeys = Array.from(new Set(
+      meetings
+        .filter((meeting) => !meeting.isHoverPreview)
+        .map((meeting) => meeting.sectionKey)
+    ));
+
+    const used = new Set(Object.values(next));
+    let paletteCursor = 0;
+
+    for (const sectionKey of persistentSectionKeys) {
+      if (next[sectionKey]) continue;
+
+      let assigned: string | undefined;
+      for (let i = 0; i < COURSE_PALETTE.length; i += 1) {
+        const candidate = COURSE_PALETTE[(paletteCursor + i) % COURSE_PALETTE.length];
+        if (!used.has(candidate)) {
+          assigned = candidate;
+          paletteCursor = (paletteCursor + i + 1) % COURSE_PALETTE.length;
+          break;
+        }
+      }
+
+      if (!assigned) {
+        assigned = getCourseColor(sectionKey);
+      }
+
+      next[sectionKey] = assigned;
+      used.add(assigned);
+    }
+
+    colorMapRef.current = next;
+
+    const withPreview = { ...next };
+    for (const meeting of meetings) {
+      if (!withPreview[meeting.sectionKey]) {
+        withPreview[meeting.sectionKey] = getCourseColor(meeting.courseCode);
+      }
+    }
+
+    return withPreview;
+  }, [meetings]);
 
   return (
     <div className="cp-grid">

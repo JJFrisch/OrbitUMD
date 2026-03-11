@@ -1,6 +1,6 @@
 import type { CalendarMeeting } from "../types/coursePlanner";
 
-const COURSE_PALETTE = [
+export const COURSE_PALETTE = [
   "#D94949",
   "#3B82F6",
   "#0EA5A4",
