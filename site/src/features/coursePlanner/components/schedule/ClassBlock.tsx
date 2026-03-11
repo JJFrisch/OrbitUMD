@@ -12,19 +12,20 @@ interface ClassBlockProps {
   showDetails: boolean;
   onOpenInfo: (sectionKey: string) => void;
   onRemove: (sectionKey: string) => void;
+  isOtherDay?: boolean;
 }
 
-export function ClassBlock({ meeting, color, textColor, bounds, readOnly, showDetails, onOpenInfo, onRemove }: ClassBlockProps) {
+export function ClassBlock({ meeting, color, textColor, bounds, readOnly, showDetails, onOpenInfo, onRemove, isOtherDay = false }: ClassBlockProps) {
   const geometry = getBlockGeometry(meeting, bounds);
 
   return (
     <div
       className={`cp-class-block ${meeting.isHoverPreview ? "is-preview" : ""}`}
       style={{
-        top: `${geometry.topPct}%`,
-        height: `${geometry.heightPct}%`,
-        left: `${geometry.leftPct}%`,
-        width: `${geometry.widthPct}%`,
+        top: isOtherDay ? undefined : `${geometry.topPct}%`,
+        height: isOtherDay ? undefined : `${geometry.heightPct}%`,
+        left: isOtherDay ? undefined : `${geometry.leftPct}%`,
+        width: isOtherDay ? undefined : `${geometry.widthPct}%`,
         background: color,
         color: textColor,
       }}
@@ -50,8 +51,14 @@ export function ClassBlock({ meeting, color, textColor, bounds, readOnly, showDe
       {showDetails ? (
         <>
           <strong>{meeting.courseCode}</strong>
-          <span>{formatHourDecimal(meeting.startHour)} - {formatHourDecimal(meeting.endHour)}</span>
+          {isOtherDay ? (
+            <span>Asynchronous / TBA Time</span>
+          ) : (
+            <span>{formatHourDecimal(meeting.startHour)} - {formatHourDecimal(meeting.endHour)}</span>
+          )}
           <span>Section {meeting.sectionCode}</span>
+          {meeting.instructor && <span>{meeting.instructor}</span>}
+          {meeting.location && <span>{meeting.location}</span>}
         </>
       ) : (
         <strong>Busy</strong>

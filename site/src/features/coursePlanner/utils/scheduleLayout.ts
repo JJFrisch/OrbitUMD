@@ -86,22 +86,64 @@ export function assignConflictIndexes(meetings: CalendarMeeting[]): CalendarMeet
 
   const updated: CalendarMeeting[] = [];
   for (const [, dayMeetings] of byDay.entries()) {
-    dayMeetings.sort((a, b) => a.startHour - b.startHour);
+    if (dayMeetings.length === 0) {
+      continue;
+    }
 
-    for (let i = 0; i < dayMeetings.length; i += 1) {
-      const overlapping = [dayMeetings[i]];
-      for (let j = i + 1; j < dayMeetings.length; j += 1) {
-        const a = dayMeetings[i];
-        const b = dayMeetings[j];
-        if (a.endHour > b.startHour && b.endHour > a.startHour) {
-          overlapping.push(dayMeetings[j]);
+    // Asynchronous/other-day items are rendered in a vertical list, not overlap lanes.
+    if (dayMeetings[0].day === "Other") {
+      dayMeetings.forEach((meeting) => {
+        meeting.conflictIndex = 0;
+        meeting.conflictTotal = 1;
+      });
+      updated.push(...dayMeetings);
+      continue;
+    }
+
+    dayMeetings.sort((a, b) => a.startHour - b.startHour || a.endHour - b.endHour);
+
+    const groups: CalendarMeeting[][] = [];
+    let currentGroup: CalendarMeeting[] = [];
+    let groupEnd = -Infinity;
+
+    for (const meeting of dayMeetings) {
+      if (currentGroup.length === 0 || meeting.startHour < groupEnd) {
+        currentGroup.push(meeting);
+        groupEnd = Math.max(groupEnd, meeting.endHour);
+      } else {
+        groups.push(currentGroup);
+        currentGroup = [meeting];
+        groupEnd = meeting.endHour;
+      }
+    }
+    if (currentGroup.length > 0) {
+      groups.push(currentGroup);
+    }
+
+    for (const group of groups) {
+      const active: Array<{ endHour: number; column: number }> = [];
+      let maxColumns = 0;
+
+      for (const meeting of group) {
+        for (let i = active.length - 1; i >= 0; i -= 1) {
+          if (active[i].endHour <= meeting.startHour) {
+            active.splice(i, 1);
+          }
         }
+
+        const used = new Set(active.map((entry) => entry.column));
+        let column = 0;
+        while (used.has(column)) column += 1;
+
+        meeting.conflictIndex = column;
+        active.push({ endHour: meeting.endHour, column });
+        maxColumns = Math.max(maxColumns, active.length);
       }
 
-      overlapping.forEach((meeting, idx) => {
-        meeting.conflictIndex = idx;
-        meeting.conflictTotal = Math.max(meeting.conflictTotal, overlapping.length);
-      });
+      const normalizedTotal = Math.max(1, maxColumns);
+      for (const meeting of group) {
+        meeting.conflictTotal = normalizedTotal;
+      }
     }
 
     updated.push(...dayMeetings);

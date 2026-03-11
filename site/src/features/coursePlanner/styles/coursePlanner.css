@@ -544,6 +544,15 @@
   background-size: 100% 56px;
 }
 
+.cp-day-track-other {
+  height: auto;
+  min-height: calc(56px * 12);
+  padding: 8px;
+  display: grid;
+  gap: 8px;
+  background-image: none;
+}
+
 .cp-class-block {
   position: absolute;
   border: 1px solid rgba(90, 90, 100, 0.2);
@@ -553,6 +562,16 @@
   color: var(--cp-class-block-text);
   box-shadow: 0 1px 2px rgba(20, 20, 40, 0.12);
   overflow: hidden;
+}
+
+.cp-day-track-other .cp-class-block {
+  position: relative;
+  min-height: 88px;
+  width: 100%;
+  left: auto;
+  top: auto;
+  height: auto;
+  padding: 8px;
 }
 
 .cp-class-block strong {

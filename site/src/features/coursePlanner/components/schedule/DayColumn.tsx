@@ -26,11 +26,12 @@ export function DayColumn({
   onRemove,
 }: DayColumnProps) {
   const dayMeetings = meetings.filter((meeting) => meeting.day === day);
+  const isOtherDay = day === "Other";
 
   return (
     <div className="cp-day-column" data-day={day}>
       <div className="cp-day-header">{label}</div>
-      <div className="cp-day-track">
+      <div className={`cp-day-track ${isOtherDay ? "cp-day-track-other" : ""}`}>
         {dayMeetings.map((meeting) => {
           const color = colorBySection[meeting.sectionKey] ?? getCourseColor(meeting.courseCode);
           const textColor = getReadableTextColor(color);
@@ -46,6 +47,7 @@ export function DayColumn({
               showDetails={showDetails}
               onOpenInfo={onOpenInfo}
               onRemove={onRemove}
+              isOtherDay={isOtherDay}
             />
           );
         })}
