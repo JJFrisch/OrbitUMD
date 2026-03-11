@@ -68,7 +68,7 @@ export default function TopBar() {
   }, [user]);
 
   const handleSignOut = async () => {
-    await supabase.auth.signOut();
+    await supabase.auth.signOut({ scope: "global" });
     navigate("/sign-in", { replace: true });
   };
 

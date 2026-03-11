@@ -19,6 +19,8 @@ export default function SignIn() {
   const supabase = getSupabaseClient();
   const { theme, toggleTheme } = useTheme();
   const nextPath = searchParams.get("next") || "/dashboard";
+  const isAuthCallback = ["code", "access_token", "refresh_token", "token_hash", "type", "error_description"]
+    .some((key) => searchParams.has(key));
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,6 +51,12 @@ export default function SignIn() {
     };
 
     const run = async () => {
+      if (!isAuthCallback) {
+        // Enforce explicit re-auth whenever the sign-in screen is opened directly.
+        await supabase.auth.signOut({ scope: "global" });
+        return;
+      }
+
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       if (data.session?.user) {
@@ -74,7 +82,7 @@ export default function SignIn() {
       active = false;
       authSubscription.subscription.unsubscribe();
     };
-  }, [navigate, nextPath, supabase]);
+  }, [isAuthCallback, navigate, nextPath, supabase]);
 
   const handleEmailSignIn = async () => {
     setLoading(true);
