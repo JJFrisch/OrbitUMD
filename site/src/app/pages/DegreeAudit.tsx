@@ -1034,11 +1034,12 @@ export default function DegreeAudit() {
                                           </Button>
                                         </div>
 
+                                        <p className="text-xs font-medium text-muted-foreground mb-2">Title:  Section Type:  Section type count (if choose):</p>
                                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                           <Input
                                             value={sectionDraft.title}
                                             onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
-                                            placeholder="Section title"
+                                            placeholder="Title: section name"
                                           />
                                           <select
                                             className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
@@ -1056,7 +1057,7 @@ export default function DegreeAudit() {
                                             min={1}
                                             value={sectionDraft.chooseCount ?? 1}
                                             onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
-                                            placeholder="Choose count"
+                                            placeholder="Section type count"
                                             disabled={sectionDraft.requirementType !== "choose"}
                                           />
                                         </div>
@@ -1064,10 +1065,11 @@ export default function DegreeAudit() {
                                         <Textarea
                                           value={sectionDraft.notesText}
                                           onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
-                                          placeholder="Notes (one per line)"
+                                          placeholder="Notes: one per line"
                                           className="mb-3"
                                         />
 
+                                        <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
                                         <div className="space-y-2 mb-3">
                                           {sectionDraft.blocks.map((block) => (
                                             <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
@@ -1086,7 +1088,7 @@ export default function DegreeAudit() {
                                                   <option value="AND">AND</option>
                                                   <option value="OR">OR</option>
                                                 </select>
-                                                <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Select Block</Button>
+                                                <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Classes Included</Button>
                                                 <Button
                                                   type="button"
                                                   size="sm"
@@ -1117,7 +1119,7 @@ export default function DegreeAudit() {
                                                     </button>
                                                   </Badge>
                                                 ))}
-                                                {block.codes.length === 0 && <span className="text-xs text-muted-foreground">No courses in this block yet.</span>}
+                                                {block.codes.length === 0 && <span className="text-xs text-muted-foreground">Classes included: none yet.</span>}
                                               </div>
                                             </div>
                                           ))}
@@ -1137,7 +1139,7 @@ export default function DegreeAudit() {
                                               setActiveDraftBlockId(blockId);
                                             }}
                                           >
-                                            <Plus className="h-3.5 w-3.5 mr-1" /> Add AND Block
+                                            <Plus className="h-3.5 w-3.5 mr-1" /> Add Required Group (AND)
                                           </Button>
                                           <Button
                                             type="button"
@@ -1152,7 +1154,7 @@ export default function DegreeAudit() {
                                               setActiveDraftBlockId(blockId);
                                             }}
                                           >
-                                            <Plus className="h-3.5 w-3.5 mr-1" /> Add OR Block
+                                            <Plus className="h-3.5 w-3.5 mr-1" /> Add Option Group (OR)
                                           </Button>
                                         </div>
 
@@ -1256,11 +1258,12 @@ export default function DegreeAudit() {
                                       </Button>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                    <p className="text-xs font-medium text-muted-foreground mb-2">Title:  Section Type:  Section type count (if choose):</p>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                       <Input
                                         value={sectionDraft.title}
                                         onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
-                                        placeholder="Section title"
+                                        placeholder="Title: section name"
                                       />
                                       <select
                                         className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
@@ -1278,7 +1281,7 @@ export default function DegreeAudit() {
                                         min={1}
                                         value={sectionDraft.chooseCount ?? 1}
                                         onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
-                                        placeholder="Choose count"
+                                        placeholder="Section type count"
                                         disabled={sectionDraft.requirementType !== "choose"}
                                       />
                                     </div>
@@ -1286,11 +1289,12 @@ export default function DegreeAudit() {
                                     <Textarea
                                       value={sectionDraft.notesText}
                                       onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
-                                      placeholder="Notes (one per line)"
+                                      placeholder="Notes: one per line"
                                       className="mb-3"
                                     />
 
-                                    <div className="space-y-2 mb-3">
+                                    <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
+                                        <div className="space-y-2 mb-3">
                                       {sectionDraft.blocks.map((block) => (
                                         <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
                                           <div className="flex items-center gap-2 mb-2">
@@ -1308,7 +1312,7 @@ export default function DegreeAudit() {
                                               <option value="AND">AND</option>
                                               <option value="OR">OR</option>
                                             </select>
-                                            <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Select Block</Button>
+                                            <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Classes Included</Button>
                                             <Button
                                               type="button"
                                               size="sm"
@@ -1339,7 +1343,7 @@ export default function DegreeAudit() {
                                                 </button>
                                               </Badge>
                                             ))}
-                                            {block.codes.length === 0 && <span className="text-xs text-muted-foreground">No courses in this block yet.</span>}
+                                            {block.codes.length === 0 && <span className="text-xs text-muted-foreground">Classes included: none yet.</span>}
                                           </div>
                                         </div>
                                       ))}
@@ -1359,7 +1363,7 @@ export default function DegreeAudit() {
                                           setActiveDraftBlockId(blockId);
                                         }}
                                       >
-                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add AND Block
+                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add Required Group (AND)
                                       </Button>
                                       <Button
                                         type="button"
@@ -1374,7 +1378,7 @@ export default function DegreeAudit() {
                                           setActiveDraftBlockId(blockId);
                                         }}
                                       >
-                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add OR Block
+                                        <Plus className="h-3.5 w-3.5 mr-1" /> Add Option Group (OR)
                                       </Button>
                                     </div>
 
@@ -1466,11 +1470,12 @@ export default function DegreeAudit() {
                                                 </Button>
                                               </div>
 
-                                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                                              <p className="text-xs font-medium text-muted-foreground mb-2">Title:  Section Type:  Section type count (if choose):</p>
+                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                                 <Input
                                                   value={sectionDraft.title}
                                                   onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
-                                                  placeholder="Section title"
+                                                  placeholder="Title: section name"
                                                 />
                                                 <select
                                                   className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
@@ -1488,7 +1493,7 @@ export default function DegreeAudit() {
                                                   min={1}
                                                   value={sectionDraft.chooseCount ?? 1}
                                                   onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
-                                                  placeholder="Choose count"
+                                                  placeholder="Section type count"
                                                   disabled={sectionDraft.requirementType !== "choose"}
                                                 />
                                               </div>
@@ -1496,11 +1501,12 @@ export default function DegreeAudit() {
                                               <Textarea
                                                 value={sectionDraft.notesText}
                                                 onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
-                                                placeholder="Notes (one per line)"
+                                                placeholder="Notes: one per line"
                                                 className="mb-3"
                                               />
 
-                                              <div className="space-y-2 mb-3">
+                                              <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
+                                        <div className="space-y-2 mb-3">
                                                 {sectionDraft.blocks.map((block) => (
                                                   <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
                                                     <div className="flex items-center gap-2 mb-2">
@@ -1518,7 +1524,7 @@ export default function DegreeAudit() {
                                                         <option value="AND">AND</option>
                                                         <option value="OR">OR</option>
                                                       </select>
-                                                      <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Select Block</Button>
+                                                      <Button type="button" size="sm" variant="outline" onClick={() => setActiveDraftBlockId(block.id)}>Classes Included</Button>
                                                       <Button
                                                         type="button"
                                                         size="sm"
@@ -1549,7 +1555,7 @@ export default function DegreeAudit() {
                                                           </button>
                                                         </Badge>
                                                       ))}
-                                                      {block.codes.length === 0 && <span className="text-xs text-muted-foreground">No courses in this block yet.</span>}
+                                                      {block.codes.length === 0 && <span className="text-xs text-muted-foreground">Classes included: none yet.</span>}
                                                     </div>
                                                   </div>
                                                 ))}
@@ -1569,7 +1575,7 @@ export default function DegreeAudit() {
                                                     setActiveDraftBlockId(blockId);
                                                   }}
                                                 >
-                                                  <Plus className="h-3.5 w-3.5 mr-1" /> Add AND Block
+                                                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Required Group (AND)
                                                 </Button>
                                                 <Button
                                                   type="button"
@@ -1584,7 +1590,7 @@ export default function DegreeAudit() {
                                                     setActiveDraftBlockId(blockId);
                                                   }}
                                                 >
-                                                  <Plus className="h-3.5 w-3.5 mr-1" /> Add OR Block
+                                                  <Plus className="h-3.5 w-3.5 mr-1" /> Add Option Group (OR)
                                                 </Button>
                                               </div>
 
