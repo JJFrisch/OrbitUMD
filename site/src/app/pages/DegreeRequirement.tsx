@@ -13,7 +13,7 @@ function RequirementTypeBadge({ section }: { section: RequirementSectionBundle }
   const optionUniverse = section.courseCodes.length;
   if (section.requirementType === "choose") {
     return (
-      <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">
+      <Badge className="bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-600/30">
         Choose {section.chooseCount ?? 1} of {optionUniverse || section.chooseCount || 1}
       </Badge>
     );
@@ -29,7 +29,7 @@ function SectionCard({ section }: { section: RequirementSectionBundle }) {
         <h3 className="text-lg text-foreground">{section.title}</h3>
         <div className="flex items-center gap-2 flex-wrap">
           {section.special && (
-            <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">
+            <Badge className="bg-purple-100 text-purple-900 border border-purple-300 dark:bg-purple-600/20 dark:text-purple-300 dark:border-purple-600/30">
               Specialization / Option
             </Badge>
           )}
@@ -68,7 +68,7 @@ function SectionCard({ section }: { section: RequirementSectionBundle }) {
       {section.standaloneCodes.length > 0 && (
         <div className="mb-3 flex flex-wrap gap-2">
           {section.standaloneCodes.map((code) => (
-            <Badge key={`${section.id}-${code}`} variant="outline" className="border-blue-600/30 text-blue-300 bg-blue-600/10">
+            <Badge key={`${section.id}-${code}`} variant="outline" className="border-blue-300 text-blue-900 bg-blue-100 dark:border-blue-600/30 dark:text-blue-300 dark:bg-blue-600/10">
               {code}
             </Badge>
           ))}
@@ -167,7 +167,7 @@ export default function DegreeRequirementsPage() {
                       onClick={() => setActiveProgramId(bundle.programId)}
                       className={`px-3 py-2 rounded-lg border text-sm transition-colors ${
                         active
-                          ? "bg-red-600/20 border-red-600/40 text-red-300"
+                          ? "bg-red-100 border-red-300 text-red-900 dark:bg-red-600/20 dark:border-red-600/40 dark:text-red-300"
                           : "bg-input-background border-border text-foreground/80 hover:bg-popover"
                       }`}
                     >
@@ -199,14 +199,14 @@ export default function DegreeRequirementsPage() {
                   </div>
 
                   {activeBundle.specializations.length > 0 && (
-                    <div className="mt-4 p-3 rounded-lg border border-purple-600/30 bg-purple-600/10">
+                    <div className="mt-4 p-3 rounded-lg border border-purple-300 bg-purple-100 dark:border-purple-600/30 dark:bg-purple-600/10">
                       <div className="flex items-center gap-2 mb-2">
-                        <BookOpenCheck className="w-4 h-4 text-purple-300" />
-                        <p className="text-purple-200 text-sm">Specializations / Tracks</p>
+                        <BookOpenCheck className="w-4 h-4 text-purple-900 dark:text-purple-300" />
+                        <p className="text-purple-900 text-sm dark:text-purple-200">Specializations / Tracks</p>
                       </div>
                       <ul className="space-y-1">
                         {activeBundle.specializations.map((line, idx) => (
-                          <li key={`${activeBundle.programId}-spec-${idx}`} className="text-sm text-purple-100/90">
+                          <li key={`${activeBundle.programId}-spec-${idx}`} className="text-sm text-purple-900/90 dark:text-purple-100/90">
                             {line}
                           </li>
                         ))}
