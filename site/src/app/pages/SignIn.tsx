@@ -53,7 +53,7 @@ export default function SignIn() {
     const run = async () => {
       if (!isAuthCallback) {
         // Enforce explicit re-auth whenever the sign-in screen is opened directly.
-        await supabase.auth.signOut({ scope: "global" });
+        await supabase.auth.signOut({ scope: "local" });
         return;
       }
 

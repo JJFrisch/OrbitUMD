@@ -27,11 +27,16 @@ export function DayColumn({
 }: DayColumnProps) {
   const dayMeetings = meetings.filter((meeting) => meeting.day === day);
   const isOtherDay = day === "Other";
+  const hourRows = Math.max(1, bounds.endHour - bounds.startHour + 1);
+  const trackHeight = `${hourRows * 56}px`;
 
   return (
     <div className="cp-day-column" data-day={day}>
       <div className="cp-day-header">{label}</div>
-      <div className={`cp-day-track ${isOtherDay ? "cp-day-track-other" : ""}`}>
+      <div
+        className={`cp-day-track ${isOtherDay ? "cp-day-track-other" : ""}`}
+        style={isOtherDay ? { minHeight: trackHeight } : { height: trackHeight }}
+      >
         {dayMeetings.map((meeting) => {
           const color = colorBySection[meeting.sectionKey] ?? getCourseColor(meeting.courseCode);
           const textColor = getReadableTextColor(color);
