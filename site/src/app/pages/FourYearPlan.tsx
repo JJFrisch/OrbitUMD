@@ -16,6 +16,7 @@ import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRep
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { buildCourseContributionMap, loadProgramRequirementBundles, type ProgramRequirementBundle } from "@/lib/requirements/audit";
+import { useTheme } from "../contexts/ThemeContext";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -61,10 +62,10 @@ function formatTermLabel(termCode: string, termYear: number): string {
 
 function statusBadge(status: AcademicProgressStatus) {
   if (status === "completed") {
-    return <Badge className="bg-green-600/20 text-green-400 border border-green-600/30">Completed</Badge>;
+    return <Badge className="bg-green-100 text-green-900 border border-green-300 dark:bg-green-600/20 dark:text-green-300 dark:border-green-600/30">Completed</Badge>;
   }
   if (status === "in_progress") {
-    return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
+    return <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30">In Progress</Badge>;
   }
   return <Badge variant="outline" className="border-border">Planned</Badge>;
 }
@@ -127,6 +128,7 @@ function statusRank(status: AcademicProgressStatus): number {
 }
 
 export default function FourYearPlan() {
+  const { theme } = useTheme();
   const [sortOrder, setSortOrder] = useState<SortOrder>("current");
   const [collapsedTerms, setCollapsedTerms] = useState<Set<string>>(new Set());
   const [showContributionHighlight, setShowContributionHighlight] = useState(true);
@@ -252,13 +254,21 @@ export default function FourYearPlan() {
     setCollapsedTerms(next);
   };
 
-  const contributionPalette = [
-    { border: "#0ea5e9", bg: "rgba(14,165,233,0.16)", text: "#7dd3fc" },
-    { border: "#f97316", bg: "rgba(249,115,22,0.16)", text: "#fdba74" },
-    { border: "#22c55e", bg: "rgba(34,197,94,0.16)", text: "#86efac" },
-    { border: "#e11d48", bg: "rgba(225,29,72,0.16)", text: "#fda4af" },
-    { border: "#f59e0b", bg: "rgba(245,158,11,0.16)", text: "#fcd34d" },
-  ] as const;
+  const contributionPalette = theme === "dark"
+    ? [
+        { border: "#0ea5e9", bg: "rgba(14,165,233,0.16)", text: "#7dd3fc" },
+        { border: "#f97316", bg: "rgba(249,115,22,0.16)", text: "#fdba74" },
+        { border: "#22c55e", bg: "rgba(34,197,94,0.16)", text: "#86efac" },
+        { border: "#e11d48", bg: "rgba(225,29,72,0.16)", text: "#fda4af" },
+        { border: "#f59e0b", bg: "rgba(245,158,11,0.16)", text: "#fcd34d" },
+      ] as const
+    : [
+        { border: "#0284c7", bg: "#e0f2fe", text: "#0c4a6e" },
+        { border: "#ea580c", bg: "#ffedd5", text: "#7c2d12" },
+        { border: "#16a34a", bg: "#dcfce7", text: "#14532d" },
+        { border: "#e11d48", bg: "#ffe4e6", text: "#881337" },
+        { border: "#d97706", bg: "#fef3c7", text: "#78350f" },
+      ] as const;
 
   const contributionBadgeStyle = (label: string) => {
     const index = Math.abs(label.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
@@ -285,7 +295,7 @@ export default function FourYearPlan() {
     return {
       borderColor: "transparent",
       borderImage: `linear-gradient(90deg, ${segments.join(", ")}) 1`,
-      backgroundColor: "rgba(38, 38, 38, 0.92)",
+      backgroundColor: theme === "dark" ? "rgba(38, 38, 38, 0.92)" : "#f8fafc",
     };
   };
 
@@ -340,8 +350,8 @@ export default function FourYearPlan() {
         </div>
 
         {!loading && summary.duplicateCourseCount > 0 && (
-          <Card className="p-3 mb-6 bg-amber-500/10 border-amber-500/30">
-            <p className="text-sm text-amber-300">
+          <Card className="p-3 mb-6 bg-amber-100 border-amber-300 dark:bg-amber-500/10 dark:border-amber-500/30">
+            <p className="text-sm text-amber-900 dark:text-amber-300">
               Duplicate credit notice: {summary.duplicateCourseCount} repeated course{summary.duplicateCourseCount === 1 ? "" : "s"} detected in this plan.
               Repeated courses are flagged below and counted once in total credits.
             </p>
@@ -358,7 +368,7 @@ export default function FourYearPlan() {
               <Button
                 type="button"
                 variant="outline"
-                className={`border-border ${showContributionHighlight ? "text-cyan-300" : "text-foreground/80"}`}
+                className={`border-border ${showContributionHighlight ? "bg-cyan-100 text-cyan-900 dark:bg-transparent dark:text-cyan-300" : "text-foreground/80"}`}
                 onClick={() => setShowContributionHighlight((current) => !current)}
               >
                 {showContributionHighlight ? "Contribution Highlight: On" : "Contribution Highlight: Off"}
@@ -457,12 +467,12 @@ export default function FourYearPlan() {
                             <div className="flex items-center justify-between gap-2 flex-wrap">
                               <div className="flex flex-wrap gap-1">
                                 {isDuplicate && (
-                                  <Badge className="text-[10px] bg-amber-600/20 text-amber-300 border border-amber-500/40">
+                                  <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
                                     Duplicate credit
                                   </Badge>
                                 )}
                                 {course.tags.slice(0, 2).map((tag) => (
-                                  <Badge key={`${course.sectionKey}-${tag}`} className="bg-red-600/20 text-red-400 border border-red-600/30 text-xs">
+                                  <Badge key={`${course.sectionKey}-${tag}`} className="bg-red-100 text-red-900 border border-red-300 text-xs dark:bg-red-600/20 dark:text-red-300 dark:border-red-600/30">
                                     {tag}
                                   </Badge>
                                 ))}

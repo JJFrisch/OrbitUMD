@@ -163,10 +163,10 @@ function mergeStatus(a: AuditCourseStatus, b: AuditCourseStatus): AuditCourseSta
 
 function statusBadge(status: AuditCourseStatus) {
   if (status === "completed") {
-    return <Badge className="bg-green-600/20 text-green-400 border border-green-600/30">Completed</Badge>;
+    return <Badge className="bg-green-100 text-green-900 border border-green-300 dark:bg-green-600/20 dark:text-green-300 dark:border-green-600/30">Completed</Badge>;
   }
   if (status === "in_progress") {
-    return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
+    return <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30">In Progress</Badge>;
   }
   return <Badge variant="outline" className="border-border">Planned</Badge>;
 }
@@ -256,10 +256,10 @@ function RequirementSectionCard({
         <div className="flex items-center gap-2 flex-wrap">
           <h3 className={sectionHeaderClass(sectionEval)}>{section.title}</h3>
           {section.special && (
-            <Badge className="bg-purple-600/20 text-purple-300 border border-purple-600/30">Specialization/Choose</Badge>
+            <Badge className="bg-purple-100 text-purple-900 border border-purple-300 dark:bg-purple-600/20 dark:text-purple-300 dark:border-purple-600/30">Specialization/Choose</Badge>
           )}
           {section.requirementType === "choose" && (
-            <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
+            <Badge className="bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-600/30">Choose {section.chooseCount ?? 1}</Badge>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -854,9 +854,9 @@ export default function DegreeAudit() {
                 </div>
 
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
-                  <Badge className="bg-green-600/20 text-green-300 border border-green-600/40">Complete: {summary.completedCredits} cr</Badge>
-                  <Badge className="bg-blue-600/20 text-blue-300 border border-blue-600/40">In Progress: {summary.inProgressCredits} cr</Badge>
-                  <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/40">Planned: {summary.plannedCredits} cr</Badge>
+                  <Badge className="bg-green-100 text-green-900 border border-green-300 dark:bg-green-600/20 dark:text-green-300 dark:border-green-600/40">Complete: {summary.completedCredits} cr</Badge>
+                  <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/40">In Progress: {summary.inProgressCredits} cr</Badge>
+                  <Badge className="bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-600/40">Planned: {summary.plannedCredits} cr</Badge>
                 </div>
               </div>
 

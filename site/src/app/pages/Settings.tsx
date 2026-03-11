@@ -447,13 +447,13 @@ export default function Settings() {
                           </div>
                           <div className="flex items-center gap-2">
                             {program.isPrimary ? (
-                              <Badge className="bg-blue-600/20 text-blue-300 border border-blue-600/30"><Star className="w-3 h-3 mr-1" />Primary</Badge>
+                              <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30"><Star className="w-3 h-3 mr-1" />Primary</Badge>
                             ) : (
                               <Button variant="outline" size="sm" className="border-border" onClick={() => handleSetPrimaryProgram(program.id)}>
                                 Set Primary
                               </Button>
                             )}
-                            <Button variant="outline" size="sm" className="border-red-700 text-red-400 hover:bg-red-600/10" onClick={() => handleRemoveProgram(program.id)}>
+                            <Button variant="outline" size="sm" className="border-red-400 text-red-800 hover:bg-red-100 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-600/10" onClick={() => handleRemoveProgram(program.id)}>
                               <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
