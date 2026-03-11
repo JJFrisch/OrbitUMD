@@ -30,11 +30,14 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
 
   if (!selection) return null;
 
+  const genEdLabel = (selection.course.genEds ?? []).filter(Boolean).join(", ");
+
   return (
     <BottomSheet
       open={Boolean(selection)}
       onClose={onClose}
       title={`${selection.course.courseCode} ${selection.section.sectionCode}`}
+      className="cp-bottom-sheet-calendar"
     >
       <div className="cp-overlay-grid">
         <p>
@@ -47,7 +50,10 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
             (view on Testudo)
           </a>
         </p>
-        <p>{formatCredits(selection.course.minCredits, selection.course.maxCredits)} | Section {selection.section.sectionCode}</p>
+        <p>
+          {formatCredits(selection.course.minCredits, selection.course.maxCredits)} | Section {selection.section.sectionCode}
+          {genEdLabel ? ` | Gen Eds: ${genEdLabel}` : ""}
+        </p>
 
         {(selection.section.instructors.length > 0 ? selection.section.instructors : [selection.section.instructor || "Staff"]).map((name) => {
           const meta = getInstructorMeta(instructorLookup, name);

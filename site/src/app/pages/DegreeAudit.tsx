@@ -181,9 +181,75 @@ function sectionHeaderClass(sectionEval: { requiredSlots: number; completedSlots
   return "text-foreground";
 }
 
+interface WildcardRule {
+  token: string;
+  departments: string[];
+  minLevel?: number;
+  maxLevel?: number;
+}
+
+interface WildcardSlotOption {
+  code: string;
+  title: string;
+  status: AuditCourseStatus;
+}
+
+interface WildcardSlotMeta {
+  key: string;
+  token: string;
+  options: WildcardSlotOption[];
+  selectedCode?: string;
+  effectiveCode?: string;
+}
+
+function parseWildcardRule(raw: string): WildcardRule | null {
+  const token = String(raw ?? "").toUpperCase().trim();
+
+  const levelRange = token.match(/^([A-Z]{4})4XX$/);
+  if (levelRange) {
+    return {
+      token,
+      departments: [levelRange[1]],
+      minLevel: 400,
+      maxLevel: 499,
+    };
+  }
+
+  const anyLevel = token.match(/^([A-Z]{4}(?:\/[A-Z]{4})*)XXX$/);
+  if (anyLevel) {
+    return {
+      token,
+      departments: anyLevel[1].split("/").map((part) => part.toUpperCase()),
+    };
+  }
+
+  return null;
+}
+
+function parseCourseCode(raw: string): { department: string; level: number } | null {
+  const normalized = String(raw ?? "").toUpperCase().trim();
+  const match = normalized.match(/^([A-Z]{4})(\d{3})[A-Z]?$/);
+  if (!match) return null;
+  return {
+    department: match[1],
+    level: Number(match[2]),
+  };
+}
+
+function courseMatchesWildcardRule(courseCode: string, rule: WildcardRule): boolean {
+  const parsed = parseCourseCode(courseCode);
+  if (!parsed) return false;
+  if (!rule.departments.includes(parsed.department)) return false;
+  if (typeof rule.minLevel === "number" && parsed.level < rule.minLevel) return false;
+  if (typeof rule.maxLevel === "number" && parsed.level > rule.maxLevel) return false;
+  return true;
+}
+
 interface RequirementSectionCardProps {
   section: any; // RequirementSectionBundle
   sectionEval: any; // Section evaluation result
+  wildcardSlots?: WildcardSlotMeta[];
+  onSelectWildcardCourse?: (slotKey: string, courseCode: string) => void;
   allCourses: AuditCourse[]; // All available courses for lookup
   courseDetails: Map<string, CourseDetails>; // Course details from database
   byCourseCode: Map<string, AuditCourseStatus>; // Course code -> status map
@@ -195,6 +261,8 @@ interface RequirementSectionCardProps {
 function RequirementSectionCard({
   section,
   sectionEval,
+  wildcardSlots = [],
+  onSelectWildcardCourse,
   allCourses,
   courseDetails,
   byCourseCode,
@@ -295,6 +363,31 @@ function RequirementSectionCard({
         </div>
       </div>
 
+      {wildcardSlots.length > 0 && (
+        <div className="mb-3 rounded-md border border-border/40 bg-input-background p-3">
+          <p className="text-xs text-muted-foreground mb-2">Wildcard requirement slots</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            {wildcardSlots.map((slot) => (
+              <label key={slot.key} className="text-xs text-muted-foreground flex flex-col gap-1">
+                <span>{slot.token}</span>
+                <select
+                  className="h-8 rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+                  value={slot.selectedCode ?? ""}
+                  onChange={(event) => onSelectWildcardCourse?.(slot.key, event.target.value)}
+                >
+                  <option value="">Auto-select best match</option>
+                  {slot.options.map((option) => (
+                    <option key={`${slot.key}-${option.code}`} value={option.code}>
+                      {option.code} - {option.title}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
+
       {expandedSectionIds.has(section.id) ? (
         <>
           {sectionCourses.length > 0 ? (
@@ -352,6 +445,7 @@ export default function DegreeAudit() {
   const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
+  const [wildcardSelections, setWildcardSelections] = useState<Record<string, string>>({});
   const [sectionEditSyncState, setSectionEditSyncState] = useState<SectionEditSyncState>("idle");
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const editorCardRef = useRef<HTMLDivElement | null>(null);
@@ -755,10 +849,89 @@ export default function DegreeAudit() {
 
   const programAudits = useMemo(() => {
     return bundles.map((bundle) => {
-      const sectionRows = bundle.sections.map((section) => ({
-        section,
-        eval: evaluateRequirementSection(section, byCourseCode),
-      }));
+      const explicitCodesInProgram = new Set(
+        bundle.sections
+          .flatMap((section) => section.courseCodes)
+          .map((code) => String(code).toUpperCase())
+          .filter((code) => !parseWildcardRule(code))
+      );
+
+      const statusOrder: AuditCourseStatus[] = ["completed", "in_progress", "planned", "not_started"];
+      const rank = (status: AuditCourseStatus) => statusOrder.indexOf(status);
+
+      const sectionRows = bundle.sections.map((section) => {
+        const wildcardRules = section.courseCodes
+          .map((code) => parseWildcardRule(code))
+          .filter((rule): rule is WildcardRule => Boolean(rule));
+
+        const wildcardSlots: WildcardSlotMeta[] = wildcardRules.map((rule, idx) => {
+          const slotKey = `${bundle.programId}:${section.id}:${idx}:${rule.token}`;
+          const selectedCode = wildcardSelections[slotKey];
+
+          const options = courses
+            .filter((course) => {
+              const normalizedCode = course.code.toUpperCase();
+              if (explicitCodesInProgram.has(normalizedCode)) return false;
+              return courseMatchesWildcardRule(normalizedCode, rule);
+            })
+            .sort((a, b) => a.code.localeCompare(b.code))
+            .map((course) => ({
+              code: course.code.toUpperCase(),
+              title: course.title,
+              status: course.status,
+            }));
+
+          const best = [...options].sort((a, b) => rank(a.status) - rank(b.status))[0];
+          const effectiveCode = options.some((option) => option.code === selectedCode)
+            ? selectedCode
+            : best?.code;
+
+          return {
+            key: slotKey,
+            token: rule.token,
+            options,
+            selectedCode,
+            effectiveCode,
+          };
+        });
+
+        const wildcardStatuses = wildcardSlots
+          .map((slot) => byCourseCode.get(String(slot.effectiveCode ?? "").toUpperCase()) ?? "not_started")
+          .filter((status) => status !== "not_started" || wildcardSlots.length > 0);
+
+        const baseEval = evaluateRequirementSection(section, byCourseCode);
+        const slotStatuses = [
+          ...Array(baseEval.completedSlots).fill("completed" as AuditCourseStatus),
+          ...Array(baseEval.inProgressSlots).fill("in_progress" as AuditCourseStatus),
+          ...Array(baseEval.plannedSlots).fill("planned" as AuditCourseStatus),
+          ...wildcardStatuses,
+        ].sort((a, b) => rank(a) - rank(b));
+
+        const requiredSlots = Math.max(baseEval.requiredSlots, section.requirementType === "choose" ? section.chooseCount ?? 1 : slotStatuses.length);
+        const relevant = slotStatuses.slice(0, requiredSlots);
+
+        const completedSlots = relevant.filter((status) => status === "completed").length;
+        const inProgressSlots = relevant.filter((status) => status === "in_progress").length;
+        const plannedSlots = relevant.filter((status) => status === "planned").length;
+
+        let status: AuditCourseStatus = "not_started";
+        if (completedSlots >= requiredSlots) status = "completed";
+        else if (completedSlots + inProgressSlots >= requiredSlots) status = "in_progress";
+        else if (completedSlots + inProgressSlots + plannedSlots >= requiredSlots) status = "planned";
+
+        return {
+          section,
+          wildcardSlots,
+          eval: {
+            sectionId: section.id,
+            status,
+            requiredSlots,
+            completedSlots,
+            inProgressSlots,
+            plannedSlots,
+          },
+        };
+      });
 
       const requiredSlots = sectionRows.reduce((sum, row) => sum + row.eval.requiredSlots, 0);
       const completedSlots = sectionRows.reduce((sum, row) => sum + row.eval.completedSlots, 0);
@@ -781,7 +954,7 @@ export default function DegreeAudit() {
         progressPercent: requiredSlots === 0 ? 0 : Math.round(((completedSlots + inProgressSlots) / requiredSlots) * 100),
       };
     });
-  }, [bundles, byCourseCode]);
+  }, [bundles, byCourseCode, courses, wildcardSelections]);
 
   const electiveOverflow = useMemo(() => {
     return courses.filter((course) => {
@@ -994,7 +1167,7 @@ export default function DegreeAudit() {
                         <div className="flex items-center gap-4 mb-5">
                           <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
                           <span className="text-foreground text-sm">
-                            {Math.round((programAudit.completedSlots + programAudit.inProgressSlots) / 3)} / {Math.round(programAudit.requiredSlots / 3)} courses active
+                            {Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots)} / {programAudit.requiredSlots} required classes
                           </span>
                         </div>
 
@@ -1075,7 +1248,7 @@ export default function DegreeAudit() {
                             return (
                               <>
                                 {/* Base requirements */}
-                                {baseSections.map(({ section, eval: sectionEval }) => {
+                                {baseSections.map(({ section, eval: sectionEval, wildcardSlots }) => {
                                   const editingThisSection = editingProgramIndex === index && editingSectionId === section.id && sectionDraft;
                                   if (editingThisSection) {
                                     return (
@@ -1292,6 +1465,13 @@ export default function DegreeAudit() {
                                       key={section.id}
                                       section={section}
                                       sectionEval={sectionEval}
+                                      wildcardSlots={wildcardSlots}
+                                      onSelectWildcardCourse={(slotKey, courseCode) => {
+                                        setWildcardSelections((prev) => ({
+                                          ...prev,
+                                          [slotKey]: courseCode,
+                                        }));
+                                      }}
                                       allCourses={courses}
                                       courseDetails={courseDetails}
                                       byCourseCode={byCourseCode}
@@ -1511,7 +1691,7 @@ export default function DegreeAudit() {
                                       Specialization Requirements: {selectedSpec.name}
                                     </h3>
                                     <div className="space-y-3">
-                                      {specializationSections.map(({ section, eval: sectionEval }) => {
+                                      {specializationSections.map(({ section, eval: sectionEval, wildcardSlots }) => {
                                         const editingThisSection = editingProgramIndex === index && editingSectionId === section.id && sectionDraft;
                                         if (editingThisSection) {
                                           return (
@@ -1728,6 +1908,13 @@ export default function DegreeAudit() {
                                             key={section.id}
                                             section={section}
                                             sectionEval={sectionEval}
+                                            wildcardSlots={wildcardSlots}
+                                            onSelectWildcardCourse={(slotKey, courseCode) => {
+                                              setWildcardSelections((prev) => ({
+                                                ...prev,
+                                                [slotKey]: courseCode,
+                                              }));
+                                            }}
                                             allCourses={courses}
                                             courseDetails={courseDetails}
                                             byCourseCode={byCourseCode}

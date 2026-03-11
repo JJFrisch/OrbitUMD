@@ -188,6 +188,7 @@
 }
 
 .course-planner-layout {
+  --cp-calendar-sheet-left: 354px;
   display: grid;
   grid-template-columns: 340px minmax(0, 1fr);
   gap: 14px;
@@ -639,6 +640,11 @@
   color: var(--cp-text);
 }
 
+/* Keep schedule details scoped to the calendar column on desktop. */
+.cp-bottom-sheet.cp-bottom-sheet-calendar {
+  left: var(--cp-calendar-sheet-left);
+}
+
 .cp-bottom-sheet-header {
   display: flex;
   justify-content: space-between;
@@ -733,6 +739,7 @@
 
 @media (max-width: 1280px) {
   .course-planner-layout {
+    --cp-calendar-sheet-left: 334px;
     grid-template-columns: 320px minmax(0, 1fr);
   }
 }
@@ -766,6 +773,10 @@
 
   .cp-results-list {
     max-height: 320px;
+  }
+
+  .cp-bottom-sheet.cp-bottom-sheet-calendar {
+    left: 0;
   }
 }
 

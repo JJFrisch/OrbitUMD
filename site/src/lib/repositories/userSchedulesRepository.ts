@@ -239,13 +239,16 @@ export async function upsertUserSchedule(input: UpsertUserScheduleInput): Promis
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
-  const payload = {
+  const payload: Record<string, unknown> = {
     id: input.id,
     user_id: userId,
     term_id: input.termId,
     name: input.name,
-    is_primary: input.isPrimary ?? false,
   };
+
+  if (typeof input.isPrimary === "boolean") {
+    payload.is_primary = input.isPrimary;
+  }
 
   const { data, error } = await supabase
     .from("user_schedules")
@@ -379,9 +382,13 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
     user_id: userId,
     term_id: termId,
     name: input.name,
-    is_primary: input.isPrimary ?? false,
     selections_json: input.selectionsJson,
   };
+
+  // Preserve existing MAIN status on updates unless explicitly overridden.
+  if (typeof input.isPrimary === "boolean") {
+    payload.is_primary = input.isPrimary;
+  }
 
   if (await supportsTermCodeColumns()) {
     payload.term_code = input.termCode;
