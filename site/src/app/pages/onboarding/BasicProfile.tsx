@@ -21,6 +21,12 @@ import {
 } from "../../components/ui/tooltip";
 import { Checkbox } from "../../components/ui/checkbox";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import {
+  addUserDegreeProgramFromCatalogOption,
+  listProgramCatalogOptions,
+  listUserDegreePrograms,
+  type CatalogProgramOption,
+} from "@/lib/repositories/degreeProgramsRepository";
 
 export default function BasicProfile() {
   const navigate = useNavigate();
@@ -28,6 +34,8 @@ export default function BasicProfile() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [uid, setUid] = useState("");
+  const [majorOptions, setMajorOptions] = useState<CatalogProgramOption[]>([]);
+  const [selectedMajorKey, setSelectedMajorKey] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -36,6 +44,19 @@ export default function BasicProfile() {
     const run = async () => {
       try {
         const supabase = getSupabaseClient();
+        const [options, existingPrograms] = await Promise.all([
+          listProgramCatalogOptions(),
+          listUserDegreePrograms(),
+        ]);
+
+        const majors = options.filter((option) => option.type === "major");
+        if (mounted) {
+          setMajorOptions(majors);
+          const existingPrimary = existingPrograms.find((program) => program.isPrimary);
+          const existingMatch = majors.find((option) => option.name.toLowerCase() === String(existingPrimary?.programName ?? "").toLowerCase());
+          setSelectedMajorKey(existingMatch?.key ?? majors[0]?.key ?? "");
+        }
+
         const { data: authData } = await supabase.auth.getUser();
         const authUser = authData.user;
         if (!authUser) {
@@ -79,7 +100,10 @@ export default function BasicProfile() {
         localStorage.setItem("orbitumd-onboarding-name", name.trim());
         localStorage.setItem("orbitumd-onboarding-email", email.trim());
         localStorage.setItem("orbitumd-onboarding-uid", uid.trim());
-        navigate("/onboarding/goals");
+        if (selectedMajorKey) {
+          localStorage.setItem("orbitumd-onboarding-major-key", selectedMajorKey);
+        }
+        navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
         return;
       }
 
@@ -94,8 +118,22 @@ export default function BasicProfile() {
       );
       if (error) throw error;
 
+      if (selectedMajorKey) {
+        const selected = majorOptions.find((option) => option.key === selectedMajorKey);
+        if (selected) {
+          const existing = await listUserDegreePrograms();
+          const alreadyHasMajor = existing.some((program) => (
+            program.programName.toLowerCase() === selected.name.toLowerCase()
+          ));
+
+          if (!alreadyHasMajor) {
+            await addUserDegreeProgramFromCatalogOption(selected);
+          }
+        }
+      }
+
       setMessage("Profile saved.");
-      navigate("/onboarding/goals");
+      navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to save profile.");
     } finally {
@@ -186,16 +224,14 @@ export default function BasicProfile() {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <Select defaultValue="cmsc">
+              <Select value={selectedMajorKey} onValueChange={setSelectedMajorKey}>
                 <SelectTrigger className="bg-input-background border-border">
-                  <SelectValue />
+                  <SelectValue placeholder={majorOptions.length > 0 ? "Select your major" : "Loading majors..."} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="cmsc">Computer Science</SelectItem>
-                  <SelectItem value="phys">Physics</SelectItem>
-                  <SelectItem value="biol">Biological Sciences</SelectItem>
-                  <SelectItem value="math">Mathematics</SelectItem>
-                  <SelectItem value="eng">Engineering</SelectItem>
+                  {majorOptions.map((option) => (
+                    <SelectItem key={option.key} value={option.key}>{option.name}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

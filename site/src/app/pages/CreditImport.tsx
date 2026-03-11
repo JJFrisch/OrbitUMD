@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Label } from "../components/ui/label";
@@ -99,6 +99,8 @@ function buildApRows(selection: ApSelection): SavePriorCreditInput[] {
 
 export default function CreditImport() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const onboardingMode = searchParams.get("onboarding") === "1";
   const [activeSource, setActiveSource] = useState<"AP" | "IB" | "transfer">("AP");
   const [apSelections, setApSelections] = useState<ApSelection[]>([{ examId: "", score: "" }]);
   const [savedPriorCredits, setSavedPriorCredits] = useState<UserPriorCreditRecord[]>([]);
@@ -342,6 +344,15 @@ export default function CreditImport() {
             <p className="text-muted-foreground">Import AP, IB, and transfer credits to apply mapped courses, Gen Ed tags, and elective totals to your audit.</p>
           </div>
 
+          {onboardingMode && (
+            <div className="mb-6 rounded-lg border border-blue-600/30 bg-blue-600/10 p-4">
+              <p className="text-sm text-blue-300">
+                Optional step: add any prior credits you already have (AP, IB, or transfer). This helps OrbitUMD build a more accurate plan.
+                If you are not ready yet, feel free to skip and continue.
+              </p>
+            </div>
+          )}
+
           <div className="mb-4 flex flex-wrap items-center gap-2">
             <Button type="button" variant={activeSource === "AP" ? "default" : "outline"} className={activeSource === "AP" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSource("AP")}>AP</Button>
             <Button type="button" variant={activeSource === "IB" ? "default" : "outline"} className={activeSource === "IB" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => { setManualCreditForm((prev) => ({ ...prev, sourceType: "IB" })); setActiveSource("IB"); }}>IB</Button>
@@ -522,8 +533,17 @@ export default function CreditImport() {
           <div className="mt-4 p-4 bg-blue-600/10 border border-blue-600/30 rounded-lg"><p className="text-sm text-blue-400">Saved prior credits are applied to Gen Eds, degree audit requirements, and total/elective credit calculations.</p></div>
 
           <div className="flex gap-3 mt-8">
-            <Button variant="outline" onClick={() => navigate("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Back</Button>
-            <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigate("/gen-eds")}>Next: Gen Eds</Button>
+            {onboardingMode ? (
+              <>
+                <Button variant="outline" onClick={() => navigate("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Skip for now</Button>
+                <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigate("/onboarding/goals")}>Continue</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" onClick={() => navigate("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Back</Button>
+                <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigate("/gen-eds")}>Next: Gen Eds</Button>
+              </>
+            )}
           </div>
         </Card>
       </div>
