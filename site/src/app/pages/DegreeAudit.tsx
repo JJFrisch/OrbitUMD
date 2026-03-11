@@ -56,6 +56,7 @@ interface CourseSearchResult {
 type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
+const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
 
 function normalizeProgramName(value: string): string {
   return value
@@ -445,7 +446,15 @@ export default function DegreeAudit() {
   const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
-  const [wildcardSelections, setWildcardSelections] = useState<Record<string, string>>({});
+  const [wildcardSelections, setWildcardSelections] = useState<Record<string, string>>(() => {
+    try {
+      const raw = localStorage.getItem(WILDCARD_SELECTIONS_KEY);
+      if (!raw) return {};
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed as Record<string, string>;
+    } catch { /* noop */ }
+    return {};
+  });
   const [sectionEditSyncState, setSectionEditSyncState] = useState<SectionEditSyncState>("idle");
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const editorCardRef = useRef<HTMLDivElement | null>(null);
@@ -496,6 +505,14 @@ export default function DegreeAudit() {
       // noop
     }
   }, [customSectionsByProgram]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(WILDCARD_SELECTIONS_KEY, JSON.stringify(wildcardSelections));
+    } catch {
+      // noop
+    }
+  }, [wildcardSelections]);
 
   const scrollToProgram = (index: number) => {
     const slider = sliderRef.current;
