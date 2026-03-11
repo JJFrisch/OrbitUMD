@@ -28,6 +28,46 @@ import {
   type CatalogProgramOption,
 } from "@/lib/repositories/degreeProgramsRepository";
 
+async function loadAllUmdMajors(): Promise<CatalogProgramOption[]> {
+  const byName = new Map<string, CatalogProgramOption>();
+
+  try {
+    const response = await fetch("https://api.umd.io/v1/majors/list");
+    if (response.ok) {
+      const payload = (await response.json()) as Array<{ major?: string }>;
+      for (const row of payload) {
+        const name = String(row.major ?? "").trim();
+        if (!name) continue;
+        const key = name.toLowerCase();
+        if (!byName.has(key)) {
+          byName.set(key, {
+            key: `api:${name}`,
+            name,
+            type: "major",
+            programCode: name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+            source: "api",
+          });
+        }
+      }
+    }
+  } catch {
+    // Fallback path below
+  }
+
+  if (byName.size === 0) {
+    const options = await listProgramCatalogOptions();
+    for (const option of options) {
+      if (option.type !== "major") continue;
+      const key = option.name.toLowerCase();
+      if (!byName.has(key)) {
+        byName.set(key, option);
+      }
+    }
+  }
+
+  return Array.from(byName.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export default function BasicProfile() {
   const navigate = useNavigate();
   const [isNewStudent, setIsNewStudent] = useState(false);
@@ -45,11 +85,11 @@ export default function BasicProfile() {
       try {
         const supabase = getSupabaseClient();
         const [options, existingPrograms] = await Promise.all([
-          listProgramCatalogOptions(),
+          loadAllUmdMajors(),
           listUserDegreePrograms(),
         ]);
 
-        const majors = options.filter((option) => option.type === "major");
+        const majors = options;
         if (mounted) {
           setMajorOptions(majors);
           const existingPrimary = existingPrograms.find((program) => program.isPrimary);
