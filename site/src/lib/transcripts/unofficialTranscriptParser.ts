@@ -30,6 +30,7 @@ export interface ParsedTranscriptCourse {
   grade: string | null;
   termLabel: string | null;
   countsTowardProgress: boolean;
+  genEdCodes: string[];
   rawLine: string;
 }
 
@@ -77,6 +78,9 @@ const PASSING_GRADES = new Set(["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-
 const NON_PROGRESS_GRADES = new Set(["F", "W", "WP", "WF", "I", "IP", "NG", "NC", "AU"]);
 const GRADE_PATTERN = /^(A\+|A|A-|B\+|B|B-|C\+|C|C-|D\+|D|D-|F|P|S|CR|W|WP|WF|I|IP|NG|NC|AU)$/i;
 const COURSE_CODE_PATTERN = /^[A-Z]{2,5}\s?\d{3}[A-Z]?$/i;
+const GEN_ED_TOKEN_PATTERN = /^(FSAW|FSAR|FSMA|FSOC|SCIS|DSHS|DSHU|DSNS|DSNL|DSSP|DVUP|DVCC)$/i;
+
+type TranscriptSection = "none" | "transfer_credit" | "historic" | "current";
 
 function normalizeWhitespace(value: string): string {
   return value.replace(/\u00a0/g, " ").replace(/[ \t]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
@@ -146,6 +150,20 @@ function cleanMajorValue(value: string | null): string | null {
 }
 
 function extractName(lines: string[], text: string): string | null {
+  const asOfIndex = lines.findIndex((line) => /^As of:/i.test(line));
+  if (asOfIndex >= 0) {
+    const nearby = lines.slice(asOfIndex + 1, asOfIndex + 5).find((line) => /^[A-Za-z'., -]+$/.test(line) && !/e-mail|major|freshman|degree/i.test(line));
+    if (nearby) return nearby;
+  }
+
+  const emailIndex = lines.findIndex((line) => /^E-Mail:/i.test(line));
+  if (emailIndex > 0) {
+    const preceding = lines[emailIndex - 1];
+    if (/^[A-Za-z'., -]+$/.test(preceding)) {
+      return cleanFieldValue(preceding);
+    }
+  }
+
   const labeled = extractLabeledValue(lines, ["Student Name", "Name"]);
   if (labeled) return labeled;
 
@@ -160,6 +178,12 @@ function extractName(lines: string[], text: string): string | null {
 }
 
 function extractDegree(lines: string[], text: string): string | null {
+  const doubleDegree = extractLabeledValue(lines, ["Double Degree"]);
+  if (doubleDegree) return "Double Degree";
+
+  const degreeSeeking = lines.find((line) => /degree seeking/i.test(line));
+  if (degreeSeeking) return cleanFieldValue(degreeSeeking);
+
   const labeled = extractLabeledValue(lines, ["Degree", "Academic Career", "Program and Plan"]);
   if (labeled) {
     const degreeMatch = labeled.match(/(Bachelor of Science|Bachelor of Arts|Double Degree|Second Major|B\.\s*S\.?|B\.\s*A\.?|BS|BA)/i);
@@ -192,6 +216,12 @@ function extractMajor(lines: string[], text: string): string | null {
 }
 
 function extractClassStanding(lines: string[], text: string): string | null {
+  const standingLine = lines.find((line) => /(Freshman|Sophomore|Junior|Senior|Graduate)/i.test(line) && /degree seeking|undergraduate|first time/i.test(line));
+  if (standingLine) {
+    const match = standingLine.match(/(Freshman|Sophomore|Junior|Senior|Graduate)/i);
+    if (match?.[1]) return cleanFieldValue(match[1]);
+  }
+
   const labeled = extractLabeledValue(lines, ["Class Standing", "Class"]);
   if (labeled) return labeled;
   return firstMatch(text, [/\b(Freshman|Sophomore|Junior|Senior|Graduate|Post-Baccalaureate)\b/i]);
@@ -214,8 +244,14 @@ function extractAdmitTerm(lines: string[], text: string): string | null {
 }
 
 function extractCollege(lines: string[], text: string): string | null {
+  const historicCollege = lines.find((line) => /\bCOLLEGE:/i.test(line));
+  if (historicCollege) {
+    const match = historicCollege.match(/\bCOLLEGE:\s*(.+)$/i);
+    if (match?.[1]) return cleanFieldValue(match[1]);
+  }
+
   const labeled = extractLabeledValue(lines, ["College", "School"]);
-  if (labeled) return labeled;
+  if (labeled && !/^park$/i.test(labeled)) return labeled;
   return firstMatch(text, [/(College of [A-Za-z& ,]+)/i, /(School of [A-Za-z& ,]+)/i]);
 }
 
@@ -234,6 +270,12 @@ function extractUniversityUid(lines: string[], text: string): string | null {
 }
 
 function extractCumulativeGpa(lines: string[], text: string): string | null {
+  const cumulativeLine = lines.find((line) => /^UG Cumulative GPA\s*:/i.test(line));
+  if (cumulativeLine) {
+    const match = cumulativeLine.match(/(\d\.\d{1,3})/);
+    if (match?.[1]) return match[1];
+  }
+
   const labeled = extractLabeledValue(lines, ["Cumulative GPA", "Overall GPA", "Cum GPA"]);
   const labeledValue = labeled?.match(/\b\d\.\d{1,3}\b/);
   if (labeledValue?.[0]) return labeledValue[0];
@@ -262,6 +304,73 @@ function isProgressGrade(grade: string | null): boolean {
   const normalized = grade.toUpperCase();
   if (NON_PROGRESS_GRADES.has(normalized)) return false;
   return PASSING_GRADES.has(normalized) || /^[ABCDF][+-]?$/i.test(normalized);
+}
+
+function parseGenEdTokens(raw: string | null | undefined): string[] {
+  if (!raw) return [];
+  return Array.from(new Set(
+    raw
+      .split(/[^A-Z]+/i)
+      .map((token) => token.trim().toUpperCase())
+      .filter((token) => GEN_ED_TOKEN_PATTERN.test(token)),
+  ));
+}
+
+function parseTransferCreditLine(line: string, currentSource: TranscriptCourseSource): ParsedTranscriptCourse | null {
+  if (/^(Acceptable UG Inst\. Credits|Applicable UG Inst\. Credits|Total UG Credits|Transcripts received|Fundamental Requirement|Historic Course Information)/i.test(line)) {
+    return null;
+  }
+
+  const match = line.match(/^(.*?)\s+(A\+|A|A-|B\+|B|B-|C\+|C|C-|D\+|D|D-|P|S|CR)\s+(\d+\.\d{2})\s+(.+)$/i);
+  if (!match) return null;
+
+  const [, sourceTitle, gradeToken, creditsToken, equivalenceTail] = match;
+  const credits = Number(creditsToken);
+  if (!Number.isFinite(credits)) return null;
+
+  const codeMatch = equivalenceTail.match(/\b([A-Z]{2,5}\s?\d{3}[A-Z]?)\b/);
+  const courseCode = codeMatch?.[1] ? normalizeCourseCode(codeMatch[1]) : null;
+  const genEdCodes = parseGenEdTokens(equivalenceTail);
+  const countsTowardProgress = credits > 0 && !/no credit/i.test(equivalenceTail);
+
+  return {
+    sourceType: currentSource,
+    courseCode,
+    title: cleanFieldValue(sourceTitle) ?? line,
+    credits,
+    grade: gradeToken.toUpperCase(),
+    termLabel: "Prior to UMD",
+    countsTowardProgress,
+    genEdCodes,
+    rawLine: line,
+  };
+}
+
+function parseHistoricCourseLine(line: string, currentTerm: string | null): ParsedTranscriptCourse | null {
+  if (!currentTerm) return null;
+  if (/^(Semester:|UG Cumulative:|UG Cumulative Credit|UG Cumulative GPA|MAJOR:|Course, Title, Grade|\*\* Semester Academic Honors \*\*)/i.test(line)) {
+    return null;
+  }
+
+  const match = line.match(/^([A-Z]{4}\d{3}[A-Z]?)\s+(.+?)\s+(A\+|A|A-|B\+|B|B-|C\+|C|C-|D\+|D|D-|F|P|S|CR|W|WP|WF|I|IP|NG|NC|AU)\s+(\d+\.\d{2})\s+(\d+\.\d{2})\s+(\d+\.\d{2})(?:\s+(.+))?$/i);
+  if (!match) return null;
+
+  const [, courseCodeRaw, title, gradeToken, _attemptedToken, earnedToken, _qualityPoints, tagTail] = match;
+  const earnedCredits = Number(earnedToken);
+  if (!Number.isFinite(earnedCredits)) return null;
+
+  const grade = gradeToken.toUpperCase();
+  return {
+    sourceType: "transcript",
+    courseCode: normalizeCourseCode(courseCodeRaw),
+    title: cleanFieldValue(title) ?? courseCodeRaw,
+    credits: earnedCredits,
+    grade,
+    termLabel: currentTerm,
+    countsTowardProgress: earnedCredits > 0 && isProgressGrade(grade),
+    genEdCodes: parseGenEdTokens(tagTail),
+    rawLine: line,
+  };
 }
 
 function extractSummaryNumber(lines: string[], labels: string[]): number | null {
@@ -343,6 +452,7 @@ function parseTranscriptCourseLine(line: string, currentTerm: string | null, cur
     grade,
     termLabel: currentSource === "AP" || currentSource === "IB" ? "Prior to UMD" : currentTerm,
     countsTowardProgress: isProgressGrade(grade),
+    genEdCodes: [],
     rawLine: line,
   };
 }
@@ -351,20 +461,51 @@ function extractTranscriptCourses(lines: string[]): ParsedTranscriptCourse[] {
   const courses: ParsedTranscriptCourse[] = [];
   let currentTerm: string | null = null;
   let currentSource: TranscriptCourseSource = "transcript";
+  let section: TranscriptSection = "none";
 
   for (const line of lines) {
+    if (/^\*\* Transfer Credit Information \*\*/i.test(line)) {
+      section = "transfer_credit";
+      currentSource = "AP";
+      currentTerm = "Prior to UMD";
+      continue;
+    }
+    if (/^Historic Course Information is listed/i.test(line)) {
+      section = "historic";
+      currentSource = "transcript";
+      currentTerm = null;
+      continue;
+    }
+    if (/^\*\* Current Course Information \*\*/i.test(line)) {
+      section = "current";
+      currentSource = "transcript";
+      continue;
+    }
+
     const nextSource = detectTranscriptSource(line);
-    if (nextSource) {
+    if (section === "transfer_credit" && nextSource) {
       currentSource = nextSource;
       continue;
     }
-    if (isTermHeading(line)) {
+
+    if (section === "transfer_credit" && /university|college|institute/i.test(line) && !/registrar|college park/i.test(line) && !/^As of:/i.test(line)) {
+      currentSource = line.toLowerCase().includes("advanced placement") ? "AP" : "transfer";
+      continue;
+    }
+
+    if (section === "historic" && isTermHeading(line)) {
       currentTerm = line;
       currentSource = "transcript";
       continue;
     }
 
-    const parsed = parseTranscriptCourseLine(line, currentTerm, currentSource);
+    let parsed: ParsedTranscriptCourse | null = null;
+    if (section === "transfer_credit") {
+      parsed = parseTransferCreditLine(line, currentSource);
+    } else if (section === "historic") {
+      parsed = parseHistoricCourseLine(line, currentTerm);
+    }
+
     if (parsed) {
       courses.push(parsed);
     }
@@ -419,8 +560,19 @@ export function parseUnofficialTranscriptText(text: string, fileName: string = "
   const normalizedText = normalizeWhitespace(text);
   const lines = splitLines(normalizedText);
   const courses = extractTranscriptCourses(lines);
-  const totalCreditsEarned = extractSummaryNumber(lines, ["Credits Earned", "Total Credits Earned", "Units Passed", "Earned Hours"]);
-  const totalCreditsAttempted = extractSummaryNumber(lines, ["Credits Attempted", "Total Credits Attempted", "Units Attempted", "Attempted Hours"]);
+  const totalCreditsEarned = (() => {
+    const cumulativeCredit = extractSummaryNumber(lines, ["UG Cumulative Credit"]);
+    if (cumulativeCredit !== null) return cumulativeCredit;
+    return extractSummaryNumber(lines, ["Credits Earned", "Total Credits Earned", "Units Passed", "Earned Hours", "Total UG Credits Applicable"]);
+  })();
+  const totalCreditsAttempted = (() => {
+    const cumulativeLine = lines.find((line) => /^UG Cumulative:/i.test(line));
+    const values = cumulativeLine?.match(/\d+\.\d+/g) ?? [];
+    if (values.length >= 2) {
+      return Number(values[0]);
+    }
+    return extractSummaryNumber(lines, ["Credits Attempted", "Total Credits Attempted", "Units Attempted", "Attempted Hours"]);
+  })();
 
   return {
     fileName,

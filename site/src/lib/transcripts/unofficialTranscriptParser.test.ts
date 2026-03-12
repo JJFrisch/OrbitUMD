@@ -33,14 +33,18 @@ Cumulative GPA: 3.81
     expect(result.courses).toEqual([]);
   });
 
-  it("extracts transcript course history and AP rows", () => {
+  it("extracts transcript course history and AP rows from Testudo-style sections", () => {
     const text = `
-ADVANCED PLACEMENT
-MATH140 Calculus I 4.0
+UNOFFICIAL TRANSCRIPT
+** Transfer Credit Information ** ** Equivalences **
+Advanced Placement Exam
+CALCULUS AB/SCR 4 P 4.00 MATH140
+Historic Course Information is listed in the order:
 Fall 2024
-CMSC131 Object-Oriented Programming I A 4.0
-MATH141 Calculus II B+ 4.0
-ENGL101 Academic Writing W 3.0
+CMSC131 OBJECT-ORIENTED PROG I A 4.00 4.00 16.00
+MATH141 CALCULUS II B+ 4.00 4.00 13.20 FSAR
+ENGL101 ACADEMIC WRITING W 3.00 0.00 0.00 FSAW
+UG Cumulative: 11.00; 8.00; 29.20; 3.65
 Credits Earned: 8.0
 Credits Attempted: 11.0
 `;
@@ -53,7 +57,57 @@ Credits Attempted: 11.0
     expect(result.summary.totalCreditsEarned).toBe(8);
     expect(result.summary.totalCreditsAttempted).toBe(11);
     expect(result.courses[0]).toMatchObject({ sourceType: "AP", courseCode: "MATH140", credits: 4, termLabel: "Prior to UMD" });
-    expect(result.courses[1]).toMatchObject({ sourceType: "transcript", courseCode: "CMSC131", grade: "A", termLabel: "Fall 2024", countsTowardProgress: true });
-    expect(result.courses[3]).toMatchObject({ sourceType: "transcript", courseCode: "ENGL101", grade: "W", countsTowardProgress: false });
+    expect(result.courses[1]).toMatchObject({ sourceType: "transcript", courseCode: "CMSC131", grade: "A", termLabel: "Fall 2024", countsTowardProgress: true, genEdCodes: [] });
+    expect(result.courses[3]).toMatchObject({ sourceType: "transcript", courseCode: "ENGL101", grade: "W", countsTowardProgress: false, genEdCodes: ["FSAW"] });
+  });
+
+  it("parses real Testudo-style sections and ignores current course rows", () => {
+    const text = `
+UNOFFICIAL TRANSCRIPT
+As of: 03/12/26
+Frischmann, Jake
+E-Mail: jfrischm@terpmail.umd.edu
+Major: Computer Science
+Freshman - First Time Undergraduate Degree Seeking
+Double Degree: PHYSICS
+** Transfer Credit Information ** ** Equivalences **
+Advanced Placement Exam
+2201 COMP SCI A/SCR 5 P 4.00 CMSC131
+CALCULUS BC/SCR 5 P 4.00 MATH140 FSAR, FSMA
+Villanova University
+2305 DISCRETE STRUCTURES A 3.00 L1
+Applicable UG Inst. Credits: 3.00
+Historic Course Information is listed in the order:
+Fall 2025
+MAJOR: COMPUTER SCIENCE COLLEGE: COMP, MATH, & NAT SCI
+CMSC216 INTRO TO CMPTR SYSTEMS A 4.00 4.00 16.00
+ENES210 ENT OPPORTUNITY ANALYSIS A 3.00 3.00 12.00 DSSP, SCIS
+UG Cumulative: 18.00; 18.00; 69.20; 3.844
+UG Cumulative Credit : 71.00
+UG Cumulative GPA : 3.844
+** Current Course Information **
+Spring 2026 Course Sec Credits Grd/ Drop Add Drop Modified GenEd
+CMSC330 0201 3.00 REG A 11/24/25 11/24/25
+`;
+
+    const result = parseUnofficialTranscriptText(text, "testudo.pdf", 2);
+
+    expect(result.fields.fullName).toBe("Frischmann, Jake");
+    expect(result.fields.email).toBe("jfrischm@terpmail.umd.edu");
+    expect(result.fields.major).toBe("Computer Science");
+    expect(result.fields.degree).toBe("Double Degree");
+    expect(result.fields.classStanding).toBe("Freshman");
+    expect(result.fields.college).toBe("COMP, MATH, & NAT SCI");
+    expect(result.fields.cumulativeGpa).toBe("3.844");
+    expect(result.summary.totalCreditsEarned).toBe(71);
+    expect(result.summary.totalCreditsAttempted).toBe(18);
+    expect(result.summary.apCredits).toBe(8);
+    expect(result.summary.totalParsedCourses).toBe(5);
+    expect(result.courses.some((course) => course.rawLine.includes("CMSC330 0201"))).toBe(false);
+    expect(result.courses.some((course) => course.sourceType === "AP" && course.courseCode === "CMSC131" && course.grade === "P")).toBe(true);
+    expect(result.courses.some((course) => course.sourceType === "AP" && course.courseCode === "MATH140" && course.genEdCodes.join(",") === "FSAR,FSMA")).toBe(true);
+    expect(result.courses.some((course) => course.sourceType === "transfer" && course.courseCode === null && course.title === "2305 DISCRETE STRUCTURES" && course.credits === 3)).toBe(true);
+    expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "CMSC216" && course.termLabel === "Fall 2025")).toBe(true);
+    expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "ENES210" && course.termLabel === "Fall 2025" && course.genEdCodes.join(",") === "DSSP,SCIS")).toBe(true);
   });
 });

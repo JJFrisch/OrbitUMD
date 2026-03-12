@@ -33,7 +33,7 @@ export async function buildTranscriptPriorCreditImport(
   const records: SavePriorCreditInput[] = parsed.courses.map((course) => {
     const normalizedCode = normalizeCourseCode(course.courseCode);
     const details = normalizedCode ? detailsByCode.get(normalizedCode) : undefined;
-    const genEdCodes = details?.genEds ?? [];
+    const genEdCodes = course.genEdCodes.length > 0 ? course.genEdCodes : (details?.genEds ?? []);
     const credits = course.credits > 0 ? course.credits : (details?.credits ?? 0);
 
     return {
