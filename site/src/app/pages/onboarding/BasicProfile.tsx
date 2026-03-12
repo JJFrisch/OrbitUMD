@@ -88,6 +88,14 @@ export default function BasicProfile() {
   const [message, setMessage] = useState<string | null>(null);
   const [hasImportedTranscript, setHasImportedTranscript] = useState(false);
 
+  const getErrorMessage = (error: unknown, fallback: string) => {
+    if (error instanceof Error && error.message) return error.message;
+    if (error && typeof error === "object" && "message" in error && typeof (error as { message?: unknown }).message === "string") {
+      return String((error as { message: string }).message);
+    }
+    return fallback;
+  };
+
   const normalizeProgramName = (value: string) => value
     .toLowerCase()
     .replace(/bachelor of science|bachelor of arts|double degree|second major|b\.\s*s\.?|b\.\s*a\.?|bs|ba/gi, "")
@@ -214,27 +222,49 @@ export default function BasicProfile() {
         return;
       }
 
-      const { error } = await supabase.from("user_profiles").upsert(
+      const profileDisplayName = name.trim() || authUser.user_metadata?.full_name || authUser.user_metadata?.name || "Student";
+      const profileEmail = authUser.email ?? null;
+      const profileUid = uid.trim() || null;
+
+      const primaryUpsert = await supabase.from("user_profiles").upsert(
         {
           id: authUser.id,
-          display_name: name.trim() || null,
-          email: email.trim() || null,
-          university_uid: uid.trim() || null,
+          display_name: profileDisplayName,
+          email: profileEmail,
+          university_uid: profileUid,
         },
         { onConflict: "id" },
       );
-      if (error) throw error;
+
+      if (primaryUpsert.error) {
+        // Fall back to a minimal profile write so onboarding can continue.
+        const fallbackUpsert = await supabase.from("user_profiles").upsert(
+          {
+            id: authUser.id,
+            display_name: profileDisplayName,
+          },
+          { onConflict: "id" },
+        );
+
+        if (fallbackUpsert.error) {
+          throw fallbackUpsert.error;
+        }
+      }
 
       if (selectedMajorKey) {
         const selected = majorOptions.find((option) => option.key === selectedMajorKey);
         if (selected) {
-          const existing = await listUserDegreePrograms();
-          const alreadyHasMajor = existing.some((program) => (
-            program.programName.toLowerCase() === selected.name.toLowerCase()
-          ));
+          try {
+            const existing = await listUserDegreePrograms();
+            const alreadyHasMajor = existing.some((program) => (
+              program.programName.toLowerCase() === selected.name.toLowerCase()
+            ));
 
-          if (!alreadyHasMajor) {
-            await addUserDegreeProgramFromCatalogOption(selected);
+            if (!alreadyHasMajor) {
+              await addUserDegreeProgramFromCatalogOption(selected);
+            }
+          } catch {
+            // Do not block onboarding completion if degree program selection fails.
           }
         }
       }
@@ -246,7 +276,7 @@ export default function BasicProfile() {
         navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Unable to save profile.");
+      setMessage(getErrorMessage(error, "Unable to save profile."));
     } finally {
       setSaving(false);
     }

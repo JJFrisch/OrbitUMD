@@ -121,4 +121,39 @@ CMSC330 0201 3.00 REG A 11/24/25 11/24/25
     expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "CMSC216")).toBe(true);
     expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "ENES210" && course.genEdCodes.join(",") === "DSSP,SCIS")).toBe(true);
   });
+
+  it("parses PDF-extracted lines with repeated internal spaces", () => {
+    const text = `
+UNOFFICIAL   TRANSCRIPT
+As   of:   03/12/26
+Frischmann,   Jake
+E-Mail:   jfrischm@terpmail.umd.edu
+Major:   Computer   Science
+Freshman   -   First   Time   Undergraduate   Degree   Seeking
+**   Transfer   Credit   Information   **   **   Equivalences   **
+Advanced   Placement   Exam
+2201   COMP   SCI   A/SCR   5   P   4.00   CMSC131
+Historic   Course   Information   is   listed   in   the   order:
+Fall   2025
+CMSC216   INTRO   TO   CMPTR   SYSTEMS   A   4.00   4.00   16.00
+UG   Cumulative:   4.00;   4.00;   16.00;   4.000
+UG   Cumulative   Credit   :   8.00
+UG   Cumulative   GPA   :   4.000
+**   Current   Course   Information   **
+Spring   2026   Course   Sec   Credits   Grd/   Drop   Add   Drop   Modified   GenEd
+CMSC330   0201   3.00   REG   A   11/24/25   11/24/25
+`;
+
+    const result = parseUnofficialTranscriptText(text, "spaced.pdf", 1);
+
+    expect(result.fields.fullName).toBe("Frischmann, Jake");
+    expect(result.fields.major).toBe("Computer Science");
+    expect(result.summary.totalParsedCourses).toBe(2);
+    expect(result.summary.apCredits).toBe(4);
+    expect(result.summary.historicCourseCount).toBe(1);
+    expect(result.summary.currentCourseCount).toBe(1);
+    expect(result.courses.some((course) => course.sourceType === "AP" && course.courseCode === "CMSC131")).toBe(true);
+    expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "CMSC216")).toBe(true);
+    expect(result.courses.some((course) => course.rawLine.includes("CMSC330 0201"))).toBe(false);
+  });
 });
