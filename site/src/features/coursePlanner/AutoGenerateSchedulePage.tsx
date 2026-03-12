@@ -30,6 +30,12 @@ interface GeneratedSchedule {
   credits: number;
 }
 
+interface ScheduleSummary {
+  classCount: number;
+  earliestLabel: string;
+  latestLabel: string;
+}
+
 const DEFAULT_SEARCH_FILTERS: SearchFilters = {
   genEds: [],
   instructorInput: "",
@@ -222,6 +228,43 @@ function termId(term: Season, year: number): string {
   return `${term}-${year}`;
 }
 
+function formatHourLabel(hour: number): string {
+  const normalized = ((hour % 24) + 24) % 24;
+  const wholeHour = Math.floor(normalized);
+  const minutes = Math.round((normalized - wholeHour) * 60);
+  const period = wholeHour >= 12 ? "PM" : "AM";
+  const displayHour = wholeHour % 12 === 0 ? 12 : wholeHour % 12;
+  return `${displayHour}:${String(minutes).padStart(2, "0")} ${period}`;
+}
+
+function buildScheduleSummary(schedule: GeneratedSchedule): ScheduleSummary {
+  let earliest = Number.POSITIVE_INFINITY;
+  let latest = Number.NEGATIVE_INFINITY;
+
+  for (const selection of schedule.selections) {
+    for (const meeting of selection.section.meetings) {
+      if (!meeting.startTime || !meeting.endTime) {
+        continue;
+      }
+
+      const start = parseTimeToHour(meeting.startTime);
+      const end = parseTimeToHour(meeting.endTime);
+      if (!Number.isFinite(start) || !Number.isFinite(end)) {
+        continue;
+      }
+
+      earliest = Math.min(earliest, start);
+      latest = Math.max(latest, end);
+    }
+  }
+
+  return {
+    classCount: schedule.selections.length,
+    earliestLabel: Number.isFinite(earliest) ? formatHourLabel(earliest) : "N/A",
+    latestLabel: Number.isFinite(latest) ? formatHourLabel(latest) : "N/A",
+  };
+}
+
 export function AutoGenerateSchedulePage() {
   const navigate = useNavigate();
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
@@ -248,6 +291,7 @@ export function AutoGenerateSchedulePage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [generated, setGenerated] = useState<GeneratedSchedule[]>([]);
+  const [activeScheduleIndex, setActiveScheduleIndex] = useState(0);
 
   const requiredCodes = useMemo(() => parseCourseCodes(requiredRaw), [requiredRaw]);
   const optionalCodes = useMemo(() => parseCourseCodes(optionalRaw), [optionalRaw]);
@@ -362,13 +406,18 @@ export function AutoGenerateSchedulePage() {
       }
 
       setGenerated(results);
+      setActiveScheduleIndex(0);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unable to generate schedules.";
       setError(message);
+      setActiveScheduleIndex(0);
     } finally {
       setBusy(false);
     }
   };
+
+  const activeSchedule = generated[activeScheduleIndex] ?? null;
+  const activeSummary = activeSchedule ? buildScheduleSummary(activeSchedule) : null;
 
   return (
     <div className="course-planner-root cp-generate-root">
@@ -510,6 +559,29 @@ export function AutoGenerateSchedulePage() {
         <div className="cp-generate-results">
           <div className="cp-generate-results-header">
             <span className="cp-builder-subtitle"><CalendarDays size={14} /> Generated Schedules ({generated.length})</span>
+            {generated.length > 0 && (
+              <div className="cp-generate-nav-row">
+                <button
+                  type="button"
+                  className="cp-builder-action-btn"
+                  onClick={() => setActiveScheduleIndex((current) => Math.max(0, current - 1))}
+                  disabled={activeScheduleIndex <= 0}
+                >
+                  Previous
+                </button>
+                <span className="cp-muted-text">
+                  Option {activeScheduleIndex + 1} of {generated.length}
+                </span>
+                <button
+                  type="button"
+                  className="cp-builder-action-btn"
+                  onClick={() => setActiveScheduleIndex((current) => Math.min(generated.length - 1, current + 1))}
+                  disabled={activeScheduleIndex >= generated.length - 1}
+                >
+                  Next
+                </button>
+              </div>
+            )}
           </div>
 
           {error && <p className="cp-error-text">{error}</p>}
@@ -518,14 +590,21 @@ export function AutoGenerateSchedulePage() {
           )}
 
           <div className="cp-generate-result-list">
-            {generated.map((schedule, index) => (
-              <article key={schedule.id} className="cp-generate-result-card">
+            {activeSchedule && activeSummary && (
+              <article key={activeSchedule.id} className="cp-generate-result-card" data-testid="generated-schedule-card">
                 <header>
-                  <h3>Option {index + 1}</h3>
-                  <span>{schedule.credits} credits</span>
+                  <h3>Option {activeScheduleIndex + 1}</h3>
+                  <span>{activeSchedule.credits} credits</span>
                 </header>
+
+                <div className="cp-generate-stats-row" data-testid="generated-schedule-summary">
+                  <span>Classes: {activeSummary.classCount}</span>
+                  <span>Earliest: {activeSummary.earliestLabel}</span>
+                  <span>Latest: {activeSummary.latestLabel}</span>
+                </div>
+
                 <ul className="cp-library-classes">
-                  {schedule.selections.map((selection) => (
+                  {activeSchedule.selections.map((selection) => (
                     <li key={selection.sectionKey}>
                       {selection.course.courseCode} - {selection.section.sectionCode} ({selection.section.openSeats ?? 0} open)
                     </li>
@@ -536,14 +615,14 @@ export function AutoGenerateSchedulePage() {
                   className="cp-builder-action-btn is-primary"
                   onClick={() => {
                     setCatalogTerm(season, year);
-                    replaceSelections(schedule.selections);
+                    replaceSelections(activeSchedule.selections);
                     navigate(`/schedule-builder?term=${termId(season, year)}`);
                   }}
                 >
                   Open In Schedule Builder
                 </button>
               </article>
-            ))}
+            )}
           </div>
         </div>
       </section>
