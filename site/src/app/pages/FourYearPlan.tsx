@@ -162,8 +162,6 @@ function parseTermLabel(termLabel: string | undefined): { termCode: string; term
 }
 
 function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserPriorCredits>>): PlannedTerm[] {
-  const gpaHistory = calculateTranscriptGPAHistory(priorCredits);
-  const gpaByTerm = new Map(gpaHistory.terms.map((term) => [term.termLabel, term]));
   const grouped = new Map<string, PlannedCourse[]>();
 
   for (const credit of priorCredits) {
@@ -193,7 +191,6 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
 
   return Array.from(grouped.entries()).map(([termLabel, courses], index) => {
     const parsedTerm = parseTermLabel(termLabel);
-    const termGpa = gpaByTerm.get(termLabel);
     return {
       id: parsedTerm ? `${parsedTerm.termCode}-${parsedTerm.termYear}-prior` : `prior-${index}`,
       termCode: parsedTerm?.termCode ?? "00",
@@ -206,8 +203,8 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
       scheduleName: "Imported History",
       updatedAt: new Date().toISOString(),
       courses,
-      semesterGPA: termGpa?.semesterGPA ?? null,
-      cumulativeGPA: termGpa?.cumulativeGPA ?? null,
+      semesterGPA: null,
+      cumulativeGPA: null,
     } satisfies PlannedTerm;
   });
 }
@@ -225,6 +222,7 @@ export default function FourYearPlan() {
   const [showContributionHighlight, setShowContributionHighlight] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [savingGradeKey, setSavingGradeKey] = useState<string | null>(null);
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
   const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
   const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
@@ -261,6 +259,36 @@ export default function FourYearPlan() {
     };
   }, []);
 
+  const academicGpaHistory = useMemo(() => {
+    const completedScheduleGrades = mainSchedules.flatMap((schedule) => {
+      if (!schedule.term_code || !schedule.term_year) {
+        return [];
+      }
+
+      const termStatus = getAcademicProgressStatus({ termCode: schedule.term_code, termYear: schedule.term_year });
+      if (termStatus !== "completed") {
+        return [];
+      }
+
+      const termLabel = formatTermLabel(schedule.term_code, schedule.term_year);
+      return parseSelections(schedule.selections_json)
+        .map((selection) => {
+          const grade = normalizeGradeValue(selection?.grade);
+          if (!grade) return null;
+          const credits = Number(selection?.course?.maxCredits ?? selection?.course?.credits ?? 0);
+          return {
+            sourceType: "transcript",
+            termAwarded: termLabel,
+            grade,
+            credits: Number.isFinite(credits) ? credits : 0,
+          };
+        })
+        .filter((entry): entry is { sourceType: string; termAwarded: string; grade: string; credits: number } => Boolean(entry));
+    });
+
+    return calculateTranscriptGPAHistory([...priorCredits, ...completedScheduleGrades]);
+  }, [mainSchedules, priorCredits]);
+
   const terms = useMemo(() => {
     const transformed = mainSchedules
       .map(toPlannedTerm)
@@ -268,14 +296,22 @@ export default function FourYearPlan() {
 
     const priorTerms = buildPriorCreditTerms(priorCredits);
     const combined = [...transformed, ...priorTerms];
+    const gpaByTerm = new Map(academicGpaHistory.terms.map((term) => [term.termLabel, term]));
 
     combined.sort((a, b) => compareAcademicTerms(
       { termCode: a.termCode === "00" ? "01" : a.termCode, termYear: a.termYear || 0 },
       { termCode: b.termCode === "00" ? "01" : b.termCode, termYear: b.termYear || 0 }
     ));
 
-    return combined;
-  }, [mainSchedules, priorCredits]);
+    return combined.map((term) => {
+      const termGpa = gpaByTerm.get(term.termLabel);
+      return {
+        ...term,
+        semesterGPA: termGpa?.semesterGPA ?? null,
+        cumulativeGPA: termGpa?.cumulativeGPA ?? null,
+      };
+    });
+  }, [academicGpaHistory.terms, mainSchedules, priorCredits]);
 
   const visibleTerms = useMemo(() => {
     if (sortOrder === "ascending") {
@@ -293,7 +329,6 @@ export default function FourYearPlan() {
   }, [sortOrder, terms]);
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
-  const transcriptGpaHistory = useMemo(() => calculateTranscriptGPAHistory(priorCredits), [priorCredits]);
 
   const duplicateScheduleSectionKeys = useMemo(() => {
     const earnedCourseCodes = new Set(
@@ -335,9 +370,53 @@ export default function FourYearPlan() {
       inProgressCredits,
       plannedCredits,
       duplicateCourseCount: duplicateScheduleSectionKeys.size,
-      overallGPA: transcriptGpaHistory.overallGPA,
+      overallGPA: academicGpaHistory.overallGPA,
     };
-  }, [duplicateScheduleSectionKeys, terms, transcriptGpaHistory]);
+  }, [academicGpaHistory.overallGPA, duplicateScheduleSectionKeys, terms]);
+
+  const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
+    if (term.source !== "schedule" || term.status !== "completed") {
+      return;
+    }
+
+    const schedule = mainSchedules.find((entry) => entry.id === term.scheduleId);
+    if (!schedule || !schedule.term_code || !schedule.term_year) {
+      toast.error("Unable to update the saved grade for this class.");
+      return;
+    }
+
+    const previousSchedules = mainSchedules;
+    const normalizedGrade = nextGradeValue === "__none__" ? undefined : normalizeGradeValue(nextGradeValue);
+    const nextSelections = parseSelections(schedule.selections_json).map((selection) =>
+      selection.sectionKey === course.sectionKey ? { ...selection, grade: normalizedGrade } : selection,
+    );
+
+    const optimisticSchedule: ScheduleWithSelections = {
+      ...schedule,
+      updated_at: new Date().toISOString(),
+      selections_json: buildSelectionsPayload(nextSelections),
+    };
+
+    setSavingGradeKey(course.sectionKey);
+    setMainSchedules((current) => current.map((entry) => (entry.id === schedule.id ? optimisticSchedule : entry)));
+
+    try {
+      const saved = await plannerApi.saveScheduleWithSelections({
+        id: schedule.id,
+        name: schedule.name,
+        termCode: schedule.term_code,
+        termYear: schedule.term_year,
+        isPrimary: schedule.is_primary,
+        selectionsJson: buildSelectionsPayload(nextSelections),
+      });
+      setMainSchedules((current) => current.map((entry) => (entry.id === saved.id ? saved : entry)));
+    } catch (error) {
+      setMainSchedules(previousSchedules);
+      toast.error(error instanceof Error ? error.message : "Unable to save class grade.");
+    } finally {
+      setSavingGradeKey((current) => (current === course.sectionKey ? null : current));
+    }
+  };
 
   const toggleTerm = (termId: string) => {
     const next = new Set(collapsedTerms);
