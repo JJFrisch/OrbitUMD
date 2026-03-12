@@ -531,12 +531,12 @@ export default function FourYearPlan() {
           </Card>
         </div>
 
-        {transcriptGpaHistory.terms.length > 0 && (
+        {academicGpaHistory.terms.length > 0 && (
           <Card className="p-4 bg-card border-border mb-6">
             <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
-              <h2 className="text-base text-foreground">Transcript GPA Details (UMD Terms)</h2>
+              <h2 className="text-base text-foreground">UMD GPA Details</h2>
               <span className="text-xs text-muted-foreground">
-                Attempted: {transcriptGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {transcriptGpaHistory.qualityPoints.toFixed(3)}
+                Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
               </span>
             </div>
 
@@ -552,7 +552,7 @@ export default function FourYearPlan() {
                   </tr>
                 </thead>
                 <tbody>
-                  {transcriptGpaHistory.terms.map((term) => (
+                  {academicGpaHistory.terms.map((term) => (
                     <tr key={term.termLabel} className="border-b border-border/60 last:border-b-0">
                       <td className="py-2 pr-3 text-foreground">{term.termLabel}</td>
                       <td className="py-2 pr-3 text-foreground/90">{term.attemptedCredits.toFixed(2)}</td>
@@ -677,17 +677,33 @@ export default function FourYearPlan() {
                             style={cardStyle}
                           >
                             <div className="flex items-start justify-between gap-2 mb-0.5">
-                              <h4 className="text-foreground font-medium text-sm leading-tight">{course.code}</h4>
+                              <h4 className="text-foreground font-medium text-sm leading-tight">{course.code} - {course.sectionCode}</h4>
                               <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
                             </div>
                             <p className="text-[11px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">{course.title}</p>
-                            <p className="text-[10px] text-muted-foreground mb-0.5 leading-tight">{course.sectionCode}{course.grade ? ` | Grade ${course.grade}` : ""}</p>
-
-                            {visibleContributionLabels.length > 0 && (
-                              <p className="text-[10px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">
-                                Contributes to: {visibleContributionLabels.join("; ")}
-                              </p>
-                            )}
+                            {course.status === "completed" && term.source === "schedule" ? (
+                              <div className="mb-1 flex items-center gap-2">
+                                <span className="text-[10px] text-muted-foreground">Grade</span>
+                                <Select
+                                  value={course.grade ?? "__none__"}
+                                  onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
+                                  disabled={savingGradeKey === course.sectionKey}
+                                >
+                                  <SelectTrigger className="h-7 w-[118px] bg-input-background border-border text-[11px]">
+                                    <SelectValue placeholder="Add grade" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="__none__">No grade</SelectItem>
+                                    {GRADE_OPTIONS.map((grade) => (
+                                      <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                {savingGradeKey === course.sectionKey && <span className="text-[10px] text-muted-foreground">Saving...</span>}
+                              </div>
+                            ) : course.grade ? (
+                              <p className="text-[10px] text-muted-foreground mb-1 leading-tight">Grade {course.grade}</p>
+                            ) : null}
 
                             <div className="flex items-center justify-between gap-2 flex-wrap">
                               <div className="flex flex-wrap gap-1">
