@@ -30,6 +30,7 @@ Cumulative GPA: 3.81
     expect(result.fields.admitTerm).toBe("Fall 2023");
     expect(result.fields.graduationYear).toBe("2027");
     expect(result.fields.cumulativeGpa).toBe("3.81");
+    expect(result.fields.college).toBe("College of Computer, Mathematical, and Natural Sciences");
     expect(result.courses).toEqual([]);
   });
 
@@ -51,9 +52,14 @@ Credits Attempted: 11.0
 
     const result = parseUnofficialTranscriptText(text, "history.pdf", 2);
 
+    expect(result.transfers).toHaveLength(1);
+    expect(result.historicTerms).toHaveLength(1);
+    expect(result.currentTerm).toBeNull();
     expect(result.summary.totalParsedCourses).toBe(4);
     expect(result.summary.totalPassingCourses).toBe(3);
     expect(result.summary.apCredits).toBe(4);
+    expect(result.summary.apEquivalencyCount).toBe(1);
+    expect(result.summary.historicCourseCount).toBe(3);
     expect(result.summary.totalCreditsEarned).toBe(8);
     expect(result.summary.totalCreditsAttempted).toBe(11);
     expect(result.courses[0]).toMatchObject({ sourceType: "AP", courseCode: "MATH140", credits: 4, termLabel: "Prior to UMD" });
@@ -93,13 +99,6 @@ CMSC330 0201 3.00 REG A 11/24/25 11/24/25
 
     const result = parseUnofficialTranscriptText(text, "testudo.pdf", 2);
 
-    // Debug output
-    console.log("DEBUG - Parsed courses:");
-    result.courses.forEach((c, i) => {
-      console.log(`  ${i}: ${c.sourceType.padEnd(10)} ${(c.courseCode || "N/A").padEnd(10)} credits=${c.credits}`);
-    });
-    console.log(`DEBUG - Total AP credits: ${result.summary.apCredits}`);
-
     expect(result.fields.fullName).toBe("Frischmann, Jake");
     expect(result.fields.email).toBe("jfrischm@terpmail.umd.edu");
     expect(result.fields.major).toBe("Computer Science");
@@ -111,9 +110,14 @@ CMSC330 0201 3.00 REG A 11/24/25 11/24/25
     expect(result.summary.totalCreditsAttempted).toBe(18);
     expect(result.summary.apCredits).toBe(4);
     expect(result.summary.totalParsedCourses).toBe(4);
+    expect(result.summary.historicTermCount).toBe(1);
+    expect(result.summary.currentCourseCount).toBe(1);
+    expect(result.transfers).toHaveLength(2);
+    expect(result.historicTerms).toHaveLength(1);
+    expect(result.currentTerm?.courses).toHaveLength(1);
     expect(result.courses.some((course) => course.rawLine.includes("CMSC330 0201"))).toBe(false);
     expect(result.courses.some((course) => course.sourceType === "AP" && course.courseCode === "CMSC131")).toBe(true);
-    expect(result.courses.some((course) => course.sourceType === "transfer" && course.title === "2305 DISCRETE STRUCTURES")).toBe(true);
+    expect(result.courses.some((course) => course.sourceType === "transfer" && course.title === "DISCRETE STRUCTURES")).toBe(true);
     expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "CMSC216")).toBe(true);
     expect(result.courses.some((course) => course.sourceType === "transcript" && course.courseCode === "ENES210" && course.genEdCodes.join(",") === "DSSP,SCIS")).toBe(true);
   });

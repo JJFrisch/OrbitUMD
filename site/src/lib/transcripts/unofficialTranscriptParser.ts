@@ -249,6 +249,12 @@ function parseNameEmail(lines: string[]): { fullName: string | null; email: stri
   let email: string | null = null;
 
   for (const line of lines.slice(0, 20)) {
+    const studentNameOnly = line.match(/^Student Name:\s*(.+)$/i);
+    if (studentNameOnly) {
+      fullName = cleanFieldValue(studentNameOnly[1]);
+      continue;
+    }
+
     const combined = line.match(/^(.*?)(?:\s*)E-Mail:\s*([A-Z0-9._%+-]+@(?:terpmail\.)?umd\.edu)$/i);
     if (combined) {
       fullName = cleanFieldValue(combined[1]);
@@ -259,6 +265,12 @@ function parseNameEmail(lines: string[]): { fullName: string | null; email: stri
     const emailOnly = line.match(/^E-Mail:\s*([A-Z0-9._%+-]+@(?:terpmail\.)?umd\.edu)$/i);
     if (emailOnly) {
       email = emailOnly[1];
+      continue;
+    }
+
+    const genericEmailOnly = line.match(/^Email:\s*([A-Z0-9._%+-]+@(?:terpmail\.)?umd\.edu)$/i);
+    if (genericEmailOnly) {
+      email = genericEmailOnly[1];
     }
   }
 
@@ -279,6 +291,19 @@ function parseNameEmail(lines: string[]): { fullName: string | null; email: stri
   return { fullName, email };
 }
 
+function splitMajorAndDegree(rawMajor: string): { major: string; degree: string | null } {
+  const cleaned = cleanFieldValue(rawMajor) ?? rawMajor.trim();
+  const degreeMatch = cleaned.match(/^(.*?)(?:\s+)(BS|BA|B\.\s*S\.?|B\.\s*A\.?|Bachelor of Science|Bachelor of Arts)$/i);
+  if (!degreeMatch) {
+    return { major: cleaned, degree: null };
+  }
+
+  return {
+    major: cleanFieldValue(degreeMatch[1]) ?? cleaned,
+    degree: cleanFieldValue(degreeMatch[2]),
+  };
+}
+
 function parseHeaderFields(lines: string[]): ParsedTranscriptFields {
   const fields: ParsedTranscriptFields = { ...EMPTY_FIELDS, doubleDegrees: [] };
   const { fullName, email } = parseNameEmail(lines);
@@ -296,9 +321,24 @@ function parseHeaderFields(lines: string[]): ParsedTranscriptFields {
       if (uidMatch) fields.universityUid = uidMatch[1];
     }
 
-    if (!fields.major) {
-      const majorMatch = line.match(/^Major:\s*(.+)$/i);
-      if (majorMatch) fields.major = cleanFieldValue(majorMatch[1]);
+    if (!fields.major || !fields.degree) {
+      const majorMatch = line.match(/^(?:Primary\s+)?Major:\s*(.+)$/i);
+      if (majorMatch) {
+        const parsedMajor = splitMajorAndDegree(majorMatch[1]);
+        if (!fields.major) {
+          fields.major = parsedMajor.major;
+        }
+        if (!fields.degree && parsedMajor.degree) {
+          fields.degree = parsedMajor.degree;
+        }
+      }
+    }
+
+    if (!fields.college) {
+      const collegeMatch = line.match(/^College:\s*(.+)$/i);
+      if (collegeMatch) {
+        fields.college = cleanFieldValue(collegeMatch[1]);
+      }
     }
 
     if (!fields.degree && /Double Degree:/i.test(line)) {
@@ -313,10 +353,18 @@ function parseHeaderFields(lines: string[]): ParsedTranscriptFields {
     }
 
     if (!fields.classStanding || !fields.degreeSeekingStatus) {
-      const standingMatch = line.match(/^(Freshman(?:\s*-\s*First Time)?|Sophomore|Junior|Senior|Graduate)(?:\s+)(.+Degree Seeking.*)$/i);
+      const standingMatch = line.match(/^(Freshman)(?:\s*-\s*First Time)?\s+(.+Degree Seeking.*)$/i)
+        ?? line.match(/^(Sophomore|Junior|Senior|Graduate)\s+(.+Degree Seeking.*)$/i);
       if (standingMatch) {
         fields.classStanding = cleanFieldValue(standingMatch[1]);
         fields.degreeSeekingStatus = cleanFieldValue(standingMatch[2]);
+      }
+    }
+
+    if (!fields.classStanding) {
+      const explicitStandingMatch = line.match(/^Class Standing:\s*(.+)$/i);
+      if (explicitStandingMatch) {
+        fields.classStanding = cleanFieldValue(explicitStandingMatch[1]);
       }
     }
 
@@ -348,8 +396,8 @@ function parseHeaderFields(lines: string[]): ParsedTranscriptFields {
     fields.degree = degreeMatch ? cleanFieldValue(degreeMatch[1]) : null;
   }
 
-  if (lines.some((line) => /^UNIVERSITY OF MARYLAND$/i.test(line)) || lines.some((line) => /^COLLEGE PARK$/i.test(line))) {
-    fields.college = "University of Maryland - College Park";
+  if (!fields.college && (lines.some((line) => /^UNIVERSITY OF MARYLAND$/i.test(line)) || lines.some((line) => /^COLLEGE PARK$/i.test(line)))) {
+    fields.college = "University of Maryland College Park";
   }
 
   return fields;
@@ -690,6 +738,9 @@ export function parseUnofficialTranscriptText(text: string, fileName: string = "
           if (pair.label.toLowerCase() === "ug cumulative credit") {
             globalCumulative.credit = pair.value;
           }
+          if (pair.label.toLowerCase() === "credits earned" && globalCumulative.credit === null) {
+            globalCumulative.credit = pair.value;
+          }
           if (pair.label.toLowerCase() === "ug cumulative gpa") {
             globalCumulative.gpa = pair.value;
             fields.cumulativeGpa = pair.value.toFixed(3).replace(/0+$/g, "").replace(/\.$/, "");
@@ -718,6 +769,9 @@ export function parseUnofficialTranscriptText(text: string, fileName: string = "
 
       for (const pair of numericPairs) {
         if (pair.label.toLowerCase() === "ug cumulative credit") {
+          globalCumulative.credit = pair.value;
+        }
+        if (pair.label.toLowerCase() === "credits earned" && globalCumulative.credit === null) {
           globalCumulative.credit = pair.value;
         }
         if (pair.label.toLowerCase() === "ug cumulative gpa") {
