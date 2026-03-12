@@ -351,15 +351,18 @@ export function AutoGenerateSchedulePage() {
             if (results.length >= 8) return;
 
             const credits = totalCredits(acc);
-            if (credits >= minCredits && credits <= maxCredits) {
-              results.push({
-                id: `auto-${results.length + 1}`,
-                selections: [...acc],
-                credits,
-              });
+            if (credits > maxCredits) {
+              return;
             }
 
-            if (optIdx >= optionalCandidates.length || credits >= maxCredits) {
+            if (optIdx >= optionalCandidates.length) {
+              if (credits >= minCredits && credits <= maxCredits) {
+                results.push({
+                  id: `auto-${results.length + 1}`,
+                  selections: [...acc],
+                  credits,
+                });
+              }
               return;
             }
 
