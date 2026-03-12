@@ -16,7 +16,7 @@ import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import type { ScheduleSelection } from "@/features/coursePlanner/types/coursePlanner";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
-import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
+import { listUserPriorCredits, updatePriorCredit } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import {
@@ -31,6 +31,7 @@ type SortOrder = "current" | "ascending" | "descending";
 
 interface PlannedCourse {
   sectionKey: string;
+  sourceRecordId?: string;
   code: string;
   title: string;
   sectionCode: string;
@@ -176,6 +177,7 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
       const entries = grouped.get(termLabel) ?? [];
       entries.push({
         sectionKey: `${credit.id}-${code}`,
+        sourceRecordId: credit.id,
         code,
         title: credit.originalName,
         sectionCode: credit.importOrigin === "testudo_transcript" ? "Transcript" : "Prior Credit",
@@ -375,7 +377,35 @@ export default function FourYearPlan() {
   }, [academicGpaHistory.overallGPA, duplicateScheduleSectionKeys, terms]);
 
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
-    if (term.source !== "schedule" || term.status !== "completed") {
+    if (term.status !== "completed") {
+      return;
+    }
+
+    if (term.source === "prior_credit") {
+      if (!course.sourceRecordId) {
+        toast.error("Unable to update the saved grade for this class.");
+        return;
+      }
+
+      const normalizedGrade = nextGradeValue === "__none__" ? undefined : normalizeGradeValue(nextGradeValue);
+      const previousPriorCredits = priorCredits;
+
+      setSavingGradeKey(course.sectionKey);
+      setPriorCredits((current) => current.map((credit) => (
+        credit.id === course.sourceRecordId
+          ? { ...credit, grade: normalizedGrade }
+          : credit
+      )));
+
+      try {
+        const updated = await updatePriorCredit(course.sourceRecordId, { grade: normalizedGrade });
+        setPriorCredits((current) => current.map((credit) => (credit.id === updated.id ? updated : credit)));
+      } catch (error) {
+        setPriorCredits(previousPriorCredits);
+        toast.error(error instanceof Error ? error.message : "Unable to save class grade.");
+      } finally {
+        setSavingGradeKey((current) => (current === course.sectionKey ? null : current));
+      }
       return;
     }
 
@@ -681,7 +711,7 @@ export default function FourYearPlan() {
                               <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
                             </div>
                             <p className="text-[11px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">{course.title}</p>
-                            {course.status === "completed" && term.source === "schedule" ? (
+                            {course.status === "completed" ? (
                               <div className="mb-1 flex items-center gap-2">
                                 <span className="text-[10px] text-muted-foreground">Grade</span>
                                 <Select

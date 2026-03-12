@@ -104,6 +104,7 @@ export default function Dashboard() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState("Student");
   const [terms, setTerms] = useState<TermSummary[]>([]);
+  const [completedTermsMissingGrades, setCompletedTermsMissingGrades] = useState<string[]>([]);
   const [courses, setCourses] = useState<CourseSnapshot[]>([]);
   const [programSummary, setProgramSummary] = useState<Array<{ name: string; status: AuditCourseStatus; percent: number }>>([]);
 
@@ -136,6 +137,26 @@ export default function Dashboard() {
           || "Student";
 
         const mainSchedules = schedules.filter((schedule) => schedule.is_primary && schedule.term_code && schedule.term_year);
+        const missingGradeTerms = mainSchedules
+          .filter((schedule) => getAcademicProgressStatus({ termCode: schedule.term_code!, termYear: schedule.term_year! }) === "completed")
+          .filter((schedule) => {
+            const selected = parseSelections(schedule.selections_json);
+            if (selected.length === 0) return false;
+
+            const seenCodes = new Set<string>();
+            for (const row of selected) {
+              const code = String(row?.course?.courseCode ?? "").toUpperCase();
+              if (!code || seenCodes.has(code)) continue;
+              seenCodes.add(code);
+
+              const grade = String(row?.grade ?? "").trim();
+              if (!grade) {
+                return true;
+              }
+            }
+            return false;
+          })
+          .map((schedule) => formatTermLabel(schedule.term_code!, schedule.term_year!));
 
         const termRows: TermSummary[] = [];
         const byCourse = new Map<string, CourseSnapshot>();
@@ -234,6 +255,7 @@ export default function Dashboard() {
         if (!active) return;
         setDisplayName(profileName);
         setTerms(termRows);
+        setCompletedTermsMissingGrades(missingGradeTerms);
         setCourses(Array.from(byCourse.values()));
         setProgramSummary(summaries);
         setErrorMessage(null);
@@ -340,6 +362,17 @@ export default function Dashboard() {
       });
     }
 
+    if (completedTermsMissingGrades.length > 0) {
+      const firstTerm = completedTermsMissingGrades[0];
+      items.push({
+        id: "missing-grades",
+        title: `Add missing grades for ${firstTerm}`,
+        subtitle: "Entering grades for ended semesters improves semester and overall GPA calculations.",
+        href: "/four-year-plan",
+        tone: "amber",
+      });
+    }
+
     const incompletePrograms = programSummary.filter((program) => program.status !== "completed");
     if (incompletePrograms.length > 0) {
       items.push({
@@ -362,7 +395,7 @@ export default function Dashboard() {
     }
 
     return items.slice(0, 3);
-  }, [programSummary, terms.length]);
+  }, [completedTermsMissingGrades, programSummary, terms.length]);
 
   const toneClass = (tone: "amber" | "blue" | "green") => {
     if (tone === "amber") return "border-amber-300 bg-amber-100 text-amber-900 hover:bg-amber-200 dark:border-amber-600/30 dark:bg-transparent dark:text-amber-300 dark:hover:bg-amber-600/10";
