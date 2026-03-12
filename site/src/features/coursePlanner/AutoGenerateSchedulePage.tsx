@@ -19,8 +19,7 @@ interface CoursePlan {
   sections: Section[];
 }
 
-interface TimeExclusion {
-  allDay: boolean;
+interface TimeConstraint {
   days: Set<Weekday>;
   startHour: number;
   endHour: number;
@@ -35,6 +34,8 @@ interface GeneratedSchedule {
 interface GenerationOutcome {
   schedules: GeneratedSchedule[];
   missingOptionalCodes: string[];
+  bestOptionalCount: number;
+  totalOptionalCount: number;
 }
 
 interface ScheduleSummary {
@@ -97,33 +98,26 @@ function classifyDeliveryMode(section: Section): DeliveryMode {
   return "blended";
 }
 
-function sectionConflictsWithExclusion(section: Section, exclusion: TimeExclusion): boolean {
-  if (exclusion.days.size === 0) {
-    return false;
-  }
+function sectionViolatesTimeConstraint(section: Section, constraint: TimeConstraint): boolean {
+  const constrainedDays = constraint.days.size > 0 ? constraint.days : new Set<Weekday>(WEEKDAYS);
 
   for (const meeting of section.meetings) {
     const days = parseMeetingDays(meeting.days).filter((day) => day !== "Other");
-    if (days.length === 0 || !days.some((day) => exclusion.days.has(day))) {
+    if (days.length === 0 || !days.some((day) => constrainedDays.has(day))) {
       continue;
-    }
-
-    if (exclusion.allDay) {
-      return true;
     }
 
     if (!meeting.startTime || !meeting.endTime) {
-      continue;
+      return true;
     }
 
     const start = parseTimeToHour(meeting.startTime);
     const end = parseTimeToHour(meeting.endTime);
     if (!Number.isFinite(start) || !Number.isFinite(end)) {
-      continue;
+      return true;
     }
 
-    const overlaps = start < exclusion.endHour && exclusion.startHour < end;
-    if (overlaps) {
+    if (start < constraint.startHour || end > constraint.endHour) {
       return true;
     }
   }
@@ -177,7 +171,7 @@ async function resolveCoursePlan(
   year: number,
   onlyOpen: boolean,
   allowedDelivery: Set<DeliveryMode>,
-  exclusion: TimeExclusion
+  timeConstraint: TimeConstraint
 ): Promise<CoursePlan> {
   const matches = await searchCoursesWithStrategy({
     normalizedInput: code,
@@ -202,7 +196,7 @@ async function resolveCoursePlan(
       return false;
     }
 
-    if (sectionConflictsWithExclusion(section, exclusion)) {
+    if (sectionViolatesTimeConstraint(section, timeConstraint)) {
       return false;
     }
 
@@ -302,6 +296,8 @@ function generateSchedules(requiredPlans: CoursePlan[], optionalPlans: CoursePla
     return {
       schedules: [],
       missingOptionalCodes: [],
+      bestOptionalCount: 0,
+      totalOptionalCount: orderedOptional.length,
     };
   }
 
@@ -386,6 +382,8 @@ function generateSchedules(requiredPlans: CoursePlan[], optionalPlans: CoursePla
     return {
       schedules: [],
       missingOptionalCodes: [],
+      bestOptionalCount: Math.max(0, bestOptionalCount),
+      totalOptionalCount: orderedOptional.length,
     };
   }
 
@@ -403,6 +401,8 @@ function generateSchedules(requiredPlans: CoursePlan[], optionalPlans: CoursePla
   return {
     schedules,
     missingOptionalCodes,
+    bestOptionalCount: Math.max(0, bestOptionalCount),
+    totalOptionalCount: orderedOptional.length,
   };
 }
 
@@ -424,14 +424,14 @@ export function AutoGenerateSchedulePage() {
   const [allowBlended, setAllowBlended] = useState(true);
   const [allowOnline, setAllowOnline] = useState(true);
 
-  const [excludeAllDay, setExcludeAllDay] = useState(true);
-  const [excludeStart, setExcludeStart] = useState("09:00");
-  const [excludeEnd, setExcludeEnd] = useState("17:00");
-  const [excludedDays, setExcludedDays] = useState<Set<Weekday>>(new Set());
+  const [constraintStart, setConstraintStart] = useState("09:00");
+  const [constraintEnd, setConstraintEnd] = useState("17:00");
+  const [constrainedDays, setConstrainedDays] = useState<Set<Weekday>>(new Set());
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fitNotice, setFitNotice] = useState<string | null>(null);
+  const [optionalFitStats, setOptionalFitStats] = useState<{ best: number; total: number } | null>(null);
   const [generated, setGenerated] = useState<GeneratedSchedule[]>([]);
   const [activeScheduleIndex, setActiveScheduleIndex] = useState(0);
   const [showSeatCounts, setShowSeatCounts] = useState(false);
@@ -441,22 +441,22 @@ export function AutoGenerateSchedulePage() {
 
   const creditsWarning = maxCredits < minCredits;
 
-  const exclusion = useMemo<TimeExclusion>(() => {
-    const [startHourRaw, startMinuteRaw] = excludeStart.split(":").map((value) => Number(value));
-    const [endHourRaw, endMinuteRaw] = excludeEnd.split(":").map((value) => Number(value));
+  const timeConstraint = useMemo<TimeConstraint>(() => {
+    const [startHourRaw, startMinuteRaw] = constraintStart.split(":").map((value) => Number(value));
+    const [endHourRaw, endMinuteRaw] = constraintEnd.split(":").map((value) => Number(value));
 
     return {
-      allDay: excludeAllDay,
-      days: excludedDays,
+      days: constrainedDays,
       startHour: (startHourRaw || 0) + (startMinuteRaw || 0) / 60,
       endHour: (endHourRaw || 0) + (endMinuteRaw || 0) / 60,
     };
-  }, [excludeAllDay, excludeEnd, excludeStart, excludedDays]);
+  }, [constrainedDays, constraintEnd, constraintStart]);
 
   const handleGenerate = async () => {
     setBusy(true);
     setError(null);
     setFitNotice(null);
+    setOptionalFitStats(null);
     setGenerated([]);
 
     try {
@@ -467,6 +467,9 @@ export function AutoGenerateSchedulePage() {
       if (maxCredits < minCredits) {
         throw new Error("Maximum credits must be greater than or equal to minimum credits.");
       }
+      if (timeConstraint.endHour <= timeConstraint.startHour) {
+        throw new Error("Constraint end time must be later than start time.");
+      }
 
       const allowedDelivery = new Set<DeliveryMode>();
       if (allowFaceToFace) allowedDelivery.add("face_to_face");
@@ -474,11 +477,11 @@ export function AutoGenerateSchedulePage() {
       if (allowOnline) allowedDelivery.add("online");
 
       const requiredPlans = await Promise.all(
-        requiredCodes.map((code) => resolveCoursePlan(code, season, year, onlyOpen, allowedDelivery, exclusion))
+        requiredCodes.map((code) => resolveCoursePlan(code, season, year, onlyOpen, allowedDelivery, timeConstraint))
       );
 
       const optionalPlans = await Promise.all(
-        optionalCodes.map((code) => resolveCoursePlan(code, season, year, onlyOpen, allowedDelivery, exclusion))
+        optionalCodes.map((code) => resolveCoursePlan(code, season, year, onlyOpen, allowedDelivery, timeConstraint))
       );
 
       const outcome = generateSchedules(requiredPlans, optionalPlans, minCredits, maxCredits);
@@ -488,6 +491,7 @@ export function AutoGenerateSchedulePage() {
       }
 
       setGenerated(outcome.schedules);
+      setOptionalFitStats({ best: outcome.bestOptionalCount, total: outcome.totalOptionalCount });
       if (outcome.missingOptionalCodes.length > 0) {
         setFitNotice(`Could not fit these optional courses without conflicts: ${outcome.missingOptionalCodes.join(", ")}.`);
       }
@@ -496,6 +500,7 @@ export function AutoGenerateSchedulePage() {
       const message = err instanceof Error ? err.message : "Unable to generate schedules.";
       setError(message);
       setActiveScheduleIndex(0);
+      setOptionalFitStats(null);
     } finally {
       setBusy(false);
     }
@@ -624,31 +629,27 @@ export function AutoGenerateSchedulePage() {
           </article>
 
           <article className="cp-generate-card">
-            <h2>Time Exclusions</h2>
-            <label className="cp-checkbox-label">
-              <input type="checkbox" checked={excludeAllDay} onChange={(event) => setExcludeAllDay(event.target.checked)} />
-              Exclude selected days all day
-            </label>
-            {!excludeAllDay && (
-              <div className="cp-filter-row">
-                <label>
-                  Start
-                  <input type="time" value={excludeStart} onChange={(e) => setExcludeStart(e.target.value)} />
-                </label>
-                <label>
-                  End
-                  <input type="time" value={excludeEnd} onChange={(e) => setExcludeEnd(e.target.value)} />
-                </label>
-              </div>
-            )}
+            <h2>Time Constraints</h2>
+            <div className="cp-filter-row">
+              <label>
+                Start
+                <input type="time" value={constraintStart} onChange={(e) => setConstraintStart(e.target.value)} />
+              </label>
+              <label>
+                End
+                <input type="time" value={constraintEnd} onChange={(e) => setConstraintEnd(e.target.value)} />
+              </label>
+            </div>
+            <p className="cp-muted-text">All classes must remain inside this time window.</p>
+            <p className="cp-muted-text">Select days to constrain, or leave all days unselected to apply to every weekday.</p>
             <div className="cp-generate-days-row">
               {WEEKDAYS.map((day) => (
                 <button
                   key={day}
                   type="button"
-                  className={`cp-builder-action-btn ${excludedDays.has(day) ? "is-primary" : ""}`}
+                  className={`cp-builder-action-btn cp-generate-day-btn ${constrainedDays.has(day) ? "is-primary" : ""}`}
                   onClick={() => {
-                    setExcludedDays((current) => {
+                    setConstrainedDays((current) => {
                       const next = new Set(current);
                       if (next.has(day)) {
                         next.delete(day);
@@ -669,6 +670,9 @@ export function AutoGenerateSchedulePage() {
         <div className="cp-generate-results">
           <div className="cp-generate-results-header">
             <span className="cp-builder-subtitle"><CalendarDays size={14} /> Generated Schedules ({generated.length})</span>
+            {optionalFitStats && optionalFitStats.total > 0 && (
+              <span className="cp-generate-fit-badge">Max optional fit: {optionalFitStats.best}/{optionalFitStats.total}</span>
+            )}
             {generated.length > 0 && (
               <div className="cp-generate-nav-row">
                 <button

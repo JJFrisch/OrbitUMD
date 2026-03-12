@@ -1356,6 +1356,21 @@
   color: var(--cp-muted);
 }
 
+.cp-generate-fit-badge {
+  border: 1px solid var(--cp-divider);
+  border-radius: 999px;
+  padding: 4px 8px;
+  width: fit-content;
+  font-size: 11px;
+  color: var(--cp-text);
+  background: var(--cp-surface-subtle);
+}
+
+.cp-generate-day-btn {
+  color: var(--cp-text);
+  background: var(--cp-surface);
+}
+
 .cp-generate-nav-btn {
   background: #1f2a44;
   border-color: #1f2a44;
@@ -1420,10 +1435,18 @@
   color: var(--cp-muted);
 }
 
+.cp-generate-result-card .cp-calendar .cp-day-header {
+  color: #2a2f3f;
+}
+
 /* Improve generated schedule block time readability in light mode. */
 .cp-generate-result-card .cp-calendar .cp-class-time {
   color: color-mix(in srgb, currentColor 35%, #ffffff 65%);
   font-weight: 600;
+}
+
+.dark .cp-generate-result-card .cp-calendar .cp-day-header {
+  color: var(--cp-day-header-text);
 }
 
 .dark .cp-generate-result-card .cp-calendar .cp-class-time {

@@ -181,6 +181,7 @@ describe("AutoGenerateSchedulePage", () => {
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
     expect(await screen.findByText(/Generated Schedules \(1\)/)).toBeInTheDocument();
+    expect(screen.getByText("Max optional fit: 1/1")).toBeInTheDocument();
     expect(screen.getByText("Option 1 of 1")).toBeInTheDocument();
     expect(screen.getByText("Classes: 3")).toBeInTheDocument();
     expect(screen.getByText("Earliest: 9:00 AM")).toBeInTheDocument();
@@ -260,15 +261,22 @@ describe("AutoGenerateSchedulePage", () => {
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
     expect(await screen.findByText(/Generated Schedules \(1\)/)).toBeInTheDocument();
+    expect(screen.getByText("Max optional fit: 0/1")).toBeInTheDocument();
     expect(screen.getByText(/Could not fit these optional courses without conflicts: ENGL101/)).toBeInTheDocument();
     expect(screen.getByText("Classes: 2")).toBeInTheDocument();
   });
 
-  it("respects all-day day exclusions", async () => {
+  it("respects time constraints on selected days", async () => {
     renderPage();
 
     fireEvent.change(screen.getByLabelText("Required Courses"), {
       target: { value: "CMSC131" },
+    });
+    fireEvent.change(screen.getByLabelText("Start"), {
+      target: { value: "10:00" },
+    });
+    fireEvent.change(screen.getByLabelText("End"), {
+      target: { value: "17:00" },
     });
 
     fireEvent.click(screen.getByRole("button", { name: "M" }));
