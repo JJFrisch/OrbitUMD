@@ -148,17 +148,22 @@ export interface OverrideRecord {
 
 // ── Prior credit record ──
 
-export type PriorCreditSource = "AP" | "IB" | "transfer" | "exemption" | "other";
+export type PriorCreditSource = "AP" | "IB" | "transfer" | "exemption" | "other" | "transcript";
+
+export type PriorCreditImportOrigin = "manual" | "testudo_transcript";
 
 export interface UserPriorCreditRecord {
   id: string;
   userId: string;
   sourceType: PriorCreditSource;
+  importOrigin: PriorCreditImportOrigin;
   originalName: string;
   umdCourseCode?: string;
   courseId?: string;
   credits: number;
   genEdCodes: string[];
   termAwarded?: string;
+  grade?: string;
+  countsTowardProgress: boolean;
   createdAt: string;
 }

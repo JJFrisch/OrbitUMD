@@ -15,7 +15,7 @@ interface TranscriptUploadPanelProps {
 
 function buildSummaryRows(result: TranscriptParseResult): Array<{ label: string; value: string }> {
   const { fields } = result;
-  return [
+  const rows = [
     { label: "Name", value: fields.fullName ?? "" },
     { label: "Email", value: fields.email ?? "" },
     { label: "UID", value: fields.universityUid ?? "" },
@@ -27,6 +27,21 @@ function buildSummaryRows(result: TranscriptParseResult): Array<{ label: string;
     { label: "Graduation Year", value: fields.graduationYear ?? "" },
     { label: "College", value: fields.college ?? "" },
   ].filter((row) => row.value.trim().length > 0);
+
+  if (result.summary.totalParsedCourses > 0) {
+    rows.push({ label: "Parsed Courses", value: String(result.summary.totalParsedCourses) });
+    rows.push({ label: "Courses Counting Toward Progress", value: String(result.summary.totalPassingCourses) });
+  }
+  if (result.summary.apCredits > 0) {
+    rows.push({ label: "AP Credits", value: String(result.summary.apCredits) });
+  }
+  if (result.summary.totalCreditsEarned !== null) {
+    rows.push({ label: "Credits Earned", value: String(result.summary.totalCreditsEarned) });
+  }
+  if (result.summary.totalCreditsAttempted !== null) {
+    rows.push({ label: "Credits Attempted", value: String(result.summary.totalCreditsAttempted) });
+  }
+  return rows;
 }
 
 export default function TranscriptUploadPanel({

@@ -997,6 +997,10 @@ export default function DegreeAudit() {
         }
 
         for (const credit of priorCredits) {
+          if (credit.countsTowardProgress === false) {
+            continue;
+          }
+
           const creditCodes = String(credit.umdCourseCode ?? "")
             .split(/[|,]/)
             .map((value) => value.trim().toUpperCase())

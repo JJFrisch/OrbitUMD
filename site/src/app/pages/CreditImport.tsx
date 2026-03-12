@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import TranscriptUploadPanel from "../components/TranscriptUploadPanel";
 import { Card } from "../components/ui/card";
 import { Button } from "../components/ui/button";
 import { Label } from "../components/ui/label";
@@ -18,11 +19,14 @@ import {
   deletePriorCredit,
   insertPriorCredits,
   listUserPriorCredits,
+  replacePriorCreditsByImportOrigin,
   replacePriorCreditsBySource,
   updatePriorCredit,
   type SavePriorCreditInput,
 } from "@/lib/repositories/priorCreditsRepository";
 import type { UserPriorCreditRecord } from "@/lib/types/requirements";
+import { buildTranscriptPriorCreditImport } from "@/lib/transcripts/transcriptCreditImport";
+import type { TranscriptParseResult } from "@/lib/transcripts/unofficialTranscriptParser";
 
 interface ApSelection {
   examId: string;
@@ -45,16 +49,18 @@ interface EditApState {
   credits: string;
   genEdCodes: string;
   termAwarded: string;
+  grade: string;
 }
 
 interface EditManualState {
   id: string;
-  sourceType: "IB" | "transfer";
+  sourceType: "IB" | "transfer" | "transcript";
   originalName: string;
   umdCourseCode: string;
   credits: string;
   genEdCodes: string;
   termAwarded: string;
+  grade: string;
 }
 
 function parseGenEdCodes(raw: string): string[] {
@@ -101,7 +107,7 @@ export default function CreditImport() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const onboardingMode = searchParams.get("onboarding") === "1";
-  const [activeSource, setActiveSource] = useState<"AP" | "IB" | "transfer">("AP");
+  const [activeSource, setActiveSource] = useState<"AP" | "IB" | "transfer" | "transcript">("transcript");
   const [apSelections, setApSelections] = useState<ApSelection[]>([{ examId: "", score: "" }]);
   const [savedPriorCredits, setSavedPriorCredits] = useState<UserPriorCreditRecord[]>([]);
   const [loadingSaved, setLoadingSaved] = useState(true);
@@ -142,8 +148,13 @@ export default function CreditImport() {
     [savedPriorCredits],
   );
 
+  const transcriptSavedRecords = useMemo(
+    () => savedPriorCredits.filter((record) => record.importOrigin === "testudo_transcript"),
+    [savedPriorCredits],
+  );
+
   const manualSavedRecords = useMemo(
-    () => savedPriorCredits.filter((record) => record.sourceType === activeSource),
+    () => savedPriorCredits.filter((record) => record.sourceType === activeSource && record.importOrigin !== "testudo_transcript"),
     [activeSource, savedPriorCredits],
   );
 
@@ -177,6 +188,35 @@ export default function CreditImport() {
 
     return { totalCredits, totalCourses, totalGenEds };
   }, [apSelections]);
+
+  const transcriptTotals = useMemo(() => {
+    const counted = transcriptSavedRecords.filter((record) => record.countsTowardProgress);
+    return {
+      importedRecords: transcriptSavedRecords.length,
+      countedRecords: counted.length,
+      totalCredits: counted.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
+      apCredits: transcriptSavedRecords
+        .filter((record) => record.sourceType === "AP")
+        .reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
+      uniqueGenEds: Array.from(new Set(transcriptSavedRecords.flatMap((record) => record.genEdCodes))).sort(),
+    };
+  }, [transcriptSavedRecords]);
+
+  const handleTranscriptImport = async (result: TranscriptParseResult) => {
+    setSaving(true);
+    try {
+      const built = await buildTranscriptPriorCreditImport(result);
+      await replacePriorCreditsByImportOrigin("testudo_transcript", built.records);
+      const refreshed = await listUserPriorCredits();
+      setSavedPriorCredits(refreshed);
+      setLastSavedAt(new Date().toISOString());
+      toast.success(`Imported ${built.summary.importedRecords} transcript record(s), ${built.summary.totalCredits} credits, and ${built.summary.uniqueGenEds.length} Gen Ed tag(s).`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to import transcript records.");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const handleSaveAp = async () => {
     setSaving(true);
@@ -237,11 +277,14 @@ export default function CreditImport() {
       id: editingAp.id,
       userId: savedPriorCredits.find((record) => record.id === editingAp.id)?.userId ?? "",
       sourceType: "AP",
+      importOrigin: savedPriorCredits.find((record) => record.id === editingAp.id)?.importOrigin ?? "manual",
       originalName: editingAp.originalName.trim(),
       umdCourseCode: editingAp.umdCourseCode.trim() || undefined,
       credits,
       genEdCodes: parseGenEdCodes(editingAp.genEdCodes),
       termAwarded: editingAp.termAwarded.trim() || undefined,
+      grade: editingAp.grade.trim() || undefined,
+      countsTowardProgress: true,
       createdAt: savedPriorCredits.find((record) => record.id === editingAp.id)?.createdAt ?? new Date().toISOString(),
     };
 
@@ -253,6 +296,7 @@ export default function CreditImport() {
         credits: optimistic.credits,
         genEdCodes: optimistic.genEdCodes,
         termAwarded: optimistic.termAwarded,
+        grade: optimistic.grade,
       });
       setSavedPriorCredits((prev) => prev.map((record) => (record.id === updated.id ? updated : record)));
       setEditingAp(null);
@@ -290,11 +334,14 @@ export default function CreditImport() {
       id: editingManual.id,
       userId: savedPriorCredits.find((record) => record.id === editingManual.id)?.userId ?? "",
       sourceType: editingManual.sourceType,
+      importOrigin: savedPriorCredits.find((record) => record.id === editingManual.id)?.importOrigin ?? "manual",
       originalName: editingManual.originalName.trim(),
       umdCourseCode: editingManual.umdCourseCode.trim() || undefined,
       credits,
       genEdCodes: parseGenEdCodes(editingManual.genEdCodes),
       termAwarded: editingManual.termAwarded.trim() || undefined,
+      grade: editingManual.grade.trim() || undefined,
+      countsTowardProgress: true,
       createdAt: savedPriorCredits.find((record) => record.id === editingManual.id)?.createdAt ?? new Date().toISOString(),
     };
 
@@ -306,6 +353,7 @@ export default function CreditImport() {
         credits: optimistic.credits,
         genEdCodes: optimistic.genEdCodes,
         termAwarded: optimistic.termAwarded,
+        grade: optimistic.grade,
       });
       setSavedPriorCredits((prev) => prev.map((record) => (record.id === updated.id ? updated : record)));
       setEditingManual(null);
@@ -354,11 +402,59 @@ export default function CreditImport() {
           )}
 
           <div className="mb-4 flex flex-wrap items-center gap-2">
+            <Button type="button" variant={activeSource === "transcript" ? "default" : "outline"} className={activeSource === "transcript" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSource("transcript")}>Transcript</Button>
             <Button type="button" variant={activeSource === "AP" ? "default" : "outline"} className={activeSource === "AP" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSource("AP")}>AP</Button>
             <Button type="button" variant={activeSource === "IB" ? "default" : "outline"} className={activeSource === "IB" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => { setManualCreditForm((prev) => ({ ...prev, sourceType: "IB" })); setActiveSource("IB"); }}>IB</Button>
             <Button type="button" variant={activeSource === "transfer" ? "default" : "outline"} className={activeSource === "transfer" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => { setManualCreditForm((prev) => ({ ...prev, sourceType: "transfer" })); setActiveSource("transfer"); }}>Transfer</Button>
             <span className="ml-auto text-xs text-muted-foreground">{formatLastSavedLabel(lastSavedAt)}</span>
           </div>
+
+          {activeSource === "transcript" && (
+            <div className="space-y-4">
+              <TranscriptUploadPanel
+                instructions={[
+                  "Open your unofficial transcript in Testudo and print it to PDF.",
+                  "Upload the PDF here to import completed coursework, AP credit, grades, and detected Gen Eds.",
+                  "Imported transcript records become completed history in your degree audit and four-year plan.",
+                ]}
+                onParsed={handleTranscriptImport}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                <div className="rounded-lg border border-border bg-input-background p-3"><p className="text-xs text-muted-foreground">Imported Records</p><p className="text-xl text-foreground">{transcriptTotals.importedRecords}</p></div>
+                <div className="rounded-lg border border-border bg-input-background p-3"><p className="text-xs text-muted-foreground">Counted Toward Progress</p><p className="text-xl text-foreground">{transcriptTotals.countedRecords}</p></div>
+                <div className="rounded-lg border border-border bg-input-background p-3"><p className="text-xs text-muted-foreground">Imported Credits</p><p className="text-xl text-foreground">{transcriptTotals.totalCredits}</p></div>
+                <div className="rounded-lg border border-border bg-input-background p-3"><p className="text-xs text-muted-foreground">Transcript AP Credits</p><p className="text-xl text-foreground">{transcriptTotals.apCredits}</p></div>
+              </div>
+
+              <div className="rounded-lg border border-border bg-input-background p-4">
+                <h3 className="text-foreground mb-3">Saved Transcript Records</h3>
+                {loadingSaved ? (
+                  <p className="text-sm text-muted-foreground">Loading transcript records...</p>
+                ) : transcriptSavedRecords.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">No transcript records imported yet.</p>
+                ) : (
+                  <div className="space-y-3">
+                    {transcriptSavedRecords.map((record) => (
+                      <div key={record.id} className="rounded-md border border-border bg-card p-3">
+                        <div className="flex items-start justify-between gap-2">
+                          <div className="text-sm text-foreground/80">
+                            <p className="font-medium text-foreground">{record.umdCourseCode ?? record.originalName}</p>
+                            <p className="text-muted-foreground">Title: {record.originalName}</p>
+                            <p className="text-muted-foreground">Credits: {record.credits} | Grade: {record.grade ?? "N/A"} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
+                            <p className="text-muted-foreground">Term: {record.termAwarded ?? "Prior to UMD"} | Counts toward audit: {record.countsTowardProgress ? "Yes" : "No"}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {transcriptTotals.uniqueGenEds.length > 0 && (
+                  <p className="mt-3 text-sm text-muted-foreground">Detected Gen Ed tags: {transcriptTotals.uniqueGenEds.join(", ")}</p>
+                )}
+              </div>
+            </div>
+          )}
 
           {activeSource === "AP" && (
             <div className="space-y-6">
@@ -436,6 +532,7 @@ export default function CreditImport() {
                               <div><Label>Term</Label><Input value={editingAp.termAwarded} onChange={(event) => setEditingAp((prev) => prev ? { ...prev, termAwarded: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             </div>
                             <div><Label>Gen Ed Tags (comma-separated)</Label><Input value={editingAp.genEdCodes} onChange={(event) => setEditingAp((prev) => prev ? { ...prev, genEdCodes: event.target.value } : prev)} className="bg-input-background border-border" /></div>
+                            <div><Label>Grade (optional)</Label><Input value={editingAp.grade} onChange={(event) => setEditingAp((prev) => prev ? { ...prev, grade: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             <div className="flex gap-2">
                               <Button className="bg-green-700 hover:bg-green-600" onClick={() => void handleUpdateApRecord()}>Save</Button>
                               <Button variant="outline" className="border-border text-foreground/80" onClick={() => setEditingAp(null)}>Cancel</Button>
@@ -446,10 +543,10 @@ export default function CreditImport() {
                             <div className="text-sm text-foreground/80">
                               <p className="font-medium text-foreground">{record.originalName}</p>
                               <p className="text-muted-foreground">Course: {record.umdCourseCode ?? "Elective/unspecified"}</p>
-                              <p className="text-muted-foreground">Credits: {record.credits} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
+                              <p className="text-muted-foreground">Credits: {record.credits} | Grade: {record.grade ?? "N/A"} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
                             </div>
                             <div className="flex gap-2">
-                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingAp({ id: record.id, originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD" })}><Pencil className="h-4 w-4" /></Button>
+                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingAp({ id: record.id, originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD", grade: record.grade ?? "" })}><Pencil className="h-4 w-4" /></Button>
                               <Button size="icon" variant="ghost" className="hover:bg-red-600/20 hover:text-red-400" onClick={() => void handleDeleteApRecord(record.id)}><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div>
@@ -504,6 +601,7 @@ export default function CreditImport() {
                               <div><Label>Term</Label><Input value={editingManual.termAwarded} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, termAwarded: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             </div>
                             <div><Label>Gen Ed Tags (comma-separated)</Label><Input value={editingManual.genEdCodes} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, genEdCodes: event.target.value } : prev)} className="bg-input-background border-border" /></div>
+                            <div><Label>Grade (optional)</Label><Input value={editingManual.grade} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, grade: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             <div className="flex gap-2">
                               <Button className="bg-green-700 hover:bg-green-600" onClick={() => void handleUpdateManualRecord()}>Save</Button>
                               <Button variant="outline" className="border-border text-foreground/80" onClick={() => setEditingManual(null)}>Cancel</Button>
@@ -514,10 +612,10 @@ export default function CreditImport() {
                             <div className="text-sm text-foreground/80">
                               <p className="font-medium text-foreground">{record.originalName}</p>
                               <p className="text-muted-foreground">Course: {record.umdCourseCode ?? "Elective/unspecified"}</p>
-                              <p className="text-muted-foreground">Credits: {record.credits} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
+                              <p className="text-muted-foreground">Credits: {record.credits} | Grade: {record.grade ?? "N/A"} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
                             </div>
                             <div className="flex gap-2">
-                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingManual({ id: record.id, sourceType: record.sourceType as "IB" | "transfer", originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD" })}><Pencil className="h-4 w-4" /></Button>
+                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingManual({ id: record.id, sourceType: record.sourceType as "IB" | "transfer" | "transcript", originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD", grade: record.grade ?? "" })}><Pencil className="h-4 w-4" /></Button>
                               <Button size="icon" variant="ghost" className="hover:bg-red-600/20 hover:text-red-400" onClick={() => void handleDeleteManualRecord(record.id)}><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div>

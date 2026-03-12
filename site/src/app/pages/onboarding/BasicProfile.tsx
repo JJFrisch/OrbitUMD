@@ -28,6 +28,8 @@ import {
   listUserDegreePrograms,
   type CatalogProgramOption,
 } from "@/lib/repositories/degreeProgramsRepository";
+import { replacePriorCreditsByImportOrigin } from "@/lib/repositories/priorCreditsRepository";
+import { buildTranscriptPriorCreditImport } from "@/lib/transcripts/transcriptCreditImport";
 import type { TranscriptParseResult } from "@/lib/transcripts/unofficialTranscriptParser";
 
 async function loadAllUmdMajors(): Promise<CatalogProgramOption[]> {
@@ -130,9 +132,12 @@ export default function BasicProfile() {
       setSelectedMajorKey(majorKey);
     }
 
+    const transcriptImport = await buildTranscriptPriorCreditImport(result);
+    await replacePriorCreditsByImportOrigin("testudo_transcript", transcriptImport.records);
+
     setMessage(majorKey
-      ? "Transcript parsed. Review the autofilled fields below before continuing."
-      : "Transcript parsed. Review the extracted fields below and choose your major if we could not match it.");
+      ? `Transcript imported ${transcriptImport.summary.importedRecords} prior credit records and autofilled your profile. Review everything below before continuing.`
+      : `Transcript imported ${transcriptImport.summary.importedRecords} prior credit records. Review the extracted fields below and choose your major if we could not match it.`);
   };
 
   useEffect(() => {

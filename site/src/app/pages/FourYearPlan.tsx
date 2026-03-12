@@ -14,6 +14,7 @@ import {
 import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
+import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import {
   buildCourseContributionMap,
@@ -33,6 +34,8 @@ interface PlannedCourse {
   credits: number;
   tags: string[];
   status: AcademicProgressStatus;
+  grade?: string;
+  countsTowardProgress: boolean;
 }
 
 interface PlannedTerm {
@@ -42,6 +45,7 @@ interface PlannedTerm {
   termLabel: string;
   credits: number;
   status: AcademicProgressStatus;
+  source: "schedule" | "prior_credit";
   scheduleId: string;
   scheduleName: string;
   updatedAt: string;
@@ -107,6 +111,7 @@ function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
       credits: Number.isFinite(credits) ? credits : 0,
       tags: genEds,
       status: termStatus,
+      countsTowardProgress: true,
     });
   }
 
@@ -119,11 +124,67 @@ function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
     termLabel: formatTermLabel(schedule.term_code, schedule.term_year),
     credits: courses.reduce((sum, course) => sum + course.credits, 0),
     status: termStatus,
+    source: "schedule",
     scheduleId: schedule.id,
     scheduleName: schedule.name,
     updatedAt: schedule.updated_at,
     courses,
   };
+}
+
+function parseTermLabel(termLabel: string | undefined): { termCode: string; termYear: number } | null {
+  const match = String(termLabel ?? "").match(/^(Spring|Summer|Fall|Winter)\s+(20\d{2})$/i);
+  if (!match) return null;
+  const season = match[1].toLowerCase();
+  const year = Number(match[2]);
+  const termCode = season === "spring" ? "01" : season === "summer" ? "05" : season === "fall" ? "08" : "12";
+  return { termCode, termYear: year };
+}
+
+function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserPriorCredits>>): PlannedTerm[] {
+  const grouped = new Map<string, PlannedCourse[]>();
+
+  for (const credit of priorCredits) {
+    const termLabel = credit.termAwarded ?? "Prior to UMD";
+    const creditCodes = String(credit.umdCourseCode ?? "")
+      .split(/[|,]/)
+      .map((value) => value.trim().toUpperCase())
+      .filter(Boolean);
+    const normalizedCodes = creditCodes.length > 0 ? creditCodes : [`PRIOR:${credit.id}`];
+
+    for (const code of normalizedCodes) {
+      const entries = grouped.get(termLabel) ?? [];
+      entries.push({
+        sectionKey: `${credit.id}-${code}`,
+        code,
+        title: credit.originalName,
+        sectionCode: credit.importOrigin === "testudo_transcript" ? "Transcript" : "Prior Credit",
+        credits: Number(credit.credits ?? 0) || 0,
+        tags: Array.isArray(credit.genEdCodes) ? credit.genEdCodes : [],
+        status: "completed",
+        grade: credit.grade,
+        countsTowardProgress: credit.countsTowardProgress !== false,
+      });
+      grouped.set(termLabel, entries);
+    }
+  }
+
+  return Array.from(grouped.entries()).map(([termLabel, courses], index) => {
+    const parsedTerm = parseTermLabel(termLabel);
+    return {
+      id: parsedTerm ? `${parsedTerm.termCode}-${parsedTerm.termYear}-prior` : `prior-${index}`,
+      termCode: parsedTerm?.termCode ?? "00",
+      termYear: parsedTerm?.termYear ?? 0,
+      termLabel,
+      credits: courses.filter((course) => course.countsTowardProgress).reduce((sum, course) => sum + course.credits, 0),
+      status: "completed",
+      source: "prior_credit",
+      scheduleId: "prior-credit",
+      scheduleName: "Imported History",
+      updatedAt: new Date().toISOString(),
+      courses,
+    } satisfies PlannedTerm;
+  });
 }
 
 function statusRank(status: AcademicProgressStatus): number {
@@ -140,6 +201,7 @@ export default function FourYearPlan() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
+  const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
   const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
 
   useEffect(() => {
@@ -147,15 +209,17 @@ export default function FourYearPlan() {
 
     const run = async () => {
       try {
-        const [all, selectedPrograms] = await Promise.all([
+        const [all, selectedPrograms, loadedPriorCredits] = await Promise.all([
           plannerApi.listAllSchedulesWithSelections(),
           listUserDegreePrograms(),
+          listUserPriorCredits(),
         ]);
 
         const bundles = await loadProgramRequirementBundles(selectedPrograms);
         if (!active) return;
 
         setMainSchedules(all.filter((schedule) => schedule.is_primary));
+        setPriorCredits(loadedPriorCredits);
         setRequirementBundles(bundles);
         setErrorMessage(null);
       } catch (error) {
@@ -177,13 +241,16 @@ export default function FourYearPlan() {
       .map(toPlannedTerm)
       .filter((term): term is PlannedTerm => term !== null);
 
-    transformed.sort((a, b) => compareAcademicTerms(
-      { termCode: a.termCode, termYear: a.termYear },
-      { termCode: b.termCode, termYear: b.termYear }
+    const priorTerms = buildPriorCreditTerms(priorCredits);
+    const combined = [...transformed, ...priorTerms];
+
+    combined.sort((a, b) => compareAcademicTerms(
+      { termCode: a.termCode === "00" ? "01" : a.termCode, termYear: a.termYear || 0 },
+      { termCode: b.termCode === "00" ? "01" : b.termCode, termYear: b.termYear || 0 }
     ));
 
-    return transformed;
-  }, [mainSchedules]);
+    return combined;
+  }, [mainSchedules, priorCredits]);
 
   const visibleTerms = useMemo(() => {
     if (sortOrder === "ascending") {
@@ -205,6 +272,9 @@ export default function FourYearPlan() {
   const summary = useMemo(() => {
     const uniqueByCode = new Map<string, PlannedCourse>();
     for (const course of terms.flatMap((term) => term.courses)) {
+      if (!course.countsTowardProgress) {
+        continue;
+      }
       const key = course.code.toUpperCase();
       const existing = uniqueByCode.get(key);
       if (!existing) {
@@ -422,7 +492,7 @@ export default function FourYearPlan() {
                       <h3 className="text-xl text-foreground">{term.termLabel}</h3>
                       <Badge variant="outline" className="border-border">{term.credits} credits</Badge>
                       {statusBadge(term.status)}
-                      <Badge variant="outline" className="border-border text-foreground/80">MAIN: {term.scheduleName}</Badge>
+                      <Badge variant="outline" className="border-border text-foreground/80">{term.source === "schedule" ? `MAIN: ${term.scheduleName}` : term.scheduleName}</Badge>
                     </div>
                     {isCollapsed ? (
                       <ChevronDown className="w-5 h-5 text-muted-foreground" />
@@ -441,7 +511,8 @@ export default function FourYearPlan() {
                         {term.courses.map((course) => (
                           (() => {
                             const contributionLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
-                            const cardStyle = contributionCardStyle(contributionLabels);
+                            const visibleContributionLabels = course.countsTowardProgress ? contributionLabels : [];
+                            const cardStyle = contributionCardStyle(visibleContributionLabels);
                             const duplicateCount = duplicateCountsByCode.get(course.code.toUpperCase()) ?? 0;
                             const isDuplicate = duplicateCount > 1;
                             return (
@@ -461,11 +532,11 @@ export default function FourYearPlan() {
                               <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
                             </div>
                             <p className="text-[11px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">{course.title}</p>
-                            <p className="text-[10px] text-muted-foreground mb-0.5 leading-tight">Section {course.sectionCode}</p>
+                            <p className="text-[10px] text-muted-foreground mb-0.5 leading-tight">{course.sectionCode}{course.grade ? ` | Grade ${course.grade}` : ""}</p>
 
-                            {contributionLabels.length > 0 && (
+                            {visibleContributionLabels.length > 0 && (
                               <p className="text-[10px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">
-                                Contributes to: {contributionLabels.join("; ")}
+                                Contributes to: {visibleContributionLabels.join("; ")}
                               </p>
                             )}
 
@@ -476,13 +547,18 @@ export default function FourYearPlan() {
                                     Duplicate credit
                                   </Badge>
                                 )}
+                                {!course.countsTowardProgress && (
+                                  <Badge className="text-[10px] bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-600/20 dark:text-slate-300 dark:border-slate-500/40">
+                                    Does not count
+                                  </Badge>
+                                )}
                                 {course.tags.slice(0, 2).map((tag) => (
                                   <Badge key={`${course.sectionKey}-${tag}`} className="bg-red-100 text-red-900 border border-red-300 text-xs dark:bg-red-600/20 dark:text-red-300 dark:border-red-600/30">
                                     {tag}
                                   </Badge>
                                 ))}
 
-                                {showContributionHighlight && contributionLabels.slice(0, 2).map((label) => {
+                                {showContributionHighlight && visibleContributionLabels.slice(0, 2).map((label) => {
                                   const palette = contributionBadgeStyle(label);
                                   return (
                                     <Badge

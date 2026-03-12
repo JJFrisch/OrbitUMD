@@ -16,6 +16,29 @@ export interface TranscriptParseResult {
   pageCount: number;
   rawText: string;
   fields: ParsedTranscriptFields;
+  courses: ParsedTranscriptCourse[];
+  summary: TranscriptSummary;
+}
+
+export type TranscriptCourseSource = "AP" | "IB" | "transfer" | "transcript";
+
+export interface ParsedTranscriptCourse {
+  sourceType: TranscriptCourseSource;
+  courseCode: string | null;
+  title: string;
+  credits: number;
+  grade: string | null;
+  termLabel: string | null;
+  countsTowardProgress: boolean;
+  rawLine: string;
+}
+
+export interface TranscriptSummary {
+  totalCreditsEarned: number | null;
+  totalCreditsAttempted: number | null;
+  totalParsedCourses: number;
+  totalPassingCourses: number;
+  apCredits: number;
 }
 
 type PdfTextItem = {
@@ -49,6 +72,11 @@ const EMPTY_FIELDS: ParsedTranscriptFields = {
   graduationYear: null,
   college: null,
 };
+
+const PASSING_GRADES = new Set(["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "P", "S", "CR"]);
+const NON_PROGRESS_GRADES = new Set(["F", "W", "WP", "WF", "I", "IP", "NG", "NC", "AU"]);
+const GRADE_PATTERN = /^(A\+|A|A-|B\+|B|B-|C\+|C|C-|D\+|D|D-|F|P|S|CR|W|WP|WF|I|IP|NG|NC|AU)$/i;
+const COURSE_CODE_PATTERN = /^[A-Z]{2,5}\s?\d{3}[A-Z]?$/i;
 
 function normalizeWhitespace(value: string): string {
   return value.replace(/\u00a0/g, " ").replace(/[ \t]+/g, " ").replace(/\s*\n\s*/g, "\n").trim();
@@ -214,6 +242,137 @@ function extractCumulativeGpa(lines: string[], text: string): string | null {
   return match?.[1] ?? null;
 }
 
+function normalizeCourseCode(value: string): string {
+  return value.replace(/\s+/g, "").toUpperCase();
+}
+
+function detectTranscriptSource(line: string): TranscriptCourseSource | null {
+  if (/advanced placement|\bap credits?\b|\bap test/i.test(line)) return "AP";
+  if (/international baccalaureate|\bib credits?\b/i.test(line)) return "IB";
+  if (/transfer credits?|transfer coursework/i.test(line)) return "transfer";
+  return null;
+}
+
+function isTermHeading(line: string): boolean {
+  return /^(Spring|Summer|Fall|Winter)\s+20\d{2}$/i.test(line);
+}
+
+function isProgressGrade(grade: string | null): boolean {
+  if (!grade) return true;
+  const normalized = grade.toUpperCase();
+  if (NON_PROGRESS_GRADES.has(normalized)) return false;
+  return PASSING_GRADES.has(normalized) || /^[ABCDF][+-]?$/i.test(normalized);
+}
+
+function extractSummaryNumber(lines: string[], labels: string[]): number | null {
+  const value = extractLabeledValue(lines, labels);
+  if (!value) return null;
+  const match = value.match(/\d+(?:\.\d+)?/);
+  if (!match?.[0]) return null;
+  return Number(match[0]);
+}
+
+function parseTranscriptCourseLine(line: string, currentTerm: string | null, currentSource: TranscriptCourseSource): ParsedTranscriptCourse | null {
+  if (/\b(total|gpa|standing|credits earned|credits attempted|cumulative|academic status|program and plan|student name|college)\b/i.test(line)) {
+    return null;
+  }
+
+  const tokens = line.trim().split(/\s+/).filter(Boolean);
+  if (tokens.length < 3) return null;
+
+  let codeIndex = -1;
+  let codeSpan = 1;
+  let courseCode: string | null = null;
+
+  for (let index = 0; index < Math.min(tokens.length, 5); index += 1) {
+    const single = tokens[index];
+    if (COURSE_CODE_PATTERN.test(single)) {
+      codeIndex = index;
+      codeSpan = 1;
+      courseCode = normalizeCourseCode(single);
+      break;
+    }
+    if (index + 1 < tokens.length) {
+      const combined = `${tokens[index]}${tokens[index + 1]}`;
+      if (COURSE_CODE_PATTERN.test(combined)) {
+        codeIndex = index;
+        codeSpan = 2;
+        courseCode = normalizeCourseCode(combined);
+        break;
+      }
+    }
+  }
+
+  const numericIndexes = tokens
+    .map((token, index) => ({ token, index }))
+    .filter(({ token, index }) => index > codeIndex && /^\d+(?:\.\d+)?$/.test(token));
+  const gradeIndexes = tokens
+    .map((token, index) => ({ token, index }))
+    .filter(({ token, index }) => index > codeIndex && index >= tokens.length - 2 && GRADE_PATTERN.test(token));
+
+  if (courseCode === null && currentSource !== "AP" && currentSource !== "IB" && currentSource !== "transfer") {
+    return null;
+  }
+
+  const creditCandidate = numericIndexes.at(-1) ?? null;
+  if (!creditCandidate) return null;
+  const credits = Number(creditCandidate.token);
+  if (!Number.isFinite(credits)) return null;
+
+  const gradeCandidate = gradeIndexes.at(-1) ?? null;
+  const stopIndex = Math.min(
+    creditCandidate.index,
+    gradeCandidate?.index ?? creditCandidate.index,
+  );
+  const titleTokens = tokens.slice(Math.max(0, codeIndex + codeSpan), stopIndex).filter((token) => token !== "-");
+
+  const title = titleTokens.join(" ").trim();
+  if (!title && !courseCode) return null;
+
+  const ambiguousIncompleteGrade = (
+    gradeCandidate?.token?.toUpperCase() === "I"
+    && currentSource !== "transcript"
+    && gradeIndexes.length === 1
+  );
+  const grade = ambiguousIncompleteGrade ? null : (gradeCandidate?.token?.toUpperCase() ?? null);
+  return {
+    sourceType: currentSource,
+    courseCode,
+    title: title || courseCode || line.trim(),
+    credits,
+    grade,
+    termLabel: currentSource === "AP" || currentSource === "IB" ? "Prior to UMD" : currentTerm,
+    countsTowardProgress: isProgressGrade(grade),
+    rawLine: line,
+  };
+}
+
+function extractTranscriptCourses(lines: string[]): ParsedTranscriptCourse[] {
+  const courses: ParsedTranscriptCourse[] = [];
+  let currentTerm: string | null = null;
+  let currentSource: TranscriptCourseSource = "transcript";
+
+  for (const line of lines) {
+    const nextSource = detectTranscriptSource(line);
+    if (nextSource) {
+      currentSource = nextSource;
+      continue;
+    }
+    if (isTermHeading(line)) {
+      currentTerm = line;
+      currentSource = "transcript";
+      continue;
+    }
+
+    const parsed = parseTranscriptCourseLine(line, currentTerm, currentSource);
+    if (parsed) {
+      courses.push(parsed);
+    }
+  }
+
+  return courses;
+}
+
 function sortPdfItems(items: PdfTextItem[]): Array<PdfTextItem & { x: number; y: number }> {
   return items
     .filter((item) => typeof item.str === "string" && Array.isArray(item.transform) && item.transform.length >= 6)
@@ -259,6 +418,9 @@ function textFromPdfItems(items: PdfTextItem[]): string {
 export function parseUnofficialTranscriptText(text: string, fileName: string = "transcript.pdf", pageCount: number = 0): TranscriptParseResult {
   const normalizedText = normalizeWhitespace(text);
   const lines = splitLines(normalizedText);
+  const courses = extractTranscriptCourses(lines);
+  const totalCreditsEarned = extractSummaryNumber(lines, ["Credits Earned", "Total Credits Earned", "Units Passed", "Earned Hours"]);
+  const totalCreditsAttempted = extractSummaryNumber(lines, ["Credits Attempted", "Total Credits Attempted", "Units Attempted", "Attempted Hours"]);
 
   return {
     fileName,
@@ -276,6 +438,16 @@ export function parseUnofficialTranscriptText(text: string, fileName: string = "
       admitTerm: extractAdmitTerm(lines, normalizedText),
       graduationYear: extractGraduationYear(lines, normalizedText),
       college: extractCollege(lines, normalizedText),
+    },
+    courses,
+    summary: {
+      totalCreditsEarned,
+      totalCreditsAttempted,
+      totalParsedCourses: courses.length,
+      totalPassingCourses: courses.filter((course) => course.countsTowardProgress).length,
+      apCredits: courses
+        .filter((course) => course.sourceType === "AP")
+        .reduce((sum, course) => sum + course.credits, 0),
     },
   };
 }

@@ -37,6 +37,8 @@ import {
   buildProgramTemplateKey,
   saveProgramRequirementTemplate,
 } from "@/lib/repositories/programRequirementTemplatesRepository";
+import { replacePriorCreditsByImportOrigin } from "@/lib/repositories/priorCreditsRepository";
+import { buildTranscriptPriorCreditImport } from "@/lib/transcripts/transcriptCreditImport";
 import type { TranscriptParseResult } from "@/lib/transcripts/unofficialTranscriptParser";
 
 interface TermOption {
@@ -52,6 +54,15 @@ function normalizeProgramName(value: string): string {
     .replace(/bachelor of science|bachelor of arts|double degree|second major|b\.\s*s\.?|b\.\s*a\.?|bs|ba/gi, "")
     .replace(/[^a-z0-9]+/g, " ")
     .trim();
+}
+
+function summarizePriorCredits(priorCredits: Array<{ sourceType: string; credits: number }>) {
+  const apOnly = priorCredits.filter((record) => record.sourceType === "AP");
+  return {
+    totalCredits: priorCredits.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
+    apCredits: apOnly.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
+    apRecords: apOnly.length,
+  };
 }
 
 export default function Settings() {
@@ -147,12 +158,7 @@ export default function Settings() {
           id: row.id,
           label: `${seasonLabel[row.season] ?? row.season} ${row.year}`,
         })));
-        const apOnly = priorCredits.filter((record) => record.sourceType === "AP");
-        setPriorCreditSummary({
-          totalCredits: priorCredits.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
-          apCredits: apOnly.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
-          apRecords: apOnly.length,
-        });
+        setPriorCreditSummary(summarizePriorCredits(priorCredits));
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -189,6 +195,11 @@ export default function Settings() {
     if (fields.email) setEmail(fields.email);
     if (fields.universityUid) setUid(fields.universityUid);
 
+    const transcriptImport = await buildTranscriptPriorCreditImport(result);
+    await replacePriorCreditsByImportOrigin("testudo_transcript", transcriptImport.records);
+    const refreshedPriorCredits = await listUserPriorCredits();
+    setPriorCreditSummary(summarizePriorCredits(refreshedPriorCredits));
+
     const detectedMajor = normalizeProgramName(String(fields.major ?? ""));
     if (detectedMajor) {
       const matchingProgram = allPrograms.find((program) => {
@@ -200,13 +211,13 @@ export default function Settings() {
         const alreadyDeclared = userPrograms.some((program) => normalizeProgramName(program.programName) === normalizeProgramName(matchingProgram.name));
         if (!alreadyDeclared) {
           setSelectedProgramToAdd(matchingProgram.key);
-          setSaveMessage(`Transcript parsed. Review the autofilled profile fields and add ${matchingProgram.name} if it is correct.`);
+          setSaveMessage(`Transcript imported ${transcriptImport.summary.importedRecords} records. Review the autofilled profile fields and add ${matchingProgram.name} if it is correct.`);
           return;
         }
       }
     }
 
-    setSaveMessage("Transcript parsed. Review the autofilled profile fields before saving.");
+    setSaveMessage(`Transcript imported ${transcriptImport.summary.importedRecords} records. Review the autofilled profile fields before saving.`);
   };
 
   const handleSaveProfile = async () => {
