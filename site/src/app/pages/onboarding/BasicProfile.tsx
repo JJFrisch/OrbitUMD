@@ -5,6 +5,7 @@ import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Card } from "../../components/ui/card";
 import { Progress } from "../../components/ui/progress";
+import TranscriptUploadPanel from "../../components/TranscriptUploadPanel";
 import {
   Select,
   SelectContent,
@@ -12,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { Info, Orbit } from "lucide-react";
+import { FileUp, Info, Orbit, PencilLine } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
@@ -27,6 +28,7 @@ import {
   listUserDegreePrograms,
   type CatalogProgramOption,
 } from "@/lib/repositories/degreeProgramsRepository";
+import type { TranscriptParseResult } from "@/lib/transcripts/unofficialTranscriptParser";
 
 async function loadAllUmdMajors(): Promise<CatalogProgramOption[]> {
   const byName = new Map<string, CatalogProgramOption>();
@@ -71,13 +73,67 @@ async function loadAllUmdMajors(): Promise<CatalogProgramOption[]> {
 export default function BasicProfile() {
   const navigate = useNavigate();
   const [isNewStudent, setIsNewStudent] = useState(false);
+  const [entryMethod, setEntryMethod] = useState<"transcript" | "manual">("transcript");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [uid, setUid] = useState("");
+  const [degreeType, setDegreeType] = useState("bs");
+  const [startingSemester, setStartingSemester] = useState("fall2026");
+  const [graduationYear, setGraduationYear] = useState("");
   const [majorOptions, setMajorOptions] = useState<CatalogProgramOption[]>([]);
   const [selectedMajorKey, setSelectedMajorKey] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+
+  const normalizeProgramName = (value: string) => value
+    .toLowerCase()
+    .replace(/bachelor of science|bachelor of arts|double degree|second major|b\.\s*s\.?|b\.\s*a\.?|bs|ba/gi, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+  const resolveMajorKey = (rawMajor: string | null | undefined) => {
+    const normalizedMajor = normalizeProgramName(String(rawMajor ?? ""));
+    if (!normalizedMajor) return "";
+    const exact = majorOptions.find((option) => normalizeProgramName(option.name) === normalizedMajor);
+    if (exact) return exact.key;
+    const partial = majorOptions.find((option) => {
+      const optionName = normalizeProgramName(option.name);
+      return optionName.includes(normalizedMajor) || normalizedMajor.includes(optionName);
+    });
+    return partial?.key ?? "";
+  };
+
+  const applyTranscriptResult = async (result: TranscriptParseResult) => {
+    const { fields } = result;
+    if (fields.fullName) setName(fields.fullName);
+    if (fields.email) setEmail(fields.email);
+    if (fields.universityUid) setUid(fields.universityUid);
+    if (fields.degree) {
+      const normalizedDegree = fields.degree.toLowerCase();
+      if (normalizedDegree.includes("double")) setDegreeType("double");
+      else if (normalizedDegree.includes("second")) setDegreeType("second");
+      else if (normalizedDegree.includes("arts") || normalizedDegree === "ba" || normalizedDegree === "b.a.") setDegreeType("ba");
+      else setDegreeType("bs");
+    }
+    if (fields.graduationYear) {
+      setGraduationYear(fields.graduationYear);
+    }
+    if (fields.admitTerm) {
+      const termMatch = fields.admitTerm.match(/(fall|spring|summer|winter)\s+(20\d{2})/i);
+      if (termMatch) {
+        setStartingSemester(`${termMatch[1].toLowerCase()}${termMatch[2]}`);
+      }
+    }
+
+    const majorKey = resolveMajorKey(fields.major);
+    if (majorKey) {
+      setSelectedMajorKey(majorKey);
+    }
+
+    setMessage(majorKey
+      ? "Transcript parsed. Review the autofilled fields below before continuing."
+      : "Transcript parsed. Review the extracted fields below and choose your major if we could not match it.");
+  };
 
   useEffect(() => {
     let mounted = true;
@@ -201,6 +257,46 @@ export default function BasicProfile() {
           </div>
 
           <div className="space-y-6">
+            <div className="grid gap-3 md:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => setEntryMethod("transcript")}
+                className={`rounded-xl border p-4 text-left transition-colors ${entryMethod === "transcript" ? "border-red-500 bg-red-500/5" : "border-border bg-input-background hover:bg-accent"}`}
+              >
+                <div className="flex items-center gap-2 text-foreground">
+                  <FileUp className="h-4 w-4 text-red-500" />
+                  Upload unofficial transcript
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Pull your Testudo PDF and let OrbitUMD prefill your profile.
+                </p>
+              </button>
+              <button
+                type="button"
+                onClick={() => setEntryMethod("manual")}
+                className={`rounded-xl border p-4 text-left transition-colors ${entryMethod === "manual" ? "border-red-500 bg-red-500/5" : "border-border bg-input-background hover:bg-accent"}`}
+              >
+                <div className="flex items-center gap-2 text-foreground">
+                  <PencilLine className="h-4 w-4 text-red-500" />
+                  Fill out the form
+                </div>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Enter your details manually if you do not have your transcript PDF ready.
+                </p>
+              </button>
+            </div>
+
+            {entryMethod === "transcript" && (
+              <TranscriptUploadPanel
+                instructions={[
+                  "Go to testudo.umd.edu and open your unofficial transcript in Testudo.",
+                  "Use your browser's Print action and save the transcript as a PDF.",
+                  "Upload that PDF here and OrbitUMD will prefill the profile fields it can detect.",
+                ]}
+                onParsed={applyTranscriptResult}
+              />
+            )}
+
             <div>
               <Label htmlFor="name">Full Name</Label>
               <Input id="name" value={name} onChange={(event) => setName(event.target.value)} placeholder="Your full name" className="bg-input-background border-border" />
@@ -237,7 +333,7 @@ export default function BasicProfile() {
                   </Tooltip>
                 </TooltipProvider>
               </div>
-              <Select defaultValue="bs">
+              <Select value={degreeType} onValueChange={setDegreeType}>
                 <SelectTrigger className="bg-input-background border-border">
                   <SelectValue />
                 </SelectTrigger>
@@ -280,11 +376,15 @@ export default function BasicProfile() {
               <div className="flex items-center gap-2 mb-2">
                 <Label htmlFor="starting-semester">Starting Semester</Label>
               </div>
-              <Select defaultValue="fall2026">
+              <Select value={startingSemester} onValueChange={setStartingSemester}>
                 <SelectTrigger className="bg-input-background border-border">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="fall2024">Fall 2024</SelectItem>
+                  <SelectItem value="spring2025">Spring 2025</SelectItem>
+                  <SelectItem value="fall2025">Fall 2025</SelectItem>
+                  <SelectItem value="spring2026">Spring 2026</SelectItem>
                   <SelectItem value="fall2026">Fall 2026</SelectItem>
                   <SelectItem value="spring2027">Spring 2027</SelectItem>
                   <SelectItem value="fall2027">Fall 2027</SelectItem>
@@ -294,14 +394,17 @@ export default function BasicProfile() {
 
             <div>
               <Label htmlFor="graduation-year">Expected Graduation Year (Optional)</Label>
-              <Select>
+              <Select value={graduationYear} onValueChange={setGraduationYear}>
                 <SelectTrigger className="bg-input-background border-border">
                   <SelectValue placeholder="Select year..." />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="2026">2026</SelectItem>
+                  <SelectItem value="2027">2027</SelectItem>
                   <SelectItem value="2028">2028</SelectItem>
                   <SelectItem value="2029">2029</SelectItem>
                   <SelectItem value="2030">2030</SelectItem>
+                  <SelectItem value="2031">2031</SelectItem>
                 </SelectContent>
               </Select>
             </div>
