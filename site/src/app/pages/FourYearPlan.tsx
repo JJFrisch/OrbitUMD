@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 import { ArrowUpDown, Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
+import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
@@ -13,6 +14,7 @@ import {
 } from "../components/ui/select";
 import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
+import type { ScheduleSelection } from "@/features/coursePlanner/types/coursePlanner";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
@@ -62,10 +64,24 @@ const TERM_NAME: Record<string, string> = {
   "12": "Winter",
 };
 
-function parseSelections(stored: unknown): Array<any> {
-  const payload = (stored ?? []) as { selections?: any[] } | any[];
+const GRADE_OPTIONS = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F", "P", "S", "U", "I", "W", "AUD", "NGR", "IP", "NG", "NC", "CR", "WP", "WF"] as const;
+
+function parseSelections(stored: unknown): ScheduleSelection[] {
+  const payload = (stored ?? []) as { selections?: ScheduleSelection[] } | ScheduleSelection[];
   if (Array.isArray(payload)) return payload;
   return Array.isArray(payload.selections) ? payload.selections : [];
+}
+
+function buildSelectionsPayload(selections: ScheduleSelection[]) {
+  return {
+    sectionIds: selections.map((selection) => selection.section.id || selection.sectionKey),
+    selections,
+  };
+}
+
+function normalizeGradeValue(grade: string | undefined): string | undefined {
+  const normalized = String(grade ?? "").trim().toUpperCase();
+  return normalized.length > 0 ? normalized : undefined;
 }
 
 function formatTermLabel(termCode: string, termYear: number): string {
@@ -114,6 +130,7 @@ function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
       credits: Number.isFinite(credits) ? credits : 0,
       tags: genEds,
       status: termStatus,
+      grade: normalizeGradeValue(selection?.grade),
       countsTowardProgress: true,
     });
   }

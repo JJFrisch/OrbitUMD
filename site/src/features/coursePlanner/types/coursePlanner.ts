@@ -101,6 +101,7 @@ export interface ScheduleSelection {
   sectionKey: string;
   course: Course;
   section: Section;
+  grade?: string;
 }
 
 export interface SearchFilters {

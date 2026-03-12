@@ -769,7 +769,7 @@ export function buildCourseContributionMap(bundles: ProgramRequirementBundle[]):
   const map = new Map<string, Set<string>>();
 
   for (const bundle of bundles) {
-    const label = `${bundle.kind}: ${bundle.programName}`;
+    const label = `${bundle.kind.charAt(0).toUpperCase()}${bundle.kind.slice(1)}: ${bundle.programName}`;
     for (const section of bundle.sections) {
       for (const code of section.courseCodes) {
         const normalized = code.toUpperCase();
