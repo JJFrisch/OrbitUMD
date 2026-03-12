@@ -14,6 +14,7 @@ const CATALOG_TERMS_VIEW = "catalog_terms_v";
 const CATALOG_COURSES_VIEW = "catalog_courses_v";
 const CATALOG_SECTIONS_VIEW = "catalog_sections_v";
 const CATALOG_MEETINGS_VIEW = "catalog_meetings_v";
+const catalogTermResolutionCache = new Map<string, { year: number; termCode: string }>();
 
 type UmdApiCourse = {
   course_id: string;
@@ -235,13 +236,17 @@ async function fetchTermsFromCatalog(): Promise<UmdTerm[]> {
 }
 
 async function resolveCatalogTermWithFallback(termCodeInput: string): Promise<{ year: number; termCode: string }> {
+  const cached = catalogTermResolutionCache.get(termCodeInput);
+  if (cached) {
+    return cached;
+  }
+
   const { year, termCode } = splitTermCode(termCodeInput);
   const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
     .from(CATALOG_TERMS_VIEW)
-    .select("term_code, year, active")
-    .eq("active", true)
+    .select("term_code, year")
     .eq("term_code", termCode)
     .lte("year", year)
     .order("year", { ascending: false })
@@ -253,13 +258,17 @@ async function resolveCatalogTermWithFallback(termCodeInput: string): Promise<{ 
 
   const row = (data ?? [])[0] as Pick<CatalogTermRow, "term_code" | "year"> | undefined;
   if (!row) {
-    return { year, termCode };
+    const fallback = { year, termCode };
+    catalogTermResolutionCache.set(termCodeInput, fallback);
+    return fallback;
   }
 
-  return {
+  const resolved = {
     year: row.year,
     termCode: row.term_code,
   };
+  catalogTermResolutionCache.set(termCodeInput, resolved);
+  return resolved;
 }
 
 async function searchCoursesFromCatalog(params: CourseSearchParams): Promise<UmdCourseSummary[]> {

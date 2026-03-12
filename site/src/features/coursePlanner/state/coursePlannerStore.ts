@@ -277,19 +277,38 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       const resolved = resolveTermYear(term, year, filters.searchTerm);
       set({ resolvedTerm: resolved.term, resolvedYear: resolved.year });
 
-      const instructors = await getActiveInstructors(resolved.term, resolved.year).catch(() => []);
-      const instructorLookup = await getInstructorLookup(resolved.term, resolved.year).catch(() => ({ byName: {} }));
-      if (get().latestRequestToken === token) {
-        set({ instructors, instructorLookup });
-      }
-
       let instructor: string | undefined;
       if (filters.instructorInput.trim()) {
+        const instructors = await getActiveInstructors(resolved.term, resolved.year).catch(() => []);
         const normalizedNeedle = filters.instructorInput.toLowerCase();
         const matches = instructors.filter((name) => name.toLowerCase().includes(normalizedNeedle));
         if (matches.length === 1) {
           instructor = matches[0];
         }
+
+        if (get().latestRequestToken === token) {
+          set({ instructors });
+        }
+      } else {
+        void getActiveInstructors(resolved.term, resolved.year)
+          .then((instructors) => {
+            if (get().latestRequestToken === token) {
+              set({ instructors });
+            }
+          })
+          .catch(() => undefined);
+      }
+
+      void getInstructorLookup(resolved.term, resolved.year)
+        .then((instructorLookup) => {
+          if (get().latestRequestToken === token) {
+            set({ instructorLookup });
+          }
+        })
+        .catch(() => undefined);
+
+      if (!filters.instructorInput.trim() && get().latestRequestToken === token && get().instructors.length === 0) {
+        set({ instructors: [] });
       }
 
       const results = await searchCoursesWithStrategy({

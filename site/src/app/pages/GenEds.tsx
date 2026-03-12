@@ -52,6 +52,11 @@ interface GenEdRow extends GenEdMeta {
   fulfilledBy: TaggedCourse[];
 }
 
+type GenEdFulfillmentConfig = GenEdMeta & {
+  sourceCodes: string[];
+  statusCodes?: string[];
+};
+
 const TERM_NAME: Record<string, string> = {
   "01": "Spring",
   "05": "Summer",
@@ -70,11 +75,95 @@ const GEN_ED_REQUIREMENTS: GenEdMeta[] = [
   { code: "DSNL", name: "Natural Sciences with Lab", category: "Distributive Studies", required: 1, description: "Laboratory-based natural science coursework." },
   { code: "DSNS", name: "Natural Sciences", category: "Distributive Studies", required: 1, description: "Natural science coursework." },
   { code: "DSSP", name: "Scholarship in Practice", category: "Distributive Studies", required: 2, description: "Practice-based and experiential learning." },
-  { code: "SCIS", name: "SCIS", category: "I-Series / Big Question", required: 1, description: "Signature I-Series exploration." },
   { code: "I-SERIES", name: "I-Series / Big Question", category: "I-Series / Big Question", required: 2, description: "Interdisciplinary inquiry courses." },
   { code: "DVUP", name: "Understanding Plural Societies", category: "Diversity", required: 2, description: "Diversity and plural societies coursework." },
   { code: "DVCC", name: "Cultural Competence", category: "Diversity", required: 1, description: "Cultural competence and global perspective." },
 ];
+
+const GEN_ED_FULFILLMENT_CONFIG: GenEdFulfillmentConfig[] = [
+  { code: "FSAR", name: "Analytic Reasoning", category: "Fundamental Studies", required: 1, description: "Quantitative and analytical reasoning.", sourceCodes: ["FSAR"] },
+  { code: "FSAW", name: "Academic Writing", category: "Fundamental Studies", required: 1, description: "Academic writing and communication.", sourceCodes: ["FSAW"] },
+  { code: "FSMA", name: "Math", category: "Fundamental Studies", required: 1, description: "Mathematical foundations and problem-solving.", sourceCodes: ["FSMA"] },
+  { code: "FSOC", name: "Oral Communication", category: "Fundamental Studies", required: 1, description: "Oral presentation and communication skills.", sourceCodes: ["FSOC"] },
+  { code: "FSPW", name: "Professional Writing", category: "Fundamental Studies", required: 1, description: "Professional and technical writing.", sourceCodes: ["FSPW"] },
+  { code: "DSHS", name: "History and Social Sciences", category: "Distributive Studies", required: 2, description: "Historical and social science perspectives.", sourceCodes: ["DSHS"] },
+  { code: "DSHU", name: "Humanities", category: "Distributive Studies", required: 2, description: "Humanities courses across culture and arts.", sourceCodes: ["DSHU"] },
+  { code: "DSNL", name: "Natural Sciences with Lab", category: "Distributive Studies", required: 1, description: "Laboratory-based natural science coursework.", sourceCodes: ["DSNL"] },
+  { code: "DSNS", name: "Natural Sciences", category: "Distributive Studies", required: 1, description: "Natural science coursework.", sourceCodes: ["DSNS"] },
+  { code: "DSSP", name: "Scholarship in Practice", category: "Distributive Studies", required: 2, description: "Practice-based and experiential learning.", sourceCodes: ["DSSP"] },
+  { code: "I-SERIES", name: "I-Series / Big Question", category: "I-Series / Big Question", required: 2, description: "Interdisciplinary inquiry courses.", sourceCodes: ["I-SERIES", "SCIS"] },
+  { code: "DVUP", name: "Understanding Plural Societies", category: "Diversity", required: 2, description: "Diversity and plural societies coursework.", sourceCodes: ["DVUP"] },
+  { code: "DVCC", name: "Cultural Competence", category: "Diversity", required: 1, description: "Cultural competence and global perspective.", sourceCodes: ["DVCC"] },
+];
+
+const GEN_ED_SEARCH_TAGS: Record<string, string[]> = {
+  "I-SERIES": ["I-SERIES", "SCIS"],
+  DVCC: ["DVCC", "DVUP"],
+};
+
+function dedupeTaggedCourses(courses: TaggedCourse[]): TaggedCourse[] {
+  const byCode = new Map<string, TaggedCourse>();
+  for (const course of courses) {
+    const existing = byCode.get(course.code);
+    if (!existing || statusRank(course.status) > statusRank(existing.status)) {
+      byCode.set(course.code, course);
+    }
+  }
+  return Array.from(byCode.values()).sort((a, b) => statusRank(b.status) - statusRank(a.status));
+}
+
+function buildGenEdRows(coursesByTag: Map<string, TaggedCourse[]>): GenEdRow[] {
+  const baseRows = GEN_ED_FULFILLMENT_CONFIG.map((meta) => {
+    const fulfilled = dedupeTaggedCourses(meta.sourceCodes.flatMap((code) => coursesByTag.get(code) ?? []));
+    const completedCount = fulfilled.filter((f) => f.status === "completed").length;
+    const inProgressCount = fulfilled.filter((f) => f.status === "in_progress").length;
+    const plannedCount = fulfilled.filter((f) => f.status === "planned").length;
+
+    const completedSlots = Math.min(meta.required, completedCount);
+    const inProgressSlots = Math.min(Math.max(0, meta.required - completedSlots), inProgressCount);
+    const plannedSlots = Math.min(Math.max(0, meta.required - completedSlots - inProgressSlots), plannedCount);
+
+    let status: GenEdRow["status"] = "Not started";
+    if (completedSlots >= meta.required) {
+      status = "Completed";
+    } else if (inProgressSlots + plannedSlots > 0) {
+      status = "In progress";
+    }
+
+    return {
+      code: meta.code,
+      name: meta.name,
+      category: meta.category,
+      required: meta.required,
+      description: meta.description,
+      status,
+      completed: completedSlots,
+      remaining: Math.max(0, meta.required - completedSlots),
+      fulfilledBy: fulfilled,
+    } satisfies GenEdRow;
+  });
+
+  const dvupRow = baseRows.find((row) => row.code === "DVUP");
+  const dvccRow = baseRows.find((row) => row.code === "DVCC");
+  if (dvupRow && dvccRow) {
+    const explicitDvcc = dedupeTaggedCourses(coursesByTag.get("DVCC") ?? []);
+    const surplusDvup = dedupeTaggedCourses(coursesByTag.get("DVUP") ?? []).slice(dvupRow.required);
+    const dvccFulfilled = dedupeTaggedCourses([...explicitDvcc, ...surplusDvup]);
+    const completedCount = dvccFulfilled.filter((f) => f.status === "completed").length;
+    const inProgressCount = dvccFulfilled.filter((f) => f.status === "in_progress").length;
+    const plannedCount = dvccFulfilled.filter((f) => f.status === "planned").length;
+    const completedSlots = Math.min(dvccRow.required, completedCount);
+    const inProgressSlots = Math.min(Math.max(0, dvccRow.required - completedSlots), inProgressCount);
+    const plannedSlots = Math.min(Math.max(0, dvccRow.required - completedSlots - inProgressSlots), plannedCount);
+
+    dvccRow.fulfilledBy = dvccFulfilled;
+    dvccRow.completed = completedSlots;
+    dvccRow.remaining = Math.max(0, dvccRow.required - completedSlots);
+    dvccRow.status = completedSlots >= dvccRow.required ? "Completed" : (inProgressSlots + plannedSlots > 0 ? "In progress" : "Not started");
+  }
+
+  return baseRows;
+}
 
 function parseSelections(stored: unknown): Array<any> {
   const payload = (stored ?? []) as { selections?: any[] } | any[];
@@ -220,24 +309,31 @@ export default function GenEds() {
       try {
         const now = getCurrentAcademicTerm();
         const fullTermCode = `${now.termYear}${now.termCode}`;
+        const candidateTags = GEN_ED_SEARCH_TAGS[selectedGenEd.code] ?? [selectedGenEd.code];
 
         const attempts = ["", selectedGenEd.code, "ENGL", "MATH"];
         let found: Array<{ code: string; title: string; credits: number; genEds: string[] }> = [];
 
-        for (const query of attempts) {
-          const result = await plannerApi.searchCourses(query, fullTermCode, selectedGenEd.code);
-          const mapped = result
-            .filter((course) => course.genEdTags?.includes(selectedGenEd.code))
-            .slice(0, 10)
-            .map((course) => ({
-              code: `${course.deptId}${course.number}`,
-              title: course.title,
-              credits: Number(course.credits ?? 0) || 0,
-              genEds: course.genEdTags ?? [],
-            }));
+        for (const tag of candidateTags) {
+          for (const query of attempts) {
+            const result = await plannerApi.searchCourses(query, fullTermCode, tag);
+            const mapped = result
+              .filter((course) => candidateTags.some((candidateTag) => course.genEdTags?.includes(candidateTag)))
+              .slice(0, 10)
+              .map((course) => ({
+                code: `${course.deptId}${course.number}`,
+                title: course.title,
+                credits: Number(course.credits ?? 0) || 0,
+                genEds: course.genEdTags ?? [],
+              }));
 
-          if (mapped.length > 0) {
-            found = mapped;
+            if (mapped.length > 0) {
+              found = mapped;
+              break;
+            }
+          }
+
+          if (found.length > 0) {
             break;
           }
         }
@@ -260,9 +356,10 @@ export default function GenEds() {
 
   const genEdRows = useMemo(() => {
     const discoveredCodes = Array.from(coursesByTag.keys());
-    const knownCodes = new Set(GEN_ED_REQUIREMENTS.map((g) => g.code));
+    const knownCodes = new Set(GEN_ED_FULFILLMENT_CONFIG.flatMap((g) => [g.code, ...g.sourceCodes]));
 
-    const metadata = [...GEN_ED_REQUIREMENTS];
+    const rows = buildGenEdRows(coursesByTag);
+    const metadata = [...rows];
     for (const unknownCode of discoveredCodes) {
       if (!knownCodes.has(unknownCode)) {
         metadata.push({
@@ -271,33 +368,15 @@ export default function GenEds() {
           category: "Additional",
           required: 1,
           description: "Additional Gen Ed tag discovered from your saved courses.",
+          status: "Completed",
+          completed: Math.min(1, (coursesByTag.get(unknownCode) ?? []).filter((course) => course.status === "completed").length),
+          remaining: 0,
+          fulfilledBy: dedupeTaggedCourses(coursesByTag.get(unknownCode) ?? []),
         });
       }
     }
 
-    return metadata.map((meta) => {
-      const fulfilled = [...(coursesByTag.get(meta.code) ?? [])].sort((a, b) => statusRank(b.status) - statusRank(a.status));
-      const completedCount = fulfilled.filter((f) => f.status === "completed").length;
-      const inProgressCount = fulfilled.filter((f) => f.status === "in_progress").length;
-      const plannedCount = fulfilled.filter((f) => f.status === "planned").length;
-
-      const completedSlots = Math.min(meta.required, completedCount);
-      const inProgressSlots = Math.min(Math.max(0, meta.required - completedSlots), inProgressCount);
-      const plannedSlots = Math.min(Math.max(0, meta.required - completedSlots - inProgressSlots), plannedCount);
-
-      let status: GenEdRow["status"] = "Not started";
-      if (completedSlots >= meta.required) status = "Completed";
-      else if (completedSlots + inProgressSlots >= meta.required) status = "In progress";
-      else if (completedSlots + inProgressSlots + plannedSlots > 0) status = "In progress";
-
-      return {
-        ...meta,
-        status,
-        completed: completedSlots,
-        remaining: Math.max(0, meta.required - completedSlots),
-        fulfilledBy: fulfilled,
-      };
-    });
+    return metadata;
   }, [coursesByTag]);
 
   const categories = useMemo(
