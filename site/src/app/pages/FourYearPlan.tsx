@@ -16,6 +16,7 @@ import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRep
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import {
   buildCourseContributionMap,
   getContributionLabelsForCourseCode,
@@ -50,6 +51,8 @@ interface PlannedTerm {
   scheduleName: string;
   updatedAt: string;
   courses: PlannedCourse[];
+  semesterGPA?: number | null;
+  cumulativeGPA?: number | null;
 }
 
 const TERM_NAME: Record<string, string> = {
@@ -142,6 +145,8 @@ function parseTermLabel(termLabel: string | undefined): { termCode: string; term
 }
 
 function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserPriorCredits>>): PlannedTerm[] {
+  const gpaHistory = calculateTranscriptGPAHistory(priorCredits);
+  const gpaByTerm = new Map(gpaHistory.terms.map((term) => [term.termLabel, term]));
   const grouped = new Map<string, PlannedCourse[]>();
 
   for (const credit of priorCredits) {
@@ -171,6 +176,7 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
 
   return Array.from(grouped.entries()).map(([termLabel, courses], index) => {
     const parsedTerm = parseTermLabel(termLabel);
+    const termGpa = gpaByTerm.get(termLabel);
     return {
       id: parsedTerm ? `${parsedTerm.termCode}-${parsedTerm.termYear}-prior` : `prior-${index}`,
       termCode: parsedTerm?.termCode ?? "00",
@@ -183,6 +189,8 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
       scheduleName: "Imported History",
       updatedAt: new Date().toISOString(),
       courses,
+      semesterGPA: termGpa?.semesterGPA ?? null,
+      cumulativeGPA: termGpa?.cumulativeGPA ?? null,
     } satisfies PlannedTerm;
   });
 }
@@ -268,6 +276,7 @@ export default function FourYearPlan() {
   }, [sortOrder, terms]);
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
+  const transcriptGpaHistory = useMemo(() => calculateTranscriptGPAHistory(priorCredits), [priorCredits]);
 
   const summary = useMemo(() => {
     const uniqueByCode = new Map<string, PlannedCourse>();
@@ -307,8 +316,9 @@ export default function FourYearPlan() {
       inProgressCredits,
       plannedCredits,
       duplicateCourseCount,
+      overallGPA: transcriptGpaHistory.overallGPA,
     };
-  }, [terms]);
+  }, [terms, transcriptGpaHistory]);
 
   const duplicateCountsByCode = useMemo(() => {
     const map = new Map<string, number>();
@@ -390,7 +400,7 @@ export default function FourYearPlan() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
           <Card className="p-4 bg-card border-border">
             <div className="flex items-center gap-2 mb-2">
               <GraduationCap className="w-5 h-5 text-red-400" />
@@ -421,6 +431,14 @@ export default function FourYearPlan() {
               <h3 className="text-sm text-muted-foreground">Planned</h3>
             </div>
             <p className="text-3xl text-foreground">{summary.plannedCredits}</p>
+          </Card>
+
+          <Card className="p-4 bg-card border-border">
+            <div className="flex items-center gap-2 mb-2">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+              <h3 className="text-sm text-muted-foreground">Overall GPA</h3>
+            </div>
+            <p className="text-3xl text-foreground">{summary.overallGPA?.toFixed(3) ?? "-"}</p>
           </Card>
         </div>
 
@@ -493,6 +511,12 @@ export default function FourYearPlan() {
                       <Badge variant="outline" className="border-border">{term.credits} credits</Badge>
                       {statusBadge(term.status)}
                       <Badge variant="outline" className="border-border text-foreground/80">{term.source === "schedule" ? `MAIN: ${term.scheduleName}` : term.scheduleName}</Badge>
+                      {typeof term.semesterGPA === "number" && (
+                        <Badge variant="outline" className="border-border text-foreground/80">Semester GPA {term.semesterGPA.toFixed(3)}</Badge>
+                      )}
+                      {typeof term.cumulativeGPA === "number" && (
+                        <Badge variant="outline" className="border-border text-foreground/80">Cumulative GPA {term.cumulativeGPA.toFixed(3)}</Badge>
+                      )}
                     </div>
                     {isCollapsed ? (
                       <ChevronDown className="w-5 h-5 text-muted-foreground" />

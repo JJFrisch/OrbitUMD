@@ -15,6 +15,7 @@ import { listUserRequirementSectionEdits, saveUserRequirementSectionEdit } from 
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { getCurrentTermCode, lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
+import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import {
   buildCourseContributionMap,
   evaluateRequirementSection,
@@ -534,6 +535,7 @@ export default function DegreeAudit() {
   const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
   const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
   const [courses, setCourses] = useState<AuditCourse[]>([]);
+  const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
   const [courseDetails, setCourseDetails] = useState<Map<string, CourseDetails>>(new Map());
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -1049,6 +1051,7 @@ export default function DegreeAudit() {
         setPrograms(selectedPrograms);
         setBundles(withCustomSections);
         setCourses(auditCourses);
+        setPriorCredits(priorCredits);
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -1117,6 +1120,7 @@ export default function DegreeAudit() {
   }, [courses]);
 
   const contributionMap = useMemo(() => buildCourseContributionMap(bundles), [bundles]);
+  const transcriptGpaHistory = useMemo(() => calculateTranscriptGPAHistory(priorCredits), [priorCredits]);
 
   const summary = useMemo(() => {
     let completedCredits = 0;
@@ -1139,8 +1143,9 @@ export default function DegreeAudit() {
       inProgressCredits,
       plannedCredits,
       requiredCredits,
+      overallGPA: transcriptGpaHistory.overallGPA,
     };
-  }, [courses, bundles]);
+  }, [courses, bundles, transcriptGpaHistory]);
 
   const programAudits = useMemo(() => {
     return bundles.map((bundle) => {
@@ -1276,7 +1281,7 @@ export default function DegreeAudit() {
         {!loading && !errorMessage && (
           <>
             <Card className="p-6 bg-card border-border mb-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <FileText className="w-5 h-5 text-blue-400" />
@@ -1304,6 +1309,13 @@ export default function DegreeAudit() {
                     <h3 className="text-sm text-muted-foreground">Planned</h3>
                   </div>
                   <p className="text-3xl text-foreground">{summary.plannedCredits} cr</p>
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+                    <h3 className="text-sm text-muted-foreground">Overall GPA</h3>
+                  </div>
+                  <p className="text-3xl text-foreground">{summary.overallGPA?.toFixed(3) ?? "-"}</p>
                 </div>
               </div>
 

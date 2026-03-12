@@ -25,21 +25,33 @@ function buildSummaryRows(result: TranscriptParseResult): Array<{ label: string;
     { label: "Cumulative GPA", value: fields.cumulativeGpa ?? "" },
     { label: "Admit Term", value: fields.admitTerm ?? "" },
     { label: "Graduation Year", value: fields.graduationYear ?? "" },
-    { label: "College", value: fields.college ?? "" },
+    { label: "Institution", value: fields.college ?? "" },
   ].filter((row) => row.value.trim().length > 0);
 
   if (result.summary.totalParsedCourses > 0) {
-    rows.push({ label: "Parsed Courses", value: String(result.summary.totalParsedCourses) });
+    rows.push({ label: "Imported Prior-Credit Rows", value: String(result.summary.totalParsedCourses) });
     rows.push({ label: "Courses Counting Toward Progress", value: String(result.summary.totalPassingCourses) });
   }
-  if (result.summary.apCredits > 0) {
-    rows.push({ label: "AP Credits", value: String(result.summary.apCredits) });
+  if (result.summary.apEquivalencyCount > 0) {
+    rows.push({ label: "AP Equivalencies", value: String(result.summary.apEquivalencyCount) });
+  }
+  if (result.summary.transferCourseCount > 0) {
+    rows.push({ label: "Transfer Courses", value: String(result.summary.transferCourseCount) });
+  }
+  if (result.summary.historicCourseCount > 0) {
+    rows.push({ label: "Historic UMD Courses", value: String(result.summary.historicCourseCount) });
+  }
+  if (result.summary.currentCourseCount > 0) {
+    rows.push({ label: "Current Courses", value: String(result.summary.currentCourseCount) });
+  }
+  if (result.summary.totalApplicableTransferCredits !== null) {
+    rows.push({ label: "Transfer Credits Applicable", value: String(result.summary.totalApplicableTransferCredits) });
   }
   if (result.summary.totalCreditsEarned !== null) {
-    rows.push({ label: "Credits Earned", value: String(result.summary.totalCreditsEarned) });
+    rows.push({ label: "UG Cumulative Credit", value: String(result.summary.totalCreditsEarned) });
   }
   if (result.summary.totalCreditsAttempted !== null) {
-    rows.push({ label: "Credits Attempted", value: String(result.summary.totalCreditsAttempted) });
+    rows.push({ label: "UG Attempted Credits", value: String(result.summary.totalCreditsAttempted) });
   }
   return rows;
 }
