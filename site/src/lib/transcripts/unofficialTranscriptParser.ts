@@ -503,11 +503,11 @@ function extractTranscriptCourses(lines: string[]): ParsedTranscriptCourse[] {
     // In transfer_credit section, detect institution headers and course rows
     if (section === "transfer_credit") {
       // Detect institution headers: "Advanced Placement Exam", "Villanova University", etc.
-      // Match either specific keywords, or a line that starts capitalized AND contains a university keyword
+      // These are either explicit keywords, or lines that are mostly just capitalized words and spaces (not numeric course codes/grades)
       const isInstitutionHeader =
         /^Advanced Placement/i.test(line) ||
         /^International Baccalaureate/i.test(line) ||
-        (/^[A-Z][a-z\s]+$/.test(line) && /(University|College|Institute|Exam)/i.test(line));
+        (/^[A-Z][A-Za-z\s]+$/.test(line) && /(University|College|Institute|Exam)/i.test(line));
       
       if (isInstitutionHeader) {
         if (/advanced placement/i.test(line)) {

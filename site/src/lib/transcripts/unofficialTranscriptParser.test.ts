@@ -93,6 +93,13 @@ CMSC330 0201 3.00 REG A 11/24/25 11/24/25
 
     const result = parseUnofficialTranscriptText(text, "testudo.pdf", 2);
 
+    // Debug output
+    console.log("DEBUG - Parsed courses:");
+    result.courses.forEach((c, i) => {
+      console.log(`  ${i}: ${c.sourceType.padEnd(10)} ${(c.courseCode || "N/A").padEnd(10)} credits=${c.credits}`);
+    });
+    console.log(`DEBUG - Total AP credits: ${result.summary.apCredits}`);
+
     expect(result.fields.fullName).toBe("Frischmann, Jake");
     expect(result.fields.email).toBe("jfrischm@terpmail.umd.edu");
     expect(result.fields.major).toBe("Computer Science");
