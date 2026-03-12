@@ -211,7 +211,7 @@ function normalizeTranscriptText(value: string): string {
 function splitTranscriptLines(text: string): string[] {
   return normalizeTranscriptText(text)
     .split("\n")
-    .map((line) => line.replace(/\s+$/g, "").trim())
+    .map((line) => line.replace(/\s+/g, " ").trim())
     .filter((line) => line.length > 0)
     .filter((line) => !/^https?:\/\//i.test(line))
     .filter((line) => !/^\d{1,2}\/\d{1,2}\/\d{2},\s+\d{1,2}:\d{2}\s+[AP]M/i.test(line));

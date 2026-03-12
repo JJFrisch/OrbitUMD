@@ -86,6 +86,7 @@ export default function BasicProfile() {
   const [selectedMajorKey, setSelectedMajorKey] = useState<string>("");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [hasImportedTranscript, setHasImportedTranscript] = useState(false);
 
   const normalizeProgramName = (value: string) => value
     .toLowerCase()
@@ -134,6 +135,7 @@ export default function BasicProfile() {
 
     const transcriptImport = await buildTranscriptPriorCreditImport(result);
     await replacePriorCreditsByImportOrigin("testudo_transcript", transcriptImport.records);
+    setHasImportedTranscript(true);
 
     setMessage(majorKey
       ? `Transcript imported ${transcriptImport.summary.importedRecords} prior credit records and autofilled your profile. Review everything below before continuing.`
@@ -204,7 +206,11 @@ export default function BasicProfile() {
         if (selectedMajorKey) {
           localStorage.setItem("orbitumd-onboarding-major-key", selectedMajorKey);
         }
-        navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
+        if (hasImportedTranscript) {
+          navigate("/dashboard");
+        } else {
+          navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
+        }
         return;
       }
 
@@ -234,7 +240,11 @@ export default function BasicProfile() {
       }
 
       setMessage("Profile saved.");
-      navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
+      if (hasImportedTranscript) {
+        navigate("/dashboard");
+      } else {
+        navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
+      }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Unable to save profile.");
     } finally {
