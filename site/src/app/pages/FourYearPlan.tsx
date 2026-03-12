@@ -442,6 +442,42 @@ export default function FourYearPlan() {
           </Card>
         </div>
 
+        {transcriptGpaHistory.terms.length > 0 && (
+          <Card className="p-4 bg-card border-border mb-6">
+            <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+              <h2 className="text-base text-foreground">Transcript GPA Details (UMD Terms)</h2>
+              <span className="text-xs text-muted-foreground">
+                Attempted: {transcriptGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {transcriptGpaHistory.qualityPoints.toFixed(3)}
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left border-b border-border">
+                    <th className="py-2 pr-3 text-muted-foreground font-medium">Term</th>
+                    <th className="py-2 pr-3 text-muted-foreground font-medium">Attempted</th>
+                    <th className="py-2 pr-3 text-muted-foreground font-medium">Quality Points</th>
+                    <th className="py-2 pr-3 text-muted-foreground font-medium">Semester GPA</th>
+                    <th className="py-2 text-muted-foreground font-medium">Cumulative GPA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transcriptGpaHistory.terms.map((term) => (
+                    <tr key={term.termLabel} className="border-b border-border/60 last:border-b-0">
+                      <td className="py-2 pr-3 text-foreground">{term.termLabel}</td>
+                      <td className="py-2 pr-3 text-foreground/90">{term.attemptedCredits.toFixed(2)}</td>
+                      <td className="py-2 pr-3 text-foreground/90">{term.qualityPoints.toFixed(3)}</td>
+                      <td className="py-2 pr-3 text-foreground/90">{term.semesterGPA?.toFixed(3) ?? "-"}</td>
+                      <td className="py-2 text-foreground/90">{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        )}
+
         {!loading && summary.duplicateCourseCount > 0 && (
           <Card className="p-3 mb-6 bg-amber-100 border-amber-300 dark:bg-amber-500/10 dark:border-amber-500/30">
             <p className="text-sm text-amber-900 dark:text-amber-300">
