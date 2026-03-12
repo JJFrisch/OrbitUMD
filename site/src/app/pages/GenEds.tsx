@@ -76,8 +76,8 @@ const GEN_ED_REQUIREMENTS: GenEdMeta[] = [
   { code: "DSNS", name: "Natural Sciences", category: "Distributive Studies", required: 1, description: "Natural science coursework." },
   { code: "DSSP", name: "Scholarship in Practice", category: "Distributive Studies", required: 2, description: "Practice-based and experiential learning." },
   { code: "I-SERIES", name: "I-Series / Big Question", category: "I-Series / Big Question", required: 2, description: "Interdisciplinary inquiry courses." },
-  { code: "DVUP", name: "Understanding Plural Societies", category: "Diversity", required: 2, description: "Diversity and plural societies coursework." },
-  { code: "DVCC", name: "Cultural Competence", category: "Diversity", required: 1, description: "Cultural competence and global perspective." },
+  { code: "DVUP", name: "Understanding Plural Societies", category: "Diversity", required: 1, description: "One course focused on understanding plural societies." },
+  { code: "DVCC", name: "Cultural Competence", category: "Diversity", required: 1, description: "One additional DVCC or DVUP course covering cultural competence or plural societies." },
 ];
 
 const GEN_ED_FULFILLMENT_CONFIG: GenEdFulfillmentConfig[] = [
@@ -92,8 +92,8 @@ const GEN_ED_FULFILLMENT_CONFIG: GenEdFulfillmentConfig[] = [
   { code: "DSNS", name: "Natural Sciences", category: "Distributive Studies", required: 1, description: "Natural science coursework.", sourceCodes: ["DSNS"] },
   { code: "DSSP", name: "Scholarship in Practice", category: "Distributive Studies", required: 2, description: "Practice-based and experiential learning.", sourceCodes: ["DSSP"] },
   { code: "I-SERIES", name: "I-Series / Big Question", category: "I-Series / Big Question", required: 2, description: "Interdisciplinary inquiry courses.", sourceCodes: ["I-SERIES", "SCIS"] },
-  { code: "DVUP", name: "Understanding Plural Societies", category: "Diversity", required: 2, description: "Diversity and plural societies coursework.", sourceCodes: ["DVUP"] },
-  { code: "DVCC", name: "Cultural Competence", category: "Diversity", required: 1, description: "Cultural competence and global perspective.", sourceCodes: ["DVCC"] },
+  { code: "DVUP", name: "Understanding Plural Societies", category: "Diversity", required: 1, description: "One course focused on understanding plural societies.", sourceCodes: ["DVUP"] },
+  { code: "DVCC", name: "Cultural Competence", category: "Diversity", required: 1, description: "One additional DVCC or DVUP course covering cultural competence or plural societies.", sourceCodes: ["DVCC"] },
 ];
 
 const GEN_ED_SEARCH_TAGS: Record<string, string[]> = {

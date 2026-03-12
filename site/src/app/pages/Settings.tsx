@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
-import TranscriptUploadPanel from "../components/TranscriptUploadPanel";
 import { useTheme } from "../contexts/ThemeContext";
 import { Link } from "react-router";
 import {
@@ -37,9 +36,6 @@ import {
   buildProgramTemplateKey,
   saveProgramRequirementTemplate,
 } from "@/lib/repositories/programRequirementTemplatesRepository";
-import { replacePriorCreditsByImportOrigin } from "@/lib/repositories/priorCreditsRepository";
-import { buildTranscriptPriorCreditImport } from "@/lib/transcripts/transcriptCreditImport";
-import type { TranscriptParseResult } from "@/lib/transcripts/unofficialTranscriptParser";
 
 interface TermOption {
   id: string;
@@ -188,37 +184,6 @@ export default function Settings() {
   }, [allPrograms, userPrograms]);
 
   const primaryProgram = useMemo(() => userPrograms.find((program) => program.isPrimary) ?? null, [userPrograms]);
-
-  const handleTranscriptParsed = async (result: TranscriptParseResult) => {
-    const { fields } = result;
-    if (fields.fullName) setFullName(fields.fullName);
-    if (fields.email) setEmail(fields.email);
-    if (fields.universityUid) setUid(fields.universityUid);
-
-    const transcriptImport = await buildTranscriptPriorCreditImport(result);
-    await replacePriorCreditsByImportOrigin("testudo_transcript", transcriptImport.records);
-    const refreshedPriorCredits = await listUserPriorCredits();
-    setPriorCreditSummary(summarizePriorCredits(refreshedPriorCredits));
-
-    const detectedMajor = normalizeProgramName(String(fields.major ?? ""));
-    if (detectedMajor) {
-      const matchingProgram = allPrograms.find((program) => {
-        const optionName = normalizeProgramName(program.name);
-        return optionName === detectedMajor || optionName.includes(detectedMajor) || detectedMajor.includes(optionName);
-      });
-
-      if (matchingProgram) {
-        const alreadyDeclared = userPrograms.some((program) => normalizeProgramName(program.programName) === normalizeProgramName(matchingProgram.name));
-        if (!alreadyDeclared) {
-          setSelectedProgramToAdd(matchingProgram.key);
-          setSaveMessage(`Transcript imported ${transcriptImport.summary.importedRecords} records. Review the autofilled profile fields and add ${matchingProgram.name} if it is correct.`);
-          return;
-        }
-      }
-    }
-
-    setSaveMessage(`Transcript imported ${transcriptImport.summary.importedRecords} records. Review the autofilled profile fields before saving.`);
-  };
 
   const handleSaveProfile = async () => {
     if (!userId) return;
@@ -790,17 +755,6 @@ export default function Settings() {
                     Open Credit Import
                   </Button>
                 </Link>
-                <div>
-                  <Label className="mb-2 block">Upload Unofficial Transcript</Label>
-                  <TranscriptUploadPanel
-                    instructions={[
-                      "Go to testudo.umd.edu and sign in.",
-                      "Open https://app.testudo.umd.edu/main/uotrans and print your unofficial transcript to PDF.",
-                      "Upload that PDF here to autofill your OrbitUMD profile and suggest your detected major.",
-                    ]}
-                    onParsed={handleTranscriptParsed}
-                  />
-                </div>
                 <Link to="/schedules">
                   <Button variant="outline" className="w-full border-border hover:bg-accent">
                     Manage Saved Schedules

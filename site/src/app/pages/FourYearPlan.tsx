@@ -278,56 +278,49 @@ export default function FourYearPlan() {
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
   const transcriptGpaHistory = useMemo(() => calculateTranscriptGPAHistory(priorCredits), [priorCredits]);
 
+  const duplicateScheduleSectionKeys = useMemo(() => {
+    const earnedCourseCodes = new Set(
+      terms
+        .filter((term) => term.status === "completed")
+        .flatMap((term) => term.courses)
+        .filter((course) => course.countsTowardProgress)
+        .map((course) => course.code.toUpperCase()),
+    );
+
+    return new Set(
+      terms
+        .filter((term) => term.source === "schedule" && term.status !== "completed")
+        .flatMap((term) => term.courses)
+        .filter((course) => course.countsTowardProgress && earnedCourseCodes.has(course.code.toUpperCase()))
+        .map((course) => course.sectionKey),
+    );
+  }, [terms]);
+
   const summary = useMemo(() => {
-    const uniqueByCode = new Map<string, PlannedCourse>();
-    for (const course of terms.flatMap((term) => term.courses)) {
-      if (!course.countsTowardProgress) {
-        continue;
-      }
-      const key = course.code.toUpperCase();
-      const existing = uniqueByCode.get(key);
-      if (!existing) {
-        uniqueByCode.set(key, course);
-        continue;
-      }
+    const countedCourses = terms
+      .flatMap((term) => term.courses)
+      .filter((course) => course.countsTowardProgress)
+      .filter((course) => !duplicateScheduleSectionKeys.has(course.sectionKey));
 
-      // Keep one instance of duplicate-credit courses, preferring strongest status.
-      if (statusRank(course.status) > statusRank(existing.status)) {
-        uniqueByCode.set(key, course);
-      }
-    }
-
-    const uniqueCourses = Array.from(uniqueByCode.values());
-    const completedCredits = uniqueCourses
+    const completedCredits = countedCourses
       .filter((course) => course.status === "completed")
       .reduce((sum, course) => sum + course.credits, 0);
-    const inProgressCredits = uniqueCourses
+    const inProgressCredits = countedCourses
       .filter((course) => course.status === "in_progress")
       .reduce((sum, course) => sum + course.credits, 0);
-    const plannedCredits = uniqueCourses
+    const plannedCredits = countedCourses
       .filter((course) => course.status === "planned")
       .reduce((sum, course) => sum + course.credits, 0);
-
-    const duplicateCourseCount = Math.max(0, terms.flatMap((term) => term.courses).length - uniqueCourses.length);
 
     return {
       totalCredits: completedCredits + inProgressCredits + plannedCredits,
       completedCredits,
       inProgressCredits,
       plannedCredits,
-      duplicateCourseCount,
+      duplicateCourseCount: duplicateScheduleSectionKeys.size,
       overallGPA: transcriptGpaHistory.overallGPA,
     };
-  }, [terms, transcriptGpaHistory]);
-
-  const duplicateCountsByCode = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const course of terms.flatMap((term) => term.courses)) {
-      const key = course.code.toUpperCase();
-      map.set(key, (map.get(key) ?? 0) + 1);
-    }
-    return map;
-  }, [terms]);
+  }, [duplicateScheduleSectionKeys, terms, transcriptGpaHistory]);
 
   const toggleTerm = (termId: string) => {
     const next = new Set(collapsedTerms);
@@ -481,8 +474,8 @@ export default function FourYearPlan() {
         {!loading && summary.duplicateCourseCount > 0 && (
           <Card className="p-3 mb-6 bg-amber-100 border-amber-300 dark:bg-amber-500/10 dark:border-amber-500/30">
             <p className="text-sm text-amber-900 dark:text-amber-300">
-              Duplicate credit notice: {summary.duplicateCourseCount} repeated course{summary.duplicateCourseCount === 1 ? "" : "s"} detected in this plan.
-              Repeated courses are flagged below and counted once in total credits.
+              Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit you already earned.
+              These repeated scheduled courses are flagged below and excluded from total credits.
             </p>
           </Card>
         )}
@@ -571,10 +564,10 @@ export default function FourYearPlan() {
                         {term.courses.map((course) => (
                           (() => {
                             const contributionLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
-                            const visibleContributionLabels = course.countsTowardProgress ? contributionLabels : [];
+                            const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
+                            const countsTowardProgress = course.countsTowardProgress && !isDuplicate;
+                            const visibleContributionLabels = countsTowardProgress ? contributionLabels : [];
                             const cardStyle = contributionCardStyle(visibleContributionLabels);
-                            const duplicateCount = duplicateCountsByCode.get(course.code.toUpperCase()) ?? 0;
-                            const isDuplicate = duplicateCount > 1;
                             return (
                           <Card
                             key={course.sectionKey}
@@ -607,7 +600,7 @@ export default function FourYearPlan() {
                                     Duplicate credit
                                   </Badge>
                                 )}
-                                {!course.countsTowardProgress && (
+                                {!countsTowardProgress && (
                                   <Badge className="text-[10px] bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-600/20 dark:text-slate-300 dark:border-slate-500/40">
                                     Does not count
                                   </Badge>
