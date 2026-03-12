@@ -20,7 +20,7 @@ export interface RequirementSectionBundle {
   courseCodes: string[];
   optionGroups: string[][];
   standaloneCodes: string[];
-  logicBlocks: Array<{ type: "AND" | "OR"; codes: string[]; title?: string }>;
+  logicBlocks: Array<{ type: "AND" | "OR"; codes: string[]; title?: string; children?: Array<{ type: "AND" | "OR"; codes: string[]; title?: string; children?: any[] }> }>;
   specializationId?: string; // For tracking which specialization a section belongs to
 }
 
@@ -73,22 +73,35 @@ function coerceRequirementSectionBundles(raw: unknown): RequirementSectionBundle
       standaloneCodes,
       logicBlocks: Array.isArray(section.logicBlocks)
         ? section.logicBlocks
-            .map((block): { type: "AND" | "OR"; codes: string[]; title?: string } | null => {
-              if (!block || typeof block !== "object") return null;
-              const typed = block as Record<string, unknown>;
-              const codes = Array.isArray(typed.codes)
-                ? typed.codes.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
-                : [];
-              const type: "AND" | "OR" = typed.type === "OR" ? "OR" : "AND";
-              const title = typeof typed.title === "string" ? typed.title.trim() : "";
-              return { type, codes, title: title || undefined };
-            })
-            .filter((block) => block !== null)
+            .map((block) => coerceLogicBlock(block))
+            .filter((block): block is { type: "AND" | "OR"; codes: string[]; title?: string; children?: Array<{ type: "AND" | "OR"; codes: string[]; title?: string; children?: any[] }> } => Boolean(block))
         : [],
     });
   }
 
   return out;
+}
+
+function coerceLogicBlock(raw: unknown): { type: "AND" | "OR"; codes: string[]; title?: string; children?: Array<{ type: "AND" | "OR"; codes: string[]; title?: string; children?: any[] }> } | null {
+  if (!raw || typeof raw !== "object") return null;
+  const typed = raw as Record<string, unknown>;
+  const codes = Array.isArray(typed.codes)
+    ? typed.codes.map((code) => String(code ?? "").toUpperCase()).filter(Boolean)
+    : [];
+  const type: "AND" | "OR" = typed.type === "OR" ? "OR" : "AND";
+  const title = typeof typed.title === "string" ? typed.title.trim() : "";
+  const children = Array.isArray(typed.children)
+    ? typed.children
+        .map((child) => coerceLogicBlock(child))
+        .filter((child): child is { type: "AND" | "OR"; codes: string[]; title?: string; children?: Array<{ type: "AND" | "OR"; codes: string[]; title?: string; children?: any[] }> } => Boolean(child))
+    : [];
+
+  return {
+    type,
+    codes,
+    title: title || undefined,
+    children: children.length > 0 ? children : undefined,
+  };
 }
 
 interface ScrapedProgram {
@@ -159,14 +172,14 @@ function wildcardMatchesCourseCode(wildcardToken: string, courseCode: string): b
   const parsedCourse = parseCourseCode(courseCode);
   if (!parsedCourse) return false;
 
-  const fixedDeptRange = token.match(/^([A-Z]{4})([1-5])XX$/);
+  const fixedDeptRange = token.match(/^([A-Z]{4})([1-8])XX$/);
   if (fixedDeptRange) {
     if (parsedCourse.department !== fixedDeptRange[1]) return false;
     const minLevel = Number(fixedDeptRange[2]) * 100;
     return parsedCourse.level >= minLevel && parsedCourse.level < minLevel + 100;
   }
 
-  const multiDeptRange = token.match(/^([A-Z]{4}(?:\/[A-Z]{4})*)([1-5])XX$/);
+  const multiDeptRange = token.match(/^([A-Z]{4}(?:\/[A-Z]{4})*)([1-8])XX$/);
   if (multiDeptRange) {
     const depts = multiDeptRange[1].split("/");
     if (!depts.includes(parsedCourse.department)) return false;

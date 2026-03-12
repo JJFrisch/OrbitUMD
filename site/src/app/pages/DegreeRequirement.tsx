@@ -39,6 +39,36 @@ function RequirementTypeBadge({ section }: { section: RequirementSectionBundle }
 }
 
 function SectionCard({ section }: { section: RequirementSectionBundle }) {
+  const renderBlock = (block: any, depth: number = 0) => (
+    <div
+      key={`${section.id}-${depth}-${block.type}-${(block.codes ?? []).join("|")}`}
+      className={`p-3 border rounded-lg ${
+        block.type === "OR"
+          ? "border-amber-300 bg-amber-100 dark:border-amber-600/40 dark:bg-amber-600/10"
+          : "border-sky-300 bg-sky-100 dark:border-sky-600/40 dark:bg-sky-600/10"
+      }`}
+      style={{ marginLeft: `${depth * 12}px` }}
+    >
+      <div className="flex items-center justify-between mb-1">
+        <Badge variant="outline" className="border-border text-foreground/80">{block.type === "OR" ? "OR" : "All Required"}</Badge>
+        {block.title && <span className="text-xs text-foreground/80">{block.title}</span>}
+        <span className="text-xs text-muted-foreground">{(block.codes ?? []).length} course{(block.codes ?? []).length === 1 ? "" : "s"}</span>
+      </div>
+      {(block.codes ?? []).length > 0 && (
+        <p className="text-sm text-foreground/80">
+          {block.type === "OR" ? block.codes.join(" or ") : block.codes.join(", ")}
+        </p>
+      )}
+      {Array.isArray(block.children) && block.children.length > 0 && (
+        <div className="mt-2 space-y-2">
+          {block.children.map((child: any, idx: number) => (
+            <div key={`${section.id}-${depth}-child-${idx}`}>{renderBlock(child, depth + 1)}</div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <Card className="bg-card border-border p-5">
       <div className="flex items-center justify-between gap-3 mb-3">
@@ -68,23 +98,7 @@ function SectionCard({ section }: { section: RequirementSectionBundle }) {
         <div className="mb-3 space-y-2">
           <p className="text-xs text-muted-foreground">Requirement Logic</p>
           {section.logicBlocks.map((block, index) => (
-            <div
-              key={`${section.id}-logic-${index}`}
-              className={`p-3 border rounded-lg ${
-                block.type === "OR"
-                  ? "border-amber-300 bg-amber-100 dark:border-amber-600/40 dark:bg-amber-600/10"
-                  : "border-sky-300 bg-sky-100 dark:border-sky-600/40 dark:bg-sky-600/10"
-              }`}
-            >
-              <div className="flex items-center justify-between mb-1">
-                <Badge variant="outline" className="border-border text-foreground/80">{block.type} Block</Badge>
-                {block.title && <span className="text-xs text-foreground/80">{block.title}</span>}
-                <span className="text-xs text-muted-foreground">{block.codes.length} course{block.codes.length === 1 ? "" : "s"}</span>
-              </div>
-              <p className="text-sm text-foreground/80">
-                {block.type === "OR" ? block.codes.join(" or ") : block.codes.join(" and ")}
-              </p>
-            </div>
+            <div key={`${section.id}-logic-${index}`}>{renderBlock(block, 0)}</div>
           ))}
         </div>
       )}
@@ -216,7 +230,7 @@ export default function DegreeRequirementsPage() {
   const handleAddWildcardToDraft = () => {
     const token = draftWildcardToken.trim().toUpperCase();
     if (!token) return;
-    if (!/^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-5]XX)$/.test(token)) {
+    if (!/^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-8]XX)$/.test(token)) {
       setAdminMessage("Wildcard must look like BSCI3XX, BSCI4XX, or CMSC/MATHXXX.");
       return;
     }

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, Info, Loader2, Pencil, Plus, Save, X } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Pencil, Plus, Save, X } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -38,6 +38,7 @@ interface EditableLogicBlock {
   type: "AND" | "OR";
   title?: string;
   codes: string[];
+  children?: EditableLogicBlock[];
 }
 
 interface SectionDraft {
@@ -60,7 +61,7 @@ type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
 const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
 
-const WILDCARD_TOKEN_PATTERN = /^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-5]XX)$/;
+const WILDCARD_TOKEN_PATTERN = /^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-8]XX)$/;
 
 function normalizeProgramName(value: string): string {
   return value
@@ -105,13 +106,21 @@ function createLocalId(prefix: string): string {
 }
 
 function draftFromSection(section: any): SectionDraft {
-  const blocks = (section.logicBlocks?.length ? section.logicBlocks : section.optionGroups?.map((codes: string[]) => ({ type: "OR", codes })) ?? [])
-    .map((block: { type: "AND" | "OR"; codes: string[] }, idx: number) => ({
-      id: createLocalId(`blk-${idx}`),
-      type: block.type,
-      title: (block as { title?: string }).title,
-      codes: [...new Set((block.codes ?? []).map((code) => String(code).toUpperCase().trim()).filter(Boolean))],
-    }));
+  const normalizeDraftBlock = (block: any, idx: number): EditableLogicBlock => ({
+    id: createLocalId(`blk-${idx}`),
+    type: block?.type === "OR" ? "OR" : "AND",
+    title: typeof block?.title === "string" ? block.title : undefined,
+    codes: [...new Set(((block?.codes ?? []) as string[]).map((code) => String(code).toUpperCase().trim()).filter(Boolean))],
+    children: Array.isArray(block?.children)
+      ? block.children.map((child: any, childIdx: number) => normalizeDraftBlock(child, childIdx))
+      : undefined,
+  });
+
+  const sourceBlocks = section.logicBlocks?.length
+    ? section.logicBlocks
+    : section.optionGroups?.map((codes: string[]) => ({ type: "OR", codes })) ?? [];
+
+  const blocks = sourceBlocks.map((block: any, idx: number) => normalizeDraftBlock(block, idx));
 
   return {
     id: section.id,
@@ -124,16 +133,35 @@ function draftFromSection(section: any): SectionDraft {
 }
 
 function sectionFromDraft(draft: SectionDraft, existingSectionId?: string) {
-  const normalizedBlocks = draft.blocks
-    .map((block) => ({
+  const normalizeBlock = (block: EditableLogicBlock): { type: "AND" | "OR"; title?: string; codes: string[]; children?: any[] } => {
+    const children = Array.isArray(block.children)
+      ? block.children.map((child) => normalizeBlock(child))
+      : [];
+
+    return {
       type: block.type,
       title: block.title?.trim() || undefined,
       codes: [...new Set(block.codes.map((code) => code.toUpperCase().trim()).filter(Boolean))],
-    }))
-    .filter((block) => block.codes.length > 0);
+      children: children.length > 0 ? children : undefined,
+    };
+  };
 
-  const optionGroups = normalizedBlocks.filter((b) => b.type === "OR").map((b) => b.codes);
-  const standaloneCodes = normalizedBlocks.filter((b) => b.type === "AND").flatMap((b) => b.codes);
+  const normalizedBlocks = draft.blocks.map(normalizeBlock);
+
+  const collectBlocks = (blocks: Array<{ type: "AND" | "OR"; codes: string[]; children?: any[] }>) => {
+    const all: Array<{ type: "AND" | "OR"; codes: string[] }> = [];
+    for (const block of blocks) {
+      all.push({ type: block.type, codes: block.codes });
+      if (Array.isArray(block.children) && block.children.length > 0) {
+        all.push(...collectBlocks(block.children));
+      }
+    }
+    return all;
+  };
+
+  const flattened = collectBlocks(normalizedBlocks);
+  const optionGroups = flattened.filter((b) => b.type === "OR").map((b) => b.codes);
+  const standaloneCodes = flattened.filter((b) => b.type === "AND").flatMap((b) => b.codes);
   const courseCodes = [...new Set([...optionGroups.flat(), ...standaloneCodes])];
   const notes = draft.notesText.split("\n").map((line) => line.trim()).filter(Boolean);
 
@@ -212,13 +240,14 @@ interface WildcardSlotMeta {
 function parseWildcardRule(raw: string): WildcardRule | null {
   const token = String(raw ?? "").toUpperCase().trim();
 
-  const levelRange = token.match(/^([A-Z]{4})4XX$/);
+  const levelRange = token.match(/^([A-Z]{4})([1-8])XX$/);
   if (levelRange) {
+    const levelBase = Number(levelRange[2]) * 100;
     return {
       token,
       departments: [levelRange[1]],
-      minLevel: 400,
-      maxLevel: 499,
+      minLevel: levelBase,
+      maxLevel: levelBase + 99,
     };
   }
 
@@ -325,6 +354,68 @@ function RequirementSectionCard({
     return courses;
   }, [section, allCourses, courseDetails, byCourseCode]);
 
+  const coursesByCode = useMemo(() => {
+    return new Map(sectionCourses.map((course) => [course.code.toUpperCase(), course]));
+  }, [sectionCourses]);
+
+  const renderLogicBlock = (block: any, depth: number = 0) => {
+    const blockCodes = Array.isArray(block?.codes) ? block.codes : [];
+    const blockCourses = blockCodes.map((code: string) => {
+      const normalized = String(code ?? "").toUpperCase();
+      const existing = coursesByCode.get(normalized);
+      if (existing) return existing;
+      return {
+        code: normalized,
+        title: normalized,
+        credits: 0,
+        genEds: [],
+        status: byCourseCode.get(normalized) ?? "not_started",
+      } as AuditCourse;
+    });
+
+    return (
+      <div
+        key={`${section.id}-${depth}-${String(block?.title ?? "")}-${blockCodes.join("|")}`}
+        className={`rounded-md border p-2 ${
+          block?.type === "OR"
+            ? "border-amber-300 bg-amber-50 dark:border-amber-600/40 dark:bg-amber-600/10"
+            : "border-sky-300 bg-sky-50 dark:border-sky-600/40 dark:bg-sky-600/10"
+        }`}
+        style={{ marginLeft: `${depth * 12}px` }}
+      >
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <Badge variant="outline" className="text-xs border-border">
+            {block?.type === "OR" ? "OR" : "All Required"}
+          </Badge>
+          {block?.title ? <span className="text-xs text-foreground/80">{block.title}</span> : null}
+        </div>
+
+        {blockCourses.length > 0 && (
+          <div className="border border-border/30 rounded-md overflow-hidden mb-2">
+            {blockCourses.map((course) => (
+              <CourseRowDisplay
+                key={`${section.id}-${depth}-${course.code}`}
+                courseCode={course.code}
+                courseTitle={course.title}
+                credits={course.credits}
+                genEds={course.genEds}
+                status={course.status}
+              />
+            ))}
+          </div>
+        )}
+
+        {Array.isArray(block?.children) && block.children.length > 0 && (
+          <div className="space-y-2">
+            {block.children.map((child: any, idx: number) => (
+              <div key={`${section.id}-${depth}-child-${idx}`}>{renderLogicBlock(child, depth + 1)}</div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   return (
     <Card className="bg-input-background border-border p-4">
       <div className="flex items-center justify-between gap-3 mb-2">
@@ -397,32 +488,13 @@ function RequirementSectionCard({
 
       {expandedSectionIds.has(section.id) ? (
         <>
-          {section.logicBlocks?.length > 0 && (
+          {section.logicBlocks?.length > 0 ? (
             <div className="mt-3 mb-3 space-y-2">
               {section.logicBlocks.map((block: any, idx: number) => (
-                <div
-                  key={`${section.id}-logic-${idx}`}
-                  className={`rounded-md border p-2 ${
-                    block.type === "OR"
-                      ? "border-amber-300 bg-amber-50 dark:border-amber-600/40 dark:bg-amber-600/10"
-                      : "border-sky-300 bg-sky-50 dark:border-sky-600/40 dark:bg-sky-600/10"
-                  }`}
-                >
-                  <div className="flex items-center justify-between gap-2 mb-1">
-                    <Badge variant="outline" className="text-xs border-border">
-                      {block.type} Group {idx + 1}
-                    </Badge>
-                    {block.title && <span className="text-xs text-foreground/80">{block.title}</span>}
-                  </div>
-                  <p className="text-xs text-foreground/80">
-                    {(block.codes ?? []).join(block.type === "OR" ? " or " : " and ")}
-                  </p>
-                </div>
+                <div key={`${section.id}-logic-${idx}`}>{renderLogicBlock(block, 0)}</div>
               ))}
             </div>
-          )}
-
-          {sectionCourses.length > 0 ? (
+          ) : sectionCourses.length > 0 ? (
             // Show individual course rows
             <div className="mt-3 border border-border/30 rounded-md overflow-hidden">
               {sectionCourses.map((course) => (
@@ -477,6 +549,7 @@ export default function DegreeAudit() {
   const [courseSearchPending, setCourseSearchPending] = useState(false);
   const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
+  const [dragOverBlockId, setDragOverBlockId] = useState<string | null>(null);
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
   const [wildcardSelections, setWildcardSelections] = useState<Record<string, string>>(() => {
     try {
@@ -560,6 +633,7 @@ export default function DegreeAudit() {
     setCourseSearchQuery("");
     setCourseSearchResults([]);
     setCourseSearchMessage(null);
+    setDragOverBlockId(null);
   };
 
   const startEditingSection = (programIndex: number, section: any) => {
@@ -656,7 +730,7 @@ export default function DegreeAudit() {
 
     setSectionDraft((prev) => prev ? {
       ...prev,
-      blocks: prev.blocks.map((block) => block.id === activeDraftBlockId
+      blocks: mapBlocksRecursively(prev.blocks, (block) => block.id === activeDraftBlockId
         ? { ...block, codes: Array.from(new Set([...block.codes, normalized])) }
         : block),
     } : prev);
@@ -665,7 +739,7 @@ export default function DegreeAudit() {
   const addWildcardTokenToActiveBlock = () => {
     const normalized = wildcardTokenInput.toUpperCase().trim();
     if (!WILDCARD_TOKEN_PATTERN.test(normalized)) {
-      setCourseSearchMessage("Wildcard format must look like BSCI3XX, BSCI4XX, or CMSC/MATHXXX.");
+      setCourseSearchMessage("Wildcard format must look like BSCI1XX..BSCI8XX or CMSC/MATHXXX.");
       return;
     }
 
@@ -679,7 +753,7 @@ export default function DegreeAudit() {
       if (!prev) return prev;
       return {
         ...prev,
-        blocks: prev.blocks.map((block) => {
+        blocks: mapBlocksRecursively(prev.blocks, (block) => {
           if (block.id !== blockId) return block;
           const idx = block.codes.findIndex((value) => value === code);
           if (idx < 0) return block;
@@ -699,7 +773,7 @@ export default function DegreeAudit() {
       if (!prev) return prev;
       return {
         ...prev,
-        blocks: prev.blocks.map((block) => {
+        blocks: mapBlocksRecursively(prev.blocks, (block) => {
           if (block.id === sourceBlockId) {
             return { ...block, codes: block.codes.filter((value) => value !== code) };
           }
@@ -708,6 +782,111 @@ export default function DegreeAudit() {
           }
           return block;
         }),
+      };
+    });
+  };
+
+  const mapBlocksRecursively = (
+    blocks: EditableLogicBlock[],
+    mapper: (block: EditableLogicBlock) => EditableLogicBlock,
+  ): EditableLogicBlock[] => {
+    return blocks.map((block) => {
+      const withChildren = Array.isArray(block.children)
+        ? { ...block, children: mapBlocksRecursively(block.children, mapper) }
+        : block;
+      return mapper(withChildren);
+    });
+  };
+
+  const removeBlockById = (
+    blocks: EditableLogicBlock[],
+    blockId: string,
+  ): { blocks: EditableLogicBlock[]; removed: EditableLogicBlock | null } => {
+    let removed: EditableLogicBlock | null = null;
+
+    const nextBlocks = blocks
+      .map((block) => {
+        if (block.id === blockId) {
+          removed = block;
+          return null;
+        }
+
+        if (Array.isArray(block.children) && block.children.length > 0) {
+          const childResult = removeBlockById(block.children, blockId);
+          if (childResult.removed) {
+            removed = childResult.removed;
+            return { ...block, children: childResult.blocks };
+          }
+        }
+
+        return block;
+      })
+      .filter((block): block is EditableLogicBlock => block !== null);
+
+    return { blocks: nextBlocks, removed };
+  };
+
+  const addChildToBlock = (
+    blocks: EditableLogicBlock[],
+    targetId: string,
+    child: EditableLogicBlock,
+  ): EditableLogicBlock[] => {
+    return blocks.map((block) => {
+      if (block.id === targetId) {
+        return {
+          ...block,
+          children: [...(block.children ?? []), child],
+        };
+      }
+
+      if (Array.isArray(block.children) && block.children.length > 0) {
+        return {
+          ...block,
+          children: addChildToBlock(block.children, targetId, child),
+        };
+      }
+
+      return block;
+    });
+  };
+
+  const nestBlockIntoBlock = (sourceBlockId: string, targetBlockId: string) => {
+    if (sourceBlockId === targetBlockId) return;
+
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+      const removedResult = removeBlockById(prev.blocks, sourceBlockId);
+      if (!removedResult.removed) return prev;
+
+      return {
+        ...prev,
+        blocks: addChildToBlock(removedResult.blocks, targetBlockId, removedResult.removed),
+      };
+    });
+  };
+
+  const flattenDraftBlocks = (
+    blocks: EditableLogicBlock[],
+    depth: number = 0,
+    parentId: string | null = null,
+  ): Array<{ block: EditableLogicBlock; depth: number; parentId: string | null }> => {
+    const out: Array<{ block: EditableLogicBlock; depth: number; parentId: string | null }> = [];
+    for (const block of blocks) {
+      out.push({ block, depth, parentId });
+      if (Array.isArray(block.children) && block.children.length > 0) {
+        out.push(...flattenDraftBlocks(block.children, depth + 1, block.id));
+      }
+    }
+    return out;
+  };
+
+  const deleteBlockById = (blockId: string) => {
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+      const removedResult = removeBlockById(prev.blocks, blockId);
+      return {
+        ...prev,
+        blocks: removedResult.blocks,
       };
     });
   };
@@ -1409,15 +1588,35 @@ export default function DegreeAudit() {
 
                                         <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
                                         <div className="space-y-2 mb-3">
-                                          {sectionDraft.blocks.map((block) => (
-                                            <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
+                                          {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
+                                            <div
+                                              key={block.id}
+                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                              style={{ marginLeft: `${depth * 12}px` }}
+                                              draggable
+                                              onDragStart={(event) => {
+                                                event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
+                                                setDragOverBlockId(null);
+                                              }}
+                                              onDragOver={(event) => {
+                                                event.preventDefault();
+                                                setDragOverBlockId(block.id);
+                                              }}
+                                              onDragLeave={() => {
+                                                setDragOverBlockId((current) => current === block.id ? null : current);
+                                              }}
+                                            >
                                               <div className="flex items-center gap-2 mb-2">
+                                                <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                                  <GripVertical className="h-3 w-3" />
+                                                  Drag Block
+                                                </span>
                                                 <select
                                                   className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
                                                   value={block.type}
                                                   onChange={(event) => setSectionDraft((prev) => prev ? {
                                                     ...prev,
-                                                    blocks: prev.blocks.map((item) => item.id === block.id ? {
+                                                    blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id ? {
                                                       ...item,
                                                       type: event.target.value === "OR" ? "OR" : "AND",
                                                     } : item),
@@ -1431,7 +1630,7 @@ export default function DegreeAudit() {
                                                   value={block.title ?? ""}
                                                   onChange={(event) => setSectionDraft((prev) => prev ? {
                                                     ...prev,
-                                                    blocks: prev.blocks.map((item) => item.id === block.id
+                                                    blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
                                                       ? { ...item, title: event.target.value }
                                                       : item),
                                                   } : prev)}
@@ -1442,22 +1641,29 @@ export default function DegreeAudit() {
                                                   type="button"
                                                   size="sm"
                                                   variant="ghost"
-                                                  onClick={() => setSectionDraft((prev) => prev ? {
-                                                    ...prev,
-                                                    blocks: prev.blocks.filter((item) => item.id !== block.id),
-                                                  } : prev)}
+                                                  onClick={() => deleteBlockById(block.id)}
                                                 >
                                                   Remove
                                                 </Button>
                                               </div>
+                                              {dragOverBlockId === block.id && (
+                                                <p className="text-[11px] text-red-400 mb-2">Drop block here to nest, or drop course chip to move it here.</p>
+                                              )}
                                               <div
                                                 className="flex flex-wrap gap-2"
                                                 onDragOver={(event) => event.preventDefault()}
                                                 onDrop={(event) => {
                                                   const raw = event.dataTransfer.getData("text/plain");
+                                                  if (raw.startsWith("BLOCK::")) {
+                                                    const sourceBlockId = raw.replace("BLOCK::", "");
+                                                    nestBlockIntoBlock(sourceBlockId, block.id);
+                                                    setDragOverBlockId(null);
+                                                    return;
+                                                  }
                                                   const [sourceBlockId, code] = raw.split("::");
                                                   if (!sourceBlockId || !code) return;
                                                   moveCodeAcrossBlocks(sourceBlockId, code, block.id);
+                                                  setDragOverBlockId(null);
                                                 }}
                                               >
                                                 {block.codes.map((code) => (
@@ -1492,7 +1698,7 @@ export default function DegreeAudit() {
                                                       className="ml-2"
                                                       onClick={() => setSectionDraft((prev) => prev ? {
                                                         ...prev,
-                                                        blocks: prev.blocks.map((item) => item.id === block.id
+                                                        blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
                                                           ? { ...item, codes: item.codes.filter((value) => value !== code) }
                                                           : item),
                                                       } : prev)}
@@ -1689,15 +1895,35 @@ export default function DegreeAudit() {
 
                                     <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
                                         <div className="space-y-2 mb-3">
-                                      {sectionDraft.blocks.map((block) => (
-                                        <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
+                                          {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
+                                            <div
+                                              key={block.id}
+                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                              style={{ marginLeft: `${depth * 12}px` }}
+                                              draggable
+                                              onDragStart={(event) => {
+                                                event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
+                                                setDragOverBlockId(null);
+                                              }}
+                                              onDragOver={(event) => {
+                                                event.preventDefault();
+                                                setDragOverBlockId(block.id);
+                                              }}
+                                              onDragLeave={() => {
+                                                setDragOverBlockId((current) => current === block.id ? null : current);
+                                              }}
+                                            >
                                           <div className="flex items-center gap-2 mb-2">
+                                                <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                                  <GripVertical className="h-3 w-3" />
+                                                  Drag Block
+                                                </span>
                                             <select
                                               className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
                                               value={block.type}
                                               onChange={(event) => setSectionDraft((prev) => prev ? {
                                                 ...prev,
-                                                blocks: prev.blocks.map((item) => item.id === block.id ? {
+                                                blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id ? {
                                                   ...item,
                                                   type: event.target.value === "OR" ? "OR" : "AND",
                                                 } : item),
@@ -1711,7 +1937,7 @@ export default function DegreeAudit() {
                                               value={block.title ?? ""}
                                               onChange={(event) => setSectionDraft((prev) => prev ? {
                                                 ...prev,
-                                                blocks: prev.blocks.map((item) => item.id === block.id
+                                                blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
                                                   ? { ...item, title: event.target.value }
                                                   : item),
                                               } : prev)}
@@ -1722,22 +1948,29 @@ export default function DegreeAudit() {
                                               type="button"
                                               size="sm"
                                               variant="ghost"
-                                              onClick={() => setSectionDraft((prev) => prev ? {
-                                                ...prev,
-                                                blocks: prev.blocks.filter((item) => item.id !== block.id),
-                                              } : prev)}
+                                              onClick={() => deleteBlockById(block.id)}
                                             >
                                               Remove
                                             </Button>
                                           </div>
+                                          {dragOverBlockId === block.id && (
+                                            <p className="text-[11px] text-red-400 mb-2">Drop block here to nest, or drop course chip to move it here.</p>
+                                          )}
                                           <div
                                             className="flex flex-wrap gap-2"
                                             onDragOver={(event) => event.preventDefault()}
                                             onDrop={(event) => {
                                               const raw = event.dataTransfer.getData("text/plain");
+                                              if (raw.startsWith("BLOCK::")) {
+                                                const sourceBlockId = raw.replace("BLOCK::", "");
+                                                nestBlockIntoBlock(sourceBlockId, block.id);
+                                                setDragOverBlockId(null);
+                                                return;
+                                              }
                                               const [sourceBlockId, code] = raw.split("::");
                                               if (!sourceBlockId || !code) return;
                                               moveCodeAcrossBlocks(sourceBlockId, code, block.id);
+                                              setDragOverBlockId(null);
                                             }}
                                           >
                                             {block.codes.map((code) => (
@@ -1772,7 +2005,7 @@ export default function DegreeAudit() {
                                                   className="ml-2"
                                                   onClick={() => setSectionDraft((prev) => prev ? {
                                                     ...prev,
-                                                    blocks: prev.blocks.map((item) => item.id === block.id
+                                                    blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
                                                       ? { ...item, codes: item.codes.filter((value) => value !== code) }
                                                       : item),
                                                   } : prev)}
@@ -1949,16 +2182,36 @@ export default function DegreeAudit() {
                                               />
 
                                               <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
-                                        <div className="space-y-2 mb-3">
-                                                {sectionDraft.blocks.map((block) => (
-                                                  <div key={block.id} className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"}`}>
+                                              <div className="space-y-2 mb-3">
+                                                {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
+                                                  <div
+                                                    key={block.id}
+                                                    className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                                    style={{ marginLeft: `${depth * 12}px` }}
+                                                    draggable
+                                                    onDragStart={(event) => {
+                                                      event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
+                                                      setDragOverBlockId(null);
+                                                    }}
+                                                    onDragOver={(event) => {
+                                                      event.preventDefault();
+                                                      setDragOverBlockId(block.id);
+                                                    }}
+                                                    onDragLeave={() => {
+                                                      setDragOverBlockId((current) => current === block.id ? null : current);
+                                                    }}
+                                                  >
                                                     <div className="flex items-center gap-2 mb-2">
+                                                      <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                                                        <GripVertical className="h-3 w-3" />
+                                                        Drag Block
+                                                      </span>
                                                       <select
                                                         className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
                                                         value={block.type}
                                                         onChange={(event) => setSectionDraft((prev) => prev ? {
                                                           ...prev,
-                                                          blocks: prev.blocks.map((item) => item.id === block.id ? {
+                                                          blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id ? {
                                                             ...item,
                                                             type: event.target.value === "OR" ? "OR" : "AND",
                                                           } : item),
@@ -1972,7 +2225,7 @@ export default function DegreeAudit() {
                                                         value={block.title ?? ""}
                                                         onChange={(event) => setSectionDraft((prev) => prev ? {
                                                           ...prev,
-                                                          blocks: prev.blocks.map((item) => item.id === block.id
+                                                          blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
                                                             ? { ...item, title: event.target.value }
                                                             : item),
                                                         } : prev)}
@@ -1983,22 +2236,29 @@ export default function DegreeAudit() {
                                                         type="button"
                                                         size="sm"
                                                         variant="ghost"
-                                                        onClick={() => setSectionDraft((prev) => prev ? {
-                                                          ...prev,
-                                                          blocks: prev.blocks.filter((item) => item.id !== block.id),
-                                                        } : prev)}
+                                                        onClick={() => deleteBlockById(block.id)}
                                                       >
                                                         Remove
                                                       </Button>
                                                     </div>
+                                                    {dragOverBlockId === block.id && (
+                                                      <p className="text-[11px] text-red-400 mb-2">Drop block here to nest, or drop course chip to move it here.</p>
+                                                    )}
                                                     <div
                                                       className="flex flex-wrap gap-2"
                                                       onDragOver={(event) => event.preventDefault()}
                                                       onDrop={(event) => {
                                                         const raw = event.dataTransfer.getData("text/plain");
+                                                        if (raw.startsWith("BLOCK::")) {
+                                                          const sourceBlockId = raw.replace("BLOCK::", "");
+                                                          nestBlockIntoBlock(sourceBlockId, block.id);
+                                                          setDragOverBlockId(null);
+                                                          return;
+                                                        }
                                                         const [sourceBlockId, code] = raw.split("::");
                                                         if (!sourceBlockId || !code) return;
                                                         moveCodeAcrossBlocks(sourceBlockId, code, block.id);
+                                                        setDragOverBlockId(null);
                                                       }}
                                                     >
                                                       {block.codes.map((code) => (
@@ -2033,7 +2293,7 @@ export default function DegreeAudit() {
                                                             className="ml-2"
                                                             onClick={() => setSectionDraft((prev) => prev ? {
                                                               ...prev,
-                                                              blocks: prev.blocks.map((item) => item.id === block.id
+                                                              blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
                                                                 ? { ...item, codes: item.codes.filter((value) => value !== code) }
                                                                 : item),
                                                             } : prev)}
