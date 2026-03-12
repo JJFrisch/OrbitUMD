@@ -254,8 +254,12 @@ export default function CreditImport() {
 
   const handleManualImport = async () => {
     const credits = Number(manualCreditForm.credits);
-    if (!manualCreditForm.originalName.trim() || !Number.isFinite(credits) || credits <= 0) {
-      toast.error("Enter a credit title and a positive credit value.");
+    const allowsZeroCredits = manualCreditForm.sourceType === "exemption";
+    const invalidCreditValue = allowsZeroCredits ? credits < 0 : credits <= 0;
+    if (!manualCreditForm.originalName.trim() || !Number.isFinite(credits) || invalidCreditValue) {
+      toast.error(allowsZeroCredits
+        ? "Enter a credit title and a non-negative credit value."
+        : "Enter a credit title and a positive credit value.");
       return;
     }
 

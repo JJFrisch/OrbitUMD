@@ -204,7 +204,7 @@ function statusBadge(status: AuditCourseStatus) {
   if (status === "in_progress") {
     return <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30">In Progress</Badge>;
   }
-  return <Badge variant="outline" className="border-border">Planned</Badge>;
+  return <Badge className="bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-600/30">Planned</Badge>;
 }
 
 function sectionHeaderClass(sectionEval: { requiredSlots: number; completedSlots: number; inProgressSlots: number }): string {
@@ -307,6 +307,28 @@ function RequirementSectionCard({
   setExpandedSectionIds,
   onEdit,
 }: RequirementSectionCardProps) {
+  const wildcardMatchedCoursesByToken = useMemo(() => {
+    const map = new Map<string, AuditCourse>();
+    const allCoursesByCode = new Map(allCourses.map((course) => [course.code.toUpperCase(), course]));
+
+    for (const slot of wildcardSlots) {
+      const effectiveCode = String(slot.effectiveCode ?? "").toUpperCase();
+      if (!effectiveCode) continue;
+      const matched = allCoursesByCode.get(effectiveCode);
+      if (!matched) continue;
+
+      map.set(slot.token.toUpperCase(), {
+        code: slot.token.toUpperCase(),
+        title: `${matched.code} - ${matched.title}`,
+        credits: matched.credits,
+        genEds: matched.genEds,
+        status: matched.status,
+      });
+    }
+
+    return map;
+  }, [allCourses, wildcardSlots]);
+
   // Get courses for this section, enriched with database details
   const sectionCourses = useMemo(() => {
     const coursesByCode = new Map(allCourses.map((c) => [c.code.toUpperCase(), c]));
@@ -315,6 +337,12 @@ function RequirementSectionCard({
     // Add courses from the section's course list
     for (const code of section.courseCodes) {
       const baseCode = code.toUpperCase();
+      const wildcardMatchedCourse = wildcardMatchedCoursesByToken.get(baseCode);
+      if (wildcardMatchedCourse) {
+        courses.push(wildcardMatchedCourse);
+        continue;
+      }
+
       const auditCourse = coursesByCode.get(baseCode);
       const details = courseDetails.get(baseCode);
 
@@ -353,7 +381,7 @@ function RequirementSectionCard({
     }
 
     return courses;
-  }, [section, allCourses, courseDetails, byCourseCode]);
+  }, [section, allCourses, courseDetails, byCourseCode, wildcardMatchedCoursesByToken]);
 
   const coursesByCode = useMemo(() => {
     return new Map(sectionCourses.map((course) => [course.code.toUpperCase(), course]));
@@ -363,6 +391,11 @@ function RequirementSectionCard({
     const blockCodes = Array.isArray(block?.codes) ? block.codes : [];
     const blockCourses = blockCodes.map((code: string) => {
       const normalized = String(code ?? "").toUpperCase();
+      const wildcardMatchedCourse = wildcardMatchedCoursesByToken.get(normalized);
+      if (wildcardMatchedCourse) {
+        return wildcardMatchedCourse;
+      }
+
       const existing = coursesByCode.get(normalized);
       if (existing) return existing;
       return {
@@ -1158,6 +1191,11 @@ export default function DegreeAudit() {
 
       const statusOrder: AuditCourseStatus[] = ["completed", "in_progress", "planned", "not_started"];
       const rank = (status: AuditCourseStatus) => statusOrder.indexOf(status);
+      const selectedCodesInProgram = new Set(
+        Object.entries(wildcardSelections)
+          .filter(([slotKey, courseCode]) => slotKey.startsWith(`${bundle.programId}:`) && String(courseCode ?? "").trim().length > 0)
+          .map(([, courseCode]) => String(courseCode).toUpperCase()),
+      );
 
       const sectionRows = bundle.sections.map((section) => {
         const wildcardRules = section.courseCodes
@@ -1172,6 +1210,8 @@ export default function DegreeAudit() {
             .filter((course) => {
               const normalizedCode = course.code.toUpperCase();
               if (explicitCodesInProgram.has(normalizedCode)) return false;
+              const selectedElsewhere = selectedCodesInProgram.has(normalizedCode) && normalizedCode !== String(selectedCode ?? "").toUpperCase();
+              if (selectedElsewhere) return false;
               return courseMatchesWildcardRule(normalizedCode, rule);
             })
             .sort((a, b) => a.code.localeCompare(b.code))
@@ -1255,6 +1295,26 @@ export default function DegreeAudit() {
       };
     });
   }, [bundles, byCourseCode, courses, wildcardSelections]);
+
+  const handleWildcardSelection = (slotKey: string, courseCode: string) => {
+    const programId = slotKey.split(":")[0];
+    const normalized = String(courseCode ?? "").toUpperCase();
+
+    setWildcardSelections((prev) => {
+      const next = { ...prev };
+
+      if (normalized) {
+        for (const [key, selected] of Object.entries(next)) {
+          if (key !== slotKey && key.startsWith(`${programId}:`) && String(selected).toUpperCase() === normalized) {
+            next[key] = "";
+          }
+        }
+      }
+
+      next[slotKey] = courseCode;
+      return next;
+    });
+  };
 
   const electiveOverflow = useMemo(() => {
     return courses.filter((course) => {
@@ -1849,12 +1909,7 @@ export default function DegreeAudit() {
                                       section={section}
                                       sectionEval={sectionEval}
                                       wildcardSlots={wildcardSlots}
-                                      onSelectWildcardCourse={(slotKey, courseCode) => {
-                                        setWildcardSelections((prev) => ({
-                                          ...prev,
-                                          [slotKey]: courseCode,
-                                        }));
-                                      }}
+                                      onSelectWildcardCourse={handleWildcardSelection}
                                       allCourses={courses}
                                       courseDetails={courseDetails}
                                       byCourseCode={byCourseCode}
@@ -2444,12 +2499,7 @@ export default function DegreeAudit() {
                                             section={section}
                                             sectionEval={sectionEval}
                                             wildcardSlots={wildcardSlots}
-                                            onSelectWildcardCourse={(slotKey, courseCode) => {
-                                              setWildcardSelections((prev) => ({
-                                                ...prev,
-                                                [slotKey]: courseCode,
-                                              }));
-                                            }}
+                                            onSelectWildcardCourse={handleWildcardSelection}
                                             allCourses={courses}
                                             courseDetails={courseDetails}
                                             byCourseCode={byCourseCode}

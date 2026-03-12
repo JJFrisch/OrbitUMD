@@ -20,7 +20,7 @@ function statusBadge(status: AuditCourseStatus) {
     return <Badge className="bg-blue-600/20 text-blue-400 border border-blue-600/30">In Progress</Badge>;
   }
   if (status === "planned") {
-    return <Badge className="bg-amber-600/20 text-amber-300 border border-amber-600/30">Planned</Badge>;
+    return <Badge className="bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-600/30">Planned</Badge>;
   }
   return <Badge variant="outline" className="border-border">Not Started</Badge>;
 }
