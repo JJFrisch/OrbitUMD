@@ -1351,6 +1351,33 @@
   gap: 8px;
 }
 
+.cp-generate-nav-btn {
+  background: #1f2a44;
+  border-color: #1f2a44;
+  color: #ffffff;
+}
+
+.cp-generate-nav-btn:hover {
+  background: #172038;
+  border-color: #172038;
+}
+
+.cp-generate-nav-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.dark .cp-generate-nav-btn {
+  background: var(--cp-surface-muted);
+  border-color: var(--cp-border);
+  color: var(--cp-text);
+}
+
+.dark .cp-generate-nav-btn:hover {
+  background: var(--cp-surface-hover);
+  border-color: var(--cp-border);
+}
+
 .cp-generate-result-list {
   display: grid;
   gap: 10px;

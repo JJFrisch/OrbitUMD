@@ -158,16 +158,17 @@ describe("AutoGenerateSchedulePage", () => {
     expect(screen.getByText("Classes: 2")).toBeInTheDocument();
     expect(screen.getByText("Earliest: 9:00 AM")).toBeInTheDocument();
     expect(screen.getByText("Latest: 11:15 AM")).toBeInTheDocument();
-    expect(screen.getByText("CMSC131 - 0101 (6 open)")).toBeInTheDocument();
-    expect(screen.queryByText("CMSC131 - 0201 (0 open)")).not.toBeInTheDocument();
+    expect(screen.getByTestId("generated-schedule-calendar")).toBeInTheDocument();
+    expect(screen.queryAllByTestId("class-block-CMSC131::0101").length).toBeGreaterThan(0);
+    expect(screen.queryAllByTestId("class-block-CMSC131::0201").length).toBe(0);
 
     fireEvent.click(screen.getByRole("button", { name: "Next" }));
 
     expect(screen.getByText("Option 2 of 2")).toBeInTheDocument();
     expect(screen.getByText("Classes: 3")).toBeInTheDocument();
     expect(screen.getByText("Latest: 12:50 PM")).toBeInTheDocument();
-    expect(screen.getByText("ENGL101 - 0201 (7 open)")).toBeInTheDocument();
-    expect(screen.queryByText("ENGL101 - 0101 (8 open)")).not.toBeInTheDocument();
+    expect(screen.queryAllByTestId("class-block-ENGL101::0201").length).toBeGreaterThan(0);
+    expect(screen.queryAllByTestId("class-block-ENGL101::0101").length).toBe(0);
   });
 
   it("respects all-day day exclusions", async () => {

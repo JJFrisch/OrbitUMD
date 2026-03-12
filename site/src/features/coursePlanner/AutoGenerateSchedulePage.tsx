@@ -4,8 +4,10 @@ import { CalendarDays, Loader2, Sparkles } from "lucide-react";
 import { getSectionsForCourse, searchCoursesWithStrategy } from "./services/courseSearchService";
 import { useCoursePlannerStore } from "./state/coursePlannerStore";
 import { getSectionIdentityKey, normalizeSearchInput } from "./utils/formatting";
-import { parseMeetingDays, parseTimeToHour } from "./utils/scheduleLayout";
-import type { Course, ScheduleSelection, SearchFilters, Section, Weekday } from "./types/coursePlanner";
+import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds, parseMeetingDays, parseTimeToHour } from "./utils/scheduleLayout";
+import { Timeline } from "./components/schedule/Timeline";
+import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
+import type { CalendarMeeting, Course, ScheduleSelection, SearchFilters, Section, Weekday } from "./types/coursePlanner";
 import "./styles/coursePlanner.css";
 
 type Season = "01" | "05" | "08" | "12";
@@ -421,6 +423,28 @@ export function AutoGenerateSchedulePage() {
 
   const activeSchedule = generated[activeScheduleIndex] ?? null;
   const activeSummary = activeSchedule ? buildScheduleSummary(activeSchedule) : null;
+  const activeScheduleMeetings = useMemo<CalendarMeeting[]>(() => {
+    if (!activeSchedule) {
+      return [];
+    }
+
+    const rawMeetings = activeSchedule.selections.flatMap((selection) =>
+      buildCalendarMeetings({
+        sectionKey: selection.sectionKey,
+        courseCode: selection.course.courseCode,
+        sectionCode: selection.section.sectionCode,
+        title: selection.course.name,
+        instructor: selection.section.instructor,
+        meetings: selection.section.meetings,
+      })
+    );
+
+    return assignConflictIndexes(rawMeetings);
+  }, [activeSchedule]);
+  const activeScheduleBounds = useMemo(
+    () => computeVisibleHourBounds(activeScheduleMeetings.filter((meeting) => meeting.day !== "Other")),
+    [activeScheduleMeetings]
+  );
 
   return (
     <div className="course-planner-root cp-generate-root">
@@ -566,7 +590,7 @@ export function AutoGenerateSchedulePage() {
               <div className="cp-generate-nav-row">
                 <button
                   type="button"
-                  className="cp-builder-action-btn"
+                  className="cp-builder-action-btn cp-generate-nav-btn"
                   onClick={() => setActiveScheduleIndex((current) => Math.max(0, current - 1))}
                   disabled={activeScheduleIndex <= 0}
                 >
@@ -577,7 +601,7 @@ export function AutoGenerateSchedulePage() {
                 </span>
                 <button
                   type="button"
-                  className="cp-builder-action-btn"
+                  className="cp-builder-action-btn cp-generate-nav-btn"
                   onClick={() => setActiveScheduleIndex((current) => Math.min(generated.length - 1, current + 1))}
                   disabled={activeScheduleIndex >= generated.length - 1}
                 >
@@ -606,13 +630,18 @@ export function AutoGenerateSchedulePage() {
                   <span>Latest: {activeSummary.latestLabel}</span>
                 </div>
 
-                <ul className="cp-library-classes">
-                  {activeSchedule.selections.map((selection) => (
-                    <li key={selection.sectionKey}>
-                      {selection.course.courseCode} - {selection.section.sectionCode} ({selection.section.openSeats ?? 0} open)
-                    </li>
-                  ))}
-                </ul>
+                <section className="cp-calendar cp-calendar-preview" data-testid="generated-schedule-calendar">
+                  <Timeline startHour={activeScheduleBounds.startHour} endHour={activeScheduleBounds.endHour} />
+                  <ScheduleGrid
+                    meetings={activeScheduleMeetings}
+                    bounds={activeScheduleBounds}
+                    readOnly
+                    showDetails
+                    onOpenInfo={() => {}}
+                    onRemove={() => {}}
+                  />
+                </section>
+
                 <button
                   type="button"
                   className="cp-builder-action-btn is-primary"
