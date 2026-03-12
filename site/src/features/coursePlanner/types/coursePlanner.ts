@@ -85,6 +85,7 @@ export interface CalendarMeeting {
   id: string;
   sectionKey: string;
   courseCode: string;
+  displayCourseCode?: string;
   sectionCode: string;
   title: string;
   instructor: string;

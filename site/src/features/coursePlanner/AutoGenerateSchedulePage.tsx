@@ -32,6 +32,11 @@ interface GeneratedSchedule {
   credits: number;
 }
 
+interface GenerationOutcome {
+  schedules: GeneratedSchedule[];
+  missingOptionalCodes: string[];
+}
+
 interface ScheduleSummary {
   classCount: number;
   earliestLabel: string;
@@ -267,6 +272,140 @@ function buildScheduleSummary(schedule: GeneratedSchedule): ScheduleSummary {
   };
 }
 
+function generateSchedules(requiredPlans: CoursePlan[], optionalPlans: CoursePlan[], minCredits: number, maxCredits: number): GenerationOutcome {
+  const orderedRequired = [...requiredPlans].sort((a, b) => a.sections.length - b.sections.length);
+  const orderedOptional = [...optionalPlans].sort((a, b) => a.sections.length - b.sections.length);
+  const optionalCodeSet = new Set(orderedOptional.map((plan) => normalizeSearchInput(plan.course.courseCode)));
+
+  const requiredCombinations: ScheduleSelection[][] = [];
+
+  const buildRequiredCombinations = (idx: number, chosen: ScheduleSelection[]) => {
+    if (idx >= orderedRequired.length) {
+      requiredCombinations.push([...chosen]);
+      return;
+    }
+
+    const currentCourse = orderedRequired[idx];
+    for (const section of currentCourse.sections) {
+      const conflict = chosen.some((selection) => sectionsConflict(selection.section, section));
+      if (conflict) {
+        continue;
+      }
+
+      buildRequiredCombinations(idx + 1, [...chosen, buildSelection(currentCourse.course, section)]);
+    }
+  };
+
+  buildRequiredCombinations(0, []);
+
+  if (requiredCombinations.length === 0) {
+    return {
+      schedules: [],
+      missingOptionalCodes: [],
+    };
+  }
+
+  const keyedResults = new Map<string, { selections: ScheduleSelection[]; credits: number; optionalCount: number; includedOptionalCodes: Set<string> }>();
+  let bestOptionalCount = -1;
+
+  for (const requiredSelection of requiredCombinations) {
+    const tryOptional = (optIdx: number, acc: ScheduleSelection[], includedOptionalCodes: Set<string>) => {
+      const credits = totalCredits(acc);
+      if (credits > maxCredits) {
+        return;
+      }
+
+      const maxPossibleOptionalCount = includedOptionalCodes.size + (orderedOptional.length - optIdx);
+      if (maxPossibleOptionalCount < bestOptionalCount) {
+        return;
+      }
+
+      if (optIdx >= orderedOptional.length) {
+        if (credits < minCredits || credits > maxCredits) {
+          return;
+        }
+
+        const optionalCount = includedOptionalCodes.size;
+        if (optionalCount < bestOptionalCount) {
+          return;
+        }
+
+        if (optionalCount > bestOptionalCount) {
+          bestOptionalCount = optionalCount;
+          keyedResults.clear();
+        }
+
+        const key = acc.map((selection) => selection.sectionKey).sort().join("|");
+        if (!keyedResults.has(key)) {
+          keyedResults.set(key, {
+            selections: [...acc],
+            credits,
+            optionalCount,
+            includedOptionalCodes: new Set(includedOptionalCodes),
+          });
+        }
+        return;
+      }
+
+      // Option 1: skip this optional course.
+      tryOptional(optIdx + 1, acc, includedOptionalCodes);
+
+      // Option 2: include a section from this optional course.
+      const optional = orderedOptional[optIdx];
+      const optionalCode = normalizeSearchInput(optional.course.courseCode);
+      const optionalCredits = optional.course.maxCredits || optional.course.credits || 0;
+
+      for (const section of optional.sections) {
+        if (credits + optionalCredits > maxCredits) {
+          continue;
+        }
+
+        const conflict = acc.some((selection) => sectionsConflict(selection.section, section));
+        if (conflict) {
+          continue;
+        }
+
+        const nextIncluded = new Set(includedOptionalCodes);
+        nextIncluded.add(optionalCode);
+        tryOptional(optIdx + 1, [...acc, buildSelection(optional.course, section)], nextIncluded);
+      }
+    };
+
+    tryOptional(0, requiredSelection, new Set());
+  }
+
+  const schedules = Array.from(keyedResults.values())
+    .sort((left, right) => left.selections.length - right.selections.length)
+    .map((entry, index) => ({
+      id: `auto-${index + 1}`,
+      selections: entry.selections,
+      credits: entry.credits,
+    }));
+
+  if (schedules.length === 0) {
+    return {
+      schedules: [],
+      missingOptionalCodes: [],
+    };
+  }
+
+  const optionalSeenInBest = new Set<string>();
+  for (const entry of keyedResults.values()) {
+    for (const optionalCode of entry.includedOptionalCodes) {
+      optionalSeenInBest.add(optionalCode);
+    }
+  }
+
+  const missingOptionalCodes = Array.from(optionalCodeSet)
+    .filter((code) => !optionalSeenInBest.has(code))
+    .sort();
+
+  return {
+    schedules,
+    missingOptionalCodes,
+  };
+}
+
 export function AutoGenerateSchedulePage() {
   const navigate = useNavigate();
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
@@ -292,8 +431,10 @@ export function AutoGenerateSchedulePage() {
 
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fitNotice, setFitNotice] = useState<string | null>(null);
   const [generated, setGenerated] = useState<GeneratedSchedule[]>([]);
   const [activeScheduleIndex, setActiveScheduleIndex] = useState(0);
+  const [showSeatCounts, setShowSeatCounts] = useState(false);
 
   const requiredCodes = useMemo(() => parseCourseCodes(requiredRaw), [requiredRaw]);
   const optionalCodes = useMemo(() => parseCourseCodes(optionalRaw), [optionalRaw]);
@@ -315,6 +456,7 @@ export function AutoGenerateSchedulePage() {
   const handleGenerate = async () => {
     setBusy(true);
     setError(null);
+    setFitNotice(null);
     setGenerated([]);
 
     try {
@@ -339,78 +481,16 @@ export function AutoGenerateSchedulePage() {
         optionalCodes.map((code) => resolveCoursePlan(code, season, year, onlyOpen, allowedDelivery, exclusion))
       );
 
-      const orderedRequired = [...requiredPlans].sort((a, b) => a.sections.length - b.sections.length);
-      const results: GeneratedSchedule[] = [];
+      const outcome = generateSchedules(requiredPlans, optionalPlans, minCredits, maxCredits);
 
-      const backtrackRequired = (idx: number, chosen: ScheduleSelection[]) => {
-        if (results.length >= 8) return;
-
-        if (idx >= orderedRequired.length) {
-          const baseCredits = totalCredits(chosen);
-          const optionalCandidates = [...optionalPlans];
-
-          const tryOptional = (optIdx: number, acc: ScheduleSelection[]) => {
-            if (results.length >= 8) return;
-
-            const credits = totalCredits(acc);
-            if (credits > maxCredits) {
-              return;
-            }
-
-            if (optIdx >= optionalCandidates.length) {
-              if (credits >= minCredits && credits <= maxCredits) {
-                results.push({
-                  id: `auto-${results.length + 1}`,
-                  selections: [...acc],
-                  credits,
-                });
-              }
-              return;
-            }
-
-            // Option 1: skip this optional course.
-            tryOptional(optIdx + 1, acc);
-
-            // Option 2: include one valid section for this optional course.
-            const optional = optionalCandidates[optIdx];
-            for (const section of optional.sections) {
-              if (totalCredits(acc) + (optional.course.maxCredits || optional.course.credits || 0) > maxCredits) {
-                continue;
-              }
-
-              const conflict = acc.some((selection) => sectionsConflict(selection.section, section));
-              if (conflict) {
-                continue;
-              }
-
-              tryOptional(optIdx + 1, [...acc, buildSelection(optional.course, section)]);
-            }
-          };
-
-          if (baseCredits <= maxCredits) {
-            tryOptional(0, chosen);
-          }
-          return;
-        }
-
-        const currentCourse = orderedRequired[idx];
-        for (const section of currentCourse.sections) {
-          const conflict = chosen.some((selection) => sectionsConflict(selection.section, section));
-          if (conflict) {
-            continue;
-          }
-
-          backtrackRequired(idx + 1, [...chosen, buildSelection(currentCourse.course, section)]);
-        }
-      };
-
-      backtrackRequired(0, []);
-
-      if (results.length === 0) {
-        throw new Error("No conflict-free schedules found for the selected criteria.");
+      if (outcome.schedules.length === 0) {
+        throw new Error("No conflict-free schedules found for required courses under current criteria.");
       }
 
-      setGenerated(results);
+      setGenerated(outcome.schedules);
+      if (outcome.missingOptionalCodes.length > 0) {
+        setFitNotice(`Could not fit these optional courses without conflicts: ${outcome.missingOptionalCodes.join(", ")}.`);
+      }
       setActiveScheduleIndex(0);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unable to generate schedules.";
@@ -432,6 +512,9 @@ export function AutoGenerateSchedulePage() {
       buildCalendarMeetings({
         sectionKey: selection.sectionKey,
         courseCode: selection.course.courseCode,
+        displayCourseCode: showSeatCounts
+          ? `${selection.course.courseCode} ${(selection.section.openSeats ?? 0)}/${selection.section.totalSeats ?? 0}`
+          : selection.course.courseCode,
         sectionCode: selection.section.sectionCode,
         title: selection.course.name,
         instructor: selection.section.instructor,
@@ -440,7 +523,7 @@ export function AutoGenerateSchedulePage() {
     );
 
     return assignConflictIndexes(rawMeetings);
-  }, [activeSchedule]);
+  }, [activeSchedule, showSeatCounts]);
   const activeScheduleBounds = useMemo(
     () => computeVisibleHourBounds(activeScheduleMeetings.filter((meeting) => meeting.day !== "Other")),
     [activeScheduleMeetings]
@@ -609,6 +692,10 @@ export function AutoGenerateSchedulePage() {
                 </button>
               </div>
             )}
+            <label className="cp-checkbox-label cp-generate-seats-toggle">
+              <input type="checkbox" checked={showSeatCounts} onChange={(event) => setShowSeatCounts(event.target.checked)} />
+              Show seats (e.g. COMM107 30/50)
+            </label>
           </div>
 
           {error && <p className="cp-error-text">{error}</p>}
@@ -641,6 +728,8 @@ export function AutoGenerateSchedulePage() {
                     onRemove={() => {}}
                   />
                 </section>
+
+                {fitNotice && <p className="cp-generate-fit-note">{fitNotice}</p>}
 
                 <button
                   type="button"

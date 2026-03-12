@@ -173,6 +173,7 @@ export function getBlockGeometry(
 export function buildCalendarMeetings(params: {
   sectionKey: string;
   courseCode: string;
+  displayCourseCode?: string;
   sectionCode: string;
   title: string;
   instructor: string;
@@ -191,6 +192,7 @@ export function buildCalendarMeetings(params: {
         id: `${params.sectionKey}-other-${built.length}`,
         sectionKey: params.sectionKey,
         courseCode: params.courseCode,
+        displayCourseCode: params.displayCourseCode,
         sectionCode: params.sectionCode,
         title: params.title,
         instructor: params.instructor,
@@ -210,6 +212,7 @@ export function buildCalendarMeetings(params: {
         id: `${params.sectionKey}-${day}-${built.length}`,
         sectionKey: params.sectionKey,
         courseCode: params.courseCode,
+        displayCourseCode: params.displayCourseCode,
         sectionCode: params.sectionCode,
         title: params.title,
         instructor: params.instructor,

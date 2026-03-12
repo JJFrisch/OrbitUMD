@@ -50,15 +50,15 @@ export function ClassBlock({ meeting, color, textColor, bounds, readOnly, showDe
 
       {showDetails ? (
         <>
-          <strong>{meeting.courseCode}</strong>
+          <strong className="cp-class-title">{meeting.displayCourseCode ?? meeting.courseCode}</strong>
           {isOtherDay ? (
-            <span>Asynchronous / TBA Time</span>
+            <span className="cp-class-time">Asynchronous / TBA Time</span>
           ) : (
-            <span>{formatHourDecimal(meeting.startHour)} - {formatHourDecimal(meeting.endHour)}</span>
+            <span className="cp-class-time">{formatHourDecimal(meeting.startHour)} - {formatHourDecimal(meeting.endHour)}</span>
           )}
-          <span>Section {meeting.sectionCode}</span>
-          {meeting.instructor && <span>{meeting.instructor}</span>}
-          {meeting.location && <span>{meeting.location}</span>}
+          <span className="cp-class-line">Section {meeting.sectionCode}</span>
+          {meeting.instructor && <span className="cp-class-line">{meeting.instructor}</span>}
+          {meeting.location && <span className="cp-class-line">{meeting.location}</span>}
         </>
       ) : (
         <strong>Busy</strong>

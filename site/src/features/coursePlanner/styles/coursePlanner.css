@@ -1351,6 +1351,11 @@
   gap: 8px;
 }
 
+.cp-generate-seats-toggle {
+  font-size: 11px;
+  color: var(--cp-muted);
+}
+
 .cp-generate-nav-btn {
   background: #1f2a44;
   border-color: #1f2a44;
@@ -1407,6 +1412,22 @@
   font-size: 11px;
   color: var(--cp-muted);
   background: var(--cp-surface-subtle);
+}
+
+.cp-generate-fit-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--cp-muted);
+}
+
+/* Improve generated schedule block time readability in light mode. */
+.cp-generate-result-card .cp-calendar .cp-class-time {
+  color: color-mix(in srgb, currentColor 35%, #ffffff 65%);
+  font-weight: 600;
+}
+
+.dark .cp-generate-result-card .cp-calendar .cp-class-time {
+  color: color-mix(in srgb, currentColor 75%, #ffffff 25%);
 }
 
 .cp-generate-result-card header {
