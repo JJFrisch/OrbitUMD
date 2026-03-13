@@ -1877,7 +1877,7 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "before" ? "border-t-2 border-t-red-500" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "after" ? "border-b-2 border-b-red-500" : ""}`}
+                                              className={`relative p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
                                               style={{ marginLeft: `${depth * 12}px` }}
                                               draggable
                                               onDragStart={(event) => {
@@ -1906,6 +1906,12 @@ export default function DegreeAudit() {
                                                 handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                               }}
                                             >
+                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && (
+                                                <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                              )}
+                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && (
+                                                <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                              )}
                                               <div className="flex items-center gap-2 mb-2">
                                                 <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                                                   <GripVertical className="h-3 w-3" />
@@ -2205,7 +2211,7 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "before" ? "border-t-2 border-t-red-500" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "after" ? "border-b-2 border-b-red-500" : ""}`}
+                                              className={`relative p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
                                               style={{ marginLeft: `${depth * 12}px` }}
                                               draggable
                                               onDragStart={(event) => {
@@ -2234,6 +2240,12 @@ export default function DegreeAudit() {
                                                 handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                               }}
                                             >
+                                          {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && (
+                                            <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                          )}
+                                          {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && (
+                                            <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                          )}
                                           <div className="flex items-center gap-2 mb-2">
                                                 <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                                                   <GripVertical className="h-3 w-3" />
@@ -2519,7 +2531,7 @@ export default function DegreeAudit() {
                                                 {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                                   <div
                                                     key={block.id}
-                                                    className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "before" ? "border-t-2 border-t-red-500" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "after" ? "border-b-2 border-b-red-500" : ""}`}
+                                                    className={`relative p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
                                                     style={{ marginLeft: `${depth * 12}px` }}
                                                     draggable
                                                     onDragStart={(event) => {
@@ -2548,6 +2560,12 @@ export default function DegreeAudit() {
                                                       handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                                     }}
                                                   >
+                                                    {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && (
+                                                      <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                                    )}
+                                                    {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && (
+                                                      <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                                    )}
                                                     <div className="flex items-center gap-2 mb-2">
                                                       <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                                                         <GripVertical className="h-3 w-3" />
