@@ -15,6 +15,9 @@ export interface UmdCourseSummary {
   credits: number;
   genEdTags: string[];
   description?: string;
+  relationships?: {
+    prereqs?: string;
+  };
 }
 
 export interface UmdSectionMeeting {

@@ -1,4 +1,4 @@
-import { searchCourses, fetchTerms } from "@/lib/api/umdCourses";
+import { fetchCourseRelationshipsFromUmdApi, searchCourses, fetchTerms } from "@/lib/api/umdCourses";
 
 export interface CourseDetails {
   code: string;
@@ -6,6 +6,7 @@ export interface CourseDetails {
   credits: number;
   genEds: string[];
   description?: string;
+  prereqs?: string;
 }
 
 /**
@@ -64,13 +65,18 @@ export async function lookupCourseDetails(courseCodes: string[]): Promise<Map<st
         });
 
         if (courses.length > 0) {
-          const course = courses[0];
+          const course = courses.find((item) => item.id.toUpperCase() === code) ?? courses[0];
+          const relationshipFallback = (!course.relationships?.prereqs || !course.description)
+            ? await fetchCourseRelationshipsFromUmdApi(termCode, code)
+            : null;
+
           result.set(code, {
             code: course.id ?? code,
             title: course.title ?? `${code} - Unknown Course`,
             credits: course.credits ?? 0,
             genEds: course.genEdTags ?? [],
-            description: course.description,
+            description: course.description ?? relationshipFallback?.description,
+            prereqs: course.relationships?.prereqs ?? relationshipFallback?.prereqs,
           });
         } else {
           missingCodes.add(code);

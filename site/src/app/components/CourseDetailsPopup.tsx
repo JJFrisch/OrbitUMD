@@ -171,6 +171,7 @@ export function CourseDetailsPopup({
     () => splitDescriptionAndPrerequisites(activeDetails?.description),
     [activeDetails?.description],
   );
+  const prerequisitesText = activeDetails?.prereqs?.trim() || splitDetails.prerequisites;
 
   return (
     <Dialog
@@ -245,9 +246,9 @@ export function CourseDetailsPopup({
             <span className="text-sm font-medium text-muted-foreground block mb-2">Prerequisites:</span>
             {loading ? (
               <p className="text-sm text-muted-foreground">Loading prerequisites...</p>
-            ) : splitDetails.prerequisites ? (
+            ) : prerequisitesText ? (
               <p className="text-sm leading-6 text-foreground/90 whitespace-pre-wrap">
-                {renderLinkedText(splitDetails.prerequisites, selectCourse)}
+                {renderLinkedText(prerequisitesText, selectCourse)}
               </p>
             ) : (
               <p className="text-sm text-muted-foreground">No prerequisite information available.</p>

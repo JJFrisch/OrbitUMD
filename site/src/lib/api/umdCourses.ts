@@ -24,6 +24,9 @@ type UmdApiCourse = {
   name: string;
   gen_ed?: Array<string | string[]>;
   description?: string;
+  relationships?: {
+    prereqs?: string;
+  };
 };
 
 type UmdApiSection = {
@@ -470,6 +473,9 @@ export async function searchCourses(params: CourseSearchParams): Promise<UmdCour
       credits: parseCredits(course.credits),
       genEdTags: flattenGenEds(course.gen_ed),
       description: course.description,
+      relationships: {
+        prereqs: course.relationships?.prereqs,
+      },
     };
   });
 
@@ -545,4 +551,31 @@ export async function fetchCourseById(termCode: string, courseId: string): Promi
 export async function fetchCourseRequirementRefs(_courseId: string): Promise<DegreeRequirementRef[]> {
   // This will be replaced with a Supabase-backed lookup when degree mappings are seeded.
   return [];
+}
+
+export async function fetchCourseRelationshipsFromUmdApi(
+  termCode: string,
+  courseId: string,
+): Promise<{ prereqs?: string; description?: string } | null> {
+  const normalizedCourseId = courseId.trim().toUpperCase();
+  const deptId = normalizedCourseId.replace(/\d+.*/, "");
+  if (!deptId) return null;
+
+  try {
+    const rows = await getJson<UmdApiCourse[]>("courses", {
+      semester: termCode,
+      dept_id: deptId,
+      per_page: 300,
+      page: 1,
+    });
+    const exact = rows.find((row) => String(row.course_id ?? "").toUpperCase() === normalizedCourseId);
+    if (!exact) return null;
+
+    return {
+      prereqs: exact.relationships?.prereqs,
+      description: exact.description,
+    };
+  } catch {
+    return null;
+  }
 }

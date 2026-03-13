@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import TranscriptUploadPanel from "../components/TranscriptUploadPanel";
 import { Card } from "../components/ui/card";
@@ -62,6 +62,15 @@ interface EditManualState {
   termAwarded: string;
   grade: string;
 }
+
+const DEFAULT_MANUAL_CREDIT_FORM: ManualCreditForm = {
+  sourceType: "IB",
+  originalName: "",
+  umdCourseCode: "",
+  credits: "",
+  genEdCodes: "",
+  termAwarded: "Prior to UMD",
+};
 
 function parseGenEdCodes(raw: string): string[] {
   return raw.split(",").map((value) => value.trim().toUpperCase()).filter(Boolean);
@@ -134,14 +143,7 @@ export default function CreditImport() {
   const [editingAp, setEditingAp] = useState<EditApState | null>(null);
   const [editingManual, setEditingManual] = useState<EditManualState | null>(null);
   const [manualSearchQuery, setManualSearchQuery] = useState("");
-  const [manualCreditForm, setManualCreditForm] = useState<ManualCreditForm>({
-    sourceType: "IB",
-    originalName: "",
-    umdCourseCode: "",
-    credits: "",
-    genEdCodes: "",
-    termAwarded: "Prior to UMD",
-  });
+  const [manualCreditForm, setManualCreditForm] = useState<ManualCreditForm>(DEFAULT_MANUAL_CREDIT_FORM);
 
   useEffect(() => {
     let mounted = true;
@@ -219,6 +221,104 @@ export default function CreditImport() {
       uniqueGenEds: Array.from(new Set(transcriptSavedRecords.flatMap((record) => record.genEdCodes))).sort(),
     };
   }, [transcriptSavedRecords]);
+
+  const hasUnsavedCreditDraft = useMemo(() => {
+    const hasApDraft = apSelections.some((selection) => selection.examId.trim() || selection.score.trim());
+    const hasManualDraft = Boolean(
+      manualCreditForm.originalName.trim()
+      || manualCreditForm.umdCourseCode.trim()
+      || manualCreditForm.credits.trim()
+      || manualCreditForm.genEdCodes.trim()
+      || (manualCreditForm.termAwarded.trim() && manualCreditForm.termAwarded.trim() !== DEFAULT_MANUAL_CREDIT_FORM.termAwarded),
+    );
+    return hasApDraft || hasManualDraft || editingAp !== null || editingManual !== null;
+  }, [apSelections, editingAp, editingManual, manualCreditForm]);
+
+  const confirmDiscardUnsavedDraft = useCallback(() => {
+    if (!hasUnsavedCreditDraft) return true;
+    return window.confirm("Do you want to save your work? Select No to keep editing.");
+  }, [hasUnsavedCreditDraft]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!hasUnsavedCreditDraft) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [hasUnsavedCreditDraft]);
+
+  const discardLocalDraftState = (nextManualSource: ManualCreditForm["sourceType"] = manualCreditForm.sourceType) => {
+    setEditingAp(null);
+    setEditingManual(null);
+    setApSelections([{ examId: "", score: "" }]);
+    setManualCreditForm({ ...DEFAULT_MANUAL_CREDIT_FORM, sourceType: nextManualSource });
+  };
+
+  const setActiveSourceWithGuard = (
+    nextSource: "AP" | "IB" | "transfer" | "exemption" | "transcript",
+    nextManualSource?: ManualCreditForm["sourceType"],
+  ) => {
+    if (activeSource === nextSource) return;
+    if (!confirmDiscardUnsavedDraft()) return;
+    if (hasUnsavedCreditDraft) {
+      discardLocalDraftState(nextManualSource ?? manualCreditForm.sourceType);
+    }
+    if (nextManualSource) {
+      setManualCreditForm((prev) => ({ ...prev, sourceType: nextManualSource }));
+    }
+    setActiveSource(nextSource);
+  };
+
+  const navigateWithUnsavedGuard = (path: string) => {
+    if (!confirmDiscardUnsavedDraft()) return;
+    navigate(path);
+  };
+
+  const beginEditApRecord = (record: UserPriorCreditRecord) => {
+    if (editingManual || editingAp) {
+      if (!confirmDiscardUnsavedDraft()) return;
+    }
+    setEditingManual(null);
+    setEditingAp({
+      id: record.id,
+      originalName: record.originalName,
+      umdCourseCode: record.umdCourseCode ?? "",
+      credits: String(record.credits),
+      genEdCodes: record.genEdCodes.join(", "),
+      termAwarded: record.termAwarded ?? "Prior to UMD",
+      grade: record.grade ?? "",
+    });
+  };
+
+  const beginEditManualRecord = (record: UserPriorCreditRecord) => {
+    if (editingAp || editingManual) {
+      if (!confirmDiscardUnsavedDraft()) return;
+    }
+    setEditingAp(null);
+    setEditingManual({
+      id: record.id,
+      sourceType: record.sourceType,
+      originalName: record.originalName,
+      umdCourseCode: record.umdCourseCode ?? "",
+      credits: String(record.credits),
+      genEdCodes: record.genEdCodes.join(", "),
+      termAwarded: record.termAwarded ?? "Prior to UMD",
+      grade: record.grade ?? "",
+    });
+  };
+
+  const cancelApEdit = () => {
+    if (!confirmDiscardUnsavedDraft()) return;
+    setEditingAp(null);
+  };
+
+  const cancelManualEdit = () => {
+    if (!confirmDiscardUnsavedDraft()) return;
+    setEditingManual(null);
+  };
 
   const handleTranscriptImport = async (result: TranscriptParseResult) => {
     setSaving(true);
@@ -429,11 +529,11 @@ export default function CreditImport() {
           )}
 
           <div className="mb-4 flex flex-wrap items-center gap-2">
-            <Button type="button" variant={activeSource === "transcript" ? "default" : "outline"} className={activeSource === "transcript" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSource("transcript")}>Transcript</Button>
-            <Button type="button" variant={activeSource === "AP" ? "default" : "outline"} className={activeSource === "AP" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSource("AP")}>AP</Button>
-            <Button type="button" variant={activeSource === "IB" ? "default" : "outline"} className={activeSource === "IB" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => { setManualCreditForm((prev) => ({ ...prev, sourceType: "IB" })); setActiveSource("IB"); }}>IB</Button>
-            <Button type="button" variant={activeSource === "transfer" ? "default" : "outline"} className={activeSource === "transfer" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => { setManualCreditForm((prev) => ({ ...prev, sourceType: "transfer" })); setActiveSource("transfer"); }}>Transfer</Button>
-            <Button type="button" variant={activeSource === "exemption" ? "default" : "outline"} className={activeSource === "exemption" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => { setManualCreditForm((prev) => ({ ...prev, sourceType: "exemption" })); setActiveSource("exemption"); }}>Exemption Exams / Credit By Exam</Button>
+            <Button type="button" variant={activeSource === "transcript" ? "default" : "outline"} className={activeSource === "transcript" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSourceWithGuard("transcript")}>Transcript</Button>
+            <Button type="button" variant={activeSource === "AP" ? "default" : "outline"} className={activeSource === "AP" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSourceWithGuard("AP")}>AP</Button>
+            <Button type="button" variant={activeSource === "IB" ? "default" : "outline"} className={activeSource === "IB" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSourceWithGuard("IB", "IB")}>IB</Button>
+            <Button type="button" variant={activeSource === "transfer" ? "default" : "outline"} className={activeSource === "transfer" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSourceWithGuard("transfer", "transfer")}>Transfer</Button>
+            <Button type="button" variant={activeSource === "exemption" ? "default" : "outline"} className={activeSource === "exemption" ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"} onClick={() => setActiveSourceWithGuard("exemption", "exemption")}>Exemption Exams / Credit By Exam</Button>
             <span className="ml-auto text-xs text-muted-foreground">{formatLastSavedLabel(lastSavedAt)}</span>
           </div>
 
@@ -477,7 +577,7 @@ export default function CreditImport() {
                             <div><Label>Grade (optional)</Label><Input value={editingManual.grade} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, grade: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             <div className="flex gap-2">
                               <Button className="bg-green-700 hover:bg-green-600" onClick={() => void handleUpdateManualRecord()}>Save</Button>
-                              <Button variant="outline" className="border-border text-foreground/80" onClick={() => setEditingManual(null)}>Cancel</Button>
+                              <Button variant="outline" className="border-border text-foreground/80" onClick={cancelManualEdit}>Cancel</Button>
                             </div>
                           </div>
                         ) : (
@@ -489,7 +589,7 @@ export default function CreditImport() {
                               <p className="text-muted-foreground">Term: {record.termAwarded ?? "Prior to UMD"} | Counts toward audit: {record.countsTowardProgress ? "Yes" : "No"}</p>
                             </div>
                             <div className="flex gap-2">
-                              <Button size="sm" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingManual({ id: record.id, sourceType: record.sourceType, originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD", grade: record.grade ?? "" })}>Edit</Button>
+                              <Button size="sm" variant="ghost" className="hover:bg-neutral-700" onClick={() => beginEditManualRecord(record)}>Edit</Button>
                             </div>
                           </div>
                         )}
@@ -583,7 +683,7 @@ export default function CreditImport() {
                             <div><Label>Grade (optional)</Label><Input value={editingAp.grade} onChange={(event) => setEditingAp((prev) => prev ? { ...prev, grade: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             <div className="flex gap-2">
                               <Button className="bg-green-700 hover:bg-green-600" onClick={() => void handleUpdateApRecord()}>Save</Button>
-                              <Button variant="outline" className="border-border text-foreground/80" onClick={() => setEditingAp(null)}>Cancel</Button>
+                              <Button variant="outline" className="border-border text-foreground/80" onClick={cancelApEdit}>Cancel</Button>
                             </div>
                           </div>
                         ) : (
@@ -594,7 +694,7 @@ export default function CreditImport() {
                               <p className="text-muted-foreground">Credits: {record.credits} | Grade: {record.grade ?? "N/A"} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
                             </div>
                             <div className="flex gap-2">
-                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingAp({ id: record.id, originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD", grade: record.grade ?? "" })}><Pencil className="h-4 w-4" /></Button>
+                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => beginEditApRecord(record)}><Pencil className="h-4 w-4" /></Button>
                               <Button size="icon" variant="ghost" className="hover:bg-red-600/20 hover:text-red-400" onClick={() => void handleDeleteApRecord(record.id)}><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div>
@@ -652,7 +752,7 @@ export default function CreditImport() {
                             <div><Label>Grade (optional)</Label><Input value={editingManual.grade} onChange={(event) => setEditingManual((prev) => prev ? { ...prev, grade: event.target.value } : prev)} className="bg-input-background border-border" /></div>
                             <div className="flex gap-2">
                               <Button className="bg-green-700 hover:bg-green-600" onClick={() => void handleUpdateManualRecord()}>Save</Button>
-                              <Button variant="outline" className="border-border text-foreground/80" onClick={() => setEditingManual(null)}>Cancel</Button>
+                              <Button variant="outline" className="border-border text-foreground/80" onClick={cancelManualEdit}>Cancel</Button>
                             </div>
                           </div>
                         ) : (
@@ -663,7 +763,7 @@ export default function CreditImport() {
                               <p className="text-muted-foreground">Credits: {record.credits} | Grade: {record.grade ?? "N/A"} | Gen Ed: {record.genEdCodes.length > 0 ? record.genEdCodes.join(", ") : "None"}</p>
                             </div>
                             <div className="flex gap-2">
-                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => setEditingManual({ id: record.id, sourceType: record.sourceType, originalName: record.originalName, umdCourseCode: record.umdCourseCode ?? "", credits: String(record.credits), genEdCodes: record.genEdCodes.join(", "), termAwarded: record.termAwarded ?? "Prior to UMD", grade: record.grade ?? "" })}><Pencil className="h-4 w-4" /></Button>
+                              <Button size="icon" variant="ghost" className="hover:bg-neutral-700" onClick={() => beginEditManualRecord(record)}><Pencil className="h-4 w-4" /></Button>
                               <Button size="icon" variant="ghost" className="hover:bg-red-600/20 hover:text-red-400" onClick={() => void handleDeleteManualRecord(record.id)}><Trash2 className="h-4 w-4" /></Button>
                             </div>
                           </div>
@@ -681,13 +781,13 @@ export default function CreditImport() {
           <div className="flex gap-3 mt-8">
             {onboardingMode ? (
               <>
-                <Button variant="outline" onClick={() => navigate("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Skip for now</Button>
-                <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigate("/onboarding/goals")}>Continue</Button>
+                <Button variant="outline" onClick={() => navigateWithUnsavedGuard("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Skip for now</Button>
+                <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigateWithUnsavedGuard("/onboarding/goals")}>Continue</Button>
               </>
             ) : (
               <>
-                <Button variant="outline" onClick={() => navigate("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Back</Button>
-                <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigate("/gen-eds")}>Next: Gen Eds</Button>
+                <Button variant="outline" onClick={() => navigateWithUnsavedGuard("/onboarding/goals")} className="border-border text-foreground/80 hover:bg-accent">Back</Button>
+                <Button className="flex-1 bg-red-600 hover:bg-red-700" onClick={() => navigateWithUnsavedGuard("/gen-eds")}>Next: Gen Eds</Button>
               </>
             )}
           </div>
