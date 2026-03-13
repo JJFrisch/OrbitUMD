@@ -719,22 +719,45 @@ function bestStatusForCodes(codes: string[], byCourseCode: Map<string, AuditCour
   return best;
 }
 
+function combineStatuses(type: "AND" | "OR", statuses: AuditCourseStatus[]): AuditCourseStatus {
+  if (statuses.length === 0) return "not_started";
+  if (type === "OR") {
+    return statuses.reduce((best, current) => (statusRank(current) > statusRank(best) ? current : best), "not_started" as AuditCourseStatus);
+  }
+  return statuses.reduce((worst, current) => (statusRank(current) < statusRank(worst) ? current : worst), "completed" as AuditCourseStatus);
+}
+
+function evaluateLogicBlockStatus(
+  block: { type: "AND" | "OR"; codes: string[]; children?: Array<{ type: "AND" | "OR"; codes: string[]; title?: string; children?: any[] }> },
+  byCourseCode: Map<string, AuditCourseStatus>,
+): AuditCourseStatus {
+  const codeStatuses = block.codes.map((code) => bestStatusForCodes([code], byCourseCode));
+  const childStatuses = Array.isArray(block.children)
+    ? block.children.map((child) => evaluateLogicBlockStatus(child, byCourseCode))
+    : [];
+  return combineStatuses(block.type, [...codeStatuses, ...childStatuses]);
+}
+
 export function evaluateRequirementSection(
   section: RequirementSectionBundle,
   byCourseCode: Map<string, AuditCourseStatus>
 ): RequirementSectionAudit {
-  const slotStatuses: AuditCourseStatus[] = [];
-
-  for (const group of section.optionGroups) {
-    slotStatuses.push(bestStatusForCodes(group, byCourseCode));
-  }
-  for (const code of section.standaloneCodes) {
-    slotStatuses.push(bestStatusForCodes([code], byCourseCode));
-  }
+  const slotStatuses: AuditCourseStatus[] = section.logicBlocks.length > 0
+    ? section.logicBlocks.map((block) => evaluateLogicBlockStatus(block, byCourseCode))
+    : [];
 
   if (slotStatuses.length === 0) {
-    for (const code of section.courseCodes) {
+    for (const group of section.optionGroups) {
+      slotStatuses.push(bestStatusForCodes(group, byCourseCode));
+    }
+    for (const code of section.standaloneCodes) {
       slotStatuses.push(bestStatusForCodes([code], byCourseCode));
+    }
+
+    if (slotStatuses.length === 0) {
+      for (const code of section.courseCodes) {
+        slotStatuses.push(bestStatusForCodes([code], byCourseCode));
+      }
     }
   }
 

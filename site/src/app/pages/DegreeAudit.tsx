@@ -961,11 +961,40 @@ export default function DegreeAudit() {
     });
   };
 
+  const findBlockById = (blocks: EditableLogicBlock[], blockId: string): EditableLogicBlock | null => {
+    for (const block of blocks) {
+      if (block.id === blockId) return block;
+      if (Array.isArray(block.children) && block.children.length > 0) {
+        const match = findBlockById(block.children, blockId);
+        if (match) return match;
+      }
+    }
+    return null;
+  };
+
+  const blockContains = (block: EditableLogicBlock, targetId: string): boolean => {
+    if (!Array.isArray(block.children) || block.children.length === 0) return false;
+    for (const child of block.children) {
+      if (child.id === targetId || blockContains(child, targetId)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const nestBlockIntoBlock = (sourceBlockId: string, targetBlockId: string) => {
     if (sourceBlockId === targetBlockId) return;
 
     setSectionDraft((prev) => {
       if (!prev) return prev;
+      const sourceBlock = findBlockById(prev.blocks, sourceBlockId);
+      if (!sourceBlock) return prev;
+      const targetBlock = findBlockById(prev.blocks, targetBlockId);
+      if (!targetBlock) return prev;
+      if (blockContains(sourceBlock, targetBlockId)) {
+        return prev;
+      }
+
       const removedResult = removeBlockById(prev.blocks, sourceBlockId);
       if (!removedResult.removed) return prev;
 
@@ -974,6 +1003,20 @@ export default function DegreeAudit() {
         blocks: addChildToBlock(removedResult.blocks, targetBlockId, removedResult.removed),
       };
     });
+  };
+
+  const handleDropIntoBlock = (raw: string, targetBlockId: string) => {
+    if (raw.startsWith("BLOCK::")) {
+      const sourceBlockId = raw.replace("BLOCK::", "");
+      nestBlockIntoBlock(sourceBlockId, targetBlockId);
+      setDragOverBlockId(null);
+      return;
+    }
+
+    const [sourceBlockId, code] = raw.split("::");
+    if (!sourceBlockId || !code) return;
+    moveCodeAcrossBlocks(sourceBlockId, code, targetBlockId);
+    setDragOverBlockId(null);
   };
 
   const flattenDraftBlocks = (
@@ -1759,6 +1802,10 @@ export default function DegreeAudit() {
                                               onDragLeave={() => {
                                                 setDragOverBlockId((current) => current === block.id ? null : current);
                                               }}
+                                              onDrop={(event) => {
+                                                event.preventDefault();
+                                                handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                              }}
                                             >
                                               <div className="flex items-center gap-2 mb-2">
                                                 <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -1807,17 +1854,8 @@ export default function DegreeAudit() {
                                                 className="flex flex-wrap gap-2"
                                                 onDragOver={(event) => event.preventDefault()}
                                                 onDrop={(event) => {
-                                                  const raw = event.dataTransfer.getData("text/plain");
-                                                  if (raw.startsWith("BLOCK::")) {
-                                                    const sourceBlockId = raw.replace("BLOCK::", "");
-                                                    nestBlockIntoBlock(sourceBlockId, block.id);
-                                                    setDragOverBlockId(null);
-                                                    return;
-                                                  }
-                                                  const [sourceBlockId, code] = raw.split("::");
-                                                  if (!sourceBlockId || !code) return;
-                                                  moveCodeAcrossBlocks(sourceBlockId, code, block.id);
-                                                  setDragOverBlockId(null);
+                                                  event.preventDefault();
+                                                  handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
                                                 }}
                                               >
                                                 {block.codes.map((code) => (
@@ -2063,6 +2101,10 @@ export default function DegreeAudit() {
                                               onDragLeave={() => {
                                                 setDragOverBlockId((current) => current === block.id ? null : current);
                                               }}
+                                              onDrop={(event) => {
+                                                event.preventDefault();
+                                                handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                              }}
                                             >
                                           <div className="flex items-center gap-2 mb-2">
                                                 <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -2111,17 +2153,8 @@ export default function DegreeAudit() {
                                             className="flex flex-wrap gap-2"
                                             onDragOver={(event) => event.preventDefault()}
                                             onDrop={(event) => {
-                                              const raw = event.dataTransfer.getData("text/plain");
-                                              if (raw.startsWith("BLOCK::")) {
-                                                const sourceBlockId = raw.replace("BLOCK::", "");
-                                                nestBlockIntoBlock(sourceBlockId, block.id);
-                                                setDragOverBlockId(null);
-                                                return;
-                                              }
-                                              const [sourceBlockId, code] = raw.split("::");
-                                              if (!sourceBlockId || !code) return;
-                                              moveCodeAcrossBlocks(sourceBlockId, code, block.id);
-                                              setDragOverBlockId(null);
+                                              event.preventDefault();
+                                              handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
                                             }}
                                           >
                                             {block.codes.map((code) => (
@@ -2353,6 +2386,10 @@ export default function DegreeAudit() {
                                                     onDragLeave={() => {
                                                       setDragOverBlockId((current) => current === block.id ? null : current);
                                                     }}
+                                                    onDrop={(event) => {
+                                                      event.preventDefault();
+                                                      handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                                    }}
                                                   >
                                                     <div className="flex items-center gap-2 mb-2">
                                                       <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
@@ -2401,17 +2438,8 @@ export default function DegreeAudit() {
                                                       className="flex flex-wrap gap-2"
                                                       onDragOver={(event) => event.preventDefault()}
                                                       onDrop={(event) => {
-                                                        const raw = event.dataTransfer.getData("text/plain");
-                                                        if (raw.startsWith("BLOCK::")) {
-                                                          const sourceBlockId = raw.replace("BLOCK::", "");
-                                                          nestBlockIntoBlock(sourceBlockId, block.id);
-                                                          setDragOverBlockId(null);
-                                                          return;
-                                                        }
-                                                        const [sourceBlockId, code] = raw.split("::");
-                                                        if (!sourceBlockId || !code) return;
-                                                        moveCodeAcrossBlocks(sourceBlockId, code, block.id);
-                                                        setDragOverBlockId(null);
+                                                        event.preventDefault();
+                                                        handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
                                                       }}
                                                     >
                                                       {block.codes.map((code) => (

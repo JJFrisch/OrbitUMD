@@ -196,6 +196,10 @@ export function CourseDetailsPopup({
           <DialogDescription className="text-sm text-muted-foreground mt-2">
             Click any course code in the description or prerequisites to open it here.
           </DialogDescription>
+          <div className="mt-1 inline-flex items-center gap-2 text-[11px] text-muted-foreground">
+            <span className="rounded border border-border/70 bg-input-background px-1.5 py-0.5">Linked course</span>
+            <span className="text-red-500 underline underline-offset-2">CMSC131</span>
+          </div>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
