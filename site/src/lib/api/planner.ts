@@ -53,11 +53,16 @@ export const plannerApi = {
   async searchCoursesAcrossRecentTerms(
     query: string,
     genEdTag?: string,
-    maxTerms: number = 8,
   ): Promise<UmdCourseSummary[]> {
     const terms = await fetchTerms();
     const newestFirst = [...terms].sort((a, b) => b.code.localeCompare(a.code));
-    const selectedTerms = newestFirst.slice(0, Math.max(1, maxTerms));
+    const latestBySeason = new Map<string, { code: string }>();
+    for (const term of newestFirst) {
+      if (!latestBySeason.has(term.season)) {
+        latestBySeason.set(term.season, { code: term.code });
+      }
+    }
+    const selectedTerms = Array.from(latestBySeason.values());
 
     const perTermResults = await Promise.all(
       selectedTerms.map((term) =>
