@@ -57,6 +57,9 @@ interface CourseSearchResult {
   title: string;
 }
 
+type BlockDropPosition = "before" | "inside" | "after";
+type BlockDropHint = { blockId: string; position: BlockDropPosition };
+
 type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
@@ -586,6 +589,7 @@ export default function DegreeAudit() {
   const [courseSearchResults, setCourseSearchResults] = useState<CourseSearchResult[]>([]);
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
   const [dragOverBlockId, setDragOverBlockId] = useState<string | null>(null);
+  const [blockDropHint, setBlockDropHint] = useState<BlockDropHint | null>(null);
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
   const [wildcardSelections, setWildcardSelections] = useState<Record<string, string>>(() => {
     try {
@@ -687,6 +691,7 @@ export default function DegreeAudit() {
     setCourseSearchResults([]);
     setCourseSearchMessage(null);
     setDragOverBlockId(null);
+    setBlockDropHint(null);
   };
 
   const resetDraftEditor = () => {
@@ -877,25 +882,6 @@ export default function DegreeAudit() {
     });
   };
 
-  const moveCodeAcrossBlocks = (sourceBlockId: string, code: string, targetBlockId: string) => {
-    if (sourceBlockId === targetBlockId) return;
-    setSectionDraft((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        blocks: mapBlocksRecursively(prev.blocks, (block) => {
-          if (block.id === sourceBlockId) {
-            return { ...block, codes: block.codes.filter((value) => value !== code) };
-          }
-          if (block.id === targetBlockId) {
-            return { ...block, codes: Array.from(new Set([...block.codes, code])) };
-          }
-          return block;
-        }),
-      };
-    });
-  };
-
   const mapBlocksRecursively = (
     blocks: EditableLogicBlock[],
     mapper: (block: EditableLogicBlock) => EditableLogicBlock,
@@ -960,6 +946,41 @@ export default function DegreeAudit() {
     });
   };
 
+  const insertBlockRelativeToTarget = (
+    blocks: EditableLogicBlock[],
+    targetId: string,
+    moving: EditableLogicBlock,
+    position: Exclude<BlockDropPosition, "inside">,
+  ): { blocks: EditableLogicBlock[]; inserted: boolean } => {
+    const next: EditableLogicBlock[] = [];
+    let inserted = false;
+
+    for (const block of blocks) {
+      if (block.id === targetId) {
+        if (position === "before") {
+          next.push(moving, block);
+        } else {
+          next.push(block, moving);
+        }
+        inserted = true;
+        continue;
+      }
+
+      if (Array.isArray(block.children) && block.children.length > 0) {
+        const nested = insertBlockRelativeToTarget(block.children, targetId, moving, position);
+        if (nested.inserted) {
+          next.push({ ...block, children: nested.blocks });
+          inserted = true;
+          continue;
+        }
+      }
+
+      next.push(block);
+    }
+
+    return { blocks: next, inserted };
+  };
+
   const findBlockById = (blocks: EditableLogicBlock[], blockId: string): EditableLogicBlock | null => {
     for (const block of blocks) {
       if (block.id === blockId) return block;
@@ -981,7 +1002,7 @@ export default function DegreeAudit() {
     return false;
   };
 
-  const nestBlockIntoBlock = (sourceBlockId: string, targetBlockId: string) => {
+  const nestBlockIntoBlock = (sourceBlockId: string, targetBlockId: string, position: BlockDropPosition = "inside") => {
     if (sourceBlockId === targetBlockId) return;
 
     setSectionDraft((prev) => {
@@ -997,6 +1018,14 @@ export default function DegreeAudit() {
       const removedResult = removeBlockById(prev.blocks, sourceBlockId);
       if (!removedResult.removed) return prev;
 
+      if (position === "before" || position === "after") {
+        const inserted = insertBlockRelativeToTarget(removedResult.blocks, targetBlockId, removedResult.removed, position);
+        return {
+          ...prev,
+          blocks: inserted.inserted ? inserted.blocks : [...removedResult.blocks, removedResult.removed],
+        };
+      }
+
       return {
         ...prev,
         blocks: addChildToBlock(removedResult.blocks, targetBlockId, removedResult.removed),
@@ -1004,18 +1033,79 @@ export default function DegreeAudit() {
     });
   };
 
-  const handleDropIntoBlock = (raw: string, targetBlockId: string) => {
+  const findCodeIndexInBlock = (blocks: EditableLogicBlock[], blockId: string, code: string): number => {
+    const block = findBlockById(blocks, blockId);
+    if (!block) return -1;
+    return block.codes.findIndex((item) => item === code);
+  };
+
+  const moveCodeToBlockPosition = (
+    sourceBlockId: string,
+    code: string,
+    targetBlockId: string,
+    targetIndex: number,
+  ) => {
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+
+      const sourceIndex = findCodeIndexInBlock(prev.blocks, sourceBlockId, code);
+      if (sourceIndex < 0) return prev;
+
+      let adjustedTargetIndex = targetIndex;
+      if (sourceBlockId === targetBlockId && Number.isFinite(adjustedTargetIndex) && sourceIndex < adjustedTargetIndex) {
+        adjustedTargetIndex -= 1;
+      }
+
+      const withoutSource = mapBlocksRecursively(prev.blocks, (block) =>
+        block.id === sourceBlockId
+          ? { ...block, codes: block.codes.filter((value) => value !== code) }
+          : block,
+      );
+
+      const nextBlocks = mapBlocksRecursively(withoutSource, (block) => {
+        if (block.id !== targetBlockId) return block;
+        const baseCodes = block.codes.filter((value) => value !== code);
+        const insertAt = Number.isFinite(adjustedTargetIndex)
+          ? Math.max(0, Math.min(baseCodes.length, adjustedTargetIndex))
+          : baseCodes.length;
+        const nextCodes = [...baseCodes];
+        nextCodes.splice(insertAt, 0, code);
+        return { ...block, codes: nextCodes };
+      });
+
+      return {
+        ...prev,
+        blocks: nextBlocks,
+      };
+    });
+  };
+
+  const getDropPositionForBlock = (clientY: number, element: HTMLElement): BlockDropPosition => {
+    const rect = element.getBoundingClientRect();
+    const relativeY = clientY - rect.top;
+    if (relativeY < rect.height * 0.28) return "before";
+    if (relativeY > rect.height * 0.72) return "after";
+    return "inside";
+  };
+
+  const handleDropIntoBlock = (raw: string, targetBlockId: string, position: BlockDropPosition = "inside") => {
     if (raw.startsWith("BLOCK::")) {
       const sourceBlockId = raw.replace("BLOCK::", "");
-      nestBlockIntoBlock(sourceBlockId, targetBlockId);
+      nestBlockIntoBlock(sourceBlockId, targetBlockId, position);
       setDragOverBlockId(null);
+      setBlockDropHint(null);
       return;
     }
 
     const [sourceBlockId, code] = raw.split("::");
     if (!sourceBlockId || !code) return;
-    moveCodeAcrossBlocks(sourceBlockId, code, targetBlockId);
+    if (position === "before") {
+      moveCodeToBlockPosition(sourceBlockId, code, targetBlockId, 0);
+    } else {
+      moveCodeToBlockPosition(sourceBlockId, code, targetBlockId, Number.POSITIVE_INFINITY);
+    }
     setDragOverBlockId(null);
+    setBlockDropHint(null);
   };
 
   const flattenDraftBlocks = (
@@ -1787,23 +1877,33 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "before" ? "border-t-2 border-t-red-500" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "after" ? "border-b-2 border-b-red-500" : ""}`}
                                               style={{ marginLeft: `${depth * 12}px` }}
                                               draggable
                                               onDragStart={(event) => {
+                                                event.dataTransfer.effectAllowed = "move";
                                                 event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
                                                 setDragOverBlockId(null);
+                                                setBlockDropHint(null);
                                               }}
                                               onDragOver={(event) => {
                                                 event.preventDefault();
+                                                const position = getDropPositionForBlock(event.clientY, event.currentTarget);
                                                 setDragOverBlockId(block.id);
+                                                setBlockDropHint({ blockId: block.id, position });
                                               }}
                                               onDragLeave={() => {
                                                 setDragOverBlockId((current) => current === block.id ? null : current);
+                                                setBlockDropHint((current) => current?.blockId === block.id ? null : current);
+                                              }}
+                                              onDragEnd={() => {
+                                                setDragOverBlockId(null);
+                                                setBlockDropHint(null);
                                               }}
                                               onDrop={(event) => {
                                                 event.preventDefault();
-                                                handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                                const position = getDropPositionForBlock(event.clientY, event.currentTarget);
+                                                handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                               }}
                                             >
                                               <div className="flex items-center gap-2 mb-2">
@@ -1847,31 +1947,50 @@ export default function DegreeAudit() {
                                                 </Button>
                                               </div>
                                               {dragOverBlockId === block.id && (
-                                                <p className="text-[11px] text-red-400 mb-2">Drop block here to nest, or drop course chip to move it here.</p>
+                                                <p className="text-[11px] text-red-400 mb-2">
+                                                  {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to place above this block."}
+                                                  {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to place below this block."}
+                                                  {(!blockDropHint || blockDropHint.blockId !== block.id || blockDropHint.position === "inside") && "Drop to nest inside this block."}
+                                                </p>
                                               )}
                                               <div
                                                 className="flex flex-wrap gap-2"
                                                 onDragOver={(event) => event.preventDefault()}
                                                 onDrop={(event) => {
                                                   event.preventDefault();
-                                                  handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                                  const position = getDropPositionForBlock(event.clientY, event.currentTarget);
+                                                  handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                                 }}
                                               >
-                                                {block.codes.map((code) => (
+                                                {block.codes.map((badgeCode, badgeIndex) => (
                                                   <Badge
-                                                    key={`${block.id}-${code}`}
+                                                    key={`${block.id}-${badgeCode}`}
                                                     variant="outline"
                                                     className="border-border text-foreground/80 cursor-move"
                                                     draggable
                                                     onDragStart={(event) => {
-                                                      event.dataTransfer.setData("text/plain", `${block.id}::${code}`);
+                                                      event.dataTransfer.effectAllowed = "move";
+                                                      event.dataTransfer.setData("text/plain", `${block.id}::${badgeCode}`);
+                                                    }}
+                                                    onDragOver={(event) => {
+                                                      event.preventDefault();
+                                                    }}
+                                                    onDrop={(event) => {
+                                                      event.preventDefault();
+                                                      const raw = event.dataTransfer.getData("text/plain");
+                                                      if (raw.startsWith("BLOCK::")) return;
+                                                      const [sourceBlockId, draggedCode] = raw.split("::");
+                                                      if (!sourceBlockId || !draggedCode) return;
+                                                      moveCodeToBlockPosition(sourceBlockId, draggedCode, block.id, badgeIndex);
+                                                      setDragOverBlockId(null);
+                                                      setBlockDropHint(null);
                                                     }}
                                                   >
-                                                    {code}
+                                                    {badgeCode}
                                                     <button
                                                       type="button"
                                                       className="ml-2 text-[10px]"
-                                                      onClick={() => reorderCodeWithinBlock(block.id, code, "up")}
+                                                      onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "up")}
                                                       title="Move up"
                                                     >
                                                       ^
@@ -1879,7 +1998,7 @@ export default function DegreeAudit() {
                                                     <button
                                                       type="button"
                                                       className="ml-1 text-[10px]"
-                                                      onClick={() => reorderCodeWithinBlock(block.id, code, "down")}
+                                                      onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "down")}
                                                       title="Move down"
                                                     >
                                                       v
@@ -1890,7 +2009,7 @@ export default function DegreeAudit() {
                                                       onClick={() => setSectionDraft((prev) => prev ? {
                                                         ...prev,
                                                         blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
-                                                          ? { ...item, codes: item.codes.filter((value) => value !== code) }
+                                                          ? { ...item, codes: item.codes.filter((value) => value !== badgeCode) }
                                                           : item),
                                                       } : prev)}
                                                     >
@@ -2086,23 +2205,33 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                              className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "before" ? "border-t-2 border-t-red-500" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "after" ? "border-b-2 border-b-red-500" : ""}`}
                                               style={{ marginLeft: `${depth * 12}px` }}
                                               draggable
                                               onDragStart={(event) => {
+                                                event.dataTransfer.effectAllowed = "move";
                                                 event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
                                                 setDragOverBlockId(null);
+                                                setBlockDropHint(null);
                                               }}
                                               onDragOver={(event) => {
                                                 event.preventDefault();
+                                                const position = getDropPositionForBlock(event.clientY, event.currentTarget);
                                                 setDragOverBlockId(block.id);
+                                                setBlockDropHint({ blockId: block.id, position });
                                               }}
                                               onDragLeave={() => {
                                                 setDragOverBlockId((current) => current === block.id ? null : current);
+                                                setBlockDropHint((current) => current?.blockId === block.id ? null : current);
+                                              }}
+                                              onDragEnd={() => {
+                                                setDragOverBlockId(null);
+                                                setBlockDropHint(null);
                                               }}
                                               onDrop={(event) => {
                                                 event.preventDefault();
-                                                handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                                const position = getDropPositionForBlock(event.clientY, event.currentTarget);
+                                                handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                               }}
                                             >
                                           <div className="flex items-center gap-2 mb-2">
@@ -2146,31 +2275,50 @@ export default function DegreeAudit() {
                                             </Button>
                                           </div>
                                           {dragOverBlockId === block.id && (
-                                            <p className="text-[11px] text-red-400 mb-2">Drop block here to nest, or drop course chip to move it here.</p>
+                                            <p className="text-[11px] text-red-400 mb-2">
+                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to place above this block."}
+                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to place below this block."}
+                                              {(!blockDropHint || blockDropHint.blockId !== block.id || blockDropHint.position === "inside") && "Drop to nest inside this block."}
+                                            </p>
                                           )}
                                           <div
                                             className="flex flex-wrap gap-2"
                                             onDragOver={(event) => event.preventDefault()}
                                             onDrop={(event) => {
                                               event.preventDefault();
-                                              handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                              const position = getDropPositionForBlock(event.clientY, event.currentTarget);
+                                              handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                             }}
                                           >
-                                            {block.codes.map((code) => (
+                                            {block.codes.map((badgeCode, badgeIndex) => (
                                               <Badge
-                                                key={`${block.id}-${code}`}
+                                                key={`${block.id}-${badgeCode}`}
                                                 variant="outline"
                                                 className="border-border text-foreground/80 cursor-move"
                                                 draggable
                                                 onDragStart={(event) => {
-                                                  event.dataTransfer.setData("text/plain", `${block.id}::${code}`);
+                                                  event.dataTransfer.effectAllowed = "move";
+                                                  event.dataTransfer.setData("text/plain", `${block.id}::${badgeCode}`);
+                                                }}
+                                                onDragOver={(event) => {
+                                                  event.preventDefault();
+                                                }}
+                                                onDrop={(event) => {
+                                                  event.preventDefault();
+                                                  const raw = event.dataTransfer.getData("text/plain");
+                                                  if (raw.startsWith("BLOCK::")) return;
+                                                  const [sourceBlockId, draggedCode] = raw.split("::");
+                                                  if (!sourceBlockId || !draggedCode) return;
+                                                  moveCodeToBlockPosition(sourceBlockId, draggedCode, block.id, badgeIndex);
+                                                  setDragOverBlockId(null);
+                                                  setBlockDropHint(null);
                                                 }}
                                               >
-                                                {code}
+                                                {badgeCode}
                                                 <button
                                                   type="button"
                                                   className="ml-2 text-[10px]"
-                                                  onClick={() => reorderCodeWithinBlock(block.id, code, "up")}
+                                                  onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "up")}
                                                   title="Move up"
                                                 >
                                                   ^
@@ -2178,7 +2326,7 @@ export default function DegreeAudit() {
                                                 <button
                                                   type="button"
                                                   className="ml-1 text-[10px]"
-                                                  onClick={() => reorderCodeWithinBlock(block.id, code, "down")}
+                                                  onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "down")}
                                                   title="Move down"
                                                 >
                                                   v
@@ -2189,7 +2337,7 @@ export default function DegreeAudit() {
                                                   onClick={() => setSectionDraft((prev) => prev ? {
                                                     ...prev,
                                                     blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
-                                                      ? { ...item, codes: item.codes.filter((value) => value !== code) }
+                                                      ? { ...item, codes: item.codes.filter((value) => value !== badgeCode) }
                                                       : item),
                                                   } : prev)}
                                                 >
@@ -2371,23 +2519,33 @@ export default function DegreeAudit() {
                                                 {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                                   <div
                                                     key={block.id}
-                                                    className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                                    className={`p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id ? "ring-2 ring-red-500/35 bg-red-500/5" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "before" ? "border-t-2 border-t-red-500" : ""} ${blockDropHint?.blockId === block.id && blockDropHint.position === "after" ? "border-b-2 border-b-red-500" : ""}`}
                                                     style={{ marginLeft: `${depth * 12}px` }}
                                                     draggable
                                                     onDragStart={(event) => {
+                                                      event.dataTransfer.effectAllowed = "move";
                                                       event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
                                                       setDragOverBlockId(null);
+                                                      setBlockDropHint(null);
                                                     }}
                                                     onDragOver={(event) => {
                                                       event.preventDefault();
+                                                      const position = getDropPositionForBlock(event.clientY, event.currentTarget);
                                                       setDragOverBlockId(block.id);
+                                                      setBlockDropHint({ blockId: block.id, position });
                                                     }}
                                                     onDragLeave={() => {
                                                       setDragOverBlockId((current) => current === block.id ? null : current);
+                                                      setBlockDropHint((current) => current?.blockId === block.id ? null : current);
+                                                    }}
+                                                    onDragEnd={() => {
+                                                      setDragOverBlockId(null);
+                                                      setBlockDropHint(null);
                                                     }}
                                                     onDrop={(event) => {
                                                       event.preventDefault();
-                                                      handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                                      const position = getDropPositionForBlock(event.clientY, event.currentTarget);
+                                                      handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                                     }}
                                                   >
                                                     <div className="flex items-center gap-2 mb-2">
@@ -2431,31 +2589,50 @@ export default function DegreeAudit() {
                                                       </Button>
                                                     </div>
                                                     {dragOverBlockId === block.id && (
-                                                      <p className="text-[11px] text-red-400 mb-2">Drop block here to nest, or drop course chip to move it here.</p>
+                                                      <p className="text-[11px] text-red-400 mb-2">
+                                                        {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to place above this block."}
+                                                        {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to place below this block."}
+                                                        {(!blockDropHint || blockDropHint.blockId !== block.id || blockDropHint.position === "inside") && "Drop to nest inside this block."}
+                                                      </p>
                                                     )}
                                                     <div
                                                       className="flex flex-wrap gap-2"
                                                       onDragOver={(event) => event.preventDefault()}
                                                       onDrop={(event) => {
                                                         event.preventDefault();
-                                                        handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id);
+                                                        const position = getDropPositionForBlock(event.clientY, event.currentTarget);
+                                                        handleDropIntoBlock(event.dataTransfer.getData("text/plain"), block.id, position);
                                                       }}
                                                     >
-                                                      {block.codes.map((code) => (
+                                                      {block.codes.map((badgeCode, badgeIndex) => (
                                                         <Badge
-                                                          key={`${block.id}-${code}`}
+                                                          key={`${block.id}-${badgeCode}`}
                                                           variant="outline"
                                                           className="border-border text-foreground/80 cursor-move"
                                                           draggable
                                                           onDragStart={(event) => {
-                                                            event.dataTransfer.setData("text/plain", `${block.id}::${code}`);
+                                                            event.dataTransfer.effectAllowed = "move";
+                                                            event.dataTransfer.setData("text/plain", `${block.id}::${badgeCode}`);
+                                                          }}
+                                                          onDragOver={(event) => {
+                                                            event.preventDefault();
+                                                          }}
+                                                          onDrop={(event) => {
+                                                            event.preventDefault();
+                                                            const raw = event.dataTransfer.getData("text/plain");
+                                                            if (raw.startsWith("BLOCK::")) return;
+                                                            const [sourceBlockId, draggedCode] = raw.split("::");
+                                                            if (!sourceBlockId || !draggedCode) return;
+                                                            moveCodeToBlockPosition(sourceBlockId, draggedCode, block.id, badgeIndex);
+                                                            setDragOverBlockId(null);
+                                                            setBlockDropHint(null);
                                                           }}
                                                         >
-                                                          {code}
+                                                          {badgeCode}
                                                           <button
                                                             type="button"
                                                             className="ml-2 text-[10px]"
-                                                            onClick={() => reorderCodeWithinBlock(block.id, code, "up")}
+                                                            onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "up")}
                                                             title="Move up"
                                                           >
                                                             ^
@@ -2463,7 +2640,7 @@ export default function DegreeAudit() {
                                                           <button
                                                             type="button"
                                                             className="ml-1 text-[10px]"
-                                                            onClick={() => reorderCodeWithinBlock(block.id, code, "down")}
+                                                            onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "down")}
                                                             title="Move down"
                                                           >
                                                             v
@@ -2474,7 +2651,7 @@ export default function DegreeAudit() {
                                                             onClick={() => setSectionDraft((prev) => prev ? {
                                                               ...prev,
                                                               blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
-                                                                ? { ...item, codes: item.codes.filter((value) => value !== code) }
+                                                                ? { ...item, codes: item.codes.filter((value) => value !== badgeCode) }
                                                                 : item),
                                                             } : prev)}
                                                           >
