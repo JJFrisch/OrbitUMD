@@ -671,7 +671,10 @@ export function AutoGenerateSchedulePage() {
           <div className="cp-generate-results-header">
             <span className="cp-builder-subtitle"><CalendarDays size={14} /> Generated Schedules ({generated.length})</span>
             {optionalFitStats && optionalFitStats.total > 0 && (
-              <span className="cp-generate-fit-badge">Max optional fit: {optionalFitStats.best}/{optionalFitStats.total}</span>
+              <div className="cp-generate-fit-meta">
+                <span className="cp-generate-fit-badge">Max optional fit: {optionalFitStats.best}/{optionalFitStats.total}</span>
+                <p className="cp-generate-fit-help">Showing schedules that achieve the highest possible optional-course fit.</p>
+              </div>
             )}
             {generated.length > 0 && (
               <div className="cp-generate-nav-row">

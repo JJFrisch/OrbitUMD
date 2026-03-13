@@ -1366,6 +1366,17 @@
   background: var(--cp-surface-subtle);
 }
 
+.cp-generate-fit-meta {
+  display: grid;
+  gap: 4px;
+}
+
+.cp-generate-fit-help {
+  margin: 0;
+  font-size: 11px;
+  color: var(--cp-muted);
+}
+
 .cp-generate-day-btn {
   color: var(--cp-text);
   background: var(--cp-surface);
