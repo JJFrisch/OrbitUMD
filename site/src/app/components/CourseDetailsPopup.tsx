@@ -74,6 +74,7 @@ function renderLinkedText(
         key={`${normalized}-${start}`}
         type="button"
         className="text-red-500 hover:text-red-600 underline underline-offset-2"
+        title="Open linked course details"
         onClick={() => onSelectCourse(normalized)}
       >
         {matched}

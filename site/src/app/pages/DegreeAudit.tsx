@@ -13,7 +13,7 @@ import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializ
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { listUserRequirementSectionEdits, saveUserRequirementSectionEdit } from "@/lib/repositories/userRequirementSectionEditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
-import { getCurrentTermCode, lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
+import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import {
@@ -775,8 +775,7 @@ export default function DegreeAudit() {
     setCourseSearchPending(true);
     setCourseSearchMessage(null);
     try {
-      const termCode = await getCurrentTermCode();
-      const results = await plannerApi.searchCourses(courseSearchQuery.trim(), termCode);
+      const results = await plannerApi.searchCoursesAcrossRecentTerms(courseSearchQuery.trim());
       const mapped = (results ?? []).map((course) => ({
         id: course.id,
         code: String(course.id ?? "").toUpperCase(),
@@ -785,7 +784,7 @@ export default function DegreeAudit() {
 
       setCourseSearchResults(mapped.slice(0, 20));
       if (mapped.length === 0) {
-        setCourseSearchMessage("No courses found.");
+        setCourseSearchMessage("No courses found across recent fall/spring/summer/winter terms.");
       }
     } catch {
       setCourseSearchMessage("Course search failed. Try again.");

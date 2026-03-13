@@ -264,6 +264,13 @@ function mapScrapedSection(
     | NonNullable<ScrapedProgram["builderSections"]>[number]
     | NonNullable<NonNullable<ScrapedProgram["requirementCourseBlocks"]>[number]["builderSections"]>[number]
 ): RequirementSectionBundle {
+  const normalizeLifeSciencesMathCode = (code: string, shouldNormalize: boolean): string => {
+    if (!shouldNormalize) return code;
+    if (code === "MATH130") return "MATH135";
+    if (code === "MATH131") return "MATH136";
+    return code;
+  };
+
   const optionGroups: string[][] = [];
   const standalone: string[] = [];
   const logicBlocks: Array<{ type: "AND" | "OR"; codes: string[]; title?: string }> = [];
@@ -303,6 +310,27 @@ function mapScrapedSection(
       if (itemCodes.length > 0) {
         logicBlocks.push({ type: "AND", codes: itemCodes });
       }
+    }
+  }
+
+  const allCodesBeforeNormalization = dedupeCodes([...optionGroups.flat(), ...standalone]);
+  const shouldNormalizeLifeSciencesMathPair =
+    allCodesBeforeNormalization.includes("MATH130") &&
+    allCodesBeforeNormalization.includes("MATH131") &&
+    (section.title.toUpperCase().includes("BSCI160") || section.title.toUpperCase().includes("ECOLOGY AND EVOLUTION"));
+
+  if (shouldNormalizeLifeSciencesMathPair) {
+    for (let i = 0; i < optionGroups.length; i += 1) {
+      optionGroups[i] = dedupeCodes(optionGroups[i].map((code) => normalizeLifeSciencesMathCode(code, true)));
+    }
+    for (let i = 0; i < standalone.length; i += 1) {
+      standalone[i] = normalizeLifeSciencesMathCode(standalone[i], true);
+    }
+    for (let i = 0; i < logicBlocks.length; i += 1) {
+      logicBlocks[i] = {
+        ...logicBlocks[i],
+        codes: dedupeCodes(logicBlocks[i].codes.map((code) => normalizeLifeSciencesMathCode(code, true))),
+      };
     }
   }
 
