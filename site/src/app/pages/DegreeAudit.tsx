@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link } from "react-router";
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Pencil, Plus, Save, X } from "lucide-react";
 import { Badge } from "../components/ui/badge";
@@ -59,6 +59,7 @@ interface CourseSearchResult {
 
 type BlockDropPosition = "before" | "inside" | "after";
 type BlockDropHint = { blockId: string; position: BlockDropPosition };
+type CodeDropHint = { blockId: string; index: number };
 
 type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
@@ -590,6 +591,7 @@ export default function DegreeAudit() {
   const [courseSearchMessage, setCourseSearchMessage] = useState<string | null>(null);
   const [dragOverBlockId, setDragOverBlockId] = useState<string | null>(null);
   const [blockDropHint, setBlockDropHint] = useState<BlockDropHint | null>(null);
+  const [codeDropHint, setCodeDropHint] = useState<CodeDropHint | null>(null);
   const [customSectionsByProgram, setCustomSectionsByProgram] = useState<Record<string, any[]>>({});
   const [wildcardSelections, setWildcardSelections] = useState<Record<string, string>>(() => {
     try {
@@ -692,6 +694,7 @@ export default function DegreeAudit() {
     setCourseSearchMessage(null);
     setDragOverBlockId(null);
     setBlockDropHint(null);
+    setCodeDropHint(null);
   };
 
   const resetDraftEditor = () => {
@@ -861,25 +864,6 @@ export default function DegreeAudit() {
     }
     setWildcardTokenInput("");
     setCourseSearchMessage(null);
-  };
-
-  const reorderCodeWithinBlock = (blockId: string, code: string, direction: "up" | "down") => {
-    setSectionDraft((prev) => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        blocks: mapBlocksRecursively(prev.blocks, (block) => {
-          if (block.id !== blockId) return block;
-          const idx = block.codes.findIndex((value) => value === code);
-          if (idx < 0) return block;
-          const target = direction === "up" ? idx - 1 : idx + 1;
-          if (target < 0 || target >= block.codes.length) return block;
-          const nextCodes = [...block.codes];
-          [nextCodes[idx], nextCodes[target]] = [nextCodes[target], nextCodes[idx]];
-          return { ...block, codes: nextCodes };
-        }),
-      };
-    });
   };
 
   const mapBlocksRecursively = (
@@ -1083,9 +1067,31 @@ export default function DegreeAudit() {
   const getDropPositionForBlock = (clientY: number, element: HTMLElement): BlockDropPosition => {
     const rect = element.getBoundingClientRect();
     const relativeY = clientY - rect.top;
-    if (relativeY < rect.height * 0.28) return "before";
-    if (relativeY > rect.height * 0.72) return "after";
+    const edgeBand = Math.max(20, Math.min(56, rect.height * 0.36));
+    if (relativeY <= edgeBand) return "before";
+    if (relativeY >= rect.height - edgeBand) return "after";
     return "inside";
+  };
+
+  const maybeAutoScrollDuringDrag = (clientY: number) => {
+    const threshold = 90;
+    const step = 20;
+    if (clientY < threshold) {
+      window.scrollBy({ top: -step, behavior: "auto" });
+      return;
+    }
+    if (window.innerHeight - clientY < threshold) {
+      window.scrollBy({ top: step, behavior: "auto" });
+    }
+  };
+
+  const startBlockDrag = (event: DragEvent<HTMLElement>, blockId: string) => {
+    event.stopPropagation();
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", `BLOCK::${blockId}`);
+    setDragOverBlockId(null);
+    setBlockDropHint(null);
+    setCodeDropHint(null);
   };
 
   const handleDropIntoBlock = (raw: string, targetBlockId: string, position: BlockDropPosition = "inside") => {
@@ -1094,6 +1100,7 @@ export default function DegreeAudit() {
       nestBlockIntoBlock(sourceBlockId, targetBlockId, position);
       setDragOverBlockId(null);
       setBlockDropHint(null);
+      setCodeDropHint(null);
       return;
     }
 
@@ -1106,6 +1113,7 @@ export default function DegreeAudit() {
     }
     setDragOverBlockId(null);
     setBlockDropHint(null);
+    setCodeDropHint(null);
   };
 
   const flattenDraftBlocks = (
@@ -1877,17 +1885,11 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`relative p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                              className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""}`}
                                               style={{ marginLeft: `${depth * 12}px` }}
-                                              draggable
-                                              onDragStart={(event) => {
-                                                event.dataTransfer.effectAllowed = "move";
-                                                event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
-                                                setDragOverBlockId(null);
-                                                setBlockDropHint(null);
-                                              }}
                                               onDragOver={(event) => {
                                                 event.preventDefault();
+                                                maybeAutoScrollDuringDrag(event.clientY);
                                                 const position = getDropPositionForBlock(event.clientY, event.currentTarget);
                                                 setDragOverBlockId(block.id);
                                                 setBlockDropHint({ blockId: block.id, position });
@@ -1899,6 +1901,7 @@ export default function DegreeAudit() {
                                               onDragEnd={() => {
                                                 setDragOverBlockId(null);
                                                 setBlockDropHint(null);
+                                                setCodeDropHint(null);
                                               }}
                                               onDrop={(event) => {
                                                 event.preventDefault();
@@ -1907,11 +1910,18 @@ export default function DegreeAudit() {
                                               }}
                                             >
                                               {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && (
-                                                <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                                <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                                               )}
                                               {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && (
-                                                <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                                <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                                               )}
+                                              <button
+                                                type="button"
+                                                aria-label="Drag block"
+                                                draggable
+                                                onDragStart={(event) => startBlockDrag(event, block.id)}
+                                                className="absolute left-0 top-1 bottom-1 w-2 rounded-l-md bg-red-500/20 hover:bg-red-500/35 cursor-grab active:cursor-grabbing"
+                                              />
                                               <div className="flex items-center gap-2 mb-2">
                                                 <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                                                   <GripVertical className="h-3 w-3" />
@@ -1961,7 +1971,10 @@ export default function DegreeAudit() {
                                               )}
                                               <div
                                                 className="flex flex-wrap gap-2"
-                                                onDragOver={(event) => event.preventDefault()}
+                                                onDragOver={(event) => {
+                                                  event.preventDefault();
+                                                  maybeAutoScrollDuringDrag(event.clientY);
+                                                }}
                                                 onDrop={(event) => {
                                                   event.preventDefault();
                                                   const position = getDropPositionForBlock(event.clientY, event.currentTarget);
@@ -1972,14 +1985,20 @@ export default function DegreeAudit() {
                                                   <Badge
                                                     key={`${block.id}-${badgeCode}`}
                                                     variant="outline"
-                                                    className="border-border text-foreground/80 cursor-move"
+                                                    className={`border-border text-foreground/80 cursor-move transition-[box-shadow,background-color] duration-150 ${codeDropHint?.blockId === block.id && codeDropHint.index === badgeIndex ? "bg-red-500/10 shadow-[0_0_0_2px_rgba(239,68,68,0.35)]" : ""}`}
                                                     draggable
                                                     onDragStart={(event) => {
                                                       event.dataTransfer.effectAllowed = "move";
                                                       event.dataTransfer.setData("text/plain", `${block.id}::${badgeCode}`);
+                                                      setCodeDropHint(null);
                                                     }}
                                                     onDragOver={(event) => {
                                                       event.preventDefault();
+                                                      maybeAutoScrollDuringDrag(event.clientY);
+                                                      setCodeDropHint({ blockId: block.id, index: badgeIndex });
+                                                    }}
+                                                    onDragLeave={() => {
+                                                      setCodeDropHint((current) => current?.blockId === block.id && current.index === badgeIndex ? null : current);
                                                     }}
                                                     onDrop={(event) => {
                                                       event.preventDefault();
@@ -1990,28 +2009,17 @@ export default function DegreeAudit() {
                                                       moveCodeToBlockPosition(sourceBlockId, draggedCode, block.id, badgeIndex);
                                                       setDragOverBlockId(null);
                                                       setBlockDropHint(null);
+                                                      setCodeDropHint(null);
                                                     }}
                                                   >
                                                     {badgeCode}
                                                     <button
                                                       type="button"
-                                                      className="ml-2 text-[10px]"
-                                                      onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "up")}
-                                                      title="Move up"
-                                                    >
-                                                      ^
-                                                    </button>
-                                                    <button
-                                                      type="button"
-                                                      className="ml-1 text-[10px]"
-                                                      onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "down")}
-                                                      title="Move down"
-                                                    >
-                                                      v
-                                                    </button>
-                                                    <button
-                                                      type="button"
                                                       className="ml-2"
+                                                      onMouseDown={(event) => {
+                                                        event.preventDefault();
+                                                        event.stopPropagation();
+                                                      }}
                                                       onClick={() => setSectionDraft((prev) => prev ? {
                                                         ...prev,
                                                         blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
@@ -2211,17 +2219,11 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`relative p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                              className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""}`}
                                               style={{ marginLeft: `${depth * 12}px` }}
-                                              draggable
-                                              onDragStart={(event) => {
-                                                event.dataTransfer.effectAllowed = "move";
-                                                event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
-                                                setDragOverBlockId(null);
-                                                setBlockDropHint(null);
-                                              }}
                                               onDragOver={(event) => {
                                                 event.preventDefault();
+                                                maybeAutoScrollDuringDrag(event.clientY);
                                                 const position = getDropPositionForBlock(event.clientY, event.currentTarget);
                                                 setDragOverBlockId(block.id);
                                                 setBlockDropHint({ blockId: block.id, position });
@@ -2233,6 +2235,7 @@ export default function DegreeAudit() {
                                               onDragEnd={() => {
                                                 setDragOverBlockId(null);
                                                 setBlockDropHint(null);
+                                                setCodeDropHint(null);
                                               }}
                                               onDrop={(event) => {
                                                 event.preventDefault();
@@ -2241,11 +2244,18 @@ export default function DegreeAudit() {
                                               }}
                                             >
                                           {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && (
-                                            <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                            <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                                           )}
                                           {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && (
-                                            <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                            <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                                           )}
+                                          <button
+                                            type="button"
+                                            aria-label="Drag block"
+                                            draggable
+                                            onDragStart={(event) => startBlockDrag(event, block.id)}
+                                            className="absolute left-0 top-1 bottom-1 w-2 rounded-l-md bg-red-500/20 hover:bg-red-500/35 cursor-grab active:cursor-grabbing"
+                                          />
                                           <div className="flex items-center gap-2 mb-2">
                                                 <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                                                   <GripVertical className="h-3 w-3" />
@@ -2295,7 +2305,10 @@ export default function DegreeAudit() {
                                           )}
                                           <div
                                             className="flex flex-wrap gap-2"
-                                            onDragOver={(event) => event.preventDefault()}
+                                            onDragOver={(event) => {
+                                              event.preventDefault();
+                                              maybeAutoScrollDuringDrag(event.clientY);
+                                            }}
                                             onDrop={(event) => {
                                               event.preventDefault();
                                               const position = getDropPositionForBlock(event.clientY, event.currentTarget);
@@ -2306,14 +2319,20 @@ export default function DegreeAudit() {
                                               <Badge
                                                 key={`${block.id}-${badgeCode}`}
                                                 variant="outline"
-                                                className="border-border text-foreground/80 cursor-move"
+                                                className={`border-border text-foreground/80 cursor-move transition-[box-shadow,background-color] duration-150 ${codeDropHint?.blockId === block.id && codeDropHint.index === badgeIndex ? "bg-red-500/10 shadow-[0_0_0_2px_rgba(239,68,68,0.35)]" : ""}`}
                                                 draggable
                                                 onDragStart={(event) => {
                                                   event.dataTransfer.effectAllowed = "move";
                                                   event.dataTransfer.setData("text/plain", `${block.id}::${badgeCode}`);
+                                                  setCodeDropHint(null);
                                                 }}
                                                 onDragOver={(event) => {
                                                   event.preventDefault();
+                                                  maybeAutoScrollDuringDrag(event.clientY);
+                                                  setCodeDropHint({ blockId: block.id, index: badgeIndex });
+                                                }}
+                                                onDragLeave={() => {
+                                                  setCodeDropHint((current) => current?.blockId === block.id && current.index === badgeIndex ? null : current);
                                                 }}
                                                 onDrop={(event) => {
                                                   event.preventDefault();
@@ -2324,28 +2343,17 @@ export default function DegreeAudit() {
                                                   moveCodeToBlockPosition(sourceBlockId, draggedCode, block.id, badgeIndex);
                                                   setDragOverBlockId(null);
                                                   setBlockDropHint(null);
+                                                  setCodeDropHint(null);
                                                 }}
                                               >
                                                 {badgeCode}
                                                 <button
                                                   type="button"
-                                                  className="ml-2 text-[10px]"
-                                                  onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "up")}
-                                                  title="Move up"
-                                                >
-                                                  ^
-                                                </button>
-                                                <button
-                                                  type="button"
-                                                  className="ml-1 text-[10px]"
-                                                  onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "down")}
-                                                  title="Move down"
-                                                >
-                                                  v
-                                                </button>
-                                                <button
-                                                  type="button"
                                                   className="ml-2"
+                                                  onMouseDown={(event) => {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                                  }}
                                                   onClick={() => setSectionDraft((prev) => prev ? {
                                                     ...prev,
                                                     blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id
@@ -2531,17 +2539,11 @@ export default function DegreeAudit() {
                                                 {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                                   <div
                                                     key={block.id}
-                                                    className={`relative p-3 border rounded-md ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5" : ""}`}
+                                                    className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""}`}
                                                     style={{ marginLeft: `${depth * 12}px` }}
-                                                    draggable
-                                                    onDragStart={(event) => {
-                                                      event.dataTransfer.effectAllowed = "move";
-                                                      event.dataTransfer.setData("text/plain", `BLOCK::${block.id}`);
-                                                      setDragOverBlockId(null);
-                                                      setBlockDropHint(null);
-                                                    }}
                                                     onDragOver={(event) => {
                                                       event.preventDefault();
+                                                      maybeAutoScrollDuringDrag(event.clientY);
                                                       const position = getDropPositionForBlock(event.clientY, event.currentTarget);
                                                       setDragOverBlockId(block.id);
                                                       setBlockDropHint({ blockId: block.id, position });
@@ -2553,6 +2555,7 @@ export default function DegreeAudit() {
                                                     onDragEnd={() => {
                                                       setDragOverBlockId(null);
                                                       setBlockDropHint(null);
+                                                      setCodeDropHint(null);
                                                     }}
                                                     onDrop={(event) => {
                                                       event.preventDefault();
@@ -2561,11 +2564,18 @@ export default function DegreeAudit() {
                                                     }}
                                                   >
                                                     {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && (
-                                                      <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                                      <div className="pointer-events-none absolute -top-1 left-3 right-3 h-0.5 rounded bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                                                     )}
                                                     {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && (
-                                                      <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500" />
+                                                      <div className="pointer-events-none absolute -bottom-1 left-3 right-3 h-0.5 rounded bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.55)]" />
                                                     )}
+                                                    <button
+                                                      type="button"
+                                                      aria-label="Drag block"
+                                                      draggable
+                                                      onDragStart={(event) => startBlockDrag(event, block.id)}
+                                                      className="absolute left-0 top-1 bottom-1 w-2 rounded-l-md bg-red-500/20 hover:bg-red-500/35 cursor-grab active:cursor-grabbing"
+                                                    />
                                                     <div className="flex items-center gap-2 mb-2">
                                                       <span className="inline-flex items-center gap-1 rounded border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
                                                         <GripVertical className="h-3 w-3" />
@@ -2615,7 +2625,10 @@ export default function DegreeAudit() {
                                                     )}
                                                     <div
                                                       className="flex flex-wrap gap-2"
-                                                      onDragOver={(event) => event.preventDefault()}
+                                                      onDragOver={(event) => {
+                                                        event.preventDefault();
+                                                        maybeAutoScrollDuringDrag(event.clientY);
+                                                      }}
                                                       onDrop={(event) => {
                                                         event.preventDefault();
                                                         const position = getDropPositionForBlock(event.clientY, event.currentTarget);
@@ -2626,14 +2639,20 @@ export default function DegreeAudit() {
                                                         <Badge
                                                           key={`${block.id}-${badgeCode}`}
                                                           variant="outline"
-                                                          className="border-border text-foreground/80 cursor-move"
+                                                          className={`border-border text-foreground/80 cursor-move transition-[box-shadow,background-color] duration-150 ${codeDropHint?.blockId === block.id && codeDropHint.index === badgeIndex ? "bg-red-500/10 shadow-[0_0_0_2px_rgba(239,68,68,0.35)]" : ""}`}
                                                           draggable
                                                           onDragStart={(event) => {
                                                             event.dataTransfer.effectAllowed = "move";
                                                             event.dataTransfer.setData("text/plain", `${block.id}::${badgeCode}`);
+                                                            setCodeDropHint(null);
                                                           }}
                                                           onDragOver={(event) => {
                                                             event.preventDefault();
+                                                            maybeAutoScrollDuringDrag(event.clientY);
+                                                            setCodeDropHint({ blockId: block.id, index: badgeIndex });
+                                                          }}
+                                                          onDragLeave={() => {
+                                                            setCodeDropHint((current) => current?.blockId === block.id && current.index === badgeIndex ? null : current);
                                                           }}
                                                           onDrop={(event) => {
                                                             event.preventDefault();
@@ -2644,28 +2663,17 @@ export default function DegreeAudit() {
                                                             moveCodeToBlockPosition(sourceBlockId, draggedCode, block.id, badgeIndex);
                                                             setDragOverBlockId(null);
                                                             setBlockDropHint(null);
+                                                            setCodeDropHint(null);
                                                           }}
                                                         >
                                                           {badgeCode}
                                                           <button
                                                             type="button"
-                                                            className="ml-2 text-[10px]"
-                                                            onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "up")}
-                                                            title="Move up"
-                                                          >
-                                                            ^
-                                                          </button>
-                                                          <button
-                                                            type="button"
-                                                            className="ml-1 text-[10px]"
-                                                            onClick={() => reorderCodeWithinBlock(block.id, badgeCode, "down")}
-                                                            title="Move down"
-                                                          >
-                                                            v
-                                                          </button>
-                                                          <button
-                                                            type="button"
                                                             className="ml-2"
+                                                            onMouseDown={(event) => {
+                                                              event.preventDefault();
+                                                              event.stopPropagation();
+                                                            }}
                                                             onClick={() => setSectionDraft((prev) => prev ? {
                                                               ...prev,
                                                               blocks: mapBlocksRecursively(prev.blocks, (item) => item.id === block.id

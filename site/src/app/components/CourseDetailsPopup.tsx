@@ -199,7 +199,7 @@ export function CourseDetailsPopup({
           </DialogDescription>
           <div className="mt-1 inline-flex items-center gap-2 text-[11px] text-muted-foreground">
             <span className="rounded border border-border/70 bg-input-background px-1.5 py-0.5">Linked course</span>
-            <span className="text-red-500 underline underline-offset-2">CMSC131</span>
+            <span className="text-red-500 underline underline-offset-2">Any underlined course code</span>
           </div>
         </DialogHeader>
 
