@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Pencil, Plus, Save, X } from "lucide-react";
 import { Badge } from "../components/ui/badge";
@@ -600,6 +600,23 @@ export default function DegreeAudit() {
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const editorCardRef = useRef<HTMLDivElement | null>(null);
   const saveRequestIdRef = useRef(0);
+  const hasUnsavedEditorDraft = sectionDraft !== null;
+
+  const confirmDiscardEditorDraft = useCallback(() => {
+    if (!hasUnsavedEditorDraft) return true;
+    return window.confirm("Do you want to save your work? Select No to discard your unsaved changes.");
+  }, [hasUnsavedEditorDraft]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!hasUnsavedEditorDraft) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [hasUnsavedEditorDraft]);
 
   useEffect(() => {
     try {
@@ -662,7 +679,7 @@ export default function DegreeAudit() {
     slider.scrollTo({ left: child.offsetLeft, behavior: "smooth" });
   };
 
-  const resetDraftEditor = () => {
+  const resetDraftEditorForce = () => {
     setEditingSectionId(null);
     setSectionDraft(null);
     setActiveDraftBlockId(null);
@@ -672,7 +689,17 @@ export default function DegreeAudit() {
     setDragOverBlockId(null);
   };
 
+  const resetDraftEditor = () => {
+    if (!confirmDiscardEditorDraft()) {
+      return;
+    }
+    resetDraftEditorForce();
+  };
+
   const startEditingSection = (programIndex: number, section: any) => {
+    if (!confirmDiscardEditorDraft()) {
+      return;
+    }
     const draft = draftFromSection(section);
     setEditingProgramIndex(programIndex);
     setEditingSectionId(section.id);
@@ -684,6 +711,9 @@ export default function DegreeAudit() {
   };
 
   const startAddingSection = (programIndex: number) => {
+    if (!confirmDiscardEditorDraft()) {
+      return;
+    }
     const blockId = createLocalId("block");
     setEditingProgramIndex(programIndex);
     setEditingSectionId(null);
@@ -698,6 +728,12 @@ export default function DegreeAudit() {
     setCourseSearchQuery("");
     setCourseSearchResults([]);
     setCourseSearchMessage(null);
+  };
+
+  const changeActiveProgramIndex = (nextIndex: number) => {
+    if (nextIndex === activeProgramIndex) return;
+    if (!confirmDiscardEditorDraft()) return;
+    setActiveProgramIndex(nextIndex);
   };
 
   const persistProgramSections = (programId: string, sections: any[]) => {
@@ -758,6 +794,37 @@ export default function DegreeAudit() {
       setCourseSearchPending(false);
     }
   };
+
+  useEffect(() => {
+    if (!sectionDraft) return;
+
+    const handleEditorEnterShortcut = (event: KeyboardEvent) => {
+      if (event.key !== "Enter" || event.shiftKey) return;
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (!editorCardRef.current?.contains(target)) return;
+      if (target.tagName === "TEXTAREA") return;
+
+      const searchArea = target.closest("[data-audit-search-area='true']");
+      if (searchArea) {
+        const searchButton = searchArea.querySelector<HTMLButtonElement>("[data-audit-search-btn='true']");
+        if (searchButton && !searchButton.disabled) {
+          event.preventDefault();
+          searchButton.click();
+        }
+        return;
+      }
+
+      const saveButton = editorCardRef.current.querySelector<HTMLButtonElement>("[data-audit-save-btn='true']");
+      if (saveButton && !saveButton.disabled) {
+        event.preventDefault();
+        saveButton.click();
+      }
+    };
+
+    document.addEventListener("keydown", handleEditorEnterShortcut);
+    return () => document.removeEventListener("keydown", handleEditorEnterShortcut);
+  }, [sectionDraft]);
 
   const addCodeToActiveBlock = (code: string): boolean => {
     if (!activeDraftBlockId) {
@@ -1053,7 +1120,7 @@ export default function DegreeAudit() {
             .filter(Boolean);
 
           if (creditCodes.length === 0) {
-            creditCodes.push(`PRIOR:${credit.id}`);
+            creditCodes.push(`NO UMD CREDIT ${String(credit.id).slice(0, 8).toUpperCase()}`);
           }
 
           for (const code of creditCodes) {
@@ -1451,7 +1518,7 @@ export default function DegreeAudit() {
                       className="border-border"
                       onClick={() => {
                         const next = Math.max(0, activeProgramIndex - 1);
-                        setActiveProgramIndex(next);
+                        changeActiveProgramIndex(next);
                         scrollToProgram(next);
                       }}
                       disabled={activeProgramIndex === 0}
@@ -1464,7 +1531,7 @@ export default function DegreeAudit() {
                       className="border-border"
                       onClick={() => {
                         const next = Math.min(programAudits.length - 1, activeProgramIndex + 1);
-                        setActiveProgramIndex(next);
+                        changeActiveProgramIndex(next);
                         scrollToProgram(next);
                       }}
                       disabled={activeProgramIndex === programAudits.length - 1}
@@ -1481,7 +1548,7 @@ export default function DegreeAudit() {
                       variant={index === activeProgramIndex ? "default" : "outline"}
                       className={index === activeProgramIndex ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"}
                       onClick={() => {
-                        setActiveProgramIndex(index);
+                        changeActiveProgramIndex(index);
                         scrollToProgram(index);
                       }}
                     >
@@ -1498,7 +1565,7 @@ export default function DegreeAudit() {
                     const width = target.clientWidth || 1;
                     const idx = Math.round(target.scrollLeft / width);
                     if (idx !== activeProgramIndex) {
-                      setActiveProgramIndex(Math.min(Math.max(idx, 0), programAudits.length - 1));
+                      changeActiveProgramIndex(Math.min(Math.max(idx, 0), programAudits.length - 1));
                     }
                   }}
                 >
@@ -1833,13 +1900,13 @@ export default function DegreeAudit() {
                                           </Button>
                                         </div>
 
-                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                        <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3" data-audit-search-area="true">
                                           <Input
                                             value={courseSearchQuery}
                                             onChange={(event) => setCourseSearchQuery(event.target.value)}
                                             placeholder="Search courses (e.g. BSCI330 or genetics)"
                                           />
-                                          <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending}>
+                                          <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending} data-audit-search-btn="true">
                                             {courseSearchPending ? "Searching..." : "Search"}
                                           </Button>
                                         </div>
@@ -1889,7 +1956,7 @@ export default function DegreeAudit() {
                                             onClick={() => {
                                               const nextSections = programAudit.bundle.sections.filter((item) => item.id !== editingSectionId);
                                               persistProgramSections(programAudit.bundle.programId, nextSections);
-                                              resetDraftEditor();
+                                              resetDraftEditorForce();
                                             }}
                                           >
                                             Delete Section
@@ -1897,6 +1964,7 @@ export default function DegreeAudit() {
                                           <Button
                                             type="button"
                                             className="bg-red-600 hover:bg-red-700"
+                                            data-audit-save-btn="true"
                                             onClick={() => {
                                               if (!sectionDraft) return;
                                               const updatedSection = sectionFromDraft(sectionDraft, editingSectionId ?? undefined);
@@ -1905,7 +1973,7 @@ export default function DegreeAudit() {
                                                 specializationId: item.specializationId,
                                               } : item);
                                               persistProgramSections(programAudit.bundle.programId, nextSections);
-                                              resetDraftEditor();
+                                              resetDraftEditorForce();
                                             }}
                                           >
                                             <Save className="h-3.5 w-3.5 mr-1" /> Save Section
@@ -2136,13 +2204,13 @@ export default function DegreeAudit() {
                                       </Button>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3" data-audit-search-area="true">
                                       <Input
                                         value={courseSearchQuery}
                                         onChange={(event) => setCourseSearchQuery(event.target.value)}
                                         placeholder="Search courses (e.g. BSCI330 or genetics)"
                                       />
-                                      <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending}>
+                                      <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending} data-audit-search-btn="true">
                                         {courseSearchPending ? "Searching..." : "Search"}
                                       </Button>
                                     </div>
@@ -2188,13 +2256,14 @@ export default function DegreeAudit() {
                                       <Button
                                         type="button"
                                         className="bg-red-600 hover:bg-red-700"
+                                        data-audit-save-btn="true"
                                         onClick={() => {
                                           if (!sectionDraft) return;
                                           const updatedSection = sectionFromDraft(sectionDraft, editingSectionId ?? undefined);
                                           let nextSections = programAudit.bundle.sections;
                                           nextSections = [...nextSections, updatedSection];
                                           persistProgramSections(programAudit.bundle.programId, nextSections);
-                                          resetDraftEditor();
+                                          resetDraftEditorForce();
                                         }}
                                       >
                                         <Save className="h-3.5 w-3.5 mr-1" /> Save Section
@@ -2425,13 +2494,13 @@ export default function DegreeAudit() {
                                                 </Button>
                                               </div>
 
-                                              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3">
+                                              <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2 mb-3" data-audit-search-area="true">
                                                 <Input
                                                   value={courseSearchQuery}
                                                   onChange={(event) => setCourseSearchQuery(event.target.value)}
                                                   placeholder="Search courses (e.g. BSCI330 or genetics)"
                                                 />
-                                                <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending}>
+                                                <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending} data-audit-search-btn="true">
                                                   {courseSearchPending ? "Searching..." : "Search"}
                                                 </Button>
                                               </div>
@@ -2481,7 +2550,7 @@ export default function DegreeAudit() {
                                                   onClick={() => {
                                                     const nextSections = programAudit.bundle.sections.filter((item) => item.id !== editingSectionId);
                                                     persistProgramSections(programAudit.bundle.programId, nextSections);
-                                                    resetDraftEditor();
+                                                    resetDraftEditorForce();
                                                   }}
                                                 >
                                                   Delete Section
@@ -2497,7 +2566,7 @@ export default function DegreeAudit() {
                                                       specializationId: item.specializationId,
                                                     } : item);
                                                     persistProgramSections(programAudit.bundle.programId, nextSections);
-                                                    resetDraftEditor();
+                                                    resetDraftEditorForce();
                                                   }}
                                                 >
                                                   <Save className="h-3.5 w-3.5 mr-1" /> Save Section
@@ -2537,12 +2606,13 @@ export default function DegreeAudit() {
 
                 <div className="mt-3 flex items-center justify-center gap-2">
                   {programAudits.map((programAudit, index) => (
-                    <button
+                                                <Button
                       key={`dot-${programAudit.bundle.programId}-${index}`}
                       type="button"
+                                                  data-audit-save-btn="true"
                       aria-label={`Go to ${programAudit.bundle.programName}`}
                       onClick={() => {
-                        setActiveProgramIndex(index);
+                        changeActiveProgramIndex(index);
                         scrollToProgram(index);
                       }}
                       className={`h-2.5 w-2.5 rounded-full transition-colors ${index === activeProgramIndex ? "bg-red-500" : "bg-neutral-600 hover:bg-neutral-500"}`}

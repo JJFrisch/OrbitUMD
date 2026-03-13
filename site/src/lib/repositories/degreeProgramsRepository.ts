@@ -2,6 +2,8 @@ import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 
 const LOCAL_SELECTED_PROGRAMS_KEY = "orbitumd-local-selected-programs";
+const LOCAL_PROGRAMS_GUEST_SCOPE = "__guest__";
+const LOCAL_PROGRAMS_MIGRATION_KEY = "orbitumd-local-selected-programs-migrated-v2";
 
 type LocalSelectedProgram = {
   id: string;
@@ -41,6 +43,7 @@ function safeReadLocalSelectedPrograms(): LocalSelectedProgram[] {
   if (typeof window === "undefined") return [];
 
   try {
+    runLocalSelectedProgramsMigration();
     const raw = window.localStorage.getItem(LOCAL_SELECTED_PROGRAMS_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
@@ -53,6 +56,53 @@ function safeReadLocalSelectedPrograms(): LocalSelectedProgram[] {
 function safeWriteLocalSelectedPrograms(programs: LocalSelectedProgram[]) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(LOCAL_SELECTED_PROGRAMS_KEY, JSON.stringify(programs));
+}
+
+function runLocalSelectedProgramsMigration() {
+  if (typeof window === "undefined") return;
+  try {
+    const marker = window.localStorage.getItem(LOCAL_PROGRAMS_MIGRATION_KEY);
+    if (marker === "done") return;
+
+    const raw = window.localStorage.getItem(LOCAL_SELECTED_PROGRAMS_KEY);
+    if (!raw) {
+      window.localStorage.setItem(LOCAL_PROGRAMS_MIGRATION_KEY, "done");
+      return;
+    }
+
+    const parsed = JSON.parse(raw);
+    const rows = Array.isArray(parsed) ? (parsed as LocalSelectedProgram[]) : [];
+    // One-time cleanup: drop legacy unscoped rows that were shared across accounts.
+    const migrated = rows.filter((row) => typeof row.userId === "string" && row.userId.trim().length > 0);
+    window.localStorage.setItem(LOCAL_SELECTED_PROGRAMS_KEY, JSON.stringify(migrated));
+    window.localStorage.setItem(LOCAL_PROGRAMS_MIGRATION_KEY, "done");
+  } catch {
+    // Even if migration fails once, avoid repeated parse attempts on every read.
+    window.localStorage.setItem(LOCAL_PROGRAMS_MIGRATION_KEY, "done");
+  }
+}
+
+async function getLocalProgramsScopeUserId(): Promise<string> {
+  try {
+    const supabase = getSupabaseClient();
+    const { data } = await supabase.auth.getSession();
+    return data.session?.user?.id ?? LOCAL_PROGRAMS_GUEST_SCOPE;
+  } catch {
+    return LOCAL_PROGRAMS_GUEST_SCOPE;
+  }
+}
+
+async function readScopedLocalSelectedPrograms(scopeUserId?: string): Promise<LocalSelectedProgram[]> {
+  const effectiveScope = scopeUserId ?? await getLocalProgramsScopeUserId();
+  const allPrograms = safeReadLocalSelectedPrograms();
+  return allPrograms.filter((row) => (row.userId ?? LOCAL_PROGRAMS_GUEST_SCOPE) === effectiveScope);
+}
+
+async function writeScopedLocalSelectedPrograms(scopedPrograms: LocalSelectedProgram[], scopeUserId?: string): Promise<void> {
+  const effectiveScope = scopeUserId ?? await getLocalProgramsScopeUserId();
+  const allPrograms = safeReadLocalSelectedPrograms();
+  const otherScopes = allPrograms.filter((row) => (row.userId ?? LOCAL_PROGRAMS_GUEST_SCOPE) !== effectiveScope);
+  safeWriteLocalSelectedPrograms([...otherScopes, ...scopedPrograms]);
 }
 
 function toUserDegreeProgramFromLocal(row: LocalSelectedProgram): UserDegreeProgram {
@@ -103,7 +153,8 @@ export interface DegreeProgram {
  * List all programs the current user has declared (with joined program details).
  */
 export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
-  const localPrograms = safeReadLocalSelectedPrograms().map(toUserDegreeProgramFromLocal);
+  const localScopeUserId = await getLocalProgramsScopeUserId();
+  const localPrograms = (await readScopedLocalSelectedPrograms(localScopeUserId)).map(toUserDegreeProgramFromLocal);
 
   try {
     const userId = await getAuthenticatedUserId();
@@ -228,7 +279,8 @@ export async function listProgramCatalogOptions(): Promise<CatalogProgramOption[
 }
 
 export async function addLocalCatalogProgramSelection(option: CatalogProgramOption): Promise<void> {
-  const current = safeReadLocalSelectedPrograms();
+  const localScopeUserId = await getLocalProgramsScopeUserId();
+  const current = await readScopedLocalSelectedPrograms(localScopeUserId);
   const normalized = normalizeName(option.name);
   if (current.some((row) => normalizeName(row.programName) === normalized)) {
     return;
@@ -236,6 +288,7 @@ export async function addLocalCatalogProgramSelection(option: CatalogProgramOpti
 
   const next: LocalSelectedProgram = {
     id: `local-link:${crypto.randomUUID()}`,
+    userId: localScopeUserId,
     programId: option.key,
     isPrimary: current.length === 0,
     sortOrder: current.length + 1,
@@ -245,32 +298,35 @@ export async function addLocalCatalogProgramSelection(option: CatalogProgramOpti
     degreeType: option.type,
   };
 
-  safeWriteLocalSelectedPrograms([...current, next]);
+  await writeScopedLocalSelectedPrograms([...current, next], localScopeUserId);
 }
 
 export async function removeLocalCatalogProgramSelection(userDegreeProgramId: string): Promise<void> {
-  const current = safeReadLocalSelectedPrograms();
+  const localScopeUserId = await getLocalProgramsScopeUserId();
+  const current = await readScopedLocalSelectedPrograms(localScopeUserId);
   const filtered = current.filter((row) => row.id !== userDegreeProgramId);
   if (filtered.length > 0 && filtered.every((row) => !row.isPrimary)) {
     filtered[0].isPrimary = true;
   }
-  safeWriteLocalSelectedPrograms(filtered);
+  await writeScopedLocalSelectedPrograms(filtered, localScopeUserId);
 }
 
 export async function setLocalCatalogPrimaryProgram(userDegreeProgramId: string): Promise<void> {
-  const current = safeReadLocalSelectedPrograms();
+  const localScopeUserId = await getLocalProgramsScopeUserId();
+  const current = await readScopedLocalSelectedPrograms(localScopeUserId);
   const next = current.map((row) => ({ ...row, isPrimary: row.id === userDegreeProgramId }));
-  safeWriteLocalSelectedPrograms(next);
+  await writeScopedLocalSelectedPrograms(next, localScopeUserId);
 }
 
 export async function setLocalCatalogExpectedGraduationTerm(userDegreeProgramId: string, termId: string | null): Promise<void> {
-  const current = safeReadLocalSelectedPrograms();
+  const localScopeUserId = await getLocalProgramsScopeUserId();
+  const current = await readScopedLocalSelectedPrograms(localScopeUserId);
   const next = current.map((row) =>
     row.id === userDegreeProgramId
       ? { ...row, expectedGraduationTermId: termId ?? undefined }
       : row,
   );
-  safeWriteLocalSelectedPrograms(next);
+  await writeScopedLocalSelectedPrograms(next, localScopeUserId);
 }
 
 export async function reorderUserDegreePrograms(orderedProgramIds: string[]): Promise<void> {
@@ -278,12 +334,13 @@ export async function reorderUserDegreePrograms(orderedProgramIds: string[]): Pr
 
   const rank = new Map(orderedProgramIds.map((id, index) => [id, index + 1]));
 
-  const localRows = safeReadLocalSelectedPrograms();
+  const localScopeUserId = await getLocalProgramsScopeUserId();
+  const localRows = await readScopedLocalSelectedPrograms(localScopeUserId);
   if (localRows.length > 0) {
     const nextLocal = localRows
       .map((row) => ({ ...row, sortOrder: rank.get(row.id) ?? row.sortOrder }))
       .sort((a, b) => (a.sortOrder ?? Number.MAX_SAFE_INTEGER) - (b.sortOrder ?? Number.MAX_SAFE_INTEGER));
-    safeWriteLocalSelectedPrograms(nextLocal);
+    await writeScopedLocalSelectedPrograms(nextLocal, localScopeUserId);
   }
 
   const remoteIds = orderedProgramIds.filter((id) => !id.startsWith("local-link:"));

@@ -203,7 +203,7 @@ export default function Dashboard() {
             .filter(Boolean);
 
           if (creditCodes.length === 0) {
-            creditCodes.push(`PRIOR:${credit.id}`);
+            creditCodes.push(`NO UMD CREDIT ${String(credit.id).slice(0, 8).toUpperCase()}`);
           }
 
           for (const code of creditCodes) {

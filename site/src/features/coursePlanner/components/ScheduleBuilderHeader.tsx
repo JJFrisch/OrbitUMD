@@ -27,6 +27,7 @@ interface ScheduleBuilderHeaderProps {
   savedSchedules: SavedScheduleOption[];
   activeScheduleId: string | null;
   onSave: () => void;
+  onSaveShortcut?: () => void;
   onScheduleSelect: (scheduleId: string | "__new") => void;
   savePending: boolean;
   saveMessage?: string;
@@ -48,6 +49,7 @@ export function ScheduleBuilderHeader({
   savedSchedules,
   activeScheduleId,
   onSave,
+  onSaveShortcut,
   onScheduleSelect,
   savePending,
   saveMessage,
@@ -85,6 +87,11 @@ export function ScheduleBuilderHeader({
         <input
           value={scheduleName}
           onChange={(event) => onScheduleNameChange(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key !== "Enter") return;
+            event.preventDefault();
+            (onSaveShortcut ?? onSave)();
+          }}
           placeholder="Schedule name..."
         />
 

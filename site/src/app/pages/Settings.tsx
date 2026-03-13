@@ -478,7 +478,13 @@ export default function Settings() {
                 <h2 className="text-2xl">Profile Information</h2>
               </div>
 
-              <div className="space-y-4">
+              <form
+                className="space-y-4"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void handleSaveProfile();
+                }}
+              >
                 <div>
                   <Label htmlFor="name">Full Name</Label>
                   <Input id="name" value={fullName} onChange={(event) => setFullName(event.target.value)} className="bg-input-background border-border" />
@@ -494,10 +500,10 @@ export default function Settings() {
                   <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} className="bg-input-background border-border" />
                 </div>
 
-                <Button className="bg-primary hover:bg-primary/90" onClick={handleSaveProfile}>
+                <Button type="submit" className="bg-primary hover:bg-primary/90">
                   Save Profile Changes
                 </Button>
-              </div>
+              </form>
             </Card>
 
             <Card className="p-6 bg-card border-border">
@@ -626,7 +632,13 @@ export default function Settings() {
                 <h2 className="text-2xl">Preferences</h2>
               </div>
 
-              <div className="space-y-4">
+              <form
+                className="space-y-4"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  handleSavePreferences();
+                }}
+              >
                 <div>
                   <Label>Default Term</Label>
                   <Select value={defaultTerm} onValueChange={setDefaultTerm}>
@@ -656,10 +668,10 @@ export default function Settings() {
                   </Select>
                 </div>
 
-                <Button className="bg-primary hover:bg-primary/90" onClick={handleSavePreferences}>
+                <Button type="submit" className="bg-primary hover:bg-primary/90">
                   Save Preferences
                 </Button>
-              </div>
+              </form>
             </Card>
 
             <Card className="p-6 bg-card border-border">
@@ -680,7 +692,13 @@ export default function Settings() {
               </div>
 
               {!isAdmin && (
-                <div className="space-y-3">
+                <form
+                  className="space-y-3"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    void handleUnlockAdmin();
+                  }}
+                >
                   <Label htmlFor="admin-password">Admin Password</Label>
                   <div className="flex gap-2">
                     <Input
@@ -691,11 +709,11 @@ export default function Settings() {
                       className="bg-input-background border-border"
                       placeholder="Enter admin password"
                     />
-                    <Button variant="outline" className="border-border" onClick={() => void handleUnlockAdmin()}>
+                    <Button type="submit" variant="outline" className="border-border">
                       Become Admin
                     </Button>
                   </div>
-                </div>
+                </form>
               )}
 
               {isAdmin && (

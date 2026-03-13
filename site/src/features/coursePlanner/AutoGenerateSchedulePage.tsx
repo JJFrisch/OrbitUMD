@@ -613,7 +613,14 @@ export function AutoGenerateSchedulePage() {
         </button>
       </header>
 
-      <section className="cp-generate-layout">
+      <form
+        id="cp-generate-form"
+        className="cp-generate-layout"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleGenerate();
+        }}
+      >
         <div className="cp-generate-criteria">
           <article className="cp-generate-card">
             <h2>Term</h2>
@@ -819,7 +826,7 @@ export function AutoGenerateSchedulePage() {
             )}
           </div>
         </div>
-      </section>
+      </form>
     </div>
   );
 }

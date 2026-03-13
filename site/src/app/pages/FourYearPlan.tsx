@@ -171,7 +171,9 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
       .split(/[|,]/)
       .map((value) => value.trim().toUpperCase())
       .filter(Boolean);
-    const normalizedCodes = creditCodes.length > 0 ? creditCodes : [`PRIOR:${credit.id}`];
+    const normalizedCodes = creditCodes.length > 0
+      ? creditCodes
+      : [`NO UMD CREDIT ${String(credit.id).slice(0, 8).toUpperCase()}`];
 
     for (const code of normalizedCodes) {
       const entries = grouped.get(termLabel) ?? [];

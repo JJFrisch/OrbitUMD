@@ -9,6 +9,20 @@ import "./styles/coursePlanner.css";
 
 const DEFAULT_SCHEDULE_NAME = "Default Schedule";
 
+function buildScheduleFingerprint(
+  activeScheduleId: string | null,
+  scheduleName: string,
+  selections: Record<string, { section: { id?: string }; sectionKey: string }>,
+): string {
+  const selectionKeys = Object.values(selections)
+    .map((selection) => selection.section.id || selection.sectionKey)
+    .sort()
+    .join("|");
+  const scheduleKey = activeScheduleId ?? "__new";
+  const normalizedName = scheduleName.trim();
+  return `${scheduleKey}::${normalizedName}::${selectionKeys}`;
+}
+
 export function CoursePlannerPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -35,6 +49,9 @@ export function CoursePlannerPage() {
   const refreshScheduleList = useCoursePlannerStore((state) => state.refreshScheduleList);
   const startNewSchedule = useCoursePlannerStore((state) => state.startNewSchedule);
   const saveError = useCoursePlannerStore((state) => state.saveError);
+  const [lastSavedFingerprint, setLastSavedFingerprint] = useState(() =>
+    buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}),
+  );
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -73,6 +90,28 @@ export function CoursePlannerPage() {
     return { courseCount, credits };
   }, [selections]);
 
+  const currentFingerprint = useMemo(
+    () => buildScheduleFingerprint(activeScheduleId, scheduleName, selections),
+    [activeScheduleId, scheduleName, selections],
+  );
+  const hasUnsavedChanges = currentFingerprint !== lastSavedFingerprint;
+
+  const confirmLeaveWithoutSaving = useCallback(() => {
+    if (!hasUnsavedChanges) return true;
+    return window.confirm("Do you want to save your work? Select No to discard your unsaved changes.");
+  }, [hasUnsavedChanges]);
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (!hasUnsavedChanges) return;
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [hasUnsavedChanges]);
+
   useEffect(() => {
     void useCoursePlannerStore.getState().executeSearch();
   }, []);
@@ -96,8 +135,12 @@ export function CoursePlannerPage() {
     lastProcessedDeepLink.current = key;
 
     if (shouldStartNew) {
+      if (!confirmLeaveWithoutSaving()) {
+        return;
+      }
       startNewSchedule();
       setScheduleName(DEFAULT_SCHEDULE_NAME);
+      setLastSavedFingerprint(buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}));
       return;
     }
 
@@ -114,14 +157,19 @@ export function CoursePlannerPage() {
     }
 
     if (scheduleId) {
+      if (!confirmLeaveWithoutSaving()) {
+        return;
+      }
       void loadSchedule(scheduleId).then(() => {
-        const match = useCoursePlannerStore.getState().savedSchedules.find((s) => s.id === scheduleId);
+        const state = useCoursePlannerStore.getState();
+        const match = state.savedSchedules.find((s) => s.id === scheduleId);
         if (match) {
           setScheduleName(match.name);
+          setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, match.name, state.selections));
         }
       });
     }
-  }, [loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
+  }, [confirmLeaveWithoutSaving, loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
 
   const handleSaveClick = useCallback(() => {
     if (!activeScheduleId && scheduleName.trim().toLowerCase() === DEFAULT_SCHEDULE_NAME.toLowerCase()) {
@@ -129,21 +177,33 @@ export function CoursePlannerPage() {
       window.setTimeout(() => setSaveMessage(undefined), 5000);
     }
 
-    void saveSchedule(scheduleName);
+    void saveSchedule(scheduleName).then(() => {
+      const state = useCoursePlannerStore.getState();
+      setLastSavedFingerprint(buildScheduleFingerprint(state.activeScheduleId, scheduleName, state.selections));
+    });
   }, [activeScheduleId, saveSchedule, scheduleName]);
 
   const handleScheduleSelect = useCallback((scheduleId: string | "__new") => {
+    if (!confirmLeaveWithoutSaving()) {
+      return;
+    }
+
     if (scheduleId === "__new") {
       startNewSchedule();
       setScheduleName(DEFAULT_SCHEDULE_NAME);
+      setLastSavedFingerprint(buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}));
       return;
     }
 
     void loadSchedule(scheduleId).then(() => {
+      const state = useCoursePlannerStore.getState();
       const match = savedSchedules.find((s) => s.id === scheduleId);
-      if (match) setScheduleName(match.name);
+      if (match) {
+        setScheduleName(match.name);
+        setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, match.name, state.selections));
+      }
     });
-  }, [loadSchedule, savedSchedules, startNewSchedule]);
+  }, [confirmLeaveWithoutSaving, loadSchedule, savedSchedules, startNewSchedule]);
 
   const scheduleOptions = useMemo(
     () => savedSchedules.map((s) => ({ id: s.id, name: s.name })),
@@ -175,10 +235,14 @@ export function CoursePlannerPage() {
             setTimeout(() => setPrintMode(false), 200);
           });
         }}
-        onViewAllSchedules={() => navigate("/schedules")}
+        onViewAllSchedules={() => {
+          if (!confirmLeaveWithoutSaving()) return;
+          navigate("/schedules");
+        }}
         savedSchedules={scheduleOptions}
         activeScheduleId={activeScheduleId}
         onSave={handleSaveClick}
+        onSaveShortcut={handleSaveClick}
         onScheduleSelect={handleScheduleSelect}
         savePending={savePending}
         saveMessage={saveMessage}
