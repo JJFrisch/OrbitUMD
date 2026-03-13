@@ -469,7 +469,7 @@ function extractOptionGroupsFromCsRequirement(req: any): string[][] {
 
 function resolveProgramKind(program: UserDegreeProgram): "major" | "minor" | "program" {
   const text = `${program.programName} ${program.degreeType ?? ""}`.toLowerCase();
-  if (text.includes("minor")) return "minor";
+  if (text.includes("minor") || text.includes("honors") || text.includes("scholar")) return "minor";
   if (text.includes("major") || text.includes("b.s") || text.includes("b.a")) return "major";
   return "program";
 }
@@ -520,8 +520,10 @@ function findScrapedProgram(program: UserDegreeProgram): ScrapedProgram | null {
 
   const kindMatches = entries.filter((entry) => {
     if (!entry.type) return true;
+    const entryType = String(entry.type).toLowerCase();
+    const entryIsMinorLike = entryType.includes("minor") || entryType.includes("honors") || entryType.includes("scholar");
     if (programKind === "major") return entry.type === "major";
-    if (programKind === "minor") return entry.type === "minor";
+    if (programKind === "minor") return entryIsMinorLike;
     return true;
   });
 

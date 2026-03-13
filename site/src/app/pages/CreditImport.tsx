@@ -20,7 +20,7 @@ import {
   insertPriorCredits,
   listUserPriorCredits,
   replacePriorCreditsByImportOrigin,
-  replacePriorCreditsBySource,
+  replacePriorCreditsBySourceAndImportOrigin,
   updatePriorCredit,
   type SavePriorCreditInput,
 } from "@/lib/repositories/priorCreditsRepository";
@@ -239,8 +239,11 @@ export default function CreditImport() {
   const handleSaveAp = async () => {
     setSaving(true);
     try {
-      const rows = apSelections.flatMap(buildApRows);
-      await replacePriorCreditsBySource("AP", rows);
+      const rows = apSelections.flatMap(buildApRows).map((row) => ({
+        ...row,
+        importOrigin: "manual" as const,
+      }));
+      await replacePriorCreditsBySourceAndImportOrigin("AP", "manual", rows);
       const refreshed = await listUserPriorCredits();
       setSavedPriorCredits(refreshed);
       setLastSavedAt(new Date().toISOString());

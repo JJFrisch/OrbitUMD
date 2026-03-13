@@ -91,7 +91,8 @@ function getCatalogRequirementsUrl(bundle: ProgramRequirementBundle): string | n
   const matched = entries.find((entry) => {
     const entryName = normalizeProgramName(String(entry.name ?? ""));
     if (!entryName) return false;
-    const entryType = entry.type === "minor" ? "minor" : "major";
+    const entryTypeText = String(entry.type ?? "").toLowerCase();
+    const entryType = entryTypeText.includes("minor") || entryTypeText.includes("honors") || entryTypeText.includes("scholar") ? "minor" : "major";
     if (entryType !== targetType) return false;
     return entryName === target || entryName.includes(target) || target.includes(entryName);
   });
@@ -758,10 +759,13 @@ export default function DegreeAudit() {
     }
   };
 
-  const addCodeToActiveBlock = (code: string) => {
-    if (!activeDraftBlockId) return;
+  const addCodeToActiveBlock = (code: string): boolean => {
+    if (!activeDraftBlockId) {
+      setCourseSearchMessage("Create an AND or OR group first, then add classes or wildcard tokens.");
+      return false;
+    }
     const normalized = code.toUpperCase().trim();
-    if (!normalized) return;
+    if (!normalized) return false;
 
     setSectionDraft((prev) => prev ? {
       ...prev,
@@ -769,6 +773,8 @@ export default function DegreeAudit() {
         ? { ...block, codes: Array.from(new Set([...block.codes, normalized])) }
         : block),
     } : prev);
+    setCourseSearchMessage(null);
+    return true;
   };
 
   const addWildcardTokenToActiveBlock = () => {
@@ -778,7 +784,10 @@ export default function DegreeAudit() {
       return;
     }
 
-    addCodeToActiveBlock(normalized);
+    const added = addCodeToActiveBlock(normalized);
+    if (!added) {
+      return;
+    }
     setWildcardTokenInput("");
     setCourseSearchMessage(null);
   };
@@ -919,6 +928,8 @@ export default function DegreeAudit() {
     setSectionDraft((prev) => {
       if (!prev) return prev;
       const removedResult = removeBlockById(prev.blocks, blockId);
+      const nextActiveId = removedResult.blocks[0]?.id ?? null;
+      setActiveDraftBlockId((current) => (current === blockId ? nextActiveId : current));
       return {
         ...prev,
         blocks: removedResult.blocks,
@@ -1839,7 +1850,7 @@ export default function DegreeAudit() {
                                             onChange={(event) => setWildcardTokenInput(event.target.value)}
                                             placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
                                           />
-                                          <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock}>
+                                          <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock} disabled={!activeDraftBlockId}>
                                             Add Wildcard
                                           </Button>
                                         </div>
@@ -1857,6 +1868,7 @@ export default function DegreeAudit() {
                                                   type="button"
                                                   size="sm"
                                                   variant="outline"
+                                                  disabled={!activeDraftBlockId}
                                                   onClick={() => {
                                                     addCodeToActiveBlock(course.code);
                                                   }}
@@ -2141,7 +2153,7 @@ export default function DegreeAudit() {
                                         onChange={(event) => setWildcardTokenInput(event.target.value)}
                                         placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
                                       />
-                                      <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock}>
+                                      <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock} disabled={!activeDraftBlockId}>
                                         Add Wildcard
                                       </Button>
                                     </div>
@@ -2159,8 +2171,9 @@ export default function DegreeAudit() {
                                               type="button"
                                               size="sm"
                                               variant="outline"
+                                              disabled={!activeDraftBlockId}
                                               onClick={() => {
-                                                    addCodeToActiveBlock(course.code);
+                                                addCodeToActiveBlock(course.code);
                                               }}
                                             >
                                               Add to Block
@@ -2429,7 +2442,7 @@ export default function DegreeAudit() {
                                                   onChange={(event) => setWildcardTokenInput(event.target.value)}
                                                   placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
                                                 />
-                                                <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock}>
+                                                <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock} disabled={!activeDraftBlockId}>
                                                   Add Wildcard
                                                 </Button>
                                               </div>
@@ -2447,6 +2460,7 @@ export default function DegreeAudit() {
                                                         type="button"
                                                         size="sm"
                                                         variant="outline"
+                                                        disabled={!activeDraftBlockId}
                                                         onClick={() => {
                                                           addCodeToActiveBlock(course.code);
                                                         }}

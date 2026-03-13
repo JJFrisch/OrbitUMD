@@ -130,6 +130,42 @@ export async function replacePriorCreditsByImportOrigin(
   if (insertError) throw insertError;
 }
 
+export async function replacePriorCreditsBySourceAndImportOrigin(
+  sourceType: PriorCreditSource,
+  importOrigin: PriorCreditImportOrigin,
+  credits: SavePriorCreditInput[],
+): Promise<void> {
+  const userId = await getAuthenticatedUserId();
+  const supabase = getSupabaseClient();
+
+  const { error: deleteError } = await supabase
+    .from("user_prior_credits")
+    .delete()
+    .eq("user_id", userId)
+    .eq("source_type", sourceType)
+    .eq("import_origin", importOrigin);
+
+  if (deleteError) throw deleteError;
+
+  if (credits.length === 0) return;
+
+  const payload = credits.map((credit) => ({
+    user_id: userId,
+    source_type: credit.sourceType,
+    import_origin: credit.importOrigin ?? importOrigin,
+    original_name: credit.originalName,
+    umd_course_code: credit.umdCourseCode ?? null,
+    credits: credit.credits,
+    gen_ed_codes: credit.genEdCodes ?? [],
+    term_awarded: credit.termAwarded ?? null,
+    grade: credit.grade ?? null,
+    counts_toward_progress: credit.countsTowardProgress ?? true,
+  }));
+
+  const { error: insertError } = await supabase.from("user_prior_credits").insert(payload);
+  if (insertError) throw insertError;
+}
+
 export async function insertPriorCredits(
   credits: SavePriorCreditInput[],
 ): Promise<UserPriorCreditRecord[]> {

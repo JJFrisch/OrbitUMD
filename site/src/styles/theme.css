@@ -181,4 +181,9 @@
     font-weight: var(--font-weight-normal);
     line-height: 1.5;
   }
+
+  /* Keep helper copy legible across views, especially on dense planner cards. */
+  .text-xs {
+    font-size: max(var(--text-xs), 0.8125rem);
+  }
 }

@@ -122,7 +122,7 @@ export default function Settings() {
             .from("terms")
             .select("id, year, season")
             .order("year", { ascending: false })
-            .limit(20),
+            .limit(80),
           listUserPriorCredits(),
         ]);
 

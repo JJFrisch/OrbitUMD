@@ -26,6 +26,9 @@ import {
   addUserDegreeProgramFromCatalogOption,
   listProgramCatalogOptions,
   listUserDegreePrograms,
+  removeLocalCatalogProgramSelection,
+  removeUserDegreeProgram,
+  setLocalCatalogExpectedGraduationTerm,
   type CatalogProgramOption,
 } from "@/lib/repositories/degreeProgramsRepository";
 import { replacePriorCreditsByImportOrigin } from "@/lib/repositories/priorCreditsRepository";
@@ -87,6 +90,7 @@ export default function BasicProfile() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [hasImportedTranscript, setHasImportedTranscript] = useState(false);
+  const [transcriptProgramKeys, setTranscriptProgramKeys] = useState<string[]>([]);
 
   const getErrorMessage = (error: unknown, fallback: string) => {
     if (error instanceof Error && error.message) return error.message;
@@ -114,6 +118,65 @@ export default function BasicProfile() {
     return partial?.key ?? "";
   };
 
+  const resolveTranscriptProgramKeys = (result: TranscriptParseResult): string[] => {
+    const candidates = [result.fields.major, ...result.fields.doubleDegrees]
+      .map((value) => String(value ?? "").trim())
+      .filter((value) => value.length > 0);
+
+    const keys: string[] = [];
+    for (const candidate of candidates) {
+      const key = resolveMajorKey(candidate);
+      if (key && !keys.includes(key)) {
+        keys.push(key);
+      }
+    }
+
+    return keys;
+  };
+
+  const parseSeasonYearTerm = (value: string | null | undefined): { season: string; year: number } | null => {
+    const match = String(value ?? "").toLowerCase().match(/^(fall|spring|summer|winter)(20\d{2})$/);
+    if (!match) return null;
+    return { season: match[1], year: Number(match[2]) };
+  };
+
+  const findTermIdBySeasonYear = async (season: string, year: number): Promise<string | null> => {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase
+      .from("terms")
+      .select("id")
+      .eq("season", season)
+      .eq("year", year)
+      .limit(1)
+      .maybeSingle();
+
+    if (error) {
+      return null;
+    }
+
+    return String(data?.id ?? "") || null;
+  };
+
+  const syncTranscriptPrograms = async (programKeys: string[]) => {
+    const selectedOptions = programKeys
+      .map((key) => majorOptions.find((option) => option.key === key))
+      .filter((option): option is CatalogProgramOption => Boolean(option));
+    if (selectedOptions.length === 0) return;
+
+    const existing = await listUserDegreePrograms();
+    for (const program of existing) {
+      if (program.id.startsWith("local-link:")) {
+        await removeLocalCatalogProgramSelection(program.id);
+      } else {
+        await removeUserDegreeProgram(program.id);
+      }
+    }
+
+    for (const option of selectedOptions) {
+      await addUserDegreeProgramFromCatalogOption(option);
+    }
+  };
+
   const applyTranscriptResult = async (result: TranscriptParseResult) => {
     const { fields } = result;
     if (fields.fullName) setName(fields.fullName);
@@ -136,16 +199,17 @@ export default function BasicProfile() {
       }
     }
 
-    const majorKey = resolveMajorKey(fields.major);
-    if (majorKey) {
-      setSelectedMajorKey(majorKey);
+    const matchedProgramKeys = resolveTranscriptProgramKeys(result);
+    setTranscriptProgramKeys(matchedProgramKeys);
+    if (matchedProgramKeys[0]) {
+      setSelectedMajorKey(matchedProgramKeys[0]);
     }
 
     const transcriptImport = await buildTranscriptPriorCreditImport(result);
     await replacePriorCreditsByImportOrigin("testudo_transcript", transcriptImport.records);
     setHasImportedTranscript(true);
 
-    setMessage(majorKey
+    setMessage(matchedProgramKeys[0]
       ? `Transcript imported ${transcriptImport.summary.importedRecords} prior credit records and autofilled your profile. Review everything below before continuing.`
       : `Transcript imported ${transcriptImport.summary.importedRecords} prior credit records. Review the extracted fields below and choose your major if we could not match it.`);
   };
@@ -199,6 +263,38 @@ export default function BasicProfile() {
     };
   }, []);
 
+  const startingSemesterOptions = [
+    "fall2024",
+    "spring2025",
+    "fall2025",
+    "spring2026",
+    "fall2026",
+    "spring2027",
+    "fall2027",
+    "spring2028",
+    "fall2028",
+    "spring2029",
+    "fall2029",
+    "spring2030",
+    "fall2030",
+    "spring2031",
+    "fall2031",
+  ];
+
+  const graduationYearOptions = [
+    "2026",
+    "2027",
+    "2028",
+    "2029",
+    "2030",
+    "2031",
+    "2032",
+    "2033",
+    "2034",
+    "2035",
+    "2036",
+  ];
+
   const handleContinue = async () => {
     setSaving(true);
     setMessage(null);
@@ -211,6 +307,7 @@ export default function BasicProfile() {
         localStorage.setItem("orbitumd-onboarding-name", name.trim());
         localStorage.setItem("orbitumd-onboarding-email", email.trim());
         localStorage.setItem("orbitumd-onboarding-uid", uid.trim());
+        localStorage.setItem("orbitumd-onboarding-starting-semester", startingSemester);
         if (selectedMajorKey) {
           localStorage.setItem("orbitumd-onboarding-major-key", selectedMajorKey);
         }
@@ -251,10 +348,12 @@ export default function BasicProfile() {
         }
       }
 
-      if (selectedMajorKey) {
-        const selected = majorOptions.find((option) => option.key === selectedMajorKey);
-        if (selected) {
-          try {
+      try {
+        if (hasImportedTranscript && transcriptProgramKeys.length > 0) {
+          await syncTranscriptPrograms(transcriptProgramKeys);
+        } else if (selectedMajorKey) {
+          const selected = majorOptions.find((option) => option.key === selectedMajorKey);
+          if (selected) {
             const existing = await listUserDegreePrograms();
             const alreadyHasMajor = existing.some((program) => (
               program.programName.toLowerCase() === selected.name.toLowerCase()
@@ -263,10 +362,44 @@ export default function BasicProfile() {
             if (!alreadyHasMajor) {
               await addUserDegreeProgramFromCatalogOption(selected);
             }
-          } catch {
-            // Do not block onboarding completion if degree program selection fails.
           }
         }
+      } catch {
+        // Do not block onboarding completion if degree program selection fails.
+      }
+
+      try {
+        const declaredPrograms = await listUserDegreePrograms();
+        const primaryProgram = declaredPrograms.find((program) => program.isPrimary) ?? declaredPrograms[0] ?? null;
+        if (primaryProgram) {
+          const expectedGradTermId = graduationYear
+            ? await findTermIdBySeasonYear("spring", Number(graduationYear))
+            : null;
+
+          const startTerm = parseSeasonYearTerm(startingSemester);
+          const startedTermId = startTerm
+            ? await findTermIdBySeasonYear(startTerm.season, startTerm.year)
+            : null;
+
+          if (primaryProgram.id.startsWith("local-link:")) {
+            await setLocalCatalogExpectedGraduationTerm(primaryProgram.id, expectedGradTermId);
+          } else {
+            const { error: programUpdateError } = await supabase
+              .from("user_degree_programs")
+              .update({
+                expected_graduation_term_id: expectedGradTermId,
+                started_term_id: startedTermId,
+              })
+              .eq("id", primaryProgram.id)
+              .eq("user_id", authUser.id);
+
+            if (programUpdateError) {
+              throw programUpdateError;
+            }
+          }
+        }
+      } catch {
+        // Do not block onboarding completion if term metadata persistence fails.
       }
 
       setMessage("Profile saved.");
@@ -426,13 +559,13 @@ export default function BasicProfile() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="fall2024">Fall 2024</SelectItem>
-                  <SelectItem value="spring2025">Spring 2025</SelectItem>
-                  <SelectItem value="fall2025">Fall 2025</SelectItem>
-                  <SelectItem value="spring2026">Spring 2026</SelectItem>
-                  <SelectItem value="fall2026">Fall 2026</SelectItem>
-                  <SelectItem value="spring2027">Spring 2027</SelectItem>
-                  <SelectItem value="fall2027">Fall 2027</SelectItem>
+                  {startingSemesterOptions.map((termKey) => {
+                    const parsed = parseSeasonYearTerm(termKey);
+                    const label = parsed
+                      ? `${parsed.season.charAt(0).toUpperCase()}${parsed.season.slice(1)} ${parsed.year}`
+                      : termKey;
+                    return <SelectItem key={termKey} value={termKey}>{label}</SelectItem>;
+                  })}
                 </SelectContent>
               </Select>
             </div>
@@ -444,12 +577,9 @@ export default function BasicProfile() {
                   <SelectValue placeholder="Select year..." />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="2026">2026</SelectItem>
-                  <SelectItem value="2027">2027</SelectItem>
-                  <SelectItem value="2028">2028</SelectItem>
-                  <SelectItem value="2029">2029</SelectItem>
-                  <SelectItem value="2030">2030</SelectItem>
-                  <SelectItem value="2031">2031</SelectItem>
+                  {graduationYearOptions.map((yearOption) => (
+                    <SelectItem key={yearOption} value={yearOption}>{yearOption}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

@@ -32,6 +32,11 @@ function normalizeName(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 }
 
+function isMinorLikeProgramType(rawType: string, rawName: string): boolean {
+  const text = `${rawType} ${rawName}`.toLowerCase();
+  return text.includes("minor") || text.includes("honors") || text.includes("scholar");
+}
+
 function safeReadLocalSelectedPrograms(): LocalSelectedProgram[] {
   if (typeof window === "undefined") return [];
 
@@ -177,7 +182,7 @@ export async function listProgramCatalogOptions(): Promise<CatalogProgramOption[
       addOption({
         key: `db:${program.id}`,
         name: program.name,
-        type: String(program.degreeType ?? "").toLowerCase().includes("minor") ? "minor" : "major",
+        type: isMinorLikeProgramType(String(program.degreeType ?? ""), program.name) ? "minor" : "major",
         programCode: program.programCode,
         source: "db",
         dbProgramId: program.id,
@@ -189,7 +194,7 @@ export async function listProgramCatalogOptions(): Promise<CatalogProgramOption[
 
   const catalogPrograms = ((requirementsCatalog as any)?.programs ?? []) as Array<{ id: string; name: string; type?: string }>;
   for (const program of catalogPrograms) {
-    const type = program.type === "minor" ? "minor" : "major";
+    const type = isMinorLikeProgramType(String(program.type ?? ""), program.name) ? "minor" : "major";
     addOption({
       key: `catalog:${program.id}`,
       name: program.name,

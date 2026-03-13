@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { CalendarDays, Loader2, Sparkles } from "lucide-react";
 import { getSectionsForCourse, searchCoursesWithStrategy } from "./services/courseSearchService";
@@ -108,13 +108,13 @@ function sectionViolatesTimeConstraint(section: Section, constraint: TimeConstra
     }
 
     if (!meeting.startTime || !meeting.endTime) {
-      return true;
+      continue;
     }
 
     const start = parseTimeToHour(meeting.startTime);
     const end = parseTimeToHour(meeting.endTime);
     if (!Number.isFinite(start) || !Number.isFinite(end)) {
-      return true;
+      continue;
     }
 
     if (start < constraint.startHour || end > constraint.endHour) {
@@ -123,6 +123,15 @@ function sectionViolatesTimeConstraint(section: Section, constraint: TimeConstra
   }
 
   return false;
+}
+
+function shuffleArray<T>(items: T[]): T[] {
+  const next = [...items];
+  for (let idx = next.length - 1; idx > 0; idx -= 1) {
+    const swapIdx = Math.floor(Math.random() * (idx + 1));
+    [next[idx], next[swapIdx]] = [next[swapIdx], next[idx]];
+  }
+  return next;
 }
 
 function sectionsConflict(left: Section, right: Section): boolean {
@@ -372,6 +381,18 @@ function generateSchedules(requiredPlans: CoursePlan[], optionalPlans: CoursePla
 
   const schedules = Array.from(keyedResults.values())
     .sort((left, right) => left.selections.length - right.selections.length)
+    .reduce<Array<{ selections: ScheduleSelection[]; credits: number; optionalCount: number; includedOptionalCodes: Set<string> }>>((acc, entry) => {
+      const last = acc[acc.length - 1];
+      if (!last || last.selections.length !== entry.selections.length) {
+        acc.push(entry);
+        return acc;
+      }
+
+      const tieGroupStart = acc.findIndex((candidate) => candidate.selections.length === entry.selections.length);
+      const prefix = acc.slice(0, tieGroupStart);
+      const tieGroup = shuffleArray([...acc.slice(tieGroupStart), entry]);
+      return [...prefix, ...tieGroup];
+    }, [])
     .map((entry, index) => ({
       id: `auto-${index + 1}`,
       selections: entry.selections,
@@ -435,6 +456,8 @@ export function AutoGenerateSchedulePage() {
   const [generated, setGenerated] = useState<GeneratedSchedule[]>([]);
   const [activeScheduleIndex, setActiveScheduleIndex] = useState(0);
   const [showSeatCounts, setShowSeatCounts] = useState(false);
+  const wheelLastAtRef = useRef(0);
+  const touchStartXRef = useRef<number | null>(null);
 
   const requiredCodes = useMemo(() => parseCourseCodes(requiredRaw), [requiredRaw]);
   const optionalCodes = useMemo(() => parseCourseCodes(optionalRaw), [optionalRaw]);
@@ -507,6 +530,49 @@ export function AutoGenerateSchedulePage() {
   };
 
   const activeSchedule = generated[activeScheduleIndex] ?? null;
+
+  const goToPreviousSchedule = () => {
+    setActiveScheduleIndex((current) => Math.max(0, current - 1));
+  };
+
+  const goToNextSchedule = () => {
+    setActiveScheduleIndex((current) => Math.min(generated.length - 1, current + 1));
+  };
+
+  const handleResultWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+    if (generated.length <= 1) return;
+    const now = Date.now();
+    if (now - wheelLastAtRef.current < 250) {
+      return;
+    }
+
+    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+    if (Math.abs(delta) < 8) return;
+
+    wheelLastAtRef.current = now;
+    if (delta > 0) goToNextSchedule();
+    else goToPreviousSchedule();
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartXRef.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    if (generated.length <= 1) return;
+    const startX = touchStartXRef.current;
+    touchStartXRef.current = null;
+    if (startX === null) return;
+
+    const endX = event.changedTouches[0]?.clientX;
+    if (!Number.isFinite(endX)) return;
+    const deltaX = startX - Number(endX);
+    if (Math.abs(deltaX) < 40) return;
+
+    if (deltaX > 0) goToNextSchedule();
+    else goToPreviousSchedule();
+  };
+
   const activeSummary = activeSchedule ? buildScheduleSummary(activeSchedule) : null;
   const activeScheduleMeetings = useMemo<CalendarMeeting[]>(() => {
     if (!activeSchedule) {
@@ -681,7 +747,7 @@ export function AutoGenerateSchedulePage() {
                 <button
                   type="button"
                   className="cp-builder-action-btn cp-generate-nav-btn"
-                  onClick={() => setActiveScheduleIndex((current) => Math.max(0, current - 1))}
+                  onClick={goToPreviousSchedule}
                   disabled={activeScheduleIndex <= 0}
                 >
                   Previous
@@ -692,7 +758,7 @@ export function AutoGenerateSchedulePage() {
                 <button
                   type="button"
                   className="cp-builder-action-btn cp-generate-nav-btn"
-                  onClick={() => setActiveScheduleIndex((current) => Math.min(generated.length - 1, current + 1))}
+                  onClick={goToNextSchedule}
                   disabled={activeScheduleIndex >= generated.length - 1}
                 >
                   Next
@@ -710,7 +776,7 @@ export function AutoGenerateSchedulePage() {
             <p className="cp-muted-text">No schedules generated yet. Add criteria and click Generate Schedules.</p>
           )}
 
-          <div className="cp-generate-result-list">
+          <div className="cp-generate-result-list" onWheel={handleResultWheel} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
             {activeSchedule && activeSummary && (
               <article key={activeSchedule.id} className="cp-generate-result-card" data-testid="generated-schedule-card">
                 <header>
