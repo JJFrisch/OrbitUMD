@@ -1,0 +1,134 @@
+{
+  "code": "latin-language-and-literature-minor",
+  "title": "Latin Language and Literature Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/latin-language-literature-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 21,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "LATN101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LATN",
+          "number": "101"
+        },
+        {
+          "id": "course-4",
+          "label": "LATN102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LATN",
+          "number": "102"
+        },
+        {
+          "id": "course-5",
+          "label": "LATN201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LATN",
+          "number": "201"
+        },
+        {
+          "id": "choice-6",
+          "label": "Select two 3xx level reading courses chosen from the following: Plautus, Petronius, Ovid or Horace and Catullus",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        },
+        {
+          "id": "note-7",
+          "label": "Select a 4xx level reading course in a major Latin author 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select a 4xx level reading course in a major Latin author 3"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-6",
+        "humanLabel": "Select two 3xx level reading courses chosen from the following: Plautus, Petronius, Ovid or Horace and Catullus",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LATN",
+          "number": "101"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LATN",
+          "number": "102"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LATN",
+          "number": "201"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select a 4xx level reading course in a major Latin author 3"
+        },
+        "sortOrder": 5
+      }
+    ]
+  }
+}

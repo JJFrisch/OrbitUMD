@@ -1,0 +1,415 @@
+{
+  "code": "naval-science-minor",
+  "title": "Naval Science Minor",
+  "college": "Undergraduate Studies",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/naval-science-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 24,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Naval Science Core 18",
+          "nodeType": "note",
+          "children": [],
+          "text": "Naval Science Core 18"
+        }
+      ]
+    },
+    {
+      "id": "block-4",
+      "label": "18 credits selected from the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "NAVY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "100"
+        },
+        {
+          "id": "course-6",
+          "label": "NAVY101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "101"
+        },
+        {
+          "id": "course-7",
+          "label": "NAVY200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "200"
+        },
+        {
+          "id": "course-8",
+          "label": "NAVY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "201"
+        },
+        {
+          "id": "course-9",
+          "label": "NAVY300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "300"
+        },
+        {
+          "id": "course-10",
+          "label": "NAVY301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "301"
+        },
+        {
+          "id": "course-11",
+          "label": "NAVY302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "302"
+        },
+        {
+          "id": "course-12",
+          "label": "NAVY400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "400"
+        },
+        {
+          "id": "course-13",
+          "label": "NAVY401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "401"
+        },
+        {
+          "id": "course-14",
+          "label": "NAVY402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NAVY",
+          "number": "402"
+        },
+        {
+          "id": "note-15",
+          "label": "Expanded Learning 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Expanded Learning 6"
+        },
+        {
+          "id": "note-16",
+          "label": "National Security/Military History",
+          "nodeType": "note",
+          "children": [],
+          "text": "National Security/Military History"
+        },
+        {
+          "id": "course-17",
+          "label": "HIST224",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "224"
+        },
+        {
+          "id": "course-18",
+          "label": "HIST225",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "225"
+        },
+        {
+          "id": "note-19",
+          "label": "Cultural/Regional Studies 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Cultural/Regional Studies 1"
+        },
+        {
+          "id": "course-20",
+          "label": "GEOG130",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "130"
+        },
+        {
+          "id": "course-21",
+          "label": "HIST120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "120"
+        },
+        {
+          "id": "course-22",
+          "label": "HIST284",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "284"
+        },
+        {
+          "id": "course-23",
+          "label": "HIST285",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "285"
+        },
+        {
+          "id": "course-24",
+          "label": "PERS251",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "251"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-4",
+        "humanLabel": "18 credits selected from the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Naval Science Core 18"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "101"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "200"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "300"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "301"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "302"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "400"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "401"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NAVY",
+          "number": "402"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Expanded Learning 6"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "National Security/Military History"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "224"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "225"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Cultural/Regional Studies 1"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "130"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "120"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "284"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "285"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "251"
+        },
+        "sortOrder": 22
+      }
+    ]
+  }
+}

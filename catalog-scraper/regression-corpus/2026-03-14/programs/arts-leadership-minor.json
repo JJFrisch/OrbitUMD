@@ -1,0 +1,312 @@
+{
+  "code": "arts-leadership-minor",
+  "title": "Arts Leadership Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/theatre-dance-performance-studies/arts-leadership-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "TDPS240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TDPS",
+          "number": "240"
+        },
+        {
+          "id": "course-4",
+          "label": "ENGL398A",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "398A"
+        },
+        {
+          "id": "course-5",
+          "label": "ENGL398N",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "398N"
+        },
+        {
+          "id": "course-6",
+          "label": "TDPS440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TDPS",
+          "number": "440"
+        },
+        {
+          "id": "choice-7",
+          "label": "Choose 2 courses from the following (6 credits)",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-8",
+              "label": "ARHU340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARHU",
+              "number": "340"
+            },
+            {
+              "id": "course-9",
+              "label": "BMGT355",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "355"
+            },
+            {
+              "id": "course-10",
+              "label": "ARHU386",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARHU",
+              "number": "386"
+            },
+            {
+              "id": "course-11",
+              "label": "TDPS441",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TDPS",
+              "number": "441"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "choice-12",
+          "label": "Choose 3 credits from one of the following prefixes at a 300/400 level with approval of a minor advisor: ARHU, ARTH, ARTT, BMGT, DANC, MUSC, PLCY, TDPS, THET.",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-7",
+      "label": "Choose 2 courses from the following (6 credits)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-8",
+          "label": "ARHU340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARHU",
+          "number": "340"
+        },
+        {
+          "id": "course-9",
+          "label": "BMGT355",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "355"
+        },
+        {
+          "id": "course-10",
+          "label": "ARHU386",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARHU",
+          "number": "386"
+        },
+        {
+          "id": "course-11",
+          "label": "TDPS441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TDPS",
+          "number": "441"
+        }
+      ],
+      "minCount": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-7",
+        "humanLabel": "Choose 2 courses from the following (6 credits)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Choose 3 credits from one of the following prefixes at a 300/400 level with approval of a minor advisor: ARHU, ARTH, ARTT, BMGT, DANC, MUSC, PLCY, TDPS, THET.",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-7",
+        "humanLabel": "Choose 2 courses from the following (6 credits)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TDPS",
+          "number": "240"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "398A"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "398N"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TDPS",
+          "number": "440"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARHU",
+          "number": "340"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "355"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARHU",
+          "number": "386"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TDPS",
+          "number": "441"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARHU",
+          "number": "340"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "355"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARHU",
+          "number": "386"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TDPS",
+          "number": "441"
+        },
+        "sortOrder": 13
+      }
+    ]
+  }
+}

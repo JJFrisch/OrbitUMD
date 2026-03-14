@@ -1,0 +1,737 @@
+{
+  "code": "korean-studies-minor",
+  "title": "Korean Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/korean-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Korean Language and Language-Related Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Korean Language and Language-Related Courses"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select two courses devoted specifically to Korean language or language-related studies from the following: 1",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-5",
+              "label": "KORA201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "201"
+            },
+            {
+              "id": "course-6",
+              "label": "KORA202",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "202"
+            },
+            {
+              "id": "course-7",
+              "label": "KORA211",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "211"
+            },
+            {
+              "id": "course-8",
+              "label": "KORA212",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "212"
+            },
+            {
+              "id": "course-9",
+              "label": "KORA241",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "241"
+            },
+            {
+              "id": "course-10",
+              "label": "KORA242",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "242"
+            },
+            {
+              "id": "course-11",
+              "label": "KORA311",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "311"
+            },
+            {
+              "id": "course-12",
+              "label": "KORA312",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "312"
+            },
+            {
+              "id": "course-13",
+              "label": "KORA345",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KORA",
+              "number": "345"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "note-14",
+          "label": "Korea-Related Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Korea-Related Courses"
+        },
+        {
+          "id": "choice-15",
+          "label": "Select three courses in Korea-related studies from fields such as history, sociology, and art history: 2",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-16",
+              "label": "HIST319",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "319"
+            },
+            {
+              "id": "course-17",
+              "label": "SOCY398",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "398"
+            },
+            {
+              "id": "course-18",
+              "label": "HIST284",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "284"
+            },
+            {
+              "id": "course-19",
+              "label": "HIST285",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "285"
+            },
+            {
+              "id": "course-20",
+              "label": "HIST319",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "319"
+            },
+            {
+              "id": "course-21",
+              "label": "EALL300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EALL",
+              "number": "300"
+            },
+            {
+              "id": "course-22",
+              "label": "GVPT359",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GVPT",
+              "number": "359"
+            },
+            {
+              "id": "course-23",
+              "label": "ARTH290",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARTH",
+              "number": "290"
+            }
+          ],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-4",
+      "label": "Select two courses devoted specifically to Korean language or language-related studies from the following: 1",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "KORA201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "201"
+        },
+        {
+          "id": "course-6",
+          "label": "KORA202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "202"
+        },
+        {
+          "id": "course-7",
+          "label": "KORA211",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "211"
+        },
+        {
+          "id": "course-8",
+          "label": "KORA212",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "212"
+        },
+        {
+          "id": "course-9",
+          "label": "KORA241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "241"
+        },
+        {
+          "id": "course-10",
+          "label": "KORA242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "242"
+        },
+        {
+          "id": "course-11",
+          "label": "KORA311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "311"
+        },
+        {
+          "id": "course-12",
+          "label": "KORA312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "312"
+        },
+        {
+          "id": "course-13",
+          "label": "KORA345",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KORA",
+          "number": "345"
+        }
+      ],
+      "minCount": 2
+    },
+    {
+      "id": "choice-15",
+      "label": "Select three courses in Korea-related studies from fields such as history, sociology, and art history: 2",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-16",
+          "label": "HIST319",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "319"
+        },
+        {
+          "id": "course-17",
+          "label": "SOCY398",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "398"
+        },
+        {
+          "id": "course-18",
+          "label": "HIST284",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "284"
+        },
+        {
+          "id": "course-19",
+          "label": "HIST285",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "285"
+        },
+        {
+          "id": "course-20",
+          "label": "HIST319",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "319"
+        },
+        {
+          "id": "course-21",
+          "label": "EALL300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EALL",
+          "number": "300"
+        },
+        {
+          "id": "course-22",
+          "label": "GVPT359",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "359"
+        },
+        {
+          "id": "course-23",
+          "label": "ARTH290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "290"
+        }
+      ],
+      "minCount": 3
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select two courses devoted specifically to Korean language or language-related studies from the following: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select three courses in Korea-related studies from fields such as history, sociology, and art history: 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select two courses devoted specifically to Korean language or language-related studies from the following: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select three courses in Korea-related studies from fields such as history, sociology, and art history: 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Korean Language and Language-Related Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "201"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "202"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "211"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "212"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "241"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "242"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "311"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "312"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "345"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Korea-Related Courses"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "398"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "284"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "285"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EALL",
+          "number": "300"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "359"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "290"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "201"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "202"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "211"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "212"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "241"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "242"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "311"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "312"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KORA",
+          "number": "345"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "398"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "284"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "285"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EALL",
+          "number": "300"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "359"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "290"
+        },
+        "sortOrder": 37
+      }
+    ]
+  }
+}

@@ -1,0 +1,304 @@
+{
+  "code": "sociology-major",
+  "title": "Sociology Major",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "BA",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/sociology/sociology-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 35,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Foundation Course Requirement",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundation Course Requirement"
+        },
+        {
+          "id": "course-5",
+          "label": "MATH107",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "107"
+        },
+        {
+          "id": "course-6",
+          "label": "SOCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "100"
+        },
+        {
+          "id": "course-7",
+          "label": "SOCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "201"
+        },
+        {
+          "id": "course-8",
+          "label": "SOCY202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "202"
+        },
+        {
+          "id": "course-9",
+          "label": "SOCY203",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "203"
+        },
+        {
+          "id": "course-10",
+          "label": "SOCY230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "230"
+        },
+        {
+          "id": "course-11",
+          "label": "SOCY200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "200"
+        },
+        {
+          "id": "course-12",
+          "label": "SOCY241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "241"
+        },
+        {
+          "id": "course-13",
+          "label": "SOCY441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "441"
+        },
+        {
+          "id": "note-14",
+          "label": "Substantive Course Requirement: 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Substantive Course Requirement: 1"
+        },
+        {
+          "id": "choice-15",
+          "label": "Select one 300 or 400 level SOCY course",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "choice-16",
+          "label": "Select one 400 level SOCY course",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "choice-17",
+          "label": "Select two 400 level SOCY Research Courses 2",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one 300 or 400 level SOCY course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-16",
+        "humanLabel": "Select one 400 level SOCY course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Select two 400 level SOCY Research Courses 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundation Course Requirement"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "202"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "203"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "230"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "200"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "241"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "441"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Substantive Course Requirement: 1"
+        },
+        "sortOrder": 13
+      }
+    ]
+  }
+}

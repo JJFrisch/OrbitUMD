@@ -1,0 +1,969 @@
+{
+  "code": "secondary-education-major-art",
+  "title": "Secondary Education Major - Art",
+  "college": "Education",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/art-education-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 85,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Pre-Professional/Subject Area Courses 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Subject Area Courses 1"
+        },
+        {
+          "id": "course-5",
+          "label": "ARTH200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "200"
+        },
+        {
+          "id": "course-6",
+          "label": "ARTH201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "201"
+        },
+        {
+          "id": "course-7",
+          "label": "ARTT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "100"
+        },
+        {
+          "id": "course-8",
+          "label": "ARTT110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "110"
+        },
+        {
+          "id": "course-9",
+          "label": "ARTT150",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "150"
+        },
+        {
+          "id": "course-10",
+          "label": "ARTT200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "200"
+        },
+        {
+          "id": "course-11",
+          "label": "ARTT210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "210"
+        },
+        {
+          "id": "note-12",
+          "label": "ARTH 300-400 level",
+          "nodeType": "note",
+          "children": [],
+          "text": "ARTH 300-400 level"
+        },
+        {
+          "id": "course-13",
+          "label": "ARTT320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "320"
+        },
+        {
+          "id": "course-14",
+          "label": "ARTT418",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "418"
+        },
+        {
+          "id": "course-15",
+          "label": "ARTT428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "428"
+        },
+        {
+          "id": "course-16",
+          "label": "TLPL437",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "437"
+        },
+        {
+          "id": "choice-17",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-18",
+              "label": "ARTT340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARTT",
+              "number": "340"
+            },
+            {
+              "id": "course-19",
+              "label": "ARTT341",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARTT",
+              "number": "341"
+            },
+            {
+              "id": "course-20",
+              "label": "ARTT343",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARTT",
+              "number": "343"
+            },
+            {
+              "id": "course-21",
+              "label": "ARTT344",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARTT",
+              "number": "344"
+            },
+            {
+              "id": "course-23",
+              "label": "EDHD413",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "413"
+            },
+            {
+              "id": "course-24",
+              "label": "EDHD426",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "426"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-22",
+          "label": "Pre-Professional/Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Education Courses"
+        },
+        {
+          "id": "choice-25",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-26",
+              "label": "TLPL360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "360"
+            },
+            {
+              "id": "course-27",
+              "label": "TLPL250",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "250"
+            },
+            {
+              "id": "course-29",
+              "label": "TLPL435",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "435"
+            },
+            {
+              "id": "course-30",
+              "label": "EDSP470",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDSP",
+              "number": "470"
+            },
+            {
+              "id": "course-31",
+              "label": "TLPL433",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "433"
+            },
+            {
+              "id": "course-32",
+              "label": "TLPL447",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "447"
+            },
+            {
+              "id": "course-33",
+              "label": "TLPL479",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "479"
+            },
+            {
+              "id": "course-34",
+              "label": "TLPL436",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "436"
+            },
+            {
+              "id": "course-35",
+              "label": "TLPL489",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "489"
+            },
+            {
+              "id": "course-36",
+              "label": "TLPL478",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "478"
+            },
+            {
+              "id": "course-37",
+              "label": "TLPL478",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "478"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-28",
+          "label": "Professional Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Education Courses"
+        }
+      ]
+    },
+    {
+      "id": "choice-17",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-18",
+          "label": "ARTT340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "340"
+        },
+        {
+          "id": "course-19",
+          "label": "ARTT341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "341"
+        },
+        {
+          "id": "course-20",
+          "label": "ARTT343",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "343"
+        },
+        {
+          "id": "course-21",
+          "label": "ARTT344",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "344"
+        },
+        {
+          "id": "course-23",
+          "label": "EDHD413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "413"
+        },
+        {
+          "id": "course-24",
+          "label": "EDHD426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "426"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-25",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-26",
+          "label": "TLPL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "360"
+        },
+        {
+          "id": "course-27",
+          "label": "TLPL250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "250"
+        },
+        {
+          "id": "course-29",
+          "label": "TLPL435",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "435"
+        },
+        {
+          "id": "course-30",
+          "label": "EDSP470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDSP",
+          "number": "470"
+        },
+        {
+          "id": "course-31",
+          "label": "TLPL433",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "433"
+        },
+        {
+          "id": "course-32",
+          "label": "TLPL447",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "447"
+        },
+        {
+          "id": "course-33",
+          "label": "TLPL479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "479"
+        },
+        {
+          "id": "course-34",
+          "label": "TLPL436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "436"
+        },
+        {
+          "id": "course-35",
+          "label": "TLPL489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "489"
+        },
+        {
+          "id": "course-36",
+          "label": "TLPL478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "478"
+        },
+        {
+          "id": "course-37",
+          "label": "TLPL478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "478"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-25",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-25",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Subject Area Courses 1"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "200"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "201"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "100"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "110"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "150"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "200"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "210"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ARTH 300-400 level"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "320"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "418"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "428"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "437"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "340"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "341"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "343"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "344"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Education Courses"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "435"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDSP",
+          "number": "470"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "433"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "447"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "436"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Education Courses"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "340"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "341"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "343"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "344"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "435"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDSP",
+          "number": "470"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "433"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "447"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "436"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 51
+      }
+    ]
+  }
+}

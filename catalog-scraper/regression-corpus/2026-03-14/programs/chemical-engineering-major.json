@@ -1,0 +1,628 @@
+{
+  "code": "chemical-engineering-major",
+  "title": "Chemical Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/chemical-biomolecular-engineering/chemical-biomolecular-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 128,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Freshman Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Freshman Year"
+        },
+        {
+          "id": "note-3",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-4",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-6",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-7",
+          "label": "CHEM136",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "136"
+        },
+        {
+          "id": "note-8",
+          "label": "General Education 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education 3"
+        },
+        {
+          "id": "note-9",
+          "label": "14",
+          "nodeType": "note",
+          "children": [],
+          "text": "14"
+        },
+        {
+          "id": "note-10",
+          "label": "Sophomore Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sophomore Year"
+        },
+        {
+          "id": "note-11",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-12",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-13",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-15",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-16",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-17",
+          "label": "CHBE250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "250"
+        },
+        {
+          "id": "course-18",
+          "label": "CHBE301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "301"
+        },
+        {
+          "id": "note-19",
+          "label": "18",
+          "nodeType": "note",
+          "children": [],
+          "text": "18"
+        },
+        {
+          "id": "note-20",
+          "label": "Junior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year"
+        },
+        {
+          "id": "note-21",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-22",
+          "label": "CHBE410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "410"
+        },
+        {
+          "id": "course-23",
+          "label": "CHBE422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "422"
+        },
+        {
+          "id": "course-24",
+          "label": "CHBE440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "440"
+        },
+        {
+          "id": "course-25",
+          "label": "CHEM272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "272"
+        },
+        {
+          "id": "note-26",
+          "label": "General Education 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education 3"
+        },
+        {
+          "id": "note-27",
+          "label": "Professional Writing 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Writing 3"
+        },
+        {
+          "id": "note-28",
+          "label": "CHBE3331",
+          "nodeType": "note",
+          "children": [],
+          "text": "CHBE3331"
+        },
+        {
+          "id": "note-29",
+          "label": "General Education",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education"
+        },
+        {
+          "id": "note-30",
+          "label": "17",
+          "nodeType": "note",
+          "children": [],
+          "text": "17"
+        },
+        {
+          "id": "note-31",
+          "label": "Senior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year"
+        },
+        {
+          "id": "note-32",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-33",
+          "label": "CHBE437",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "437"
+        },
+        {
+          "id": "course-34",
+          "label": "CHBE442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "442"
+        },
+        {
+          "id": "course-35",
+          "label": "CHBE444",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHBE",
+          "number": "444"
+        },
+        {
+          "id": "note-36",
+          "label": "Technical Elective2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Technical Elective2 3"
+        },
+        {
+          "id": "note-37",
+          "label": "General Education 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education 3"
+        },
+        {
+          "id": "note-38",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        }
+      ],
+      "minCredits": 128
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 128
+        },
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Freshman Year"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "136"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education 3"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "14"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sophomore Year"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "250"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "301"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "18"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "410"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "422"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "440"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "272"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education 3"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Writing 3"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CHBE3331"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "17"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "437"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "442"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHBE",
+          "number": "444"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Technical Elective2 3"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education 3"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 37
+      }
+    ]
+  }
+}

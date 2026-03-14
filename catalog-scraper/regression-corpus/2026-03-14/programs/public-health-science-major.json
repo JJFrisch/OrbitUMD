@@ -1,0 +1,451 @@
+{
+  "code": "public-health-science-major",
+  "title": "Public Health Science Major",
+  "college": "Public Health",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/public-health-science/public-health-science-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 74,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Scientific Foundation Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Scientific Foundation Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "120"
+        },
+        {
+          "id": "course-5",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-6",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-7",
+          "label": "BSCI201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "201"
+        },
+        {
+          "id": "course-8",
+          "label": "BSCI202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "202"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-10",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "course-11",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-12",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-13",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-14",
+          "label": "BSCI223",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "223"
+        },
+        {
+          "id": "note-15",
+          "label": "Public Health Science Foundation Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Public Health Science Foundation Courses"
+        },
+        {
+          "id": "course-16",
+          "label": "SPHL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPHL",
+          "number": "100"
+        },
+        {
+          "id": "course-17",
+          "label": "HLTH366",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "366"
+        },
+        {
+          "id": "course-18",
+          "label": "EPIB301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EPIB",
+          "number": "301"
+        },
+        {
+          "id": "course-19",
+          "label": "EPIB315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EPIB",
+          "number": "315"
+        },
+        {
+          "id": "course-20",
+          "label": "HLSA300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLSA",
+          "number": "300"
+        },
+        {
+          "id": "course-21",
+          "label": "MIEH300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MIEH",
+          "number": "300"
+        },
+        {
+          "id": "course-22",
+          "label": "PHSC450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHSC",
+          "number": "450"
+        },
+        {
+          "id": "course-23",
+          "label": "KNES320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "320"
+        },
+        {
+          "id": "course-24",
+          "label": "PHSC415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHSC",
+          "number": "415"
+        },
+        {
+          "id": "course-25",
+          "label": "PHSC497",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHSC",
+          "number": "497"
+        },
+        {
+          "id": "note-26",
+          "label": "Public Health Science Options Courses 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Public Health Science Options Courses 1 12"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Scientific Foundation Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "202"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "223"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Public Health Science Foundation Courses"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPHL",
+          "number": "100"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "366"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EPIB",
+          "number": "301"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EPIB",
+          "number": "315"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLSA",
+          "number": "300"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "300"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHSC",
+          "number": "450"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "320"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHSC",
+          "number": "415"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHSC",
+          "number": "497"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Public Health Science Options Courses 1 12"
+        },
+        "sortOrder": 25
+      }
+    ]
+  }
+}

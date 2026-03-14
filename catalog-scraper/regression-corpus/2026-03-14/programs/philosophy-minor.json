@@ -1,0 +1,109 @@
+{
+  "code": "philosophy-minor",
+  "title": "Philosophy Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Three or more courses at 3xx-level or above in Philosophy 1 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Three or more courses at 3xx-level or above in Philosophy 1 9"
+        },
+        {
+          "id": "note-4",
+          "label": "One or more courses at 2xx-level or above in the history of pre-twentieth century philosophy 2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "One or more courses at 2xx-level or above in the history of pre-twentieth century philosophy 2 3"
+        },
+        {
+          "id": "note-5",
+          "label": "One or more courses at 2xx-level or above in value theory (including aesthetics and political philosophy as well as ethics) 2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "One or more courses at 2xx-level or above in value theory (including aesthetics and political philosophy as well as ethics) 2 3"
+        },
+        {
+          "id": "note-6",
+          "label": "One or more courses at 2xx-level or above in metaphysics or epistemology (including philosophy of science, philosophy of mind, and philosophy of religion, as well as metaphysics and theory of knowledge) 2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "One or more courses at 2xx-level or above in metaphysics or epistemology (including philosophy of science, philosophy of mind, and philosophy of religion, as well as metaphysics and theory of knowledge) 2 3"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Three or more courses at 3xx-level or above in Philosophy 1 9"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "One or more courses at 2xx-level or above in the history of pre-twentieth century philosophy 2 3"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "One or more courses at 2xx-level or above in value theory (including aesthetics and political philosophy as well as ethics) 2 3"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "One or more courses at 2xx-level or above in metaphysics or epistemology (including philosophy of science, philosophy of mind, and philosophy of religion, as well as metaphysics and theory of knowledge) 2 3"
+        },
+        "sortOrder": 5
+      }
+    ]
+  }
+}

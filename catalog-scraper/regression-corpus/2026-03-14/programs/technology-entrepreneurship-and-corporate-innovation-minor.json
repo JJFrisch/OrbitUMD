@@ -1,0 +1,338 @@
+{
+  "code": "technology-entrepreneurship-and-corporate-innovation-minor",
+  "title": "Technology Entrepreneurship and Corporate Innovation Minor",
+  "college": "Engineering",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/technology-entrepreneurship-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": null,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "ENES140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "140"
+        },
+        {
+          "id": "course-4",
+          "label": "ENES210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "210"
+        },
+        {
+          "id": "course-5",
+          "label": "ENES460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "460"
+        },
+        {
+          "id": "course-6",
+          "label": "ENES461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "461"
+        },
+        {
+          "id": "course-7",
+          "label": "ENES462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "462"
+        },
+        {
+          "id": "course-8",
+          "label": "ENES463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "463"
+        },
+        {
+          "id": "course-9",
+          "label": "ENES464",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "464"
+        },
+        {
+          "id": "course-10",
+          "label": "ENES466",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "466"
+        },
+        {
+          "id": "course-11",
+          "label": "ENES471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "471"
+        },
+        {
+          "id": "course-12",
+          "label": "HEIP143",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEIP",
+          "number": "143"
+        },
+        {
+          "id": "course-13",
+          "label": "HEIP240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEIP",
+          "number": "240"
+        },
+        {
+          "id": "course-14",
+          "label": "HEIP241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEIP",
+          "number": "241"
+        },
+        {
+          "id": "course-15",
+          "label": "SMLP470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SMLP",
+          "number": "470"
+        },
+        {
+          "id": "course-16",
+          "label": "SMLP471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SMLP",
+          "number": "471"
+        },
+        {
+          "id": "course-17",
+          "label": "SMLP472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SMLP",
+          "number": "472"
+        },
+        {
+          "id": "course-18",
+          "label": "SMLP473",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SMLP",
+          "number": "473"
+        },
+        {
+          "id": "course-19",
+          "label": "SMLP474",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SMLP",
+          "number": "474"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "140"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "210"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "460"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "461"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "462"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "463"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "464"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "466"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "471"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEIP",
+          "number": "143"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEIP",
+          "number": "240"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEIP",
+          "number": "241"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SMLP",
+          "number": "470"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SMLP",
+          "number": "471"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SMLP",
+          "number": "472"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SMLP",
+          "number": "473"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SMLP",
+          "number": "474"
+        },
+        "sortOrder": 18
+      }
+    ]
+  }
+}

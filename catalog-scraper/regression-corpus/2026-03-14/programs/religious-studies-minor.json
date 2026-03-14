@@ -1,0 +1,610 @@
+{
+  "code": "religious-studies-minor",
+  "title": "Religious Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/religious-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "RELS271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RELS",
+          "number": "271"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select three courses at the 3xx-level or above 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 3
+        },
+        {
+          "id": "choice-5",
+          "label": "Select two additional courses at the 1xx, 2xx, 3xx, or 4xx-level 2",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "block-6",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-7",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-8",
+          "label": "ARTH200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "200"
+        },
+        {
+          "id": "course-9",
+          "label": "ARTH201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "201"
+        },
+        {
+          "id": "course-10",
+          "label": "ARTH290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "290"
+        },
+        {
+          "id": "course-11",
+          "label": "CLAS170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CLAS",
+          "number": "170"
+        },
+        {
+          "id": "course-12",
+          "label": "CLAS330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CLAS",
+          "number": "330"
+        },
+        {
+          "id": "course-13",
+          "label": "CLAS470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CLAS",
+          "number": "470"
+        },
+        {
+          "id": "course-14",
+          "label": "ENGL262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "262"
+        },
+        {
+          "id": "course-15",
+          "label": "ENGL302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "302"
+        },
+        {
+          "id": "course-16",
+          "label": "ENGL310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "310"
+        },
+        {
+          "id": "course-17",
+          "label": "HIST111",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "111"
+        },
+        {
+          "id": "course-18",
+          "label": "HIST120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "120"
+        },
+        {
+          "id": "course-19",
+          "label": "HIST284",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "284"
+        },
+        {
+          "id": "course-20",
+          "label": "HIST287",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "287"
+        },
+        {
+          "id": "course-21",
+          "label": "HIST306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "306"
+        },
+        {
+          "id": "course-22",
+          "label": "HIST330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "330"
+        },
+        {
+          "id": "course-23",
+          "label": "HIST331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "331"
+        },
+        {
+          "id": "course-24",
+          "label": "HIST332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "332"
+        },
+        {
+          "id": "course-25",
+          "label": "HIST333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "333"
+        },
+        {
+          "id": "course-26",
+          "label": "JWST141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "141"
+        },
+        {
+          "id": "course-27",
+          "label": "JWST171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "171"
+        },
+        {
+          "id": "course-28",
+          "label": "JWST225",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "225"
+        },
+        {
+          "id": "course-29",
+          "label": "JWST274",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "274"
+        },
+        {
+          "id": "course-30",
+          "label": "JWST324",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "324"
+        },
+        {
+          "id": "course-31",
+          "label": "JWST331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "331"
+        },
+        {
+          "id": "course-32",
+          "label": "JWST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "430"
+        },
+        {
+          "id": "course-33",
+          "label": "JWST492",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "492"
+        },
+        {
+          "id": "course-34",
+          "label": "PHIL236",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "236"
+        },
+        {
+          "id": "note-35",
+          "label": "Other courses may be taken with the permission of the minor advisor.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Other courses may be taken with the permission of the minor advisor."
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select three courses at the 3xx-level or above 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select two additional courses at the 1xx, 2xx, 3xx, or 4xx-level 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-6",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RELS",
+          "number": "271"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "200"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "201"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "290"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CLAS",
+          "number": "170"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CLAS",
+          "number": "330"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CLAS",
+          "number": "470"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "262"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "302"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "310"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "111"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "120"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "284"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "287"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "306"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "330"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "331"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "332"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "333"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "141"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "171"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "225"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "274"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "324"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "331"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "430"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "492"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "236"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Other courses may be taken with the permission of the minor advisor."
+        },
+        "sortOrder": 31
+      }
+    ]
+  }
+}

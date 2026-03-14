@@ -44,8 +44,8 @@ async function alreadyIngested(pool: Pool, program: ParsedProgram): Promise<bool
 async function insertProgram(pool: Pool, program: ParsedProgram): Promise<{ programId: string; blockMap: Map<string, string> }> {
   const programResult = await pool.query<{ id: string }>(
     `insert into public.programs
-      (code, title, college, degree_type, catalog_year_start, catalog_year_end, min_credits, source_url)
-     values ($1, $2, $3, $4, $5, null, $6, $7)
+      (code, title, college, degree_type, catalog_year_start, catalog_year_end, min_credits, source_url, requirement_tree)
+     values ($1, $2, $3, $4, $5, null, $6, $7, $8::jsonb)
      returning id`,
     [
       program.code,
@@ -55,6 +55,7 @@ async function insertProgram(pool: Pool, program: ParsedProgram): Promise<{ prog
       program.catalogYearStart,
       program.minCredits,
       program.sourceUrl,
+      JSON.stringify(program.rootNodes),
     ],
   );
 
@@ -71,12 +72,13 @@ async function insertProgram(pool: Pool, program: ParsedProgram): Promise<{ prog
 
     const blockResult = await pool.query<{ id: string }>(
       `insert into public.requirement_blocks
-        (program_id, parent_requirement_id, type, params, human_label, sort_order, source_note, source_url)
-       values ($1, $2, $3, $4::jsonb, $5, $6, $7, $8)
+        (program_id, parent_requirement_id, source_node_id, type, params, human_label, sort_order, source_note, source_url)
+       values ($1, $2, $3, $4, $5::jsonb, $6, $7, $8, $9)
        returning id`,
       [
         programId,
         parentId,
+        block.sourceNodeId,
         block.type,
         JSON.stringify(block.params),
         block.humanLabel,

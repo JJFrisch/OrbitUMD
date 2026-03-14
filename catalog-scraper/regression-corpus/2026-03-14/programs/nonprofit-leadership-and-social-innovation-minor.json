@@ -1,0 +1,347 @@
+{
+  "code": "nonprofit-leadership-and-social-innovation-minor",
+  "title": "Nonprofit Leadership and Social Innovation Minor",
+  "college": "Public Policy",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-policy/nonprofit-leadership-and-social-innovation-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses: (3 classes, 9 credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses: (3 classes, 9 credits)"
+        },
+        {
+          "id": "course-4",
+          "label": "PLCY213",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "213"
+        },
+        {
+          "id": "course-5",
+          "label": "PLCY310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "310"
+        },
+        {
+          "id": "note-6",
+          "label": "Add one of the following 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Add one of the following 3"
+        },
+        {
+          "id": "course-7",
+          "label": "PLCY215",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "215"
+        },
+        {
+          "id": "course-8",
+          "label": "PLCY380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "380"
+        },
+        {
+          "id": "course-9",
+          "label": "BSOS388",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSOS",
+          "number": "388"
+        },
+        {
+          "id": "course-10",
+          "label": "HONR348",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HONR",
+          "number": "348"
+        },
+        {
+          "id": "course-11",
+          "label": "ARHU380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARHU",
+          "number": "380"
+        },
+        {
+          "id": "course-12",
+          "label": "ENME467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "467"
+        },
+        {
+          "id": "note-13",
+          "label": "Electives (2 classes, 6 credits) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives (2 classes, 6 credits) 6"
+        }
+      ]
+    },
+    {
+      "id": "block-14",
+      "label": "One of the following courses is allowed and encouraged as an elective (students may not count more than one of the courses below toward the minor requirements)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-15",
+          "label": "PLCY214",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "214"
+        },
+        {
+          "id": "course-16",
+          "label": "PLCY359",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "359"
+        },
+        {
+          "id": "course-17",
+          "label": "PLCY388",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "388"
+        },
+        {
+          "id": "course-18",
+          "label": "HONR349",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HONR",
+          "number": "349"
+        }
+      ]
+    },
+    {
+      "id": "block-19",
+      "label": "Other Electives",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-20",
+          "label": "For a comprehensive list of electives see website",
+          "nodeType": "note",
+          "children": [],
+          "text": "For a comprehensive list of electives see website"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-14",
+        "humanLabel": "One of the following courses is allowed and encouraged as an elective (students may not count more than one of the courses below toward the minor requirements)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "Other Electives",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses: (3 classes, 9 credits)"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "213"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "310"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Add one of the following 3"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "215"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "380"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSOS",
+          "number": "388"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HONR",
+          "number": "348"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARHU",
+          "number": "380"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "467"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives (2 classes, 6 credits) 6"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "214"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "359"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "388"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HONR",
+          "number": "349"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "For a comprehensive list of electives see website"
+        },
+        "sortOrder": 17
+      }
+    ]
+  }
+}

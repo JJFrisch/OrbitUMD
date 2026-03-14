@@ -1,0 +1,181 @@
+{
+  "code": "general-business-minor",
+  "title": "General Business Minor",
+  "college": "Business",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/general-business-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core (3 credits each, 4 courses/12 credits required)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core (3 credits each, 4 courses/12 credits required)"
+        },
+        {
+          "id": "course-4",
+          "label": "BMIN210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMIN",
+          "number": "210"
+        },
+        {
+          "id": "course-5",
+          "label": "BMIN345",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMIN",
+          "number": "345"
+        },
+        {
+          "id": "course-6",
+          "label": "BMIN355",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMIN",
+          "number": "355"
+        },
+        {
+          "id": "course-7",
+          "label": "BMIN395",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMIN",
+          "number": "395"
+        },
+        {
+          "id": "note-8",
+          "label": "Electives (3 credits each, 1 course required) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives (3 credits each, 1 course required) 3"
+        },
+        {
+          "id": "course-9",
+          "label": "BMIN375",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMIN",
+          "number": "375"
+        },
+        {
+          "id": "course-10",
+          "label": "BMGT301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "301"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core (3 credits each, 4 courses/12 credits required)"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMIN",
+          "number": "210"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMIN",
+          "number": "345"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMIN",
+          "number": "355"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMIN",
+          "number": "395"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives (3 credits each, 1 course required) 3"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMIN",
+          "number": "375"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "301"
+        },
+        "sortOrder": 9
+      }
+    ]
+  }
+}

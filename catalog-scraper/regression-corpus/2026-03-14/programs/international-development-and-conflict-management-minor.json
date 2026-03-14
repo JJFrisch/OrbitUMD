@@ -1,0 +1,162 @@
+{
+  "code": "international-development-and-conflict-management-minor",
+  "title": "International Development and Conflict Management Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/government-politics/international-development-conflict-management-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 16,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "GVPT354",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "354"
+        },
+        {
+          "id": "course-5",
+          "label": "GVPT355",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "355"
+        },
+        {
+          "id": "course-6",
+          "label": "GVPT356",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "356"
+        },
+        {
+          "id": "note-7",
+          "label": "ELECTIVE Global Perspectives Elective courses from approved list",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELECTIVE Global Perspectives Elective courses from approved list"
+        },
+        {
+          "id": "note-8",
+          "label": "METHODS One research methodology course from approved list",
+          "nodeType": "note",
+          "children": [],
+          "text": "METHODS One research methodology course from approved list"
+        },
+        {
+          "id": "course-9",
+          "label": "GVPT357",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "357"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "354"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "355"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "356"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELECTIVE Global Perspectives Elective courses from approved list"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "METHODS One research methodology course from approved list"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "357"
+        },
+        "sortOrder": 8
+      }
+    ]
+  }
+}

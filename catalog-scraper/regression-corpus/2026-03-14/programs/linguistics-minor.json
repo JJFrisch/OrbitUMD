@@ -1,0 +1,147 @@
+{
+  "code": "linguistics-minor",
+  "title": "Linguistics Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/linguistics/linguistics-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "LING200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LING",
+          "number": "200"
+        },
+        {
+          "id": "course-5",
+          "label": "LING240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LING",
+          "number": "240"
+        },
+        {
+          "id": "course-6",
+          "label": "LING321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LING",
+          "number": "321"
+        },
+        {
+          "id": "course-7",
+          "label": "LING311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LING",
+          "number": "311"
+        },
+        {
+          "id": "note-8",
+          "label": "Select any one 3xx or 4xx level linguistics elective as a fifth course in linguistics 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select any one 3xx or 4xx level linguistics elective as a fifth course in linguistics 3"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LING",
+          "number": "200"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LING",
+          "number": "240"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LING",
+          "number": "321"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LING",
+          "number": "311"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select any one 3xx or 4xx level linguistics elective as a fifth course in linguistics 3"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

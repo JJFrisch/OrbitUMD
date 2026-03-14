@@ -1,0 +1,700 @@
+{
+  "code": "technology-and-information-design-major",
+  "title": "Technology and Information Design Major",
+  "college": "Information",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/information/technology-info-design-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 55,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "INST104",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "104"
+        },
+        {
+          "id": "course-5",
+          "label": "INST126",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "126"
+        },
+        {
+          "id": "course-6",
+          "label": "IDEA258",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IDEA",
+          "number": "258"
+        },
+        {
+          "id": "course-7",
+          "label": "INST201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "201"
+        },
+        {
+          "id": "course-8",
+          "label": "SOCY105",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "105"
+        },
+        {
+          "id": "course-9",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        },
+        {
+          "id": "course-10",
+          "label": "INST204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "204"
+        },
+        {
+          "id": "course-11",
+          "label": "INST380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "380"
+        },
+        {
+          "id": "course-12",
+          "label": "PLCY380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "380"
+        },
+        {
+          "id": "course-13",
+          "label": "INST367",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "367"
+        },
+        {
+          "id": "course-14",
+          "label": "INST406",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "406"
+        },
+        {
+          "id": "course-15",
+          "label": "INST454",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "454"
+        },
+        {
+          "id": "course-16",
+          "label": "INST466",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "466"
+        },
+        {
+          "id": "course-17",
+          "label": "INST491",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "491"
+        },
+        {
+          "id": "note-18",
+          "label": "Major Electives 18",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Electives 18"
+        },
+        {
+          "id": "course-19",
+          "label": "INST311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "311"
+        },
+        {
+          "id": "course-20",
+          "label": "INST352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "352"
+        },
+        {
+          "id": "course-21",
+          "label": "INST366",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "366"
+        },
+        {
+          "id": "course-22",
+          "label": "INST401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "401"
+        },
+        {
+          "id": "course-23",
+          "label": "INST402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "402"
+        },
+        {
+          "id": "course-24",
+          "label": "INST404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "404"
+        },
+        {
+          "id": "course-25",
+          "label": "INST405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "405"
+        },
+        {
+          "id": "course-26",
+          "label": "INST441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "441"
+        },
+        {
+          "id": "course-27",
+          "label": "INST460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "460"
+        },
+        {
+          "id": "course-28",
+          "label": "INST463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "463"
+        },
+        {
+          "id": "note-29",
+          "label": "Additional elective courses may be added to this list upon approval by the Technology and Information Design program committee.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Additional elective courses may be added to this list upon approval by the Technology and Information Design program committee."
+        }
+      ]
+    },
+    {
+      "id": "block-30",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-31",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-32",
+          "label": "Benchmark I",
+          "nodeType": "note",
+          "children": [],
+          "text": "Benchmark I"
+        }
+      ]
+    },
+    {
+      "id": "block-33",
+      "label": "The below courses must be completed with a C- of higher within the first two semesters of the program",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-34",
+          "label": "INST104",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "104"
+        },
+        {
+          "id": "course-35",
+          "label": "INST126",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "126"
+        },
+        {
+          "id": "course-36",
+          "label": "IDEA258",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IDEA",
+          "number": "258"
+        },
+        {
+          "id": "note-37",
+          "label": "Benchmark II",
+          "nodeType": "note",
+          "children": [],
+          "text": "Benchmark II"
+        }
+      ]
+    },
+    {
+      "id": "block-38",
+      "label": "The below courses must be completed with a C- of higher within the first three semesters of the program",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-39",
+          "label": "INST201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "201"
+        },
+        {
+          "id": "course-40",
+          "label": "SOCY105",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "105"
+        },
+        {
+          "id": "course-41",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-30",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-33",
+        "humanLabel": "The below courses must be completed with a C- of higher within the first two semesters of the program",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-38",
+        "humanLabel": "The below courses must be completed with a C- of higher within the first three semesters of the program",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "104"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "126"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IDEA",
+          "number": "258"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "105"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "204"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "380"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "380"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "367"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "406"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "454"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "466"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "491"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Electives 18"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "311"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "352"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "366"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "401"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "402"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "404"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "405"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "441"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "460"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "463"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Additional elective courses may be added to this list upon approval by the Technology and Information Design program committee."
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Benchmark I"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "104"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "126"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IDEA",
+          "number": "258"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Benchmark II"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "201"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "105"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 37
+      }
+    ]
+  }
+}

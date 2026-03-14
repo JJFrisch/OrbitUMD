@@ -1,0 +1,132 @@
+{
+  "code": "law-and-society-minor",
+  "title": "Law and Society Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/law-society-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "MLAW304",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MLAW",
+          "number": "304"
+        },
+        {
+          "id": "course-4",
+          "label": "MLAW305",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MLAW",
+          "number": "305"
+        },
+        {
+          "id": "course-5",
+          "label": "MLAW388",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MLAW",
+          "number": "388"
+        },
+        {
+          "id": "course-6",
+          "label": "MLAW404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MLAW",
+          "number": "404"
+        },
+        {
+          "id": "note-7",
+          "label": "Law and Society Electives 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Law and Society Electives 6"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MLAW",
+          "number": "304"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MLAW",
+          "number": "305"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MLAW",
+          "number": "388"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MLAW",
+          "number": "404"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Law and Society Electives 6"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

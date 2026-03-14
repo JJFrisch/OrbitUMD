@@ -1,0 +1,183 @@
+{
+  "code": "sociology-minor",
+  "title": "Sociology Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/sociology/sociology-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 19,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "SOCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "100"
+        }
+      ]
+    },
+    {
+      "id": "block-4",
+      "label": "One of the following courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "SOCY200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "200"
+        },
+        {
+          "id": "course-6",
+          "label": "SOCY230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "230"
+        }
+      ]
+    },
+    {
+      "id": "block-7",
+      "label": "One of the following courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-8",
+          "label": "SOCY241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "241"
+        },
+        {
+          "id": "course-9",
+          "label": "SOCY441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "441"
+        },
+        {
+          "id": "note-10",
+          "label": "300-400 Level Sociology Elective Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "300-400 Level Sociology Elective Courses 9"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-4",
+        "humanLabel": "One of the following courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-7",
+        "humanLabel": "One of the following courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "200"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "230"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "241"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "441"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "300-400 Level Sociology Elective Courses 9"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

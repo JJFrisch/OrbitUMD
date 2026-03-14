@@ -1,0 +1,440 @@
+{
+  "code": "media-technology-and-democracy-minor",
+  "title": "Media, Technology and Democracy Minor",
+  "college": "Journalism",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/journalism/media-technology-democracy-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "JOUR200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "200"
+        }
+      ]
+    },
+    {
+      "id": "block-4",
+      "label": "One Lower-level Elective from the Following Options",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "JOUR150",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "150"
+        },
+        {
+          "id": "course-6",
+          "label": "JOUR175",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "175"
+        },
+        {
+          "id": "course-7",
+          "label": "JOUR281",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "281"
+        },
+        {
+          "id": "course-8",
+          "label": "JOUR282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "282"
+        },
+        {
+          "id": "course-9",
+          "label": "JOUR283",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "283"
+        },
+        {
+          "id": "course-10",
+          "label": "JOUR284",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "284"
+        },
+        {
+          "id": "course-11",
+          "label": "JOUR289I",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "289I"
+        }
+      ]
+    },
+    {
+      "id": "block-12",
+      "label": "Three Upper-level Electives from the Following Options",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-13",
+          "label": "JOUR447",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "447"
+        },
+        {
+          "id": "course-14",
+          "label": "JOUR452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "452"
+        },
+        {
+          "id": "course-15",
+          "label": "JOUR453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "453"
+        },
+        {
+          "id": "course-16",
+          "label": "JOUR455",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "455"
+        },
+        {
+          "id": "course-17",
+          "label": "JOUR456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "456"
+        },
+        {
+          "id": "course-18",
+          "label": "JOUR458",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "458"
+        },
+        {
+          "id": "course-19",
+          "label": "JOUR458",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "458"
+        },
+        {
+          "id": "course-20",
+          "label": "JOUR458",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "458"
+        },
+        {
+          "id": "course-21",
+          "label": "JOUR458",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "458"
+        },
+        {
+          "id": "course-22",
+          "label": "JOUR458",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "458"
+        },
+        {
+          "id": "course-23",
+          "label": "JOUR459",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "459"
+        },
+        {
+          "id": "course-24",
+          "label": "JOUR459",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "459"
+        },
+        {
+          "id": "course-25",
+          "label": "JOUR459",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "459"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-4",
+        "humanLabel": "One Lower-level Elective from the Following Options",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-12",
+        "humanLabel": "Three Upper-level Electives from the Following Options",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "200"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "150"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "175"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "281"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "282"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "283"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "284"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "289I"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "447"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "452"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "453"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "455"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "456"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "458"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "458"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "458"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "458"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "458"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "459"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "459"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "459"
+        },
+        "sortOrder": 22
+      }
+    ]
+  }
+}

@@ -1,0 +1,2045 @@
+{
+  "code": "nutrition-and-food-science-major",
+  "title": "Nutrition and Food Science Major",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/nutrition-food-science/nutrition-food-science-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 96,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Base Curriculum for All Concentrations",
+          "nodeType": "note",
+          "children": [],
+          "text": "Base Curriculum for All Concentrations"
+        },
+        {
+          "id": "course-4",
+          "label": "NFSC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "NFSC112",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "112"
+        },
+        {
+          "id": "course-6",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-7",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-8",
+          "label": "BSCI223",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "223"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-10",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "course-11",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-12",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-13",
+          "label": "CHEM241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "241"
+        },
+        {
+          "id": "course-14",
+          "label": "CHEM242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "242"
+        },
+        {
+          "id": "course-15",
+          "label": "CHEM271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "271"
+        },
+        {
+          "id": "course-16",
+          "label": "CHEM272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "272"
+        }
+      ]
+    },
+    {
+      "id": "choice-17",
+      "label": "Concentration Requirements (select one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "note-18",
+          "label": "Dietetics",
+          "nodeType": "note",
+          "children": [],
+          "text": "Dietetics"
+        },
+        {
+          "id": "note-19",
+          "label": "Food Science",
+          "nodeType": "note",
+          "children": [],
+          "text": "Food Science"
+        },
+        {
+          "id": "note-20",
+          "label": "Nutritional Science",
+          "nodeType": "note",
+          "children": [],
+          "text": "Nutritional Science"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-21",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-22",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-23",
+          "label": "NFSC315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "315"
+        },
+        {
+          "id": "course-24",
+          "label": "NFSC350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "350"
+        },
+        {
+          "id": "course-25",
+          "label": "NFSC380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "380"
+        },
+        {
+          "id": "course-26",
+          "label": "NFSC440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "440"
+        },
+        {
+          "id": "course-27",
+          "label": "NFSC470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "470"
+        },
+        {
+          "id": "course-28",
+          "label": "NFSC455",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "455"
+        },
+        {
+          "id": "course-29",
+          "label": "NFSC456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "456"
+        },
+        {
+          "id": "course-30",
+          "label": "NFSC491",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "491"
+        },
+        {
+          "id": "course-31",
+          "label": "BCHM461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "461"
+        },
+        {
+          "id": "course-32",
+          "label": "BCHM462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "462"
+        },
+        {
+          "id": "course-33",
+          "label": "BMGT364",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "364"
+        },
+        {
+          "id": "course-34",
+          "label": "BSCI330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "330"
+        },
+        {
+          "id": "course-35",
+          "label": "BSCI450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "450"
+        },
+        {
+          "id": "course-36",
+          "label": "MATH113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "113"
+        },
+        {
+          "id": "course-37",
+          "label": "MATH115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "115"
+        },
+        {
+          "id": "course-38",
+          "label": "PSYC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "100"
+        },
+        {
+          "id": "course-39",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "course-40",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-41",
+          "label": "SOCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "100"
+        },
+        {
+          "id": "note-42",
+          "label": "Dietetics Restricted Elective (Choose from list below) 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Dietetics Restricted Elective (Choose from list below) 12"
+        },
+        {
+          "id": "course-43",
+          "label": "AREC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "250"
+        },
+        {
+          "id": "course-44",
+          "label": "BMGT220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "220"
+        },
+        {
+          "id": "course-45",
+          "label": "BMGT360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "360"
+        },
+        {
+          "id": "course-46",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-47",
+          "label": "BSCI422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "422"
+        },
+        {
+          "id": "course-48",
+          "label": "EDCP210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDCP",
+          "number": "210"
+        },
+        {
+          "id": "course-49",
+          "label": "KNES360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "360"
+        },
+        {
+          "id": "course-50",
+          "label": "NFSC421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "421"
+        },
+        {
+          "id": "course-51",
+          "label": "NFSC425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "425"
+        },
+        {
+          "id": "course-52",
+          "label": "NFSC430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "430"
+        },
+        {
+          "id": "course-53",
+          "label": "NFSC498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "498"
+        },
+        {
+          "id": "course-54",
+          "label": "NFSC450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "450"
+        },
+        {
+          "id": "note-55",
+          "label": "Alternate course by approval of advisor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Alternate course by approval of advisor"
+        }
+      ]
+    },
+    {
+      "id": "block-56",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-57",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-58",
+          "label": "NFSC398",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "398"
+        },
+        {
+          "id": "course-59",
+          "label": "NFSC412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "412"
+        },
+        {
+          "id": "course-60",
+          "label": "NFSC414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "414"
+        },
+        {
+          "id": "course-61",
+          "label": "NFSC421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "421"
+        },
+        {
+          "id": "course-62",
+          "label": "NFSC422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "422"
+        },
+        {
+          "id": "course-63",
+          "label": "NFSC423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "423"
+        },
+        {
+          "id": "course-64",
+          "label": "NFSC430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "430"
+        },
+        {
+          "id": "course-65",
+          "label": "NFSC431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "431"
+        },
+        {
+          "id": "course-66",
+          "label": "NFSC434",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "434"
+        },
+        {
+          "id": "course-67",
+          "label": "NFSC450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "450"
+        },
+        {
+          "id": "course-68",
+          "label": "BCHM463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "463"
+        },
+        {
+          "id": "course-69",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-70",
+          "label": "MATH120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "120"
+        },
+        {
+          "id": "course-71",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-72",
+          "label": "MATH121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "121"
+        },
+        {
+          "id": "course-73",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-74",
+          "label": "PHYS121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "121"
+        },
+        {
+          "id": "note-75",
+          "label": "Food Science Restricted Elective (Choose from list below) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Food Science Restricted Elective (Choose from list below) 3"
+        },
+        {
+          "id": "course-76",
+          "label": "AREC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "250"
+        },
+        {
+          "id": "course-77",
+          "label": "BMGT220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "220"
+        },
+        {
+          "id": "course-78",
+          "label": "BMGT360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "360"
+        },
+        {
+          "id": "course-79",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-80",
+          "label": "BMGT364",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "364"
+        },
+        {
+          "id": "course-81",
+          "label": "BSCI422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "422"
+        },
+        {
+          "id": "course-82",
+          "label": "ENST333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "333"
+        },
+        {
+          "id": "course-83",
+          "label": "KNES360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "360"
+        },
+        {
+          "id": "course-84",
+          "label": "NFSC425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "425"
+        },
+        {
+          "id": "note-85",
+          "label": "Alternate course by approval of advisor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Alternate course by approval of advisor"
+        }
+      ]
+    },
+    {
+      "id": "block-86",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-87",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-88",
+          "label": "NFSC315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "315"
+        },
+        {
+          "id": "course-89",
+          "label": "NFSC421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "421"
+        },
+        {
+          "id": "course-90",
+          "label": "NFSC440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "440"
+        },
+        {
+          "id": "course-91",
+          "label": "NFSC450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "450"
+        },
+        {
+          "id": "course-92",
+          "label": "BCHM461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "461"
+        },
+        {
+          "id": "course-93",
+          "label": "BCHM462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "462"
+        },
+        {
+          "id": "course-94",
+          "label": "BCHM464",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "464"
+        },
+        {
+          "id": "course-95",
+          "label": "BCHM465",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "465"
+        },
+        {
+          "id": "course-96",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-97",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-98",
+          "label": "BSCI330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "330"
+        },
+        {
+          "id": "course-99",
+          "label": "BSCI450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "450"
+        },
+        {
+          "id": "course-100",
+          "label": "MATH120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "120"
+        },
+        {
+          "id": "course-101",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-102",
+          "label": "PHYS121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "121"
+        },
+        {
+          "id": "note-103",
+          "label": "Nutritional Science Restricted Elective (Choose from list below) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Nutritional Science Restricted Elective (Choose from list below) 3"
+        },
+        {
+          "id": "course-104",
+          "label": "BSCI410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "410"
+        },
+        {
+          "id": "course-105",
+          "label": "BSCI422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "422"
+        },
+        {
+          "id": "course-106",
+          "label": "BSCI430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "430"
+        },
+        {
+          "id": "course-107",
+          "label": "BSCI447",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "447"
+        },
+        {
+          "id": "course-108",
+          "label": "NFSC380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "380"
+        },
+        {
+          "id": "course-109",
+          "label": "NFSC455",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "455"
+        },
+        {
+          "id": "course-110",
+          "label": "NFSC470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "470"
+        },
+        {
+          "id": "note-111",
+          "label": "Alternate course by approval of advisor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Alternate course by approval of advisor"
+        }
+      ]
+    },
+    {
+      "id": "block-112",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-113",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-114",
+          "label": "NFSC380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "380"
+        },
+        {
+          "id": "course-115",
+          "label": "NFSC456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "456"
+        },
+        {
+          "id": "course-116",
+          "label": "NFSC470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "470"
+        },
+        {
+          "id": "course-117",
+          "label": "BSCI410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "410"
+        },
+        {
+          "id": "course-118",
+          "label": "BSCI422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "422"
+        },
+        {
+          "id": "course-119",
+          "label": "BSCI430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "430"
+        },
+        {
+          "id": "course-120",
+          "label": "BSCI447",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "447"
+        },
+        {
+          "id": "note-121",
+          "label": "Or alternate course by approval of advisor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Or alternate course by approval of advisor"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Concentration Requirements (select one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-21",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-56",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-86",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-112",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Base Curriculum for All Concentrations"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "112"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "223"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "241"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "242"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "271"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "272"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Dietetics"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Food Science"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Nutritional Science"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "315"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "350"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "380"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "440"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "470"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "455"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "456"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "491"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "461"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "462"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "364"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "330"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "450"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "113"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "115"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Dietetics Restricted Elective (Choose from list below) 12"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "220"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "360"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "422"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDCP",
+          "number": "210"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "360"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "421"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "425"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "430"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "498"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "450"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Alternate course by approval of advisor"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "398"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "412"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "414"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "421"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "422"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "423"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "430"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "431"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "434"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "450"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "463"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "121"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "121"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Food Science Restricted Elective (Choose from list below) 3"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "220"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "360"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "364"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "422"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "333"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "360"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "425"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Alternate course by approval of advisor"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "315"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "421"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "440"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "450"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "461"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "462"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "464"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "465"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 91
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 92
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "330"
+        },
+        "sortOrder": 93
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "450"
+        },
+        "sortOrder": 94
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 95
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 96
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "121"
+        },
+        "sortOrder": 97
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Nutritional Science Restricted Elective (Choose from list below) 3"
+        },
+        "sortOrder": 98
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "410"
+        },
+        "sortOrder": 99
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "422"
+        },
+        "sortOrder": 100
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "430"
+        },
+        "sortOrder": 101
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "447"
+        },
+        "sortOrder": 102
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "380"
+        },
+        "sortOrder": 103
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "455"
+        },
+        "sortOrder": 104
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "470"
+        },
+        "sortOrder": 105
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Alternate course by approval of advisor"
+        },
+        "sortOrder": 106
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 107
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "380"
+        },
+        "sortOrder": 108
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "456"
+        },
+        "sortOrder": 109
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "470"
+        },
+        "sortOrder": 110
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "410"
+        },
+        "sortOrder": 111
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "422"
+        },
+        "sortOrder": 112
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "430"
+        },
+        "sortOrder": 113
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "447"
+        },
+        "sortOrder": 114
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Or alternate course by approval of advisor"
+        },
+        "sortOrder": 115
+      }
+    ]
+  }
+}

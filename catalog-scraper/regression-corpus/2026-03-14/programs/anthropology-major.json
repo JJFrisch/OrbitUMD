@@ -1,0 +1,3146 @@
+{
+  "code": "anthropology-major",
+  "title": "Anthropology Major",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/anthropology/anthropology-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 54,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Foundational Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundational Courses"
+        },
+        {
+          "id": "choice-5",
+          "label": "Select three of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-6",
+              "label": "ANTH210",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "210"
+            },
+            {
+              "id": "course-7",
+              "label": "ANTH222",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "222"
+            },
+            {
+              "id": "course-8",
+              "label": "ANTH240",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "240"
+            },
+            {
+              "id": "course-9",
+              "label": "ANTH260",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "260"
+            }
+          ],
+          "minCount": 3
+        },
+        {
+          "id": "note-10",
+          "label": "Method and Theory Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Method and Theory Courses"
+        },
+        {
+          "id": "choice-11",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-12",
+              "label": "ANTH310",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "310"
+            },
+            {
+              "id": "course-13",
+              "label": "ANTH322",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "322"
+            },
+            {
+              "id": "course-14",
+              "label": "ANTH340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "340"
+            },
+            {
+              "id": "course-15",
+              "label": "ANTH360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "360"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "note-16",
+          "label": "Anthropology Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Anthropology Electives"
+        },
+        {
+          "id": "note-17",
+          "label": "Select a minimum of 12 credits offered in Anthropolgy, not double-counted for other Anthropology requirements 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select a minimum of 12 credits offered in Anthropolgy, not double-counted for other Anthropology requirements 12"
+        },
+        {
+          "id": "note-18",
+          "label": "Applied Field Methods",
+          "nodeType": "note",
+          "children": [],
+          "text": "Applied Field Methods"
+        }
+      ]
+    },
+    {
+      "id": "choice-5",
+      "label": "Select three of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "ANTH210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "210"
+        },
+        {
+          "id": "course-7",
+          "label": "ANTH222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "222"
+        },
+        {
+          "id": "course-8",
+          "label": "ANTH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "240"
+        },
+        {
+          "id": "course-9",
+          "label": "ANTH260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "260"
+        }
+      ],
+      "minCount": 3
+    },
+    {
+      "id": "choice-11",
+      "label": "Select two of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-12",
+          "label": "ANTH310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "310"
+        },
+        {
+          "id": "course-13",
+          "label": "ANTH322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "322"
+        },
+        {
+          "id": "course-14",
+          "label": "ANTH340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "340"
+        },
+        {
+          "id": "course-15",
+          "label": "ANTH360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "360"
+        }
+      ],
+      "minCount": 2
+    },
+    {
+      "id": "block-19",
+      "label": "Select a minimum of 3 credits of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-20",
+          "label": "ANTH271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "271"
+        },
+        {
+          "id": "course-21",
+          "label": "ANTH341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "341"
+        },
+        {
+          "id": "course-22",
+          "label": "ANTH447",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "447"
+        },
+        {
+          "id": "course-23",
+          "label": "ANTH451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "451"
+        },
+        {
+          "id": "course-24",
+          "label": "ANTH464",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "464"
+        },
+        {
+          "id": "course-25",
+          "label": "ANTH467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "467"
+        },
+        {
+          "id": "course-26",
+          "label": "ANTH468",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "468"
+        },
+        {
+          "id": "course-27",
+          "label": "ANTH472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "472"
+        },
+        {
+          "id": "course-28",
+          "label": "ANTH491",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "491"
+        },
+        {
+          "id": "course-29",
+          "label": "ANTH492",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "492"
+        },
+        {
+          "id": "course-30",
+          "label": "ANTH498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "498"
+        },
+        {
+          "id": "course-31",
+          "label": "ANTH496",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "496"
+        },
+        {
+          "id": "note-32",
+          "label": "Quantitative Skills Requirement",
+          "nodeType": "note",
+          "children": [],
+          "text": "Quantitative Skills Requirement"
+        },
+        {
+          "id": "note-33",
+          "label": "Please refer to the 'Quantitative Skills Requirement' section below to view this requirement for the Bachelor of Arts or Bachelor of Science degree 3-8",
+          "nodeType": "note",
+          "children": [],
+          "text": "Please refer to the 'Quantitative Skills Requirement' section below to view this requirement for the Bachelor of Arts or Bachelor of Science degree 3-8"
+        },
+        {
+          "id": "note-34",
+          "label": "Supporting Course Work",
+          "nodeType": "note",
+          "children": [],
+          "text": "Supporting Course Work"
+        },
+        {
+          "id": "note-35",
+          "label": "Please refer to the 'Supporting Course Work' section below to view this requirement for the Bachelor of Arts or Bachelor of Science degree 9-18",
+          "nodeType": "note",
+          "children": [],
+          "text": "Please refer to the 'Supporting Course Work' section below to view this requirement for the Bachelor of Arts or Bachelor of Science degree 9-18"
+        }
+      ],
+      "minCredits": 3
+    },
+    {
+      "id": "block-36",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-37",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-38",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-39",
+              "label": "BIOM301",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BIOM",
+              "number": "301"
+            },
+            {
+              "id": "course-40",
+              "label": "ECON201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "201"
+            },
+            {
+              "id": "course-41",
+              "label": "ECON321",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "321"
+            },
+            {
+              "id": "course-42",
+              "label": "EDMS451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDMS",
+              "number": "451"
+            },
+            {
+              "id": "course-43",
+              "label": "GEOG306",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "306"
+            },
+            {
+              "id": "course-44",
+              "label": "PSYC200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "200"
+            },
+            {
+              "id": "course-45",
+              "label": "SOCY200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "200"
+            },
+            {
+              "id": "course-46",
+              "label": "STAT100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "100"
+            },
+            {
+              "id": "course-47",
+              "label": "MATH107",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "107"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-38",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-39",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-40",
+          "label": "ECON201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "201"
+        },
+        {
+          "id": "course-41",
+          "label": "ECON321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "321"
+        },
+        {
+          "id": "course-42",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "course-43",
+          "label": "GEOG306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "306"
+        },
+        {
+          "id": "course-44",
+          "label": "PSYC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "200"
+        },
+        {
+          "id": "course-45",
+          "label": "SOCY200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "200"
+        },
+        {
+          "id": "course-46",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        },
+        {
+          "id": "course-47",
+          "label": "MATH107",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "107"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-48",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-49",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-50",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-51",
+              "label": "STAT100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "100"
+            },
+            {
+              "id": "course-52",
+              "label": "MATH140",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "140"
+            },
+            {
+              "id": "course-53",
+              "label": "MATH141",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "141"
+            },
+            {
+              "id": "course-54",
+              "label": "MATH120",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "120"
+            },
+            {
+              "id": "course-55",
+              "label": "MATH121",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "121"
+            }
+          ],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "choice-50",
+      "label": "Select two of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-51",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        },
+        {
+          "id": "course-52",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-53",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-54",
+          "label": "MATH120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "120"
+        },
+        {
+          "id": "course-55",
+          "label": "MATH121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "121"
+        }
+      ],
+      "minCount": 2
+    },
+    {
+      "id": "block-56",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-57",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-58",
+          "label": "Supporting courses approved by a faculty member 18",
+          "nodeType": "note",
+          "children": [],
+          "text": "Supporting courses approved by a faculty member 18"
+        }
+      ]
+    },
+    {
+      "id": "block-59",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-60",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-61",
+          "label": "Select three of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-62",
+              "label": "AGNR301",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AGNR",
+              "number": "301"
+            },
+            {
+              "id": "course-63",
+              "label": "AREC241",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "241"
+            },
+            {
+              "id": "course-64",
+              "label": "AREC326",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "326"
+            },
+            {
+              "id": "course-65",
+              "label": "AREC345",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "345"
+            },
+            {
+              "id": "course-66",
+              "label": "AREC365",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "365"
+            },
+            {
+              "id": "course-67",
+              "label": "AREC433",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "433"
+            },
+            {
+              "id": "course-68",
+              "label": "AREC453",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "453"
+            },
+            {
+              "id": "course-69",
+              "label": "AOSC123",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AOSC",
+              "number": "123"
+            },
+            {
+              "id": "course-70",
+              "label": "BSCI103",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "103"
+            },
+            {
+              "id": "course-71",
+              "label": "BSCI170",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "170"
+            },
+            {
+              "id": "course-72",
+              "label": "BSCI171",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "171"
+            },
+            {
+              "id": "course-73",
+              "label": "BSCI160",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "160"
+            },
+            {
+              "id": "course-74",
+              "label": "BSCI161",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "161"
+            },
+            {
+              "id": "course-75",
+              "label": "BSCI135",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "135"
+            },
+            {
+              "id": "course-76",
+              "label": "BSCI189",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "189"
+            },
+            {
+              "id": "course-77",
+              "label": "BSCI201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "201"
+            },
+            {
+              "id": "course-78",
+              "label": "BSCI202",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "202"
+            },
+            {
+              "id": "course-79",
+              "label": "BSCI222",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "222"
+            },
+            {
+              "id": "course-80",
+              "label": "BSCI223",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "223"
+            },
+            {
+              "id": "course-81",
+              "label": "BSCI360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "360"
+            },
+            {
+              "id": "course-82",
+              "label": "BSCI361",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "361"
+            },
+            {
+              "id": "course-83",
+              "label": "BSCI363",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "363"
+            },
+            {
+              "id": "course-84",
+              "label": "BSCI370",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "370"
+            },
+            {
+              "id": "course-85",
+              "label": "BSCI462",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "462"
+            },
+            {
+              "id": "course-86",
+              "label": "BSCI471",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "471"
+            },
+            {
+              "id": "course-87",
+              "label": "CMSC131",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CMSC",
+              "number": "131"
+            },
+            {
+              "id": "course-88",
+              "label": "CMSC132",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CMSC",
+              "number": "132"
+            },
+            {
+              "id": "course-89",
+              "label": "ENST233",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENST",
+              "number": "233"
+            },
+            {
+              "id": "course-90",
+              "label": "ENST440",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENST",
+              "number": "440"
+            },
+            {
+              "id": "course-91",
+              "label": "GEOL100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "100"
+            },
+            {
+              "id": "course-92",
+              "label": "GEOL110",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "110"
+            },
+            {
+              "id": "course-93",
+              "label": "GEOL340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "340"
+            },
+            {
+              "id": "course-94",
+              "label": "GEOL342",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "342"
+            },
+            {
+              "id": "course-95",
+              "label": "GEOL446",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "446"
+            },
+            {
+              "id": "course-96",
+              "label": "GEOG330",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "330"
+            },
+            {
+              "id": "course-97",
+              "label": "GEOG332",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "332"
+            },
+            {
+              "id": "course-98",
+              "label": "GEOG372",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "372"
+            },
+            {
+              "id": "course-99",
+              "label": "GEOG373",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "373"
+            },
+            {
+              "id": "course-100",
+              "label": "GEOG416",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "416"
+            },
+            {
+              "id": "course-101",
+              "label": "GEOG431",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "431"
+            },
+            {
+              "id": "course-102",
+              "label": "GEOG472",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "472"
+            },
+            {
+              "id": "course-103",
+              "label": "GEOG473",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "473"
+            },
+            {
+              "id": "course-104",
+              "label": "MIEH300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MIEH",
+              "number": "300"
+            },
+            {
+              "id": "course-105",
+              "label": "MIEH321",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MIEH",
+              "number": "321"
+            },
+            {
+              "id": "course-106",
+              "label": "HLTH130",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HLTH",
+              "number": "130"
+            },
+            {
+              "id": "course-107",
+              "label": "HLTH200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HLTH",
+              "number": "200"
+            },
+            {
+              "id": "course-108",
+              "label": "HLTH300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HLTH",
+              "number": "300"
+            },
+            {
+              "id": "course-109",
+              "label": "HIST204",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "204"
+            }
+          ],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-61",
+      "label": "Select three of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-62",
+          "label": "AGNR301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGNR",
+          "number": "301"
+        },
+        {
+          "id": "course-63",
+          "label": "AREC241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "241"
+        },
+        {
+          "id": "course-64",
+          "label": "AREC326",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "326"
+        },
+        {
+          "id": "course-65",
+          "label": "AREC345",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "345"
+        },
+        {
+          "id": "course-66",
+          "label": "AREC365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "365"
+        },
+        {
+          "id": "course-67",
+          "label": "AREC433",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "433"
+        },
+        {
+          "id": "course-68",
+          "label": "AREC453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "453"
+        },
+        {
+          "id": "course-69",
+          "label": "AOSC123",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AOSC",
+          "number": "123"
+        },
+        {
+          "id": "course-70",
+          "label": "BSCI103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "103"
+        },
+        {
+          "id": "course-71",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-72",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-73",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-74",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "course-75",
+          "label": "BSCI135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "135"
+        },
+        {
+          "id": "course-76",
+          "label": "BSCI189",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "189"
+        },
+        {
+          "id": "course-77",
+          "label": "BSCI201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "201"
+        },
+        {
+          "id": "course-78",
+          "label": "BSCI202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "202"
+        },
+        {
+          "id": "course-79",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-80",
+          "label": "BSCI223",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "223"
+        },
+        {
+          "id": "course-81",
+          "label": "BSCI360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "360"
+        },
+        {
+          "id": "course-82",
+          "label": "BSCI361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "361"
+        },
+        {
+          "id": "course-83",
+          "label": "BSCI363",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "363"
+        },
+        {
+          "id": "course-84",
+          "label": "BSCI370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "370"
+        },
+        {
+          "id": "course-85",
+          "label": "BSCI462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "462"
+        },
+        {
+          "id": "course-86",
+          "label": "BSCI471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "471"
+        },
+        {
+          "id": "course-87",
+          "label": "CMSC131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "131"
+        },
+        {
+          "id": "course-88",
+          "label": "CMSC132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "132"
+        },
+        {
+          "id": "course-89",
+          "label": "ENST233",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "233"
+        },
+        {
+          "id": "course-90",
+          "label": "ENST440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "440"
+        },
+        {
+          "id": "course-91",
+          "label": "GEOL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "100"
+        },
+        {
+          "id": "course-92",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "course-93",
+          "label": "GEOL340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "340"
+        },
+        {
+          "id": "course-94",
+          "label": "GEOL342",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "342"
+        },
+        {
+          "id": "course-95",
+          "label": "GEOL446",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "446"
+        },
+        {
+          "id": "course-96",
+          "label": "GEOG330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "330"
+        },
+        {
+          "id": "course-97",
+          "label": "GEOG332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "332"
+        },
+        {
+          "id": "course-98",
+          "label": "GEOG372",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "372"
+        },
+        {
+          "id": "course-99",
+          "label": "GEOG373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "373"
+        },
+        {
+          "id": "course-100",
+          "label": "GEOG416",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "416"
+        },
+        {
+          "id": "course-101",
+          "label": "GEOG431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "431"
+        },
+        {
+          "id": "course-102",
+          "label": "GEOG472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "472"
+        },
+        {
+          "id": "course-103",
+          "label": "GEOG473",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "473"
+        },
+        {
+          "id": "course-104",
+          "label": "MIEH300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MIEH",
+          "number": "300"
+        },
+        {
+          "id": "course-105",
+          "label": "MIEH321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MIEH",
+          "number": "321"
+        },
+        {
+          "id": "course-106",
+          "label": "HLTH130",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "130"
+        },
+        {
+          "id": "course-107",
+          "label": "HLTH200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "200"
+        },
+        {
+          "id": "course-108",
+          "label": "HLTH300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "300"
+        },
+        {
+          "id": "course-109",
+          "label": "HIST204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "204"
+        }
+      ],
+      "minCount": 3
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "Select a minimum of 3 credits of the following",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 3
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-36",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-38",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "choice-38",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "block-48",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": "blk-10",
+        "sourceNodeId": "choice-50",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": null,
+        "sourceNodeId": "choice-50",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": null,
+        "sourceNodeId": "block-56",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 13,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-14",
+        "parentTempId": null,
+        "sourceNodeId": "block-59",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 14,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-15",
+        "parentTempId": "blk-14",
+        "sourceNodeId": "choice-61",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 15,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-16",
+        "parentTempId": null,
+        "sourceNodeId": "choice-61",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 16,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundational Courses"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "210"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "222"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "240"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "260"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Method and Theory Courses"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "310"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "322"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "340"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "360"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Anthropology Electives"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select a minimum of 12 credits offered in Anthropolgy, not double-counted for other Anthropology requirements 12"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Applied Field Methods"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "210"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "222"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "240"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "260"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "310"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "322"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "340"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "360"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "271"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "341"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "447"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "451"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "464"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "467"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "468"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "472"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "491"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "492"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "498"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "496"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Quantitative Skills Requirement"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Please refer to the 'Quantitative Skills Requirement' section below to view this requirement for the Bachelor of Arts or Bachelor of Science degree 3-8"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting Course Work"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Please refer to the 'Supporting Course Work' section below to view this requirement for the Bachelor of Arts or Bachelor of Science degree 9-18"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "200"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "200"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "121"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "121"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting courses approved by a faculty member 18"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGNR",
+          "number": "301"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "241"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "326"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "345"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "433"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "453"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "123"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "103"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "135"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "189"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "201"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "202"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "223"
+        },
+        "sortOrder": 91
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "360"
+        },
+        "sortOrder": 92
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "361"
+        },
+        "sortOrder": 93
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "363"
+        },
+        "sortOrder": 94
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "370"
+        },
+        "sortOrder": 95
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "462"
+        },
+        "sortOrder": 96
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "471"
+        },
+        "sortOrder": 97
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "131"
+        },
+        "sortOrder": 98
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "132"
+        },
+        "sortOrder": 99
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "233"
+        },
+        "sortOrder": 100
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "440"
+        },
+        "sortOrder": 101
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 102
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 103
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "340"
+        },
+        "sortOrder": 104
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "342"
+        },
+        "sortOrder": 105
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "446"
+        },
+        "sortOrder": 106
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "330"
+        },
+        "sortOrder": 107
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "332"
+        },
+        "sortOrder": 108
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "372"
+        },
+        "sortOrder": 109
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
+        },
+        "sortOrder": 110
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "416"
+        },
+        "sortOrder": 111
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "431"
+        },
+        "sortOrder": 112
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "472"
+        },
+        "sortOrder": 113
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "473"
+        },
+        "sortOrder": 114
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "300"
+        },
+        "sortOrder": 115
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "321"
+        },
+        "sortOrder": 116
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "130"
+        },
+        "sortOrder": 117
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "200"
+        },
+        "sortOrder": 118
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "300"
+        },
+        "sortOrder": 119
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "204"
+        },
+        "sortOrder": 120
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGNR",
+          "number": "301"
+        },
+        "sortOrder": 121
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "241"
+        },
+        "sortOrder": 122
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "326"
+        },
+        "sortOrder": 123
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "345"
+        },
+        "sortOrder": 124
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 125
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "433"
+        },
+        "sortOrder": 126
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "453"
+        },
+        "sortOrder": 127
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "123"
+        },
+        "sortOrder": 128
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "103"
+        },
+        "sortOrder": 129
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 130
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 131
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 132
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 133
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "135"
+        },
+        "sortOrder": 134
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "189"
+        },
+        "sortOrder": 135
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "201"
+        },
+        "sortOrder": 136
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "202"
+        },
+        "sortOrder": 137
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 138
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "223"
+        },
+        "sortOrder": 139
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "360"
+        },
+        "sortOrder": 140
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "361"
+        },
+        "sortOrder": 141
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "363"
+        },
+        "sortOrder": 142
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "370"
+        },
+        "sortOrder": 143
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "462"
+        },
+        "sortOrder": 144
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "471"
+        },
+        "sortOrder": 145
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "131"
+        },
+        "sortOrder": 146
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "132"
+        },
+        "sortOrder": 147
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "233"
+        },
+        "sortOrder": 148
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "440"
+        },
+        "sortOrder": 149
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 150
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 151
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "340"
+        },
+        "sortOrder": 152
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "342"
+        },
+        "sortOrder": 153
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "446"
+        },
+        "sortOrder": 154
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "330"
+        },
+        "sortOrder": 155
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "332"
+        },
+        "sortOrder": 156
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "372"
+        },
+        "sortOrder": 157
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
+        },
+        "sortOrder": 158
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "416"
+        },
+        "sortOrder": 159
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "431"
+        },
+        "sortOrder": 160
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "472"
+        },
+        "sortOrder": 161
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "473"
+        },
+        "sortOrder": 162
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "300"
+        },
+        "sortOrder": 163
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "321"
+        },
+        "sortOrder": 164
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "130"
+        },
+        "sortOrder": 165
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "200"
+        },
+        "sortOrder": 166
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "300"
+        },
+        "sortOrder": 167
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "204"
+        },
+        "sortOrder": 168
+      }
+    ]
+  }
+}

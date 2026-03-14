@@ -1,0 +1,149 @@
+{
+  "code": "nuclear-engineering-minor",
+  "title": "Nuclear Engineering Minor",
+  "college": "Engineering",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/mechanical-engineering/nuclear-engineering-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        }
+      ]
+    },
+    {
+      "id": "block-3",
+      "label": "All students pursuing the minor will be required to take the following four courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "ENME430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "430"
+        },
+        {
+          "id": "course-5",
+          "label": "ENME431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "431"
+        },
+        {
+          "id": "course-6",
+          "label": "ENME432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "432"
+        },
+        {
+          "id": "course-7",
+          "label": "ENRE447",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENRE",
+          "number": "447"
+        },
+        {
+          "id": "note-8",
+          "label": "Nuclear Engineering Elective 1 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Nuclear Engineering Elective 1 3"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-3",
+        "humanLabel": "All students pursuing the minor will be required to take the following four courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "430"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "431"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "432"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENRE",
+          "number": "447"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Nuclear Engineering Elective 1 3"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "code": "russian-language-and-literature-major",
+  "title": "Russian Language and Literature Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/russian-language-literature/russian-language-literature-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 40,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Requirements"
+        },
+        {
+          "id": "course-5",
+          "label": "RUSS201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "201"
+        },
+        {
+          "id": "course-6",
+          "label": "RUSS202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "202"
+        },
+        {
+          "id": "course-7",
+          "label": "RUSS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "301"
+        },
+        {
+          "id": "course-8",
+          "label": "RUSS302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "302"
+        },
+        {
+          "id": "note-9",
+          "label": "RUSS 3xx One additional course at the 3xx level",
+          "nodeType": "note",
+          "children": [],
+          "text": "RUSS 3xx One additional course at the 3xx level"
+        },
+        {
+          "id": "course-10",
+          "label": "RUSS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "401"
+        },
+        {
+          "id": "course-11",
+          "label": "RUSS402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "402"
+        }
+      ]
+    },
+    {
+      "id": "choice-12",
+      "label": "RUSS4xx",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "note-13",
+          "label": "RUSS Two RUSS electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "RUSS Two RUSS electives"
+        },
+        {
+          "id": "choice-14",
+          "label": "Select two RUSS3xx or RUSS4xx level electives 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-12",
+        "humanLabel": "RUSS4xx",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-2",
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Select two RUSS3xx or RUSS4xx level electives 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Requirements"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "201"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "202"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "301"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "302"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "RUSS 3xx One additional course at the 3xx level"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "401"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "402"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "RUSS Two RUSS electives"
+        },
+        "sortOrder": 11
+      }
+    ]
+  }
+}

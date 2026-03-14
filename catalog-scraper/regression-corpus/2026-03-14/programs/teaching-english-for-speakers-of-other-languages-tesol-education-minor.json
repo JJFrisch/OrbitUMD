@@ -1,0 +1,134 @@
+{
+  "code": "teaching-english-for-speakers-of-other-languages-tesol-education-minor",
+  "title": "Teaching English for Speakers of Other Languages (TESOL) Education Minor",
+  "college": "Education",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/tesol-education-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "TLPL440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "440"
+        },
+        {
+          "id": "course-4",
+          "label": "TLPL441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "441"
+        },
+        {
+          "id": "course-5",
+          "label": "TLPL442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "442"
+        },
+        {
+          "id": "course-6",
+          "label": "TLPL443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "443"
+        },
+        {
+          "id": "course-7",
+          "label": "TLPL444",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "444"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "440"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "441"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "442"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "443"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "444"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

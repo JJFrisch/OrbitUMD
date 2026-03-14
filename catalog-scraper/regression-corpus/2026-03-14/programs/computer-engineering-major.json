@@ -1,0 +1,697 @@
+{
+  "code": "computer-engineering-major",
+  "title": "Computer Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/electrical-and-computer/computer-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 129,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Freshman Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Freshman Year"
+        },
+        {
+          "id": "note-3",
+          "label": "Semester 1 Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Semester 1 Credits"
+        },
+        {
+          "id": "course-4",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-5",
+          "label": "CMSC131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "131"
+        },
+        {
+          "id": "course-6",
+          "label": "ENEE101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "101"
+        },
+        {
+          "id": "course-7",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "note-8",
+          "label": "General Education3 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education3 3"
+        },
+        {
+          "id": "note-9",
+          "label": "17",
+          "nodeType": "note",
+          "children": [],
+          "text": "17"
+        },
+        {
+          "id": "note-10",
+          "label": "Sophomore Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sophomore Year"
+        },
+        {
+          "id": "note-11",
+          "label": "Semester 1 Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Semester 1 Credits"
+        },
+        {
+          "id": "course-12",
+          "label": "ENEE244",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "244"
+        },
+        {
+          "id": "course-13",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-15",
+          "label": "ENEE290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "290"
+        },
+        {
+          "id": "course-16",
+          "label": "CMSC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "250"
+        },
+        {
+          "id": "note-17",
+          "label": "General Education3 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education3 3"
+        },
+        {
+          "id": "note-18",
+          "label": "18",
+          "nodeType": "note",
+          "children": [],
+          "text": "18"
+        },
+        {
+          "id": "note-19",
+          "label": "Junior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year"
+        },
+        {
+          "id": "note-20",
+          "label": "Semester 1 Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Semester 1 Credits"
+        },
+        {
+          "id": "course-21",
+          "label": "ENEE200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "200"
+        },
+        {
+          "id": "course-22",
+          "label": "ENEE350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "350"
+        },
+        {
+          "id": "course-23",
+          "label": "ENEE304",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "304"
+        },
+        {
+          "id": "course-24",
+          "label": "OR322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "OR",
+          "number": "322"
+        },
+        {
+          "id": "course-25",
+          "label": "CMSC330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "330"
+        },
+        {
+          "id": "note-26",
+          "label": "Major Technical Elective Category A 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Technical Elective Category A 3"
+        },
+        {
+          "id": "note-27",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        },
+        {
+          "id": "note-28",
+          "label": "Senior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year"
+        },
+        {
+          "id": "note-29",
+          "label": "Semester 1 Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Semester 1 Credits"
+        },
+        {
+          "id": "note-30",
+          "label": "Major Technical Elective Category B 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Technical Elective Category B 3"
+        },
+        {
+          "id": "note-31",
+          "label": "Major Technical Elective Category C 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Technical Elective Category C 3"
+        },
+        {
+          "id": "note-32",
+          "label": "Major Technical Elective Category C 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Technical Elective Category C 3"
+        },
+        {
+          "id": "note-33",
+          "label": "Major Technical Elective Category F 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Technical Elective Category F 3"
+        },
+        {
+          "id": "note-34",
+          "label": "General Education3 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education3 3"
+        },
+        {
+          "id": "note-35",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        }
+      ],
+      "minCredits": 129
+    },
+    {
+      "id": "block-36",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-37",
+          "label": "Category Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category Electives"
+        },
+        {
+          "id": "note-38",
+          "label": "Category A Mathematics and Basic Science Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category A Mathematics and Basic Science Electives"
+        },
+        {
+          "id": "note-39",
+          "label": "Category B Computer Science Theory and Applications",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category B Computer Science Theory and Applications"
+        },
+        {
+          "id": "note-40",
+          "label": "Category C Electrical Engineering Theory and Applications",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category C Electrical Engineering Theory and Applications"
+        },
+        {
+          "id": "note-41",
+          "label": "Category D Advanced Laboratory",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category D Advanced Laboratory"
+        },
+        {
+          "id": "note-42",
+          "label": "Category E Capstone Design",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category E Capstone Design"
+        },
+        {
+          "id": "note-43",
+          "label": "Category F General Technical Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Category F General Technical Electives"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 129
+        },
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-36",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Freshman Year"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Semester 1 Credits"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "131"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "101"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education3 3"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "17"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sophomore Year"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Semester 1 Credits"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "244"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "290"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "250"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education3 3"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "18"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Semester 1 Credits"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "200"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "350"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "304"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "OR",
+          "number": "322"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "330"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Technical Elective Category A 3"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Semester 1 Credits"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Technical Elective Category B 3"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Technical Elective Category C 3"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Technical Elective Category C 3"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Technical Elective Category F 3"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education3 3"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category Electives"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category A Mathematics and Basic Science Electives"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category B Computer Science Theory and Applications"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category C Electrical Engineering Theory and Applications"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category D Advanced Laboratory"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category E Capstone Design"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Category F General Technical Electives"
+        },
+        "sortOrder": 41
+      }
+    ]
+  }
+}

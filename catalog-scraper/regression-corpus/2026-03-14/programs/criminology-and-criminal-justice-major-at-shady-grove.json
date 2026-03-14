@@ -1,0 +1,620 @@
+{
+  "code": "criminology-and-criminal-justice-major-at-shady-grove",
+  "title": "Criminology and Criminal Justice Major at Shady Grove",
+  "college": "Universities Shady Grove",
+  "degreeType": "BA",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/universities-shady-grove/behavioral-social-sciences/criminology-criminal-justice-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 39,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required CCJS Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required CCJS Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "CCJS100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "CCJS105",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "105"
+        },
+        {
+          "id": "course-6",
+          "label": "CCJS200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "200"
+        },
+        {
+          "id": "course-7",
+          "label": "CCJS230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "230"
+        },
+        {
+          "id": "course-8",
+          "label": "CCJS300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "300"
+        },
+        {
+          "id": "note-9",
+          "label": "CCJS Criminal Justice Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "CCJS Criminal Justice Courses"
+        },
+        {
+          "id": "choice-10",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-11",
+              "label": "CCJS340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "340"
+            },
+            {
+              "id": "course-12",
+              "label": "CCJS345",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "345"
+            },
+            {
+              "id": "course-13",
+              "label": "CCJS342",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "342"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "note-14",
+          "label": "CCJS Criminology/Theory Course",
+          "nodeType": "note",
+          "children": [],
+          "text": "CCJS Criminology/Theory Course"
+        },
+        {
+          "id": "choice-15",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-16",
+              "label": "CCJS450",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "450"
+            },
+            {
+              "id": "course-17",
+              "label": "CCJS451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "451"
+            },
+            {
+              "id": "course-18",
+              "label": "CCJS454",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "454"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-19",
+          "label": "CCJS Courses of Choice",
+          "nodeType": "note",
+          "children": [],
+          "text": "CCJS Courses of Choice"
+        },
+        {
+          "id": "choice-20",
+          "label": "Select four CCJS courses 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 4
+        },
+        {
+          "id": "note-21",
+          "label": "CCJS LEP Gateway Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "CCJS LEP Gateway Requirements"
+        },
+        {
+          "id": "choice-22",
+          "label": "Select one of the following: 2",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-23",
+              "label": "MATH107",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "107"
+            },
+            {
+              "id": "course-24",
+              "label": "STAT100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "100"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-10",
+      "label": "Select two of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-11",
+          "label": "CCJS340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "340"
+        },
+        {
+          "id": "course-12",
+          "label": "CCJS345",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "345"
+        },
+        {
+          "id": "course-13",
+          "label": "CCJS342",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "342"
+        }
+      ],
+      "minCount": 2
+    },
+    {
+      "id": "choice-15",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-16",
+          "label": "CCJS450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "450"
+        },
+        {
+          "id": "course-17",
+          "label": "CCJS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "451"
+        },
+        {
+          "id": "course-18",
+          "label": "CCJS454",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "454"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-22",
+      "label": "Select one of the following: 2",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-23",
+          "label": "MATH107",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "107"
+        },
+        {
+          "id": "course-24",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-20",
+        "humanLabel": "Select four CCJS courses 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-22",
+        "humanLabel": "Select one of the following: 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "choice-22",
+        "humanLabel": "Select one of the following: 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required CCJS Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "105"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "200"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "230"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "300"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CCJS Criminal Justice Courses"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "340"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "345"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "342"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CCJS Criminology/Theory Course"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "450"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "451"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "454"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CCJS Courses of Choice"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CCJS LEP Gateway Requirements"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "340"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "345"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "342"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "450"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "451"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "454"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 27
+      }
+    ]
+  }
+}

@@ -1,0 +1,1558 @@
+{
+  "code": "human-development-major",
+  "title": "Human Development Major",
+  "college": "Education",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/human-development-quantitative-methodology/human-development-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 43,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Gateway Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Gateway Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "EDHD200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "200"
+        },
+        {
+          "id": "course-5",
+          "label": "EDHD201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "201"
+        },
+        {
+          "id": "course-6",
+          "label": "EDHD320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "320"
+        },
+        {
+          "id": "note-7",
+          "label": "Statistics and Methods Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Statistics and Methods Courses"
+        },
+        {
+          "id": "course-8",
+          "label": "EDHD306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "306"
+        },
+        {
+          "id": "course-9",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "note-10",
+          "label": "Core Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Courses 9"
+        },
+        {
+          "id": "choice-11",
+          "label": "Select three of the following five courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-12",
+              "label": "EDHD411",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "411"
+            },
+            {
+              "id": "course-13",
+              "label": "EDHD412",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "412"
+            },
+            {
+              "id": "course-14",
+              "label": "EDHD413",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "413"
+            },
+            {
+              "id": "course-15",
+              "label": "EDHD440",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "440"
+            },
+            {
+              "id": "course-16",
+              "label": "EDHD460",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "460"
+            }
+          ],
+          "minCount": 3
+        },
+        {
+          "id": "note-17",
+          "label": "Elective Courses 1,2 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses 1,2 12"
+        },
+        {
+          "id": "choice-18",
+          "label": "Select four of the following elective courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-19",
+              "label": "EDHD221",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "221"
+            },
+            {
+              "id": "course-20",
+              "label": "EDHD230",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "230"
+            },
+            {
+              "id": "course-21",
+              "label": "EDHD231",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "231"
+            },
+            {
+              "id": "course-22",
+              "label": "EDHD241",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "241"
+            },
+            {
+              "id": "course-23",
+              "label": "EDHD310",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "310"
+            },
+            {
+              "id": "course-24",
+              "label": "EDHD400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "400"
+            },
+            {
+              "id": "course-25",
+              "label": "EDHD405",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "405"
+            },
+            {
+              "id": "course-26",
+              "label": "EDHD402",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "402"
+            },
+            {
+              "id": "course-27",
+              "label": "EDHD414",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "414"
+            },
+            {
+              "id": "course-28",
+              "label": "EDHD420",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "420"
+            },
+            {
+              "id": "course-29",
+              "label": "EDHD421",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "421"
+            },
+            {
+              "id": "course-30",
+              "label": "EDHD425",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "425"
+            },
+            {
+              "id": "course-31",
+              "label": "EDHD426",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "426"
+            },
+            {
+              "id": "course-32",
+              "label": "EDHD430",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "430"
+            },
+            {
+              "id": "course-34",
+              "label": "EDHD390",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "390"
+            }
+          ],
+          "minCount": 4
+        },
+        {
+          "id": "note-33",
+          "label": "Pro-Seminar and Internship/Field Experience 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pro-Seminar and Internship/Field Experience 3"
+        }
+      ]
+    },
+    {
+      "id": "choice-11",
+      "label": "Select three of the following five courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-12",
+          "label": "EDHD411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "411"
+        },
+        {
+          "id": "course-13",
+          "label": "EDHD412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "412"
+        },
+        {
+          "id": "course-14",
+          "label": "EDHD413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "413"
+        },
+        {
+          "id": "course-15",
+          "label": "EDHD440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "440"
+        },
+        {
+          "id": "course-16",
+          "label": "EDHD460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "460"
+        }
+      ],
+      "minCount": 3
+    },
+    {
+      "id": "choice-18",
+      "label": "Select four of the following elective courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-19",
+          "label": "EDHD221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "221"
+        },
+        {
+          "id": "course-20",
+          "label": "EDHD230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "230"
+        },
+        {
+          "id": "course-21",
+          "label": "EDHD231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "231"
+        },
+        {
+          "id": "course-22",
+          "label": "EDHD241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "241"
+        },
+        {
+          "id": "course-23",
+          "label": "EDHD310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "310"
+        },
+        {
+          "id": "course-24",
+          "label": "EDHD400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "400"
+        },
+        {
+          "id": "course-25",
+          "label": "EDHD405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "405"
+        },
+        {
+          "id": "course-26",
+          "label": "EDHD402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "402"
+        },
+        {
+          "id": "course-27",
+          "label": "EDHD414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "414"
+        },
+        {
+          "id": "course-28",
+          "label": "EDHD420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "420"
+        },
+        {
+          "id": "course-29",
+          "label": "EDHD421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "421"
+        },
+        {
+          "id": "course-30",
+          "label": "EDHD425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "425"
+        },
+        {
+          "id": "course-31",
+          "label": "EDHD426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "426"
+        },
+        {
+          "id": "course-32",
+          "label": "EDHD430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "430"
+        },
+        {
+          "id": "course-34",
+          "label": "EDHD390",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "390"
+        }
+      ],
+      "minCount": 4
+    },
+    {
+      "id": "block-35",
+      "label": "To be completed in the final year",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-36",
+          "label": "EDHD489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "489"
+        }
+      ]
+    },
+    {
+      "id": "block-37",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-38",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-39",
+          "label": "PSYC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "200"
+        },
+        {
+          "id": "course-40",
+          "label": "PSYC221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "221"
+        },
+        {
+          "id": "course-41",
+          "label": "PSYC300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "300"
+        },
+        {
+          "id": "course-42",
+          "label": "PSYC330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "330"
+        },
+        {
+          "id": "course-43",
+          "label": "PSYC332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "332"
+        },
+        {
+          "id": "course-44",
+          "label": "PSYC334",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "334"
+        },
+        {
+          "id": "course-45",
+          "label": "PSYC336",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "336"
+        },
+        {
+          "id": "course-46",
+          "label": "PSYC341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "341"
+        },
+        {
+          "id": "course-47",
+          "label": "PSYC346",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "346"
+        },
+        {
+          "id": "course-48",
+          "label": "PSYC353",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "353"
+        },
+        {
+          "id": "course-49",
+          "label": "PSYC381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "381"
+        },
+        {
+          "id": "course-50",
+          "label": "PSYC391",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "391"
+        },
+        {
+          "id": "course-51",
+          "label": "PSYC436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "436"
+        }
+      ]
+    },
+    {
+      "id": "block-52",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-53",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-54",
+          "label": "SOCY227",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "227"
+        },
+        {
+          "id": "course-55",
+          "label": "SOCY230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "230"
+        },
+        {
+          "id": "course-56",
+          "label": "SOCY241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "241"
+        },
+        {
+          "id": "course-57",
+          "label": "SOCY325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "325"
+        },
+        {
+          "id": "course-58",
+          "label": "SOCY412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "412"
+        },
+        {
+          "id": "course-59",
+          "label": "SOCY424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "424"
+        },
+        {
+          "id": "course-60",
+          "label": "SOCY442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "442"
+        },
+        {
+          "id": "course-61",
+          "label": "SOCY467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "467"
+        }
+      ]
+    },
+    {
+      "id": "block-62",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-63",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-64",
+          "label": "FMSC290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "290"
+        },
+        {
+          "id": "course-65",
+          "label": "FMSC330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "330"
+        },
+        {
+          "id": "course-66",
+          "label": "FMSC332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "332"
+        },
+        {
+          "id": "course-67",
+          "label": "FMSC430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "430"
+        },
+        {
+          "id": "course-68",
+          "label": "FMSC431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "431"
+        },
+        {
+          "id": "course-69",
+          "label": "FMSC460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "460"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select three of the following five courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-18",
+        "humanLabel": "Select four of the following elective courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select three of the following five courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-18",
+        "humanLabel": "Select four of the following elective courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-35",
+        "humanLabel": "To be completed in the final year",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-37",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "block-52",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "block-62",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Gateway Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "200"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "201"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "320"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Statistics and Methods Courses"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "306"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Courses 9"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "411"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "412"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "440"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "460"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses 1,2 12"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "221"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "230"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "231"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "241"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "310"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "400"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "405"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "402"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "414"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "420"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "421"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "425"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "430"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "390"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pro-Seminar and Internship/Field Experience 3"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "411"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "412"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "440"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "460"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "221"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "230"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "231"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "241"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "310"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "400"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "405"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "402"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "414"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "420"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "421"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "425"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "430"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "390"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "489"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "221"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "300"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "330"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "332"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "334"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "336"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "341"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "346"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "353"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "381"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "391"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "436"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "227"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "230"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "241"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "325"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "412"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "424"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "442"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "467"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "290"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "330"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "332"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "430"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "431"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "460"
+        },
+        "sortOrder": 82
+      }
+    ]
+  }
+}

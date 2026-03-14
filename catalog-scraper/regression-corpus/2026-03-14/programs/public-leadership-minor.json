@@ -1,0 +1,206 @@
+{
+  "code": "public-leadership-minor",
+  "title": "Public Leadership Minor",
+  "college": "Public Policy",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-policy/public-leadership-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core Course",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Course"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-5",
+              "label": "PLCY201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLCY",
+              "number": "201"
+            },
+            {
+              "id": "course-6",
+              "label": "PLCY302",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLCY",
+              "number": "302"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-7",
+          "label": "Signature and Elective Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Signature and Elective Courses"
+        },
+        {
+          "id": "choice-8",
+          "label": "Select 12 credits from approved list 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 12
+        }
+      ]
+    },
+    {
+      "id": "choice-4",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "PLCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "201"
+        },
+        {
+          "id": "course-6",
+          "label": "PLCY302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "302"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select 12 credits from approved list 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 12
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Course"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "201"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "302"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Signature and Elective Courses"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "302"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

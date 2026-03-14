@@ -1,0 +1,310 @@
+{
+  "code": "landscape-management-minor",
+  "title": "Landscape Management Minor",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/plant-sciences-landscape-architecture/landscape-management-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 22,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "PLSC205",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "205"
+        },
+        {
+          "id": "course-4",
+          "label": "PLSC251",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "251"
+        },
+        {
+          "id": "course-5",
+          "label": "PLSC253",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "253"
+        },
+        {
+          "id": "course-6",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        },
+        {
+          "id": "course-7",
+          "label": "PLSC452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "452"
+        },
+        {
+          "id": "choice-8",
+          "label": "Select two of the following courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-9",
+              "label": "PLSC401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "401"
+            },
+            {
+              "id": "course-10",
+              "label": "PLSC402",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "402"
+            },
+            {
+              "id": "course-11",
+              "label": "PLSC410",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "410"
+            },
+            {
+              "id": "course-12",
+              "label": "PLSC453",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "453"
+            }
+          ],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "choice-8",
+      "label": "Select two of the following courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-9",
+          "label": "PLSC401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "401"
+        },
+        {
+          "id": "course-10",
+          "label": "PLSC402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "402"
+        },
+        {
+          "id": "course-11",
+          "label": "PLSC410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "410"
+        },
+        {
+          "id": "course-12",
+          "label": "PLSC453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "453"
+        }
+      ],
+      "minCount": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select two of the following courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select two of the following courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "205"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "251"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "253"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "452"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "401"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "402"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "410"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "453"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "401"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "402"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "410"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "453"
+        },
+        "sortOrder": 14
+      }
+    ]
+  }
+}

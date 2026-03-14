@@ -1,0 +1,605 @@
+{
+  "code": "surficial-geology-minor",
+  "title": "Surficial Geology Minor",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/surficial-geology-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 19,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-3",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-4",
+              "label": "GEOL100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "100"
+            },
+            {
+              "id": "course-5",
+              "label": "GEOL110",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "110"
+            },
+            {
+              "id": "course-6",
+              "label": "GEOL120",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "120"
+            },
+            {
+              "id": "course-7",
+              "label": "GEOL110",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "110"
+            },
+            {
+              "id": "course-8",
+              "label": "GEOL123",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "123"
+            },
+            {
+              "id": "course-9",
+              "label": "GEOL340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "340"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-10",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-11",
+              "label": "GEOL331",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "331"
+            },
+            {
+              "id": "course-12",
+              "label": "GEOL342",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "342"
+            },
+            {
+              "id": "course-13",
+              "label": "GEOL435",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "435"
+            },
+            {
+              "id": "course-14",
+              "label": "GEOL437",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "437"
+            },
+            {
+              "id": "course-15",
+              "label": "GEOL444",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "444"
+            },
+            {
+              "id": "course-16",
+              "label": "GEOL451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "451"
+            },
+            {
+              "id": "course-17",
+              "label": "GEOL452",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "452"
+            },
+            {
+              "id": "course-18",
+              "label": "GEOL499",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "499"
+            }
+          ],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "choice-3",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "GEOL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "course-6",
+          "label": "GEOL120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "120"
+        },
+        {
+          "id": "course-7",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "course-8",
+          "label": "GEOL123",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "123"
+        },
+        {
+          "id": "course-9",
+          "label": "GEOL340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "340"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-10",
+      "label": "Select two of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-11",
+          "label": "GEOL331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "331"
+        },
+        {
+          "id": "course-12",
+          "label": "GEOL342",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "342"
+        },
+        {
+          "id": "course-13",
+          "label": "GEOL435",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "435"
+        },
+        {
+          "id": "course-14",
+          "label": "GEOL437",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "437"
+        },
+        {
+          "id": "course-15",
+          "label": "GEOL444",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "444"
+        },
+        {
+          "id": "course-16",
+          "label": "GEOL451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "451"
+        },
+        {
+          "id": "course-17",
+          "label": "GEOL452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "452"
+        },
+        {
+          "id": "course-18",
+          "label": "GEOL499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "499"
+        }
+      ],
+      "minCount": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "120"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "123"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "340"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "331"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "342"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "435"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "437"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "444"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "451"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "452"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "499"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "120"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "123"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "340"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "331"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "342"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "435"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "437"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "444"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "451"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "452"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "499"
+        },
+        "sortOrder": 29
+      }
+    ]
+  }
+}

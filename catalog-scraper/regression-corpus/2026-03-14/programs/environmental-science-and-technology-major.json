@@ -1,0 +1,3733 @@
+{
+  "code": "environmental-science-and-technology-major",
+  "title": "Environmental Science and Technology Major",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/environmental-science-technology/environmental-science-technology-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 80,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "ENST Core for all Areas of Concentration",
+          "nodeType": "note",
+          "children": [],
+          "text": "ENST Core for all Areas of Concentration"
+        },
+        {
+          "id": "course-4",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-5",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-6",
+          "label": "MATH120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "120"
+        },
+        {
+          "id": "course-7",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-8",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-10",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "course-11",
+          "label": "ENST200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "200"
+        },
+        {
+          "id": "course-12",
+          "label": "ENST233",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "233"
+        },
+        {
+          "id": "course-13",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-14",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-15",
+          "label": "PHYS121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "121"
+        },
+        {
+          "id": "course-16",
+          "label": "GEOG306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "306"
+        },
+        {
+          "id": "course-17",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-18",
+          "label": "ENST360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "360"
+        },
+        {
+          "id": "course-19",
+          "label": "ENST389",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "389"
+        },
+        {
+          "id": "note-20",
+          "label": "Concentration (See list below) 33-36",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration (See list below) 33-36"
+        }
+      ]
+    },
+    {
+      "id": "choice-21",
+      "label": "Senior Integrative Experience - Choose one course from list below",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-22",
+          "label": "ENST388",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "388"
+        },
+        {
+          "id": "course-23",
+          "label": "ENST470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "470"
+        },
+        {
+          "id": "course-24",
+          "label": "ENST486",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "486"
+        },
+        {
+          "id": "course-25",
+          "label": "ENST472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "472"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-26",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-27",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-28",
+          "label": "Concentration Core",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Core"
+        },
+        {
+          "id": "course-29",
+          "label": "ENST281",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "281"
+        },
+        {
+          "id": "course-30",
+          "label": "ENST481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "481"
+        },
+        {
+          "id": "course-31",
+          "label": "MATH121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "121"
+        },
+        {
+          "id": "note-32",
+          "label": "Concentration Depth - Ecology (2 Courses) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth - Ecology (2 Courses) 6"
+        },
+        {
+          "id": "course-33",
+          "label": "ENST410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "410"
+        },
+        {
+          "id": "course-34",
+          "label": "ENST422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "422"
+        },
+        {
+          "id": "course-35",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        },
+        {
+          "id": "course-36",
+          "label": "ENST453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "453"
+        },
+        {
+          "id": "course-37",
+          "label": "GEOL453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "453"
+        },
+        {
+          "id": "note-38",
+          "label": "Concentration Depth - Design (3 Courses) 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth - Design (3 Courses) 9"
+        },
+        {
+          "id": "course-39",
+          "label": "ENST282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "282"
+        },
+        {
+          "id": "course-40",
+          "label": "ENST405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "405"
+        },
+        {
+          "id": "course-41",
+          "label": "ENST415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "415"
+        },
+        {
+          "id": "course-42",
+          "label": "ENST443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "443"
+        },
+        {
+          "id": "course-43",
+          "label": "ENST485",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "485"
+        },
+        {
+          "id": "course-44",
+          "label": "ENST456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "456"
+        },
+        {
+          "id": "course-45",
+          "label": "GEOG272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "272"
+        },
+        {
+          "id": "course-46",
+          "label": "GEOG373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "373"
+        },
+        {
+          "id": "course-47",
+          "label": "INAG237",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "237"
+        },
+        {
+          "id": "note-48",
+          "label": "Ecological Technology Design Technical Electives 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Ecological Technology Design Technical Electives 1 12"
+        }
+      ]
+    },
+    {
+      "id": "block-49",
+      "label": "Urban Ecosystems and Human Dimensions",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-50",
+          "label": "ENST461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "461"
+        },
+        {
+          "id": "course-51",
+          "label": "GEOG331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "331"
+        },
+        {
+          "id": "course-52",
+          "label": "LARC452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "452"
+        },
+        {
+          "id": "course-53",
+          "label": "PLSC480",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "480"
+        }
+      ]
+    },
+    {
+      "id": "block-54",
+      "label": "Sustainable Technology",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-55",
+          "label": "ENST432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "432"
+        },
+        {
+          "id": "course-56",
+          "label": "ENST441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "441"
+        },
+        {
+          "id": "course-57",
+          "label": "GEOL453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "453"
+        },
+        {
+          "id": "course-58",
+          "label": "INAG250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "250"
+        },
+        {
+          "id": "course-59",
+          "label": "PLSC425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "425"
+        }
+      ]
+    },
+    {
+      "id": "block-60",
+      "label": "Wetlands",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-61",
+          "label": "ENST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "430"
+        },
+        {
+          "id": "course-62",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        },
+        {
+          "id": "course-63",
+          "label": "ENST452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "452"
+        },
+        {
+          "id": "course-64",
+          "label": "GEOL452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "452"
+        }
+      ]
+    },
+    {
+      "id": "block-65",
+      "label": "Ecology and Ecosystem Management",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-66",
+          "label": "BSCI467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "467"
+        },
+        {
+          "id": "course-67",
+          "label": "ENST373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "373"
+        },
+        {
+          "id": "course-68",
+          "label": "ENST460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "460"
+        },
+        {
+          "id": "course-69",
+          "label": "PLSC471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "471"
+        }
+      ]
+    },
+    {
+      "id": "block-70",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-71",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-72",
+          "label": "Concentration Core",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Core"
+        },
+        {
+          "id": "course-73",
+          "label": "ENST333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "333"
+        },
+        {
+          "id": "course-74",
+          "label": "ENST334",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "334"
+        },
+        {
+          "id": "course-75",
+          "label": "ENST436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "436"
+        },
+        {
+          "id": "course-76",
+          "label": "BSCI207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "207"
+        },
+        {
+          "id": "course-77",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-78",
+          "label": "BSCI223",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "223"
+        },
+        {
+          "id": "note-79",
+          "label": "Concentration Depth (2 Courses) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth (2 Courses) 6"
+        },
+        {
+          "id": "course-80",
+          "label": "ENST403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "403"
+        },
+        {
+          "id": "course-81",
+          "label": "ENST423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "423"
+        },
+        {
+          "id": "course-82",
+          "label": "ENST432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "432"
+        },
+        {
+          "id": "course-83",
+          "label": "ENST445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "445"
+        },
+        {
+          "id": "note-84",
+          "label": "Ecosystem Health Technical Electives 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Ecosystem Health Technical Electives 1 12"
+        }
+      ]
+    },
+    {
+      "id": "block-85",
+      "label": "Environmental Health",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-86",
+          "label": "ENST403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "403"
+        },
+        {
+          "id": "course-87",
+          "label": "ENST423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "423"
+        },
+        {
+          "id": "course-88",
+          "label": "ENST434",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "434"
+        },
+        {
+          "id": "course-89",
+          "label": "ENST436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "436"
+        },
+        {
+          "id": "course-90",
+          "label": "ENST445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "445"
+        }
+      ]
+    },
+    {
+      "id": "block-91",
+      "label": "Environmental Science and Management",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-92",
+          "label": "ENST405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "405"
+        },
+        {
+          "id": "course-93",
+          "label": "GEOG415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "415"
+        },
+        {
+          "id": "course-94",
+          "label": "GEOL452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "452"
+        },
+        {
+          "id": "course-95",
+          "label": "ENST432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "432"
+        },
+        {
+          "id": "course-96",
+          "label": "LARC450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "450"
+        }
+      ]
+    },
+    {
+      "id": "block-97",
+      "label": "Ecological Processes",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-98",
+          "label": "ENST422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "422"
+        },
+        {
+          "id": "course-99",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        },
+        {
+          "id": "course-100",
+          "label": "ENST460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "460"
+        },
+        {
+          "id": "course-101",
+          "label": "PLSC400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "400"
+        },
+        {
+          "id": "course-102",
+          "label": "BSCI467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "467"
+        }
+      ]
+    },
+    {
+      "id": "block-103",
+      "label": "Human Health",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-104",
+          "label": "BSCI424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "424"
+        },
+        {
+          "id": "course-105",
+          "label": "BSCI425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "425"
+        },
+        {
+          "id": "course-106",
+          "label": "BSCI437",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "437"
+        },
+        {
+          "id": "course-107",
+          "label": "BSCI450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "450"
+        }
+      ]
+    },
+    {
+      "id": "block-108",
+      "label": "Chemistry Depth",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-109",
+          "label": "CHEM241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "241"
+        },
+        {
+          "id": "course-110",
+          "label": "CHEM242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "242"
+        }
+      ]
+    },
+    {
+      "id": "block-111",
+      "label": "Cultural or Social Dimensions",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-112",
+          "label": "ENST410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "410"
+        },
+        {
+          "id": "course-113",
+          "label": "GEOG331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "331"
+        },
+        {
+          "id": "course-114",
+          "label": "GEOG431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "431"
+        },
+        {
+          "id": "course-115",
+          "label": "PLCY301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "301"
+        },
+        {
+          "id": "course-116",
+          "label": "SOCY405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "405"
+        }
+      ]
+    },
+    {
+      "id": "block-117",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-118",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-119",
+          "label": "Concentration Core",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Core"
+        },
+        {
+          "id": "course-120",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-121",
+          "label": "ENST214",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "214"
+        },
+        {
+          "id": "course-122",
+          "label": "ENST487",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "487"
+        },
+        {
+          "id": "note-123",
+          "label": "Concentration Depth (4 Courses) 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth (4 Courses) 12"
+        },
+        {
+          "id": "course-124",
+          "label": "ENST456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "456"
+        },
+        {
+          "id": "course-125",
+          "label": "GEOG272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "272"
+        },
+        {
+          "id": "course-126",
+          "label": "GEOG373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "373"
+        },
+        {
+          "id": "course-127",
+          "label": "INAG237",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "237"
+        },
+        {
+          "id": "course-128",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        },
+        {
+          "id": "course-129",
+          "label": "ENST453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "453"
+        },
+        {
+          "id": "course-130",
+          "label": "AREC240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "240"
+        },
+        {
+          "id": "course-131",
+          "label": "AREC241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "241"
+        },
+        {
+          "id": "course-132",
+          "label": "ENST410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "410"
+        },
+        {
+          "id": "course-133",
+          "label": "AREC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "250"
+        },
+        {
+          "id": "course-134",
+          "label": "ENST424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "424"
+        },
+        {
+          "id": "course-135",
+          "label": "ENST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "430"
+        },
+        {
+          "id": "course-136",
+          "label": "ENST441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "441"
+        },
+        {
+          "id": "course-137",
+          "label": "ENST462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "462"
+        },
+        {
+          "id": "course-138",
+          "label": "GEOG418",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "418"
+        },
+        {
+          "id": "note-139",
+          "label": "Natural Resources Management Technical Electives 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Natural Resources Management Technical Electives 1 12"
+        }
+      ]
+    },
+    {
+      "id": "block-140",
+      "label": "Wildlife",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-141",
+          "label": "ENST460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "460"
+        },
+        {
+          "id": "course-142",
+          "label": "ENST461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "461"
+        },
+        {
+          "id": "course-143",
+          "label": "BSCI334",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "334"
+        },
+        {
+          "id": "course-144",
+          "label": "BSCI335",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "335"
+        },
+        {
+          "id": "course-145",
+          "label": "ENSP102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENSP",
+          "number": "102"
+        },
+        {
+          "id": "course-146",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        },
+        {
+          "id": "course-147",
+          "label": "ENSP330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENSP",
+          "number": "330"
+        },
+        {
+          "id": "course-148",
+          "label": "GVPT273",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "273"
+        }
+      ]
+    },
+    {
+      "id": "block-149",
+      "label": "Fisheries",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-150",
+          "label": "ENST314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "314"
+        },
+        {
+          "id": "course-151",
+          "label": "COMM250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "250"
+        },
+        {
+          "id": "course-152",
+          "label": "COMM382",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "382"
+        },
+        {
+          "id": "course-153",
+          "label": "GEOG331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "331"
+        },
+        {
+          "id": "course-154",
+          "label": "GEOG416",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "416"
+        },
+        {
+          "id": "course-155",
+          "label": "ENSP102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENSP",
+          "number": "102"
+        },
+        {
+          "id": "course-156",
+          "label": "ENSP330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENSP",
+          "number": "330"
+        },
+        {
+          "id": "course-157",
+          "label": "GVPT273",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "273"
+        }
+      ]
+    },
+    {
+      "id": "block-158",
+      "label": "Wetlands",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-159",
+          "label": "ENST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "430"
+        },
+        {
+          "id": "course-160",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        },
+        {
+          "id": "course-161",
+          "label": "ENST452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "452"
+        },
+        {
+          "id": "course-162",
+          "label": "GEOL452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "452"
+        },
+        {
+          "id": "course-163",
+          "label": "PLSC489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "489"
+        },
+        {
+          "id": "course-164",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        }
+      ]
+    },
+    {
+      "id": "block-165",
+      "label": "Forestry",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-166",
+          "label": "PLSC253",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "253"
+        },
+        {
+          "id": "course-167",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        },
+        {
+          "id": "course-168",
+          "label": "PLSC400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "400"
+        },
+        {
+          "id": "course-169",
+          "label": "PLSC471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "471"
+        }
+      ]
+    },
+    {
+      "id": "block-170",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-171",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-172",
+          "label": "Concentration Core",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Core"
+        },
+        {
+          "id": "course-173",
+          "label": "GEOL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "100"
+        },
+        {
+          "id": "course-174",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "course-175",
+          "label": "ENST456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "456"
+        },
+        {
+          "id": "course-176",
+          "label": "GEOG272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "272"
+        },
+        {
+          "id": "course-177",
+          "label": "GEOG373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "373"
+        },
+        {
+          "id": "course-178",
+          "label": "INAG237",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "237"
+        },
+        {
+          "id": "note-179",
+          "label": "Concentration Depth - Soil Sciences 7",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth - Soil Sciences 7"
+        },
+        {
+          "id": "course-180",
+          "label": "ENST411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "411"
+        },
+        {
+          "id": "course-181",
+          "label": "ENST414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "414"
+        },
+        {
+          "id": "course-182",
+          "label": "ENST417",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "417"
+        },
+        {
+          "id": "course-183",
+          "label": "ENST421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "421"
+        },
+        {
+          "id": "course-184",
+          "label": "ENST422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "422"
+        },
+        {
+          "id": "note-185",
+          "label": "Concentration Depth - Field Experiences 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth - Field Experiences 3"
+        },
+        {
+          "id": "course-186",
+          "label": "ENST301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "301"
+        },
+        {
+          "id": "course-187",
+          "label": "ENST302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "302"
+        },
+        {
+          "id": "course-188",
+          "label": "ENST303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "303"
+        },
+        {
+          "id": "course-189",
+          "label": "ENST309",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "309"
+        },
+        {
+          "id": "course-190",
+          "label": "ENST424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "424"
+        },
+        {
+          "id": "course-191",
+          "label": "ENST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "430"
+        },
+        {
+          "id": "course-192",
+          "label": "ENST441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "441"
+        },
+        {
+          "id": "course-193",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        },
+        {
+          "id": "note-194",
+          "label": "Concentration Depth - Systems 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Concentration Depth - Systems 6"
+        },
+        {
+          "id": "course-195",
+          "label": "AREC365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "365"
+        },
+        {
+          "id": "course-196",
+          "label": "ENST410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "410"
+        },
+        {
+          "id": "course-197",
+          "label": "ENST432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "432"
+        },
+        {
+          "id": "course-198",
+          "label": "PLSC400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "400"
+        },
+        {
+          "id": "note-199",
+          "label": "Soil and Watershed Science Technical Electives 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Soil and Watershed Science Technical Electives 1 12"
+        }
+      ]
+    },
+    {
+      "id": "block-200",
+      "label": "Agriculture and Sustainable Land Use",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-201",
+          "label": "AREC365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "365"
+        },
+        {
+          "id": "course-202",
+          "label": "PLSC303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "303"
+        },
+        {
+          "id": "course-203",
+          "label": "PLSC405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "405"
+        }
+      ]
+    },
+    {
+      "id": "block-204",
+      "label": "Social Ecology",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-205",
+          "label": "BSCI223",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "223"
+        },
+        {
+          "id": "course-206",
+          "label": "BSCI337",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "337"
+        },
+        {
+          "id": "course-207",
+          "label": "BSCI467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "467"
+        },
+        {
+          "id": "course-208",
+          "label": "ENST410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "410"
+        }
+      ]
+    },
+    {
+      "id": "block-209",
+      "label": "Geosciences",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-210",
+          "label": "GEOL322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "322"
+        },
+        {
+          "id": "course-211",
+          "label": "GEOL340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "340"
+        },
+        {
+          "id": "course-212",
+          "label": "GEOL341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "341"
+        },
+        {
+          "id": "course-213",
+          "label": "GEOL342",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "342"
+        },
+        {
+          "id": "course-214",
+          "label": "GEOL444",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "444"
+        }
+      ]
+    },
+    {
+      "id": "block-215",
+      "label": "Watersheds",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-216",
+          "label": "ENST334",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "334"
+        },
+        {
+          "id": "course-217",
+          "label": "ENST423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "423"
+        },
+        {
+          "id": "course-218",
+          "label": "ENST453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "453"
+        },
+        {
+          "id": "course-219",
+          "label": "GEOL451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "451"
+        },
+        {
+          "id": "course-220",
+          "label": "GEOL452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "452"
+        },
+        {
+          "id": "course-221",
+          "label": "GEOL453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "453"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-21",
+        "humanLabel": "Senior Integrative Experience - Choose one course from list below",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-26",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-49",
+        "humanLabel": "Urban Ecosystems and Human Dimensions",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-54",
+        "humanLabel": "Sustainable Technology",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-60",
+        "humanLabel": "Wetlands",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-65",
+        "humanLabel": "Ecology and Ecosystem Management",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "block-70",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "block-85",
+        "humanLabel": "Environmental Health",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "block-91",
+        "humanLabel": "Environmental Science and Management",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": null,
+        "sourceNodeId": "block-97",
+        "humanLabel": "Ecological Processes",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": null,
+        "sourceNodeId": "block-103",
+        "humanLabel": "Human Health",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": null,
+        "sourceNodeId": "block-108",
+        "humanLabel": "Chemistry Depth",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 13,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-14",
+        "parentTempId": null,
+        "sourceNodeId": "block-111",
+        "humanLabel": "Cultural or Social Dimensions",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 14,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-15",
+        "parentTempId": null,
+        "sourceNodeId": "block-117",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 15,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-16",
+        "parentTempId": null,
+        "sourceNodeId": "block-140",
+        "humanLabel": "Wildlife",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 16,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-17",
+        "parentTempId": null,
+        "sourceNodeId": "block-149",
+        "humanLabel": "Fisheries",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 17,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-18",
+        "parentTempId": null,
+        "sourceNodeId": "block-158",
+        "humanLabel": "Wetlands",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 18,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-19",
+        "parentTempId": null,
+        "sourceNodeId": "block-165",
+        "humanLabel": "Forestry",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 19,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-20",
+        "parentTempId": null,
+        "sourceNodeId": "block-170",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 20,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-21",
+        "parentTempId": null,
+        "sourceNodeId": "block-200",
+        "humanLabel": "Agriculture and Sustainable Land Use",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 21,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-22",
+        "parentTempId": null,
+        "sourceNodeId": "block-204",
+        "humanLabel": "Social Ecology",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 22,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-23",
+        "parentTempId": null,
+        "sourceNodeId": "block-209",
+        "humanLabel": "Geosciences",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 23,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-24",
+        "parentTempId": null,
+        "sourceNodeId": "block-215",
+        "humanLabel": "Watersheds",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 24,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ENST Core for all Areas of Concentration"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "200"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "233"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "121"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "360"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "389"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration (See list below) 33-36"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "388"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "470"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "486"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "472"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Core"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "281"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "481"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "121"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth - Ecology (2 Courses) 6"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "410"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "422"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "453"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "453"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth - Design (3 Courses) 9"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "282"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "405"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "415"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "443"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "485"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "456"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "272"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "237"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Ecological Technology Design Technical Electives 1 12"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "461"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "331"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "452"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "480"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "432"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "441"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "453"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "250"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "425"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "430"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "452"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "452"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "467"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "373"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "460"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "471"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Core"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "333"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "334"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "436"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "207"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "223"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth (2 Courses) 6"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "403"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "423"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "432"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "445"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Ecosystem Health Technical Electives 1 12"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "403"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "423"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "434"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "436"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "445"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "405"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "415"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "452"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "432"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "450"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "422"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "460"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "400"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "467"
+        },
+        "sortOrder": 91
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "424"
+        },
+        "sortOrder": 92
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "425"
+        },
+        "sortOrder": 93
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "437"
+        },
+        "sortOrder": 94
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "450"
+        },
+        "sortOrder": 95
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "241"
+        },
+        "sortOrder": 96
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "242"
+        },
+        "sortOrder": 97
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "410"
+        },
+        "sortOrder": 98
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "331"
+        },
+        "sortOrder": 99
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "431"
+        },
+        "sortOrder": 100
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "301"
+        },
+        "sortOrder": 101
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "405"
+        },
+        "sortOrder": 102
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 103
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Core"
+        },
+        "sortOrder": 104
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 105
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "214"
+        },
+        "sortOrder": 106
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "487"
+        },
+        "sortOrder": 107
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth (4 Courses) 12"
+        },
+        "sortOrder": 108
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "456"
+        },
+        "sortOrder": 109
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "272"
+        },
+        "sortOrder": 110
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
+        },
+        "sortOrder": 111
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "237"
+        },
+        "sortOrder": 112
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 113
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "453"
+        },
+        "sortOrder": 114
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "240"
+        },
+        "sortOrder": 115
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "241"
+        },
+        "sortOrder": 116
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "410"
+        },
+        "sortOrder": 117
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 118
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "424"
+        },
+        "sortOrder": 119
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "430"
+        },
+        "sortOrder": 120
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "441"
+        },
+        "sortOrder": 121
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "462"
+        },
+        "sortOrder": 122
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "418"
+        },
+        "sortOrder": 123
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Natural Resources Management Technical Electives 1 12"
+        },
+        "sortOrder": 124
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "460"
+        },
+        "sortOrder": 125
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "461"
+        },
+        "sortOrder": 126
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "334"
+        },
+        "sortOrder": 127
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "335"
+        },
+        "sortOrder": 128
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENSP",
+          "number": "102"
+        },
+        "sortOrder": 129
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 130
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENSP",
+          "number": "330"
+        },
+        "sortOrder": 131
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "273"
+        },
+        "sortOrder": 132
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "314"
+        },
+        "sortOrder": 133
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "250"
+        },
+        "sortOrder": 134
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "382"
+        },
+        "sortOrder": 135
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "331"
+        },
+        "sortOrder": 136
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "416"
+        },
+        "sortOrder": 137
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENSP",
+          "number": "102"
+        },
+        "sortOrder": 138
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENSP",
+          "number": "330"
+        },
+        "sortOrder": 139
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "273"
+        },
+        "sortOrder": 140
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "430"
+        },
+        "sortOrder": 141
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 142
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "452"
+        },
+        "sortOrder": 143
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "452"
+        },
+        "sortOrder": 144
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "489"
+        },
+        "sortOrder": 145
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 146
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "253"
+        },
+        "sortOrder": 147
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 148
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "400"
+        },
+        "sortOrder": 149
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "471"
+        },
+        "sortOrder": 150
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 151
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Core"
+        },
+        "sortOrder": 152
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 153
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 154
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "456"
+        },
+        "sortOrder": 155
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "272"
+        },
+        "sortOrder": 156
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
+        },
+        "sortOrder": 157
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "237"
+        },
+        "sortOrder": 158
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth - Soil Sciences 7"
+        },
+        "sortOrder": 159
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "411"
+        },
+        "sortOrder": 160
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "414"
+        },
+        "sortOrder": 161
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "417"
+        },
+        "sortOrder": 162
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "421"
+        },
+        "sortOrder": 163
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "422"
+        },
+        "sortOrder": 164
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth - Field Experiences 3"
+        },
+        "sortOrder": 165
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "301"
+        },
+        "sortOrder": 166
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "302"
+        },
+        "sortOrder": 167
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "303"
+        },
+        "sortOrder": 168
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "309"
+        },
+        "sortOrder": 169
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "424"
+        },
+        "sortOrder": 170
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "430"
+        },
+        "sortOrder": 171
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "441"
+        },
+        "sortOrder": 172
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 173
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Concentration Depth - Systems 6"
+        },
+        "sortOrder": 174
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 175
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "410"
+        },
+        "sortOrder": 176
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "432"
+        },
+        "sortOrder": 177
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "400"
+        },
+        "sortOrder": 178
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Soil and Watershed Science Technical Electives 1 12"
+        },
+        "sortOrder": 179
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 180
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "303"
+        },
+        "sortOrder": 181
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "405"
+        },
+        "sortOrder": 182
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "223"
+        },
+        "sortOrder": 183
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "337"
+        },
+        "sortOrder": 184
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "467"
+        },
+        "sortOrder": 185
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "410"
+        },
+        "sortOrder": 186
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "322"
+        },
+        "sortOrder": 187
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "340"
+        },
+        "sortOrder": 188
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "341"
+        },
+        "sortOrder": 189
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "342"
+        },
+        "sortOrder": 190
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "444"
+        },
+        "sortOrder": 191
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "334"
+        },
+        "sortOrder": 192
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "423"
+        },
+        "sortOrder": 193
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "453"
+        },
+        "sortOrder": 194
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "451"
+        },
+        "sortOrder": 195
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "452"
+        },
+        "sortOrder": 196
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "453"
+        },
+        "sortOrder": 197
+      }
+    ]
+  }
+}

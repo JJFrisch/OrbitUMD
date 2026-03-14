@@ -1,0 +1,397 @@
+{
+  "code": "black-women-s-studies-minor-arhu",
+  "title": "Black Women's Studies Minor (ARHU)",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/women-gender-sexuality-studies/black-womens-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Foundation Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundation Courses"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-5",
+              "label": "AASP263",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "263"
+            },
+            {
+              "id": "course-6",
+              "label": "AASP265",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "265"
+            },
+            {
+              "id": "course-7",
+              "label": "LGBT264",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LGBT",
+              "number": "264"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-8",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-9",
+              "label": "WGSS314",
+              "nodeType": "course",
+              "children": [],
+              "subject": "WGSS",
+              "number": "314"
+            },
+            {
+              "id": "course-10",
+              "label": "AASP313",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "313"
+            },
+            {
+              "id": "course-11",
+              "label": "HIST360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "360"
+            },
+            {
+              "id": "course-12",
+              "label": "AASP398",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "398"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-13",
+          "label": "Electives 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives 9"
+        }
+      ]
+    },
+    {
+      "id": "choice-4",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "AASP263",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "263"
+        },
+        {
+          "id": "course-6",
+          "label": "AASP265",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "265"
+        },
+        {
+          "id": "course-7",
+          "label": "LGBT264",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LGBT",
+          "number": "264"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-8",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-9",
+          "label": "WGSS314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "WGSS",
+          "number": "314"
+        },
+        {
+          "id": "course-10",
+          "label": "AASP313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "313"
+        },
+        {
+          "id": "course-11",
+          "label": "HIST360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "360"
+        },
+        {
+          "id": "course-12",
+          "label": "AASP398",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "398"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundation Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "263"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "265"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LGBT",
+          "number": "264"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "314"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "313"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "360"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "398"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives 9"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "263"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "265"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LGBT",
+          "number": "264"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "314"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "313"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "360"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "398"
+        },
+        "sortOrder": 17
+      }
+    ]
+  }
+}

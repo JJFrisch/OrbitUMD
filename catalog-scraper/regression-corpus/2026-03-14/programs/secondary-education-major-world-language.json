@@ -1,0 +1,732 @@
+{
+  "code": "secondary-education-major-world-language",
+  "title": "Secondary Education Major - World Language",
+  "college": "Education",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/world-language-education-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 83,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Pre-Professional/Subject Area Courses 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Subject Area Courses 1"
+        },
+        {
+          "id": "note-5",
+          "label": "Primary WL Area Intermediate (200 level) courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Intermediate (200 level) courses"
+        },
+        {
+          "id": "note-6",
+          "label": "Primary WL Area Reading Strategies",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Reading Strategies"
+        },
+        {
+          "id": "note-7",
+          "label": "Primary WL Area Grammar and Composition (300-400 levels)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Grammar and Composition (300-400 levels)"
+        },
+        {
+          "id": "note-8",
+          "label": "Primary WL Area Survey of Literature (300-400 levels)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Survey of Literature (300-400 levels)"
+        },
+        {
+          "id": "note-9",
+          "label": "Primary WL Area Conversation (300-400 levels)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Conversation (300-400 levels)"
+        },
+        {
+          "id": "note-10",
+          "label": "Primary WL Area Literature (400-above levels)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Literature (400-above levels)"
+        },
+        {
+          "id": "note-11",
+          "label": "Primary WL Area Culture and Civilization",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area Culture and Civilization"
+        },
+        {
+          "id": "choice-12",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-14",
+              "label": "LING200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LING",
+              "number": "200"
+            },
+            {
+              "id": "course-17",
+              "label": "EDHD413",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "413"
+            },
+            {
+              "id": "course-18",
+              "label": "EDHD426",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "426"
+            },
+            {
+              "id": "course-19",
+              "label": "TLPL462",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "462"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-13",
+          "label": "Primary WL Area:Applied Linguistics",
+          "nodeType": "note",
+          "children": [],
+          "text": "Primary WL Area:Applied Linguistics"
+        },
+        {
+          "id": "note-15",
+          "label": "ELECTIVES: Select a minimum of three elective courses in Supporting Area/WL-Related Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELECTIVES: Select a minimum of three elective courses in Supporting Area/WL-Related Courses 9"
+        },
+        {
+          "id": "note-16",
+          "label": "Pre-Professional/Education Courses 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Education Courses 3"
+        },
+        {
+          "id": "choice-20",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-21",
+              "label": "TLPL360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "360"
+            },
+            {
+              "id": "course-22",
+              "label": "TLPL250",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "250"
+            },
+            {
+              "id": "course-24",
+              "label": "TLPL445",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "445"
+            },
+            {
+              "id": "course-25",
+              "label": "TLPL450",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "450"
+            },
+            {
+              "id": "course-26",
+              "label": "TLPL479",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "479"
+            },
+            {
+              "id": "course-27",
+              "label": "TLPL478",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "478"
+            },
+            {
+              "id": "course-28",
+              "label": "TLPL489",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "489"
+            },
+            {
+              "id": "course-29",
+              "label": "TLPL488",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "488"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-23",
+          "label": "Professional Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Education Courses"
+        }
+      ]
+    },
+    {
+      "id": "choice-12",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-14",
+          "label": "LING200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LING",
+          "number": "200"
+        },
+        {
+          "id": "course-17",
+          "label": "EDHD413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "413"
+        },
+        {
+          "id": "course-18",
+          "label": "EDHD426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "426"
+        },
+        {
+          "id": "course-19",
+          "label": "TLPL462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "462"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-20",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-21",
+          "label": "TLPL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "360"
+        },
+        {
+          "id": "course-22",
+          "label": "TLPL250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "250"
+        },
+        {
+          "id": "course-24",
+          "label": "TLPL445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "445"
+        },
+        {
+          "id": "course-25",
+          "label": "TLPL450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "450"
+        },
+        {
+          "id": "course-26",
+          "label": "TLPL479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "479"
+        },
+        {
+          "id": "course-27",
+          "label": "TLPL478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "478"
+        },
+        {
+          "id": "course-28",
+          "label": "TLPL489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "489"
+        },
+        {
+          "id": "course-29",
+          "label": "TLPL488",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "488"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-20",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-20",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Subject Area Courses 1"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Intermediate (200 level) courses"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Reading Strategies"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Grammar and Composition (300-400 levels)"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Survey of Literature (300-400 levels)"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Conversation (300-400 levels)"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Literature (400-above levels)"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area Culture and Civilization"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LING",
+          "number": "200"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "462"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Primary WL Area:Applied Linguistics"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELECTIVES: Select a minimum of three elective courses in Supporting Area/WL-Related Courses 9"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Education Courses 3"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "445"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "450"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "488"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Education Courses"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LING",
+          "number": "200"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "462"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "445"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "450"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "488"
+        },
+        "sortOrder": 38
+      }
+    ]
+  }
+}

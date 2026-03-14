@@ -1,0 +1,858 @@
+{
+  "code": "bioengineering-major",
+  "title": "Bioengineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/bioengineering/bioengineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 126,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Freshman Year Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Freshman Year Credits"
+        },
+        {
+          "id": "course-3",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-5",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-6",
+          "label": "CHEM136",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "136"
+        },
+        {
+          "id": "course-7",
+          "label": "BIOE120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "120"
+        },
+        {
+          "id": "course-8",
+          "label": "BIOE121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "121"
+        },
+        {
+          "id": "course-9",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-10",
+          "label": "PHYS161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "161"
+        },
+        {
+          "id": "course-11",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "note-12",
+          "label": "General Education I 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education I 3"
+        },
+        {
+          "id": "course-13",
+          "label": "BIOE241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "241"
+        },
+        {
+          "id": "note-14",
+          "label": "31",
+          "nodeType": "note",
+          "children": [],
+          "text": "31"
+        },
+        {
+          "id": "note-15",
+          "label": "Sophomore Year Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sophomore Year Credits"
+        },
+        {
+          "id": "course-16",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-17",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-18",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-19",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-20",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-21",
+          "label": "BIOE221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "221"
+        },
+        {
+          "id": "course-22",
+          "label": "BIOE232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "232"
+        },
+        {
+          "id": "note-23",
+          "label": "Biological Science Elective I1 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Biological Science Elective I1 3"
+        },
+        {
+          "id": "course-24",
+          "label": "ENES200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "200"
+        },
+        {
+          "id": "course-25",
+          "label": "ENES102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "102"
+        },
+        {
+          "id": "course-26",
+          "label": "MATH243",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "243"
+        },
+        {
+          "id": "course-27",
+          "label": "BIOE246",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "246"
+        },
+        {
+          "id": "note-28",
+          "label": "32",
+          "nodeType": "note",
+          "children": [],
+          "text": "32"
+        },
+        {
+          "id": "note-29",
+          "label": "Junior Year Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year Credits"
+        },
+        {
+          "id": "course-30",
+          "label": "BIOE331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "331"
+        },
+        {
+          "id": "course-31",
+          "label": "BIOE372",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "372"
+        },
+        {
+          "id": "course-32",
+          "label": "BSCI330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "330"
+        },
+        {
+          "id": "note-33",
+          "label": "BIOE Foundational I1 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "BIOE Foundational I1 3"
+        },
+        {
+          "id": "note-34",
+          "label": "BIOE Elective I1 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "BIOE Elective I1 3"
+        },
+        {
+          "id": "course-35",
+          "label": "BIOE340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "340"
+        },
+        {
+          "id": "course-36",
+          "label": "BIOE457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "457"
+        },
+        {
+          "id": "note-37",
+          "label": "BIOE Foundational II 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "BIOE Foundational II 3"
+        },
+        {
+          "id": "note-38",
+          "label": "General Education Requirement III 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirement III 3"
+        },
+        {
+          "id": "note-39",
+          "label": "General Education Requirement IV 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirement IV 3"
+        },
+        {
+          "id": "note-40",
+          "label": "33",
+          "nodeType": "note",
+          "children": [],
+          "text": "33"
+        },
+        {
+          "id": "note-41",
+          "label": "Senior Year Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year Credits"
+        },
+        {
+          "id": "course-42",
+          "label": "BIOE485",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "485"
+        },
+        {
+          "id": "note-43",
+          "label": "BIOE Elective II 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "BIOE Elective II 3"
+        },
+        {
+          "id": "note-44",
+          "label": "BIOE Elective III 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "BIOE Elective III 3"
+        },
+        {
+          "id": "note-45",
+          "label": "General Education Requirement V 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirement V 3"
+        },
+        {
+          "id": "note-46",
+          "label": "Professional Writing Requirement 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Writing Requirement 3"
+        },
+        {
+          "id": "course-47",
+          "label": "BIOE486",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOE",
+          "number": "486"
+        },
+        {
+          "id": "note-48",
+          "label": "BIOE Elective IV 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "BIOE Elective IV 3"
+        },
+        {
+          "id": "note-49",
+          "label": "Breadth Elective 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Breadth Elective 3"
+        },
+        {
+          "id": "note-50",
+          "label": "Biological Science Elective II 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Biological Science Elective II 3"
+        },
+        {
+          "id": "note-51",
+          "label": "General Education Requirement VI 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirement VI 3"
+        },
+        {
+          "id": "note-52",
+          "label": "30",
+          "nodeType": "note",
+          "children": [],
+          "text": "30"
+        }
+      ],
+      "minCredits": 126
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 126
+        },
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Freshman Year Credits"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "136"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "120"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "121"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "161"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education I 3"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "241"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "31"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sophomore Year Credits"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "221"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "232"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Biological Science Elective I1 3"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "200"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "102"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "243"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "246"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "32"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year Credits"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "331"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "372"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "330"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BIOE Foundational I1 3"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BIOE Elective I1 3"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "340"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "457"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BIOE Foundational II 3"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirement III 3"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirement IV 3"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "33"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year Credits"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "485"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BIOE Elective II 3"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BIOE Elective III 3"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirement V 3"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Writing Requirement 3"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOE",
+          "number": "486"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BIOE Elective IV 3"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Breadth Elective 3"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Biological Science Elective II 3"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirement VI 3"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "30"
+        },
+        "sortOrder": 51
+      }
+    ]
+  }
+}

@@ -187,6 +187,19 @@ export type RequirementItemTypeV2 =
   | "SUBJECT_CONSTRAINT"
   | "TEXT_RULE";
 
+export interface RequirementDslNodeV2 {
+  id: string;
+  label: string;
+  nodeType: "requireAll" | "requireAny" | "course" | "courseGroup" | "note";
+  minCount?: number;
+  minCredits?: number;
+  subject?: string;
+  number?: string;
+  text?: string;
+  courses?: Array<{ subject: string; number: string }>;
+  children: RequirementDslNodeV2[];
+}
+
 export interface ProgramV2 {
   id: string;
   code: string;
@@ -197,12 +210,14 @@ export interface ProgramV2 {
   catalogYearEnd: number | null;
   minCredits: number | null;
   sourceUrl: string;
+  requirementTree: RequirementDslNodeV2[] | null;
 }
 
 export interface RequirementBlockV2 {
   id: string;
   programId: string;
   parentRequirementId: string | null;
+  sourceNodeId?: string | null;
   type: string;
   params: Record<string, unknown>;
   humanLabel: string;

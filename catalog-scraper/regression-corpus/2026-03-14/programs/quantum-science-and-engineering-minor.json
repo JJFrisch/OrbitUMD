@@ -1,0 +1,489 @@
+{
+  "code": "quantum-science-and-engineering-minor",
+  "title": "Quantum Science and Engineering Minor",
+  "college": "Engineering",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/electrical-and-computer/quantum-science-engineering-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 9,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        }
+      ]
+    },
+    {
+      "id": "choice-3",
+      "label": "Mathematics Course (choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "MATH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "240"
+        },
+        {
+          "id": "course-5",
+          "label": "MATH461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "461"
+        },
+        {
+          "id": "course-6",
+          "label": "ENEE290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "290"
+        },
+        {
+          "id": "course-7",
+          "label": "PHYS274",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "274"
+        },
+        {
+          "id": "course-8",
+          "label": "MATH243",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "243"
+        },
+        {
+          "id": "course-9",
+          "label": "MATH341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "341"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-10",
+      "label": "Introduction to Quantum Course (choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-11",
+          "label": "ENEE491",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "491"
+        },
+        {
+          "id": "course-12",
+          "label": "PHYS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "401"
+        },
+        {
+          "id": "course-13",
+          "label": "ENMA434",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "434"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "360"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-15",
+      "label": "Core Course (choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-16",
+          "label": "PHYS467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "467"
+        },
+        {
+          "id": "course-17",
+          "label": "ENEE492",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "492"
+        },
+        {
+          "id": "course-18",
+          "label": "ENMA436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "436"
+        },
+        {
+          "id": "course-19",
+          "label": "ENME434",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "434"
+        },
+        {
+          "id": "course-20",
+          "label": "CMSC457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "457"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-21",
+      "label": "Laboratory Course (choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-22",
+          "label": "ENEE493",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "493"
+        },
+        {
+          "id": "course-23",
+          "label": "CMSC437",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "437"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-24",
+      "label": "Elective Course (choose one of the following): 1",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-25",
+          "label": "ENEE489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "489"
+        },
+        {
+          "id": "course-26",
+          "label": "ENEE489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "489"
+        },
+        {
+          "id": "course-27",
+          "label": "ENMA481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "481"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Mathematics Course (choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Introduction to Quantum Course (choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Core Course (choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-21",
+        "humanLabel": "Laboratory Course (choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-24",
+        "humanLabel": "Elective Course (choose one of the following): 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "240"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "461"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "290"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "274"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "243"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "341"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "491"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "401"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "434"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "360"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "467"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "492"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "436"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "434"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "457"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "493"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "437"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "489"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "489"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "481"
+        },
+        "sortOrder": 21
+      }
+    ]
+  }
+}

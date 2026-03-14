@@ -1,0 +1,173 @@
+{
+  "code": "philosophy-major",
+  "title": "Philosophy Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 36,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select 12 courses in philosophy distributed as follows: 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 12
+        },
+        {
+          "id": "note-5",
+          "label": "Four courses at 3xx-level or above",
+          "nodeType": "note",
+          "children": [],
+          "text": "Four courses at 3xx-level or above"
+        },
+        {
+          "id": "note-6",
+          "label": "Two courses at 4xx-level or above",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two courses at 4xx-level or above"
+        },
+        {
+          "id": "note-7",
+          "label": "One course in logic at any level",
+          "nodeType": "note",
+          "children": [],
+          "text": "One course in logic at any level"
+        },
+        {
+          "id": "note-8",
+          "label": "Two or more courses at 2xx-level or above in the history of pre-twentieth century philosophy",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two or more courses at 2xx-level or above in the history of pre-twentieth century philosophy"
+        },
+        {
+          "id": "note-9",
+          "label": "Two or more courses at 2xx-level or above in value theory (including aesthetics and political philosophy as well as ethics)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two or more courses at 2xx-level or above in value theory (including aesthetics and political philosophy as well as ethics)"
+        },
+        {
+          "id": "note-10",
+          "label": "Two or more courses at 2xx-level or above in metaphysics or epistemology (including philosophy of science, philosophy of mind, and philosophy of religion, as well as metaphysics and theory of knowledge)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two or more courses at 2xx-level or above in metaphysics or epistemology (including philosophy of science, philosophy of mind, and philosophy of religion, as well as metaphysics and theory of knowledge)"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select 12 courses in philosophy distributed as follows: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 12
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Four courses at 3xx-level or above"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two courses at 4xx-level or above"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "One course in logic at any level"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two or more courses at 2xx-level or above in the history of pre-twentieth century philosophy"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two or more courses at 2xx-level or above in value theory (including aesthetics and political philosophy as well as ethics)"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two or more courses at 2xx-level or above in metaphysics or epistemology (including philosophy of science, philosophy of mind, and philosophy of religion, as well as metaphysics and theory of knowledge)"
+        },
+        "sortOrder": 8
+      }
+    ]
+  }
+}

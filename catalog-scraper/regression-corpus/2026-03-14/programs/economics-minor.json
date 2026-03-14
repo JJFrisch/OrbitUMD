@@ -1,0 +1,251 @@
+{
+  "code": "economics-minor",
+  "title": "Economics Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/economics/economics-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 20,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        },
+        {
+          "id": "course-4",
+          "label": "ECON201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "201"
+        },
+        {
+          "id": "course-5",
+          "label": "ECON305",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "305"
+        },
+        {
+          "id": "course-6",
+          "label": "ECON306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "306"
+        },
+        {
+          "id": "course-7",
+          "label": "ECON325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "325"
+        },
+        {
+          "id": "course-8",
+          "label": "ECON326",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "326"
+        },
+        {
+          "id": "course-9",
+          "label": "OR400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "OR",
+          "number": "400"
+        },
+        {
+          "id": "course-10",
+          "label": "ECON305",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "305"
+        },
+        {
+          "id": "course-11",
+          "label": "ECON306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "306"
+        },
+        {
+          "id": "course-12",
+          "label": "ECON325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "325"
+        },
+        {
+          "id": "course-13",
+          "label": "ECON326",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "326"
+        },
+        {
+          "id": "note-14",
+          "label": "(2) 400-level ECON courses of choice 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "(2) 400-level ECON courses of choice 6"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "305"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "306"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "325"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "326"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "OR",
+          "number": "400"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "305"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "306"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "325"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "326"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "(2) 400-level ECON courses of choice 6"
+        },
+        "sortOrder": 13
+      }
+    ]
+  }
+}

@@ -1,0 +1,549 @@
+{
+  "code": "civil-engineering-major",
+  "title": "Civil Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/civil-environmental-engineering/civil-environmental-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 122,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Freshman Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Freshman Year"
+        },
+        {
+          "id": "note-3",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-4",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-6",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "note-7",
+          "label": "*SCIENCE ELECTIVE 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "*SCIENCE ELECTIVE 3"
+        },
+        {
+          "id": "course-8",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "note-9",
+          "label": "16",
+          "nodeType": "note",
+          "children": [],
+          "text": "16"
+        },
+        {
+          "id": "note-10",
+          "label": "Sophomore Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sophomore Year"
+        },
+        {
+          "id": "note-11",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-12",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-13",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-14",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-15",
+          "label": "ENES220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "220"
+        },
+        {
+          "id": "course-16",
+          "label": "ENCE202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "202"
+        },
+        {
+          "id": "note-17",
+          "label": "14",
+          "nodeType": "note",
+          "children": [],
+          "text": "14"
+        },
+        {
+          "id": "note-18",
+          "label": "Junior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year"
+        },
+        {
+          "id": "note-19",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-20",
+          "label": "ENCE303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "303"
+        },
+        {
+          "id": "course-21",
+          "label": "ENCE312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "312"
+        },
+        {
+          "id": "course-22",
+          "label": "ENCE365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "365"
+        },
+        {
+          "id": "course-23",
+          "label": "ENCE336",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "336"
+        },
+        {
+          "id": "note-24",
+          "label": "ENGL39X 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "ENGL39X 3"
+        },
+        {
+          "id": "note-25",
+          "label": "16",
+          "nodeType": "note",
+          "children": [],
+          "text": "16"
+        },
+        {
+          "id": "note-26",
+          "label": "Senior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year"
+        },
+        {
+          "id": "note-27",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "note-28",
+          "label": "**ELECTIVE 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "**ELECTIVE 3"
+        },
+        {
+          "id": "note-29",
+          "label": "**ELECTIVE 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "**ELECTIVE 3"
+        },
+        {
+          "id": "course-30",
+          "label": "ENCE483",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "483"
+        },
+        {
+          "id": "course-31",
+          "label": "ENCE442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "442"
+        },
+        {
+          "id": "course-32",
+          "label": "ENCE464",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "464"
+        },
+        {
+          "id": "note-33",
+          "label": "14",
+          "nodeType": "note",
+          "children": [],
+          "text": "14"
+        }
+      ],
+      "minCredits": 122
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 122
+        },
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Freshman Year"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "*SCIENCE ELECTIVE 3"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "16"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sophomore Year"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "220"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "202"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "14"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "303"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "312"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "365"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "336"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ENGL39X 3"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "16"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "**ELECTIVE 3"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "**ELECTIVE 3"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "483"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "442"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "464"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "14"
+        },
+        "sortOrder": 32
+      }
+    ]
+  }
+}

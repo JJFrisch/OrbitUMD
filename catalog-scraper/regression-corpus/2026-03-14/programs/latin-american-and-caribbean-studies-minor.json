@@ -1,0 +1,149 @@
+{
+  "code": "latin-american-and-caribbean-studies-minor",
+  "title": "Latin American and Caribbean Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/latin-american-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "SPAN234",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "234"
+        },
+        {
+          "id": "course-4",
+          "label": "SPAN235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "235"
+        },
+        {
+          "id": "course-5",
+          "label": "LACS250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LACS",
+          "number": "250"
+        },
+        {
+          "id": "course-6",
+          "label": "HIST251",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "251"
+        },
+        {
+          "id": "course-7",
+          "label": "LACS486",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LACS",
+          "number": "486"
+        },
+        {
+          "id": "note-8",
+          "label": "ELECTIVE Two 300 or 400 level elective courses 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELECTIVE Two 300 or 400 level elective courses 1"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "234"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "235"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LACS",
+          "number": "250"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "251"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LACS",
+          "number": "486"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELECTIVE Two 300 or 400 level elective courses 1"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

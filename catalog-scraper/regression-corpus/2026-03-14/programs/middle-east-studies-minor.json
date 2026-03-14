@@ -1,0 +1,218 @@
+{
+  "code": "middle-east-studies-minor",
+  "title": "Middle East Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Area Distribution",
+          "nodeType": "note",
+          "children": [],
+          "text": "Area Distribution"
+        },
+        {
+          "id": "note-4",
+          "label": "Select at least one course in each of two of the following Area categories: 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select at least one course in each of two of the following Area categories: 1 6"
+        },
+        {
+          "id": "note-5",
+          "label": "The Arab world",
+          "nodeType": "note",
+          "children": [],
+          "text": "The Arab world"
+        },
+        {
+          "id": "note-6",
+          "label": "Iran and the Persian/Iranian world",
+          "nodeType": "note",
+          "children": [],
+          "text": "Iran and the Persian/Iranian world"
+        },
+        {
+          "id": "note-7",
+          "label": "(Middle Eastern) Jewish and Israel",
+          "nodeType": "note",
+          "children": [],
+          "text": "(Middle Eastern) Jewish and Israel"
+        },
+        {
+          "id": "note-8",
+          "label": "Turkish and Ottoman",
+          "nodeType": "note",
+          "children": [],
+          "text": "Turkish and Ottoman"
+        },
+        {
+          "id": "note-9",
+          "label": "Middle Eastern Diasporas and All Middle East",
+          "nodeType": "note",
+          "children": [],
+          "text": "Middle Eastern Diasporas and All Middle East"
+        },
+        {
+          "id": "note-10",
+          "label": "Pre-Modern",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Modern"
+        },
+        {
+          "id": "note-11",
+          "label": "Select at least two courses that focus on the pre-modern period (the 7th century through the 19th century) 2 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select at least two courses that focus on the pre-modern period (the 7th century through the 19th century) 2 6"
+        },
+        {
+          "id": "note-12",
+          "label": "Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives"
+        },
+        {
+          "id": "choice-13",
+          "label": "Select one course from the list of approved Middle East Studies courses 3",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-13",
+        "humanLabel": "Select one course from the list of approved Middle East Studies courses 3",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Area Distribution"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select at least one course in each of two of the following Area categories: 1 6"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "The Arab world"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Iran and the Persian/Iranian world"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "(Middle Eastern) Jewish and Israel"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Turkish and Ottoman"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Middle Eastern Diasporas and All Middle East"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Modern"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select at least two courses that focus on the pre-modern period (the 7th century through the 19th century) 2 6"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives"
+        },
+        "sortOrder": 11
+      }
+    ]
+  }
+}

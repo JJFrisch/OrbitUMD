@@ -1,0 +1,1422 @@
+{
+  "code": "philosophy-politics-and-economics-major",
+  "title": "Philosophy, Politics, and Economics Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-politics-economics-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 39,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Disciplinary Foundations",
+          "nodeType": "note",
+          "children": [],
+          "text": "Disciplinary Foundations"
+        },
+        {
+          "id": "course-5",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        },
+        {
+          "id": "course-6",
+          "label": "ECON201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "201"
+        },
+        {
+          "id": "course-7",
+          "label": "GVPT170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "170"
+        },
+        {
+          "id": "course-8",
+          "label": "PHIL140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "140"
+        },
+        {
+          "id": "course-9",
+          "label": "PHIL245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "245"
+        },
+        {
+          "id": "course-10",
+          "label": "PLCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "100"
+        },
+        {
+          "id": "note-11",
+          "label": "Core Sequence",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Sequence"
+        },
+        {
+          "id": "course-12",
+          "label": "PHPE400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHPE",
+          "number": "400"
+        },
+        {
+          "id": "course-13",
+          "label": "PHPE401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHPE",
+          "number": "401"
+        },
+        {
+          "id": "course-14",
+          "label": "PHPE402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHPE",
+          "number": "402"
+        },
+        {
+          "id": "note-15",
+          "label": "Electives 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives 1"
+        },
+        {
+          "id": "choice-16",
+          "label": "Select four courses (12 credits)",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "option-18",
+              "label": "Any PHPE course at the 300-400 level besides PHPE400, PHPE401, and PHPE402",
+              "nodeType": "requireAll",
+              "children": [
+                {
+                  "id": "pair-17",
+                  "label": "Any PHPE course at the 300-400 level besides PHPE400, PHPE401, and PHPE402",
+                  "nodeType": "courseGroup",
+                  "children": [],
+                  "courses": [
+                    {
+                      "subject": "THE",
+                      "number": "300"
+                    },
+                    {
+                      "subject": "PHPE",
+                      "number": "400"
+                    },
+                    {
+                      "subject": "PHPE",
+                      "number": "401"
+                    },
+                    {
+                      "subject": "PHPE",
+                      "number": "402"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "course-19",
+              "label": "AASP301",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "301"
+            },
+            {
+              "id": "course-20",
+              "label": "AASP314",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "314"
+            },
+            {
+              "id": "course-21",
+              "label": "AASP499",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AASP",
+              "number": "499"
+            },
+            {
+              "id": "course-22",
+              "label": "BMGT468",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "468"
+            },
+            {
+              "id": "course-23",
+              "label": "COMM330",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "330"
+            },
+            {
+              "id": "course-24",
+              "label": "COMM458",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "458"
+            },
+            {
+              "id": "course-25",
+              "label": "COMM469",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "469"
+            },
+            {
+              "id": "course-26",
+              "label": "ECON311",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "311"
+            },
+            {
+              "id": "course-27",
+              "label": "ECON312",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "312"
+            },
+            {
+              "id": "course-28",
+              "label": "GVPT409",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GVPT",
+              "number": "409"
+            },
+            {
+              "id": "course-29",
+              "label": "GVPT439",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GVPT",
+              "number": "439"
+            },
+            {
+              "id": "course-30",
+              "label": "HIST319",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "319"
+            },
+            {
+              "id": "course-31",
+              "label": "HIST326",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "326"
+            },
+            {
+              "id": "course-32",
+              "label": "HIST328",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "328"
+            },
+            {
+              "id": "course-33",
+              "label": "HIST329",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "329"
+            },
+            {
+              "id": "course-34",
+              "label": "HIST339",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "339"
+            },
+            {
+              "id": "course-35",
+              "label": "HIST415",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "415"
+            },
+            {
+              "id": "course-36",
+              "label": "HIST419",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "419"
+            },
+            {
+              "id": "course-37",
+              "label": "HIST428",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "428"
+            },
+            {
+              "id": "course-38",
+              "label": "HIST450",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "450"
+            },
+            {
+              "id": "course-39",
+              "label": "HIST451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "HIST",
+              "number": "451"
+            },
+            {
+              "id": "course-40",
+              "label": "PHIL341",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PHIL",
+              "number": "341"
+            },
+            {
+              "id": "course-41",
+              "label": "PHIL344",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PHIL",
+              "number": "344"
+            },
+            {
+              "id": "course-42",
+              "label": "PHIL347",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PHIL",
+              "number": "347"
+            },
+            {
+              "id": "course-43",
+              "label": "PHIL440",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PHIL",
+              "number": "440"
+            },
+            {
+              "id": "course-44",
+              "label": "PHIL445",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PHIL",
+              "number": "445"
+            },
+            {
+              "id": "course-45",
+              "label": "PHIL446",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PHIL",
+              "number": "446"
+            },
+            {
+              "id": "course-46",
+              "label": "WGSS302",
+              "nodeType": "course",
+              "children": [],
+              "subject": "WGSS",
+              "number": "302"
+            },
+            {
+              "id": "course-47",
+              "label": "WMST400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "WMST",
+              "number": "400"
+            }
+          ],
+          "minCount": 4
+        }
+      ]
+    },
+    {
+      "id": "choice-16",
+      "label": "Select four courses (12 credits)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "option-18",
+          "label": "Any PHPE course at the 300-400 level besides PHPE400, PHPE401, and PHPE402",
+          "nodeType": "requireAll",
+          "children": [
+            {
+              "id": "pair-17",
+              "label": "Any PHPE course at the 300-400 level besides PHPE400, PHPE401, and PHPE402",
+              "nodeType": "courseGroup",
+              "children": [],
+              "courses": [
+                {
+                  "subject": "THE",
+                  "number": "300"
+                },
+                {
+                  "subject": "PHPE",
+                  "number": "400"
+                },
+                {
+                  "subject": "PHPE",
+                  "number": "401"
+                },
+                {
+                  "subject": "PHPE",
+                  "number": "402"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "course-19",
+          "label": "AASP301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "301"
+        },
+        {
+          "id": "course-20",
+          "label": "AASP314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "314"
+        },
+        {
+          "id": "course-21",
+          "label": "AASP499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "499"
+        },
+        {
+          "id": "course-22",
+          "label": "BMGT468",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "468"
+        },
+        {
+          "id": "course-23",
+          "label": "COMM330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "330"
+        },
+        {
+          "id": "course-24",
+          "label": "COMM458",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "458"
+        },
+        {
+          "id": "course-25",
+          "label": "COMM469",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "469"
+        },
+        {
+          "id": "course-26",
+          "label": "ECON311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "311"
+        },
+        {
+          "id": "course-27",
+          "label": "ECON312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "312"
+        },
+        {
+          "id": "course-28",
+          "label": "GVPT409",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "409"
+        },
+        {
+          "id": "course-29",
+          "label": "GVPT439",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "439"
+        },
+        {
+          "id": "course-30",
+          "label": "HIST319",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "319"
+        },
+        {
+          "id": "course-31",
+          "label": "HIST326",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "326"
+        },
+        {
+          "id": "course-32",
+          "label": "HIST328",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "328"
+        },
+        {
+          "id": "course-33",
+          "label": "HIST329",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "329"
+        },
+        {
+          "id": "course-34",
+          "label": "HIST339",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "339"
+        },
+        {
+          "id": "course-35",
+          "label": "HIST415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "415"
+        },
+        {
+          "id": "course-36",
+          "label": "HIST419",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "419"
+        },
+        {
+          "id": "course-37",
+          "label": "HIST428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "428"
+        },
+        {
+          "id": "course-38",
+          "label": "HIST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "450"
+        },
+        {
+          "id": "course-39",
+          "label": "HIST451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "451"
+        },
+        {
+          "id": "course-40",
+          "label": "PHIL341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "341"
+        },
+        {
+          "id": "course-41",
+          "label": "PHIL344",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "344"
+        },
+        {
+          "id": "course-42",
+          "label": "PHIL347",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "347"
+        },
+        {
+          "id": "course-43",
+          "label": "PHIL440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "440"
+        },
+        {
+          "id": "course-44",
+          "label": "PHIL445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "445"
+        },
+        {
+          "id": "course-45",
+          "label": "PHIL446",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "446"
+        },
+        {
+          "id": "course-46",
+          "label": "WGSS302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "WGSS",
+          "number": "302"
+        },
+        {
+          "id": "course-47",
+          "label": "WMST400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "WMST",
+          "number": "400"
+        }
+      ],
+      "minCount": 4
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-16",
+        "humanLabel": "Select four courses (12 credits)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-2",
+        "sourceNodeId": "option-18",
+        "humanLabel": "Any PHPE course at the 300-400 level besides PHPE400, PHPE401, and PHPE402",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-16",
+        "humanLabel": "Select four courses (12 credits)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-4",
+        "sourceNodeId": "option-18",
+        "humanLabel": "Any PHPE course at the 300-400 level besides PHPE400, PHPE401, and PHPE402",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Disciplinary Foundations"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "170"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "140"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "245"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "100"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Sequence"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHPE",
+          "number": "400"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHPE",
+          "number": "401"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHPE",
+          "number": "402"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives 1"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE_GROUP",
+        "payload": {
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "THE",
+              "number": "300"
+            },
+            {
+              "subject": "PHPE",
+              "number": "400"
+            },
+            {
+              "subject": "PHPE",
+              "number": "401"
+            },
+            {
+              "subject": "PHPE",
+              "number": "402"
+            }
+          ]
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "301"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "314"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "499"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "468"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "330"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "458"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "469"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "311"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "312"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "409"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "439"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "326"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "328"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "329"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "339"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "415"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "419"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "428"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "450"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "451"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "341"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "344"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "347"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "440"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "445"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "446"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "302"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WMST",
+          "number": "400"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE_GROUP",
+        "payload": {
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "THE",
+              "number": "300"
+            },
+            {
+              "subject": "PHPE",
+              "number": "400"
+            },
+            {
+              "subject": "PHPE",
+              "number": "401"
+            },
+            {
+              "subject": "PHPE",
+              "number": "402"
+            }
+          ]
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "301"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "314"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "499"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "468"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "330"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "458"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "469"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "311"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "312"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "409"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "439"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "326"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "328"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "329"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "339"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "415"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "419"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "428"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "450"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "451"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "341"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "344"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "347"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "440"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "445"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "446"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "302"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WMST",
+          "number": "400"
+        },
+        "sortOrder": 74
+      }
+    ]
+  }
+}

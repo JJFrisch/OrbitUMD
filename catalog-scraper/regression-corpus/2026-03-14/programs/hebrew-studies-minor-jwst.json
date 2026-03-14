@@ -1,0 +1,417 @@
+{
+  "code": "hebrew-studies-minor-jwst",
+  "title": "Hebrew Studies Minor (JWST)",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/hebrew-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 16,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "HEBR106",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "106"
+        },
+        {
+          "id": "course-4",
+          "label": "HEBR107",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "107"
+        },
+        {
+          "id": "course-5",
+          "label": "HEBR206",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "206"
+        }
+      ]
+    },
+    {
+      "id": "block-6",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-7",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-8",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-9",
+          "label": "HEBR207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "207"
+        },
+        {
+          "id": "course-10",
+          "label": "HEBR249",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "249"
+        },
+        {
+          "id": "course-11",
+          "label": "HEBR313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "313"
+        },
+        {
+          "id": "course-12",
+          "label": "HEBR314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "314"
+        },
+        {
+          "id": "note-13",
+          "label": "Electives for the Minor 1 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives for the Minor 1 3"
+        },
+        {
+          "id": "course-14",
+          "label": "JWST219",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "219"
+        },
+        {
+          "id": "course-15",
+          "label": "JWST262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "262"
+        },
+        {
+          "id": "course-16",
+          "label": "ISRL282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ISRL",
+          "number": "282"
+        },
+        {
+          "id": "course-17",
+          "label": "JWST319",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "319"
+        },
+        {
+          "id": "course-18",
+          "label": "JWST319",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "319"
+        },
+        {
+          "id": "course-19",
+          "label": "HEBR381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "381"
+        },
+        {
+          "id": "course-20",
+          "label": "HEBR386",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "386"
+        },
+        {
+          "id": "course-21",
+          "label": "HEBR499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "499"
+        },
+        {
+          "id": "course-22",
+          "label": "JWST478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "478"
+        },
+        {
+          "id": "course-23",
+          "label": "HEBR498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "498"
+        },
+        {
+          "id": "course-24",
+          "label": "JWST459",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "459"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-6",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "106"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "107"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "206"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "207"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "249"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "313"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "314"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives for the Minor 1 3"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "219"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "262"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ISRL",
+          "number": "282"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "319"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "319"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "381"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "386"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "499"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "478"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "498"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "459"
+        },
+        "sortOrder": 22
+      }
+    ]
+  }
+}

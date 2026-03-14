@@ -1,0 +1,464 @@
+{
+  "code": "demography-minor",
+  "title": "Demography Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/sociology/demography-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 19,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses 1"
+        },
+        {
+          "id": "course-4",
+          "label": "SOCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "201"
+        },
+        {
+          "id": "course-5",
+          "label": "SOCY410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "410"
+        },
+        {
+          "id": "course-6",
+          "label": "SOCY411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "411"
+        },
+        {
+          "id": "note-7",
+          "label": "Electives 2 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives 2 9"
+        },
+        {
+          "id": "note-8",
+          "label": "3 courses selected from the courses below. Up to two electives may be taken from outside of the Sociology Department.",
+          "nodeType": "note",
+          "children": [],
+          "text": "3 courses selected from the courses below. Up to two electives may be taken from outside of the Sociology Department."
+        },
+        {
+          "id": "note-9",
+          "label": "SOCY Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "SOCY Courses"
+        },
+        {
+          "id": "course-10",
+          "label": "SOCY335",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "335"
+        },
+        {
+          "id": "course-11",
+          "label": "SOCY386",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "386"
+        },
+        {
+          "id": "course-12",
+          "label": "SOCY412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "412"
+        },
+        {
+          "id": "course-13",
+          "label": "SOCY413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "413"
+        },
+        {
+          "id": "course-14",
+          "label": "SOCY418",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "418"
+        },
+        {
+          "id": "course-15",
+          "label": "SOCY428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "428"
+        },
+        {
+          "id": "course-16",
+          "label": "SOCY441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "441"
+        },
+        {
+          "id": "course-17",
+          "label": "SOCY445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "445"
+        },
+        {
+          "id": "note-18",
+          "label": "Non-SOCY courses (maximum of 2)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Non-SOCY courses (maximum of 2)"
+        },
+        {
+          "id": "course-19",
+          "label": "AAST222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAST",
+          "number": "222"
+        },
+        {
+          "id": "course-20",
+          "label": "AAST498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAST",
+          "number": "498"
+        },
+        {
+          "id": "course-21",
+          "label": "ANTH265",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "265"
+        },
+        {
+          "id": "course-22",
+          "label": "AREC365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "365"
+        },
+        {
+          "id": "course-23",
+          "label": "ECON315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "315"
+        },
+        {
+          "id": "course-24",
+          "label": "EPIB301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EPIB",
+          "number": "301"
+        },
+        {
+          "id": "course-25",
+          "label": "FMSC381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "381"
+        },
+        {
+          "id": "course-26",
+          "label": "GEOG335",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "335"
+        },
+        {
+          "id": "course-27",
+          "label": "NFSC425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "425"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses 1"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "410"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "411"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives 2 9"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "3 courses selected from the courses below. Up to two electives may be taken from outside of the Sociology Department."
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "SOCY Courses"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "335"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "386"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "412"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "413"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "418"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "428"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "441"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "445"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Non-SOCY courses (maximum of 2)"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAST",
+          "number": "222"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAST",
+          "number": "498"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "265"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "315"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EPIB",
+          "number": "301"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "381"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "335"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "425"
+        },
+        "sortOrder": 26
+      }
+    ]
+  }
+}

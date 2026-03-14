@@ -222,7 +222,8 @@ export function parseProgramDslFromHtml(
           { minCount: chooseCount },
         );
 
-        if (currentRoot && isGenericChoiceLabel(first)) {
+        const looksLikeSelection = /^\s*(select|choose|take|complete)\b/i.test(first);
+        if (currentRoot && (isGenericChoiceLabel(first) || looksLikeSelection)) {
           currentRoot.children.push(choiceNode);
         } else {
           rootNodes.push(choiceNode);

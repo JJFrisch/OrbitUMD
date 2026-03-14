@@ -1,0 +1,2025 @@
+{
+  "code": "journalism-major",
+  "title": "Journalism Major",
+  "college": "Journalism",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/journalism/journalism-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Journalism Requirements Outside the College",
+          "nodeType": "note",
+          "children": [],
+          "text": "Journalism Requirements Outside the College"
+        }
+      ]
+    },
+    {
+      "id": "block-4",
+      "label": "Abstract thinking skills requirement",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "choice-5",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-6",
+              "label": "BIOM301",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BIOM",
+              "number": "301"
+            },
+            {
+              "id": "course-7",
+              "label": "BMGT230",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "230"
+            },
+            {
+              "id": "course-8",
+              "label": "CCJS200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "200"
+            },
+            {
+              "id": "course-9",
+              "label": "ECON230",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "230"
+            },
+            {
+              "id": "course-10",
+              "label": "ECON321",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "321"
+            },
+            {
+              "id": "course-11",
+              "label": "EDMS451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDMS",
+              "number": "451"
+            },
+            {
+              "id": "course-12",
+              "label": "GEOG306",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "306"
+            },
+            {
+              "id": "course-13",
+              "label": "GVPT422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GVPT",
+              "number": "422"
+            },
+            {
+              "id": "course-14",
+              "label": "INST314",
+              "nodeType": "course",
+              "children": [],
+              "subject": "INST",
+              "number": "314"
+            },
+            {
+              "id": "course-15",
+              "label": "JOUR405",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "405"
+            },
+            {
+              "id": "course-16",
+              "label": "PSYC200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "200"
+            },
+            {
+              "id": "course-17",
+              "label": "SOCY201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "201"
+            },
+            {
+              "id": "course-18",
+              "label": "STAT400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "400"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-19",
+          "label": "Select a minimum of 6 credits through one or a combination of the following options: 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select a minimum of 6 credits through one or a combination of the following options: 1 6"
+        },
+        {
+          "id": "note-20",
+          "label": "Language 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Language 2"
+        },
+        {
+          "id": "note-21",
+          "label": "Math/Statistics/Computer Science 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Math/Statistics/Computer Science 3"
+        }
+      ]
+    },
+    {
+      "id": "choice-5",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-7",
+          "label": "BMGT230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "230"
+        },
+        {
+          "id": "course-8",
+          "label": "CCJS200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "200"
+        },
+        {
+          "id": "course-9",
+          "label": "ECON230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "230"
+        },
+        {
+          "id": "course-10",
+          "label": "ECON321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "321"
+        },
+        {
+          "id": "course-11",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "course-12",
+          "label": "GEOG306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "306"
+        },
+        {
+          "id": "course-13",
+          "label": "GVPT422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "422"
+        },
+        {
+          "id": "course-14",
+          "label": "INST314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "314"
+        },
+        {
+          "id": "course-15",
+          "label": "JOUR405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "405"
+        },
+        {
+          "id": "course-16",
+          "label": "PSYC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "200"
+        },
+        {
+          "id": "course-17",
+          "label": "SOCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "201"
+        },
+        {
+          "id": "course-18",
+          "label": "STAT400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "400"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-22",
+      "label": "Public Speaking",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "choice-23",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-24",
+              "label": "COMM100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "100"
+            },
+            {
+              "id": "course-25",
+              "label": "COMM107",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "107"
+            },
+            {
+              "id": "course-26",
+              "label": "COMM200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "200"
+            },
+            {
+              "id": "course-27",
+              "label": "COMM230",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "230"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-23",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-24",
+          "label": "COMM100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "100"
+        },
+        {
+          "id": "course-25",
+          "label": "COMM107",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "107"
+        },
+        {
+          "id": "course-26",
+          "label": "COMM200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "200"
+        },
+        {
+          "id": "course-27",
+          "label": "COMM230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "230"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-28",
+      "label": "History",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-29",
+          "label": "HIST200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "200"
+        },
+        {
+          "id": "course-30",
+          "label": "HIST201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "201"
+        }
+      ]
+    },
+    {
+      "id": "block-31",
+      "label": "Behavioral or Social Science",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "choice-32",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-33",
+              "label": "ANTH260",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANTH",
+              "number": "260"
+            },
+            {
+              "id": "course-34",
+              "label": "PSYC100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "100"
+            },
+            {
+              "id": "course-35",
+              "label": "PSYC221",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "221"
+            },
+            {
+              "id": "course-36",
+              "label": "SOCY100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "100"
+            },
+            {
+              "id": "course-37",
+              "label": "SOCY105",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "105"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-32",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-33",
+          "label": "ANTH260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "260"
+        },
+        {
+          "id": "course-34",
+          "label": "PSYC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "100"
+        },
+        {
+          "id": "course-35",
+          "label": "PSYC221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "221"
+        },
+        {
+          "id": "course-36",
+          "label": "SOCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "100"
+        },
+        {
+          "id": "course-37",
+          "label": "SOCY105",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "105"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-38",
+      "label": "Economics",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-39",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        },
+        {
+          "id": "course-40",
+          "label": "ECON201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "201"
+        }
+      ]
+    },
+    {
+      "id": "block-41",
+      "label": "Government and Politics",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-42",
+          "label": "GVPT170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "170"
+        }
+      ]
+    },
+    {
+      "id": "block-43",
+      "label": "Supporting Area",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "choice-44",
+          "label": "Select 4 upper upper-level courses for a minimum of 12 credits in a supporting field 4",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 4
+        },
+        {
+          "id": "choice-45",
+          "label": "Select four additional upper-level courses for a minimum of 12 credits 4",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-47",
+              "label": "JOUR152",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "152"
+            },
+            {
+              "id": "course-48",
+              "label": "JOUR200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "200"
+            },
+            {
+              "id": "course-49",
+              "label": "JOUR201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "201"
+            },
+            {
+              "id": "course-50",
+              "label": "JOUR320",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "320"
+            },
+            {
+              "id": "course-51",
+              "label": "JOUR352",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "352"
+            },
+            {
+              "id": "course-52",
+              "label": "JOUR396",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "396"
+            },
+            {
+              "id": "course-53",
+              "label": "JOUR402",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JOUR",
+              "number": "402"
+            },
+            {
+              "id": "course-54",
+              "label": "THE410",
+              "nodeType": "course",
+              "children": [],
+              "subject": "THE",
+              "number": "410"
+            },
+            {
+              "id": "course-55",
+              "label": "THE470",
+              "nodeType": "course",
+              "children": [],
+              "subject": "THE",
+              "number": "470"
+            }
+          ],
+          "minCount": 4
+        },
+        {
+          "id": "note-46",
+          "label": "Journalism Course Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Journalism Course Requirements"
+        }
+      ]
+    },
+    {
+      "id": "choice-45",
+      "label": "Select four additional upper-level courses for a minimum of 12 credits 4",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-47",
+          "label": "JOUR152",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "152"
+        },
+        {
+          "id": "course-48",
+          "label": "JOUR200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "200"
+        },
+        {
+          "id": "course-49",
+          "label": "JOUR201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "201"
+        },
+        {
+          "id": "course-50",
+          "label": "JOUR320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "320"
+        },
+        {
+          "id": "course-51",
+          "label": "JOUR352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "352"
+        },
+        {
+          "id": "course-52",
+          "label": "JOUR396",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "396"
+        },
+        {
+          "id": "course-53",
+          "label": "JOUR402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "402"
+        },
+        {
+          "id": "course-54",
+          "label": "THE410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "410"
+        },
+        {
+          "id": "course-55",
+          "label": "THE470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "470"
+        }
+      ],
+      "minCount": 4
+    },
+    {
+      "id": "block-56",
+      "label": "Menu 1 - Visual Menu (One course from the following)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-57",
+          "label": "JOUR347",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "347"
+        },
+        {
+          "id": "course-58",
+          "label": "JOUR370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "370"
+        }
+      ]
+    },
+    {
+      "id": "block-59",
+      "label": "Menu 2- Exploration Menu (One course from the following)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-60",
+          "label": "JOUR202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "202"
+        },
+        {
+          "id": "course-61",
+          "label": "JOUR347",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "347"
+        },
+        {
+          "id": "course-62",
+          "label": "JOUR360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "360"
+        },
+        {
+          "id": "course-63",
+          "label": "JOUR370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "370"
+        },
+        {
+          "id": "course-64",
+          "label": "JOUR371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "371"
+        },
+        {
+          "id": "note-65",
+          "label": "Journalism Capstone Experience 3-9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Journalism Capstone Experience 3-9"
+        },
+        {
+          "id": "course-66",
+          "label": "THE321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "321"
+        }
+      ]
+    },
+    {
+      "id": "block-67",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-68",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-69",
+          "label": "JOUR347",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "347"
+        },
+        {
+          "id": "course-70",
+          "label": "JOUR360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "360"
+        },
+        {
+          "id": "note-71",
+          "label": "An approved capstone 1 3-9",
+          "nodeType": "note",
+          "children": [],
+          "text": "An approved capstone 1 3-9"
+        }
+      ]
+    },
+    {
+      "id": "block-72",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-73",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-74",
+          "label": "JOUR343",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "343"
+        },
+        {
+          "id": "course-75",
+          "label": "JOUR353",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "353"
+        },
+        {
+          "id": "course-76",
+          "label": "JOUR472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "472"
+        },
+        {
+          "id": "course-77",
+          "label": "THE410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "410"
+        }
+      ]
+    },
+    {
+      "id": "block-78",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-79",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-80",
+          "label": "THE321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "321"
+        },
+        {
+          "id": "course-81",
+          "label": "THE410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "410"
+        },
+        {
+          "id": "note-82",
+          "label": "Sports capstone course 1 3-9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sports capstone course 1 3-9"
+        },
+        {
+          "id": "course-83",
+          "label": "JOUR396",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "396"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-4",
+        "humanLabel": "Abstract thinking skills requirement",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-2",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-22",
+        "humanLabel": "Public Speaking",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": "blk-5",
+        "sourceNodeId": "choice-23",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-23",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "block-28",
+        "humanLabel": "History",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "block-31",
+        "humanLabel": "Behavioral or Social Science",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "choice-32",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": null,
+        "sourceNodeId": "choice-32",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": null,
+        "sourceNodeId": "block-38",
+        "humanLabel": "Economics",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": null,
+        "sourceNodeId": "block-41",
+        "humanLabel": "Government and Politics",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 13,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-14",
+        "parentTempId": null,
+        "sourceNodeId": "block-43",
+        "humanLabel": "Supporting Area",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 14,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-15",
+        "parentTempId": "blk-14",
+        "sourceNodeId": "choice-44",
+        "humanLabel": "Select 4 upper upper-level courses for a minimum of 12 credits in a supporting field 4",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 15,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-16",
+        "parentTempId": "blk-14",
+        "sourceNodeId": "choice-45",
+        "humanLabel": "Select four additional upper-level courses for a minimum of 12 credits 4",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 16,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-17",
+        "parentTempId": null,
+        "sourceNodeId": "choice-45",
+        "humanLabel": "Select four additional upper-level courses for a minimum of 12 credits 4",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 17,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-18",
+        "parentTempId": null,
+        "sourceNodeId": "block-56",
+        "humanLabel": "Menu 1 - Visual Menu (One course from the following)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 18,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-19",
+        "parentTempId": null,
+        "sourceNodeId": "block-59",
+        "humanLabel": "Menu 2- Exploration Menu (One course from the following)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 19,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-20",
+        "parentTempId": null,
+        "sourceNodeId": "block-67",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 20,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-21",
+        "parentTempId": null,
+        "sourceNodeId": "block-72",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 21,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-22",
+        "parentTempId": null,
+        "sourceNodeId": "block-78",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 22,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Journalism Requirements Outside the College"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "230"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "200"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "230"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "422"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "314"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "405"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "400"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select a minimum of 6 credits through one or a combination of the following options: 1 6"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Language 2"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Math/Statistics/Computer Science 3"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "230"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "200"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "230"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "422"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "314"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "405"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "400"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "100"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "107"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "200"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "230"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "100"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "107"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "200"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "230"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "200"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "201"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "260"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "221"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "105"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "260"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "221"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "105"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "170"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "152"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "200"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "201"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "320"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "352"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "396"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "402"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "410"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "470"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Journalism Course Requirements"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "152"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "200"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "201"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "320"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "352"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "396"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "402"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "410"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "470"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "347"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "370"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "202"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "347"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "360"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "370"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "371"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Journalism Capstone Experience 3-9"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "321"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "347"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "360"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "An approved capstone 1 3-9"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "343"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "353"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "472"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "410"
+        },
+        "sortOrder": 91
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 92
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "321"
+        },
+        "sortOrder": 93
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "410"
+        },
+        "sortOrder": 94
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sports capstone course 1 3-9"
+        },
+        "sortOrder": 95
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "396"
+        },
+        "sortOrder": 96
+      }
+    ]
+  }
+}

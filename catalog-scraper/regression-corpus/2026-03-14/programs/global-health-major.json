@@ -1,0 +1,532 @@
+{
+  "code": "global-health-major",
+  "title": "Global Health Major",
+  "college": "Public Health",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/global-environmental-occupational-health/global-health-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 83,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Global Health Supporting Courses (19-25 credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Global Health Supporting Courses (19-25 credits)"
+        },
+        {
+          "id": "course-4",
+          "label": "NFSC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "100"
+        },
+        {
+          "id": "note-5",
+          "label": "World Language (Various world languages) 1 6-12",
+          "nodeType": "note",
+          "children": [],
+          "text": "World Language (Various world languages) 1 6-12"
+        },
+        {
+          "id": "course-6",
+          "label": "GVPT200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "200"
+        },
+        {
+          "id": "course-7",
+          "label": "GVPT282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "282"
+        },
+        {
+          "id": "course-8",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-9",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-10",
+          "label": "BSCI213",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "213"
+        },
+        {
+          "id": "note-11",
+          "label": "Global Health Core Courses (40 Credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Global Health Core Courses (40 Credits)"
+        },
+        {
+          "id": "course-12",
+          "label": "SPHL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPHL",
+          "number": "100"
+        },
+        {
+          "id": "course-13",
+          "label": "FMSC110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "110"
+        },
+        {
+          "id": "course-14",
+          "label": "MIEH321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MIEH",
+          "number": "321"
+        },
+        {
+          "id": "course-15",
+          "label": "GBHL200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "200"
+        },
+        {
+          "id": "course-16",
+          "label": "EPIB301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EPIB",
+          "number": "301"
+        },
+        {
+          "id": "course-17",
+          "label": "EPIB315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EPIB",
+          "number": "315"
+        },
+        {
+          "id": "course-18",
+          "label": "ANTH210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "210"
+        },
+        {
+          "id": "course-19",
+          "label": "ANTH310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "310"
+        },
+        {
+          "id": "course-20",
+          "label": "HLSA320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLSA",
+          "number": "320"
+        },
+        {
+          "id": "course-21",
+          "label": "INST420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "420"
+        },
+        {
+          "id": "course-22",
+          "label": "HLTH230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "230"
+        },
+        {
+          "id": "course-23",
+          "label": "GBHL210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "210"
+        },
+        {
+          "id": "course-24",
+          "label": "GBHL310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "310"
+        },
+        {
+          "id": "course-25",
+          "label": "GBHL497",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "497"
+        },
+        {
+          "id": "note-26",
+          "label": "Global Health Experiential Learning (6 Credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Global Health Experiential Learning (6 Credits)"
+        },
+        {
+          "id": "course-27",
+          "label": "GBHL248",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "248"
+        }
+      ]
+    },
+    {
+      "id": "block-28",
+      "label": "At least one of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-29",
+          "label": "GBHL358",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "358"
+        },
+        {
+          "id": "course-30",
+          "label": "GBHL359",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GBHL",
+          "number": "359"
+        },
+        {
+          "id": "note-31",
+          "label": "Global Health Option Courses (12 Credits) 2 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Global Health Option Courses (12 Credits) 2 12"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-28",
+        "humanLabel": "At least one of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Global Health Supporting Courses (19-25 credits)"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "World Language (Various world languages) 1 6-12"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "200"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "282"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "213"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Global Health Core Courses (40 Credits)"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPHL",
+          "number": "100"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "110"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "321"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "200"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EPIB",
+          "number": "301"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EPIB",
+          "number": "315"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "210"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "310"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLSA",
+          "number": "320"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "420"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "230"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "210"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "310"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "497"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Global Health Experiential Learning (6 Credits)"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "248"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "358"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GBHL",
+          "number": "359"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Global Health Option Courses (12 Credits) 2 12"
+        },
+        "sortOrder": 29
+      }
+    ]
+  }
+}

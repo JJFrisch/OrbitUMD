@@ -1,0 +1,411 @@
+{
+  "code": "kinesiology-major",
+  "title": "Kinesiology Major",
+  "college": "Public Health",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/kinesiology/kinesiology-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 67,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Supporting Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Supporting Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-5",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-6",
+          "label": "BSCI201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "201"
+        },
+        {
+          "id": "course-7",
+          "label": "BSCI202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "202"
+        },
+        {
+          "id": "course-8",
+          "label": "MATH113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "113"
+        },
+        {
+          "id": "note-9",
+          "label": "MATH/STAT Statistics Course",
+          "nodeType": "note",
+          "children": [],
+          "text": "MATH/STAT Statistics Course"
+        },
+        {
+          "id": "note-10",
+          "label": "Foundation Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundation Courses"
+        },
+        {
+          "id": "course-11",
+          "label": "SPHL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPHL",
+          "number": "100"
+        },
+        {
+          "id": "course-12",
+          "label": "KNES200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "200"
+        },
+        {
+          "id": "note-13",
+          "label": "KNES Core Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "KNES Core Requirements"
+        },
+        {
+          "id": "course-14",
+          "label": "KNES285",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "285"
+        },
+        {
+          "id": "course-15",
+          "label": "KNES287",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "287"
+        },
+        {
+          "id": "course-16",
+          "label": "KNES300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "300"
+        },
+        {
+          "id": "course-17",
+          "label": "KNES350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "350"
+        },
+        {
+          "id": "course-18",
+          "label": "KNES360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "360"
+        },
+        {
+          "id": "course-19",
+          "label": "KNES370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "370"
+        },
+        {
+          "id": "course-20",
+          "label": "KNES385",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "385"
+        },
+        {
+          "id": "note-21",
+          "label": "KNES Upper Level Option Courses 15",
+          "nodeType": "note",
+          "children": [],
+          "text": "KNES Upper Level Option Courses 15"
+        },
+        {
+          "id": "choice-22",
+          "label": "Select 15 credits of KNES upper level option courses 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 15
+        },
+        {
+          "id": "note-23",
+          "label": "Physical Activity Courses 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Physical Activity Courses 2"
+        },
+        {
+          "id": "note-24",
+          "label": "KNES Activity 4 different KNES physical activity courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "KNES Activity 4 different KNES physical activity courses"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-22",
+        "humanLabel": "Select 15 credits of KNES upper level option courses 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 15
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "201"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "202"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "113"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "MATH/STAT Statistics Course"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundation Courses"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPHL",
+          "number": "100"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "200"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "KNES Core Requirements"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "285"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "287"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "300"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "350"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "360"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "370"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "385"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "KNES Upper Level Option Courses 15"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Physical Activity Courses 2"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "KNES Activity 4 different KNES physical activity courses"
+        },
+        "sortOrder": 22
+      }
+    ]
+  }
+}

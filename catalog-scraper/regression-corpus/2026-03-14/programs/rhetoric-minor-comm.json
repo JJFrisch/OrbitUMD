@@ -1,0 +1,106 @@
+{
+  "code": "rhetoric-minor-comm",
+  "title": "Rhetoric Minor (COMM)",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/communication/rhetoric-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-3",
+          "label": "Select six semester hours from the course list in Rhetorical Theory and Analysis of Discourse",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 6
+        },
+        {
+          "id": "choice-4",
+          "label": "Select six semester hours from the course list in Writing and Speaking Skills",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 6
+        },
+        {
+          "id": "choice-5",
+          "label": "Select three semester hours in electives from either section of the Rhetoric Course List",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 3
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select six semester hours from the course list in Rhetorical Theory and Analysis of Discourse",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 6
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select six semester hours from the course list in Writing and Speaking Skills",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 6
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select three semester hours in electives from either section of the Rhetoric Course List",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      }
+    ]
+  }
+}

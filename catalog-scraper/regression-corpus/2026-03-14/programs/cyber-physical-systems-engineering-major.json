@@ -1,0 +1,1547 @@
+{
+  "code": "cyber-physical-systems-engineering-major",
+  "title": "Cyber-Physical Systems Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/electrical-and-computer/cyber-physical-systems-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 62,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-5",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "course-6",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-7",
+          "label": "PHYS161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "161"
+        },
+        {
+          "id": "course-8",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-9",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "note-10",
+          "label": "Programming Requirement 1 2-4",
+          "nodeType": "note",
+          "children": [],
+          "text": "Programming Requirement 1 2-4"
+        },
+        {
+          "id": "course-11",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        }
+      ]
+    },
+    {
+      "id": "block-12",
+      "label": "One of the following MATH2xx courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-13",
+          "label": "MATH246",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "246"
+        },
+        {
+          "id": "course-14",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-15",
+          "label": "MATH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "240"
+        },
+        {
+          "id": "note-16",
+          "label": "General Education Requirements/Additional Electives 28-31",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirements/Additional Electives 28-31"
+        }
+      ]
+    },
+    {
+      "id": "block-17",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-18",
+          "label": "Junior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year"
+        },
+        {
+          "id": "note-19",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-20",
+          "label": "ENEB302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "302"
+        },
+        {
+          "id": "course-21",
+          "label": "ENEB344",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "344"
+        },
+        {
+          "id": "course-22",
+          "label": "ENEB354",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "354"
+        },
+        {
+          "id": "course-23",
+          "label": "ENEB340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "340"
+        },
+        {
+          "id": "course-24",
+          "label": "ENEB341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "341"
+        },
+        {
+          "id": "note-25",
+          "label": "17",
+          "nodeType": "note",
+          "children": [],
+          "text": "17"
+        },
+        {
+          "id": "note-26",
+          "label": "Senior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year"
+        },
+        {
+          "id": "note-27",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-28",
+          "label": "ENEB408",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "408"
+        },
+        {
+          "id": "course-29",
+          "label": "ENEB408A",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "408A"
+        },
+        {
+          "id": "course-30",
+          "label": "ENEB454",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "454"
+        },
+        {
+          "id": "course-31",
+          "label": "ENEB444",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "444"
+        },
+        {
+          "id": "course-32",
+          "label": "ENEB346",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "346"
+        },
+        {
+          "id": "note-33",
+          "label": "Professional Writing 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Writing 3"
+        },
+        {
+          "id": "note-34",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        }
+      ],
+      "minCredits": 62
+    },
+    {
+      "id": "block-35",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-36",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-37",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-38",
+          "label": "ENEB455",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "455"
+        },
+        {
+          "id": "note-39",
+          "label": "Elective Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses 9"
+        },
+        {
+          "id": "choice-40",
+          "label": "Select three of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-41",
+              "label": "ENEB443",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "443"
+            },
+            {
+              "id": "course-42",
+              "label": "ENEB451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "451"
+            },
+            {
+              "id": "course-43",
+              "label": "ENEB452",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "452"
+            },
+            {
+              "id": "course-44",
+              "label": "ENEB453",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "453"
+            },
+            {
+              "id": "course-45",
+              "label": "ENEB456",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "456"
+            },
+            {
+              "id": "course-46",
+              "label": "ENEB457",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "457"
+            }
+          ],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-40",
+      "label": "Select three of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-41",
+          "label": "ENEB443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "443"
+        },
+        {
+          "id": "course-42",
+          "label": "ENEB451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "451"
+        },
+        {
+          "id": "course-43",
+          "label": "ENEB452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "452"
+        },
+        {
+          "id": "course-44",
+          "label": "ENEB453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "453"
+        },
+        {
+          "id": "course-45",
+          "label": "ENEB456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "456"
+        },
+        {
+          "id": "course-46",
+          "label": "ENEB457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "457"
+        }
+      ],
+      "minCount": 3
+    },
+    {
+      "id": "block-47",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-48",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-49",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-50",
+          "label": "ENEB456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "456"
+        },
+        {
+          "id": "note-51",
+          "label": "Elective Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses 9"
+        },
+        {
+          "id": "choice-52",
+          "label": "Select three of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-53",
+              "label": "ENEB443",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "443"
+            },
+            {
+              "id": "course-54",
+              "label": "ENEB451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "451"
+            },
+            {
+              "id": "course-55",
+              "label": "ENEB452",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "452"
+            },
+            {
+              "id": "course-56",
+              "label": "ENEB453",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "453"
+            },
+            {
+              "id": "course-57",
+              "label": "ENEB455",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "455"
+            },
+            {
+              "id": "course-58",
+              "label": "ENEB457",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "457"
+            }
+          ],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-52",
+      "label": "Select three of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-53",
+          "label": "ENEB443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "443"
+        },
+        {
+          "id": "course-54",
+          "label": "ENEB451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "451"
+        },
+        {
+          "id": "course-55",
+          "label": "ENEB452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "452"
+        },
+        {
+          "id": "course-56",
+          "label": "ENEB453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "453"
+        },
+        {
+          "id": "course-57",
+          "label": "ENEB455",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "455"
+        },
+        {
+          "id": "course-58",
+          "label": "ENEB457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "457"
+        }
+      ],
+      "minCount": 3
+    },
+    {
+      "id": "block-59",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-60",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-61",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-62",
+          "label": "ENEB451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "451"
+        },
+        {
+          "id": "note-63",
+          "label": "Elective Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses 9"
+        },
+        {
+          "id": "choice-64",
+          "label": "Select three of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-65",
+              "label": "ENEB443",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "443"
+            },
+            {
+              "id": "course-66",
+              "label": "ENEB452",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "452"
+            },
+            {
+              "id": "course-67",
+              "label": "ENEB453",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "453"
+            },
+            {
+              "id": "course-68",
+              "label": "ENEB455",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "455"
+            },
+            {
+              "id": "course-69",
+              "label": "ENEB456",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "456"
+            },
+            {
+              "id": "course-70",
+              "label": "ENEB457",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENEB",
+              "number": "457"
+            }
+          ],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-64",
+      "label": "Select three of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-65",
+          "label": "ENEB443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "443"
+        },
+        {
+          "id": "course-66",
+          "label": "ENEB452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "452"
+        },
+        {
+          "id": "course-67",
+          "label": "ENEB453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "453"
+        },
+        {
+          "id": "course-68",
+          "label": "ENEB455",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "455"
+        },
+        {
+          "id": "course-69",
+          "label": "ENEB456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "456"
+        },
+        {
+          "id": "course-70",
+          "label": "ENEB457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEB",
+          "number": "457"
+        }
+      ],
+      "minCount": 3
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-12",
+        "humanLabel": "One of the following MATH2xx courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-17",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 62
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-35",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-4",
+        "sourceNodeId": "choice-40",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-40",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-47",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-52",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "choice-52",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "block-59",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": "blk-10",
+        "sourceNodeId": "choice-64",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": null,
+        "sourceNodeId": "choice-64",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "161"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Programming Requirement 1 2-4"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "246"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "240"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirements/Additional Electives 28-31"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "302"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "344"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "354"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "340"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "341"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "17"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "408"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "408A"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "454"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "444"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "346"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Writing 3"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "455"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses 9"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "443"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "451"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "452"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "453"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "456"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "457"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "443"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "451"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "452"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "453"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "456"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "457"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "456"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses 9"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "443"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "451"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "452"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "453"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "455"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "457"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "443"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "451"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "452"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "453"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "455"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "457"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "451"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses 9"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "443"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "452"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "453"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "455"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "456"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "457"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "443"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "452"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "453"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "455"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "456"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEB",
+          "number": "457"
+        },
+        "sortOrder": 79
+      }
+    ]
+  }
+}

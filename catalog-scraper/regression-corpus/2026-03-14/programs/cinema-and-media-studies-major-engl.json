@@ -1,0 +1,358 @@
+{
+  "code": "cinema-and-media-studies-major-engl",
+  "title": "Cinema and Media Studies Major (ENGL)",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/cinema-media-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 39,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Film Form",
+          "nodeType": "note",
+          "children": [],
+          "text": "Film Form"
+        },
+        {
+          "id": "course-4",
+          "label": "ENGL245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "245"
+        },
+        {
+          "id": "note-5",
+          "label": "Equivalent by permission of department",
+          "nodeType": "note",
+          "children": [],
+          "text": "Equivalent by permission of department"
+        },
+        {
+          "id": "note-6",
+          "label": "Film History and Theory Foundation 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Film History and Theory Foundation 2"
+        },
+        {
+          "id": "course-7",
+          "label": "CINE301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CINE",
+          "number": "301"
+        },
+        {
+          "id": "course-8",
+          "label": "CINE302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CINE",
+          "number": "302"
+        },
+        {
+          "id": "note-9",
+          "label": "Film Criticism Core Requirement 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Film Criticism Core Requirement 3"
+        },
+        {
+          "id": "choice-10",
+          "label": "Select one course in Film Theories",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "choice-11",
+          "label": "Select two courses in Genres/Auteurs/Movements",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        },
+        {
+          "id": "choice-12",
+          "label": "Select two courses in National and International Cinemas",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        },
+        {
+          "id": "choice-13",
+          "label": "Select one course in Documentary, Animation, Experimental Cinema or other Visual Media",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "note-14",
+          "label": "Film Electives 4",
+          "nodeType": "note",
+          "children": [],
+          "text": "Film Electives 4"
+        }
+      ]
+    },
+    {
+      "id": "block-15",
+      "label": "Select an option",
+      "nodeType": "requireAll",
+      "children": []
+    },
+    {
+      "id": "block-16",
+      "label": "Option One",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "choice-17",
+          "label": "Select two courses from the Film Criticism category, any rubric",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        },
+        {
+          "id": "choice-18",
+          "label": "Select two courses from the Film Electives category",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "block-19",
+      "label": "Option Two",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "choice-20",
+          "label": "Select four courses in Film Electives that create a coherent emphasis 5",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 4
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select one course in Film Theories",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select two courses in Genres/Auteurs/Movements",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select two courses in National and International Cinemas",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-13",
+        "humanLabel": "Select one course in Documentary, Animation, Experimental Cinema or other Visual Media",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-15",
+        "humanLabel": "Select an option",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-16",
+        "humanLabel": "Option One",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Select two courses from the Film Criticism category, any rubric",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-18",
+        "humanLabel": "Select two courses from the Film Electives category",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "Option Two",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": "blk-10",
+        "sourceNodeId": "choice-20",
+        "humanLabel": "Select four courses in Film Electives that create a coherent emphasis 5",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Film Form"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "245"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Equivalent by permission of department"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Film History and Theory Foundation 2"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CINE",
+          "number": "301"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CINE",
+          "number": "302"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Film Criticism Core Requirement 3"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Film Electives 4"
+        },
+        "sortOrder": 9
+      }
+    ]
+  }
+}

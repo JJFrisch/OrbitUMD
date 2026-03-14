@@ -1,0 +1,402 @@
+{
+  "code": "geographic-information-science-minor",
+  "title": "Geographic Information Science Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/geographical-sciences/geographic-information-science-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "GEOG272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "272"
+        },
+        {
+          "id": "course-5",
+          "label": "GEOG373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "373"
+        }
+      ]
+    },
+    {
+      "id": "block-6",
+      "label": "Two courses from the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-7",
+          "label": "GEOG416",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "416"
+        },
+        {
+          "id": "course-8",
+          "label": "GEOG473",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "473"
+        },
+        {
+          "id": "course-9",
+          "label": "GEOG475",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "475"
+        },
+        {
+          "id": "course-10",
+          "label": "GEOG476",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "476"
+        },
+        {
+          "id": "course-11",
+          "label": "GEOG498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "498"
+        },
+        {
+          "id": "note-12",
+          "label": "Other similar course",
+          "nodeType": "note",
+          "children": [],
+          "text": "Other similar course"
+        },
+        {
+          "id": "course-13",
+          "label": "GEOG306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "306"
+        },
+        {
+          "id": "course-14",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-15",
+          "label": "BMGT230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "230"
+        },
+        {
+          "id": "course-16",
+          "label": "CCJS200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "200"
+        },
+        {
+          "id": "course-17",
+          "label": "ECON321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "321"
+        },
+        {
+          "id": "course-18",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "course-19",
+          "label": "GVPT422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "422"
+        },
+        {
+          "id": "course-20",
+          "label": "INST314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "314"
+        },
+        {
+          "id": "course-21",
+          "label": "JOUR405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "405"
+        },
+        {
+          "id": "course-22",
+          "label": "PSYC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "200"
+        },
+        {
+          "id": "course-23",
+          "label": "SOCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "201"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-6",
+        "humanLabel": "Two courses from the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "272"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "416"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "473"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "475"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "476"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "498"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Other similar course"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "230"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "200"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "422"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "314"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "405"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 21
+      }
+    ]
+  }
+}

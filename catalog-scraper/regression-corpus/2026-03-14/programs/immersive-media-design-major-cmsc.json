@@ -1,0 +1,980 @@
+{
+  "code": "immersive-media-design-major-cmsc",
+  "title": "Immersive Media Design Major (CMSC)",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "BA",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/immersive-media-design-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 77,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        }
+      ]
+    },
+    {
+      "id": "choice-3",
+      "label": "ENGL Elective (Choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "ENGL143",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "143"
+        },
+        {
+          "id": "course-5",
+          "label": "ENGL245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "245"
+        },
+        {
+          "id": "course-6",
+          "label": "ENGL255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "255"
+        },
+        {
+          "id": "course-7",
+          "label": "ENGL290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "290"
+        },
+        {
+          "id": "course-8",
+          "label": "ENGL294",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "294"
+        },
+        {
+          "id": "course-9",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-10",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-11",
+          "label": "CMSC131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "131"
+        },
+        {
+          "id": "course-12",
+          "label": "CMSC132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "132"
+        },
+        {
+          "id": "course-13",
+          "label": "CMSC216",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "216"
+        },
+        {
+          "id": "course-14",
+          "label": "CMSC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "250"
+        },
+        {
+          "id": "course-15",
+          "label": "CMSC330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "330"
+        },
+        {
+          "id": "course-16",
+          "label": "CMSC351",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "351"
+        },
+        {
+          "id": "note-17",
+          "label": "Major Elective: CMSC 4xx (Graphics Programming) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Elective: CMSC 4xx (Graphics Programming) 3"
+        },
+        {
+          "id": "note-18",
+          "label": "CMSC Elective: CMSC 4xx (Graphics Programming) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "CMSC Elective: CMSC 4xx (Graphics Programming) 3"
+        },
+        {
+          "id": "course-19",
+          "label": "ARTT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "100"
+        },
+        {
+          "id": "course-20",
+          "label": "ARTT200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "200"
+        },
+        {
+          "id": "course-21",
+          "label": "ARTT255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "255"
+        },
+        {
+          "id": "note-22",
+          "label": "Major Elective: ARTT37x/47x (Digital Media) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Elective: ARTT37x/47x (Digital Media) 3"
+        },
+        {
+          "id": "course-23",
+          "label": "IMDM101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "101"
+        },
+        {
+          "id": "course-24",
+          "label": "IMDM150",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "150"
+        },
+        {
+          "id": "course-25",
+          "label": "IMDM227",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "227"
+        },
+        {
+          "id": "course-26",
+          "label": "IMDM290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "290"
+        },
+        {
+          "id": "course-27",
+          "label": "IMDM327",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "327"
+        },
+        {
+          "id": "course-28",
+          "label": "IMDM390",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "390"
+        },
+        {
+          "id": "course-29",
+          "label": "IMDM490",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "490"
+        },
+        {
+          "id": "course-30",
+          "label": "IMDM491",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "491"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-31",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-32",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        }
+      ]
+    },
+    {
+      "id": "choice-33",
+      "label": "ENGL Elective (Choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-34",
+          "label": "ENGL143",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "143"
+        },
+        {
+          "id": "course-35",
+          "label": "ENGL245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "245"
+        },
+        {
+          "id": "course-36",
+          "label": "ENGL255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "255"
+        },
+        {
+          "id": "course-37",
+          "label": "ENGL290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "290"
+        },
+        {
+          "id": "course-38",
+          "label": "ENGL294",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "294"
+        },
+        {
+          "id": "course-39",
+          "label": "MATH115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "115"
+        },
+        {
+          "id": "course-40",
+          "label": "CMSC122",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMSC",
+          "number": "122"
+        },
+        {
+          "id": "course-41",
+          "label": "ARTT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "100"
+        },
+        {
+          "id": "course-42",
+          "label": "ARTT110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "110"
+        },
+        {
+          "id": "course-43",
+          "label": "ARTT200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "200"
+        },
+        {
+          "id": "course-44",
+          "label": "ARTT210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "210"
+        },
+        {
+          "id": "course-45",
+          "label": "ARTT255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "255"
+        },
+        {
+          "id": "course-46",
+          "label": "ARTT370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "370"
+        },
+        {
+          "id": "course-47",
+          "label": "ARTT371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "371"
+        },
+        {
+          "id": "note-48",
+          "label": "ARTT47X (Advanced Digital Media Choice: 479a/c/d/e)",
+          "nodeType": "note",
+          "children": [],
+          "text": "ARTT47X (Advanced Digital Media Choice: 479a/c/d/e)"
+        },
+        {
+          "id": "course-49",
+          "label": "IMDM101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "101"
+        },
+        {
+          "id": "course-50",
+          "label": "IMDM127",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "127"
+        },
+        {
+          "id": "course-51",
+          "label": "IMDM150",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "150"
+        },
+        {
+          "id": "course-52",
+          "label": "IMDM227",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "227"
+        },
+        {
+          "id": "course-53",
+          "label": "IMDM290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "290"
+        },
+        {
+          "id": "course-54",
+          "label": "IMDM350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "350"
+        },
+        {
+          "id": "course-55",
+          "label": "IMDM390",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "390"
+        },
+        {
+          "id": "course-56",
+          "label": "IMDM490",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "490"
+        },
+        {
+          "id": "course-57",
+          "label": "IMDM491",
+          "nodeType": "course",
+          "children": [],
+          "subject": "IMDM",
+          "number": "491"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-3",
+        "humanLabel": "ENGL Elective (Choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-31",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-33",
+        "humanLabel": "ENGL Elective (Choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "143"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "245"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "255"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "290"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "294"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "131"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "132"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "216"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "250"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "330"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "351"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Elective: CMSC 4xx (Graphics Programming) 3"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CMSC Elective: CMSC 4xx (Graphics Programming) 3"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "100"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "200"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "255"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Elective: ARTT37x/47x (Digital Media) 3"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "101"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "150"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "227"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "290"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "327"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "390"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "490"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "491"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "143"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "245"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "255"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "290"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "294"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "115"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "122"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "100"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "110"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "200"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "210"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "255"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "370"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "371"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ARTT47X (Advanced Digital Media Choice: 479a/c/d/e)"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "101"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "127"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "150"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "227"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "290"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "350"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "390"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "490"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "IMDM",
+          "number": "491"
+        },
+        "sortOrder": 53
+      }
+    ]
+  }
+}

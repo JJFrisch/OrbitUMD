@@ -1,0 +1,478 @@
+{
+  "code": "kinesiology-biomechanics-and-motor-control-minor",
+  "title": "Kinesiology: Biomechanics and Motor Control Minor",
+  "college": "Public Health",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/kinesiology/kinesiology-biomechanics-motor-control-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 17,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "KNES1XX (Physical Activity Course)",
+          "nodeType": "note",
+          "children": [],
+          "text": "KNES1XX (Physical Activity Course)"
+        },
+        {
+          "id": "choice-4",
+          "label": "Choose five of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-5",
+              "label": "KNES226",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "226"
+            },
+            {
+              "id": "course-6",
+              "label": "KNES265",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "265"
+            },
+            {
+              "id": "course-7",
+              "label": "KNES300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "300"
+            },
+            {
+              "id": "course-8",
+              "label": "KNES306",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "306"
+            },
+            {
+              "id": "course-9",
+              "label": "KNES350",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "350"
+            },
+            {
+              "id": "course-10",
+              "label": "KNES370",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "370"
+            },
+            {
+              "id": "course-11",
+              "label": "KNES385",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "385"
+            },
+            {
+              "id": "course-12",
+              "label": "KNES402",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "402"
+            },
+            {
+              "id": "course-13",
+              "label": "KNES462",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "462"
+            },
+            {
+              "id": "course-14",
+              "label": "KNES474",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "474"
+            },
+            {
+              "id": "course-15",
+              "label": "KNES498",
+              "nodeType": "course",
+              "children": [],
+              "subject": "KNES",
+              "number": "498"
+            }
+          ],
+          "minCount": 5
+        }
+      ]
+    },
+    {
+      "id": "choice-4",
+      "label": "Choose five of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "KNES226",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "226"
+        },
+        {
+          "id": "course-6",
+          "label": "KNES265",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "265"
+        },
+        {
+          "id": "course-7",
+          "label": "KNES300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "300"
+        },
+        {
+          "id": "course-8",
+          "label": "KNES306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "306"
+        },
+        {
+          "id": "course-9",
+          "label": "KNES350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "350"
+        },
+        {
+          "id": "course-10",
+          "label": "KNES370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "370"
+        },
+        {
+          "id": "course-11",
+          "label": "KNES385",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "385"
+        },
+        {
+          "id": "course-12",
+          "label": "KNES402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "402"
+        },
+        {
+          "id": "course-13",
+          "label": "KNES462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "462"
+        },
+        {
+          "id": "course-14",
+          "label": "KNES474",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "474"
+        },
+        {
+          "id": "course-15",
+          "label": "KNES498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "498"
+        }
+      ],
+      "minCount": 5
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Choose five of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 5
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Choose five of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 5
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "KNES1XX (Physical Activity Course)"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "226"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "265"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "300"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "306"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "350"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "370"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "385"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "402"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "462"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "474"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "498"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "226"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "265"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "300"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "306"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "350"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "370"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "385"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "402"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "462"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "474"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "498"
+        },
+        "sortOrder": 24
+      }
+    ]
+  }
+}

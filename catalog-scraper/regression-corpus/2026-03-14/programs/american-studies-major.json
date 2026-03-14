@@ -1,0 +1,535 @@
+{
+  "code": "american-studies-major",
+  "title": "American Studies Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/american-studies/american-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 42,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirement",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirement"
+        },
+        {
+          "id": "course-4",
+          "label": "AMST101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "101"
+        },
+        {
+          "id": "choice-5",
+          "label": "Select one AMST 1xx or 2xx level course, e.g. the following: 1",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-6",
+              "label": "AMST202",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "202"
+            },
+            {
+              "id": "course-7",
+              "label": "AMST203",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "203"
+            },
+            {
+              "id": "course-8",
+              "label": "AMST204",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "204"
+            },
+            {
+              "id": "course-9",
+              "label": "AMST205",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "205"
+            },
+            {
+              "id": "course-10",
+              "label": "AMST207",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "207"
+            },
+            {
+              "id": "course-11",
+              "label": "AMST212",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "212"
+            },
+            {
+              "id": "course-12",
+              "label": "AMST260",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "260"
+            },
+            {
+              "id": "course-13",
+              "label": "AMST298",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "298"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-14",
+          "label": "Select two Americanist Foundation courses from a list of approved choices 1, 2",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        },
+        {
+          "id": "choice-15",
+          "label": "Select four 3xx or 4xx-level AMST courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-16",
+              "label": "AMST340",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "340"
+            },
+            {
+              "id": "course-17",
+              "label": "AMST450",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AMST",
+              "number": "450"
+            }
+          ],
+          "minCount": 4
+        },
+        {
+          "id": "note-18",
+          "label": "Select a Focus Area 4 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select a Focus Area 4 12"
+        }
+      ]
+    },
+    {
+      "id": "choice-5",
+      "label": "Select one AMST 1xx or 2xx level course, e.g. the following: 1",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "AMST202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "202"
+        },
+        {
+          "id": "course-7",
+          "label": "AMST203",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "203"
+        },
+        {
+          "id": "course-8",
+          "label": "AMST204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "204"
+        },
+        {
+          "id": "course-9",
+          "label": "AMST205",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "205"
+        },
+        {
+          "id": "course-10",
+          "label": "AMST207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "207"
+        },
+        {
+          "id": "course-11",
+          "label": "AMST212",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "212"
+        },
+        {
+          "id": "course-12",
+          "label": "AMST260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "260"
+        },
+        {
+          "id": "course-13",
+          "label": "AMST298",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "298"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-15",
+      "label": "Select four 3xx or 4xx-level AMST courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-16",
+          "label": "AMST340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "340"
+        },
+        {
+          "id": "course-17",
+          "label": "AMST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "450"
+        }
+      ],
+      "minCount": 4
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select one AMST 1xx or 2xx level course, e.g. the following: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Select two Americanist Foundation courses from a list of approved choices 1, 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select four 3xx or 4xx-level AMST courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select one AMST 1xx or 2xx level course, e.g. the following: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select four 3xx or 4xx-level AMST courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirement"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "101"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "202"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "203"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "204"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "205"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "207"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "212"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "260"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "298"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "340"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "450"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select a Focus Area 4 12"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "202"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "203"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "204"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "205"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "207"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "212"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "260"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "298"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "340"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "450"
+        },
+        "sortOrder": 24
+      }
+    ]
+  }
+}

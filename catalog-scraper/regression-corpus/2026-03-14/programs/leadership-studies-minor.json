@@ -1,0 +1,149 @@
+{
+  "code": "leadership-studies-minor",
+  "title": "Leadership Studies Minor",
+  "college": "Education",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/counseling-higher-special-education/leadership-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Requirements for the Minor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Requirements for the Minor"
+        },
+        {
+          "id": "course-4",
+          "label": "HESI217",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESI",
+          "number": "217"
+        },
+        {
+          "id": "course-5",
+          "label": "HESI315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESI",
+          "number": "315"
+        },
+        {
+          "id": "course-6",
+          "label": "HESI417",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESI",
+          "number": "417"
+        },
+        {
+          "id": "note-7",
+          "label": "HESI Leadership Elective (from pre-approved list) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "HESI Leadership Elective (from pre-approved list) 3"
+        },
+        {
+          "id": "choice-8",
+          "label": "Select one elective course, from our pre-approved elective list",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select one elective course, from our pre-approved elective list",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Requirements for the Minor"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESI",
+          "number": "217"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESI",
+          "number": "315"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESI",
+          "number": "417"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "HESI Leadership Elective (from pre-approved list) 3"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

@@ -1,0 +1,685 @@
+{
+  "code": "astronomy-major",
+  "title": "Astronomy Major",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/astronomy/astronomy-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 66,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Basic Astronomy Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Basic Astronomy Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "ASTR120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "120"
+        },
+        {
+          "id": "course-5",
+          "label": "ASTR121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "121"
+        },
+        {
+          "id": "course-6",
+          "label": "ASTR310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "310"
+        },
+        {
+          "id": "course-7",
+          "label": "ASTR320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "320"
+        },
+        {
+          "id": "note-8",
+          "label": "Advanced Astronomy Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Advanced Astronomy Courses"
+        },
+        {
+          "id": "course-9",
+          "label": "TWO400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TWO",
+          "number": "400"
+        },
+        {
+          "id": "course-10",
+          "label": "ASTR406",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "406"
+        },
+        {
+          "id": "course-11",
+          "label": "ASTR410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "410"
+        },
+        {
+          "id": "course-12",
+          "label": "ASTR415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "415"
+        },
+        {
+          "id": "course-13",
+          "label": "ASTR421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "421"
+        },
+        {
+          "id": "course-14",
+          "label": "ASTR422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "422"
+        },
+        {
+          "id": "course-15",
+          "label": "ASTR430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "430"
+        },
+        {
+          "id": "course-16",
+          "label": "ASTR435",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "435"
+        },
+        {
+          "id": "course-17",
+          "label": "ASTR450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "450"
+        },
+        {
+          "id": "course-18",
+          "label": "ASTR480",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "480"
+        }
+      ]
+    },
+    {
+      "id": "block-19",
+      "label": "Optional Astronomy Seminars",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-20",
+          "label": "ASTR288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "288"
+        },
+        {
+          "id": "course-21",
+          "label": "ASTR288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "288"
+        },
+        {
+          "id": "course-22",
+          "label": "ASTR288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "288"
+        },
+        {
+          "id": "course-23",
+          "label": "ASTR288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ASTR",
+          "number": "288"
+        },
+        {
+          "id": "note-24",
+          "label": "Required Introductory Physics Courses 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Introductory Physics Courses 1"
+        },
+        {
+          "id": "course-25",
+          "label": "PHYS171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "171"
+        },
+        {
+          "id": "course-26",
+          "label": "PHYS265",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "265"
+        },
+        {
+          "id": "course-27",
+          "label": "PHYS272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "272"
+        },
+        {
+          "id": "course-28",
+          "label": "PHYS273",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "273"
+        },
+        {
+          "id": "course-29",
+          "label": "PHYS275",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "275"
+        },
+        {
+          "id": "course-30",
+          "label": "PHYS276",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "276"
+        },
+        {
+          "id": "note-31",
+          "label": "Advanced Physics Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Advanced Physics Courses"
+        },
+        {
+          "id": "course-32",
+          "label": "PHYS313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "313"
+        },
+        {
+          "id": "course-33",
+          "label": "PHYS371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "371"
+        },
+        {
+          "id": "course-34",
+          "label": "PHYS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "401"
+        },
+        {
+          "id": "course-35",
+          "label": "PHYS404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "404"
+        },
+        {
+          "id": "note-36",
+          "label": "Supporting Mathematics/Mathematical Methods Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Supporting Mathematics/Mathematical Methods Courses"
+        },
+        {
+          "id": "course-37",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-38",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-39",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-40",
+          "label": "MATH243",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "243"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "Optional Astronomy Seminars",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Basic Astronomy Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "120"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "121"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "310"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "320"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Advanced Astronomy Courses"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TWO",
+          "number": "400"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "406"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "410"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "415"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "421"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "422"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "430"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "435"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "450"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "480"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "288"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "288"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "288"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ASTR",
+          "number": "288"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Introductory Physics Courses 1"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "171"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "265"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "272"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "273"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "275"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "276"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Advanced Physics Courses"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "313"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "371"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "401"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "404"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting Mathematics/Mathematical Methods Courses"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "243"
+        },
+        "sortOrder": 38
+      }
+    ]
+  }
+}

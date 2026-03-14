@@ -1,0 +1,166 @@
+{
+  "code": "army-leadership-studies-minor",
+  "title": "Army Leadership Studies Minor",
+  "college": "Undergraduate Studies",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/army-leadership-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "ARMY301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARMY",
+          "number": "301"
+        },
+        {
+          "id": "course-4",
+          "label": "ARMY302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARMY",
+          "number": "302"
+        },
+        {
+          "id": "course-5",
+          "label": "ARMY401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARMY",
+          "number": "401"
+        },
+        {
+          "id": "course-6",
+          "label": "ARMY402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARMY",
+          "number": "402"
+        },
+        {
+          "id": "note-7",
+          "label": "Elective",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective"
+        },
+        {
+          "id": "course-8",
+          "label": "HIST224",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "224"
+        },
+        {
+          "id": "course-9",
+          "label": "HIST225",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "225"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARMY",
+          "number": "301"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARMY",
+          "number": "302"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARMY",
+          "number": "401"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARMY",
+          "number": "402"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "224"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "225"
+        },
+        "sortOrder": 8
+      }
+    ]
+  }
+}

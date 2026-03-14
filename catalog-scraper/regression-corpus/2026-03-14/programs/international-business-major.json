@@ -1,0 +1,490 @@
+{
+  "code": "international-business-major",
+  "title": "International Business Major",
+  "college": "Business",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/logistics-business-public-policy/international-business-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "course-4",
+          "label": "BMGT392",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "392"
+        },
+        {
+          "id": "course-5",
+          "label": "BMGT463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "463"
+        },
+        {
+          "id": "choice-6",
+          "label": "Select four of the following",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 4
+        }
+      ]
+    },
+    {
+      "id": "choice-7",
+      "label": "BMGT321",
+      "nodeType": "requireAny",
+      "children": [],
+      "minCount": 1
+    },
+    {
+      "id": "choice-8",
+      "label": "BMGT341",
+      "nodeType": "requireAny",
+      "children": [],
+      "minCount": 1
+    },
+    {
+      "id": "choice-9",
+      "label": "BMGT354",
+      "nodeType": "requireAny",
+      "children": [],
+      "minCount": 1
+    },
+    {
+      "id": "choice-10",
+      "label": "BMGT430",
+      "nodeType": "requireAny",
+      "children": [],
+      "minCount": 1
+    },
+    {
+      "id": "choice-11",
+      "label": "BMGT446",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-12",
+          "label": "BMGT454",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "454"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-13",
+      "label": "BMGT466",
+      "nodeType": "requireAny",
+      "children": [],
+      "minCount": 1
+    },
+    {
+      "id": "choice-14",
+      "label": "BMGT477",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-15",
+          "label": "BMGT485",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "485"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-16",
+      "label": "In addition, a MAXIMUM OF ONE of the following language courses may be applied towards this 4 course requirement",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-17",
+          "label": "ARAB304",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "304"
+        },
+        {
+          "id": "course-18",
+          "label": "CHIN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHIN",
+          "number": "301"
+        },
+        {
+          "id": "course-19",
+          "label": "FREN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "301"
+        },
+        {
+          "id": "course-20",
+          "label": "GERS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GERS",
+          "number": "301"
+        },
+        {
+          "id": "course-21",
+          "label": "HEBR313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HEBR",
+          "number": "313"
+        },
+        {
+          "id": "course-22",
+          "label": "ITAL301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "301"
+        },
+        {
+          "id": "course-23",
+          "label": "JAPN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "301"
+        },
+        {
+          "id": "course-24",
+          "label": "PERS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "301"
+        },
+        {
+          "id": "course-25",
+          "label": "PORT405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PORT",
+          "number": "405"
+        },
+        {
+          "id": "course-26",
+          "label": "RUSS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "301"
+        },
+        {
+          "id": "course-27",
+          "label": "SPAN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "301"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-6",
+        "humanLabel": "Select four of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-7",
+        "humanLabel": "BMGT321",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-8",
+        "humanLabel": "BMGT341",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-9",
+        "humanLabel": "BMGT354",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-10",
+        "humanLabel": "BMGT430",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-11",
+        "humanLabel": "BMGT446",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "choice-13",
+        "humanLabel": "BMGT466",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "choice-14",
+        "humanLabel": "BMGT477",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "block-16",
+        "humanLabel": "In addition, a MAXIMUM OF ONE of the following language courses may be applied towards this 4 course requirement",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "392"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "463"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "454"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "485"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "304"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHIN",
+          "number": "301"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "301"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GERS",
+          "number": "301"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HEBR",
+          "number": "313"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "301"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "301"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "301"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PORT",
+          "number": "405"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "301"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "301"
+        },
+        "sortOrder": 17
+      }
+    ]
+  }
+}

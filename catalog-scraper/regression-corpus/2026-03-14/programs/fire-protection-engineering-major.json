@@ -1,0 +1,604 @@
+{
+  "code": "fire-protection-engineering-major",
+  "title": "Fire Protection Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/fire-protection-engineering/fire-protection-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 120,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-5",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-6",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-7",
+          "label": "MATH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "240"
+        },
+        {
+          "id": "course-8",
+          "label": "MATH246",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "246"
+        },
+        {
+          "id": "course-9",
+          "label": "PHYS161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "161"
+        },
+        {
+          "id": "course-10",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-11",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-12",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "course-13",
+          "label": "ENES102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "102"
+        },
+        {
+          "id": "course-14",
+          "label": "ENES220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "220"
+        },
+        {
+          "id": "course-15",
+          "label": "ENES221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "221"
+        },
+        {
+          "id": "course-16",
+          "label": "ENES232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "232"
+        },
+        {
+          "id": "course-17",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "note-18",
+          "label": "Professional Writing (General Education FSPW) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Writing (General Education FSPW) 3"
+        },
+        {
+          "id": "note-19",
+          "label": "General Education Requirements 1 18",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirements 1 18"
+        },
+        {
+          "id": "course-20",
+          "label": "ENFP201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "201"
+        },
+        {
+          "id": "course-21",
+          "label": "ENFP250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "250"
+        },
+        {
+          "id": "course-22",
+          "label": "ENFP300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "300"
+        },
+        {
+          "id": "course-23",
+          "label": "ENFP310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "310"
+        },
+        {
+          "id": "course-24",
+          "label": "ENFP312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "312"
+        },
+        {
+          "id": "course-25",
+          "label": "ENFP350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "350"
+        },
+        {
+          "id": "course-26",
+          "label": "ENFP405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "405"
+        },
+        {
+          "id": "course-27",
+          "label": "ENFP410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "410"
+        },
+        {
+          "id": "course-28",
+          "label": "ENFP411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "411"
+        },
+        {
+          "id": "course-29",
+          "label": "ENFP413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "413"
+        },
+        {
+          "id": "course-30",
+          "label": "ENFP415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "415"
+        },
+        {
+          "id": "course-31",
+          "label": "ENFP420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "420"
+        },
+        {
+          "id": "course-32",
+          "label": "ENFP425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "425"
+        },
+        {
+          "id": "course-33",
+          "label": "ENFP426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "426"
+        },
+        {
+          "id": "course-34",
+          "label": "ENFP440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENFP",
+          "number": "440"
+        },
+        {
+          "id": "note-35",
+          "label": "Technical Electives 2 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Technical Electives 2 12"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "240"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "246"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "161"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "102"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "220"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "221"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "232"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Writing (General Education FSPW) 3"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirements 1 18"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "201"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "250"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "300"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "310"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "312"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "350"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "405"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "410"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "411"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "413"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "415"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "420"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "425"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "426"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENFP",
+          "number": "440"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Technical Electives 2 12"
+        },
+        "sortOrder": 34
+      }
+    ]
+  }
+}

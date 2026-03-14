@@ -1,0 +1,130 @@
+{
+  "code": "education-policy-equity-and-justice-minor-plcy",
+  "title": "Education Policy, Equity, and Justice Minor (PLCY)",
+  "college": "Public Policy",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-policy/education-policy-equity-justice-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Requirements"
+        },
+        {
+          "id": "course-4",
+          "label": "TLPL254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "254"
+        },
+        {
+          "id": "course-5",
+          "label": "TLPL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "360"
+        },
+        {
+          "id": "course-6",
+          "label": "PLCY354",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "354"
+        },
+        {
+          "id": "note-7",
+          "label": "Electives 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives 1 6"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "254"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "354"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives 1 6"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

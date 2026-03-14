@@ -1,0 +1,1290 @@
+{
+  "code": "middle-school-education-major",
+  "title": "Middle School Education Major",
+  "college": "Education",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/middle-school-education-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 89,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Pre-Professional/Subject Area Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Subject Area Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "GEOL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "course-6",
+          "label": "PHYS115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "115"
+        },
+        {
+          "id": "course-7",
+          "label": "PHYS121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "121"
+        },
+        {
+          "id": "course-8",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "choice-10",
+          "label": "Select one of the following BSCI options",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-11",
+              "label": "BSCI103",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "103"
+            },
+            {
+              "id": "course-12",
+              "label": "BSCI160",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "160"
+            },
+            {
+              "id": "course-13",
+              "label": "BSCI161",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "161"
+            },
+            {
+              "id": "course-14",
+              "label": "BSCI170",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "170"
+            },
+            {
+              "id": "course-15",
+              "label": "BSCI171",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "171"
+            },
+            {
+              "id": "course-16",
+              "label": "AOSC200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AOSC",
+              "number": "200"
+            },
+            {
+              "id": "course-17",
+              "label": "AOSC201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AOSC",
+              "number": "201"
+            },
+            {
+              "id": "course-18",
+              "label": "MATH212",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "212"
+            },
+            {
+              "id": "course-19",
+              "label": "MATH213",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "213"
+            },
+            {
+              "id": "course-20",
+              "label": "MATH214",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "214"
+            },
+            {
+              "id": "course-21",
+              "label": "MATH312",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "312"
+            },
+            {
+              "id": "course-22",
+              "label": "MATH314",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "314"
+            },
+            {
+              "id": "course-23",
+              "label": "MATH315",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "315"
+            },
+            {
+              "id": "course-25",
+              "label": "TLPL101",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "101"
+            },
+            {
+              "id": "course-26",
+              "label": "TLPL102",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "102"
+            },
+            {
+              "id": "course-27",
+              "label": "TLPL250",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "250"
+            },
+            {
+              "id": "course-28",
+              "label": "TLPL360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "360"
+            },
+            {
+              "id": "course-29",
+              "label": "TLPL252",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "252"
+            },
+            {
+              "id": "course-30",
+              "label": "EDHD413",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "413"
+            },
+            {
+              "id": "course-31",
+              "label": "EDHD436",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDHD",
+              "number": "436"
+            },
+            {
+              "id": "course-33",
+              "label": "TLPL413",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "413"
+            },
+            {
+              "id": "course-34",
+              "label": "EDSP401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDSP",
+              "number": "401"
+            },
+            {
+              "id": "course-35",
+              "label": "TLPL420",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "420"
+            },
+            {
+              "id": "course-36",
+              "label": "TLPL423",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "423"
+            },
+            {
+              "id": "course-37",
+              "label": "TLPL424",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "424"
+            },
+            {
+              "id": "course-38",
+              "label": "TLPL478",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "478"
+            },
+            {
+              "id": "course-39",
+              "label": "TLPL441",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "441"
+            },
+            {
+              "id": "course-40",
+              "label": "TLPL481",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "481"
+            },
+            {
+              "id": "course-41",
+              "label": "TLPL479",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "479"
+            },
+            {
+              "id": "course-42",
+              "label": "TLPL489",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "489"
+            },
+            {
+              "id": "course-43",
+              "label": "TLPL300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "300"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-24",
+          "label": "Pre-Professional Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional Education Courses"
+        },
+        {
+          "id": "note-32",
+          "label": "Professional Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Education Courses"
+        }
+      ]
+    },
+    {
+      "id": "choice-10",
+      "label": "Select one of the following BSCI options",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-11",
+          "label": "BSCI103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "103"
+        },
+        {
+          "id": "course-12",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-13",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "course-14",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-15",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-16",
+          "label": "AOSC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AOSC",
+          "number": "200"
+        },
+        {
+          "id": "course-17",
+          "label": "AOSC201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AOSC",
+          "number": "201"
+        },
+        {
+          "id": "course-18",
+          "label": "MATH212",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "212"
+        },
+        {
+          "id": "course-19",
+          "label": "MATH213",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "213"
+        },
+        {
+          "id": "course-20",
+          "label": "MATH214",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "214"
+        },
+        {
+          "id": "course-21",
+          "label": "MATH312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "312"
+        },
+        {
+          "id": "course-22",
+          "label": "MATH314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "314"
+        },
+        {
+          "id": "course-23",
+          "label": "MATH315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "315"
+        },
+        {
+          "id": "course-25",
+          "label": "TLPL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "101"
+        },
+        {
+          "id": "course-26",
+          "label": "TLPL102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "102"
+        },
+        {
+          "id": "course-27",
+          "label": "TLPL250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "250"
+        },
+        {
+          "id": "course-28",
+          "label": "TLPL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "360"
+        },
+        {
+          "id": "course-29",
+          "label": "TLPL252",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "252"
+        },
+        {
+          "id": "course-30",
+          "label": "EDHD413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "413"
+        },
+        {
+          "id": "course-31",
+          "label": "EDHD436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "436"
+        },
+        {
+          "id": "course-33",
+          "label": "TLPL413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "413"
+        },
+        {
+          "id": "course-34",
+          "label": "EDSP401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDSP",
+          "number": "401"
+        },
+        {
+          "id": "course-35",
+          "label": "TLPL420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "420"
+        },
+        {
+          "id": "course-36",
+          "label": "TLPL423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "423"
+        },
+        {
+          "id": "course-37",
+          "label": "TLPL424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "424"
+        },
+        {
+          "id": "course-38",
+          "label": "TLPL478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "478"
+        },
+        {
+          "id": "course-39",
+          "label": "TLPL441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "441"
+        },
+        {
+          "id": "course-40",
+          "label": "TLPL481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "481"
+        },
+        {
+          "id": "course-41",
+          "label": "TLPL479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "479"
+        },
+        {
+          "id": "course-42",
+          "label": "TLPL489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "489"
+        },
+        {
+          "id": "course-43",
+          "label": "TLPL300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "300"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select one of the following BSCI options",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select one of the following BSCI options",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Subject Area Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "115"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "121"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "103"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "200"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "201"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "212"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "213"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "214"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "312"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "314"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "315"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "101"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "102"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "252"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "436"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "413"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDSP",
+          "number": "401"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "420"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "423"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "424"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "441"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "481"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "300"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional Education Courses"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Education Courses"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "103"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "200"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "201"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "212"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "213"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "214"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "312"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "314"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "315"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "101"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "102"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "252"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "436"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "413"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDSP",
+          "number": "401"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "420"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "423"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "424"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "441"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "481"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "300"
+        },
+        "sortOrder": 72
+      }
+    ]
+  }
+}

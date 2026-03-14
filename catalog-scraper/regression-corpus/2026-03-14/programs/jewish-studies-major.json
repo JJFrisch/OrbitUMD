@@ -1,0 +1,647 @@
+{
+  "code": "jewish-studies-major",
+  "title": "Jewish Studies Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 40,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Foundations",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundations"
+        }
+      ]
+    },
+    {
+      "id": "block-5",
+      "label": "One of the two following Big Question courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "JWST187",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "187"
+        },
+        {
+          "id": "course-7",
+          "label": "JWST171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "171"
+        }
+      ]
+    },
+    {
+      "id": "block-8",
+      "label": "Three of the following from at least two areas",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-9",
+          "label": "History",
+          "nodeType": "note",
+          "children": [],
+          "text": "History"
+        },
+        {
+          "id": "course-10",
+          "label": "JWST231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "231"
+        },
+        {
+          "id": "course-11",
+          "label": "JWST233",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "233"
+        },
+        {
+          "id": "course-12",
+          "label": "JWST275",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "275"
+        },
+        {
+          "id": "course-13",
+          "label": "ISRL289",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ISRL",
+          "number": "289"
+        },
+        {
+          "id": "note-14",
+          "label": "Literature and/or Film",
+          "nodeType": "note",
+          "children": [],
+          "text": "Literature and/or Film"
+        },
+        {
+          "id": "course-15",
+          "label": "JWST272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "272"
+        },
+        {
+          "id": "course-16",
+          "label": "ISRL282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ISRL",
+          "number": "282"
+        },
+        {
+          "id": "note-17",
+          "label": "Thought, Culture, and/or Religion",
+          "nodeType": "note",
+          "children": [],
+          "text": "Thought, Culture, and/or Religion"
+        },
+        {
+          "id": "course-18",
+          "label": "JWST250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "250"
+        },
+        {
+          "id": "course-19",
+          "label": "JWST262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "262"
+        },
+        {
+          "id": "course-20",
+          "label": "ISRL249",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ISRL",
+          "number": "249"
+        },
+        {
+          "id": "note-21",
+          "label": "Capstone 3-4",
+          "nodeType": "note",
+          "children": [],
+          "text": "Capstone 3-4"
+        }
+      ]
+    },
+    {
+      "id": "block-22",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-23",
+          "label": "JWST409",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "409"
+        },
+        {
+          "id": "course-24",
+          "label": "ISRL448",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ISRL",
+          "number": "448"
+        }
+      ]
+    },
+    {
+      "id": "choice-25",
+      "label": "Major Track (Select one of the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "note-26",
+          "label": "General Jewish Studies Track (21 credits; see below)",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Jewish Studies Track (21 credits; see below)"
+        },
+        {
+          "id": "note-27",
+          "label": "Language Enhanced Track (24 credits; see below)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Language Enhanced Track (24 credits; see below)"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-28",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-29",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-30",
+          "label": "General Jewish Studies Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Jewish Studies Track"
+        },
+        {
+          "id": "course-31",
+          "label": "THE300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "300"
+        },
+        {
+          "id": "note-32",
+          "label": "In-Major Electives (Three Courses in Jewish Studies) 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "In-Major Electives (Three Courses in Jewish Studies) 9"
+        }
+      ]
+    },
+    {
+      "id": "block-33",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-34",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-35",
+          "label": "Language Enhanced Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "Language Enhanced Track"
+        },
+        {
+          "id": "note-36",
+          "label": "Area of Emphasis 15",
+          "nodeType": "note",
+          "children": [],
+          "text": "Area of Emphasis 15"
+        },
+        {
+          "id": "note-37",
+          "label": "Six Credits at 3XX-4XX Level in Hebrew or Yiddish 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Six Credits at 3XX-4XX Level in Hebrew or Yiddish 1"
+        },
+        {
+          "id": "note-38",
+          "label": "Nine Credits at 3XX-4XX Level in One of the Core Jewish Studies Areas",
+          "nodeType": "note",
+          "children": [],
+          "text": "Nine Credits at 3XX-4XX Level in One of the Core Jewish Studies Areas"
+        },
+        {
+          "id": "note-39",
+          "label": "In-Major Electives (Three Courses in Jewish Studies) 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "In-Major Electives (Three Courses in Jewish Studies) 9"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-5",
+        "humanLabel": "One of the two following Big Question courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-8",
+        "humanLabel": "Three of the following from at least two areas",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-22",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-25",
+        "humanLabel": "Major Track (Select one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-28",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-33",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundations"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "187"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "171"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "History"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "231"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "233"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "275"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ISRL",
+          "number": "289"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Literature and/or Film"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "272"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ISRL",
+          "number": "282"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Thought, Culture, and/or Religion"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "250"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "262"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ISRL",
+          "number": "249"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Capstone 3-4"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "409"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ISRL",
+          "number": "448"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Jewish Studies Track (21 credits; see below)"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Language Enhanced Track (24 credits; see below)"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Jewish Studies Track"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "300"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "In-Major Electives (Three Courses in Jewish Studies) 9"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Language Enhanced Track"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Area of Emphasis 15"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Six Credits at 3XX-4XX Level in Hebrew or Yiddish 1"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Nine Credits at 3XX-4XX Level in One of the Core Jewish Studies Areas"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "In-Major Electives (Three Courses in Jewish Studies) 9"
+        },
+        "sortOrder": 32
+      }
+    ]
+  }
+}

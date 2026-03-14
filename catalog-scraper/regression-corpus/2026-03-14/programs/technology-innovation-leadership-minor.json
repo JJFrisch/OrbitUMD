@@ -1,0 +1,134 @@
+{
+  "code": "technology-innovation-leadership-minor",
+  "title": "Technology Innovation Leadership Minor",
+  "college": "Information",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/information/technology-innovation-leadership-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "INST363",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "363"
+        },
+        {
+          "id": "course-4",
+          "label": "INST407",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "407"
+        },
+        {
+          "id": "course-5",
+          "label": "INST457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "457"
+        },
+        {
+          "id": "course-6",
+          "label": "INST453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "453"
+        },
+        {
+          "id": "course-7",
+          "label": "INST463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "463"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "363"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "407"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "457"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "453"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "463"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

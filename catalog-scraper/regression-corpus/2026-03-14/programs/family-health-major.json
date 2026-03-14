@@ -1,0 +1,930 @@
+{
+  "code": "family-health-major",
+  "title": "Family Health Major",
+  "college": "Public Health",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/family-science/family-health-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 69,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses - Major Subject Area (45 Credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses - Major Subject Area (45 Credits)"
+        },
+        {
+          "id": "course-4",
+          "label": "SPHL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPHL",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "FMSC110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "110"
+        },
+        {
+          "id": "course-6",
+          "label": "FMSC260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "260"
+        },
+        {
+          "id": "course-7",
+          "label": "FMSC302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "302"
+        },
+        {
+          "id": "course-8",
+          "label": "FMSC310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "310"
+        },
+        {
+          "id": "course-9",
+          "label": "FMSC330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "330"
+        },
+        {
+          "id": "course-10",
+          "label": "FMSC332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "332"
+        },
+        {
+          "id": "course-11",
+          "label": "FMSC340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "340"
+        },
+        {
+          "id": "course-12",
+          "label": "FMSC374",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "374"
+        },
+        {
+          "id": "course-13",
+          "label": "FMSC381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "381"
+        },
+        {
+          "id": "course-14",
+          "label": "FMSC383",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "383"
+        },
+        {
+          "id": "course-15",
+          "label": "FMSC432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "432"
+        },
+        {
+          "id": "course-16",
+          "label": "FMSC477",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "477"
+        },
+        {
+          "id": "course-17",
+          "label": "FMSC487",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "487"
+        },
+        {
+          "id": "course-18",
+          "label": "FMSC431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "431"
+        },
+        {
+          "id": "course-19",
+          "label": "FMSC460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "460"
+        },
+        {
+          "id": "note-20",
+          "label": "Required Courses - Department Electives 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses - Department Electives 12"
+        },
+        {
+          "id": "note-21",
+          "label": "Two (2) 100-200 level FMSC courses (6 credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two (2) 100-200 level FMSC courses (6 credits)"
+        },
+        {
+          "id": "note-22",
+          "label": "Two (2) 300-400 level FMSC courses (6 credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two (2) 300-400 level FMSC courses (6 credits)"
+        },
+        {
+          "id": "note-23",
+          "label": "Additional Courses Required of All Majors",
+          "nodeType": "note",
+          "children": [],
+          "text": "Additional Courses Required of All Majors"
+        },
+        {
+          "id": "choice-24",
+          "label": "Select one of the following social sciences general courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-25",
+              "label": "PSYC100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "100"
+            },
+            {
+              "id": "course-26",
+              "label": "SOCY100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "100"
+            },
+            {
+              "id": "course-27",
+              "label": "SOCY105",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "105"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-28",
+          "label": "Select one of the following statistics general courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-29",
+              "label": "EDMS451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDMS",
+              "number": "451"
+            },
+            {
+              "id": "course-30",
+              "label": "STAT100",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "100"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-31",
+          "label": "Select one of the following communication general courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-32",
+              "label": "COMM107",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "107"
+            },
+            {
+              "id": "course-33",
+              "label": "COMM200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "COMM",
+              "number": "200"
+            },
+            {
+              "id": "course-34",
+              "label": "INAG110",
+              "nodeType": "course",
+              "children": [],
+              "subject": "INAG",
+              "number": "110"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-35",
+          "label": "Select one of the following economics general courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-36",
+              "label": "FMSC290",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FMSC",
+              "number": "290"
+            },
+            {
+              "id": "course-37",
+              "label": "ECON200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "200"
+            },
+            {
+              "id": "course-38",
+              "label": "ECON201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "201"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-24",
+      "label": "Select one of the following social sciences general courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-25",
+          "label": "PSYC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "100"
+        },
+        {
+          "id": "course-26",
+          "label": "SOCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "100"
+        },
+        {
+          "id": "course-27",
+          "label": "SOCY105",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "105"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-28",
+      "label": "Select one of the following statistics general courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-29",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "course-30",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-31",
+      "label": "Select one of the following communication general courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-32",
+          "label": "COMM107",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "107"
+        },
+        {
+          "id": "course-33",
+          "label": "COMM200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "200"
+        },
+        {
+          "id": "course-34",
+          "label": "INAG110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "110"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-35",
+      "label": "Select one of the following economics general courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-36",
+          "label": "FMSC290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "290"
+        },
+        {
+          "id": "course-37",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        },
+        {
+          "id": "course-38",
+          "label": "ECON201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "201"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-24",
+        "humanLabel": "Select one of the following social sciences general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-28",
+        "humanLabel": "Select one of the following statistics general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-31",
+        "humanLabel": "Select one of the following communication general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-35",
+        "humanLabel": "Select one of the following economics general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-24",
+        "humanLabel": "Select one of the following social sciences general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-28",
+        "humanLabel": "Select one of the following statistics general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "choice-31",
+        "humanLabel": "Select one of the following communication general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "choice-35",
+        "humanLabel": "Select one of the following economics general courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses - Major Subject Area (45 Credits)"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPHL",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "110"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "260"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "302"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "310"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "330"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "332"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "340"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "374"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "381"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "383"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "432"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "477"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "487"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "431"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "460"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses - Department Electives 12"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two (2) 100-200 level FMSC courses (6 credits)"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two (2) 300-400 level FMSC courses (6 credits)"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Additional Courses Required of All Majors"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "105"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "107"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "200"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "110"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "290"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "100"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "105"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "107"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "200"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "110"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "290"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "201"
+        },
+        "sortOrder": 44
+      }
+    ]
+  }
+}

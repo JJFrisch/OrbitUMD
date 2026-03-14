@@ -1,0 +1,1565 @@
+{
+  "code": "neuroscience-major-bsos",
+  "title": "Neuroscience Major (BSOS)",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/psychology/neuroscience-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 78,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "NEUR Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "NEUR Required Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "NEUR200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "200"
+        },
+        {
+          "id": "course-5",
+          "label": "NEUR305",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "305"
+        },
+        {
+          "id": "course-6",
+          "label": "NEUR306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "306"
+        },
+        {
+          "id": "course-7",
+          "label": "NEUR405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "405"
+        },
+        {
+          "id": "note-8",
+          "label": "Required Supporting Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Supporting Courses"
+        },
+        {
+          "id": "course-9",
+          "label": "MATH135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "135"
+        },
+        {
+          "id": "course-10",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-11",
+          "label": "MATH136",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "136"
+        },
+        {
+          "id": "course-12",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "note-13",
+          "label": "STATISTICS BIOM301, EPIB315, PSYC200, STAT400, STAT464, or DATA400",
+          "nodeType": "note",
+          "children": [],
+          "text": "STATISTICS BIOM301, EPIB315, PSYC200, STAT400, STAT464, or DATA400"
+        },
+        {
+          "id": "course-14",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-15",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-16",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-17",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "course-18",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-19",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "course-20",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-21",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-22",
+          "label": "CHEM241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "241"
+        },
+        {
+          "id": "course-23",
+          "label": "CHEM242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "242"
+        },
+        {
+          "id": "course-24",
+          "label": "CHEM271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "271"
+        },
+        {
+          "id": "course-25",
+          "label": "CHEM272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "272"
+        },
+        {
+          "id": "course-26",
+          "label": "PHYS131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "131"
+        },
+        {
+          "id": "course-27",
+          "label": "PHYS141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "141"
+        },
+        {
+          "id": "course-28",
+          "label": "PHYS161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "161"
+        },
+        {
+          "id": "course-29",
+          "label": "PHYS132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "132"
+        },
+        {
+          "id": "course-30",
+          "label": "PHYS142",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "142"
+        },
+        {
+          "id": "course-31",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-32",
+          "label": "PSYC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "100"
+        },
+        {
+          "id": "note-33",
+          "label": "Track Courses 2,3 16-20",
+          "nodeType": "note",
+          "children": [],
+          "text": "Track Courses 2,3 16-20"
+        },
+        {
+          "id": "note-34",
+          "label": "Complete at least 5 courses, including at least 3 courses from within one track and at least 1 lab course",
+          "nodeType": "note",
+          "children": [],
+          "text": "Complete at least 5 courses, including at least 3 courses from within one track and at least 1 lab course"
+        },
+        {
+          "id": "note-35",
+          "label": "MOLECULAR, CELLULAR, AND PHYSIOLOGICAL TRACK 4",
+          "nodeType": "note",
+          "children": [],
+          "text": "MOLECULAR, CELLULAR, AND PHYSIOLOGICAL TRACK 4"
+        },
+        {
+          "id": "course-36",
+          "label": "BCHM463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "463"
+        },
+        {
+          "id": "course-37",
+          "label": "BCHM461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "461"
+        },
+        {
+          "id": "course-38",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "course-39",
+          "label": "HLSC322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLSC",
+          "number": "322"
+        },
+        {
+          "id": "course-40",
+          "label": "BSCI330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "330"
+        },
+        {
+          "id": "course-41",
+          "label": "BSCI343",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "343"
+        },
+        {
+          "id": "course-42",
+          "label": "BSCI357",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "357"
+        },
+        {
+          "id": "course-43",
+          "label": "BSCI381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "381"
+        },
+        {
+          "id": "course-44",
+          "label": "BSCI403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "403"
+        },
+        {
+          "id": "course-45",
+          "label": "BSCI410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "410"
+        },
+        {
+          "id": "course-46",
+          "label": "BSCI415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "415"
+        },
+        {
+          "id": "course-47",
+          "label": "BSCI430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "430"
+        },
+        {
+          "id": "course-48",
+          "label": "BSCI431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "431"
+        },
+        {
+          "id": "course-49",
+          "label": "BSCI440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "440"
+        },
+        {
+          "id": "course-50",
+          "label": "BSCI450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "450"
+        },
+        {
+          "id": "course-51",
+          "label": "BSCI441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "441"
+        },
+        {
+          "id": "course-52",
+          "label": "BSCI451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "451"
+        },
+        {
+          "id": "course-53",
+          "label": "BSCI446",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "446"
+        },
+        {
+          "id": "course-54",
+          "label": "BSCI452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "452"
+        },
+        {
+          "id": "course-55",
+          "label": "BSCI456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "456"
+        },
+        {
+          "id": "course-56",
+          "label": "KNES370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "370"
+        },
+        {
+          "id": "course-57",
+          "label": "KNES462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "462"
+        },
+        {
+          "id": "course-58",
+          "label": "NEUR379",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "379"
+        },
+        {
+          "id": "course-59",
+          "label": "NEUR479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "479"
+        },
+        {
+          "id": "course-60",
+          "label": "BSCI338",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "338"
+        },
+        {
+          "id": "course-61",
+          "label": "BSCI339",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "339"
+        },
+        {
+          "id": "course-62",
+          "label": "BSCI438",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "438"
+        },
+        {
+          "id": "note-63",
+          "label": "BEHAVIORAL AND COGNITIVE TRACK 4",
+          "nodeType": "note",
+          "children": [],
+          "text": "BEHAVIORAL AND COGNITIVE TRACK 4"
+        },
+        {
+          "id": "course-64",
+          "label": "BSCI355",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "355"
+        },
+        {
+          "id": "course-65",
+          "label": "BSCI360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "360"
+        },
+        {
+          "id": "course-66",
+          "label": "BSCI401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "401"
+        },
+        {
+          "id": "course-67",
+          "label": "BSCI407",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "407"
+        },
+        {
+          "id": "course-68",
+          "label": "EDHD310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "310"
+        },
+        {
+          "id": "course-69",
+          "label": "KNES385",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "385"
+        },
+        {
+          "id": "course-70",
+          "label": "KNES445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "445"
+        },
+        {
+          "id": "course-71",
+          "label": "PHIL202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "202"
+        },
+        {
+          "id": "course-72",
+          "label": "PHIL366",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHIL",
+          "number": "366"
+        },
+        {
+          "id": "course-73",
+          "label": "PSYC300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "300"
+        },
+        {
+          "id": "course-74",
+          "label": "PSYC302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "302"
+        },
+        {
+          "id": "course-75",
+          "label": "PSYC307",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "307"
+        },
+        {
+          "id": "course-76",
+          "label": "PSYC310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "310"
+        },
+        {
+          "id": "course-77",
+          "label": "PSYC341",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "341"
+        },
+        {
+          "id": "course-78",
+          "label": "PSYC403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "403"
+        },
+        {
+          "id": "course-79",
+          "label": "PSYC404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "404"
+        },
+        {
+          "id": "course-80",
+          "label": "PSYC406",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "406"
+        },
+        {
+          "id": "course-81",
+          "label": "PSYC407",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "407"
+        },
+        {
+          "id": "course-82",
+          "label": "PSYC411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "411"
+        },
+        {
+          "id": "course-83",
+          "label": "PSYC414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "414"
+        },
+        {
+          "id": "course-84",
+          "label": "PSYC417",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "417"
+        },
+        {
+          "id": "course-85",
+          "label": "PSYC431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "431"
+        },
+        {
+          "id": "course-86",
+          "label": "PSYC442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "442"
+        },
+        {
+          "id": "course-87",
+          "label": "PSYC489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "489"
+        },
+        {
+          "id": "course-88",
+          "label": "NEUR379",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "379"
+        },
+        {
+          "id": "course-89",
+          "label": "NEUR479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NEUR",
+          "number": "479"
+        },
+        {
+          "id": "course-90",
+          "label": "PSYC489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "489"
+        },
+        {
+          "id": "course-91",
+          "label": "BSCI338",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "338"
+        },
+        {
+          "id": "course-92",
+          "label": "BSCI339",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "339"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "NEUR Required Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "200"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "305"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "306"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "405"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Supporting Courses"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "135"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "136"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "STATISTICS BIOM301, EPIB315, PSYC200, STAT400, STAT464, or DATA400"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "241"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "242"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "271"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "272"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "131"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "141"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "161"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "132"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "142"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Track Courses 2,3 16-20"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Complete at least 5 courses, including at least 3 courses from within one track and at least 1 lab course"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "MOLECULAR, CELLULAR, AND PHYSIOLOGICAL TRACK 4"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "463"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "461"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLSC",
+          "number": "322"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "330"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "343"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "357"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "381"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "403"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "410"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "415"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "430"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "431"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "440"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "450"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "441"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "451"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "446"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "452"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "456"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "370"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "462"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "379"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "479"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "338"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "339"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "438"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BEHAVIORAL AND COGNITIVE TRACK 4"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "355"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "360"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "401"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "407"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "310"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "385"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "445"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "202"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHIL",
+          "number": "366"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "300"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "302"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "307"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "310"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "341"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "403"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "404"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "406"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "407"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "411"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "414"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "417"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "431"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "442"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "489"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "379"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NEUR",
+          "number": "479"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "489"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "338"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "339"
+        },
+        "sortOrder": 91
+      }
+    ]
+  }
+}

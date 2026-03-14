@@ -1,0 +1,141 @@
+{
+  "code": "digital-storytelling-and-poetics-minor",
+  "title": "Digital Storytelling and Poetics Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/digital-storytelling-poetics-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "ENGL295",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "295"
+        },
+        {
+          "id": "note-4",
+          "label": "Approved courses (at least twelve credits at the 3xx- or 4xx-level, with three credits at the 4xx-level), including: 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Approved courses (at least twelve credits at the 3xx- or 4xx-level, with three credits at the 4xx-level), including: 1 12"
+        },
+        {
+          "id": "note-5",
+          "label": "• A minimum of one course (three credits) on critical analysis & theory, and",
+          "nodeType": "note",
+          "children": [],
+          "text": "• A minimum of one course (three credits) on critical analysis & theory, and"
+        },
+        {
+          "id": "note-6",
+          "label": "• A minimum of one course (three credits) on craft & creative process.",
+          "nodeType": "note",
+          "children": [],
+          "text": "• A minimum of one course (three credits) on craft & creative process."
+        },
+        {
+          "id": "note-7",
+          "label": "Digital Portfolio",
+          "nodeType": "note",
+          "children": [],
+          "text": "Digital Portfolio"
+        },
+        {
+          "id": "note-8",
+          "label": "Submission of a portfolio of critical and creative work is required. 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Submission of a portfolio of critical and creative work is required. 2"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "295"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Approved courses (at least twelve credits at the 3xx- or 4xx-level, with three credits at the 4xx-level), including: 1 12"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "• A minimum of one course (three credits) on critical analysis & theory, and"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "• A minimum of one course (three credits) on craft & creative process."
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Digital Portfolio"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Submission of a portfolio of critical and creative work is required. 2"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

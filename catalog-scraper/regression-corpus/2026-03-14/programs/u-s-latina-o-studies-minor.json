@@ -1,0 +1,145 @@
+{
+  "code": "u-s-latina-o-studies-minor",
+  "title": "U.S. Latina/o Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/american-studies/us-latina-latino-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Foundation Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundation Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "USLT201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "USLT",
+          "number": "201"
+        },
+        {
+          "id": "course-5",
+          "label": "USLT202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "USLT",
+          "number": "202"
+        },
+        {
+          "id": "course-6",
+          "label": "USLT488",
+          "nodeType": "course",
+          "children": [],
+          "subject": "USLT",
+          "number": "488"
+        },
+        {
+          "id": "note-7",
+          "label": "Elective Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses"
+        },
+        {
+          "id": "note-8",
+          "label": "Two 3xx or 4xx level courses 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Two 3xx or 4xx level courses 1 6"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundation Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "USLT",
+          "number": "201"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "USLT",
+          "number": "202"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "USLT",
+          "number": "488"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Two 3xx or 4xx level courses 1 6"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

@@ -1,0 +1,566 @@
+{
+  "code": "mechanical-engineering-major",
+  "title": "Mechanical Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/mechanical-engineering/mechanical-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 124,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Freshman Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Freshman Year"
+        },
+        {
+          "id": "note-3",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-5",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-6",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "course-7",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "note-8",
+          "label": "General Education Requirements 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirements 3"
+        },
+        {
+          "id": "note-9",
+          "label": "16",
+          "nodeType": "note",
+          "children": [],
+          "text": "16"
+        },
+        {
+          "id": "note-10",
+          "label": "Sophomore Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sophomore Year"
+        },
+        {
+          "id": "note-11",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-12",
+          "label": "ENME202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "202"
+        },
+        {
+          "id": "course-13",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-15",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-16",
+          "label": "ENES221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "221"
+        },
+        {
+          "id": "course-17",
+          "label": "ENES200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "200"
+        },
+        {
+          "id": "course-18",
+          "label": "ENEE200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "200"
+        },
+        {
+          "id": "note-19",
+          "label": "17",
+          "nodeType": "note",
+          "children": [],
+          "text": "17"
+        },
+        {
+          "id": "note-20",
+          "label": "Junior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year"
+        },
+        {
+          "id": "note-21",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-22",
+          "label": "ENME331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "331"
+        },
+        {
+          "id": "course-23",
+          "label": "ENME350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "350"
+        },
+        {
+          "id": "course-24",
+          "label": "ENME382",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "382"
+        },
+        {
+          "id": "course-25",
+          "label": "ENME392",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "392"
+        },
+        {
+          "id": "note-26",
+          "label": "General Education Requirements 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirements 3"
+        },
+        {
+          "id": "note-27",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        },
+        {
+          "id": "note-28",
+          "label": "Senior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year"
+        },
+        {
+          "id": "note-29",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-30",
+          "label": "ENME472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "472"
+        },
+        {
+          "id": "course-31",
+          "label": "ENME400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "400"
+        },
+        {
+          "id": "note-32",
+          "label": "Electives: Technical Electives 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives: Technical Electives 6"
+        },
+        {
+          "id": "note-33",
+          "label": "General Education Requirements 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Education Requirements 3"
+        },
+        {
+          "id": "note-34",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        }
+      ],
+      "minCredits": 124
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 124
+        },
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Freshman Year"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirements 3"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "16"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sophomore Year"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "202"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "221"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "200"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "200"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "17"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "331"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "350"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "382"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "392"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirements 3"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "472"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "400"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives: Technical Electives 6"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Education Requirements 3"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 33
+      }
+    ]
+  }
+}

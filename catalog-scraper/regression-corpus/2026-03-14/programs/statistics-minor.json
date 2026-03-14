@@ -1,0 +1,616 @@
+{
+  "code": "statistics-minor",
+  "title": "Statistics Minor",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/mathematics/statistics-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": null,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "340"
+        },
+        {
+          "id": "choice-5",
+          "label": "Select one of the following pairs of courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-6",
+              "label": "STAT400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "400"
+            },
+            {
+              "id": "course-7",
+              "label": "STAT401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "401"
+            },
+            {
+              "id": "course-9",
+              "label": "STAT410",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "410"
+            },
+            {
+              "id": "course-10",
+              "label": "STAT420",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "420"
+            },
+            {
+              "id": "course-12",
+              "label": "STAT410",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "410"
+            },
+            {
+              "id": "course-13",
+              "label": "STAT401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "401"
+            },
+            {
+              "id": "course-14",
+              "label": "STAT430",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "430"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-8",
+          "label": "OR",
+          "nodeType": "note",
+          "children": [],
+          "text": "OR"
+        },
+        {
+          "id": "note-11",
+          "label": "OR",
+          "nodeType": "note",
+          "children": [],
+          "text": "OR"
+        },
+        {
+          "id": "choice-15",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-17",
+              "label": "STAT422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "422"
+            },
+            {
+              "id": "course-18",
+              "label": "STAT426",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "426"
+            },
+            {
+              "id": "course-19",
+              "label": "STAT440",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "440"
+            },
+            {
+              "id": "course-20",
+              "label": "STAT470",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "470"
+            },
+            {
+              "id": "course-21",
+              "label": "MATH424",
+              "nodeType": "course",
+              "children": [],
+              "subject": "MATH",
+              "number": "424"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-16",
+          "label": "A third course from the pairs above, if not already taken",
+          "nodeType": "note",
+          "children": [],
+          "text": "A third course from the pairs above, if not already taken"
+        }
+      ]
+    },
+    {
+      "id": "choice-5",
+      "label": "Select one of the following pairs of courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "STAT400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "400"
+        },
+        {
+          "id": "course-7",
+          "label": "STAT401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "401"
+        },
+        {
+          "id": "course-9",
+          "label": "STAT410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "410"
+        },
+        {
+          "id": "course-10",
+          "label": "STAT420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "420"
+        },
+        {
+          "id": "course-12",
+          "label": "STAT410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "410"
+        },
+        {
+          "id": "course-13",
+          "label": "STAT401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "401"
+        },
+        {
+          "id": "course-14",
+          "label": "STAT430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "430"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-15",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-17",
+          "label": "STAT422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "422"
+        },
+        {
+          "id": "course-18",
+          "label": "STAT426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "426"
+        },
+        {
+          "id": "course-19",
+          "label": "STAT440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "440"
+        },
+        {
+          "id": "course-20",
+          "label": "STAT470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "470"
+        },
+        {
+          "id": "course-21",
+          "label": "MATH424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "424"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select one of the following pairs of courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select one of the following pairs of courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "340"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "400"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "401"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "410"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "420"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "410"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "401"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "430"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "OR"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "OR"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "422"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "426"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "440"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "470"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "424"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "A third course from the pairs above, if not already taken"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "400"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "401"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "410"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "420"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "410"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "401"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "430"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "422"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "426"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "440"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "470"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "424"
+        },
+        "sortOrder": 30
+      }
+    ]
+  }
+}

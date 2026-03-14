@@ -1,0 +1,181 @@
+{
+  "code": "project-management-minor",
+  "title": "Project Management Minor",
+  "college": "Engineering",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/civil-environmental-engineering/project-management-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "ENCE320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "320"
+        },
+        {
+          "id": "course-5",
+          "label": "ENCE422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "422"
+        },
+        {
+          "id": "course-6",
+          "label": "ENCE423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "423"
+        },
+        {
+          "id": "course-7",
+          "label": "ENCE424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "424"
+        },
+        {
+          "id": "note-8",
+          "label": "Elective Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses"
+        },
+        {
+          "id": "course-9",
+          "label": "ENCE421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "421"
+        },
+        {
+          "id": "course-10",
+          "label": "ENCE426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "426"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "320"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "422"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "423"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "424"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "421"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "426"
+        },
+        "sortOrder": 9
+      }
+    ]
+  }
+}

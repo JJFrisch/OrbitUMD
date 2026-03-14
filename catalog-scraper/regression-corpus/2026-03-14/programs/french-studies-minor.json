@@ -1,0 +1,393 @@
+{
+  "code": "french-studies-minor",
+  "title": "French Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/french-language-literature/french-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 21,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        }
+      ]
+    },
+    {
+      "id": "block-3",
+      "label": "Courses required for the minor, in this order, are",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "FREN204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "204"
+        },
+        {
+          "id": "course-5",
+          "label": "FREN250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "250"
+        },
+        {
+          "id": "course-6",
+          "label": "FREN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "301"
+        },
+        {
+          "id": "course-7",
+          "label": "FREN387",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "387"
+        },
+        {
+          "id": "choice-8",
+          "label": "Select three of the following: 1",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-9",
+              "label": "FREN302",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "302"
+            },
+            {
+              "id": "course-10",
+              "label": "FREN303",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "303"
+            },
+            {
+              "id": "course-11",
+              "label": "FREN311",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "311"
+            },
+            {
+              "id": "course-12",
+              "label": "FREN312",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "312"
+            },
+            {
+              "id": "course-13",
+              "label": "FREN351",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "351"
+            },
+            {
+              "id": "course-14",
+              "label": "FREN352",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "352"
+            }
+          ],
+          "minCount": 3
+        },
+        {
+          "id": "note-15",
+          "label": "Any 4XX-level course/s 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Any 4XX-level course/s 1"
+        }
+      ]
+    },
+    {
+      "id": "choice-8",
+      "label": "Select three of the following: 1",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-9",
+          "label": "FREN302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "302"
+        },
+        {
+          "id": "course-10",
+          "label": "FREN303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "303"
+        },
+        {
+          "id": "course-11",
+          "label": "FREN311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "311"
+        },
+        {
+          "id": "course-12",
+          "label": "FREN312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "312"
+        },
+        {
+          "id": "course-13",
+          "label": "FREN351",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "351"
+        },
+        {
+          "id": "course-14",
+          "label": "FREN352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "352"
+        }
+      ],
+      "minCount": 3
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-3",
+        "humanLabel": "Courses required for the minor, in this order, are",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-2",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select three of the following: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select three of the following: 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "204"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "250"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "301"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "387"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "302"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "303"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "311"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "312"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "351"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "352"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Any 4XX-level course/s 1"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "302"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "303"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "311"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "312"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "351"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "352"
+        },
+        "sortOrder": 18
+      }
+    ]
+  }
+}

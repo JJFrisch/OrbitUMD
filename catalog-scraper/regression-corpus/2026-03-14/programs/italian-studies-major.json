@@ -1,0 +1,251 @@
+{
+  "code": "italian-studies-major",
+  "title": "Italian Studies Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/italian-studies/italian-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 36,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Major Core Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Core Requirements"
+        },
+        {
+          "id": "course-5",
+          "label": "ITAL204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "204"
+        },
+        {
+          "id": "course-6",
+          "label": "ITAL207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "207"
+        },
+        {
+          "id": "course-7",
+          "label": "ITAL252",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "252"
+        },
+        {
+          "id": "course-8",
+          "label": "ITAL261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "261"
+        },
+        {
+          "id": "course-9",
+          "label": "ITAL301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "301"
+        },
+        {
+          "id": "course-10",
+          "label": "ITAL311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "311"
+        },
+        {
+          "id": "course-11",
+          "label": "ITAL401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "401"
+        },
+        {
+          "id": "course-12",
+          "label": "ITAL361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "361"
+        },
+        {
+          "id": "course-13",
+          "label": "ITAL362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "362"
+        },
+        {
+          "id": "choice-14",
+          "label": "Select three courses at the ITAL4xx level each with associated ITAL478 course 1",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 3
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Select three courses at the ITAL4xx level each with associated ITAL478 course 1",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Core Requirements"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "204"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "207"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "252"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "261"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "301"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "311"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "401"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "361"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "362"
+        },
+        "sortOrder": 12
+      }
+    ]
+  }
+}

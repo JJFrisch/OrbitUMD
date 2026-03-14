@@ -1,0 +1,147 @@
+{
+  "code": "arabic-minor",
+  "title": "Arabic Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/arabic-studies/arabic-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 21,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Courses required for Minor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Courses required for Minor"
+        },
+        {
+          "id": "course-4",
+          "label": "ARAB101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "101"
+        },
+        {
+          "id": "course-5",
+          "label": "ARAB102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "102"
+        },
+        {
+          "id": "course-6",
+          "label": "ARAB201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "201"
+        },
+        {
+          "id": "course-7",
+          "label": "ARAB202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "202"
+        },
+        {
+          "id": "note-8",
+          "label": "9 additional credits of 3xx or 4xx level courses, including at least one taught in Arabic 1 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "9 additional credits of 3xx or 4xx level courses, including at least one taught in Arabic 1 9"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Courses required for Minor"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "101"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "102"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "201"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "202"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "9 additional credits of 3xx or 4xx level courses, including at least one taught in Arabic 1 9"
+        },
+        "sortOrder": 7
+      }
+    ]
+  }
+}

@@ -1,0 +1,688 @@
+{
+  "code": "supply-chain-management-major",
+  "title": "Supply Chain Management Major",
+  "college": "Business",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/logistics-business-public-policy/supply-chain-management-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "course-4",
+          "label": "BMGT370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "370"
+        },
+        {
+          "id": "course-5",
+          "label": "BMGT372",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "372"
+        },
+        {
+          "id": "choice-6",
+          "label": "Select three of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-7",
+              "label": "BMGT373",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "373"
+            },
+            {
+              "id": "course-8",
+              "label": "BMGT374",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "374"
+            },
+            {
+              "id": "course-9",
+              "label": "BMGT472",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "472"
+            },
+            {
+              "id": "course-10",
+              "label": "BMGT475",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "475"
+            },
+            {
+              "id": "course-11",
+              "label": "BMGT476",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "476"
+            },
+            {
+              "id": "course-12",
+              "label": "BMGT477",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "477"
+            },
+            {
+              "id": "course-13",
+              "label": "BMGT478",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "478"
+            }
+          ],
+          "minCount": 3
+        },
+        {
+          "id": "choice-14",
+          "label": "Select one of the following: 3",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-15",
+              "label": "BMGT302",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "302"
+            },
+            {
+              "id": "course-16",
+              "label": "BMGT332",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "332"
+            },
+            {
+              "id": "course-17",
+              "label": "BMGT385",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "385"
+            },
+            {
+              "id": "course-18",
+              "label": "BMGT392",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "392"
+            },
+            {
+              "id": "course-19",
+              "label": "BMGT454",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "454"
+            },
+            {
+              "id": "course-20",
+              "label": "BMGT461",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "461"
+            },
+            {
+              "id": "course-21",
+              "label": "BMGT484",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "484"
+            },
+            {
+              "id": "course-22",
+              "label": "BMGT490",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "490"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-6",
+      "label": "Select three of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-7",
+          "label": "BMGT373",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "373"
+        },
+        {
+          "id": "course-8",
+          "label": "BMGT374",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "374"
+        },
+        {
+          "id": "course-9",
+          "label": "BMGT472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "472"
+        },
+        {
+          "id": "course-10",
+          "label": "BMGT475",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "475"
+        },
+        {
+          "id": "course-11",
+          "label": "BMGT476",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "476"
+        },
+        {
+          "id": "course-12",
+          "label": "BMGT477",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "477"
+        },
+        {
+          "id": "course-13",
+          "label": "BMGT478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "478"
+        }
+      ],
+      "minCount": 3
+    },
+    {
+      "id": "choice-14",
+      "label": "Select one of the following: 3",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-15",
+          "label": "BMGT302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "302"
+        },
+        {
+          "id": "course-16",
+          "label": "BMGT332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "332"
+        },
+        {
+          "id": "course-17",
+          "label": "BMGT385",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "385"
+        },
+        {
+          "id": "course-18",
+          "label": "BMGT392",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "392"
+        },
+        {
+          "id": "course-19",
+          "label": "BMGT454",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "454"
+        },
+        {
+          "id": "course-20",
+          "label": "BMGT461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "461"
+        },
+        {
+          "id": "course-21",
+          "label": "BMGT484",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "484"
+        },
+        {
+          "id": "course-22",
+          "label": "BMGT490",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "490"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-6",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Select one of the following: 3",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-6",
+        "humanLabel": "Select three of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Select one of the following: 3",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "370"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "372"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "373"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "374"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "472"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "475"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "476"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "477"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "478"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "302"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "332"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "385"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "392"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "454"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "461"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "484"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "490"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "373"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "374"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "472"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "475"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "476"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "477"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "478"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "302"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "332"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "385"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "392"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "454"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "461"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "484"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "490"
+        },
+        "sortOrder": 34
+      }
+    ]
+  }
+}

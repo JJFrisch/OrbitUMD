@@ -1,0 +1,963 @@
+{
+  "code": "secondary-education-major-english",
+  "title": "Secondary Education Major - English",
+  "college": "Education",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/english-education-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 82,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Pre-Professional/Subject Area Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Subject Area Courses"
+        },
+        {
+          "id": "note-5",
+          "label": "Students must successfully complete the following five elements: 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Students must successfully complete the following five elements: 1"
+        },
+        {
+          "id": "note-6",
+          "label": "ELEMENT 1: This is English 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELEMENT 1: This is English 3"
+        },
+        {
+          "id": "course-7",
+          "label": "ENGL301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "301"
+        },
+        {
+          "id": "note-8",
+          "label": "ELEMENT 2: Historical Studies 15",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELEMENT 2: Historical Studies 15"
+        }
+      ]
+    },
+    {
+      "id": "choice-9",
+      "label": "Students must take 1 course in at least 5 out of these 6 historical periods",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "note-10",
+          "label": "Beginning and Medieval",
+          "nodeType": "note",
+          "children": [],
+          "text": "Beginning and Medieval"
+        },
+        {
+          "id": "note-11",
+          "label": "Early Modern",
+          "nodeType": "note",
+          "children": [],
+          "text": "Early Modern"
+        },
+        {
+          "id": "note-12",
+          "label": "Eighteenth Century",
+          "nodeType": "note",
+          "children": [],
+          "text": "Eighteenth Century"
+        },
+        {
+          "id": "note-13",
+          "label": "Nineteenth Century",
+          "nodeType": "note",
+          "children": [],
+          "text": "Nineteenth Century"
+        },
+        {
+          "id": "note-14",
+          "label": "Twentieth Century",
+          "nodeType": "note",
+          "children": [],
+          "text": "Twentieth Century"
+        },
+        {
+          "id": "note-15",
+          "label": "Contemporary",
+          "nodeType": "note",
+          "children": [],
+          "text": "Contemporary"
+        },
+        {
+          "id": "note-16",
+          "label": "ELEMENT 3: Language, Writing, and Rhetoric 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELEMENT 3: Language, Writing, and Rhetoric 9"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-17",
+      "label": "Students must take 1 course in each of following topics, leaving the remaining 3 credits open for any language, writing, or rhetoric course",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "note-18",
+          "label": "History, Analysis, and Theory",
+          "nodeType": "note",
+          "children": [],
+          "text": "History, Analysis, and Theory"
+        },
+        {
+          "id": "note-19",
+          "label": "Practice, Performance, and Pedagogy",
+          "nodeType": "note",
+          "children": [],
+          "text": "Practice, Performance, and Pedagogy"
+        },
+        {
+          "id": "note-20",
+          "label": "ELEMENT 4: Electives 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELEMENT 4: Electives 12"
+        },
+        {
+          "id": "note-21",
+          "label": "To allow students to explore additional topics, skills, and encounters of interest, the major includes elective credits, which may be filled by any ENGL or CMLT course.",
+          "nodeType": "note",
+          "children": [],
+          "text": "To allow students to explore additional topics, skills, and encounters of interest, the major includes elective credits, which may be filled by any ENGL or CMLT course."
+        },
+        {
+          "id": "note-22",
+          "label": "ELEMENT 5: Perspectives, Methods, Writing, and Preparation for the Core Curriculum",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELEMENT 5: Perspectives, Methods, Writing, and Preparation for the Core Curriculum"
+        },
+        {
+          "id": "note-23",
+          "label": "This element is a set of co-requirements, meaning that these should be fulfilled in the process of completing Elements 2-4 of the major. That is, students may count the same course toward one co-requirement and one requirement in Elements 2-4.",
+          "nodeType": "note",
+          "children": [],
+          "text": "This element is a set of co-requirements, meaning that these should be fulfilled in the process of completing Elements 2-4 of the major. That is, students may count the same course toward one co-requirement and one requirement in Elements 2-4."
+        },
+        {
+          "id": "note-24",
+          "label": "American Literature: Future educators in the Common Core Curriculum require a knowledge of American literary history, so students are required to take at least one course on American literature.",
+          "nodeType": "note",
+          "children": [],
+          "text": "American Literature: Future educators in the Common Core Curriculum require a knowledge of American literary history, so students are required to take at least one course on American literature."
+        },
+        {
+          "id": "note-25",
+          "label": "Shakespeare: Future educators need to be prepared to teach Shakespeare’s works, so students will take at least one course on Shakespeare.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Shakespeare: Future educators need to be prepared to teach Shakespeare’s works, so students will take at least one course on Shakespeare."
+        },
+        {
+          "id": "note-26",
+          "label": "Differences and Diasporas: Students will take at least one course focusing on minority and other non-dominant voices pertaining to forms of social difference, such as gender, sexuality, ethnicity, race, and disability.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Differences and Diasporas: Students will take at least one course focusing on minority and other non-dominant voices pertaining to forms of social difference, such as gender, sexuality, ethnicity, race, and disability."
+        },
+        {
+          "id": "note-27",
+          "label": "Methods: Students will take at least 1 course that foregrounds major approaches within English Studies, including, poetics, critical theory, discourse analysis, critical making, and more.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Methods: Students will take at least 1 course that foregrounds major approaches within English Studies, including, poetics, critical theory, discourse analysis, critical making, and more."
+        },
+        {
+          "id": "note-28",
+          "label": "Advanced Writing: To ensure that students have dedicated time, space, and guidance in composition and analysis, they must take at least one course designated as Advanced Writing. 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Advanced Writing: To ensure that students have dedicated time, space, and guidance in composition and analysis, they must take at least one course designated as Advanced Writing. 2"
+        },
+        {
+          "id": "note-29",
+          "label": "Pre-Professional/Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Pre-Professional/Education Courses"
+        },
+        {
+          "id": "course-30",
+          "label": "COMM230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "230"
+        },
+        {
+          "id": "course-31",
+          "label": "COMM330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "330"
+        },
+        {
+          "id": "course-32",
+          "label": "COMM402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "402"
+        },
+        {
+          "id": "course-33",
+          "label": "EDHD413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "413"
+        },
+        {
+          "id": "course-34",
+          "label": "EDHD426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "426"
+        },
+        {
+          "id": "course-35",
+          "label": "TLPL488",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "488"
+        },
+        {
+          "id": "choice-36",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-37",
+              "label": "TLPL360",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "360"
+            },
+            {
+              "id": "course-38",
+              "label": "TLPL250",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "250"
+            },
+            {
+              "id": "course-40",
+              "label": "TLPL457",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "457"
+            },
+            {
+              "id": "course-41",
+              "label": "TLPL456",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "456"
+            },
+            {
+              "id": "course-42",
+              "label": "TLPL451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "451"
+            },
+            {
+              "id": "course-43",
+              "label": "TLPL452",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "452"
+            },
+            {
+              "id": "course-44",
+              "label": "TLPL479",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "479"
+            },
+            {
+              "id": "course-45",
+              "label": "TLPL300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "300"
+            },
+            {
+              "id": "course-46",
+              "label": "TLPL478",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "478"
+            },
+            {
+              "id": "course-47",
+              "label": "TLPL489",
+              "nodeType": "course",
+              "children": [],
+              "subject": "TLPL",
+              "number": "489"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-39",
+          "label": "Professional Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Education Courses"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-36",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-37",
+          "label": "TLPL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "360"
+        },
+        {
+          "id": "course-38",
+          "label": "TLPL250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "250"
+        },
+        {
+          "id": "course-40",
+          "label": "TLPL457",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "457"
+        },
+        {
+          "id": "course-41",
+          "label": "TLPL456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "456"
+        },
+        {
+          "id": "course-42",
+          "label": "TLPL451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "451"
+        },
+        {
+          "id": "course-43",
+          "label": "TLPL452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "452"
+        },
+        {
+          "id": "course-44",
+          "label": "TLPL479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "479"
+        },
+        {
+          "id": "course-45",
+          "label": "TLPL300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "300"
+        },
+        {
+          "id": "course-46",
+          "label": "TLPL478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "478"
+        },
+        {
+          "id": "course-47",
+          "label": "TLPL489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "489"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-9",
+        "humanLabel": "Students must take 1 course in at least 5 out of these 6 historical periods",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Students must take 1 course in each of following topics, leaving the remaining 3 credits open for any language, writing, or rhetoric course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-3",
+        "sourceNodeId": "choice-36",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-36",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Subject Area Courses"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Students must successfully complete the following five elements: 1"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELEMENT 1: This is English 3"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "301"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELEMENT 2: Historical Studies 15"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Beginning and Medieval"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Early Modern"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Eighteenth Century"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Nineteenth Century"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Twentieth Century"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Contemporary"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELEMENT 3: Language, Writing, and Rhetoric 9"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "History, Analysis, and Theory"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Practice, Performance, and Pedagogy"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELEMENT 4: Electives 12"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "To allow students to explore additional topics, skills, and encounters of interest, the major includes elective credits, which may be filled by any ENGL or CMLT course."
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELEMENT 5: Perspectives, Methods, Writing, and Preparation for the Core Curriculum"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "This element is a set of co-requirements, meaning that these should be fulfilled in the process of completing Elements 2-4 of the major. That is, students may count the same course toward one co-requirement and one requirement in Elements 2-4."
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "American Literature: Future educators in the Common Core Curriculum require a knowledge of American literary history, so students are required to take at least one course on American literature."
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Shakespeare: Future educators need to be prepared to teach Shakespeare’s works, so students will take at least one course on Shakespeare."
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Differences and Diasporas: Students will take at least one course focusing on minority and other non-dominant voices pertaining to forms of social difference, such as gender, sexuality, ethnicity, race, and disability."
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Methods: Students will take at least 1 course that foregrounds major approaches within English Studies, including, poetics, critical theory, discourse analysis, critical making, and more."
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Advanced Writing: To ensure that students have dedicated time, space, and guidance in composition and analysis, they must take at least one course designated as Advanced Writing. 2"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Education Courses"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "230"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "330"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "402"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "488"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "457"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "456"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "451"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "452"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "300"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Education Courses"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "457"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "456"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "451"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "452"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "300"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 53
+      }
+    ]
+  }
+}

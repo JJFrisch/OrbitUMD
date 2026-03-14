@@ -1,0 +1,645 @@
+{
+  "code": "materials-science-and-engineering-major",
+  "title": "Materials Science and Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/materials-science-engineering/materials-science-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 123,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Freshman Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Freshman Year"
+        },
+        {
+          "id": "note-3",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-4",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-5",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "course-6",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-7",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "course-8",
+          "label": "CHEM136",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "136"
+        },
+        {
+          "id": "course-9",
+          "label": "ENMA180",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "180"
+        },
+        {
+          "id": "note-10",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        },
+        {
+          "id": "note-11",
+          "label": "Sophomore Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Sophomore Year"
+        },
+        {
+          "id": "note-12",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-13",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-15",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-16",
+          "label": "ENMA300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "300"
+        },
+        {
+          "id": "course-17",
+          "label": "ENES200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "200"
+        },
+        {
+          "id": "course-18",
+          "label": "ENEE200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENEE",
+          "number": "200"
+        },
+        {
+          "id": "note-19",
+          "label": "CHEM481",
+          "nodeType": "note",
+          "children": [],
+          "text": "CHEM481"
+        },
+        {
+          "id": "note-20",
+          "label": "ENMA301",
+          "nodeType": "note",
+          "children": [],
+          "text": "ENMA301"
+        },
+        {
+          "id": "note-21",
+          "label": "GenED",
+          "nodeType": "note",
+          "children": [],
+          "text": "GenED"
+        },
+        {
+          "id": "note-22",
+          "label": "14",
+          "nodeType": "note",
+          "children": [],
+          "text": "14"
+        },
+        {
+          "id": "note-23",
+          "label": "Junior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Junior Year"
+        },
+        {
+          "id": "note-24",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-25",
+          "label": "ENMA312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "312"
+        },
+        {
+          "id": "course-26",
+          "label": "ENMA362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "362"
+        },
+        {
+          "id": "course-27",
+          "label": "ENMA460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "460"
+        },
+        {
+          "id": "note-28",
+          "label": "Scholarship in Practice2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Scholarship in Practice2 3"
+        },
+        {
+          "id": "note-29",
+          "label": "Specialization Elective 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Specialization Elective 3"
+        },
+        {
+          "id": "note-30",
+          "label": "15",
+          "nodeType": "note",
+          "children": [],
+          "text": "15"
+        },
+        {
+          "id": "note-31",
+          "label": "Senior Year",
+          "nodeType": "note",
+          "children": [],
+          "text": "Senior Year"
+        },
+        {
+          "id": "note-32",
+          "label": "First Semester Credits",
+          "nodeType": "note",
+          "children": [],
+          "text": "First Semester Credits"
+        },
+        {
+          "id": "course-33",
+          "label": "ENMA441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "441"
+        },
+        {
+          "id": "course-34",
+          "label": "ENMA471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "471"
+        },
+        {
+          "id": "note-35",
+          "label": "Specialization Elective 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Specialization Elective 3"
+        },
+        {
+          "id": "course-36",
+          "label": "ENMA487",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMA",
+          "number": "487"
+        },
+        {
+          "id": "note-37",
+          "label": "Professional Writing 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Writing 3"
+        },
+        {
+          "id": "course-38",
+          "label": "ABOVE300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ABOVE",
+          "number": "300"
+        },
+        {
+          "id": "note-39",
+          "label": "16",
+          "nodeType": "note",
+          "children": [],
+          "text": "16"
+        }
+      ],
+      "minCredits": 123
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 123
+        },
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Freshman Year"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "136"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "180"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Sophomore Year"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "300"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "200"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENEE",
+          "number": "200"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "CHEM481"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ENMA301"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "GenED"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "14"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Junior Year"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "312"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "362"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "460"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Scholarship in Practice2 3"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Specialization Elective 3"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "15"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Senior Year"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "First Semester Credits"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "441"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "471"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Specialization Elective 3"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMA",
+          "number": "487"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Writing 3"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ABOVE",
+          "number": "300"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "16"
+        },
+        "sortOrder": 38
+      }
+    ]
+  }
+}

@@ -6,6 +6,7 @@ import type {
   StudentCourseV2,
   StudentRequirementOverrideV2,
   BlockEvaluationResultV2,
+  RequirementDslNodeV2,
 } from "@/lib/types/requirements";
 import { buildEvalContextV2, evaluateProgramRequirementsV2 } from "@/lib/requirements/v2Evaluator";
 
@@ -19,12 +20,14 @@ interface ProgramRow {
   catalog_year_end: number | null;
   min_credits: number | null;
   source_url: string;
+  requirement_tree: RequirementDslNodeV2[] | null;
 }
 
 interface BlockRow {
   id: string;
   program_id: string;
   parent_requirement_id: string | null;
+  source_node_id: string | null;
   type: string;
   params: Record<string, unknown> | null;
   human_label: string;
@@ -70,6 +73,7 @@ function mapProgram(row: ProgramRow): ProgramV2 {
     catalogYearEnd: row.catalog_year_end,
     minCredits: row.min_credits,
     sourceUrl: row.source_url,
+    requirementTree: row.requirement_tree,
   };
 }
 
@@ -78,6 +82,7 @@ function mapBlock(row: BlockRow): RequirementBlockV2 {
     id: row.id,
     programId: row.program_id,
     parentRequirementId: row.parent_requirement_id,
+    sourceNodeId: row.source_node_id,
     type: row.type,
     params: row.params ?? {},
     humanLabel: row.human_label,
@@ -195,7 +200,7 @@ export async function loadProgramAndEvaluate(
 
   const { data: programData, error: programError } = await supabase
     .from("programs")
-    .select("id, code, title, college, degree_type, catalog_year_start, catalog_year_end, min_credits, source_url")
+    .select("id, code, title, college, degree_type, catalog_year_start, catalog_year_end, min_credits, source_url, requirement_tree")
     .eq("code", programCode)
     .single();
 
@@ -208,7 +213,7 @@ export async function loadProgramAndEvaluate(
   const [{ data: blockRows, error: blockError }, { data: itemRows, error: itemError }, { data: courseRows, error: courseError }, { data: overrideRows, error: overrideError }] = await Promise.all([
     supabase
       .from("requirement_blocks")
-      .select("id, program_id, parent_requirement_id, type, params, human_label, sort_order")
+      .select("id, program_id, parent_requirement_id, source_node_id, type, params, human_label, sort_order")
       .eq("program_id", program.id)
       .order("sort_order", { ascending: true }),
     supabase

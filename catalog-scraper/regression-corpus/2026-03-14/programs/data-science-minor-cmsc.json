@@ -1,0 +1,168 @@
+{
+  "code": "data-science-minor-cmsc",
+  "title": "Data Science Minor (CMSC)",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/data-science-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "DATA110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "110"
+        },
+        {
+          "id": "course-4",
+          "label": "DATA120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "120"
+        },
+        {
+          "id": "course-5",
+          "label": "DATA200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "200"
+        },
+        {
+          "id": "course-6",
+          "label": "DATA250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "250"
+        },
+        {
+          "id": "course-7",
+          "label": "DATA320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "320"
+        },
+        {
+          "id": "course-8",
+          "label": "DATA350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "350"
+        },
+        {
+          "id": "course-9",
+          "label": "DATA400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "DATA",
+          "number": "400"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "110"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "120"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "200"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "250"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "320"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "350"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "DATA",
+          "number": "400"
+        },
+        "sortOrder": 8
+      }
+    ]
+  }
+}

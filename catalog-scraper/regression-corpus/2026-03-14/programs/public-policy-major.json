@@ -1,0 +1,441 @@
+{
+  "code": "public-policy-major",
+  "title": "Public Policy Major",
+  "college": "Public Policy",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-policy/public-policy-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 61,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Benchmark Requirement One 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Benchmark Requirement One 1"
+        },
+        {
+          "id": "course-4",
+          "label": "PLCY100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "HIST201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "201"
+        },
+        {
+          "id": "note-6",
+          "label": "Benchmark Requirement Two 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Benchmark Requirement Two 2"
+        },
+        {
+          "id": "course-7",
+          "label": "PLCY101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "101"
+        },
+        {
+          "id": "course-8",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        },
+        {
+          "id": "course-9",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        },
+        {
+          "id": "note-10",
+          "label": "Required Major Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Major Courses"
+        },
+        {
+          "id": "course-11",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        },
+        {
+          "id": "course-12",
+          "label": "PLCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "201"
+        },
+        {
+          "id": "course-13",
+          "label": "PLCY203",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "203"
+        },
+        {
+          "id": "course-14",
+          "label": "PLCY300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "300"
+        },
+        {
+          "id": "course-15",
+          "label": "PLCY302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "302"
+        },
+        {
+          "id": "course-16",
+          "label": "PLCY303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "303"
+        },
+        {
+          "id": "course-17",
+          "label": "PLCY304",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "304"
+        },
+        {
+          "id": "course-18",
+          "label": "PLCY306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "306"
+        },
+        {
+          "id": "course-19",
+          "label": "PLCY309",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "309"
+        },
+        {
+          "id": "course-20",
+          "label": "PLCY400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "400"
+        },
+        {
+          "id": "course-21",
+          "label": "PLCY401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "401"
+        },
+        {
+          "id": "note-22",
+          "label": "Introduction to Public Policy Focus or General Policy elective 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Introduction to Public Policy Focus or General Policy elective 3"
+        },
+        {
+          "id": "note-23",
+          "label": "Students may choose an area of focus or choose general policy related electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Students may choose an area of focus or choose general policy related electives"
+        },
+        {
+          "id": "note-24",
+          "label": "Focus/PLCY Elective Course 2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Focus/PLCY Elective Course 2 3"
+        },
+        {
+          "id": "note-25",
+          "label": "Focus/PLCY Elective Course 3 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Focus/PLCY Elective Course 3 3"
+        },
+        {
+          "id": "note-26",
+          "label": "Focus/PLCY Elective Course 4 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Focus/PLCY Elective Course 4 3"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Benchmark Requirement One 1"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "201"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Benchmark Requirement Two 2"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "101"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Major Courses"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "201"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "203"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "300"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "302"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "303"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "304"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "306"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "309"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "400"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "401"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Introduction to Public Policy Focus or General Policy elective 3"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Students may choose an area of focus or choose general policy related electives"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Focus/PLCY Elective Course 2 3"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Focus/PLCY Elective Course 3 3"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Focus/PLCY Elective Course 4 3"
+        },
+        "sortOrder": 25
+      }
+    ]
+  }
+}

@@ -1,0 +1,574 @@
+{
+  "code": "russian-studies-minor",
+  "title": "Russian Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/russian-language-literature/russian-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Select fifteen credits/five courses of the following: 1 15",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select fifteen credits/five courses of the following: 1 15"
+        }
+      ]
+    },
+    {
+      "id": "block-4",
+      "label": "Courses taught in Russian",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "RUSS201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "201"
+        },
+        {
+          "id": "course-6",
+          "label": "RUSS202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "202"
+        },
+        {
+          "id": "course-7",
+          "label": "RUSS211",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "211"
+        },
+        {
+          "id": "course-8",
+          "label": "RUSS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "301"
+        },
+        {
+          "id": "course-9",
+          "label": "RUSS302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "302"
+        },
+        {
+          "id": "course-10",
+          "label": "RUSS303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "303"
+        },
+        {
+          "id": "course-11",
+          "label": "RUSS321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "321"
+        },
+        {
+          "id": "course-12",
+          "label": "RUSS322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "322"
+        },
+        {
+          "id": "course-13",
+          "label": "RUSS381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "381"
+        },
+        {
+          "id": "course-14",
+          "label": "RUSS382",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "382"
+        },
+        {
+          "id": "course-15",
+          "label": "RUSS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "401"
+        },
+        {
+          "id": "course-16",
+          "label": "RUSS402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "402"
+        },
+        {
+          "id": "course-17",
+          "label": "RUSS403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "403"
+        },
+        {
+          "id": "course-18",
+          "label": "RUSS404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "404"
+        },
+        {
+          "id": "course-19",
+          "label": "RUSS405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "405"
+        },
+        {
+          "id": "course-20",
+          "label": "RUSS406",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "406"
+        },
+        {
+          "id": "course-21",
+          "label": "RUSS409",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "409"
+        },
+        {
+          "id": "course-22",
+          "label": "RUSS411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "411"
+        },
+        {
+          "id": "course-23",
+          "label": "RUSS412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "412"
+        },
+        {
+          "id": "course-24",
+          "label": "RUSS433",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "433"
+        }
+      ]
+    },
+    {
+      "id": "block-25",
+      "label": "Courses in English",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-26",
+          "label": "RUSS221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "221"
+        },
+        {
+          "id": "course-27",
+          "label": "RUSS222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "222"
+        },
+        {
+          "id": "course-28",
+          "label": "RUSS281",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "281"
+        },
+        {
+          "id": "course-29",
+          "label": "RUSS282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "282"
+        },
+        {
+          "id": "course-30",
+          "label": "RUSS298",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "298"
+        },
+        {
+          "id": "course-31",
+          "label": "RUSS328",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "328"
+        },
+        {
+          "id": "course-32",
+          "label": "RUSS398",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "398"
+        },
+        {
+          "id": "course-33",
+          "label": "RUSS439",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RUSS",
+          "number": "439"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-4",
+        "humanLabel": "Courses taught in Russian",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-25",
+        "humanLabel": "Courses in English",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select fifteen credits/five courses of the following: 1 15"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "201"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "202"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "211"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "301"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "302"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "303"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "321"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "322"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "381"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "382"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "401"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "402"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "403"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "404"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "405"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "406"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "409"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "411"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "412"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "433"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "221"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "222"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "281"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "282"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "298"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "328"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "398"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RUSS",
+          "number": "439"
+        },
+        "sortOrder": 30
+      }
+    ]
+  }
+}

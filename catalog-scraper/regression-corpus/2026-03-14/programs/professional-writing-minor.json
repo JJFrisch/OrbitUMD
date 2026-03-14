@@ -1,0 +1,126 @@
+{
+  "code": "professional-writing-minor",
+  "title": "Professional Writing Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/professional-writing-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Coursework",
+          "nodeType": "note",
+          "children": [],
+          "text": "Coursework"
+        },
+        {
+          "id": "course-4",
+          "label": "ENGL297",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "297"
+        },
+        {
+          "id": "note-5",
+          "label": "Approved courses (at least nine credits at the 3xx- or 4xx-level and three credits at the 4xx-level) 1 12",
+          "nodeType": "note",
+          "children": [],
+          "text": "Approved courses (at least nine credits at the 3xx- or 4xx-level and three credits at the 4xx-level) 1 12"
+        },
+        {
+          "id": "note-6",
+          "label": "Professional Writing Portfolio",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Writing Portfolio"
+        },
+        {
+          "id": "note-7",
+          "label": "Submission of an electronic professional writing portfolio is required 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Submission of an electronic professional writing portfolio is required 2"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Coursework"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "297"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Approved courses (at least nine credits at the 3xx- or 4xx-level and three credits at the 4xx-level) 1 12"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Writing Portfolio"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Submission of an electronic professional writing portfolio is required 2"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

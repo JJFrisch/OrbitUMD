@@ -1,0 +1,1453 @@
+{
+  "code": "physics-major",
+  "title": "Physics Major",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/physics/physics-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 33,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Courses Required for All Specializations",
+          "nodeType": "note",
+          "children": [],
+          "text": "Courses Required for All Specializations"
+        },
+        {
+          "id": "course-4",
+          "label": "PHYS170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "170"
+        },
+        {
+          "id": "course-5",
+          "label": "PHYS171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "171"
+        },
+        {
+          "id": "course-6",
+          "label": "PHYS265",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "265"
+        },
+        {
+          "id": "course-7",
+          "label": "PHYS272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "272"
+        },
+        {
+          "id": "course-8",
+          "label": "PHYS273",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "273"
+        },
+        {
+          "id": "course-9",
+          "label": "PHYS275",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "275"
+        },
+        {
+          "id": "course-10",
+          "label": "PHYS276",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "276"
+        },
+        {
+          "id": "course-11",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-12",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-13",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-14",
+          "label": "MATH243",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "243"
+        },
+        {
+          "id": "course-15",
+          "label": "MATH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "240"
+        },
+        {
+          "id": "course-16",
+          "label": "MATH246",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "246"
+        }
+      ]
+    },
+    {
+      "id": "block-17",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-18",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-19",
+          "label": "PHYS313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "313"
+        },
+        {
+          "id": "course-20",
+          "label": "PHYS371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "371"
+        },
+        {
+          "id": "course-21",
+          "label": "PHYS375",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "375"
+        },
+        {
+          "id": "course-22",
+          "label": "PHYS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "401"
+        },
+        {
+          "id": "course-23",
+          "label": "PHYS402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "402"
+        },
+        {
+          "id": "course-24",
+          "label": "PHYS404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "404"
+        },
+        {
+          "id": "course-25",
+          "label": "PHYS405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "405"
+        },
+        {
+          "id": "course-26",
+          "label": "PHYS410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "410"
+        },
+        {
+          "id": "course-27",
+          "label": "PHYS413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "413"
+        },
+        {
+          "id": "note-28",
+          "label": "PHYS4XX Advanced Physics Elective 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "PHYS4XX Advanced Physics Elective 3"
+        },
+        {
+          "id": "note-29",
+          "label": "PHYS4XY Advanced Physics Elective 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "PHYS4XY Advanced Physics Elective 3"
+        }
+      ]
+    },
+    {
+      "id": "block-30",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-31",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-32",
+          "label": "Introductory Education Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Introductory Education Courses"
+        },
+        {
+          "id": "course-33",
+          "label": "TLPL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "101"
+        },
+        {
+          "id": "course-34",
+          "label": "TLPL102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "102"
+        },
+        {
+          "id": "note-35",
+          "label": "Upper-level and Supporting Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Upper-level and Supporting Courses"
+        },
+        {
+          "id": "course-36",
+          "label": "TLPL401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "401"
+        },
+        {
+          "id": "course-37",
+          "label": "TLPL414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "414"
+        },
+        {
+          "id": "course-38",
+          "label": "TLPL415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "415"
+        },
+        {
+          "id": "course-39",
+          "label": "EDHD426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "426"
+        },
+        {
+          "id": "course-40",
+          "label": "PHYS313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "313"
+        },
+        {
+          "id": "course-41",
+          "label": "PHYS371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "371"
+        },
+        {
+          "id": "course-42",
+          "label": "PHYS375",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "375"
+        }
+      ]
+    },
+    {
+      "id": "block-43",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-44",
+          "label": "PHYS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "401"
+        },
+        {
+          "id": "course-45",
+          "label": "PHYS404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "404"
+        },
+        {
+          "id": "course-46",
+          "label": "PHYS410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "410"
+        },
+        {
+          "id": "course-47",
+          "label": "PHYS413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "413"
+        },
+        {
+          "id": "note-48",
+          "label": "PHYS4XY (Advanced Physics Elective)",
+          "nodeType": "note",
+          "children": [],
+          "text": "PHYS4XY (Advanced Physics Elective)"
+        }
+      ]
+    },
+    {
+      "id": "block-49",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-50",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-51",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-52",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-53",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-54",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "course-55",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-56",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-57",
+          "label": "CHEM241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "241"
+        },
+        {
+          "id": "course-58",
+          "label": "CHEM242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "242"
+        },
+        {
+          "id": "course-59",
+          "label": "CHEM271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "271"
+        },
+        {
+          "id": "course-60",
+          "label": "CHEM272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "272"
+        },
+        {
+          "id": "course-61",
+          "label": "BSCI330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "330"
+        },
+        {
+          "id": "course-62",
+          "label": "BCHM461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "461"
+        },
+        {
+          "id": "course-63",
+          "label": "PHYS313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "313"
+        },
+        {
+          "id": "course-64",
+          "label": "PHYS371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "371"
+        },
+        {
+          "id": "course-65",
+          "label": "PHYS404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "404"
+        },
+        {
+          "id": "note-66",
+          "label": "PHYS4XY 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "PHYS4XY 3"
+        },
+        {
+          "id": "course-67",
+          "label": "PHYS483",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "483"
+        }
+      ]
+    },
+    {
+      "id": "block-68",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-69",
+          "label": "PHYS375",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "375"
+        },
+        {
+          "id": "course-70",
+          "label": "PROVED400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PROVED",
+          "number": "400"
+        },
+        {
+          "id": "note-71",
+          "label": "Note: Students interested in medical school should consult a pre-med advisor (prehealth.umd.edu) for additional course recommendations.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Note: Students interested in medical school should consult a pre-med advisor (prehealth.umd.edu) for additional course recommendations."
+        }
+      ]
+    },
+    {
+      "id": "block-72",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-73",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-74",
+          "label": "ENME272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "272"
+        },
+        {
+          "id": "course-75",
+          "label": "PHYS313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "313"
+        },
+        {
+          "id": "course-76",
+          "label": "PHYS371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "371"
+        },
+        {
+          "id": "course-77",
+          "label": "PHYS375",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "375"
+        },
+        {
+          "id": "course-78",
+          "label": "PHYS401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "401"
+        },
+        {
+          "id": "course-79",
+          "label": "PHYS404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "404"
+        },
+        {
+          "id": "course-80",
+          "label": "PHYS413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "413"
+        },
+        {
+          "id": "course-81",
+          "label": "PHYS474",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "474"
+        },
+        {
+          "id": "course-82",
+          "label": "PHYS456",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "456"
+        }
+      ]
+    },
+    {
+      "id": "block-83",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-84",
+          "label": "PHYS485",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "485"
+        },
+        {
+          "id": "course-85",
+          "label": "PHYS487",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "487"
+        },
+        {
+          "id": "course-86",
+          "label": "PROVED400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PROVED",
+          "number": "400"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-17",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-30",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-43",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-49",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-68",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-72",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "block-83",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Courses Required for All Specializations"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "170"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "171"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "265"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "272"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "273"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "275"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "276"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "243"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "240"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "246"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "313"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "371"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "375"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "401"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "402"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "404"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "405"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "410"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "413"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "PHYS4XX Advanced Physics Elective 3"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "PHYS4XY Advanced Physics Elective 3"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Introductory Education Courses"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "101"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "102"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Upper-level and Supporting Courses"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "401"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "414"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "415"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "313"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "371"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "375"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "401"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "404"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "410"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "413"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "PHYS4XY (Advanced Physics Elective)"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "241"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "242"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "271"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "272"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "330"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "461"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "313"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "371"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "404"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "PHYS4XY 3"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "483"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "375"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PROVED",
+          "number": "400"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Note: Students interested in medical school should consult a pre-med advisor (prehealth.umd.edu) for additional course recommendations."
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "272"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "313"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "371"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "375"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "401"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "404"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "413"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "474"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "456"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "485"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "487"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PROVED",
+          "number": "400"
+        },
+        "sortOrder": 78
+      }
+    ]
+  }
+}

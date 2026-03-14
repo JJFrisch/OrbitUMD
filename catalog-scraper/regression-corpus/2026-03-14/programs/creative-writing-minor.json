@@ -1,0 +1,460 @@
+{
+  "code": "creative-writing-minor",
+  "title": "Creative Writing Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/creative-writing-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-3",
+          "label": "Select three credits at the 2xx-level of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-4",
+              "label": "ENGL271",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "271"
+            },
+            {
+              "id": "course-5",
+              "label": "ENGL272",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "272"
+            },
+            {
+              "id": "course-6",
+              "label": "ENGL273",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "273"
+            },
+            {
+              "id": "course-7",
+              "label": "ENGL274",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "274"
+            }
+          ],
+          "minCount": 3
+        },
+        {
+          "id": "choice-8",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-9",
+              "label": "ENGL352",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "352"
+            },
+            {
+              "id": "course-10",
+              "label": "ENGL353",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "353"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-11",
+          "label": "Select two sections of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-12",
+              "label": "ENGL498",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "498"
+            },
+            {
+              "id": "course-13",
+              "label": "ENGL499",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENGL",
+              "number": "499"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "choice-14",
+          "label": "Select three credits in any upper-level English Literature course",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 3
+        }
+      ]
+    },
+    {
+      "id": "choice-3",
+      "label": "Select three credits at the 2xx-level of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "ENGL271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "271"
+        },
+        {
+          "id": "course-5",
+          "label": "ENGL272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "272"
+        },
+        {
+          "id": "course-6",
+          "label": "ENGL273",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "273"
+        },
+        {
+          "id": "course-7",
+          "label": "ENGL274",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "274"
+        }
+      ],
+      "minCount": 3
+    },
+    {
+      "id": "choice-8",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-9",
+          "label": "ENGL352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "352"
+        },
+        {
+          "id": "course-10",
+          "label": "ENGL353",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "353"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-11",
+      "label": "Select two sections of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-12",
+          "label": "ENGL498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "498"
+        },
+        {
+          "id": "course-13",
+          "label": "ENGL499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "499"
+        }
+      ],
+      "minCount": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select three credits at the 2xx-level of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select two sections of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Select three credits in any upper-level English Literature course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select three credits at the 2xx-level of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "choice-11",
+        "humanLabel": "Select two sections of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "271"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "272"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "273"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "274"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "352"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "353"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "498"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "499"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "271"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "272"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "273"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "274"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "352"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "353"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "498"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "499"
+        },
+        "sortOrder": 17
+      }
+    ]
+  }
+}

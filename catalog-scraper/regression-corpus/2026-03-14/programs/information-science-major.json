@@ -1,0 +1,381 @@
+{
+  "code": "information-science-major",
+  "title": "Information Science Major",
+  "college": "Information",
+  "degreeType": "BA",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/information/information-science-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 57,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Benchmark Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Benchmark Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "115"
+        },
+        {
+          "id": "course-5",
+          "label": "PSYC100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "100"
+        },
+        {
+          "id": "course-6",
+          "label": "STAT100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "100"
+        },
+        {
+          "id": "course-7",
+          "label": "INST126",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "126"
+        },
+        {
+          "id": "note-8",
+          "label": "Major Core Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Core Requirements"
+        },
+        {
+          "id": "course-9",
+          "label": "INST201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "201"
+        },
+        {
+          "id": "course-10",
+          "label": "INST311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "311"
+        },
+        {
+          "id": "course-11",
+          "label": "INST314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "314"
+        },
+        {
+          "id": "course-12",
+          "label": "INST326",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "326"
+        },
+        {
+          "id": "course-13",
+          "label": "INST327",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "327"
+        },
+        {
+          "id": "course-14",
+          "label": "INST335",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "335"
+        },
+        {
+          "id": "course-15",
+          "label": "INST346",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "346"
+        },
+        {
+          "id": "course-16",
+          "label": "INST352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "352"
+        },
+        {
+          "id": "course-17",
+          "label": "INST362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "362"
+        },
+        {
+          "id": "course-18",
+          "label": "INST490",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INST",
+          "number": "490"
+        },
+        {
+          "id": "note-19",
+          "label": "Major Elective Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Elective Requirements"
+        },
+        {
+          "id": "choice-20",
+          "label": "Select ONE of the following options",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "note-21",
+          "label": "1. Complete at least 15 credits of INST-coded major electives 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "1. Complete at least 15 credits of INST-coded major electives 2"
+        },
+        {
+          "id": "note-22",
+          "label": "2. InfoSci Cognate Area: Data Science, Cybersecurity and Privacy, Digital Curation, and Health Information (See below for more information)",
+          "nodeType": "note",
+          "children": [],
+          "text": "2. InfoSci Cognate Area: Data Science, Cybersecurity and Privacy, Digital Curation, and Health Information (See below for more information)"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-20",
+        "humanLabel": "Select ONE of the following options",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Benchmark Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "115"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "100"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "126"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Core Requirements"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "201"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "311"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "314"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "326"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "327"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "335"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "346"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "352"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "362"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INST",
+          "number": "490"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Elective Requirements"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "1. Complete at least 15 credits of INST-coded major electives 2"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "2. InfoSci Cognate Area: Data Science, Cybersecurity and Privacy, Digital Curation, and Health Information (See below for more information)"
+        },
+        "sortOrder": 20
+      }
+    ]
+  }
+}

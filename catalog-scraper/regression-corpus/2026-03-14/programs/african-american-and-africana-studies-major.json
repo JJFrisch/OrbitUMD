@@ -1,0 +1,729 @@
+{
+  "code": "african-american-and-africana-studies-major",
+  "title": "African American and Africana Studies Major",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "BA",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/african-american-africana-studies/african-american-africana-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 20,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Foundation Courses Required for All Majors",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundation Courses Required for All Majors"
+        },
+        {
+          "id": "course-5",
+          "label": "AAAS100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "100"
+        },
+        {
+          "id": "course-6",
+          "label": "AAAS200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "200"
+        },
+        {
+          "id": "course-7",
+          "label": "AAAS101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "101"
+        },
+        {
+          "id": "course-8",
+          "label": "AAAS202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "202"
+        },
+        {
+          "id": "note-9",
+          "label": "Methods",
+          "nodeType": "note",
+          "children": [],
+          "text": "Methods"
+        },
+        {
+          "id": "course-10",
+          "label": "AAAS210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "210"
+        },
+        {
+          "id": "course-11",
+          "label": "AAAS399",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "399"
+        },
+        {
+          "id": "choice-12",
+          "label": "Select One",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-13",
+              "label": "AAAS395",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AAAS",
+              "number": "395"
+            },
+            {
+              "id": "course-14",
+              "label": "AAAS390",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AAAS",
+              "number": "390"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-12",
+      "label": "Select One",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-13",
+          "label": "AAAS395",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "395"
+        },
+        {
+          "id": "course-14",
+          "label": "AAAS390",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "390"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-15",
+      "label": "Capstone (Choose One)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-16",
+          "label": "AAAS397",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "397"
+        },
+        {
+          "id": "note-17",
+          "label": "AAAS4XX (Study Abroad in Africa or African Diaspora)",
+          "nodeType": "note",
+          "children": [],
+          "text": "AAAS4XX (Study Abroad in Africa or African Diaspora)"
+        },
+        {
+          "id": "note-18",
+          "label": "AAAS4XX (Capstone Seminar and Community Practicum)",
+          "nodeType": "note",
+          "children": [],
+          "text": "AAAS4XX (Capstone Seminar and Community Practicum)"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-19",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-20",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "pair-21",
+          "label": "Five courses at the 300 or 400 level are required. There must be at least one course in Cluster 1 and one in Cluster 2",
+          "nodeType": "courseGroup",
+          "children": [],
+          "courses": [
+            {
+              "subject": "THE",
+              "number": "300"
+            },
+            {
+              "subject": "OR",
+              "number": "400"
+            }
+          ]
+        },
+        {
+          "id": "note-22",
+          "label": "Cluster 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Cluster 1"
+        },
+        {
+          "id": "note-23",
+          "label": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester.",
+          "nodeType": "note",
+          "children": [],
+          "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
+        },
+        {
+          "id": "note-24",
+          "label": "Cluster 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "Cluster 2"
+        },
+        {
+          "id": "note-25",
+          "label": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester.",
+          "nodeType": "note",
+          "children": [],
+          "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
+        }
+      ]
+    },
+    {
+      "id": "block-26",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-27",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-28",
+          "label": "Analytic Component",
+          "nodeType": "note",
+          "children": [],
+          "text": "Analytic Component"
+        },
+        {
+          "id": "course-29",
+          "label": "AAAS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "301"
+        },
+        {
+          "id": "course-30",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        },
+        {
+          "id": "course-31",
+          "label": "PLCY388",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "388"
+        },
+        {
+          "id": "course-32",
+          "label": "PLCY401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "401"
+        },
+        {
+          "id": "note-33",
+          "label": "AASP Policy Electives in African American Studies 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "AASP Policy Electives in African American Studies 9"
+        },
+        {
+          "id": "course-34",
+          "label": "AAAS398",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "398"
+        },
+        {
+          "id": "course-35",
+          "label": "AAAS411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "411"
+        },
+        {
+          "id": "course-36",
+          "label": "AAAS441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "441"
+        },
+        {
+          "id": "course-37",
+          "label": "AAAS443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "443"
+        },
+        {
+          "id": "course-38",
+          "label": "AAAS498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "498"
+        },
+        {
+          "id": "course-39",
+          "label": "AAAS499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AAAS",
+          "number": "499"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select One",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select One",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Capstone (Choose One)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-26",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundation Courses Required for All Majors"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "100"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "200"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "101"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "202"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Methods"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "210"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "399"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "395"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "390"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "395"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "390"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "397"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AAAS4XX (Study Abroad in Africa or African Diaspora)"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AAAS4XX (Capstone Seminar and Community Practicum)"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE_GROUP",
+        "payload": {
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "THE",
+              "number": "300"
+            },
+            {
+              "subject": "OR",
+              "number": "400"
+            }
+          ]
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Cluster 1"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Cluster 2"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Analytic Component"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "301"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "388"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "401"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AASP Policy Electives in African American Studies 9"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "398"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "411"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "441"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "443"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "498"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AAAS",
+          "number": "499"
+        },
+        "sortOrder": 36
+      }
+    ]
+  }
+}

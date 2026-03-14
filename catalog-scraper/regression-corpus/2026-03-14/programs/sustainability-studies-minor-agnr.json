@@ -1,0 +1,145 @@
+{
+  "code": "sustainability-studies-minor-agnr",
+  "title": "Sustainability Studies Minor (AGNR)",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/environmental-science-policy/sustainability-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "PLCY301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "301"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select one course from each of the following groups: 2",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "note-5",
+          "label": "Science and Technology",
+          "nodeType": "note",
+          "children": [],
+          "text": "Science and Technology"
+        },
+        {
+          "id": "note-6",
+          "label": "Policy and Institutions",
+          "nodeType": "note",
+          "children": [],
+          "text": "Policy and Institutions"
+        },
+        {
+          "id": "note-7",
+          "label": "Social and Human Dimensions",
+          "nodeType": "note",
+          "children": [],
+          "text": "Social and Human Dimensions"
+        },
+        {
+          "id": "note-8",
+          "label": "Select an additional approved course from one of these categories or an approved, credit-bearing experiential learning option for which a grade is earned 3 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Select an additional approved course from one of these categories or an approved, credit-bearing experiential learning option for which a grade is earned 3 3"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one course from each of the following groups: 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "301"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Science and Technology"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Policy and Institutions"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Social and Human Dimensions"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Select an additional approved course from one of these categories or an approved, credit-bearing experiential learning option for which a grade is earned 3 3"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

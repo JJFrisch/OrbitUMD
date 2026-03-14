@@ -1,0 +1,408 @@
+{
+  "code": "construction-project-management-minor-engr",
+  "title": "Construction Project Management Minor (ENGR)",
+  "college": "Engineering",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/civil-environmental-engineering/construction-project-management-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "ENCE325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "325"
+        },
+        {
+          "id": "course-5",
+          "label": "ENCE423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "423"
+        },
+        {
+          "id": "course-6",
+          "label": "ENCE424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "424"
+        },
+        {
+          "id": "course-7",
+          "label": "ENCE426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "426"
+        },
+        {
+          "id": "course-8",
+          "label": "ARCH472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "472"
+        },
+        {
+          "id": "note-9",
+          "label": "Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives"
+        },
+        {
+          "id": "choice-10",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-11",
+              "label": "ENCE420",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENCE",
+              "number": "420"
+            },
+            {
+              "id": "course-12",
+              "label": "ENCE421",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENCE",
+              "number": "421"
+            },
+            {
+              "id": "course-13",
+              "label": "ENCE422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENCE",
+              "number": "422"
+            },
+            {
+              "id": "course-14",
+              "label": "ARCH430",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARCH",
+              "number": "430"
+            },
+            {
+              "id": "course-15",
+              "label": "ARCH462",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARCH",
+              "number": "462"
+            },
+            {
+              "id": "course-16",
+              "label": "ARCH467",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ARCH",
+              "number": "467"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-10",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-11",
+          "label": "ENCE420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "420"
+        },
+        {
+          "id": "course-12",
+          "label": "ENCE421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "421"
+        },
+        {
+          "id": "course-13",
+          "label": "ENCE422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENCE",
+          "number": "422"
+        },
+        {
+          "id": "course-14",
+          "label": "ARCH430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "430"
+        },
+        {
+          "id": "course-15",
+          "label": "ARCH462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "462"
+        },
+        {
+          "id": "course-16",
+          "label": "ARCH467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "467"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "325"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "423"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "424"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "426"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "472"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "420"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "421"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "422"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "430"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "462"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "467"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "420"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "421"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENCE",
+          "number": "422"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "430"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "462"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "467"
+        },
+        "sortOrder": 20
+      }
+    ]
+  }
+}

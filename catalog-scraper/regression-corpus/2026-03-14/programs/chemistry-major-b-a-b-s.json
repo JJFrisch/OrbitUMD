@@ -1,0 +1,884 @@
+{
+  "code": "chemistry-major-b-a-b-s",
+  "title": "Chemistry Major (B.A., B.S.)",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/chemistry-biochemistry/chemistry-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 65,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Lower-Level CHEM Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Lower-Level CHEM Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "CHEM146",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "146"
+        },
+        {
+          "id": "course-5",
+          "label": "CHEM177",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "177"
+        },
+        {
+          "id": "course-6",
+          "label": "CHEM237",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "237"
+        },
+        {
+          "id": "course-7",
+          "label": "CHEM247",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "247"
+        },
+        {
+          "id": "course-8",
+          "label": "CHEM276",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "276"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM277",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "277"
+        },
+        {
+          "id": "note-10",
+          "label": "Supporting Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Supporting Courses"
+        },
+        {
+          "id": "course-11",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-12",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "course-13",
+          "label": "PHYS161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "161"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-15",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-16",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-17",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-18",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "note-19",
+          "label": "Required Upper-Level CHEM Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Upper-Level CHEM Courses"
+        },
+        {
+          "id": "course-20",
+          "label": "CHEM395",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "395"
+        },
+        {
+          "id": "course-21",
+          "label": "CHEM425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "425"
+        },
+        {
+          "id": "course-22",
+          "label": "CHEM481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "481"
+        },
+        {
+          "id": "course-23",
+          "label": "CHEM483",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "483"
+        },
+        {
+          "id": "course-24",
+          "label": "CHEM401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "401"
+        },
+        {
+          "id": "course-25",
+          "label": "CHEM482",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "482"
+        },
+        {
+          "id": "course-26",
+          "label": "CHEM484",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "484"
+        },
+        {
+          "id": "note-27",
+          "label": "ELECT UL 6 credits of approved upper level CHEM/BCHM courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELECT UL 6 credits of approved upper level CHEM/BCHM courses"
+        }
+      ]
+    },
+    {
+      "id": "block-28",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-29",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-30",
+          "label": "Lower-Level CHEM Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Lower-Level CHEM Courses"
+        },
+        {
+          "id": "course-31",
+          "label": "CHEM146",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "146"
+        },
+        {
+          "id": "course-32",
+          "label": "CHEM177",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "177"
+        },
+        {
+          "id": "course-33",
+          "label": "CHEM237",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "237"
+        },
+        {
+          "id": "course-34",
+          "label": "CHEM247",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "247"
+        },
+        {
+          "id": "course-35",
+          "label": "CHEM276",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "276"
+        },
+        {
+          "id": "course-36",
+          "label": "CHEM272",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "272"
+        },
+        {
+          "id": "note-37",
+          "label": "Supporting Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Supporting Courses"
+        },
+        {
+          "id": "course-38",
+          "label": "MATH135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "135"
+        },
+        {
+          "id": "course-39",
+          "label": "MATH136",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "136"
+        },
+        {
+          "id": "course-40",
+          "label": "PHYS131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "131"
+        },
+        {
+          "id": "course-41",
+          "label": "PHYS132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "132"
+        },
+        {
+          "id": "course-42",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "note-43",
+          "label": "Required Upper-Level CHEM Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Upper-Level CHEM Courses"
+        },
+        {
+          "id": "course-44",
+          "label": "CHEM395",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "395"
+        },
+        {
+          "id": "course-45",
+          "label": "CHEM401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "401"
+        },
+        {
+          "id": "course-46",
+          "label": "BCHM461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "461"
+        },
+        {
+          "id": "course-47",
+          "label": "CHEM480",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "480"
+        },
+        {
+          "id": "note-48",
+          "label": "ELECT UL 3 credits of approved upper level CHEM/BCHM courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "ELECT UL 3 credits of approved upper level CHEM/BCHM courses"
+        }
+      ]
+    },
+    {
+      "id": "choice-49",
+      "label": "Required Upper Level Lab Course (Select one from the following)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-50",
+          "label": "CHEM425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "425"
+        },
+        {
+          "id": "course-51",
+          "label": "BCHM464",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "464"
+        },
+        {
+          "id": "course-52",
+          "label": "BCHM477",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BCHM",
+          "number": "477"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-28",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-49",
+        "humanLabel": "Required Upper Level Lab Course (Select one from the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Lower-Level CHEM Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "146"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "177"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "237"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "247"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "276"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "277"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting Courses"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "161"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Upper-Level CHEM Courses"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "395"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "425"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "481"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "483"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "401"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "482"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "484"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELECT UL 6 credits of approved upper level CHEM/BCHM courses"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Lower-Level CHEM Courses"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "146"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "177"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "237"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "247"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "276"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "272"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting Courses"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "135"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "136"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "131"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "132"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Upper-Level CHEM Courses"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "395"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "401"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "461"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "480"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ELECT UL 3 credits of approved upper level CHEM/BCHM courses"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "425"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "464"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BCHM",
+          "number": "477"
+        },
+        "sortOrder": 49
+      }
+    ]
+  }
+}

@@ -1,0 +1,5111 @@
+{
+  "code": "agricultural-science-and-technology-major",
+  "title": "Agricultural Science and Technology Major",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/plant-sciences-landscape-architecture/agricultural-science-technology-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 102,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Major Core Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Major Core Courses"
+        },
+        {
+          "id": "note-4",
+          "label": "Foundational Science Courses 7-8",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundational Science Courses 7-8"
+        },
+        {
+          "id": "course-5",
+          "label": "CHEM131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "131"
+        },
+        {
+          "id": "course-6",
+          "label": "CHEM132",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "132"
+        },
+        {
+          "id": "choice-7",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-8",
+              "label": "CHEM231",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CHEM",
+              "number": "231"
+            },
+            {
+              "id": "course-9",
+              "label": "CHEM232",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CHEM",
+              "number": "232"
+            },
+            {
+              "id": "course-10",
+              "label": "PLSC275",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "275"
+            },
+            {
+              "id": "course-12",
+              "label": "PLSC201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "201"
+            },
+            {
+              "id": "course-13",
+              "label": "PLSC206",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "206"
+            },
+            {
+              "id": "course-14",
+              "label": "ENST200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENST",
+              "number": "200"
+            },
+            {
+              "id": "course-16",
+              "label": "BSCI337",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "337"
+            },
+            {
+              "id": "course-17",
+              "label": "BSCI487",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "487"
+            },
+            {
+              "id": "course-18",
+              "label": "BSCI497",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "497"
+            },
+            {
+              "id": "course-19",
+              "label": "PLSC420",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "420"
+            },
+            {
+              "id": "course-20",
+              "label": "PLSC453",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "453"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-11",
+          "label": "Foundational Agricultural Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundational Agricultural Courses"
+        },
+        {
+          "id": "note-15",
+          "label": "Plant Protection Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Plant Protection Courses"
+        },
+        {
+          "id": "note-21",
+          "label": "Specialization Requirements 54-75",
+          "nodeType": "note",
+          "children": [],
+          "text": "Specialization Requirements 54-75"
+        },
+        {
+          "id": "choice-22",
+          "label": "Select one of the following specializations",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        },
+        {
+          "id": "note-23",
+          "label": "Agronomy",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agronomy"
+        },
+        {
+          "id": "note-24",
+          "label": "Environmental Horticulture",
+          "nodeType": "note",
+          "children": [],
+          "text": "Environmental Horticulture"
+        },
+        {
+          "id": "note-25",
+          "label": "Agricultural and Extension Education",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agricultural and Extension Education"
+        }
+      ]
+    },
+    {
+      "id": "choice-7",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-8",
+          "label": "CHEM231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "231"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "232"
+        },
+        {
+          "id": "course-10",
+          "label": "PLSC275",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "275"
+        },
+        {
+          "id": "course-12",
+          "label": "PLSC201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "201"
+        },
+        {
+          "id": "course-13",
+          "label": "PLSC206",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "206"
+        },
+        {
+          "id": "course-14",
+          "label": "ENST200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "200"
+        },
+        {
+          "id": "course-16",
+          "label": "BSCI337",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "337"
+        },
+        {
+          "id": "course-17",
+          "label": "BSCI487",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "487"
+        },
+        {
+          "id": "course-18",
+          "label": "BSCI497",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "497"
+        },
+        {
+          "id": "course-19",
+          "label": "PLSC420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "420"
+        },
+        {
+          "id": "course-20",
+          "label": "PLSC453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "453"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-26",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-27",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-28",
+          "label": "Agronomy Specialization Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agronomy Specialization Requirements"
+        },
+        {
+          "id": "note-29",
+          "label": "Mathematics Course",
+          "nodeType": "note",
+          "children": [],
+          "text": "Mathematics Course"
+        },
+        {
+          "id": "course-30",
+          "label": "MATH115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "115"
+        },
+        {
+          "id": "note-31",
+          "label": "Biology, agronomy and animal science courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Biology, agronomy and animal science courses"
+        },
+        {
+          "id": "course-32",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-33",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "course-34",
+          "label": "PLSC112",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "112"
+        },
+        {
+          "id": "course-35",
+          "label": "PLSC113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "113"
+        },
+        {
+          "id": "course-36",
+          "label": "ANSC101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "101"
+        },
+        {
+          "id": "course-37",
+          "label": "ANSC103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "103"
+        },
+        {
+          "id": "course-38",
+          "label": "AGST400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "400"
+        },
+        {
+          "id": "course-39",
+          "label": "AGST401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "401"
+        },
+        {
+          "id": "course-40",
+          "label": "AREC306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "306"
+        }
+      ]
+    },
+    {
+      "id": "choice-41",
+      "label": "Animal Management Course (select one)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-42",
+          "label": "ANSC220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "220"
+        },
+        {
+          "id": "course-43",
+          "label": "ANSC232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "232"
+        },
+        {
+          "id": "course-44",
+          "label": "ANSC242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "242"
+        },
+        {
+          "id": "course-45",
+          "label": "ANSC245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "245"
+        },
+        {
+          "id": "course-46",
+          "label": "ANSC255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "255"
+        },
+        {
+          "id": "course-47",
+          "label": "ANSC262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "262"
+        },
+        {
+          "id": "course-48",
+          "label": "ANSC282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "282"
+        },
+        {
+          "id": "course-49",
+          "label": "TO300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TO",
+          "number": "300"
+        },
+        {
+          "id": "note-50",
+          "label": "AGST, PLSC or ANSC Restricted Elective 1,2 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "AGST, PLSC or ANSC Restricted Elective 1,2 3"
+        },
+        {
+          "id": "note-51",
+          "label": "AREC or BMGT Restricted Elective 1,3 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "AREC or BMGT Restricted Elective 1,3 3"
+        },
+        {
+          "id": "note-52",
+          "label": "AGST or PLSC Restricted Elective 1,4 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "AGST or PLSC Restricted Elective 1,4 3"
+        },
+        {
+          "id": "note-53",
+          "label": "AGST or PLSC Restricted Elective 1,4 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "AGST or PLSC Restricted Elective 1,4 3"
+        },
+        {
+          "id": "note-54",
+          "label": "AGST or PLSC Restricted Elective 1,4 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "AGST or PLSC Restricted Elective 1,4 3"
+        },
+        {
+          "id": "note-55",
+          "label": "ENST Restricted Elective 1,5 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "ENST Restricted Elective 1,5 3"
+        },
+        {
+          "id": "note-56",
+          "label": "Multidiscipline Restricted Elective (Course is restricted to Education, Computer Application or Policy.) 1,6 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Multidiscipline Restricted Elective (Course is restricted to Education, Computer Application or Policy.) 1,6 3"
+        },
+        {
+          "id": "note-57",
+          "label": "Internship and capstone courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Internship and capstone courses"
+        },
+        {
+          "id": "course-58",
+          "label": "PLSC389",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "389"
+        },
+        {
+          "id": "course-59",
+          "label": "PLSC460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "460"
+        },
+        {
+          "id": "note-60",
+          "label": "General Electives 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Electives 6"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-61",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-62",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-63",
+          "label": "Environmental Horticulture Specialization Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Environmental Horticulture Specialization Requirements"
+        },
+        {
+          "id": "note-64",
+          "label": "Mathematics Course",
+          "nodeType": "note",
+          "children": [],
+          "text": "Mathematics Course"
+        },
+        {
+          "id": "course-65",
+          "label": "MATH115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "115"
+        },
+        {
+          "id": "note-66",
+          "label": "Economics Course 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Economics Course 3"
+        },
+        {
+          "id": "choice-67",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-68",
+              "label": "AREC250",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "250"
+            },
+            {
+              "id": "course-69",
+              "label": "ECON200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "200"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-70",
+          "label": "Introductory Course 3-4",
+          "nodeType": "note",
+          "children": [],
+          "text": "Introductory Course 3-4"
+        },
+        {
+          "id": "choice-71",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-72",
+              "label": "ANSC101",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANSC",
+              "number": "101"
+            },
+            {
+              "id": "course-73",
+              "label": "ANSC103",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANSC",
+              "number": "103"
+            },
+            {
+              "id": "course-74",
+              "label": "BMGT110",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "110"
+            },
+            {
+              "id": "course-75",
+              "label": "BMGT160",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BMGT",
+              "number": "160"
+            },
+            {
+              "id": "course-76",
+              "label": "BSCI126",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BSCI",
+              "number": "126"
+            },
+            {
+              "id": "course-77",
+              "label": "GEOG110",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "110"
+            },
+            {
+              "id": "course-78",
+              "label": "GEOG330",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOG",
+              "number": "330"
+            },
+            {
+              "id": "course-79",
+              "label": "GEOL120",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GEOL",
+              "number": "120"
+            },
+            {
+              "id": "course-80",
+              "label": "INAG250",
+              "nodeType": "course",
+              "children": [],
+              "subject": "INAG",
+              "number": "250"
+            },
+            {
+              "id": "course-81",
+              "label": "LARC151",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LARC",
+              "number": "151"
+            },
+            {
+              "id": "course-82",
+              "label": "LARC152",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LARC",
+              "number": "152"
+            },
+            {
+              "id": "course-83",
+              "label": "LARC160",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LARC",
+              "number": "160"
+            },
+            {
+              "id": "course-84",
+              "label": "LARC162",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LARC",
+              "number": "162"
+            },
+            {
+              "id": "course-85",
+              "label": "SPAN103",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SPAN",
+              "number": "103"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-86",
+          "label": "Biological Sciences 4",
+          "nodeType": "note",
+          "children": [],
+          "text": "Biological Sciences 4"
+        }
+      ]
+    },
+    {
+      "id": "choice-67",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-68",
+          "label": "AREC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "250"
+        },
+        {
+          "id": "course-69",
+          "label": "ECON200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "200"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-71",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-72",
+          "label": "ANSC101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "101"
+        },
+        {
+          "id": "course-73",
+          "label": "ANSC103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "103"
+        },
+        {
+          "id": "course-74",
+          "label": "BMGT110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "110"
+        },
+        {
+          "id": "course-75",
+          "label": "BMGT160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BMGT",
+          "number": "160"
+        },
+        {
+          "id": "course-76",
+          "label": "BSCI126",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "126"
+        },
+        {
+          "id": "course-77",
+          "label": "GEOG110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "110"
+        },
+        {
+          "id": "course-78",
+          "label": "GEOG330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "330"
+        },
+        {
+          "id": "course-79",
+          "label": "GEOL120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "120"
+        },
+        {
+          "id": "course-80",
+          "label": "INAG250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "250"
+        },
+        {
+          "id": "course-81",
+          "label": "LARC151",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "151"
+        },
+        {
+          "id": "course-82",
+          "label": "LARC152",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "152"
+        },
+        {
+          "id": "course-83",
+          "label": "LARC160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "160"
+        },
+        {
+          "id": "course-84",
+          "label": "LARC162",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "162"
+        },
+        {
+          "id": "course-85",
+          "label": "SPAN103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "103"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-87",
+      "label": "Complete the following courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-88",
+          "label": "BSCI170",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "170"
+        },
+        {
+          "id": "course-89",
+          "label": "BSCI171",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "171"
+        },
+        {
+          "id": "note-90",
+          "label": "Foundational Horticulture Courses 7",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundational Horticulture Courses 7"
+        },
+        {
+          "id": "note-91",
+          "label": "Complete all listed courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Complete all listed courses"
+        },
+        {
+          "id": "course-92",
+          "label": "PLSC110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "110"
+        },
+        {
+          "id": "course-93",
+          "label": "PLSC111",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "111"
+        },
+        {
+          "id": "course-94",
+          "label": "PLSC271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "271"
+        },
+        {
+          "id": "course-95",
+          "label": "TO100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TO",
+          "number": "100"
+        },
+        {
+          "id": "choice-96",
+          "label": "Select two of the following courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-97",
+              "label": "AGST130",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AGST",
+              "number": "130"
+            },
+            {
+              "id": "course-98",
+              "label": "PLSC125",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "125"
+            },
+            {
+              "id": "course-99",
+              "label": "PLSC203",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "203"
+            },
+            {
+              "id": "course-100",
+              "label": "PLSC205",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "205"
+            },
+            {
+              "id": "course-101",
+              "label": "PLSC226",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "226"
+            },
+            {
+              "id": "course-102",
+              "label": "PLSC253",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "253"
+            },
+            {
+              "id": "course-103",
+              "label": "PLSC254",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "254"
+            },
+            {
+              "id": "course-104",
+              "label": "AOSC200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AOSC",
+              "number": "200"
+            },
+            {
+              "id": "course-105",
+              "label": "AOSC201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AOSC",
+              "number": "201"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "note-106",
+          "label": "Agriculture Business, Economics, Management or Marketing Course 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agriculture Business, Economics, Management or Marketing Course 3"
+        },
+        {
+          "id": "choice-107",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-108",
+              "label": "AREC306",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "306"
+            },
+            {
+              "id": "course-109",
+              "label": "AREC345",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "345"
+            },
+            {
+              "id": "course-110",
+              "label": "AREC365",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "365"
+            },
+            {
+              "id": "course-112",
+              "label": "PLSC251",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "251"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-111",
+          "label": "BMGT Restricted Elective 1,2",
+          "nodeType": "note",
+          "children": [],
+          "text": "BMGT Restricted Elective 1,2"
+        },
+        {
+          "id": "note-113",
+          "label": "Advanced Horticulture Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Advanced Horticulture Courses"
+        }
+      ]
+    },
+    {
+      "id": "choice-96",
+      "label": "Select two of the following courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-97",
+          "label": "AGST130",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "130"
+        },
+        {
+          "id": "course-98",
+          "label": "PLSC125",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "125"
+        },
+        {
+          "id": "course-99",
+          "label": "PLSC203",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "203"
+        },
+        {
+          "id": "course-100",
+          "label": "PLSC205",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "205"
+        },
+        {
+          "id": "course-101",
+          "label": "PLSC226",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "226"
+        },
+        {
+          "id": "course-102",
+          "label": "PLSC253",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "253"
+        },
+        {
+          "id": "course-103",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        },
+        {
+          "id": "course-104",
+          "label": "AOSC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AOSC",
+          "number": "200"
+        },
+        {
+          "id": "course-105",
+          "label": "AOSC201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AOSC",
+          "number": "201"
+        }
+      ],
+      "minCount": 2
+    },
+    {
+      "id": "choice-107",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-108",
+          "label": "AREC306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "306"
+        },
+        {
+          "id": "course-109",
+          "label": "AREC345",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "345"
+        },
+        {
+          "id": "course-110",
+          "label": "AREC365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "365"
+        },
+        {
+          "id": "course-112",
+          "label": "PLSC251",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "251"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-114",
+      "label": "Complete all listed courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-115",
+          "label": "PLSC432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "432"
+        },
+        {
+          "id": "course-116",
+          "label": "PLSC433",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "433"
+        },
+        {
+          "id": "course-117",
+          "label": "TO300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TO",
+          "number": "300"
+        },
+        {
+          "id": "choice-118",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-119",
+              "label": "AGST333",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AGST",
+              "number": "333"
+            },
+            {
+              "id": "course-120",
+              "label": "AGST401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AGST",
+              "number": "401"
+            },
+            {
+              "id": "course-121",
+              "label": "ENST411",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ENST",
+              "number": "411"
+            },
+            {
+              "id": "course-122",
+              "label": "LARC461",
+              "nodeType": "course",
+              "children": [],
+              "subject": "LARC",
+              "number": "461"
+            },
+            {
+              "id": "course-123",
+              "label": "PLSC303",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "303"
+            },
+            {
+              "id": "course-124",
+              "label": "PLSC400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "400"
+            },
+            {
+              "id": "course-125",
+              "label": "PLSC425",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "425"
+            },
+            {
+              "id": "course-126",
+              "label": "PLSC452",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "452"
+            },
+            {
+              "id": "course-127",
+              "label": "PLSC461",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "461"
+            },
+            {
+              "id": "course-128",
+              "label": "PLSC462",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "462"
+            },
+            {
+              "id": "course-129",
+              "label": "PLSC464",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "464"
+            },
+            {
+              "id": "course-130",
+              "label": "PLSC471",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "471"
+            },
+            {
+              "id": "course-133",
+              "label": "PLSC389",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "389"
+            },
+            {
+              "id": "course-134",
+              "label": "PLSC399",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "399"
+            },
+            {
+              "id": "course-135",
+              "label": "PLSC460",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PLSC",
+              "number": "460"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "note-131",
+          "label": "AGST or PLSC Approved Elective 1,3",
+          "nodeType": "note",
+          "children": [],
+          "text": "AGST or PLSC Approved Elective 1,3"
+        },
+        {
+          "id": "note-132",
+          "label": "Career Preparation Courses 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Career Preparation Courses 6"
+        },
+        {
+          "id": "note-136",
+          "label": "General Electives 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "General Electives 6"
+        }
+      ]
+    },
+    {
+      "id": "choice-118",
+      "label": "Select two of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-119",
+          "label": "AGST333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "333"
+        },
+        {
+          "id": "course-120",
+          "label": "AGST401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "401"
+        },
+        {
+          "id": "course-121",
+          "label": "ENST411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "411"
+        },
+        {
+          "id": "course-122",
+          "label": "LARC461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "461"
+        },
+        {
+          "id": "course-123",
+          "label": "PLSC303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "303"
+        },
+        {
+          "id": "course-124",
+          "label": "PLSC400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "400"
+        },
+        {
+          "id": "course-125",
+          "label": "PLSC425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "425"
+        },
+        {
+          "id": "course-126",
+          "label": "PLSC452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "452"
+        },
+        {
+          "id": "course-127",
+          "label": "PLSC461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "461"
+        },
+        {
+          "id": "course-128",
+          "label": "PLSC462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "462"
+        },
+        {
+          "id": "course-129",
+          "label": "PLSC464",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "464"
+        },
+        {
+          "id": "course-130",
+          "label": "PLSC471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "471"
+        },
+        {
+          "id": "course-133",
+          "label": "PLSC389",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "389"
+        },
+        {
+          "id": "course-134",
+          "label": "PLSC399",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "399"
+        },
+        {
+          "id": "course-135",
+          "label": "PLSC460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "460"
+        }
+      ],
+      "minCount": 2
+    },
+    {
+      "id": "block-137",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-138",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-139",
+          "label": "Agriculture-Related Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agriculture-Related Courses"
+        },
+        {
+          "id": "note-140",
+          "label": "Animal Science",
+          "nodeType": "note",
+          "children": [],
+          "text": "Animal Science"
+        },
+        {
+          "id": "course-141",
+          "label": "ANSC101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "101"
+        },
+        {
+          "id": "course-142",
+          "label": "ANSC103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "103"
+        }
+      ]
+    },
+    {
+      "id": "block-143",
+      "label": "One of the following animal management courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-144",
+          "label": "ANSC220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "220"
+        },
+        {
+          "id": "course-145",
+          "label": "ANSC232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "232"
+        },
+        {
+          "id": "course-146",
+          "label": "ANSC242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "242"
+        },
+        {
+          "id": "course-147",
+          "label": "ANSC245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "245"
+        },
+        {
+          "id": "course-148",
+          "label": "ANSC255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "255"
+        },
+        {
+          "id": "course-149",
+          "label": "ANSC262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "262"
+        },
+        {
+          "id": "course-150",
+          "label": "ANSC282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "282"
+        },
+        {
+          "id": "note-151",
+          "label": "Agribusiness",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agribusiness"
+        },
+        {
+          "id": "course-152",
+          "label": "MATH113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "113"
+        },
+        {
+          "id": "course-153",
+          "label": "AREC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "250"
+        },
+        {
+          "id": "note-154",
+          "label": "Biology",
+          "nodeType": "note",
+          "children": [],
+          "text": "Biology"
+        },
+        {
+          "id": "course-155",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-156",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "note-157",
+          "label": "Power, Structural & Technical",
+          "nodeType": "note",
+          "children": [],
+          "text": "Power, Structural & Technical"
+        },
+        {
+          "id": "course-158",
+          "label": "INAG250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "250"
+        },
+        {
+          "id": "course-159",
+          "label": "PLSC235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "235"
+        },
+        {
+          "id": "course-160",
+          "label": "INAG235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "235"
+        },
+        {
+          "id": "note-161",
+          "label": "Environmental Sciences and Natural Resources",
+          "nodeType": "note",
+          "children": [],
+          "text": "Environmental Sciences and Natural Resources"
+        },
+        {
+          "id": "course-162",
+          "label": "PLSC471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "471"
+        },
+        {
+          "id": "note-163",
+          "label": "Plant Sciences",
+          "nodeType": "note",
+          "children": [],
+          "text": "Plant Sciences"
+        },
+        {
+          "id": "course-164",
+          "label": "PLSC110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "110"
+        },
+        {
+          "id": "course-165",
+          "label": "PLSC111",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "111"
+        },
+        {
+          "id": "course-166",
+          "label": "PLSC112",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "112"
+        },
+        {
+          "id": "course-167",
+          "label": "PLSC113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "113"
+        },
+        {
+          "id": "note-168",
+          "label": "Food Science",
+          "nodeType": "note",
+          "children": [],
+          "text": "Food Science"
+        },
+        {
+          "id": "course-169",
+          "label": "NFSC112",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "112"
+        },
+        {
+          "id": "course-170",
+          "label": "PLSC115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "115"
+        },
+        {
+          "id": "note-171",
+          "label": "Leadership & Career Development",
+          "nodeType": "note",
+          "children": [],
+          "text": "Leadership & Career Development"
+        },
+        {
+          "id": "course-172",
+          "label": "AGST440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "440"
+        },
+        {
+          "id": "course-173",
+          "label": "AGST442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "442"
+        },
+        {
+          "id": "course-174",
+          "label": "EDHD426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDHD",
+          "number": "426"
+        },
+        {
+          "id": "note-175",
+          "label": "Education Pre-Professional",
+          "nodeType": "note",
+          "children": [],
+          "text": "Education Pre-Professional"
+        },
+        {
+          "id": "course-176",
+          "label": "TLPL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "101"
+        },
+        {
+          "id": "course-177",
+          "label": "TLPL102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "102"
+        }
+      ]
+    },
+    {
+      "id": "block-178",
+      "label": "One of the following courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-179",
+          "label": "TLPL401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "401"
+        },
+        {
+          "id": "course-180",
+          "label": "TLPL488",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "488"
+        },
+        {
+          "id": "course-181",
+          "label": "TLPL414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "414"
+        },
+        {
+          "id": "note-182",
+          "label": "Teacher Certification",
+          "nodeType": "note",
+          "children": [],
+          "text": "Teacher Certification"
+        },
+        {
+          "id": "note-183",
+          "label": "Professional Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Professional Courses"
+        },
+        {
+          "id": "course-184",
+          "label": "TLPL415",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "415"
+        },
+        {
+          "id": "course-185",
+          "label": "TLPL425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "425"
+        },
+        {
+          "id": "course-186",
+          "label": "AGST425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "425"
+        },
+        {
+          "id": "course-187",
+          "label": "TLPL481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "481"
+        },
+        {
+          "id": "note-188",
+          "label": "Student Teaching",
+          "nodeType": "note",
+          "children": [],
+          "text": "Student Teaching"
+        },
+        {
+          "id": "course-189",
+          "label": "TLPL478",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "478"
+        },
+        {
+          "id": "course-190",
+          "label": "TLPL479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "479"
+        },
+        {
+          "id": "course-191",
+          "label": "TLPL489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "489"
+        }
+      ]
+    },
+    {
+      "id": "block-192",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-193",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-194",
+          "label": "Agriculture-Related Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agriculture-Related Courses"
+        },
+        {
+          "id": "note-195",
+          "label": "Animal Science",
+          "nodeType": "note",
+          "children": [],
+          "text": "Animal Science"
+        },
+        {
+          "id": "course-196",
+          "label": "ANSC101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "101"
+        },
+        {
+          "id": "course-197",
+          "label": "ANSC103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "103"
+        }
+      ]
+    },
+    {
+      "id": "block-198",
+      "label": "One of the following animal management courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-199",
+          "label": "ANSC220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "220"
+        },
+        {
+          "id": "course-200",
+          "label": "ANSC232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "232"
+        },
+        {
+          "id": "course-201",
+          "label": "ANSC242",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "242"
+        },
+        {
+          "id": "course-202",
+          "label": "ANSC245",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "245"
+        },
+        {
+          "id": "course-203",
+          "label": "ANSC262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "262"
+        },
+        {
+          "id": "course-204",
+          "label": "ANSC282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "282"
+        },
+        {
+          "id": "note-205",
+          "label": "Agribusiness",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agribusiness"
+        },
+        {
+          "id": "course-206",
+          "label": "MATH113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "113"
+        },
+        {
+          "id": "course-207",
+          "label": "AREC250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "250"
+        },
+        {
+          "id": "note-208",
+          "label": "Biology",
+          "nodeType": "note",
+          "children": [],
+          "text": "Biology"
+        },
+        {
+          "id": "course-209",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-210",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        },
+        {
+          "id": "note-211",
+          "label": "Power, Structural & Technical",
+          "nodeType": "note",
+          "children": [],
+          "text": "Power, Structural & Technical"
+        },
+        {
+          "id": "course-212",
+          "label": "INAG250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "250"
+        },
+        {
+          "id": "course-213",
+          "label": "PLSC235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "235"
+        },
+        {
+          "id": "course-214",
+          "label": "INAG235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "235"
+        },
+        {
+          "id": "note-215",
+          "label": "Environmental Sciences and Natural Resources",
+          "nodeType": "note",
+          "children": [],
+          "text": "Environmental Sciences and Natural Resources"
+        },
+        {
+          "id": "course-216",
+          "label": "PLSC471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "471"
+        },
+        {
+          "id": "note-217",
+          "label": "Plant Sciences",
+          "nodeType": "note",
+          "children": [],
+          "text": "Plant Sciences"
+        },
+        {
+          "id": "course-218",
+          "label": "PLSC110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "110"
+        },
+        {
+          "id": "course-219",
+          "label": "PLSC111",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "111"
+        },
+        {
+          "id": "course-220",
+          "label": "PLSC112",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "112"
+        },
+        {
+          "id": "course-221",
+          "label": "PLSC113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "113"
+        },
+        {
+          "id": "note-222",
+          "label": "Food Science",
+          "nodeType": "note",
+          "children": [],
+          "text": "Food Science"
+        },
+        {
+          "id": "course-223",
+          "label": "NFSC112",
+          "nodeType": "course",
+          "children": [],
+          "subject": "NFSC",
+          "number": "112"
+        },
+        {
+          "id": "course-224",
+          "label": "PLSC115",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "115"
+        },
+        {
+          "id": "note-225",
+          "label": "Leadership & Career Development",
+          "nodeType": "note",
+          "children": [],
+          "text": "Leadership & Career Development"
+        },
+        {
+          "id": "course-226",
+          "label": "AGST442",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "442"
+        },
+        {
+          "id": "course-227",
+          "label": "AGST440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "440"
+        },
+        {
+          "id": "note-228",
+          "label": "Education Pre-Professional",
+          "nodeType": "note",
+          "children": [],
+          "text": "Education Pre-Professional"
+        },
+        {
+          "id": "course-229",
+          "label": "TLPL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "101"
+        },
+        {
+          "id": "course-230",
+          "label": "TLPL102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "102"
+        }
+      ]
+    },
+    {
+      "id": "block-231",
+      "label": "One of the following courses",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-232",
+          "label": "TLPL488",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "488"
+        },
+        {
+          "id": "course-233",
+          "label": "TLPL401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "401"
+        },
+        {
+          "id": "course-234",
+          "label": "TLPL414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "414"
+        },
+        {
+          "id": "note-235",
+          "label": "Industry/Extension",
+          "nodeType": "note",
+          "children": [],
+          "text": "Industry/Extension"
+        },
+        {
+          "id": "note-236",
+          "label": "Agricultural Expanded",
+          "nodeType": "note",
+          "children": [],
+          "text": "Agricultural Expanded"
+        },
+        {
+          "id": "course-237",
+          "label": "ANSC255",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANSC",
+          "number": "255"
+        },
+        {
+          "id": "course-238",
+          "label": "BSCI121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "121"
+        },
+        {
+          "id": "course-239",
+          "label": "INAG252",
+          "nodeType": "course",
+          "children": [],
+          "subject": "INAG",
+          "number": "252"
+        },
+        {
+          "id": "note-240",
+          "label": "AREC/PLSC/LARC Restricted Elective 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "AREC/PLSC/LARC Restricted Elective 6"
+        },
+        {
+          "id": "note-241",
+          "label": "AREC/PLSC/LARC: Restricted Elective",
+          "nodeType": "note",
+          "children": [],
+          "text": "AREC/PLSC/LARC: Restricted Elective"
+        },
+        {
+          "id": "note-242",
+          "label": "AGST Internship or Elective 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "AGST Internship or Elective 1 6"
+        },
+        {
+          "id": "course-243",
+          "label": "AGST489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "489"
+        },
+        {
+          "id": "course-244",
+          "label": "AGST489",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AGST",
+          "number": "489"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-7",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-22",
+        "humanLabel": "Select one of the following specializations",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-7",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-26",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-41",
+        "humanLabel": "Animal Management Course (select one)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-61",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-67",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-71",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "choice-67",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": null,
+        "sourceNodeId": "choice-71",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": null,
+        "sourceNodeId": "block-87",
+        "humanLabel": "Complete the following courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": "blk-12",
+        "sourceNodeId": "choice-96",
+        "humanLabel": "Select two of the following courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 13,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-14",
+        "parentTempId": "blk-12",
+        "sourceNodeId": "choice-107",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 14,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-15",
+        "parentTempId": null,
+        "sourceNodeId": "choice-96",
+        "humanLabel": "Select two of the following courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 15,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-16",
+        "parentTempId": null,
+        "sourceNodeId": "choice-107",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 16,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-17",
+        "parentTempId": null,
+        "sourceNodeId": "block-114",
+        "humanLabel": "Complete all listed courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 17,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-18",
+        "parentTempId": "blk-17",
+        "sourceNodeId": "choice-118",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 18,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-19",
+        "parentTempId": null,
+        "sourceNodeId": "choice-118",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 19,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-20",
+        "parentTempId": null,
+        "sourceNodeId": "block-137",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 20,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-21",
+        "parentTempId": null,
+        "sourceNodeId": "block-143",
+        "humanLabel": "One of the following animal management courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 21,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-22",
+        "parentTempId": null,
+        "sourceNodeId": "block-178",
+        "humanLabel": "One of the following courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 22,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-23",
+        "parentTempId": null,
+        "sourceNodeId": "block-192",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 23,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-24",
+        "parentTempId": null,
+        "sourceNodeId": "block-198",
+        "humanLabel": "One of the following animal management courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 24,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-25",
+        "parentTempId": null,
+        "sourceNodeId": "block-231",
+        "humanLabel": "One of the following courses",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 25,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Major Core Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundational Science Courses 7-8"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "131"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "132"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "275"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "201"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "206"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "200"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "337"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "487"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "497"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "420"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "453"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundational Agricultural Courses"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Plant Protection Courses"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Specialization Requirements 54-75"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agronomy"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Environmental Horticulture"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agricultural and Extension Education"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "231"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "232"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "275"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "201"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "206"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "200"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "337"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "487"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "497"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "420"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "453"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agronomy Specialization Requirements"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Mathematics Course"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "115"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Biology, agronomy and animal science courses"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "112"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "113"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "101"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "103"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "400"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "401"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "306"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "220"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "232"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "242"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "245"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "255"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "262"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "282"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TO",
+          "number": "300"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AGST, PLSC or ANSC Restricted Elective 1,2 3"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AREC or BMGT Restricted Elective 1,3 3"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AGST or PLSC Restricted Elective 1,4 3"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AGST or PLSC Restricted Elective 1,4 3"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AGST or PLSC Restricted Elective 1,4 3"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ENST Restricted Elective 1,5 3"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Multidiscipline Restricted Elective (Course is restricted to Education, Computer Application or Policy.) 1,6 3"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Internship and capstone courses"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "389"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "460"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Electives 6"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Environmental Horticulture Specialization Requirements"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Mathematics Course"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "115"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Economics Course 3"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Introductory Course 3-4"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "101"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "103"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "110"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "160"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "126"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "110"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "330"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "120"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "250"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "151"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "152"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "160"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "162"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "103"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Biological Sciences 4"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "200"
+        },
+        "sortOrder": 91
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "101"
+        },
+        "sortOrder": 92
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "103"
+        },
+        "sortOrder": 93
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "110"
+        },
+        "sortOrder": 94
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BMGT",
+          "number": "160"
+        },
+        "sortOrder": 95
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "126"
+        },
+        "sortOrder": 96
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "110"
+        },
+        "sortOrder": 97
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "330"
+        },
+        "sortOrder": 98
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "120"
+        },
+        "sortOrder": 99
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "250"
+        },
+        "sortOrder": 100
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "151"
+        },
+        "sortOrder": 101
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "152"
+        },
+        "sortOrder": 102
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "160"
+        },
+        "sortOrder": 103
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "162"
+        },
+        "sortOrder": 104
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "103"
+        },
+        "sortOrder": 105
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "170"
+        },
+        "sortOrder": 106
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "171"
+        },
+        "sortOrder": 107
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundational Horticulture Courses 7"
+        },
+        "sortOrder": 108
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Complete all listed courses"
+        },
+        "sortOrder": 109
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "110"
+        },
+        "sortOrder": 110
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "111"
+        },
+        "sortOrder": 111
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "271"
+        },
+        "sortOrder": 112
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TO",
+          "number": "100"
+        },
+        "sortOrder": 113
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "130"
+        },
+        "sortOrder": 114
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "125"
+        },
+        "sortOrder": 115
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "203"
+        },
+        "sortOrder": 116
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "205"
+        },
+        "sortOrder": 117
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "226"
+        },
+        "sortOrder": 118
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "253"
+        },
+        "sortOrder": 119
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 120
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "200"
+        },
+        "sortOrder": 121
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "201"
+        },
+        "sortOrder": 122
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agriculture Business, Economics, Management or Marketing Course 3"
+        },
+        "sortOrder": 123
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "306"
+        },
+        "sortOrder": 124
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "345"
+        },
+        "sortOrder": 125
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 126
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "251"
+        },
+        "sortOrder": 127
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "BMGT Restricted Elective 1,2"
+        },
+        "sortOrder": 128
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Advanced Horticulture Courses"
+        },
+        "sortOrder": 129
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "130"
+        },
+        "sortOrder": 130
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "125"
+        },
+        "sortOrder": 131
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "203"
+        },
+        "sortOrder": 132
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "205"
+        },
+        "sortOrder": 133
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "226"
+        },
+        "sortOrder": 134
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "253"
+        },
+        "sortOrder": 135
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 136
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "200"
+        },
+        "sortOrder": 137
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AOSC",
+          "number": "201"
+        },
+        "sortOrder": 138
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "306"
+        },
+        "sortOrder": 139
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "345"
+        },
+        "sortOrder": 140
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 141
+      },
+      {
+        "blockTempId": "blk-16",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "251"
+        },
+        "sortOrder": 142
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "432"
+        },
+        "sortOrder": 143
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "433"
+        },
+        "sortOrder": 144
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TO",
+          "number": "300"
+        },
+        "sortOrder": 145
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "333"
+        },
+        "sortOrder": 146
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "401"
+        },
+        "sortOrder": 147
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "411"
+        },
+        "sortOrder": 148
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "461"
+        },
+        "sortOrder": 149
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "303"
+        },
+        "sortOrder": 150
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "400"
+        },
+        "sortOrder": 151
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "425"
+        },
+        "sortOrder": 152
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "452"
+        },
+        "sortOrder": 153
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "461"
+        },
+        "sortOrder": 154
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "462"
+        },
+        "sortOrder": 155
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "464"
+        },
+        "sortOrder": 156
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "471"
+        },
+        "sortOrder": 157
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "389"
+        },
+        "sortOrder": 158
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "399"
+        },
+        "sortOrder": 159
+      },
+      {
+        "blockTempId": "blk-18",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "460"
+        },
+        "sortOrder": 160
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AGST or PLSC Approved Elective 1,3"
+        },
+        "sortOrder": 161
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Career Preparation Courses 6"
+        },
+        "sortOrder": 162
+      },
+      {
+        "blockTempId": "blk-17",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "General Electives 6"
+        },
+        "sortOrder": 163
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "333"
+        },
+        "sortOrder": 164
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "401"
+        },
+        "sortOrder": 165
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "411"
+        },
+        "sortOrder": 166
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "461"
+        },
+        "sortOrder": 167
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "303"
+        },
+        "sortOrder": 168
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "400"
+        },
+        "sortOrder": 169
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "425"
+        },
+        "sortOrder": 170
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "452"
+        },
+        "sortOrder": 171
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "461"
+        },
+        "sortOrder": 172
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "462"
+        },
+        "sortOrder": 173
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "464"
+        },
+        "sortOrder": 174
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "471"
+        },
+        "sortOrder": 175
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "389"
+        },
+        "sortOrder": 176
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "399"
+        },
+        "sortOrder": 177
+      },
+      {
+        "blockTempId": "blk-19",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "460"
+        },
+        "sortOrder": 178
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 179
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agriculture-Related Courses"
+        },
+        "sortOrder": 180
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Animal Science"
+        },
+        "sortOrder": 181
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "101"
+        },
+        "sortOrder": 182
+      },
+      {
+        "blockTempId": "blk-20",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "103"
+        },
+        "sortOrder": 183
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "220"
+        },
+        "sortOrder": 184
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "232"
+        },
+        "sortOrder": 185
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "242"
+        },
+        "sortOrder": 186
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "245"
+        },
+        "sortOrder": 187
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "255"
+        },
+        "sortOrder": 188
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "262"
+        },
+        "sortOrder": 189
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "282"
+        },
+        "sortOrder": 190
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agribusiness"
+        },
+        "sortOrder": 191
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "113"
+        },
+        "sortOrder": 192
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 193
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Biology"
+        },
+        "sortOrder": 194
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 195
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 196
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Power, Structural & Technical"
+        },
+        "sortOrder": 197
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "250"
+        },
+        "sortOrder": 198
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "235"
+        },
+        "sortOrder": 199
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "235"
+        },
+        "sortOrder": 200
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Environmental Sciences and Natural Resources"
+        },
+        "sortOrder": 201
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "471"
+        },
+        "sortOrder": 202
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Plant Sciences"
+        },
+        "sortOrder": 203
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "110"
+        },
+        "sortOrder": 204
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "111"
+        },
+        "sortOrder": 205
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "112"
+        },
+        "sortOrder": 206
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "113"
+        },
+        "sortOrder": 207
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Food Science"
+        },
+        "sortOrder": 208
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "112"
+        },
+        "sortOrder": 209
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "115"
+        },
+        "sortOrder": 210
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Leadership & Career Development"
+        },
+        "sortOrder": 211
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "440"
+        },
+        "sortOrder": 212
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "442"
+        },
+        "sortOrder": 213
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
+        },
+        "sortOrder": 214
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Education Pre-Professional"
+        },
+        "sortOrder": 215
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "101"
+        },
+        "sortOrder": 216
+      },
+      {
+        "blockTempId": "blk-21",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "102"
+        },
+        "sortOrder": 217
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "401"
+        },
+        "sortOrder": 218
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "488"
+        },
+        "sortOrder": 219
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "414"
+        },
+        "sortOrder": 220
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Teacher Certification"
+        },
+        "sortOrder": 221
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Professional Courses"
+        },
+        "sortOrder": 222
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "415"
+        },
+        "sortOrder": 223
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "425"
+        },
+        "sortOrder": 224
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "425"
+        },
+        "sortOrder": 225
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "481"
+        },
+        "sortOrder": 226
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Student Teaching"
+        },
+        "sortOrder": 227
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "478"
+        },
+        "sortOrder": 228
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "479"
+        },
+        "sortOrder": 229
+      },
+      {
+        "blockTempId": "blk-22",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "489"
+        },
+        "sortOrder": 230
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 231
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agriculture-Related Courses"
+        },
+        "sortOrder": 232
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Animal Science"
+        },
+        "sortOrder": 233
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "101"
+        },
+        "sortOrder": 234
+      },
+      {
+        "blockTempId": "blk-23",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "103"
+        },
+        "sortOrder": 235
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "220"
+        },
+        "sortOrder": 236
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "232"
+        },
+        "sortOrder": 237
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "242"
+        },
+        "sortOrder": 238
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "245"
+        },
+        "sortOrder": 239
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "262"
+        },
+        "sortOrder": 240
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "282"
+        },
+        "sortOrder": 241
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agribusiness"
+        },
+        "sortOrder": 242
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "113"
+        },
+        "sortOrder": 243
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "250"
+        },
+        "sortOrder": 244
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Biology"
+        },
+        "sortOrder": 245
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 246
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 247
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Power, Structural & Technical"
+        },
+        "sortOrder": 248
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "250"
+        },
+        "sortOrder": 249
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "235"
+        },
+        "sortOrder": 250
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "235"
+        },
+        "sortOrder": 251
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Environmental Sciences and Natural Resources"
+        },
+        "sortOrder": 252
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "471"
+        },
+        "sortOrder": 253
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Plant Sciences"
+        },
+        "sortOrder": 254
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "110"
+        },
+        "sortOrder": 255
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "111"
+        },
+        "sortOrder": 256
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "112"
+        },
+        "sortOrder": 257
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "113"
+        },
+        "sortOrder": 258
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Food Science"
+        },
+        "sortOrder": 259
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "NFSC",
+          "number": "112"
+        },
+        "sortOrder": 260
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "115"
+        },
+        "sortOrder": 261
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Leadership & Career Development"
+        },
+        "sortOrder": 262
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "442"
+        },
+        "sortOrder": 263
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "440"
+        },
+        "sortOrder": 264
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Education Pre-Professional"
+        },
+        "sortOrder": 265
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "101"
+        },
+        "sortOrder": 266
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "102"
+        },
+        "sortOrder": 267
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "488"
+        },
+        "sortOrder": 268
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "401"
+        },
+        "sortOrder": 269
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "414"
+        },
+        "sortOrder": 270
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Industry/Extension"
+        },
+        "sortOrder": 271
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Agricultural Expanded"
+        },
+        "sortOrder": 272
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANSC",
+          "number": "255"
+        },
+        "sortOrder": 273
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "121"
+        },
+        "sortOrder": 274
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "INAG",
+          "number": "252"
+        },
+        "sortOrder": 275
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AREC/PLSC/LARC Restricted Elective 6"
+        },
+        "sortOrder": 276
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AREC/PLSC/LARC: Restricted Elective"
+        },
+        "sortOrder": 277
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "AGST Internship or Elective 1 6"
+        },
+        "sortOrder": 278
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "489"
+        },
+        "sortOrder": 279
+      },
+      {
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AGST",
+          "number": "489"
+        },
+        "sortOrder": 280
+      }
+    ]
+  }
+}

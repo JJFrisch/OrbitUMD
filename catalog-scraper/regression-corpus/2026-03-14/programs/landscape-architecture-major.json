@@ -1,0 +1,662 @@
+{
+  "code": "landscape-architecture-major",
+  "title": "Landscape Architecture Major",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/plant-sciences-landscape-architecture/landscape-architecture-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 87,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Math",
+          "nodeType": "note",
+          "children": [],
+          "text": "Math"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH113",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "113"
+        },
+        {
+          "id": "note-5",
+          "label": "Plant Science Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Plant Science Courses"
+        },
+        {
+          "id": "course-6",
+          "label": "PLSC110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "110"
+        },
+        {
+          "id": "course-7",
+          "label": "PLSC111",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "111"
+        },
+        {
+          "id": "course-8",
+          "label": "PLSC253",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "253"
+        },
+        {
+          "id": "course-9",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        },
+        {
+          "id": "note-10",
+          "label": "Foundational Landscape Architecture Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundational Landscape Architecture Courses"
+        },
+        {
+          "id": "course-11",
+          "label": "LARC160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "160"
+        },
+        {
+          "id": "course-12",
+          "label": "LARC263",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "263"
+        },
+        {
+          "id": "course-13",
+          "label": "LARC265",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "265"
+        },
+        {
+          "id": "course-14",
+          "label": "LARC266",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "266"
+        },
+        {
+          "id": "note-15",
+          "label": "Studios",
+          "nodeType": "note",
+          "children": [],
+          "text": "Studios"
+        },
+        {
+          "id": "course-16",
+          "label": "LARC131",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "131"
+        },
+        {
+          "id": "course-17",
+          "label": "LARC230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "230"
+        },
+        {
+          "id": "course-18",
+          "label": "LARC231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "231"
+        },
+        {
+          "id": "course-19",
+          "label": "LARC330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "330"
+        },
+        {
+          "id": "course-20",
+          "label": "LARC331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "331"
+        },
+        {
+          "id": "course-21",
+          "label": "LARC430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "430"
+        },
+        {
+          "id": "course-22",
+          "label": "LARC471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "471"
+        },
+        {
+          "id": "note-23",
+          "label": "Eco-Land Technical Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Eco-Land Technical Courses"
+        },
+        {
+          "id": "course-24",
+          "label": "LARC411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "411"
+        },
+        {
+          "id": "course-25",
+          "label": "LARC412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "412"
+        },
+        {
+          "id": "course-26",
+          "label": "LARC413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "413"
+        },
+        {
+          "id": "note-27",
+          "label": "Visualization Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Visualization Courses"
+        },
+        {
+          "id": "course-28",
+          "label": "LARC220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "220"
+        },
+        {
+          "id": "course-29",
+          "label": "LARC221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "221"
+        },
+        {
+          "id": "note-30",
+          "label": "Career Preparation",
+          "nodeType": "note",
+          "children": [],
+          "text": "Career Preparation"
+        },
+        {
+          "id": "course-31",
+          "label": "LARC389",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "389"
+        },
+        {
+          "id": "course-32",
+          "label": "LARC420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "420"
+        },
+        {
+          "id": "note-33",
+          "label": "LARC Upper Level Restricted Electives 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "LARC Upper Level Restricted Electives 6"
+        },
+        {
+          "id": "course-34",
+          "label": "LARC451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "451"
+        },
+        {
+          "id": "course-35",
+          "label": "LARC452",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "452"
+        },
+        {
+          "id": "course-36",
+          "label": "LARC453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "453"
+        },
+        {
+          "id": "course-37",
+          "label": "LARC454",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "454"
+        },
+        {
+          "id": "course-38",
+          "label": "LARC461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "461"
+        },
+        {
+          "id": "course-39",
+          "label": "LARC470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LARC",
+          "number": "470"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Math"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "113"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Plant Science Courses"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "110"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "111"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "253"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundational Landscape Architecture Courses"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "160"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "263"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "265"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "266"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Studios"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "131"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "230"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "231"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "330"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "331"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "430"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "471"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Eco-Land Technical Courses"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "411"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "412"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "413"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Visualization Courses"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "220"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "221"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Career Preparation"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "389"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "420"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "LARC Upper Level Restricted Electives 6"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "451"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "452"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "453"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "454"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "461"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LARC",
+          "number": "470"
+        },
+        "sortOrder": 38
+      }
+    ]
+  }
+}

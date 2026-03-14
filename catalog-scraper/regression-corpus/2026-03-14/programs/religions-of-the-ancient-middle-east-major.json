@@ -1,0 +1,464 @@
+{
+  "code": "religions-of-the-ancient-middle-east-major",
+  "title": "Religions of the Ancient Middle East Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/religions-ancient-middle-east-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 30,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Foundations",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundations"
+        },
+        {
+          "id": "note-4",
+          "label": "One approved Big Question course 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "One approved Big Question course 3"
+        },
+        {
+          "id": "course-5",
+          "label": "JWST230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "230"
+        },
+        {
+          "id": "course-6",
+          "label": "RELS271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RELS",
+          "number": "271"
+        },
+        {
+          "id": "course-7",
+          "label": "RELS273",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RELS",
+          "number": "273"
+        },
+        {
+          "id": "course-8",
+          "label": "RELS274",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RELS",
+          "number": "274"
+        },
+        {
+          "id": "note-9",
+          "label": "Three courses in two or more geographical, chronological, or cultural sub-areas 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Three courses in two or more geographical, chronological, or cultural sub-areas 9"
+        },
+        {
+          "id": "course-10",
+          "label": "HIST120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "120"
+        },
+        {
+          "id": "course-11",
+          "label": "RELS264",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RELS",
+          "number": "264"
+        },
+        {
+          "id": "course-12",
+          "label": "JWST225",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "225"
+        },
+        {
+          "id": "course-13",
+          "label": "JWST231",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "231"
+        },
+        {
+          "id": "course-14",
+          "label": "JWST262",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "262"
+        },
+        {
+          "id": "note-15",
+          "label": "Electives (four must be at the upper level) 1 15",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives (four must be at the upper level) 1 15"
+        },
+        {
+          "id": "course-16",
+          "label": "CLAS305",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CLAS",
+          "number": "305"
+        },
+        {
+          "id": "course-17",
+          "label": "HIST110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "110"
+        },
+        {
+          "id": "course-18",
+          "label": "HIST320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "320"
+        },
+        {
+          "id": "course-19",
+          "label": "HIST428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "428"
+        },
+        {
+          "id": "course-20",
+          "label": "JWST324",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "324"
+        },
+        {
+          "id": "course-21",
+          "label": "JWST325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "325"
+        },
+        {
+          "id": "course-22",
+          "label": "JWST326",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "326"
+        },
+        {
+          "id": "course-23",
+          "label": "JWST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "430"
+        },
+        {
+          "id": "course-24",
+          "label": "JWST468",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "468"
+        },
+        {
+          "id": "course-25",
+          "label": "JWST469",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JWST",
+          "number": "469"
+        },
+        {
+          "id": "note-26",
+          "label": "Capstone 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Capstone 3"
+        },
+        {
+          "id": "course-27",
+          "label": "RELS408",
+          "nodeType": "course",
+          "children": [],
+          "subject": "RELS",
+          "number": "408"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundations"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "One approved Big Question course 3"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "230"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RELS",
+          "number": "271"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RELS",
+          "number": "273"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RELS",
+          "number": "274"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Three courses in two or more geographical, chronological, or cultural sub-areas 9"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "120"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RELS",
+          "number": "264"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "225"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "231"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "262"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives (four must be at the upper level) 1 15"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CLAS",
+          "number": "305"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "110"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "320"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "428"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "324"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "325"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "326"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "430"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "468"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JWST",
+          "number": "469"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Capstone 3"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "RELS",
+          "number": "408"
+        },
+        "sortOrder": 26
+      }
+    ]
+  }
+}

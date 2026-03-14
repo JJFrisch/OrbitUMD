@@ -1,0 +1,804 @@
+{
+  "code": "entomology-minor",
+  "title": "Entomology Minor",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/entomology/entomology-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": null,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "BSCI337",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "337"
+        }
+      ]
+    },
+    {
+      "id": "block-4",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-5",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-6",
+          "label": "BSCI467",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "467"
+        },
+        {
+          "id": "course-7",
+          "label": "BSCI480",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "480"
+        },
+        {
+          "id": "course-8",
+          "label": "BSCI481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "481"
+        },
+        {
+          "id": "course-9",
+          "label": "BSCI483",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "483"
+        },
+        {
+          "id": "course-10",
+          "label": "BSCI487",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "487"
+        },
+        {
+          "id": "course-11",
+          "label": "BSCI494",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "494"
+        },
+        {
+          "id": "course-12",
+          "label": "BSCI497",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "497"
+        }
+      ]
+    },
+    {
+      "id": "block-13",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-14",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-15",
+          "label": "BSCI361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "361"
+        },
+        {
+          "id": "course-16",
+          "label": "BSCI363",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "363"
+        },
+        {
+          "id": "course-17",
+          "label": "BSCI370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "370"
+        },
+        {
+          "id": "course-18",
+          "label": "BSCI392",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "392"
+        },
+        {
+          "id": "course-19",
+          "label": "BSCI393",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "393"
+        },
+        {
+          "id": "course-20",
+          "label": "BSCI410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "410"
+        },
+        {
+          "id": "course-21",
+          "label": "BSCI430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "430"
+        }
+      ]
+    },
+    {
+      "id": "block-22",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-23",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-24",
+          "label": "BSCI121",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "121"
+        },
+        {
+          "id": "course-25",
+          "label": "BSCI126",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "126"
+        }
+      ]
+    },
+    {
+      "id": "block-26",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-27",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-28",
+          "label": "PLSC205",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "205"
+        },
+        {
+          "id": "course-29",
+          "label": "PLSC226",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "226"
+        },
+        {
+          "id": "course-30",
+          "label": "PLSC253",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "253"
+        },
+        {
+          "id": "course-31",
+          "label": "PLSC254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "254"
+        },
+        {
+          "id": "course-32",
+          "label": "PLSC405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "405"
+        },
+        {
+          "id": "course-33",
+          "label": "PLSC407",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "407"
+        },
+        {
+          "id": "course-34",
+          "label": "PLSC420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "420"
+        },
+        {
+          "id": "course-35",
+          "label": "PLSC453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLSC",
+          "number": "453"
+        }
+      ]
+    },
+    {
+      "id": "block-36",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-37",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-38",
+          "label": "ENST233",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "233"
+        },
+        {
+          "id": "course-39",
+          "label": "ENST333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "333"
+        },
+        {
+          "id": "course-40",
+          "label": "ENST334",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "334"
+        },
+        {
+          "id": "course-41",
+          "label": "ENST360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "360"
+        },
+        {
+          "id": "course-42",
+          "label": "ENST403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "403"
+        },
+        {
+          "id": "course-43",
+          "label": "ENST410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "410"
+        },
+        {
+          "id": "course-44",
+          "label": "ENST436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "436"
+        },
+        {
+          "id": "course-45",
+          "label": "ENST441",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "441"
+        },
+        {
+          "id": "course-46",
+          "label": "ENST445",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "445"
+        },
+        {
+          "id": "course-47",
+          "label": "ENST450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "450"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-4",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-13",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-22",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-26",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "block-36",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "337"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "467"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "480"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "481"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "483"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "487"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "494"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "497"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "361"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "363"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "370"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "392"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "393"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "410"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "430"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "121"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "126"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "205"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "226"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "253"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "254"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "405"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "407"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "420"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLSC",
+          "number": "453"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "233"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "333"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "334"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "360"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "403"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "410"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "436"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "441"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "445"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "450"
+        },
+        "sortOrder": 41
+      }
+    ]
+  }
+}

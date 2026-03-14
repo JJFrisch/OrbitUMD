@@ -1,0 +1,158 @@
+{
+  "code": "history-major",
+  "title": "History Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/history-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 39,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Introductory Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Introductory Courses"
+        },
+        {
+          "id": "course-5",
+          "label": "HIST208",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "208"
+        },
+        {
+          "id": "note-6",
+          "label": "Three courses at the 1xx or 2xx-level 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Three courses at the 1xx or 2xx-level 9"
+        },
+        {
+          "id": "note-7",
+          "label": "Electives 24",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives 24"
+        },
+        {
+          "id": "note-8",
+          "label": "Capstone",
+          "nodeType": "note",
+          "children": [],
+          "text": "Capstone"
+        },
+        {
+          "id": "course-9",
+          "label": "HIST408",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "408"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Introductory Courses"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "208"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Three courses at the 1xx or 2xx-level 9"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives 24"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Capstone"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "408"
+        },
+        "sortOrder": 8
+      }
+    ]
+  }
+}

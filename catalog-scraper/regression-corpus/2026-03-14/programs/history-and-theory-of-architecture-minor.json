@@ -1,0 +1,332 @@
+{
+  "code": "history-and-theory-of-architecture-minor",
+  "title": "History and Theory of Architecture Minor",
+  "college": "Architecture Planning Preservation",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/architecture-planning-preservation/history-theory-architecture-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Prerequisite Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Prerequisite Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "ARCH225",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "225"
+        },
+        {
+          "id": "course-5",
+          "label": "ARCH226",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "226"
+        },
+        {
+          "id": "note-6",
+          "label": "Topical History of Architecture Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Topical History of Architecture Courses 9"
+        },
+        {
+          "id": "course-7",
+          "label": "ARCH420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "420"
+        },
+        {
+          "id": "course-8",
+          "label": "ARCH422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "422"
+        },
+        {
+          "id": "course-9",
+          "label": "ARCH423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "423"
+        },
+        {
+          "id": "course-10",
+          "label": "ARCH428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "428"
+        },
+        {
+          "id": "course-11",
+          "label": "ARCH433",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "433"
+        },
+        {
+          "id": "course-12",
+          "label": "ARCH434",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "434"
+        },
+        {
+          "id": "course-13",
+          "label": "ARCH435",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "435"
+        },
+        {
+          "id": "note-14",
+          "label": "Architectural History/Theory Seminar 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Architectural History/Theory Seminar 1 6"
+        },
+        {
+          "id": "course-15",
+          "label": "ARCH427",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "427"
+        },
+        {
+          "id": "course-16",
+          "label": "ARCH428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "428"
+        },
+        {
+          "id": "course-17",
+          "label": "ARCH481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "481"
+        },
+        {
+          "id": "course-18",
+          "label": "ARCH482",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "482"
+        },
+        {
+          "id": "course-19",
+          "label": "ARCH483",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "483"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Prerequisite Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "225"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "226"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Topical History of Architecture Courses 9"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "420"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "422"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "423"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "428"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "433"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "434"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "435"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Architectural History/Theory Seminar 1 6"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "427"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "428"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "481"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "482"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "483"
+        },
+        "sortOrder": 18
+      }
+    ]
+  }
+}

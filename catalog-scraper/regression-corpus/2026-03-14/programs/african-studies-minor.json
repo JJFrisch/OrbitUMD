@@ -1,0 +1,581 @@
+{
+  "code": "african-studies-minor",
+  "title": "African Studies Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/african-american-africana-studies/african-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Foundational Course",
+          "nodeType": "note",
+          "children": [],
+          "text": "Foundational Course"
+        },
+        {
+          "id": "course-4",
+          "label": "AASP200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "200"
+        },
+        {
+          "id": "note-5",
+          "label": "Courses of Choice (two must be at the upper level)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Courses of Choice (two must be at the upper level)"
+        },
+        {
+          "id": "note-6",
+          "label": "Area 1: History, Culture, and Language (2 courses) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Area 1: History, Culture, and Language (2 courses) 6"
+        },
+        {
+          "id": "course-7",
+          "label": "AASP310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "310"
+        },
+        {
+          "id": "course-8",
+          "label": "AASP361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "361"
+        },
+        {
+          "id": "course-9",
+          "label": "AASP362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "362"
+        },
+        {
+          "id": "course-10",
+          "label": "AASP461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "461"
+        },
+        {
+          "id": "course-11",
+          "label": "CMLT235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMLT",
+          "number": "235"
+        },
+        {
+          "id": "course-12",
+          "label": "ENGL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "360"
+        },
+        {
+          "id": "course-13",
+          "label": "ENGL368",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "368"
+        },
+        {
+          "id": "course-14",
+          "label": "HIST254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "254"
+        },
+        {
+          "id": "course-15",
+          "label": "HIST310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "310"
+        },
+        {
+          "id": "course-16",
+          "label": "HIST319",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "319"
+        },
+        {
+          "id": "course-17",
+          "label": "HIST428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "428"
+        },
+        {
+          "id": "note-18",
+          "label": "LANGUAGE Any approved African language course 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "LANGUAGE Any approved African language course 1"
+        },
+        {
+          "id": "note-19",
+          "label": "Area 2: Politics, Society, and Development (2 courses) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Area 2: Politics, Society, and Development (2 courses) 6"
+        },
+        {
+          "id": "course-20",
+          "label": "AASP189I",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "189I"
+        },
+        {
+          "id": "course-21",
+          "label": "AASP360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "360"
+        },
+        {
+          "id": "course-22",
+          "label": "AASP370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "370"
+        },
+        {
+          "id": "course-23",
+          "label": "AASP462",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "462"
+        },
+        {
+          "id": "course-24",
+          "label": "AASP463",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "463"
+        },
+        {
+          "id": "course-25",
+          "label": "AASP482",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "482"
+        },
+        {
+          "id": "course-26",
+          "label": "AREC365",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "365"
+        },
+        {
+          "id": "course-27",
+          "label": "ECON315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "315"
+        },
+        {
+          "id": "course-28",
+          "label": "GEOG130",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "130"
+        },
+        {
+          "id": "course-29",
+          "label": "GEOG422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOG",
+          "number": "422"
+        },
+        {
+          "id": "course-30",
+          "label": "GVPT282",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "282"
+        },
+        {
+          "id": "note-31",
+          "label": "Capstone Course (optional)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Capstone Course (optional)"
+        },
+        {
+          "id": "course-32",
+          "label": "AASP400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "400"
+        },
+        {
+          "id": "course-33",
+          "label": "AASP401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "401"
+        },
+        {
+          "id": "course-34",
+          "label": "AASP468",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "468"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundational Course"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "200"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Courses of Choice (two must be at the upper level)"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Area 1: History, Culture, and Language (2 courses) 6"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "310"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "361"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "362"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "461"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMLT",
+          "number": "235"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "360"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "368"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "254"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "310"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "319"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "428"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "LANGUAGE Any approved African language course 1"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Area 2: Politics, Society, and Development (2 courses) 6"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "189I"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "360"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "370"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "462"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "463"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "482"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "365"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "315"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "130"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "422"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "282"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Capstone Course (optional)"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "400"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "401"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "468"
+        },
+        "sortOrder": 33
+      }
+    ]
+  }
+}

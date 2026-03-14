@@ -1,0 +1,685 @@
+{
+  "code": "paleobiology-minor-entm",
+  "title": "Paleobiology Minor (ENTM)",
+  "college": "Computer Mathematical Natural Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/entomology/paleobiology-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 24,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Fundamental Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Fundamental Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "BSCI160",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "160"
+        },
+        {
+          "id": "course-5",
+          "label": "BSCI161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "161"
+        }
+      ]
+    },
+    {
+      "id": "block-6",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-7",
+          "label": "GEOL100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "100"
+        },
+        {
+          "id": "course-8",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "course-9",
+          "label": "GEOL120",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "120"
+        },
+        {
+          "id": "course-10",
+          "label": "GEOL110",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "110"
+        },
+        {
+          "id": "note-11",
+          "label": "Introductory Life History or Organismal Biology",
+          "nodeType": "note",
+          "children": [],
+          "text": "Introductory Life History or Organismal Biology"
+        }
+      ]
+    },
+    {
+      "id": "block-12",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-13",
+          "label": "GEOL102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "102"
+        },
+        {
+          "id": "course-14",
+          "label": "GEOL104",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "104"
+        },
+        {
+          "id": "course-15",
+          "label": "GEOL204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "204"
+        },
+        {
+          "id": "course-16",
+          "label": "BSCI207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "207"
+        },
+        {
+          "id": "course-17",
+          "label": "BSCI222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "222"
+        },
+        {
+          "id": "note-18",
+          "label": "Upper-Level Paleobiology",
+          "nodeType": "note",
+          "children": [],
+          "text": "Upper-Level Paleobiology"
+        }
+      ]
+    },
+    {
+      "id": "block-19",
+      "label": "One of the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-20",
+          "label": "BSCI333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "333"
+        },
+        {
+          "id": "course-21",
+          "label": "GEOL331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "331"
+        },
+        {
+          "id": "course-22",
+          "label": "BSCI392",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "392"
+        },
+        {
+          "id": "course-23",
+          "label": "BSCI393",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "393"
+        },
+        {
+          "id": "note-24",
+          "label": "Electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives"
+        }
+      ]
+    },
+    {
+      "id": "block-25",
+      "label": "Two courses (one from Biology and one from Geology) selected from the following",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-26",
+          "label": "BSCI333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "333"
+        },
+        {
+          "id": "course-27",
+          "label": "GEOL331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "331"
+        },
+        {
+          "id": "course-28",
+          "label": "BSCI334",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "334"
+        },
+        {
+          "id": "course-29",
+          "label": "BSCI361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "361"
+        },
+        {
+          "id": "course-30",
+          "label": "BSCI363",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "363"
+        },
+        {
+          "id": "course-31",
+          "label": "BSCI392",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "392"
+        },
+        {
+          "id": "course-32",
+          "label": "BSCI393",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "393"
+        },
+        {
+          "id": "course-33",
+          "label": "BSCI370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "370"
+        },
+        {
+          "id": "course-34",
+          "label": "BSCI399",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BSCI",
+          "number": "399"
+        },
+        {
+          "id": "course-35",
+          "label": "GEOL342",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "342"
+        },
+        {
+          "id": "course-36",
+          "label": "GEOL431",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "431"
+        },
+        {
+          "id": "course-37",
+          "label": "GEOL436",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "436"
+        },
+        {
+          "id": "course-38",
+          "label": "GEOL437",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "437"
+        },
+        {
+          "id": "course-39",
+          "label": "GEOL499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GEOL",
+          "number": "499"
+        },
+        {
+          "id": "note-40",
+          "label": "Or another appropriate biology or geology course approved in advance by the Entomology or Geology advisor",
+          "nodeType": "note",
+          "children": [],
+          "text": "Or another appropriate biology or geology course approved in advance by the Entomology or Geology advisor"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-6",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-12",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "One of the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-25",
+        "humanLabel": "Two courses (one from Biology and one from Geology) selected from the following",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Fundamental Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "160"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "161"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "100"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "120"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "110"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Introductory Life History or Organismal Biology"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "102"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "104"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "204"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "207"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "222"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Upper-Level Paleobiology"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "333"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "331"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "392"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "393"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "333"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "331"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "334"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "361"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "363"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "392"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "393"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "370"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BSCI",
+          "number": "399"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "342"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "431"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "436"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "437"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOL",
+          "number": "499"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Or another appropriate biology or geology course approved in advance by the Entomology or Geology advisor"
+        },
+        "sortOrder": 35
+      }
+    ]
+  }
+}

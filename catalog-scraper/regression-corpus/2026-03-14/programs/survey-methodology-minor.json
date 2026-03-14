@@ -1,0 +1,1079 @@
+{
+  "code": "survey-methodology-minor",
+  "title": "Survey Methodology Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/survey-methodology-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 19,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Statistics and Research Methods (6-8 credits) 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Statistics and Research Methods (6-8 credits) 1"
+        },
+        {
+          "id": "choice-4",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-5",
+              "label": "BIOM301",
+              "nodeType": "course",
+              "children": [],
+              "subject": "BIOM",
+              "number": "301"
+            },
+            {
+              "id": "course-6",
+              "label": "CCJS200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "CCJS",
+              "number": "200"
+            },
+            {
+              "id": "course-7",
+              "label": "ECON230",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "230"
+            },
+            {
+              "id": "course-8",
+              "label": "ECON321",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "321"
+            },
+            {
+              "id": "course-9",
+              "label": "EDMS451",
+              "nodeType": "course",
+              "children": [],
+              "subject": "EDMS",
+              "number": "451"
+            },
+            {
+              "id": "course-10",
+              "label": "GVPT422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "GVPT",
+              "number": "422"
+            },
+            {
+              "id": "course-11",
+              "label": "PSYC200",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "200"
+            },
+            {
+              "id": "course-12",
+              "label": "SOCY201",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "201"
+            },
+            {
+              "id": "course-13",
+              "label": "STAT400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "400"
+            },
+            {
+              "id": "course-14",
+              "label": "STAT410",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "410"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-15",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-16",
+              "label": "AREC422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "AREC",
+              "number": "422"
+            },
+            {
+              "id": "course-17",
+              "label": "ECON422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "422"
+            },
+            {
+              "id": "course-18",
+              "label": "ECON424",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ECON",
+              "number": "424"
+            },
+            {
+              "id": "course-19",
+              "label": "SOCY401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SOCY",
+              "number": "401"
+            },
+            {
+              "id": "course-20",
+              "label": "STAT401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "401"
+            },
+            {
+              "id": "course-21",
+              "label": "PSYC300",
+              "nodeType": "course",
+              "children": [],
+              "subject": "PSYC",
+              "number": "300"
+            },
+            {
+              "id": "course-22",
+              "label": "STAT420",
+              "nodeType": "course",
+              "children": [],
+              "subject": "STAT",
+              "number": "420"
+            },
+            {
+              "id": "course-24",
+              "label": "SURV400",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SURV",
+              "number": "400"
+            },
+            {
+              "id": "course-25",
+              "label": "SURV630",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SURV",
+              "number": "630"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-23",
+          "label": "Core Course in Survey Methodology (6 credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Course in Survey Methodology (6 credits)"
+        },
+        {
+          "id": "note-26",
+          "label": "Additional Survey Methodology Courses (4-5 credits) 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Additional Survey Methodology Courses (4-5 credits) 3"
+        },
+        {
+          "id": "choice-27",
+          "label": "Select one of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-28",
+              "label": "SURV621",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SURV",
+              "number": "621"
+            },
+            {
+              "id": "course-29",
+              "label": "SURV632",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SURV",
+              "number": "632"
+            },
+            {
+              "id": "course-30",
+              "label": "SURV625",
+              "nodeType": "course",
+              "children": [],
+              "subject": "SURV",
+              "number": "625"
+            },
+            {
+              "id": "course-31",
+              "label": "ANY600",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ANY",
+              "number": "600"
+            }
+          ],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-4",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-5",
+          "label": "BIOM301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "BIOM",
+          "number": "301"
+        },
+        {
+          "id": "course-6",
+          "label": "CCJS200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "200"
+        },
+        {
+          "id": "course-7",
+          "label": "ECON230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "230"
+        },
+        {
+          "id": "course-8",
+          "label": "ECON321",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "321"
+        },
+        {
+          "id": "course-9",
+          "label": "EDMS451",
+          "nodeType": "course",
+          "children": [],
+          "subject": "EDMS",
+          "number": "451"
+        },
+        {
+          "id": "course-10",
+          "label": "GVPT422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GVPT",
+          "number": "422"
+        },
+        {
+          "id": "course-11",
+          "label": "PSYC200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "200"
+        },
+        {
+          "id": "course-12",
+          "label": "SOCY201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "201"
+        },
+        {
+          "id": "course-13",
+          "label": "STAT400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "400"
+        },
+        {
+          "id": "course-14",
+          "label": "STAT410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "410"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-15",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-16",
+          "label": "AREC422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AREC",
+          "number": "422"
+        },
+        {
+          "id": "course-17",
+          "label": "ECON422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "422"
+        },
+        {
+          "id": "course-18",
+          "label": "ECON424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ECON",
+          "number": "424"
+        },
+        {
+          "id": "course-19",
+          "label": "SOCY401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "401"
+        },
+        {
+          "id": "course-20",
+          "label": "STAT401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "401"
+        },
+        {
+          "id": "course-21",
+          "label": "PSYC300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "300"
+        },
+        {
+          "id": "course-22",
+          "label": "STAT420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "STAT",
+          "number": "420"
+        },
+        {
+          "id": "course-24",
+          "label": "SURV400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "400"
+        },
+        {
+          "id": "course-25",
+          "label": "SURV630",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "630"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-27",
+      "label": "Select one of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-28",
+          "label": "SURV621",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "621"
+        },
+        {
+          "id": "course-29",
+          "label": "SURV632",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "632"
+        },
+        {
+          "id": "course-30",
+          "label": "SURV625",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "625"
+        },
+        {
+          "id": "course-31",
+          "label": "ANY600",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANY",
+          "number": "600"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-32",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-33",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-34",
+          "label": "SURV621",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "621"
+        },
+        {
+          "id": "course-35",
+          "label": "SURV632",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "632"
+        },
+        {
+          "id": "course-36",
+          "label": "SURV625",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SURV",
+          "number": "625"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-27",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-27",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "block-32",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Statistics and Research Methods (6-8 credits) 1"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "200"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "230"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "422"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "400"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "410"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "422"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "422"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "424"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "401"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "401"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "300"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "420"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "400"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "630"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Course in Survey Methodology (6 credits)"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Additional Survey Methodology Courses (4-5 credits) 3"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "621"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "632"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "625"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANY",
+          "number": "600"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "BIOM",
+          "number": "301"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "200"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "230"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "321"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDMS",
+          "number": "451"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "422"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "200"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "201"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "400"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "410"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AREC",
+          "number": "422"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "422"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "424"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "401"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "401"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "300"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "420"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "400"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "630"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "621"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "632"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "625"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANY",
+          "number": "600"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "621"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "632"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SURV",
+          "number": "625"
+        },
+        "sortOrder": 54
+      }
+    ]
+  }
+}

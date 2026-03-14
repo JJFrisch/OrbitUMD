@@ -1,0 +1,439 @@
+{
+  "code": "criminal-justice-minor-at-shady-grove",
+  "title": "Criminal Justice Minor at Shady Grove",
+  "college": "Universities Shady Grove",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/universities-shady-grove/behavioral-social-sciences/criminal-justice-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 18,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Introductory Course 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "Introductory Course 3"
+        },
+        {
+          "id": "course-4",
+          "label": "CCJS100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "100"
+        },
+        {
+          "id": "course-5",
+          "label": "CCJS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "301"
+        }
+      ]
+    },
+    {
+      "id": "choice-6",
+      "label": "Criminal Justice Requirement (Select 2)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-7",
+          "label": "CCJS340",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "340"
+        },
+        {
+          "id": "course-8",
+          "label": "CCJS342",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "342"
+        },
+        {
+          "id": "course-9",
+          "label": "CCJS345",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "345"
+        },
+        {
+          "id": "note-10",
+          "label": "Elective Courses 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses 9"
+        },
+        {
+          "id": "course-11",
+          "label": "CCJS310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "310"
+        },
+        {
+          "id": "course-12",
+          "label": "CCJS325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "325"
+        },
+        {
+          "id": "course-13",
+          "label": "CCJS330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "330"
+        },
+        {
+          "id": "course-14",
+          "label": "CCJS331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "331"
+        },
+        {
+          "id": "course-15",
+          "label": "CCJS346",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "346"
+        },
+        {
+          "id": "course-16",
+          "label": "CCJS352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "352"
+        },
+        {
+          "id": "course-17",
+          "label": "CCJS358",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "358"
+        },
+        {
+          "id": "course-18",
+          "label": "CCJS360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "360"
+        },
+        {
+          "id": "course-19",
+          "label": "CCJS370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "370"
+        },
+        {
+          "id": "course-20",
+          "label": "CCJS418",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "418"
+        },
+        {
+          "id": "course-21",
+          "label": "CCJS432",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "432"
+        },
+        {
+          "id": "course-22",
+          "label": "CCJS440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "440"
+        },
+        {
+          "id": "course-23",
+          "label": "CCJS453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "453"
+        },
+        {
+          "id": "course-24",
+          "label": "CCJS461",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "461"
+        },
+        {
+          "id": "course-25",
+          "label": "CCJS498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "498"
+        }
+      ],
+      "minCount": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-6",
+        "humanLabel": "Criminal Justice Requirement (Select 2)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Introductory Course 3"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "100"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "301"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "340"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "342"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "345"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses 9"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "310"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "325"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "330"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "331"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "346"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "352"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "358"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "360"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "370"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "418"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "432"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "440"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "453"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "461"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "498"
+        },
+        "sortOrder": 23
+      }
+    ]
+  }
+}

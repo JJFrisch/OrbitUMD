@@ -1,0 +1,128 @@
+{
+  "code": "science-technology-ethics-and-policy-minor-plcy",
+  "title": "Science, Technology, Ethics and Policy Minor (PLCY)",
+  "college": "Public Policy",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-policy/science-technology-ethics-policy-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses (2 classes) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses (2 classes) 6"
+        },
+        {
+          "id": "course-4",
+          "label": "ENES240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "240"
+        },
+        {
+          "id": "course-5",
+          "label": "ENES440",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "440"
+        },
+        {
+          "id": "note-6",
+          "label": "Electives (3 classes) 9",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives (3 classes) 9"
+        },
+        {
+          "id": "note-7",
+          "label": "For a comprehensive list of electives see website. 2",
+          "nodeType": "note",
+          "children": [],
+          "text": "For a comprehensive list of electives see website. 2"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses (2 classes) 6"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "240"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "440"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives (3 classes) 9"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "For a comprehensive list of electives see website. 2"
+        },
+        "sortOrder": 6
+      }
+    ]
+  }
+}

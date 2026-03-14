@@ -1,0 +1,815 @@
+{
+  "code": "romance-languages-major",
+  "title": "Romance Languages Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/romance-languages/romance-languages-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 45,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Language Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "Language Requirements"
+        },
+        {
+          "id": "choice-5",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        },
+        {
+          "id": "note-6",
+          "label": "French",
+          "nodeType": "note",
+          "children": [],
+          "text": "French"
+        },
+        {
+          "id": "note-7",
+          "label": "Italian",
+          "nodeType": "note",
+          "children": [],
+          "text": "Italian"
+        },
+        {
+          "id": "note-8",
+          "label": "Spanish",
+          "nodeType": "note",
+          "children": [],
+          "text": "Spanish"
+        },
+        {
+          "id": "note-9",
+          "label": "Additional Requirement for ROML Majors",
+          "nodeType": "note",
+          "children": [],
+          "text": "Additional Requirement for ROML Majors"
+        },
+        {
+          "id": "note-10",
+          "label": "One additional course at the 4xx level in one of the two languages 3",
+          "nodeType": "note",
+          "children": [],
+          "text": "One additional course at the 4xx level in one of the two languages 3"
+        }
+      ]
+    },
+    {
+      "id": "block-11",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-12",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-13",
+          "label": "FREN204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "204"
+        },
+        {
+          "id": "course-14",
+          "label": "FREN250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "250"
+        },
+        {
+          "id": "course-15",
+          "label": "FREN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "301"
+        },
+        {
+          "id": "course-16",
+          "label": "FREN351",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "351"
+        },
+        {
+          "id": "course-17",
+          "label": "FREN352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "352"
+        },
+        {
+          "id": "note-18",
+          "label": "FREN4xx Two additional literature or civilization courses at the 4xx level",
+          "nodeType": "note",
+          "children": [],
+          "text": "FREN4xx Two additional literature or civilization courses at the 4xx level"
+        }
+      ]
+    },
+    {
+      "id": "block-19",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-20",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-21",
+          "label": "ITAL207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "207"
+        },
+        {
+          "id": "course-22",
+          "label": "ITAL301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "301"
+        },
+        {
+          "id": "choice-23",
+          "label": "Select one additional course at the 3xx level in literature or culture",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-24",
+              "label": "ITAL351",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ITAL",
+              "number": "351"
+            },
+            {
+              "id": "course-25",
+              "label": "ITAL352",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ITAL",
+              "number": "352"
+            },
+            {
+              "id": "course-26",
+              "label": "ITAL361",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ITAL",
+              "number": "361"
+            },
+            {
+              "id": "course-27",
+              "label": "ITAL362",
+              "nodeType": "course",
+              "children": [],
+              "subject": "ITAL",
+              "number": "362"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "note-28",
+          "label": "ITAL4xx Three additional literature or civilization courses at the 4xx level with 1 credit colloquium",
+          "nodeType": "note",
+          "children": [],
+          "text": "ITAL4xx Three additional literature or civilization courses at the 4xx level with 1 credit colloquium"
+        }
+      ]
+    },
+    {
+      "id": "choice-23",
+      "label": "Select one additional course at the 3xx level in literature or culture",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-24",
+          "label": "ITAL351",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "351"
+        },
+        {
+          "id": "course-25",
+          "label": "ITAL352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "352"
+        },
+        {
+          "id": "course-26",
+          "label": "ITAL361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "361"
+        },
+        {
+          "id": "course-27",
+          "label": "ITAL362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ITAL",
+          "number": "362"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-29",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-30",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-31",
+          "label": "SPAN207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "207"
+        },
+        {
+          "id": "course-32",
+          "label": "SPAN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "301"
+        },
+        {
+          "id": "course-33",
+          "label": "SPAN303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "303"
+        },
+        {
+          "id": "choice-34",
+          "label": "Select two courses from one of the following options",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "block-35",
+      "label": "Option I",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-36",
+          "label": "SPAN331",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "331"
+        },
+        {
+          "id": "course-37",
+          "label": "SPAN332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "332"
+        },
+        {
+          "id": "course-38",
+          "label": "SPAN333",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "333"
+        }
+      ]
+    },
+    {
+      "id": "block-39",
+      "label": "Option II",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-40",
+          "label": "SPAN361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "361"
+        },
+        {
+          "id": "course-41",
+          "label": "SPAN362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "362"
+        },
+        {
+          "id": "course-42",
+          "label": "SPAN363",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SPAN",
+          "number": "363"
+        },
+        {
+          "id": "note-43",
+          "label": "SPAN4xx Two literature or civilization courses at the 4xx level.",
+          "nodeType": "note",
+          "children": [],
+          "text": "SPAN4xx Two literature or civilization courses at the 4xx level."
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-11",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-19",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-4",
+        "sourceNodeId": "choice-23",
+        "humanLabel": "Select one additional course at the 3xx level in literature or culture",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-23",
+        "humanLabel": "Select one additional course at the 3xx level in literature or culture",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "block-29",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": "blk-7",
+        "sourceNodeId": "choice-34",
+        "humanLabel": "Select two courses from one of the following options",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-9",
+        "parentTempId": null,
+        "sourceNodeId": "block-35",
+        "humanLabel": "Option I",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 9,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": null,
+        "sourceNodeId": "block-39",
+        "humanLabel": "Option II",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Language Requirements"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "French"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Italian"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Spanish"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Additional Requirement for ROML Majors"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "One additional course at the 4xx level in one of the two languages 3"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "204"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "250"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "301"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "351"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "352"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "FREN4xx Two additional literature or civilization courses at the 4xx level"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "207"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "301"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "351"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "352"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "361"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "362"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ITAL4xx Three additional literature or civilization courses at the 4xx level with 1 credit colloquium"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "351"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "352"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "361"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ITAL",
+          "number": "362"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "207"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "301"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "303"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "331"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "332"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "333"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "361"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "362"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "363"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "SPAN4xx Two literature or civilization courses at the 4xx level."
+        },
+        "sortOrder": 38
+      }
+    ]
+  }
+}

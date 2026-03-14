@@ -1,0 +1,321 @@
+{
+  "code": "soil-science-minor",
+  "title": "Soil Science Minor",
+  "college": "Agriculture Natural Resources",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/environmental-science-technology/soil-science-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 17,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core Requirement",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Requirement"
+        },
+        {
+          "id": "course-4",
+          "label": "ENST200",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "200"
+        },
+        {
+          "id": "choice-5",
+          "label": "Select 13 credits from Group A and Group B. At least two courses must be from Group A.",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 13
+        }
+      ]
+    },
+    {
+      "id": "block-6",
+      "label": "Group A - Underlying Principles",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-7",
+          "label": "ENST411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "411"
+        },
+        {
+          "id": "course-8",
+          "label": "ENST414",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "414"
+        },
+        {
+          "id": "course-9",
+          "label": "ENST417",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "417"
+        },
+        {
+          "id": "course-10",
+          "label": "ENST421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "421"
+        },
+        {
+          "id": "course-11",
+          "label": "ENST422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "422"
+        }
+      ]
+    },
+    {
+      "id": "block-12",
+      "label": "Group B - Applications",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-13",
+          "label": "ENST301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "301"
+        },
+        {
+          "id": "course-14",
+          "label": "ENST302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "302"
+        },
+        {
+          "id": "course-15",
+          "label": "ENST303",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "303"
+        },
+        {
+          "id": "course-16",
+          "label": "ENST309",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "309"
+        },
+        {
+          "id": "course-17",
+          "label": "ENST423",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "423"
+        },
+        {
+          "id": "course-18",
+          "label": "ENST430",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENST",
+          "number": "430"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-5",
+        "humanLabel": "Select 13 credits from Group A and Group B. At least two courses must be from Group A.",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 13
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-6",
+        "humanLabel": "Group A - Underlying Principles",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-12",
+        "humanLabel": "Group B - Applications",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Requirement"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "200"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "411"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "414"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "417"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "421"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "422"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "301"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "302"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "303"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "309"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "423"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENST",
+          "number": "430"
+        },
+        "sortOrder": 14
+      }
+    ]
+  }
+}

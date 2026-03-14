@@ -1,0 +1,498 @@
+{
+  "code": "arabic-studies-major",
+  "title": "Arabic Studies Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/arabic-studies/arabic-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 36,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Core Language Sequence (18 Credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Language Sequence (18 Credits)"
+        },
+        {
+          "id": "course-5",
+          "label": "ARAB101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "101"
+        },
+        {
+          "id": "course-6",
+          "label": "ARAB102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "102"
+        },
+        {
+          "id": "course-7",
+          "label": "ARAB201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "201"
+        },
+        {
+          "id": "course-8",
+          "label": "ARAB202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "202"
+        },
+        {
+          "id": "course-9",
+          "label": "ARAB301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "301"
+        },
+        {
+          "id": "course-10",
+          "label": "ARAB302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "302"
+        },
+        {
+          "id": "note-11",
+          "label": "Elective Credits (see below for details) 18",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Credits (see below for details) 18"
+        }
+      ]
+    },
+    {
+      "id": "block-12",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-13",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-14",
+          "label": "ARAB190",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "190"
+        },
+        {
+          "id": "course-15",
+          "label": "ARAB317",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "317"
+        },
+        {
+          "id": "course-16",
+          "label": "ARAB222",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "222"
+        },
+        {
+          "id": "course-17",
+          "label": "ARAB322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "322"
+        },
+        {
+          "id": "course-18",
+          "label": "ARAB225",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "225"
+        },
+        {
+          "id": "course-19",
+          "label": "ARAB325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "325"
+        }
+      ]
+    },
+    {
+      "id": "block-20",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-21",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-22",
+          "label": "ARAB206",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "206"
+        },
+        {
+          "id": "course-23",
+          "label": "ARAB207",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "207"
+        },
+        {
+          "id": "course-24",
+          "label": "ARAB250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "250"
+        },
+        {
+          "id": "course-25",
+          "label": "ARAB398",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "398"
+        },
+        {
+          "id": "course-26",
+          "label": "ARAB401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "401"
+        },
+        {
+          "id": "course-27",
+          "label": "ARAB410",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "410"
+        },
+        {
+          "id": "course-28",
+          "label": "ARAB499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "499"
+        },
+        {
+          "id": "course-29",
+          "label": "ARAB386",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARAB",
+          "number": "386"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-12",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-20",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Language Sequence (18 Credits)"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "101"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "102"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "202"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "301"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "302"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Credits (see below for details) 18"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "190"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "317"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "222"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "322"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "225"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "325"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "206"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "207"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "250"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "398"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "401"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "410"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "499"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARAB",
+          "number": "386"
+        },
+        "sortOrder": 26
+      }
+    ]
+  }
+}

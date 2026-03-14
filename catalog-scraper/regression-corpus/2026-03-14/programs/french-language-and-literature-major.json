@@ -1,0 +1,429 @@
+{
+  "code": "french-language-and-literature-major",
+  "title": "French Language and Literature Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/french-language-literature/french-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 36,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "course-4",
+          "label": "FREN204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "204"
+        },
+        {
+          "id": "course-5",
+          "label": "FREN250",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "250"
+        },
+        {
+          "id": "course-6",
+          "label": "FREN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "301"
+        },
+        {
+          "id": "course-7",
+          "label": "FREN387",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "387"
+        },
+        {
+          "id": "choice-8",
+          "label": "Select two of the following",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-9",
+              "label": "FREN302",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "302"
+            },
+            {
+              "id": "course-10",
+              "label": "FREN306",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "306"
+            },
+            {
+              "id": "course-11",
+              "label": "FREN312",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "312"
+            },
+            {
+              "id": "course-12",
+              "label": "FREN313",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "313"
+            },
+            {
+              "id": "course-13",
+              "label": "FREN399",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "399"
+            },
+            {
+              "id": "course-14",
+              "label": "FREN351",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "351"
+            },
+            {
+              "id": "course-15",
+              "label": "FREN352",
+              "nodeType": "course",
+              "children": [],
+              "subject": "FREN",
+              "number": "352"
+            }
+          ],
+          "minCount": 2
+        },
+        {
+          "id": "choice-16",
+          "label": "Select four additional FREN4xx level courses in literature, linguistics, film, and culture, of which only one may be in English. FREN387 must be completed before any FREN4xx level course offered in French.",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 4
+        }
+      ]
+    },
+    {
+      "id": "choice-8",
+      "label": "Select two of the following",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-9",
+          "label": "FREN302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "302"
+        },
+        {
+          "id": "course-10",
+          "label": "FREN306",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "306"
+        },
+        {
+          "id": "course-11",
+          "label": "FREN312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "312"
+        },
+        {
+          "id": "course-12",
+          "label": "FREN313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "313"
+        },
+        {
+          "id": "course-13",
+          "label": "FREN399",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "399"
+        },
+        {
+          "id": "course-14",
+          "label": "FREN351",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "351"
+        },
+        {
+          "id": "course-15",
+          "label": "FREN352",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FREN",
+          "number": "352"
+        }
+      ],
+      "minCount": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-16",
+        "humanLabel": "Select four additional FREN4xx level courses in literature, linguistics, film, and culture, of which only one may be in English. FREN387 must be completed before any FREN4xx level course offered in French.",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-8",
+        "humanLabel": "Select two of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "204"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "250"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "301"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "387"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "302"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "306"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "312"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "313"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "399"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "351"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "352"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "302"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "306"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "312"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "313"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "399"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "351"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FREN",
+          "number": "352"
+        },
+        "sortOrder": 20
+      }
+    ]
+  }
+}

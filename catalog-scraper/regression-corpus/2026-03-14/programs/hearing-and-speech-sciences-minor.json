@@ -1,0 +1,356 @@
+{
+  "code": "hearing-and-speech-sciences-minor",
+  "title": "Hearing and Speech Sciences Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/hearing-speech-sciences/hearing-speech-sciences-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 21,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Required Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "HESP202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "202"
+        },
+        {
+          "id": "course-5",
+          "label": "HESP300",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "300"
+        },
+        {
+          "id": "course-6",
+          "label": "HESP400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "400"
+        },
+        {
+          "id": "course-7",
+          "label": "HESP403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "403"
+        },
+        {
+          "id": "course-8",
+          "label": "HESP407",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "407"
+        },
+        {
+          "id": "note-9",
+          "label": "Elective Area",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Area"
+        },
+        {
+          "id": "choice-10",
+          "label": "Select two courses in one of the two following elective areas",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 2
+        }
+      ]
+    },
+    {
+      "id": "block-11",
+      "label": "Elective Option 1 (Speech-Language Pathology Focus)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-12",
+          "label": "HESP305",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "305"
+        }
+      ]
+    },
+    {
+      "id": "choice-13",
+      "label": "In addition to HESP305, select one of the following Disorder classes",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-14",
+          "label": "HESP402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "402"
+        },
+        {
+          "id": "course-15",
+          "label": "HESP404",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "404"
+        },
+        {
+          "id": "course-16",
+          "label": "HESP406",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "406"
+        },
+        {
+          "id": "course-17",
+          "label": "HESP498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "498"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "block-18",
+      "label": "Elective Option 2 (Audiology focus)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-19",
+          "label": "HESP311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "311"
+        },
+        {
+          "id": "course-20",
+          "label": "HESP411",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESP",
+          "number": "411"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-10",
+        "humanLabel": "Select two courses in one of the two following elective areas",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-11",
+        "humanLabel": "Elective Option 1 (Speech-Language Pathology Focus)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "choice-13",
+        "humanLabel": "In addition to HESP305, select one of the following Disorder classes",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-18",
+        "humanLabel": "Elective Option 2 (Audiology focus)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "202"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "300"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "400"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "403"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "407"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Area"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "305"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "402"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "404"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "406"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "498"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "311"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESP",
+          "number": "411"
+        },
+        "sortOrder": 15
+      }
+    ]
+  }
+}

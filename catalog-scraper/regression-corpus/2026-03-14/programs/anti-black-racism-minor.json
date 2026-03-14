@@ -1,0 +1,1619 @@
+{
+  "code": "anti-black-racism-minor",
+  "title": "Anti-Black Racism Minor",
+  "college": "Behavioral Social Sciences",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/african-american-africana-studies/anti-black-racism-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Core Courses",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Courses"
+        },
+        {
+          "id": "course-4",
+          "label": "ABRM330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ABRM",
+          "number": "330"
+        }
+      ]
+    },
+    {
+      "id": "block-5",
+      "label": "Track Course (See below for tracks)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "AMST310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "310"
+        },
+        {
+          "id": "course-7",
+          "label": "AASP101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "101"
+        },
+        {
+          "id": "course-8",
+          "label": "TLPL202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "202"
+        },
+        {
+          "id": "course-9",
+          "label": "HLTH460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "460"
+        },
+        {
+          "id": "course-10",
+          "label": "PLCY288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "288"
+        },
+        {
+          "id": "note-11",
+          "label": "Track Electives (See below for elective course list) 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Track Electives (See below for elective course list) 6"
+        },
+        {
+          "id": "course-12",
+          "label": "ABRM450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ABRM",
+          "number": "450"
+        }
+      ]
+    },
+    {
+      "id": "block-13",
+      "label": "Tracks (includes the track course and 6 credits of electives)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-14",
+          "label": "Arts and Humanities Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "Arts and Humanities Track"
+        },
+        {
+          "id": "course-15",
+          "label": "AMST310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "310"
+        },
+        {
+          "id": "note-16",
+          "label": "Elective Courses (6 credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses (6 credits)"
+        },
+        {
+          "id": "note-17",
+          "label": "Behavioral and Social Sciences Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "Behavioral and Social Sciences Track"
+        },
+        {
+          "id": "course-18",
+          "label": "AASP101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "101"
+        },
+        {
+          "id": "note-19",
+          "label": "Elective Courses (6 Credits) 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses (6 Credits) 1"
+        },
+        {
+          "id": "note-20",
+          "label": "Education Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "Education Track"
+        },
+        {
+          "id": "course-21",
+          "label": "TLPL202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "202"
+        },
+        {
+          "id": "note-22",
+          "label": "Elective Courses (6 Credits) 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses (6 Credits) 1"
+        },
+        {
+          "id": "note-23",
+          "label": "Public Policy Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "Public Policy Track"
+        },
+        {
+          "id": "course-24",
+          "label": "PLCY288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "288"
+        },
+        {
+          "id": "note-25",
+          "label": "Elective Courses (6 Credits) 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses (6 Credits) 1"
+        },
+        {
+          "id": "note-26",
+          "label": "Public Health Track",
+          "nodeType": "note",
+          "children": [],
+          "text": "Public Health Track"
+        },
+        {
+          "id": "course-27",
+          "label": "HLTH460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "460"
+        },
+        {
+          "id": "note-28",
+          "label": "Elective Courses (6 Credits)",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Courses (6 Credits)"
+        }
+      ]
+    },
+    {
+      "id": "block-29",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-30",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-31",
+          "label": "Elective Course List",
+          "nodeType": "note",
+          "children": [],
+          "text": "Elective Course List"
+        },
+        {
+          "id": "course-32",
+          "label": "AASP100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "100"
+        },
+        {
+          "id": "course-33",
+          "label": "AASP187",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "187"
+        },
+        {
+          "id": "course-34",
+          "label": "AASP202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "202"
+        },
+        {
+          "id": "course-35",
+          "label": "AASP210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "210"
+        },
+        {
+          "id": "course-36",
+          "label": "AASP211",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "211"
+        },
+        {
+          "id": "course-37",
+          "label": "AASP230",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "230"
+        },
+        {
+          "id": "course-38",
+          "label": "AASP298B",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "298B"
+        },
+        {
+          "id": "course-39",
+          "label": "AASP298L",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "298L"
+        },
+        {
+          "id": "course-40",
+          "label": "AASP298M",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "298M"
+        },
+        {
+          "id": "course-41",
+          "label": "AASP301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "301"
+        },
+        {
+          "id": "course-42",
+          "label": "AASP310",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "310"
+        },
+        {
+          "id": "course-43",
+          "label": "AASP313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "313"
+        },
+        {
+          "id": "course-44",
+          "label": "AASP320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "320"
+        },
+        {
+          "id": "course-45",
+          "label": "AASP377",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "377"
+        },
+        {
+          "id": "course-46",
+          "label": "AASP413",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "413"
+        },
+        {
+          "id": "course-47",
+          "label": "AASP443",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "443"
+        },
+        {
+          "id": "course-48",
+          "label": "AASP498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AASP",
+          "number": "498"
+        },
+        {
+          "id": "course-49",
+          "label": "AMST290",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "290"
+        },
+        {
+          "id": "course-50",
+          "label": "AMST328",
+          "nodeType": "course",
+          "children": [],
+          "subject": "AMST",
+          "number": "328"
+        },
+        {
+          "id": "course-51",
+          "label": "USLT320",
+          "nodeType": "course",
+          "children": [],
+          "subject": "USLT",
+          "number": "320"
+        },
+        {
+          "id": "course-52",
+          "label": "ANTH412",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "412"
+        },
+        {
+          "id": "course-53",
+          "label": "ANTH433",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ANTH",
+          "number": "433"
+        },
+        {
+          "id": "course-54",
+          "label": "ARTH362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTH",
+          "number": "362"
+        },
+        {
+          "id": "course-55",
+          "label": "CCJS370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CCJS",
+          "number": "370"
+        },
+        {
+          "id": "course-56",
+          "label": "CMLT235",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMLT",
+          "number": "235"
+        },
+        {
+          "id": "course-57",
+          "label": "CMLT277",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CMLT",
+          "number": "277"
+        },
+        {
+          "id": "course-58",
+          "label": "COMM360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "COMM",
+          "number": "360"
+        },
+        {
+          "id": "course-59",
+          "label": "ENGL130",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "130"
+        },
+        {
+          "id": "course-60",
+          "label": "ENGL234",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "234"
+        },
+        {
+          "id": "course-61",
+          "label": "ENGL360",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "360"
+        },
+        {
+          "id": "course-62",
+          "label": "ENGL368",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "368"
+        },
+        {
+          "id": "course-63",
+          "label": "ENGL438",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "438"
+        },
+        {
+          "id": "course-64",
+          "label": "ENGL448",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "448"
+        },
+        {
+          "id": "course-65",
+          "label": "ENGL459",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "459"
+        },
+        {
+          "id": "course-66",
+          "label": "ENGL470",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "470"
+        },
+        {
+          "id": "course-67",
+          "label": "ENGL471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "471"
+        },
+        {
+          "id": "course-68",
+          "label": "ENGL472",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "472"
+        },
+        {
+          "id": "course-69",
+          "label": "ENGL479",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "479"
+        },
+        {
+          "id": "course-70",
+          "label": "FMSC381",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "381"
+        },
+        {
+          "id": "course-71",
+          "label": "FMSC420",
+          "nodeType": "course",
+          "children": [],
+          "subject": "FMSC",
+          "number": "420"
+        },
+        {
+          "id": "course-72",
+          "label": "HESI202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESI",
+          "number": "202"
+        },
+        {
+          "id": "course-73",
+          "label": "HESI220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESI",
+          "number": "220"
+        },
+        {
+          "id": "course-74",
+          "label": "HESI418",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HESI",
+          "number": "418"
+        },
+        {
+          "id": "course-75",
+          "label": "HIST254",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HIST",
+          "number": "254"
+        },
+        {
+          "id": "course-76",
+          "label": "HLTH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "240"
+        },
+        {
+          "id": "course-77",
+          "label": "HLTH460",
+          "nodeType": "course",
+          "children": [],
+          "subject": "HLTH",
+          "number": "460"
+        },
+        {
+          "id": "course-78",
+          "label": "JOUR453",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JOUR",
+          "number": "453"
+        },
+        {
+          "id": "course-79",
+          "label": "KNES401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "KNES",
+          "number": "401"
+        },
+        {
+          "id": "course-80",
+          "label": "LGBT448",
+          "nodeType": "course",
+          "children": [],
+          "subject": "LGBT",
+          "number": "448"
+        },
+        {
+          "id": "course-81",
+          "label": "MIEH330",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MIEH",
+          "number": "330"
+        },
+        {
+          "id": "course-82",
+          "label": "PLCY288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "288"
+        },
+        {
+          "id": "course-83",
+          "label": "PLCY288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "288"
+        },
+        {
+          "id": "course-84",
+          "label": "PLCY388",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PLCY",
+          "number": "388"
+        },
+        {
+          "id": "course-85",
+          "label": "PSYC354",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PSYC",
+          "number": "354"
+        },
+        {
+          "id": "course-86",
+          "label": "SOCY224",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "224"
+        },
+        {
+          "id": "course-87",
+          "label": "SOCY424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "SOCY",
+          "number": "424"
+        },
+        {
+          "id": "course-88",
+          "label": "TLPL288",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "288"
+        },
+        {
+          "id": "course-89",
+          "label": "TLPL475",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "475"
+        },
+        {
+          "id": "course-90",
+          "label": "TLPL476",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "476"
+        },
+        {
+          "id": "course-91",
+          "label": "TLPL481",
+          "nodeType": "course",
+          "children": [],
+          "subject": "TLPL",
+          "number": "481"
+        },
+        {
+          "id": "course-92",
+          "label": "URSP372",
+          "nodeType": "course",
+          "children": [],
+          "subject": "URSP",
+          "number": "372"
+        },
+        {
+          "id": "course-93",
+          "label": "USLT403",
+          "nodeType": "course",
+          "children": [],
+          "subject": "USLT",
+          "number": "403"
+        },
+        {
+          "id": "course-94",
+          "label": "WGSS370",
+          "nodeType": "course",
+          "children": [],
+          "subject": "WGSS",
+          "number": "370"
+        },
+        {
+          "id": "course-95",
+          "label": "WGSS428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "WGSS",
+          "number": "428"
+        },
+        {
+          "id": "course-96",
+          "label": "WGSS428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "WGSS",
+          "number": "428"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-5",
+        "humanLabel": "Track Course (See below for tracks)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-13",
+        "humanLabel": "Tracks (includes the track course and 6 credits of electives)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-29",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Courses"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ABRM",
+          "number": "330"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "310"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "101"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "202"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "460"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "288"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Track Electives (See below for elective course list) 6"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ABRM",
+          "number": "450"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Arts and Humanities Track"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "310"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses (6 credits)"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Behavioral and Social Sciences Track"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "101"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses (6 Credits) 1"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Education Track"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "202"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses (6 Credits) 1"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Public Policy Track"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "288"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses (6 Credits) 1"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Public Health Track"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "460"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Courses (6 Credits)"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Elective Course List"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "100"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "187"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "202"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "210"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "211"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "230"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "298B"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "298L"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "298M"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "301"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "310"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "313"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "320"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "377"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "413"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "443"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AASP",
+          "number": "498"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "290"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "AMST",
+          "number": "328"
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "USLT",
+          "number": "320"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "412"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ANTH",
+          "number": "433"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTH",
+          "number": "362"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CCJS",
+          "number": "370"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMLT",
+          "number": "235"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMLT",
+          "number": "277"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "COMM",
+          "number": "360"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "130"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "234"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "360"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "368"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "438"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "448"
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "459"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "470"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "471"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "472"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "479"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "381"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "FMSC",
+          "number": "420"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESI",
+          "number": "202"
+        },
+        "sortOrder": 68
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESI",
+          "number": "220"
+        },
+        "sortOrder": 69
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HESI",
+          "number": "418"
+        },
+        "sortOrder": 70
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HIST",
+          "number": "254"
+        },
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "240"
+        },
+        "sortOrder": 72
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "HLTH",
+          "number": "460"
+        },
+        "sortOrder": 73
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JOUR",
+          "number": "453"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "KNES",
+          "number": "401"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "LGBT",
+          "number": "448"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MIEH",
+          "number": "330"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "288"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "288"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PLCY",
+          "number": "388"
+        },
+        "sortOrder": 80
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PSYC",
+          "number": "354"
+        },
+        "sortOrder": 81
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "224"
+        },
+        "sortOrder": 82
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SOCY",
+          "number": "424"
+        },
+        "sortOrder": 83
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "288"
+        },
+        "sortOrder": 84
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "475"
+        },
+        "sortOrder": 85
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "476"
+        },
+        "sortOrder": 86
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "481"
+        },
+        "sortOrder": 87
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "URSP",
+          "number": "372"
+        },
+        "sortOrder": 88
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "USLT",
+          "number": "403"
+        },
+        "sortOrder": 89
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "370"
+        },
+        "sortOrder": 90
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "428"
+        },
+        "sortOrder": 91
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "WGSS",
+          "number": "428"
+        },
+        "sortOrder": 92
+      }
+    ]
+  }
+}

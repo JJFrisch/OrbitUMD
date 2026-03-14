@@ -1,0 +1,223 @@
+{
+  "code": "creative-placemaking-minor-arhu",
+  "title": "Creative Placemaking Minor (ARHU)",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/creative-placemaking-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "ARCH350",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "350"
+        }
+      ]
+    },
+    {
+      "id": "choice-4",
+      "label": "Concentration (choose one of the following)",
+      "nodeType": "requireAny",
+      "children": [],
+      "minCount": 1
+    },
+    {
+      "id": "block-5",
+      "label": "Concentration in Architecture (6 credits)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-6",
+          "label": "ARCH409",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARCH",
+          "number": "409"
+        }
+      ],
+      "minCredits": 6
+    },
+    {
+      "id": "block-7",
+      "label": "Concentration in the Visual Arts (6 credits)",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-8",
+          "label": "ARTT426",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "426"
+        },
+        {
+          "id": "course-9",
+          "label": "ARTT427",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARTT",
+          "number": "427"
+        },
+        {
+          "id": "course-10",
+          "label": "ARHU439",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ARHU",
+          "number": "439"
+        },
+        {
+          "id": "note-11",
+          "label": "Electives (Choose at least 6 credits from the following list): 2 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Electives (Choose at least 6 credits from the following list): 2 6"
+        },
+        {
+          "id": "note-12",
+          "label": "http://art.umd.edu/academic-programs/creative-placemaking-minor/creative-placemaking-minor-electives",
+          "nodeType": "note",
+          "children": [],
+          "text": "http://art.umd.edu/academic-programs/creative-placemaking-minor/creative-placemaking-minor-electives"
+        }
+      ],
+      "minCredits": 6
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-4",
+        "humanLabel": "Concentration (choose one of the following)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-5",
+        "humanLabel": "Concentration in Architecture (6 credits)",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 6
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-7",
+        "humanLabel": "Concentration in the Visual Arts (6 credits)",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 6
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "350"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARCH",
+          "number": "409"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "426"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "427"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARHU",
+          "number": "439"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Electives (Choose at least 6 credits from the following list): 2 6"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "http://art.umd.edu/academic-programs/creative-placemaking-minor/creative-placemaking-minor-electives"
+        },
+        "sortOrder": 8
+      }
+    ]
+  }
+}

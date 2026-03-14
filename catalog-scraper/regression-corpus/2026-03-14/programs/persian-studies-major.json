@@ -1,0 +1,493 @@
+{
+  "code": "persian-studies-major",
+  "title": "Persian Studies Major",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/persian-studies/persian-studies-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 36,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "College Requirements",
+          "nodeType": "note",
+          "children": [],
+          "text": "College Requirements"
+        },
+        {
+          "id": "note-4",
+          "label": "Core Language Sequence (12 credits) 1",
+          "nodeType": "note",
+          "children": [],
+          "text": "Core Language Sequence (12 credits) 1"
+        },
+        {
+          "id": "course-5",
+          "label": "PERS103",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "103"
+        },
+        {
+          "id": "course-6",
+          "label": "PERS104",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "104"
+        },
+        {
+          "id": "course-7",
+          "label": "PERS201",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "201"
+        },
+        {
+          "id": "course-8",
+          "label": "PERS202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "202"
+        }
+      ]
+    },
+    {
+      "id": "choice-9",
+      "label": "Foundation Requirements (Choose 9 credits) 2",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-10",
+          "label": "PERS251",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "251"
+        },
+        {
+          "id": "course-11",
+          "label": "PERS252",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "252"
+        },
+        {
+          "id": "course-12",
+          "label": "PERS283",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "283"
+        },
+        {
+          "id": "course-13",
+          "label": "PERS371",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "371"
+        }
+      ],
+      "minCount": 9
+    },
+    {
+      "id": "choice-14",
+      "label": "Electives (Choose 15 credits)",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-15",
+          "label": "PERS280",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "280"
+        },
+        {
+          "id": "course-16",
+          "label": "PERS298",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "298"
+        },
+        {
+          "id": "course-17",
+          "label": "PERS299",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "299"
+        },
+        {
+          "id": "course-18",
+          "label": "PERS301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "301"
+        },
+        {
+          "id": "course-19",
+          "label": "PERS302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "302"
+        },
+        {
+          "id": "course-20",
+          "label": "PERS311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "311"
+        },
+        {
+          "id": "course-21",
+          "label": "PERS312",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "312"
+        },
+        {
+          "id": "course-22",
+          "label": "PERS353",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "353"
+        },
+        {
+          "id": "course-23",
+          "label": "PERS385",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "385"
+        },
+        {
+          "id": "course-24",
+          "label": "PERS386",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "386"
+        },
+        {
+          "id": "course-25",
+          "label": "PERS399",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "399"
+        },
+        {
+          "id": "course-26",
+          "label": "PERS405",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "405"
+        },
+        {
+          "id": "course-27",
+          "label": "PERS406",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "406"
+        },
+        {
+          "id": "course-28",
+          "label": "PERS498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PERS",
+          "number": "498"
+        }
+      ],
+      "minCount": 15
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "choice-9",
+        "humanLabel": "Foundation Requirements (Choose 9 credits) 2",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 9
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "choice-14",
+        "humanLabel": "Electives (Choose 15 credits)",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 15
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Core Language Sequence (12 credits) 1"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "103"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "104"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "201"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "202"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "251"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "252"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "283"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "371"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "280"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "298"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "299"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "301"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "302"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "311"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "312"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "353"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "385"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "386"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "399"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "405"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "406"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PERS",
+          "number": "498"
+        },
+        "sortOrder": 25
+      }
+    ]
+  }
+}

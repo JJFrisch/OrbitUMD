@@ -1,0 +1,868 @@
+{
+  "code": "japanese-minor",
+  "title": "Japanese Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/japanese/japanese-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 15,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "choice-3",
+          "label": "Select 6 credits of Japanese language courses",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-4",
+              "label": "JAPN202",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "202"
+            },
+            {
+              "id": "course-5",
+              "label": "JAPN301",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "301"
+            },
+            {
+              "id": "course-6",
+              "label": "JAPN302",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "302"
+            },
+            {
+              "id": "course-7",
+              "label": "JAPN311",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "311"
+            },
+            {
+              "id": "course-8",
+              "label": "JAPN401",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "401"
+            },
+            {
+              "id": "course-9",
+              "label": "JAPN402",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "402"
+            },
+            {
+              "id": "course-10",
+              "label": "JAPN407",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "407"
+            },
+            {
+              "id": "course-11",
+              "label": "JAPN499",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "499"
+            }
+          ],
+          "minCount": 6
+        },
+        {
+          "id": "choice-12",
+          "label": "Select one Japanese linguistics course",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-13",
+              "label": "JAPN421",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "421"
+            },
+            {
+              "id": "course-14",
+              "label": "JAPN422",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "422"
+            },
+            {
+              "id": "course-15",
+              "label": "JAPN428",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "428"
+            },
+            {
+              "id": "course-16",
+              "label": "JAPN438",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "438"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-17",
+          "label": "Select one Japanese literature/cultural studies course",
+          "nodeType": "requireAny",
+          "children": [
+            {
+              "id": "course-18",
+              "label": "JAPN221",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "221"
+            },
+            {
+              "id": "course-19",
+              "label": "JAPN314",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "314"
+            },
+            {
+              "id": "course-20",
+              "label": "JAPN315",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "315"
+            },
+            {
+              "id": "course-21",
+              "label": "JAPN316",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "316"
+            },
+            {
+              "id": "course-22",
+              "label": "JAPN325",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "325"
+            },
+            {
+              "id": "course-23",
+              "label": "JAPN424",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "424"
+            },
+            {
+              "id": "course-24",
+              "label": "JAPN425",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "425"
+            },
+            {
+              "id": "course-25",
+              "label": "JAPN498",
+              "nodeType": "course",
+              "children": [],
+              "subject": "JAPN",
+              "number": "498"
+            }
+          ],
+          "minCount": 1
+        },
+        {
+          "id": "choice-26",
+          "label": "Select one additional 3 credit course from the lists above.",
+          "nodeType": "requireAny",
+          "children": [],
+          "minCount": 1
+        }
+      ]
+    },
+    {
+      "id": "choice-3",
+      "label": "Select 6 credits of Japanese language courses",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-4",
+          "label": "JAPN202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "202"
+        },
+        {
+          "id": "course-5",
+          "label": "JAPN301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "301"
+        },
+        {
+          "id": "course-6",
+          "label": "JAPN302",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "302"
+        },
+        {
+          "id": "course-7",
+          "label": "JAPN311",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "311"
+        },
+        {
+          "id": "course-8",
+          "label": "JAPN401",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "401"
+        },
+        {
+          "id": "course-9",
+          "label": "JAPN402",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "402"
+        },
+        {
+          "id": "course-10",
+          "label": "JAPN407",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "407"
+        },
+        {
+          "id": "course-11",
+          "label": "JAPN499",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "499"
+        }
+      ],
+      "minCount": 6
+    },
+    {
+      "id": "choice-12",
+      "label": "Select one Japanese linguistics course",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-13",
+          "label": "JAPN421",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "421"
+        },
+        {
+          "id": "course-14",
+          "label": "JAPN422",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "422"
+        },
+        {
+          "id": "course-15",
+          "label": "JAPN428",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "428"
+        },
+        {
+          "id": "course-16",
+          "label": "JAPN438",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "438"
+        }
+      ],
+      "minCount": 1
+    },
+    {
+      "id": "choice-17",
+      "label": "Select one Japanese literature/cultural studies course",
+      "nodeType": "requireAny",
+      "children": [
+        {
+          "id": "course-18",
+          "label": "JAPN221",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "221"
+        },
+        {
+          "id": "course-19",
+          "label": "JAPN314",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "314"
+        },
+        {
+          "id": "course-20",
+          "label": "JAPN315",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "315"
+        },
+        {
+          "id": "course-21",
+          "label": "JAPN316",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "316"
+        },
+        {
+          "id": "course-22",
+          "label": "JAPN325",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "325"
+        },
+        {
+          "id": "course-23",
+          "label": "JAPN424",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "424"
+        },
+        {
+          "id": "course-24",
+          "label": "JAPN425",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "425"
+        },
+        {
+          "id": "course-25",
+          "label": "JAPN498",
+          "nodeType": "course",
+          "children": [],
+          "subject": "JAPN",
+          "number": "498"
+        }
+      ],
+      "minCount": 1
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select 6 credits of Japanese language courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 6
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select one Japanese linguistics course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Select one Japanese literature/cultural studies course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-26",
+        "humanLabel": "Select one additional 3 credit course from the lists above.",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": null,
+        "sourceNodeId": "choice-3",
+        "humanLabel": "Select 6 credits of Japanese language courses",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 6
+        },
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": null,
+        "sourceNodeId": "choice-12",
+        "humanLabel": "Select one Japanese linguistics course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-8",
+        "parentTempId": null,
+        "sourceNodeId": "choice-17",
+        "humanLabel": "Select one Japanese literature/cultural studies course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 8,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "202"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "301"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "302"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "311"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "401"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "402"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "407"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "499"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "421"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "422"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "428"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "438"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "221"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "314"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "315"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "316"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "325"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "424"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "425"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "498"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "202"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "301"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "302"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "311"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "401"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "402"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "407"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "499"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "421"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "422"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "428"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "438"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "221"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "314"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "315"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "316"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "325"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "424"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "425"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "JAPN",
+          "number": "498"
+        },
+        "sortOrder": 41
+      }
+    ]
+  }
+}

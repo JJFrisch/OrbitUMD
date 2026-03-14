@@ -1,0 +1,733 @@
+{
+  "code": "mechatronics-engineering-major",
+  "title": "Mechatronics Engineering Major",
+  "college": "Engineering",
+  "degreeType": "BS",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/aerospace-engineering/mechatronics-engineering-major/",
+  "catalogYearStart": 2026,
+  "minCredits": 2121,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "course-3",
+          "label": "ENGL101",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENGL",
+          "number": "101"
+        },
+        {
+          "id": "course-4",
+          "label": "MATH140",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "140"
+        },
+        {
+          "id": "course-5",
+          "label": "MATH141",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "141"
+        },
+        {
+          "id": "course-6",
+          "label": "MATH241",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "241"
+        },
+        {
+          "id": "course-7",
+          "label": "MATH246",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "246"
+        },
+        {
+          "id": "course-8",
+          "label": "MATH240",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MATH",
+          "number": "240"
+        },
+        {
+          "id": "course-9",
+          "label": "CHEM135",
+          "nodeType": "course",
+          "children": [],
+          "subject": "CHEM",
+          "number": "135"
+        },
+        {
+          "id": "course-10",
+          "label": "PHYS161",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "161"
+        },
+        {
+          "id": "course-11",
+          "label": "PHYS260",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "260"
+        },
+        {
+          "id": "course-12",
+          "label": "PHYS261",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "261"
+        },
+        {
+          "id": "course-13",
+          "label": "PHYS270",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "270"
+        },
+        {
+          "id": "course-14",
+          "label": "PHYS271",
+          "nodeType": "course",
+          "children": [],
+          "subject": "PHYS",
+          "number": "271"
+        },
+        {
+          "id": "course-15",
+          "label": "ENES100",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "100"
+        },
+        {
+          "id": "course-16",
+          "label": "ENES102",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "102"
+        },
+        {
+          "id": "course-17",
+          "label": "ENES220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "220"
+        },
+        {
+          "id": "course-18",
+          "label": "ENES232",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENES",
+          "number": "232"
+        },
+        {
+          "id": "course-19",
+          "label": "ENME202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENME",
+          "number": "202"
+        },
+        {
+          "id": "course-20",
+          "label": "ENAE202",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENAE",
+          "number": "202"
+        },
+        {
+          "id": "note-21",
+          "label": "Lower-Level general education requirements or A.A./A.S. degree from a Maryland public institution Varies",
+          "nodeType": "note",
+          "children": [],
+          "text": "Lower-Level general education requirements or A.A./A.S. degree from a Maryland public institution Varies"
+        }
+      ]
+    },
+    {
+      "id": "block-22",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-23",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-24",
+          "label": "Required Foundation Courses 54",
+          "nodeType": "note",
+          "children": [],
+          "text": "Required Foundation Courses 54"
+        },
+        {
+          "id": "course-25",
+          "label": "ENMT301",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "301"
+        },
+        {
+          "id": "course-26",
+          "label": "ENMT313",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "313"
+        },
+        {
+          "id": "course-27",
+          "label": "ENMT322",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "322"
+        },
+        {
+          "id": "course-28",
+          "label": "ENMT332",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "332"
+        },
+        {
+          "id": "course-29",
+          "label": "ENMT361",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "361"
+        },
+        {
+          "id": "course-30",
+          "label": "ENMT362",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "362"
+        },
+        {
+          "id": "course-31",
+          "label": "ENMT372",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "372"
+        },
+        {
+          "id": "course-32",
+          "label": "ENMT380",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "380"
+        },
+        {
+          "id": "course-33",
+          "label": "ENMT450",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "450"
+        },
+        {
+          "id": "course-34",
+          "label": "ENMT471",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "471"
+        },
+        {
+          "id": "course-35",
+          "label": "ENMT473",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "473"
+        },
+        {
+          "id": "course-36",
+          "label": "ENMT477",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "477"
+        },
+        {
+          "id": "course-37",
+          "label": "ENMT483",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "483"
+        },
+        {
+          "id": "note-38",
+          "label": "ENGL39X (Professional Writing)",
+          "nodeType": "note",
+          "children": [],
+          "text": "ENGL39X (Professional Writing)"
+        },
+        {
+          "id": "course-39",
+          "label": "ENMT484",
+          "nodeType": "course",
+          "children": [],
+          "subject": "ENMT",
+          "number": "484"
+        },
+        {
+          "id": "note-40",
+          "label": "TECHNICAL ELECTIVE (Any approved 300 or 400 level course)",
+          "nodeType": "note",
+          "children": [],
+          "text": "TECHNICAL ELECTIVE (Any approved 300 or 400 level course)"
+        },
+        {
+          "id": "note-41",
+          "label": "TECHNICAL ELECTIVE (Any approved 300 or 400 level course)",
+          "nodeType": "note",
+          "children": [],
+          "text": "TECHNICAL ELECTIVE (Any approved 300 or 400 level course)"
+        },
+        {
+          "id": "note-42",
+          "label": "PROGRAM ELECTIVE (Program-Specific Elective)",
+          "nodeType": "note",
+          "children": [],
+          "text": "PROGRAM ELECTIVE (Program-Specific Elective)"
+        },
+        {
+          "id": "note-43",
+          "label": "Transfer Credits (Consult with academic advisor) 1 60-90*",
+          "nodeType": "note",
+          "children": [],
+          "text": "Transfer Credits (Consult with academic advisor) 1 60-90*"
+        }
+      ],
+      "minCredits": 2
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-22",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 2
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENGL",
+          "number": "101"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "141"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "241"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "246"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "240"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CHEM",
+          "number": "135"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "161"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "260"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "261"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "270"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "PHYS",
+          "number": "271"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "100"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "102"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "220"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENES",
+          "number": "232"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENME",
+          "number": "202"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENAE",
+          "number": "202"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Lower-Level general education requirements or A.A./A.S. degree from a Maryland public institution Varies"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Foundation Courses 54"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "301"
+        },
+        "sortOrder": 23
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "313"
+        },
+        "sortOrder": 24
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "322"
+        },
+        "sortOrder": 25
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "332"
+        },
+        "sortOrder": 26
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "361"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "362"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "372"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "380"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "450"
+        },
+        "sortOrder": 31
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "471"
+        },
+        "sortOrder": 32
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "473"
+        },
+        "sortOrder": 33
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "477"
+        },
+        "sortOrder": 34
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "483"
+        },
+        "sortOrder": 35
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ENGL39X (Professional Writing)"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ENMT",
+          "number": "484"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "TECHNICAL ELECTIVE (Any approved 300 or 400 level course)"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "TECHNICAL ELECTIVE (Any approved 300 or 400 level course)"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "PROGRAM ELECTIVE (Program-Specific Elective)"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Transfer Credits (Consult with academic advisor) 1 60-90*"
+        },
+        "sortOrder": 41
+      }
+    ]
+  }
+}

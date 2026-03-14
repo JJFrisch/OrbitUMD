@@ -19,6 +19,7 @@
     "lint": "npm --prefix site run lint --",
     "test": "npm --prefix site run test --",
     "scrape:requirements": "node catalog-scraper/scrape_umd_requirements.js",
+    "corpus:requirements": "npx ts-node scripts/generateRequirementRegressionCorpus.ts",
     "ingest:requirements": "npx ts-node scripts/ingestAllPrograms.ts",
     "sync:catalog": "node data-sync/sync-worker.mjs",
     "sync:catalog:dry": "node data-sync/sync-worker.mjs --dry-run=true"

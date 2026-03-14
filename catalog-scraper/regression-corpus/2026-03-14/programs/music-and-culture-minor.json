@@ -1,0 +1,453 @@
+{
+  "code": "music-and-culture-minor",
+  "title": "Music and Culture Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/music/music-culture-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 19,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "Course Title",
+          "nodeType": "note",
+          "children": [],
+          "text": "Course Title"
+        },
+        {
+          "id": "note-3",
+          "label": "Any two 2xx-level courses in Musicology and Ethnomusicology including: 1 6",
+          "nodeType": "note",
+          "children": [],
+          "text": "Any two 2xx-level courses in Musicology and Ethnomusicology including: 1 6"
+        },
+        {
+          "id": "course-4",
+          "label": "MUSC204",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "204"
+        },
+        {
+          "id": "course-5",
+          "label": "MUSC210",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "210"
+        },
+        {
+          "id": "course-6",
+          "label": "MUSC215",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "215"
+        },
+        {
+          "id": "course-7",
+          "label": "MUSC220",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "220"
+        },
+        {
+          "id": "course-8",
+          "label": "MUSC289I",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "289I"
+        },
+        {
+          "id": "course-9",
+          "label": "THREE400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THREE",
+          "number": "400"
+        },
+        {
+          "id": "course-10",
+          "label": "MUSC438",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438"
+        }
+      ]
+    },
+    {
+      "id": "block-11",
+      "label": "Recent offerings include",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-12",
+          "label": "MUSC438D",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438D"
+        },
+        {
+          "id": "course-13",
+          "label": "MUSC438E",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438E"
+        },
+        {
+          "id": "course-14",
+          "label": "MUSC438K",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438K"
+        },
+        {
+          "id": "course-15",
+          "label": "MUSC438M",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438M"
+        },
+        {
+          "id": "course-16",
+          "label": "MUSC438S",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438S"
+        },
+        {
+          "id": "course-17",
+          "label": "MUSC438X",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "438X"
+        }
+      ]
+    },
+    {
+      "id": "block-18",
+      "label": "The following courses may also be used to satisfy this requirement",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-19",
+          "label": "MUSC435",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "435"
+        },
+        {
+          "id": "course-20",
+          "label": "MUSC448",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "448"
+        },
+        {
+          "id": "note-21",
+          "label": "Performance Courses 3 4",
+          "nodeType": "note",
+          "children": [],
+          "text": "Performance Courses 3 4"
+        }
+      ]
+    },
+    {
+      "id": "block-22",
+      "label": "Four semesters of World Music Ensembles. The following courses have been approved",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-23",
+          "label": "MUSC129",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "129"
+        },
+        {
+          "id": "course-24",
+          "label": "MUSC129",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "129"
+        },
+        {
+          "id": "course-25",
+          "label": "MUSC129",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "129"
+        },
+        {
+          "id": "course-26",
+          "label": "MUSC129",
+          "nodeType": "course",
+          "children": [],
+          "subject": "MUSC",
+          "number": "129"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": null,
+        "sourceNodeId": "block-11",
+        "humanLabel": "Recent offerings include",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": null,
+        "sourceNodeId": "block-18",
+        "humanLabel": "The following courses may also be used to satisfy this requirement",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": null,
+        "sourceNodeId": "block-22",
+        "humanLabel": "Four semesters of World Music Ensembles. The following courses have been approved",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Any two 2xx-level courses in Musicology and Ethnomusicology including: 1 6"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "204"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "210"
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "215"
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "220"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "289I"
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THREE",
+          "number": "400"
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438"
+        },
+        "sortOrder": 9
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438D"
+        },
+        "sortOrder": 10
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438E"
+        },
+        "sortOrder": 11
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438K"
+        },
+        "sortOrder": 12
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438M"
+        },
+        "sortOrder": 13
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438S"
+        },
+        "sortOrder": 14
+      },
+      {
+        "blockTempId": "blk-2",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "438X"
+        },
+        "sortOrder": 15
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "435"
+        },
+        "sortOrder": 16
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "448"
+        },
+        "sortOrder": 17
+      },
+      {
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Performance Courses 3 4"
+        },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "129"
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "129"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "129"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MUSC",
+          "number": "129"
+        },
+        "sortOrder": 22
+      }
+    ]
+  }
+}
