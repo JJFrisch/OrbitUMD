@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-14T23:40:44.589Z",
+  "generatedAt": "2026-03-14T23:47:17.915Z",
   "totalDiscovered": 232,
-  "totalParsed": 232,
-  "totalFailed": 0,
+  "totalParsed": 229,
+  "totalFailed": 3,
   "outputDir": "/Users/jakefrischmann/repos/OrbitUMD/catalog-scraper/regression-corpus/2026-03-14",
   "programs": [
     {
@@ -1634,43 +1634,6 @@
       }
     },
     {
-      "code": "middle-east-studies-minor",
-      "title": "Middle East Studies Minor",
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
-      "file": "programs/middle-east-studies-minor.json",
-      "rootNodeCount": 1,
-      "blockCount": 2,
-      "itemCount": 11,
-      "diagnostics": {
-        "parseMode": "table",
-        "tableCount": 1,
-        "listCount": 1,
-        "paragraphCount": 4,
-        "headingCount": 1
-      },
-      "quality": {
-        "totalNodes": 13,
-        "structuralNodes": 2,
-        "noteNodes": 11,
-        "courseNodes": 0,
-        "courseGroupNodes": 0,
-        "choiceNodes": 1,
-        "quantifiedRuleNodes": 1,
-        "actionableStructuralNodes": 1,
-        "score": 0.148,
-        "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": true,
-          "hasCourseCode": false,
-          "hasListStructure": true,
-          "hasTableStructure": true
-        },
-        "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false,
-        "enforceMinScore": true
-      }
-    },
-    {
       "code": "hebrew-studies-minor-jwst",
       "title": "Hebrew Studies Minor (JWST)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/hebrew-studies-minor/",
@@ -1774,43 +1737,6 @@
           "mentionsSelection": true,
           "hasCourseCode": true,
           "hasListStructure": false,
-          "hasTableStructure": true
-        },
-        "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false,
-        "enforceMinScore": true
-      }
-    },
-    {
-      "code": "jewish-studies-minor",
-      "title": "Jewish Studies Minor",
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-minor/",
-      "file": "programs/jewish-studies-minor.json",
-      "rootNodeCount": 1,
-      "blockCount": 1,
-      "itemCount": 5,
-      "diagnostics": {
-        "parseMode": "table",
-        "tableCount": 1,
-        "listCount": 2,
-        "paragraphCount": 1,
-        "headingCount": 1
-      },
-      "quality": {
-        "totalNodes": 6,
-        "structuralNodes": 1,
-        "noteNodes": 5,
-        "courseNodes": 0,
-        "courseGroupNodes": 0,
-        "choiceNodes": 0,
-        "quantifiedRuleNodes": 0,
-        "actionableStructuralNodes": 0,
-        "score": 0.058,
-        "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": false,
-          "hasCourseCode": false,
-          "hasListStructure": true,
           "hasTableStructure": true
         },
         "fallbackUsed": false,
@@ -3067,43 +2993,6 @@
         "signals": {
           "mentionsCredits": true,
           "mentionsSelection": true,
-          "hasCourseCode": false,
-          "hasListStructure": false,
-          "hasTableStructure": true
-        },
-        "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false,
-        "enforceMinScore": true
-      }
-    },
-    {
-      "code": "philosophy-minor",
-      "title": "Philosophy Minor",
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
-      "file": "programs/philosophy-minor.json",
-      "rootNodeCount": 1,
-      "blockCount": 1,
-      "itemCount": 5,
-      "diagnostics": {
-        "parseMode": "table",
-        "tableCount": 1,
-        "listCount": 0,
-        "paragraphCount": 3,
-        "headingCount": 0
-      },
-      "quality": {
-        "totalNodes": 6,
-        "structuralNodes": 1,
-        "noteNodes": 5,
-        "courseNodes": 0,
-        "courseGroupNodes": 0,
-        "choiceNodes": 0,
-        "quantifiedRuleNodes": 0,
-        "actionableStructuralNodes": 0,
-        "score": 0.058,
-        "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": false,
           "hasCourseCode": false,
           "hasListStructure": false,
           "hasTableStructure": true
@@ -8590,5 +8479,18 @@
       }
     }
   ],
-  "failures": []
+  "failures": [
+    {
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
+      "reason": "Quality gate failure: score 0.148 below minimum 0.150"
+    },
+    {
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-minor/",
+      "reason": "Quality gate failure: score 0.058 below minimum 0.150"
+    },
+    {
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
+      "reason": "Quality gate failure: score 0.058 below minimum 0.150"
+    }
+  ]
 }
