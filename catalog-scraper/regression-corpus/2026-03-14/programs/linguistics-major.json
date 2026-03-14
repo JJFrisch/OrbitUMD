@@ -152,62 +152,6 @@
       ]
     },
     {
-      "id": "choice-8",
-      "label": "Select two of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-9",
-          "label": "LING312",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LING",
-          "number": "312"
-        },
-        {
-          "id": "course-10",
-          "label": "LING322",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LING",
-          "number": "322"
-        },
-        {
-          "id": "course-11",
-          "label": "LING320",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LING",
-          "number": "320"
-        },
-        {
-          "id": "course-12",
-          "label": "LING410",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LING",
-          "number": "410"
-        },
-        {
-          "id": "course-13",
-          "label": "LING440",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LING",
-          "number": "440"
-        },
-        {
-          "id": "course-14",
-          "label": "LING444",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LING",
-          "number": "444"
-        }
-      ],
-      "minCount": 2
-    },
-    {
       "id": "block-20",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -313,45 +257,33 @@
       {
         "tempId": "blk-4",
         "parentTempId": null,
-        "sourceNodeId": "choice-8",
-        "humanLabel": "Select two of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
+        "sourceNodeId": "block-20",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-5",
-        "parentTempId": null,
-        "sourceNodeId": "block-20",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 5,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-6",
-        "parentTempId": "blk-5",
+        "parentTempId": "blk-4",
         "sourceNodeId": "choice-25",
         "humanLabel": "Select two approved electives in LING, PSYC, HESP, PHIL, or CMSC",
         "type": "SELECT_N",
         "params": {
           "nCourses": 2
         },
-        "sortOrder": 6,
+        "sortOrder": 5,
         "sourceNote": "Flattened from nested DSL"
       },
       {
-        "tempId": "blk-7",
+        "tempId": "blk-6",
         "parentTempId": null,
         "sourceNodeId": "block-26",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 7,
+        "sortOrder": 6,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -496,10 +428,9 @@
       },
       {
         "blockTempId": "blk-4",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "LING",
-          "number": "312"
+          "text": "Course Title"
         },
         "sortOrder": 17
       },
@@ -507,8 +438,8 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "LING",
-          "number": "322"
+          "subject": "PHIL",
+          "number": "170"
         },
         "sortOrder": 18
       },
@@ -517,7 +448,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "LING",
-          "number": "320"
+          "number": "350"
         },
         "sortOrder": 19
       },
@@ -525,79 +456,26 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "LING",
-          "number": "410"
+          "subject": "PHIL",
+          "number": "360"
         },
         "sortOrder": 20
       },
       {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "LING",
-          "number": "440"
+          "text": "Course Title"
         },
         "sortOrder": 21
       },
       {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "LING",
-          "number": "444"
-        },
-        "sortOrder": 22
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 23
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PHIL",
-          "number": "170"
-        },
-        "sortOrder": 24
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "LING",
-          "number": "350"
-        },
-        "sortOrder": 25
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PHIL",
-          "number": "360"
-        },
-        "sortOrder": 26
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 27
-      },
-      {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-6",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "12 credits of a single chosen language 1 12"
         },
-        "sortOrder": 28
+        "sortOrder": 22
       }
     ]
   }

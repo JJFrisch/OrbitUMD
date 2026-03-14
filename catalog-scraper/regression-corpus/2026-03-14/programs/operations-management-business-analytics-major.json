@@ -144,70 +144,6 @@
           "text": "List B"
         }
       ]
-    },
-    {
-      "id": "choice-9",
-      "label": "Select two courses from list 'A' or one course from 'A' and one course from list 'B'",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-11",
-          "label": "BMGT434",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "434"
-        },
-        {
-          "id": "course-12",
-          "label": "BMGT490",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "490"
-        },
-        {
-          "id": "course-13",
-          "label": "BMGT435",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "435"
-        },
-        {
-          "id": "course-15",
-          "label": "BMGT400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "400"
-        },
-        {
-          "id": "course-16",
-          "label": "BMGT401",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "401"
-        },
-        {
-          "id": "course-17",
-          "label": "BMGT404",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "404"
-        },
-        {
-          "id": "course-18",
-          "label": "BMGT485",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "485"
-        }
-      ],
-      "minCount": 2
     }
   ],
   "flattened": {
@@ -232,18 +168,6 @@
           "nCourses": 2
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-9",
-        "humanLabel": "Select two courses from list 'A' or one course from 'A' and one course from list 'B'",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -386,69 +310,6 @@
           "text": "List B"
         },
         "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "434"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "490"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "435"
-        },
-        "sortOrder": 19
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "400"
-        },
-        "sortOrder": 20
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "401"
-        },
-        "sortOrder": 21
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "404"
-        },
-        "sortOrder": 22
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "485"
-        },
-        "sortOrder": 23
       }
     ]
   }

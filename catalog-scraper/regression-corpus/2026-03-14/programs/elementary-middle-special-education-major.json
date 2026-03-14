@@ -223,118 +223,6 @@
       ]
     },
     {
-      "id": "choice-11",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-12",
-          "label": "HIST200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "200"
-        },
-        {
-          "id": "course-13",
-          "label": "HIST201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "201"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-14",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-15",
-          "label": "HESP202",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HESP",
-          "number": "202"
-        },
-        {
-          "id": "course-16",
-          "label": "CHSE376",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CHSE",
-          "number": "376"
-        },
-        {
-          "id": "course-19",
-          "label": "STAT100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "STAT",
-          "number": "100"
-        },
-        {
-          "id": "course-20",
-          "label": "EDHD411",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "411"
-        },
-        {
-          "id": "course-21",
-          "label": "PSYC355",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PSYC",
-          "number": "355"
-        },
-        {
-          "id": "course-22",
-          "label": "MATH212",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "212"
-        },
-        {
-          "id": "course-23",
-          "label": "MATH213",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "213"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-25",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-26",
-          "label": "TLPL360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "360"
-        },
-        {
-          "id": "course-27",
-          "label": "TLPL250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "250"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-29",
       "label": "PROFESSIONAL SEMESTER I (Fall Only)",
       "nodeType": "requireAll",
@@ -757,44 +645,38 @@
       {
         "tempId": "blk-7",
         "parentTempId": null,
-        "sourceNodeId": "choice-11",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-29",
+        "humanLabel": "PROFESSIONAL SEMESTER I (Fall Only)",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 7,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-8",
         "parentTempId": null,
-        "sourceNodeId": "choice-14",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-36",
+        "humanLabel": "PROFESSIONAL SEMESTER II (Spring Only)",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 8,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-9",
         "parentTempId": null,
-        "sourceNodeId": "choice-25",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-43",
+        "humanLabel": "PROFESSIONAL SEMESTER III (Fall Only)",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 9,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-10",
         "parentTempId": null,
-        "sourceNodeId": "block-29",
-        "humanLabel": "PROFESSIONAL SEMESTER I (Fall Only)",
+        "sourceNodeId": "block-48",
+        "humanLabel": "PROFESSIONAL SEMESTER IV (Spring Only)",
         "type": "ALL_OF",
         "params": {},
         "sortOrder": 10,
@@ -803,8 +685,8 @@
       {
         "tempId": "blk-11",
         "parentTempId": null,
-        "sourceNodeId": "block-36",
-        "humanLabel": "PROFESSIONAL SEMESTER II (Spring Only)",
+        "sourceNodeId": "block-52",
+        "humanLabel": "PROFESSIONAL SEMESTER I (Fall Only)",
         "type": "ALL_OF",
         "params": {},
         "sortOrder": 11,
@@ -813,8 +695,8 @@
       {
         "tempId": "blk-12",
         "parentTempId": null,
-        "sourceNodeId": "block-43",
-        "humanLabel": "PROFESSIONAL SEMESTER III (Fall Only)",
+        "sourceNodeId": "block-59",
+        "humanLabel": "PROFESSIONAL SEMESTER II (Spring Only)",
         "type": "ALL_OF",
         "params": {},
         "sortOrder": 12,
@@ -823,8 +705,8 @@
       {
         "tempId": "blk-13",
         "parentTempId": null,
-        "sourceNodeId": "block-48",
-        "humanLabel": "PROFESSIONAL SEMESTER IV (Spring Only)",
+        "sourceNodeId": "block-65",
+        "humanLabel": "PROFESSIONAL SEMESTER III (Fall Only)",
         "type": "ALL_OF",
         "params": {},
         "sortOrder": 13,
@@ -833,41 +715,11 @@
       {
         "tempId": "blk-14",
         "parentTempId": null,
-        "sourceNodeId": "block-52",
-        "humanLabel": "PROFESSIONAL SEMESTER I (Fall Only)",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 14,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-15",
-        "parentTempId": null,
-        "sourceNodeId": "block-59",
-        "humanLabel": "PROFESSIONAL SEMESTER II (Spring Only)",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 15,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-16",
-        "parentTempId": null,
-        "sourceNodeId": "block-65",
-        "humanLabel": "PROFESSIONAL SEMESTER III (Fall Only)",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 16,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-17",
-        "parentTempId": null,
         "sourceNodeId": "block-71",
         "humanLabel": "PROFESSIONAL SEMESTER IV (Spring Only)",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 17,
+        "sortOrder": 14,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -1068,8 +920,8 @@
         "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "HIST",
-          "number": "200"
+          "subject": "EDSP",
+          "number": "411"
         },
         "sortOrder": 23
       },
@@ -1077,44 +929,44 @@
         "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "HIST",
-          "number": "201"
+          "subject": "EDSP",
+          "number": "413"
         },
         "sortOrder": 24
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "HESP",
-          "number": "202"
+          "subject": "EDSP",
+          "number": "400"
         },
         "sortOrder": 25
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CHSE",
-          "number": "376"
+          "subject": "EDSP",
+          "number": "451"
         },
         "sortOrder": 26
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "STAT",
-          "number": "100"
+          "subject": "EDSP",
+          "number": "443"
         },
         "sortOrder": 27
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDHD",
-          "number": "411"
+          "subject": "EDSP",
+          "number": "425"
         },
         "sortOrder": 28
       },
@@ -1122,8 +974,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "PSYC",
-          "number": "355"
+          "subject": "EDSP",
+          "number": "403"
         },
         "sortOrder": 29
       },
@@ -1131,8 +983,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "MATH",
-          "number": "212"
+          "subject": "EDSP",
+          "number": "415"
         },
         "sortOrder": 30
       },
@@ -1140,71 +992,71 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "MATH",
-          "number": "213"
+          "subject": "EDSP",
+          "number": "416"
         },
         "sortOrder": 31
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "TLPL",
-          "number": "360"
+          "subject": "EDSP",
+          "number": "410"
         },
         "sortOrder": 32
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "TLPL",
-          "number": "250"
+          "subject": "EDSP",
+          "number": "485"
         },
         "sortOrder": 33
       },
       {
-        "blockTempId": "blk-10",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "411"
+          "number": "426"
         },
         "sortOrder": 34
       },
       {
-        "blockTempId": "blk-10",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "413"
+          "number": "484"
         },
         "sortOrder": 35
       },
       {
-        "blockTempId": "blk-10",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "400"
+          "number": "487"
         },
         "sortOrder": 36
       },
       {
-        "blockTempId": "blk-10",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "451"
+          "number": "404"
         },
         "sortOrder": 37
       },
       {
-        "blockTempId": "blk-10",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "443"
+          "number": "452"
         },
         "sortOrder": 38
       },
@@ -1213,25 +1065,24 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "425"
+          "number": "490"
         },
         "sortOrder": 39
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "403"
+          "number": "495"
         },
         "sortOrder": 40
       },
       {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "EDSP",
-          "number": "415"
+          "text": "Professional Requirements Track 2"
         },
         "sortOrder": 41
       },
@@ -1240,7 +1091,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "416"
+          "number": "411"
         },
         "sortOrder": 42
       },
@@ -1249,7 +1100,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "410"
+          "number": "413"
         },
         "sortOrder": 43
       },
@@ -1258,7 +1109,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "485"
+          "number": "400"
         },
         "sortOrder": 44
       },
@@ -1267,25 +1118,25 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "426"
+          "number": "451"
         },
         "sortOrder": 45
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "484"
+          "number": "443"
         },
         "sortOrder": 46
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "487"
+          "number": "425"
         },
         "sortOrder": 47
       },
@@ -1293,8 +1144,8 @@
         "blockTempId": "blk-12",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDSP",
-          "number": "404"
+          "subject": "TLPL",
+          "number": "362"
         },
         "sortOrder": 48
       },
@@ -1303,78 +1154,79 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "452"
+          "number": "415"
         },
         "sortOrder": 49
       },
       {
-        "blockTempId": "blk-13",
+        "blockTempId": "blk-12",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "490"
+          "number": "416"
         },
         "sortOrder": 50
       },
       {
-        "blockTempId": "blk-13",
+        "blockTempId": "blk-12",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "495"
+          "number": "485"
         },
         "sortOrder": 51
       },
       {
-        "blockTempId": "blk-13",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Professional Requirements Track 2"
+          "subject": "EDSP",
+          "number": "426"
         },
         "sortOrder": 52
       },
       {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "411"
+          "number": "484"
         },
         "sortOrder": 53
       },
       {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "413"
+          "number": "487"
         },
         "sortOrder": 54
       },
       {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "400"
+          "number": "404"
         },
         "sortOrder": 55
       },
       {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDSP",
-          "number": "451"
+          "subject": "TLPL",
+          "number": "321"
         },
         "sortOrder": 56
       },
       {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "443"
+          "number": "452"
         },
         "sortOrder": 57
       },
@@ -1383,117 +1235,18 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
-          "number": "425"
+          "number": "490"
         },
         "sortOrder": 58
       },
       {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "362"
-        },
-        "sortOrder": 59
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "415"
-        },
-        "sortOrder": 60
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "416"
-        },
-        "sortOrder": 61
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "485"
-        },
-        "sortOrder": 62
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "426"
-        },
-        "sortOrder": 63
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "484"
-        },
-        "sortOrder": 64
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "487"
-        },
-        "sortOrder": 65
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "404"
-        },
-        "sortOrder": 66
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "321"
-        },
-        "sortOrder": 67
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "452"
-        },
-        "sortOrder": 68
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDSP",
-          "number": "490"
-        },
-        "sortOrder": 69
-      },
-      {
-        "blockTempId": "blk-17",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "EDSP",
           "number": "495"
         },
-        "sortOrder": 70
+        "sortOrder": 59
       }
     ]
   }

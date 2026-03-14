@@ -107,78 +107,6 @@
           "minCount": 4
         }
       ]
-    },
-    {
-      "id": "choice-5",
-      "label": "Choose four of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-6",
-          "label": "KNES225",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "225"
-        },
-        {
-          "id": "course-7",
-          "label": "KNES285",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "285"
-        },
-        {
-          "id": "course-8",
-          "label": "KNES289",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "289"
-        },
-        {
-          "id": "course-9",
-          "label": "KNES342",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "342"
-        },
-        {
-          "id": "course-10",
-          "label": "KNES346",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "346"
-        },
-        {
-          "id": "course-11",
-          "label": "KNES347",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "347"
-        },
-        {
-          "id": "course-12",
-          "label": "KNES484",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "484"
-        },
-        {
-          "id": "course-13",
-          "label": "KNES485",
-          "nodeType": "course",
-          "children": [],
-          "subject": "KNES",
-          "number": "485"
-        }
-      ],
-      "minCount": 4
     }
   ],
   "flattened": {
@@ -203,18 +131,6 @@
           "nCourses": 4
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-5",
-        "humanLabel": "Choose four of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 4
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -315,78 +231,6 @@
           "number": "485"
         },
         "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "225"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "285"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "289"
-        },
-        "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "342"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "346"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "347"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "484"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "KNES",
-          "number": "485"
-        },
-        "sortOrder": 19
       }
     ]
   }

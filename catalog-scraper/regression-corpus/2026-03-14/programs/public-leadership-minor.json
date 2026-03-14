@@ -65,30 +65,6 @@
           "minCount": 12
         }
       ]
-    },
-    {
-      "id": "choice-4",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-5",
-          "label": "PLCY201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PLCY",
-          "number": "201"
-        },
-        {
-          "id": "course-6",
-          "label": "PLCY302",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PLCY",
-          "number": "302"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -125,18 +101,6 @@
           "nCourses": 12
         },
         "sortOrder": 3,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "choice-4",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -182,24 +146,6 @@
           "text": "Signature and Elective Courses"
         },
         "sortOrder": 5
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PLCY",
-          "number": "201"
-        },
-        "sortOrder": 6
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PLCY",
-          "number": "302"
-        },
-        "sortOrder": 7
       }
     ]
   }

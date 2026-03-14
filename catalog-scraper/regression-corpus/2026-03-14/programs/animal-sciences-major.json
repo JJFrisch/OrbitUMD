@@ -533,230 +533,6 @@
       ]
     },
     {
-      "id": "choice-39",
-      "label": "Select 9 credits of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-40",
-          "label": "ANSC330",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "330"
-        },
-        {
-          "id": "course-41",
-          "label": "ANSC340",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "340"
-        },
-        {
-          "id": "course-42",
-          "label": "ANSC410",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "410"
-        },
-        {
-          "id": "course-43",
-          "label": "ANSC417",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "417"
-        },
-        {
-          "id": "course-44",
-          "label": "ANSC435",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "435"
-        },
-        {
-          "id": "course-45",
-          "label": "ANSC437",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "437"
-        },
-        {
-          "id": "course-46",
-          "label": "ANSC440",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "440"
-        },
-        {
-          "id": "course-47",
-          "label": "ANSC443",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "443"
-        },
-        {
-          "id": "course-48",
-          "label": "ANSC444",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "444"
-        },
-        {
-          "id": "course-49",
-          "label": "ANSC450",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "450"
-        },
-        {
-          "id": "course-50",
-          "label": "ANSC452",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "452"
-        },
-        {
-          "id": "course-51",
-          "label": "ANSC453",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "453"
-        },
-        {
-          "id": "course-52",
-          "label": "ANSC455",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "455"
-        },
-        {
-          "id": "course-53",
-          "label": "ANSC460",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "460"
-        },
-        {
-          "id": "course-54",
-          "label": "ANSC497",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "497"
-        }
-      ],
-      "minCount": 9
-    },
-    {
-      "id": "choice-56",
-      "label": "Select 9 credits of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-57",
-          "label": "ANSC220",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "220"
-        },
-        {
-          "id": "course-58",
-          "label": "ANSC232",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "232"
-        },
-        {
-          "id": "course-59",
-          "label": "ANSC237",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "237"
-        },
-        {
-          "id": "course-60",
-          "label": "ANSC242",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "242"
-        },
-        {
-          "id": "course-61",
-          "label": "ANSC245",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "245"
-        },
-        {
-          "id": "course-62",
-          "label": "ANSC246",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "246"
-        },
-        {
-          "id": "course-63",
-          "label": "ANSC250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "250"
-        },
-        {
-          "id": "course-64",
-          "label": "ANSC255",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "255"
-        },
-        {
-          "id": "course-65",
-          "label": "ANSC260",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "260"
-        },
-        {
-          "id": "course-66",
-          "label": "ANSC262",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "262"
-        },
-        {
-          "id": "course-67",
-          "label": "ANSC282",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "282"
-        }
-      ],
-      "minCount": 9
-    },
-    {
       "id": "block-68",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -1142,254 +918,6 @@
           "minCount": 3
         }
       ]
-    },
-    {
-      "id": "choice-85",
-      "label": "Select 9 credits of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-86",
-          "label": "ANSC330",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "330"
-        },
-        {
-          "id": "course-87",
-          "label": "ANSC340",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "340"
-        },
-        {
-          "id": "course-88",
-          "label": "ANSC359",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "359"
-        },
-        {
-          "id": "course-89",
-          "label": "ANSC410",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "410"
-        },
-        {
-          "id": "course-90",
-          "label": "ANSC417",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "417"
-        },
-        {
-          "id": "course-91",
-          "label": "ANSC435",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "435"
-        },
-        {
-          "id": "course-92",
-          "label": "ANSC437",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "437"
-        },
-        {
-          "id": "course-93",
-          "label": "ANSC440",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "440"
-        },
-        {
-          "id": "course-94",
-          "label": "ANSC443",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "443"
-        },
-        {
-          "id": "course-95",
-          "label": "ANSC444",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "444"
-        },
-        {
-          "id": "course-96",
-          "label": "ANSC446",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "446"
-        },
-        {
-          "id": "course-97",
-          "label": "ANSC447",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "447"
-        },
-        {
-          "id": "course-98",
-          "label": "ANSC450",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "450"
-        },
-        {
-          "id": "course-99",
-          "label": "ANSC452",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "452"
-        },
-        {
-          "id": "course-100",
-          "label": "ANSC453",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "453"
-        },
-        {
-          "id": "course-101",
-          "label": "ANSC455",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "455"
-        },
-        {
-          "id": "course-102",
-          "label": "ANSC460",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "460"
-        },
-        {
-          "id": "course-103",
-          "label": "ANSC497",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "497"
-        }
-      ],
-      "minCount": 9
-    },
-    {
-      "id": "choice-105",
-      "label": "Select 3 credits of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-106",
-          "label": "ANSC220",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "220"
-        },
-        {
-          "id": "course-107",
-          "label": "ANSC232",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "232"
-        },
-        {
-          "id": "course-108",
-          "label": "ANSC237",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "237"
-        },
-        {
-          "id": "course-109",
-          "label": "ANSC242",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "242"
-        },
-        {
-          "id": "course-110",
-          "label": "ANSC245",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "245"
-        },
-        {
-          "id": "course-111",
-          "label": "ANSC246",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "246"
-        },
-        {
-          "id": "course-112",
-          "label": "ANSC250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "250"
-        },
-        {
-          "id": "course-113",
-          "label": "ANSC255",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "255"
-        },
-        {
-          "id": "course-114",
-          "label": "ANSC260",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "260"
-        },
-        {
-          "id": "course-115",
-          "label": "ANSC262",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "262"
-        },
-        {
-          "id": "course-116",
-          "label": "ANSC282",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ANSC",
-          "number": "282"
-        }
-      ],
-      "minCount": 3
     }
   ],
   "flattened": {
@@ -1453,19 +981,17 @@
       {
         "tempId": "blk-6",
         "parentTempId": null,
-        "sourceNodeId": "choice-39",
-        "humanLabel": "Select 9 credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 9
-        },
+        "sourceNodeId": "block-68",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 6,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-7",
-        "parentTempId": null,
-        "sourceNodeId": "choice-56",
+        "parentTempId": "blk-6",
+        "sourceNodeId": "choice-85",
         "humanLabel": "Select 9 credits of the following",
         "type": "SELECT_N",
         "params": {
@@ -1476,60 +1002,14 @@
       },
       {
         "tempId": "blk-8",
-        "parentTempId": null,
-        "sourceNodeId": "block-68",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-6",
+        "sourceNodeId": "choice-105",
+        "humanLabel": "Select 3 credits of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
+        },
         "sortOrder": 8,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-9",
-        "parentTempId": "blk-8",
-        "sourceNodeId": "choice-85",
-        "humanLabel": "Select 9 credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 9
-        },
-        "sortOrder": 9,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-10",
-        "parentTempId": "blk-8",
-        "sourceNodeId": "choice-105",
-        "humanLabel": "Select 3 credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
-        "sortOrder": 10,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-11",
-        "parentTempId": null,
-        "sourceNodeId": "choice-85",
-        "humanLabel": "Select 9 credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 9
-        },
-        "sortOrder": 11,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-12",
-        "parentTempId": null,
-        "sourceNodeId": "choice-105",
-        "humanLabel": "Select 3 credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
-        "sortOrder": 12,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -2086,19 +1566,17 @@
       },
       {
         "blockTempId": "blk-6",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ANSC",
-          "number": "330"
+          "text": "Course Title"
         },
         "sortOrder": 63
       },
       {
         "blockTempId": "blk-6",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ANSC",
-          "number": "340"
+          "text": "Required Courses"
         },
         "sortOrder": 64
       },
@@ -2107,7 +1585,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "410"
+          "number": "327"
         },
         "sortOrder": 65
       },
@@ -2115,8 +1593,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "417"
+          "subject": "BCHM",
+          "number": "463"
         },
         "sortOrder": 66
       },
@@ -2124,8 +1602,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "435"
+          "subject": "BSCI",
+          "number": "330"
         },
         "sortOrder": 67
       },
@@ -2133,8 +1611,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "437"
+          "subject": "CHEM",
+          "number": "231"
         },
         "sortOrder": 68
       },
@@ -2142,8 +1620,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "440"
+          "subject": "CHEM",
+          "number": "232"
         },
         "sortOrder": 69
       },
@@ -2151,8 +1629,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "443"
+          "subject": "CHEM",
+          "number": "241"
         },
         "sortOrder": 70
       },
@@ -2160,8 +1638,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "444"
+          "subject": "CHEM",
+          "number": "242"
         },
         "sortOrder": 71
       },
@@ -2169,8 +1647,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "450"
+          "subject": "CHEM",
+          "number": "271"
         },
         "sortOrder": 72
       },
@@ -2178,8 +1656,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "452"
+          "subject": "CHEM",
+          "number": "272"
         },
         "sortOrder": 73
       },
@@ -2187,8 +1665,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "453"
+          "subject": "PHYS",
+          "number": "121"
         },
         "sortOrder": 74
       },
@@ -2196,8 +1674,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "455"
+          "subject": "PHYS",
+          "number": "131"
         },
         "sortOrder": 75
       },
@@ -2205,8 +1683,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "460"
+          "subject": "PHYS",
+          "number": "122"
         },
         "sortOrder": 76
       },
@@ -2214,17 +1692,16 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANSC",
-          "number": "497"
+          "subject": "PHYS",
+          "number": "132"
         },
         "sortOrder": 77
       },
       {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ANSC",
-          "number": "220"
+          "text": "Advanced ANSC Electives"
         },
         "sortOrder": 78
       },
@@ -2233,7 +1710,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "232"
+          "number": "330"
         },
         "sortOrder": 79
       },
@@ -2242,7 +1719,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "237"
+          "number": "340"
         },
         "sortOrder": 80
       },
@@ -2251,7 +1728,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "242"
+          "number": "359"
         },
         "sortOrder": 81
       },
@@ -2260,7 +1737,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "245"
+          "number": "410"
         },
         "sortOrder": 82
       },
@@ -2269,7 +1746,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "246"
+          "number": "417"
         },
         "sortOrder": 83
       },
@@ -2278,7 +1755,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "250"
+          "number": "435"
         },
         "sortOrder": 84
       },
@@ -2287,7 +1764,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "255"
+          "number": "437"
         },
         "sortOrder": 85
       },
@@ -2296,7 +1773,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "260"
+          "number": "440"
         },
         "sortOrder": 86
       },
@@ -2305,7 +1782,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "262"
+          "number": "443"
         },
         "sortOrder": 87
       },
@@ -2314,86 +1791,87 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "282"
+          "number": "444"
         },
         "sortOrder": 88
       },
       {
-        "blockTempId": "blk-8",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "ANSC",
+          "number": "446"
         },
         "sortOrder": 89
       },
       {
-        "blockTempId": "blk-8",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Required Courses"
+          "subject": "ANSC",
+          "number": "447"
         },
         "sortOrder": 90
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "327"
+          "number": "450"
         },
         "sortOrder": 91
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "BCHM",
-          "number": "463"
+          "subject": "ANSC",
+          "number": "452"
         },
         "sortOrder": 92
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "BSCI",
-          "number": "330"
+          "subject": "ANSC",
+          "number": "453"
         },
         "sortOrder": 93
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CHEM",
-          "number": "231"
+          "subject": "ANSC",
+          "number": "455"
         },
         "sortOrder": 94
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CHEM",
-          "number": "232"
+          "subject": "ANSC",
+          "number": "460"
         },
         "sortOrder": 95
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CHEM",
-          "number": "241"
+          "subject": "ANSC",
+          "number": "497"
         },
         "sortOrder": 96
       },
       {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "CHEM",
-          "number": "242"
+          "text": "Management Courses"
         },
         "sortOrder": 97
       },
@@ -2401,8 +1879,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CHEM",
-          "number": "271"
+          "subject": "ANSC",
+          "number": "220"
         },
         "sortOrder": 98
       },
@@ -2410,8 +1888,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CHEM",
-          "number": "272"
+          "subject": "ANSC",
+          "number": "232"
         },
         "sortOrder": 99
       },
@@ -2419,8 +1897,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "PHYS",
-          "number": "121"
+          "subject": "ANSC",
+          "number": "237"
         },
         "sortOrder": 100
       },
@@ -2428,8 +1906,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "PHYS",
-          "number": "131"
+          "subject": "ANSC",
+          "number": "242"
         },
         "sortOrder": 101
       },
@@ -2437,8 +1915,8 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "PHYS",
-          "number": "122"
+          "subject": "ANSC",
+          "number": "245"
         },
         "sortOrder": 102
       },
@@ -2446,548 +1924,55 @@
         "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
-          "subject": "PHYS",
-          "number": "132"
+          "subject": "ANSC",
+          "number": "246"
         },
         "sortOrder": 103
       },
       {
         "blockTempId": "blk-8",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Advanced ANSC Electives"
+          "subject": "ANSC",
+          "number": "250"
         },
         "sortOrder": 104
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "330"
+          "number": "255"
         },
         "sortOrder": 105
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "340"
+          "number": "260"
         },
         "sortOrder": 106
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "359"
+          "number": "262"
         },
         "sortOrder": 107
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "ANSC",
-          "number": "410"
+          "number": "282"
         },
         "sortOrder": 108
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "417"
-        },
-        "sortOrder": 109
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "435"
-        },
-        "sortOrder": 110
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "437"
-        },
-        "sortOrder": 111
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "440"
-        },
-        "sortOrder": 112
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "443"
-        },
-        "sortOrder": 113
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "444"
-        },
-        "sortOrder": 114
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "446"
-        },
-        "sortOrder": 115
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "447"
-        },
-        "sortOrder": 116
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "450"
-        },
-        "sortOrder": 117
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "452"
-        },
-        "sortOrder": 118
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "453"
-        },
-        "sortOrder": 119
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "455"
-        },
-        "sortOrder": 120
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "460"
-        },
-        "sortOrder": 121
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "497"
-        },
-        "sortOrder": 122
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Management Courses"
-        },
-        "sortOrder": 123
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "220"
-        },
-        "sortOrder": 124
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "232"
-        },
-        "sortOrder": 125
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "237"
-        },
-        "sortOrder": 126
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "242"
-        },
-        "sortOrder": 127
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "245"
-        },
-        "sortOrder": 128
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "246"
-        },
-        "sortOrder": 129
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "250"
-        },
-        "sortOrder": 130
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "255"
-        },
-        "sortOrder": 131
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "260"
-        },
-        "sortOrder": 132
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "262"
-        },
-        "sortOrder": 133
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "282"
-        },
-        "sortOrder": 134
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "330"
-        },
-        "sortOrder": 135
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "340"
-        },
-        "sortOrder": 136
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "359"
-        },
-        "sortOrder": 137
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "410"
-        },
-        "sortOrder": 138
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "417"
-        },
-        "sortOrder": 139
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "435"
-        },
-        "sortOrder": 140
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "437"
-        },
-        "sortOrder": 141
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "440"
-        },
-        "sortOrder": 142
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "443"
-        },
-        "sortOrder": 143
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "444"
-        },
-        "sortOrder": 144
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "446"
-        },
-        "sortOrder": 145
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "447"
-        },
-        "sortOrder": 146
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "450"
-        },
-        "sortOrder": 147
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "452"
-        },
-        "sortOrder": 148
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "453"
-        },
-        "sortOrder": 149
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "455"
-        },
-        "sortOrder": 150
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "460"
-        },
-        "sortOrder": 151
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "497"
-        },
-        "sortOrder": 152
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "220"
-        },
-        "sortOrder": 153
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "232"
-        },
-        "sortOrder": 154
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "237"
-        },
-        "sortOrder": 155
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "242"
-        },
-        "sortOrder": 156
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "245"
-        },
-        "sortOrder": 157
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "246"
-        },
-        "sortOrder": 158
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "250"
-        },
-        "sortOrder": 159
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "255"
-        },
-        "sortOrder": 160
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "260"
-        },
-        "sortOrder": 161
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "262"
-        },
-        "sortOrder": 162
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ANSC",
-          "number": "282"
-        },
-        "sortOrder": 163
       }
     ]
   }

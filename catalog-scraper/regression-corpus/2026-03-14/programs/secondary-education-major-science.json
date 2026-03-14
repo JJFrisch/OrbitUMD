@@ -161,86 +161,6 @@
           "text": "Professional Education Courses 1"
         }
       ]
-    },
-    {
-      "id": "choice-10",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-11",
-          "label": "TLPL360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "360"
-        },
-        {
-          "id": "course-12",
-          "label": "TLPL250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "250"
-        },
-        {
-          "id": "course-14",
-          "label": "BSCI348",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BSCI",
-          "number": "348"
-        },
-        {
-          "id": "course-15",
-          "label": "TLPL401",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "401"
-        },
-        {
-          "id": "course-16",
-          "label": "TLPL425",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "425"
-        },
-        {
-          "id": "course-17",
-          "label": "TLPL479",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "479"
-        },
-        {
-          "id": "course-18",
-          "label": "TLPL478",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "478"
-        },
-        {
-          "id": "course-19",
-          "label": "TLPL489",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "489"
-        },
-        {
-          "id": "course-20",
-          "label": "TLPL488",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "488"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -265,18 +185,6 @@
           "nCourses": 1
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-10",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -438,87 +346,6 @@
           "text": "Professional Education Courses 1"
         },
         "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "360"
-        },
-        "sortOrder": 19
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "250"
-        },
-        "sortOrder": 20
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BSCI",
-          "number": "348"
-        },
-        "sortOrder": 21
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "401"
-        },
-        "sortOrder": 22
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "425"
-        },
-        "sortOrder": 23
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "479"
-        },
-        "sortOrder": 24
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "478"
-        },
-        "sortOrder": 25
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "489"
-        },
-        "sortOrder": 26
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "488"
-        },
-        "sortOrder": 27
       }
     ]
   }

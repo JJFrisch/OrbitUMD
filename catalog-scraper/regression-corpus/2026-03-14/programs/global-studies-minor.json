@@ -1,0 +1,94 @@
+{
+  "code": "global-studies-minor",
+  "title": "Global Studies Minor",
+  "college": "Undergraduate Studies",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/global-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": null,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "International Development and Conflict Management",
+          "nodeType": "note",
+          "children": [],
+          "text": "International Development and Conflict Management"
+        },
+        {
+          "id": "note-3",
+          "label": "International Engineering",
+          "nodeType": "note",
+          "children": [],
+          "text": "International Engineering"
+        },
+        {
+          "id": "note-4",
+          "label": "Global Poverty",
+          "nodeType": "note",
+          "children": [],
+          "text": "Global Poverty"
+        },
+        {
+          "id": "note-5",
+          "label": "Global Terrorism Studies",
+          "nodeType": "note",
+          "children": [],
+          "text": "Global Terrorism Studies"
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "International Development and Conflict Management"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "International Engineering"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Global Poverty"
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Global Terrorism Studies"
+        },
+        "sortOrder": 4
+      }
+    ]
+  }
+}

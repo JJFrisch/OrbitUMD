@@ -54,38 +54,6 @@
       ]
     },
     {
-      "id": "choice-3",
-      "label": "Select two of the following electives",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-4",
-          "label": "AOSC123",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "123"
-        },
-        {
-          "id": "course-5",
-          "label": "AOSC200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "200"
-        },
-        {
-          "id": "course-6",
-          "label": "OTHER400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OTHER",
-          "number": "400"
-        }
-      ],
-      "minCount": 2
-    },
-    {
       "id": "block-7",
       "label": "Two required courses",
       "nodeType": "requireAll",
@@ -175,33 +143,21 @@
       {
         "tempId": "blk-3",
         "parentTempId": null,
-        "sourceNodeId": "choice-3",
-        "humanLabel": "Select two of the following electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
+        "sourceNodeId": "block-7",
+        "humanLabel": "Two required courses",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-4",
         "parentTempId": null,
-        "sourceNodeId": "block-7",
-        "humanLabel": "Two required courses",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 4,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-5",
-        "parentTempId": null,
         "sourceNodeId": "block-11",
         "humanLabel": "Courses offered by the Departments of Geology and Geographic Sciences, such as",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 5,
+        "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -246,7 +202,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "AOSC",
-          "number": "123"
+          "number": "400"
         },
         "sortOrder": 5
       },
@@ -255,7 +211,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "AOSC",
-          "number": "200"
+          "number": "401"
         },
         "sortOrder": 6
       },
@@ -263,7 +219,7 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "OTHER",
+          "subject": "ANY",
           "number": "400"
         },
         "sortOrder": 7
@@ -272,8 +228,8 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "AOSC",
-          "number": "400"
+          "subject": "GEOL",
+          "number": "437"
         },
         "sortOrder": 8
       },
@@ -281,8 +237,8 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "AOSC",
-          "number": "401"
+          "subject": "GEOL",
+          "number": "452"
         },
         "sortOrder": 9
       },
@@ -290,37 +246,10 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ANY",
-          "number": "400"
-        },
-        "sortOrder": 10
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOL",
-          "number": "437"
-        },
-        "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOL",
-          "number": "452"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
           "subject": "GEOG",
           "number": "472"
         },
-        "sortOrder": 13
+        "sortOrder": 10
       }
     ]
   }

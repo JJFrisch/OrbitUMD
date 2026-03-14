@@ -1,0 +1,130 @@
+{
+  "code": "german-studies-minor",
+  "title": "German Studies Minor",
+  "college": "Arts Humanities",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/germanic-studies/german-studies-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": null,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "course-2",
+          "label": "GERS203",
+          "nodeType": "course",
+          "children": [],
+          "subject": "GERS",
+          "number": "203"
+        },
+        {
+          "id": "note-3",
+          "label": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture",
+          "nodeType": "note",
+          "children": [],
+          "text": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture"
+        },
+        {
+          "id": "group-4",
+          "label": "Prerequisites: GERS103 and GERS203 are required, or their equivalents as determined through departmental advising",
+          "nodeType": "courseGroup",
+          "children": [],
+          "courses": [
+            {
+              "subject": "GERS",
+              "number": "103"
+            },
+            {
+              "subject": "GERS",
+              "number": "203"
+            }
+          ]
+        },
+        {
+          "id": "note-5",
+          "label": "All courses must be passed with a grade of \"C-\" or higher.",
+          "nodeType": "note",
+          "children": [],
+          "text": "All courses must be passed with a grade of \"C-\" or higher."
+        },
+        {
+          "id": "note-6",
+          "label": "An overall GPA of 2.0 in the minor is required for graduation.",
+          "nodeType": "note",
+          "children": [],
+          "text": "An overall GPA of 2.0 in the minor is required for graduation."
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GERS",
+          "number": "203"
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture"
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE_GROUP",
+        "payload": {
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "GERS",
+              "number": "103"
+            },
+            {
+              "subject": "GERS",
+              "number": "203"
+            }
+          ]
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "All courses must be passed with a grade of \"C-\" or higher."
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "An overall GPA of 2.0 in the minor is required for graduation."
+        },
+        "sortOrder": 5
+      }
+    ]
+  }
+}

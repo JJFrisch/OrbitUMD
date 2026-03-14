@@ -411,254 +411,6 @@
       ]
     },
     {
-      "id": "choice-16",
-      "label": "Select five 400 level courses from at least three of the following areas with no more than three courses in a given area",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-18",
-          "label": "CMSC411",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "411"
-        },
-        {
-          "id": "course-19",
-          "label": "CMSC412",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "412"
-        },
-        {
-          "id": "course-20",
-          "label": "CMSC414",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "414"
-        },
-        {
-          "id": "course-21",
-          "label": "CMSC416",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "416"
-        },
-        {
-          "id": "course-22",
-          "label": "CMSC417",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "417"
-        },
-        {
-          "id": "course-24",
-          "label": "CMSC420",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "420"
-        },
-        {
-          "id": "course-25",
-          "label": "CMSC421",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "421"
-        },
-        {
-          "id": "course-26",
-          "label": "CMSC422",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "422"
-        },
-        {
-          "id": "course-27",
-          "label": "CMSC423",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "423"
-        },
-        {
-          "id": "course-28",
-          "label": "CMSC424",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "424"
-        },
-        {
-          "id": "course-29",
-          "label": "CMSC426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "426"
-        },
-        {
-          "id": "course-30",
-          "label": "CMSC427",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "427"
-        },
-        {
-          "id": "course-31",
-          "label": "CMSC470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "470"
-        },
-        {
-          "id": "course-32",
-          "label": "CMSC471",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "471"
-        },
-        {
-          "id": "course-33",
-          "label": "CMSC472",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "472"
-        },
-        {
-          "id": "course-35",
-          "label": "CMSC430",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "430"
-        },
-        {
-          "id": "course-36",
-          "label": "CMSC433",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "433"
-        },
-        {
-          "id": "course-37",
-          "label": "CMSC434",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "434"
-        },
-        {
-          "id": "course-38",
-          "label": "CMSC435",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "435"
-        },
-        {
-          "id": "course-39",
-          "label": "CMSC436",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "436"
-        },
-        {
-          "id": "course-40",
-          "label": "CMSC471",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "471"
-        },
-        {
-          "id": "course-42",
-          "label": "CMSC451",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "451"
-        },
-        {
-          "id": "course-43",
-          "label": "CMSC452",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "452"
-        },
-        {
-          "id": "course-44",
-          "label": "CMSC454",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "454"
-        },
-        {
-          "id": "course-45",
-          "label": "CMSC456",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "456"
-        },
-        {
-          "id": "course-46",
-          "label": "CMSC457",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "457"
-        },
-        {
-          "id": "course-47",
-          "label": "CMSC474",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "474"
-        },
-        {
-          "id": "course-49",
-          "label": "CMSC460",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "460"
-        },
-        {
-          "id": "course-50",
-          "label": "CMSC466",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "466"
-        },
-        {
-          "id": "course-52",
-          "label": "OF300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OF",
-          "number": "300"
-        }
-      ],
-      "minCount": 5
-    },
-    {
       "id": "block-53",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -974,174 +726,6 @@
       ]
     },
     {
-      "id": "choice-71",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-72",
-          "label": "CMSC420",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "420"
-        },
-        {
-          "id": "course-73",
-          "label": "CMSC421",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "421"
-        },
-        {
-          "id": "course-74",
-          "label": "CMSC423",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "423"
-        },
-        {
-          "id": "course-75",
-          "label": "CMSC425",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "425"
-        },
-        {
-          "id": "course-76",
-          "label": "CMSC426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "426"
-        },
-        {
-          "id": "course-77",
-          "label": "CMSC427",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "427"
-        },
-        {
-          "id": "course-78",
-          "label": "CMSC470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "470"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-79",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-80",
-          "label": "CMSC451",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "451"
-        },
-        {
-          "id": "course-81",
-          "label": "CMSC454",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "454"
-        },
-        {
-          "id": "course-82",
-          "label": "CMSC460",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "460"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-83",
-      "label": "Select two of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-84",
-          "label": "CMSC411",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "411"
-        },
-        {
-          "id": "course-85",
-          "label": "CMSC412",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "412"
-        },
-        {
-          "id": "course-86",
-          "label": "CMSC414",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "414"
-        },
-        {
-          "id": "course-87",
-          "label": "CMSC417",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "417"
-        },
-        {
-          "id": "course-88",
-          "label": "CMSC430",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "430"
-        },
-        {
-          "id": "course-89",
-          "label": "CMSC433",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "433"
-        },
-        {
-          "id": "course-90",
-          "label": "CMSC434",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "434"
-        },
-        {
-          "id": "course-91",
-          "label": "CMSC435",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "435"
-        }
-      ],
-      "minCount": 2
-    },
-    {
       "id": "block-92",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -1281,109 +865,6 @@
           "minCount": 2
         }
       ]
-    },
-    {
-      "id": "choice-97",
-      "label": "Select two of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-98",
-          "label": "CMSC426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "426"
-        },
-        {
-          "id": "course-99",
-          "label": "AMSC460",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AMSC",
-          "number": "460"
-        },
-        {
-          "id": "course-100",
-          "label": "AMSC466",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AMSC",
-          "number": "466"
-        },
-        {
-          "id": "course-101",
-          "label": "MATH401",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "401"
-        },
-        {
-          "id": "course-102",
-          "label": "CMSC470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "470"
-        },
-        {
-          "id": "course-103",
-          "label": "CMSC472",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "472"
-        },
-        {
-          "id": "course-104",
-          "label": "CMSC473",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "473"
-        },
-        {
-          "id": "course-105",
-          "label": "CMSC474",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "474"
-        },
-        {
-          "id": "course-106",
-          "label": "CMSC476",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "476"
-        },
-        {
-          "id": "option-108",
-          "label": "Upper Level Elective Courses: six credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
-          "nodeType": "requireAll",
-          "children": [
-            {
-              "id": "pair-107",
-              "label": "Upper Level Elective Courses: six credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
-              "nodeType": "courseGroup",
-              "children": [],
-              "courses": [
-                {
-                  "subject": "CMSC",
-                  "number": "330"
-                },
-                {
-                  "subject": "CMSC",
-                  "number": "351"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "minCount": 2
     },
     {
       "id": "block-109",
@@ -1664,221 +1145,6 @@
           "text": "Area 5: Numerical Analysis"
         }
       ]
-    },
-    {
-      "id": "choice-113",
-      "label": "Select four 400 level courses from at least two of the following areas (excluding Area 4: Theory) with no more than three courses in a given area",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-115",
-          "label": "CMSC411",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "411"
-        },
-        {
-          "id": "course-116",
-          "label": "CMSC412",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "412"
-        },
-        {
-          "id": "course-117",
-          "label": "CMSC414",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "414"
-        },
-        {
-          "id": "course-118",
-          "label": "CMSC416",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "416"
-        },
-        {
-          "id": "course-119",
-          "label": "CMSC417",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "417"
-        },
-        {
-          "id": "course-121",
-          "label": "CMSC420",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "420"
-        },
-        {
-          "id": "course-122",
-          "label": "CMSC421",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "421"
-        },
-        {
-          "id": "course-123",
-          "label": "CMSC422",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "422"
-        },
-        {
-          "id": "course-124",
-          "label": "CMSC423",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "423"
-        },
-        {
-          "id": "course-125",
-          "label": "CMSC424",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "424"
-        },
-        {
-          "id": "course-126",
-          "label": "CMSC426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "426"
-        },
-        {
-          "id": "course-127",
-          "label": "CMSC427",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "427"
-        },
-        {
-          "id": "course-128",
-          "label": "CMSC470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "470"
-        },
-        {
-          "id": "course-130",
-          "label": "CMSC430",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "430"
-        },
-        {
-          "id": "course-131",
-          "label": "CMSC433",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "433"
-        },
-        {
-          "id": "course-132",
-          "label": "CMSC434",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "434"
-        },
-        {
-          "id": "course-133",
-          "label": "CMSC435",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "435"
-        },
-        {
-          "id": "course-134",
-          "label": "CMSC436",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "436"
-        },
-        {
-          "id": "course-136",
-          "label": "CMSC451",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "451"
-        },
-        {
-          "id": "course-137",
-          "label": "CMSC452",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "452"
-        },
-        {
-          "id": "course-138",
-          "label": "CMSC456",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "456"
-        },
-        {
-          "id": "course-140",
-          "label": "CMSC460",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "460"
-        },
-        {
-          "id": "course-141",
-          "label": "CMSC466",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CMSC",
-          "number": "466"
-        },
-        {
-          "id": "option-143",
-          "label": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351",
-          "nodeType": "requireAll",
-          "children": [
-            {
-              "id": "pair-142",
-              "label": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351",
-              "nodeType": "courseGroup",
-              "children": [],
-              "courses": [
-                {
-                  "subject": "CMSC",
-                  "number": "330"
-                },
-                {
-                  "subject": "CMSC",
-                  "number": "351"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "minCount": 4
     }
   ],
   "flattened": {
@@ -1908,27 +1174,15 @@
       {
         "tempId": "blk-3",
         "parentTempId": null,
-        "sourceNodeId": "choice-16",
-        "humanLabel": "Select five 400 level courses from at least three of the following areas with no more than three courses in a given area",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 5
-        },
+        "sourceNodeId": "block-53",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "block-53",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 4,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-5",
         "parentTempId": null,
         "sourceNodeId": "choice-57",
         "humanLabel": "Students must choose four courses from",
@@ -1936,14 +1190,24 @@
         "params": {
           "nCourses": 4
         },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-4",
+        "sourceNodeId": "option-65",
+        "humanLabel": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 5,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-6",
-        "parentTempId": "blk-5",
-        "sourceNodeId": "option-65",
-        "humanLabel": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
+        "parentTempId": null,
+        "sourceNodeId": "block-66",
+        "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
         "sortOrder": 6,
@@ -1951,18 +1215,20 @@
       },
       {
         "tempId": "blk-7",
-        "parentTempId": null,
-        "sourceNodeId": "block-66",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-6",
+        "sourceNodeId": "choice-71",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
         "sortOrder": 7,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-8",
-        "parentTempId": "blk-7",
-        "sourceNodeId": "choice-71",
+        "parentTempId": "blk-6",
+        "sourceNodeId": "choice-79",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
@@ -1973,170 +1239,78 @@
       },
       {
         "tempId": "blk-9",
-        "parentTempId": "blk-7",
-        "sourceNodeId": "choice-79",
-        "humanLabel": "Select one of the following",
+        "parentTempId": "blk-6",
+        "sourceNodeId": "choice-83",
+        "humanLabel": "Select two of the following",
         "type": "SELECT_N",
         "params": {
-          "nCourses": 1
+          "nCourses": 2
         },
         "sortOrder": 9,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-10",
-        "parentTempId": "blk-7",
-        "sourceNodeId": "choice-83",
-        "humanLabel": "Select two of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
+        "parentTempId": null,
+        "sourceNodeId": "block-92",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 10,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-11",
-        "parentTempId": null,
-        "sourceNodeId": "choice-71",
-        "humanLabel": "Select one of the following",
+        "parentTempId": "blk-10",
+        "sourceNodeId": "choice-97",
+        "humanLabel": "Select two of the following",
         "type": "SELECT_N",
         "params": {
-          "nCourses": 1
+          "nCourses": 2
         },
         "sortOrder": 11,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-12",
-        "parentTempId": null,
-        "sourceNodeId": "choice-79",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "parentTempId": "blk-11",
+        "sourceNodeId": "option-108",
+        "humanLabel": "Upper Level Elective Courses: six credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 12,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-13",
         "parentTempId": null,
-        "sourceNodeId": "choice-83",
-        "humanLabel": "Select two of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
+        "sourceNodeId": "block-109",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 13,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-14",
-        "parentTempId": null,
-        "sourceNodeId": "block-92",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-13",
+        "sourceNodeId": "choice-113",
+        "humanLabel": "Select four 400 level courses from at least two of the following areas (excluding Area 4: Theory) with no more than three courses in a given area",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 4
+        },
         "sortOrder": 14,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-15",
         "parentTempId": "blk-14",
-        "sourceNodeId": "choice-97",
-        "humanLabel": "Select two of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
+        "sourceNodeId": "option-143",
+        "humanLabel": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 15,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-16",
-        "parentTempId": "blk-15",
-        "sourceNodeId": "option-108",
-        "humanLabel": "Upper Level Elective Courses: six credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 16,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-17",
-        "parentTempId": null,
-        "sourceNodeId": "choice-97",
-        "humanLabel": "Select two of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 17,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-18",
-        "parentTempId": "blk-17",
-        "sourceNodeId": "option-108",
-        "humanLabel": "Upper Level Elective Courses: six credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351 1",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 18,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-19",
-        "parentTempId": null,
-        "sourceNodeId": "block-109",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 19,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-20",
-        "parentTempId": "blk-19",
-        "sourceNodeId": "choice-113",
-        "humanLabel": "Select four 400 level courses from at least two of the following areas (excluding Area 4: Theory) with no more than three courses in a given area",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 4
-        },
-        "sortOrder": 20,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-21",
-        "parentTempId": "blk-20",
-        "sourceNodeId": "option-143",
-        "humanLabel": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 21,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-22",
-        "parentTempId": null,
-        "sourceNodeId": "choice-113",
-        "humanLabel": "Select four 400 level courses from at least two of the following areas (excluding Area 4: Theory) with no more than three courses in a given area",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 4
-        },
-        "sortOrder": 22,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-23",
-        "parentTempId": "blk-22",
-        "sourceNodeId": "option-143",
-        "humanLabel": "Upper Level Elective Courses: three credits from CMSC3XX or CMSC4XX excluding CMSC330 and CMSC351",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 23,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -2581,10 +1755,9 @@
       },
       {
         "blockTempId": "blk-3",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "CMSC",
-          "number": "411"
+          "text": "Course Title"
         },
         "sortOrder": 51
       },
@@ -2593,7 +1766,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "412"
+          "number": "414"
         },
         "sortOrder": 52
       },
@@ -2602,174 +1775,182 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "414"
+          "number": "456"
         },
         "sortOrder": 53
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "416"
+          "number": "411"
         },
         "sortOrder": 54
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "412"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "417"
         },
-        "sortOrder": 55
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "420"
-        },
         "sortOrder": 56
       },
       {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "421"
-        },
-        "sortOrder": 57
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "422"
-        },
-        "sortOrder": 58
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "423"
-        },
-        "sortOrder": 59
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "424"
-        },
-        "sortOrder": 60
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "426"
-        },
-        "sortOrder": 61
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "427"
-        },
-        "sortOrder": 62
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "470"
-        },
-        "sortOrder": 63
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "471"
-        },
-        "sortOrder": 64
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "472"
-        },
-        "sortOrder": 65
-      },
-      {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "430"
         },
-        "sortOrder": 66
+        "sortOrder": 57
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "433"
         },
-        "sortOrder": 67
+        "sortOrder": 58
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "434"
+          "number": "451"
+        },
+        "sortOrder": 59
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE_GROUP",
+        "payload": {
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "CMSC",
+              "number": "330"
+            },
+            {
+              "subject": "CMSC",
+              "number": "351"
+            }
+          ]
+        },
+        "sortOrder": 60
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 61
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "320"
+        },
+        "sortOrder": 62
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "422"
+        },
+        "sortOrder": 63
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "424"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "420"
+        },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "421"
+        },
+        "sortOrder": 66
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "423"
+        },
+        "sortOrder": 67
+      },
+      {
+        "blockTempId": "blk-7",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "CMSC",
+          "number": "425"
         },
         "sortOrder": 68
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "435"
+          "number": "426"
         },
         "sortOrder": 69
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "436"
+          "number": "427"
         },
         "sortOrder": 70
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "471"
+          "number": "470"
         },
         "sortOrder": 71
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
@@ -2778,1002 +1959,464 @@
         "sortOrder": 72
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "452"
+          "number": "454"
         },
         "sortOrder": 73
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "454"
+          "number": "460"
         },
         "sortOrder": 74
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "456"
+          "number": "411"
         },
         "sortOrder": 75
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "457"
+          "number": "412"
         },
         "sortOrder": 76
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "474"
+          "number": "414"
         },
         "sortOrder": 77
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "460"
+          "number": "417"
         },
         "sortOrder": 78
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "466"
+          "number": "430"
         },
         "sortOrder": 79
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
-          "subject": "OF",
-          "number": "300"
+          "subject": "CMSC",
+          "number": "433"
         },
         "sortOrder": 80
       },
       {
-        "blockTempId": "blk-4",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "CMSC",
+          "number": "434"
         },
         "sortOrder": 81
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "414"
+          "number": "435"
         },
         "sortOrder": 82
       },
       {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
+        "blockTempId": "blk-10",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "CMSC",
-          "number": "456"
+          "text": "Course Title"
         },
         "sortOrder": 83
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "411"
+          "number": "320"
         },
         "sortOrder": 84
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "412"
+          "number": "421"
         },
         "sortOrder": 85
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "417"
+          "number": "422"
         },
         "sortOrder": 86
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "430"
+          "number": "426"
         },
         "sortOrder": 87
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CMSC",
-          "number": "433"
+          "subject": "AMSC",
+          "number": "460"
         },
         "sortOrder": 88
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "CMSC",
-          "number": "451"
+          "subject": "AMSC",
+          "number": "466"
         },
         "sortOrder": 89
       },
       {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE_GROUP",
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
         "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "CMSC",
-              "number": "330"
-            },
-            {
-              "subject": "CMSC",
-              "number": "351"
-            }
-          ]
+          "subject": "MATH",
+          "number": "401"
         },
         "sortOrder": 90
       },
       {
-        "blockTempId": "blk-7",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "CMSC",
+          "number": "470"
         },
         "sortOrder": 91
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "320"
+          "number": "472"
         },
         "sortOrder": 92
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "422"
+          "number": "473"
         },
         "sortOrder": 93
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "424"
+          "number": "474"
         },
         "sortOrder": 94
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
-          "number": "420"
+          "number": "476"
         },
         "sortOrder": 95
       },
       {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
+        "blockTempId": "blk-12",
+        "itemType": "COURSE_GROUP",
         "payload": {
-          "subject": "CMSC",
-          "number": "421"
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "CMSC",
+              "number": "330"
+            },
+            {
+              "subject": "CMSC",
+              "number": "351"
+            }
+          ]
         },
         "sortOrder": 96
       },
       {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
+        "blockTempId": "blk-13",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "CMSC",
-          "number": "423"
+          "text": "Course Title"
         },
         "sortOrder": 97
       },
       {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "425"
-        },
-        "sortOrder": 98
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "426"
-        },
-        "sortOrder": 99
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "427"
-        },
-        "sortOrder": 100
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "470"
-        },
-        "sortOrder": 101
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "451"
-        },
-        "sortOrder": 102
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "454"
-        },
-        "sortOrder": 103
-      },
-      {
-        "blockTempId": "blk-9",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "460"
-        },
-        "sortOrder": 104
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "411"
-        },
-        "sortOrder": 105
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "412"
-        },
-        "sortOrder": 106
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "414"
-        },
-        "sortOrder": 107
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "417"
-        },
-        "sortOrder": 108
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "430"
-        },
-        "sortOrder": 109
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "433"
-        },
-        "sortOrder": 110
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "434"
-        },
-        "sortOrder": 111
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "435"
-        },
-        "sortOrder": 112
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "420"
-        },
-        "sortOrder": 113
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "421"
-        },
-        "sortOrder": 114
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "423"
-        },
-        "sortOrder": 115
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "425"
-        },
-        "sortOrder": 116
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "426"
-        },
-        "sortOrder": 117
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "427"
-        },
-        "sortOrder": 118
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "470"
-        },
-        "sortOrder": 119
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "451"
-        },
-        "sortOrder": 120
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "454"
-        },
-        "sortOrder": 121
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "460"
-        },
-        "sortOrder": 122
-      },
-      {
         "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "411"
-        },
-        "sortOrder": 123
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "412"
-        },
-        "sortOrder": 124
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "414"
-        },
-        "sortOrder": 125
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "417"
-        },
-        "sortOrder": 126
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "430"
-        },
-        "sortOrder": 127
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "433"
-        },
-        "sortOrder": 128
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "434"
-        },
-        "sortOrder": 129
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "435"
-        },
-        "sortOrder": 130
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 131
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "320"
-        },
-        "sortOrder": 132
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "421"
-        },
-        "sortOrder": 133
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "422"
-        },
-        "sortOrder": 134
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "426"
-        },
-        "sortOrder": 135
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AMSC",
-          "number": "460"
-        },
-        "sortOrder": 136
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AMSC",
-          "number": "466"
-        },
-        "sortOrder": 137
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "401"
-        },
-        "sortOrder": 138
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "470"
-        },
-        "sortOrder": 139
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "472"
-        },
-        "sortOrder": 140
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "473"
-        },
-        "sortOrder": 141
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "474"
-        },
-        "sortOrder": 142
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "476"
-        },
-        "sortOrder": 143
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE_GROUP",
-        "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "CMSC",
-              "number": "330"
-            },
-            {
-              "subject": "CMSC",
-              "number": "351"
-            }
-          ]
-        },
-        "sortOrder": 144
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "426"
-        },
-        "sortOrder": 145
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AMSC",
-          "number": "460"
-        },
-        "sortOrder": 146
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AMSC",
-          "number": "466"
-        },
-        "sortOrder": 147
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "401"
-        },
-        "sortOrder": 148
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "470"
-        },
-        "sortOrder": 149
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "472"
-        },
-        "sortOrder": 150
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "473"
-        },
-        "sortOrder": 151
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "474"
-        },
-        "sortOrder": 152
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "476"
-        },
-        "sortOrder": 153
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE_GROUP",
-        "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "CMSC",
-              "number": "330"
-            },
-            {
-              "subject": "CMSC",
-              "number": "351"
-            }
-          ]
-        },
-        "sortOrder": 154
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 155
-      },
-      {
-        "blockTempId": "blk-19",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "457"
         },
-        "sortOrder": 156
+        "sortOrder": 98
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
           "subject": "PHYS",
           "number": "467"
         },
-        "sortOrder": 157
+        "sortOrder": 99
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "411"
         },
-        "sortOrder": 158
+        "sortOrder": 100
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "412"
         },
-        "sortOrder": 159
+        "sortOrder": 101
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "414"
         },
-        "sortOrder": 160
+        "sortOrder": 102
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "416"
         },
-        "sortOrder": 161
+        "sortOrder": 103
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "417"
         },
-        "sortOrder": 162
+        "sortOrder": 104
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "420"
         },
-        "sortOrder": 163
+        "sortOrder": 105
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "421"
         },
-        "sortOrder": 164
+        "sortOrder": 106
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "422"
         },
-        "sortOrder": 165
+        "sortOrder": 107
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "423"
         },
-        "sortOrder": 166
+        "sortOrder": 108
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "424"
         },
-        "sortOrder": 167
+        "sortOrder": 109
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "426"
         },
-        "sortOrder": 168
+        "sortOrder": 110
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "427"
         },
-        "sortOrder": 169
+        "sortOrder": 111
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "470"
         },
-        "sortOrder": 170
+        "sortOrder": 112
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "430"
         },
-        "sortOrder": 171
+        "sortOrder": 113
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "433"
         },
-        "sortOrder": 172
+        "sortOrder": 114
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "434"
         },
-        "sortOrder": 173
+        "sortOrder": 115
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "435"
         },
-        "sortOrder": 174
+        "sortOrder": 116
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "436"
         },
-        "sortOrder": 175
+        "sortOrder": 117
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "451"
         },
-        "sortOrder": 176
+        "sortOrder": 118
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "452"
         },
-        "sortOrder": 177
+        "sortOrder": 119
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "456"
         },
-        "sortOrder": 178
+        "sortOrder": 120
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "460"
         },
-        "sortOrder": 179
+        "sortOrder": 121
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "CMSC",
           "number": "466"
         },
-        "sortOrder": 180
+        "sortOrder": 122
       },
       {
-        "blockTempId": "blk-21",
+        "blockTempId": "blk-15",
         "itemType": "COURSE_GROUP",
         "payload": {
           "groupType": "PAIR",
@@ -3788,272 +2431,47 @@
             }
           ]
         },
-        "sortOrder": 181
+        "sortOrder": 123
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Area 1: Systems"
         },
-        "sortOrder": 182
+        "sortOrder": 124
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Area 2: Information Processing"
         },
-        "sortOrder": 183
+        "sortOrder": 125
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Area 3: Software Engineering and Programming Languages"
         },
-        "sortOrder": 184
+        "sortOrder": 126
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Area 4: Theory"
         },
-        "sortOrder": 185
+        "sortOrder": 127
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Area 5: Numerical Analysis"
         },
-        "sortOrder": 186
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "411"
-        },
-        "sortOrder": 187
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "412"
-        },
-        "sortOrder": 188
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "414"
-        },
-        "sortOrder": 189
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "416"
-        },
-        "sortOrder": 190
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "417"
-        },
-        "sortOrder": 191
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "420"
-        },
-        "sortOrder": 192
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "421"
-        },
-        "sortOrder": 193
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "422"
-        },
-        "sortOrder": 194
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "423"
-        },
-        "sortOrder": 195
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "424"
-        },
-        "sortOrder": 196
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "426"
-        },
-        "sortOrder": 197
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "427"
-        },
-        "sortOrder": 198
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "470"
-        },
-        "sortOrder": 199
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "430"
-        },
-        "sortOrder": 200
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "433"
-        },
-        "sortOrder": 201
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "434"
-        },
-        "sortOrder": 202
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "435"
-        },
-        "sortOrder": 203
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "436"
-        },
-        "sortOrder": 204
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "451"
-        },
-        "sortOrder": 205
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "452"
-        },
-        "sortOrder": 206
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "456"
-        },
-        "sortOrder": 207
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "460"
-        },
-        "sortOrder": 208
-      },
-      {
-        "blockTempId": "blk-22",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CMSC",
-          "number": "466"
-        },
-        "sortOrder": 209
-      },
-      {
-        "blockTempId": "blk-23",
-        "itemType": "COURSE_GROUP",
-        "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "CMSC",
-              "number": "330"
-            },
-            {
-              "subject": "CMSC",
-              "number": "351"
-            }
-          ]
-        },
-        "sortOrder": 210
+        "sortOrder": 128
       }
     ]
   }

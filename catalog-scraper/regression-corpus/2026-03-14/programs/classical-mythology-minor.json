@@ -91,54 +91,6 @@
           "minCount": 3
         }
       ]
-    },
-    {
-      "id": "choice-6",
-      "label": "Select three courses of the following, two of which must be at the 3xx or 4xx level",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-7",
-          "label": "CLAS320",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CLAS",
-          "number": "320"
-        },
-        {
-          "id": "course-8",
-          "label": "CLAS330",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CLAS",
-          "number": "330"
-        },
-        {
-          "id": "course-9",
-          "label": "CLAS331",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CLAS",
-          "number": "331"
-        },
-        {
-          "id": "course-10",
-          "label": "CLAS374",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CLAS",
-          "number": "374"
-        },
-        {
-          "id": "course-11",
-          "label": "CLAS419",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CLAS",
-          "number": "419"
-        }
-      ],
-      "minCount": 3
     }
   ],
   "flattened": {
@@ -163,18 +115,6 @@
           "nCourses": 3
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-6",
-        "humanLabel": "Select three courses of the following, two of which must be at the 3xx or 4xx level",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -257,51 +197,6 @@
           "number": "419"
         },
         "sortOrder": 9
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CLAS",
-          "number": "320"
-        },
-        "sortOrder": 10
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CLAS",
-          "number": "330"
-        },
-        "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CLAS",
-          "number": "331"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CLAS",
-          "number": "374"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CLAS",
-          "number": "419"
-        },
-        "sortOrder": 14
       }
     ]
   }

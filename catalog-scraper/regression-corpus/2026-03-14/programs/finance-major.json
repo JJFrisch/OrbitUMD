@@ -132,86 +132,6 @@
       ]
     },
     {
-      "id": "choice-6",
-      "label": "Select four of the following courses",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-7",
-          "label": "BMGT342",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "342"
-        },
-        {
-          "id": "course-8",
-          "label": "BMGT347",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "347"
-        },
-        {
-          "id": "course-9",
-          "label": "BMGT441",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "441"
-        },
-        {
-          "id": "course-10",
-          "label": "BMGT442",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "442"
-        },
-        {
-          "id": "course-11",
-          "label": "BMGT443",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "443"
-        },
-        {
-          "id": "course-12",
-          "label": "BMGT444",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "444"
-        },
-        {
-          "id": "course-13",
-          "label": "BMGT445",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "445"
-        },
-        {
-          "id": "course-14",
-          "label": "BMGT446",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "446"
-        },
-        {
-          "id": "course-15",
-          "label": "BMGT447",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "447"
-        }
-      ],
-      "minCount": 4
-    },
-    {
       "id": "block-17",
       "label": "In addition, a MAXIMUM OF ONE of the following courses (3cr) may be applied towards this 12 cr requirement",
       "nodeType": "requireAll",
@@ -327,85 +247,6 @@
           "text": "Upper Level Economics Requirements for the Finance major"
         }
       ]
-    },
-    {
-      "id": "choice-21",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-22",
-          "label": "BMGT310",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "310"
-        },
-        {
-          "id": "course-23",
-          "label": "BMGT313",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "313"
-        },
-        {
-          "id": "course-24",
-          "label": "BMGT332",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "332"
-        },
-        {
-          "id": "course-25",
-          "label": "BMGT430",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "430"
-        },
-        {
-          "id": "option-27",
-          "label": "BMGT438A Applied Quantitative Analysis (QUEST) and ECON423 Econometrics II (ECON majors) are approved as course substitutes for this major requirement.",
-          "nodeType": "requireAll",
-          "children": [
-            {
-              "id": "pair-26",
-              "label": "BMGT438A Applied Quantitative Analysis (QUEST) and ECON423 Econometrics II (ECON majors) are approved as course substitutes for this major requirement.",
-              "nodeType": "courseGroup",
-              "children": [],
-              "courses": [
-                {
-                  "subject": "BMGT",
-                  "number": "438A"
-                },
-                {
-                  "subject": "ECON",
-                  "number": "423"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "course-29",
-          "label": "ECON330",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "330"
-        },
-        {
-          "id": "course-30",
-          "label": "BMGT341",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "341"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -435,67 +276,33 @@
       {
         "tempId": "blk-3",
         "parentTempId": null,
-        "sourceNodeId": "choice-6",
-        "humanLabel": "Select four of the following courses",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 4
-        },
+        "sourceNodeId": "block-17",
+        "humanLabel": "In addition, a MAXIMUM OF ONE of the following courses (3cr) may be applied towards this 12 cr requirement",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "block-17",
-        "humanLabel": "In addition, a MAXIMUM OF ONE of the following courses (3cr) may be applied towards this 12 cr requirement",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-3",
+        "sourceNodeId": "choice-21",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
         "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-5",
         "parentTempId": "blk-4",
-        "sourceNodeId": "choice-21",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "option-27",
+        "humanLabel": "BMGT438A Applied Quantitative Analysis (QUEST) and ECON423 Econometrics II (ECON majors) are approved as course substitutes for this major requirement.",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 5,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-6",
-        "parentTempId": "blk-5",
-        "sourceNodeId": "option-27",
-        "humanLabel": "BMGT438A Applied Quantitative Analysis (QUEST) and ECON423 Econometrics II (ECON majors) are approved as course substitutes for this major requirement.",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 6,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-7",
-        "parentTempId": null,
-        "sourceNodeId": "choice-21",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 7,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-8",
-        "parentTempId": "blk-7",
-        "sourceNodeId": "option-27",
-        "humanLabel": "BMGT438A Applied Quantitative Analysis (QUEST) and ECON423 Econometrics II (ECON majors) are approved as course substitutes for this major requirement.",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 8,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -628,7 +435,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "342"
+          "number": "349"
         },
         "sortOrder": 15
       },
@@ -637,7 +444,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "347"
+          "number": "448"
         },
         "sortOrder": 16
       },
@@ -646,61 +453,70 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "441"
+          "number": "449"
         },
         "sortOrder": 17
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "442"
+          "number": "310"
         },
         "sortOrder": 18
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "443"
+          "number": "313"
         },
         "sortOrder": 19
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "444"
+          "number": "332"
         },
         "sortOrder": 20
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "445"
+          "number": "430"
         },
         "sortOrder": 21
       },
       {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
+        "blockTempId": "blk-5",
+        "itemType": "COURSE_GROUP",
         "payload": {
-          "subject": "BMGT",
-          "number": "446"
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "BMGT",
+              "number": "438A"
+            },
+            {
+              "subject": "ECON",
+              "number": "423"
+            }
+          ]
         },
         "sortOrder": 22
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "BMGT",
-          "number": "447"
+          "subject": "ECON",
+          "number": "330"
         },
         "sortOrder": 23
       },
@@ -709,179 +525,17 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "BMGT",
-          "number": "349"
+          "number": "341"
         },
         "sortOrder": 24
       },
       {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "448"
-        },
-        "sortOrder": 25
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "449"
-        },
-        "sortOrder": 26
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "310"
-        },
-        "sortOrder": 27
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "313"
-        },
-        "sortOrder": 28
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "332"
-        },
-        "sortOrder": 29
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "430"
-        },
-        "sortOrder": 30
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE_GROUP",
-        "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "BMGT",
-              "number": "438A"
-            },
-            {
-              "subject": "ECON",
-              "number": "423"
-            }
-          ]
-        },
-        "sortOrder": 31
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "330"
-        },
-        "sortOrder": 32
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "341"
-        },
-        "sortOrder": 33
-      },
-      {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Upper Level Economics Requirements for the Finance major"
         },
-        "sortOrder": 34
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "310"
-        },
-        "sortOrder": 35
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "313"
-        },
-        "sortOrder": 36
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "332"
-        },
-        "sortOrder": 37
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "430"
-        },
-        "sortOrder": 38
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE_GROUP",
-        "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "BMGT",
-              "number": "438A"
-            },
-            {
-              "subject": "ECON",
-              "number": "423"
-            }
-          ]
-        },
-        "sortOrder": 39
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "330"
-        },
-        "sortOrder": 40
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "341"
-        },
-        "sortOrder": 41
+        "sortOrder": 25
       }
     ]
   }

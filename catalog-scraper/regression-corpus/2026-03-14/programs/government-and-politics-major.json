@@ -188,94 +188,6 @@
       ]
     },
     {
-      "id": "choice-6",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-7",
-          "label": "STAT100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "STAT",
-          "number": "100"
-        },
-        {
-          "id": "course-8",
-          "label": "MATH107",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "107"
-        },
-        {
-          "id": "course-9",
-          "label": "MATH120",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "120"
-        },
-        {
-          "id": "course-10",
-          "label": "MATH135",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "135"
-        },
-        {
-          "id": "course-11",
-          "label": "MATH136",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "136"
-        },
-        {
-          "id": "course-12",
-          "label": "MATH140",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "140"
-        },
-        {
-          "id": "course-14",
-          "label": "GVPT241",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "241"
-        },
-        {
-          "id": "course-16",
-          "label": "GVPT201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "201"
-        },
-        {
-          "id": "course-19",
-          "label": "CHOICE300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        {
-          "id": "course-21",
-          "label": "ECON200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "200"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-25",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -493,126 +405,6 @@
           "text": "Intermediate-level foreign language course 2 3-6"
         }
       ]
-    },
-    {
-      "id": "choice-30",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-31",
-          "label": "STAT100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "STAT",
-          "number": "100"
-        },
-        {
-          "id": "course-32",
-          "label": "MATH107",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "107"
-        },
-        {
-          "id": "course-33",
-          "label": "MATH120",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "120"
-        },
-        {
-          "id": "course-34",
-          "label": "MATH135",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "135"
-        },
-        {
-          "id": "course-35",
-          "label": "MATH136",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "136"
-        },
-        {
-          "id": "course-36",
-          "label": "MATH140",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "140"
-        },
-        {
-          "id": "course-38",
-          "label": "GVPT241",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "241"
-        },
-        {
-          "id": "course-40",
-          "label": "GVPT201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "201"
-        },
-        {
-          "id": "course-42",
-          "label": "GVPT200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "200"
-        },
-        {
-          "id": "course-43",
-          "label": "GVPT280",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "280"
-        },
-        {
-          "id": "course-44",
-          "label": "GVPT282",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "282"
-        },
-        {
-          "id": "course-47",
-          "label": "CHOICE300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        {
-          "id": "course-48",
-          "label": "CHOICE300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        {
-          "id": "course-50",
-          "label": "ECON200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "200"
-        }
-      ],
-      "minCount": 1
     },
     {
       "id": "block-54",
@@ -834,142 +626,6 @@
           "text": "Quantitative Skills courses 3 6"
         }
       ]
-    },
-    {
-      "id": "choice-59",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-60",
-          "label": "STAT100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "STAT",
-          "number": "100"
-        },
-        {
-          "id": "course-61",
-          "label": "MATH107",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "107"
-        },
-        {
-          "id": "course-62",
-          "label": "MATH120",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "120"
-        },
-        {
-          "id": "course-63",
-          "label": "MATH135",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "135"
-        },
-        {
-          "id": "course-64",
-          "label": "MATH136",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "136"
-        },
-        {
-          "id": "course-65",
-          "label": "MATH140",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "140"
-        },
-        {
-          "id": "course-66",
-          "label": "GVPT201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "201"
-        },
-        {
-          "id": "course-67",
-          "label": "GVPT320",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "320"
-        },
-        {
-          "id": "course-69",
-          "label": "COURSE300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "COURSE",
-          "number": "300"
-        },
-        {
-          "id": "course-70",
-          "label": "OURSES300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OURSES",
-          "number": "300"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-72",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-73",
-          "label": "GVPT200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "200"
-        },
-        {
-          "id": "course-74",
-          "label": "GVPT280",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "280"
-        },
-        {
-          "id": "course-75",
-          "label": "GVPT282",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "282"
-        },
-        {
-          "id": "course-78",
-          "label": "CHOICE300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        {
-          "id": "course-80",
-          "label": "ECON200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "200"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -999,41 +655,39 @@
       {
         "tempId": "blk-3",
         "parentTempId": null,
-        "sourceNodeId": "choice-6",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-25",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "block-25",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 4,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-5",
-        "parentTempId": "blk-4",
+        "parentTempId": "blk-3",
         "sourceNodeId": "choice-30",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
         },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": null,
+        "sourceNodeId": "block-54",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 5,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-6",
-        "parentTempId": null,
-        "sourceNodeId": "choice-30",
+        "parentTempId": "blk-5",
+        "sourceNodeId": "choice-59",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
@@ -1044,60 +698,14 @@
       },
       {
         "tempId": "blk-7",
-        "parentTempId": null,
-        "sourceNodeId": "block-54",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-5",
+        "sourceNodeId": "choice-72",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
         "sortOrder": 7,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-8",
-        "parentTempId": "blk-7",
-        "sourceNodeId": "choice-59",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 8,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-9",
-        "parentTempId": "blk-7",
-        "sourceNodeId": "choice-72",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 9,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-10",
-        "parentTempId": null,
-        "sourceNodeId": "choice-59",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 10,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-11",
-        "parentTempId": null,
-        "sourceNodeId": "choice-72",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 11,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -1291,28 +899,25 @@
       },
       {
         "blockTempId": "blk-3",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "STAT",
-          "number": "100"
+          "text": "Course Title"
         },
         "sortOrder": 23
       },
       {
         "blockTempId": "blk-3",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "MATH",
-          "number": "107"
+          "text": "College Requirements"
         },
         "sortOrder": 24
       },
       {
         "blockTempId": "blk-3",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "MATH",
-          "number": "120"
+          "text": "Required Courses"
         },
         "sortOrder": 25
       },
@@ -1320,86 +925,89 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "MATH",
-          "number": "135"
+          "subject": "GVPT",
+          "number": "170"
         },
         "sortOrder": 26
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 27
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 28
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 29
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "135"
+        },
+        "sortOrder": 30
+      },
+      {
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "MATH",
           "number": "136"
         },
-        "sortOrder": 27
+        "sortOrder": 31
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "MATH",
           "number": "140"
         },
-        "sortOrder": 28
+        "sortOrder": 32
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "241"
         },
-        "sortOrder": 29
+        "sortOrder": 33
       },
       {
-        "blockTempId": "blk-3",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "201"
         },
-        "sortOrder": 30
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        "sortOrder": 31
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "200"
-        },
-        "sortOrder": 32
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 33
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "College Requirements"
-        },
         "sortOrder": 34
       },
       {
         "blockTempId": "blk-4",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Required Courses"
+          "subject": "GVPT",
+          "number": "200"
         },
         "sortOrder": 35
       },
@@ -1408,205 +1016,202 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
-          "number": "170"
+          "number": "280"
         },
         "sortOrder": 36
       },
       {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "STAT",
-          "number": "100"
-        },
-        "sortOrder": 37
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "107"
-        },
-        "sortOrder": 38
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "120"
-        },
-        "sortOrder": 39
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "135"
-        },
-        "sortOrder": 40
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "136"
-        },
-        "sortOrder": 41
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "140"
-        },
-        "sortOrder": 42
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "241"
-        },
-        "sortOrder": 43
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "201"
-        },
-        "sortOrder": 44
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "200"
-        },
-        "sortOrder": 45
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "280"
-        },
-        "sortOrder": 46
-      },
-      {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "282"
         },
-        "sortOrder": 47
+        "sortOrder": 37
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CHOICE",
           "number": "300"
         },
-        "sortOrder": 48
+        "sortOrder": 38
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "CHOICE",
           "number": "300"
         },
-        "sortOrder": 49
+        "sortOrder": 39
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
           "subject": "ECON",
           "number": "200"
         },
-        "sortOrder": 50
+        "sortOrder": 40
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Theory Requirement"
         },
-        "sortOrder": 51
+        "sortOrder": 41
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Methods Requirement"
         },
-        "sortOrder": 52
+        "sortOrder": 42
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT International Relations Foundational Courses"
         },
-        "sortOrder": 53
+        "sortOrder": 43
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Courses of Choice"
         },
-        "sortOrder": 54
+        "sortOrder": 44
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Course of Choice (any level) 3"
         },
-        "sortOrder": 55
+        "sortOrder": 45
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Skills Requirements"
         },
-        "sortOrder": 56
+        "sortOrder": 46
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Completion of a foreign language through the entire elementary level 2 4-12"
         },
-        "sortOrder": 57
+        "sortOrder": 47
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Quantitative Skills course 3 3"
         },
-        "sortOrder": 58
+        "sortOrder": 48
       },
       {
-        "blockTempId": "blk-4",
+        "blockTempId": "blk-3",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Intermediate-level foreign language course 2 3-6"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Required Courses"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-5",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GVPT",
+          "number": "170"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "STAT",
+          "number": "100"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "107"
+        },
+        "sortOrder": 55
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "120"
+        },
+        "sortOrder": 56
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "135"
+        },
+        "sortOrder": 57
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "136"
+        },
+        "sortOrder": 58
+      },
+      {
+        "blockTempId": "blk-6",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "MATH",
+          "number": "140"
         },
         "sortOrder": 59
       },
@@ -1614,8 +1219,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "STAT",
-          "number": "100"
+          "subject": "GVPT",
+          "number": "201"
         },
         "sortOrder": 60
       },
@@ -1623,8 +1228,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "MATH",
-          "number": "107"
+          "subject": "GVPT",
+          "number": "320"
         },
         "sortOrder": 61
       },
@@ -1632,8 +1237,8 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "MATH",
-          "number": "120"
+          "subject": "COURSE",
+          "number": "300"
         },
         "sortOrder": 62
       },
@@ -1641,459 +1246,111 @@
         "blockTempId": "blk-6",
         "itemType": "COURSE",
         "payload": {
-          "subject": "MATH",
-          "number": "135"
+          "subject": "OURSES",
+          "number": "300"
         },
         "sortOrder": 63
       },
       {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "136"
-        },
-        "sortOrder": 64
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "140"
-        },
-        "sortOrder": 65
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "241"
-        },
-        "sortOrder": 66
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "201"
-        },
-        "sortOrder": 67
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "200"
-        },
-        "sortOrder": 68
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "280"
-        },
-        "sortOrder": 69
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "282"
-        },
-        "sortOrder": 70
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        "sortOrder": 71
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        "sortOrder": 72
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "200"
-        },
-        "sortOrder": 73
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 74
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "College Requirements"
-        },
-        "sortOrder": 75
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Required Courses"
-        },
-        "sortOrder": 76
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "170"
-        },
-        "sortOrder": 77
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "STAT",
-          "number": "100"
-        },
-        "sortOrder": 78
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "107"
-        },
-        "sortOrder": 79
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "120"
-        },
-        "sortOrder": 80
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "135"
-        },
-        "sortOrder": 81
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "136"
-        },
-        "sortOrder": 82
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "140"
-        },
-        "sortOrder": 83
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "201"
-        },
-        "sortOrder": 84
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "320"
-        },
-        "sortOrder": 85
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "COURSE",
-          "number": "300"
-        },
-        "sortOrder": 86
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "OURSES",
-          "number": "300"
-        },
-        "sortOrder": 87
-      },
-      {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Methods Requirements"
         },
-        "sortOrder": 88
+        "sortOrder": 64
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Foundational Courses"
         },
-        "sortOrder": 89
+        "sortOrder": 65
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "200"
         },
-        "sortOrder": 90
+        "sortOrder": 66
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "280"
         },
-        "sortOrder": 91
+        "sortOrder": 67
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "282"
         },
-        "sortOrder": 92
+        "sortOrder": 68
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "CHOICE",
           "number": "300"
         },
-        "sortOrder": 93
+        "sortOrder": 69
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-7",
         "itemType": "COURSE",
         "payload": {
           "subject": "ECON",
           "number": "200"
         },
-        "sortOrder": 94
+        "sortOrder": 70
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Courses of Choice"
         },
-        "sortOrder": 95
+        "sortOrder": 71
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "GVPT Courses of Choice (any level) 6"
         },
-        "sortOrder": 96
+        "sortOrder": 72
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Skills Requirements"
         },
-        "sortOrder": 97
+        "sortOrder": 73
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Completion of a foreign language through the entire elementary level 2 4-12"
         },
-        "sortOrder": 98
+        "sortOrder": 74
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Quantitative Skills courses 3 6"
         },
-        "sortOrder": 99
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "STAT",
-          "number": "100"
-        },
-        "sortOrder": 100
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "107"
-        },
-        "sortOrder": 101
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "120"
-        },
-        "sortOrder": 102
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "135"
-        },
-        "sortOrder": 103
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "136"
-        },
-        "sortOrder": 104
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "140"
-        },
-        "sortOrder": 105
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "201"
-        },
-        "sortOrder": 106
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "320"
-        },
-        "sortOrder": 107
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "COURSE",
-          "number": "300"
-        },
-        "sortOrder": 108
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "OURSES",
-          "number": "300"
-        },
-        "sortOrder": 109
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "200"
-        },
-        "sortOrder": 110
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "280"
-        },
-        "sortOrder": 111
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "282"
-        },
-        "sortOrder": 112
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CHOICE",
-          "number": "300"
-        },
-        "sortOrder": 113
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "200"
-        },
-        "sortOrder": 114
+        "sortOrder": 75
       }
     ]
   }

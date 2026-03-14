@@ -180,6 +180,82 @@ function parseCourseTokens(text: string): Array<{ subject: string; number: strin
   return matches.map((match) => ({ subject: match[1], number: match[2] }));
 }
 
+function includesRequirementLanguage(text: string): boolean {
+  return /\b(require|required|requirements|credit|credits|must|choose|select|complete|course|track|major|minor|degree|curriculum|semester)\b/i.test(
+    text,
+  );
+}
+
+function parseListTextToNode(text: string, nextId: (prefix: string) => string): ParsedDslNode {
+  const chooseCount = parseChooseCount(text);
+  const courseTokens = parseCourseTokens(text);
+
+  if (chooseCount !== null && courseTokens.length > 0) {
+    const choiceNode = makeNode(nextId("choice"), text, "requireAny", { minCount: chooseCount });
+    for (const token of courseTokens) {
+      choiceNode.children.push(makeNode(nextId("course"), `${token.subject}${token.number}`, "course", token));
+    }
+    return choiceNode;
+  }
+
+  if (courseTokens.length >= 2 && /\b(and|&|or)\b/i.test(text)) {
+    return makeNode(nextId("group"), text, "courseGroup", { courses: courseTokens });
+  }
+
+  if (courseTokens.length === 1) {
+    const token = courseTokens[0];
+    return makeNode(nextId("course"), `${token.subject}${token.number}`, "course", token);
+  }
+
+  return makeNode(nextId("note"), text, "note", { text });
+}
+
+function parseNonTableRootNodes(
+  $: cheerio.CheerioAPI,
+  rootNodes: ParsedDslNode[],
+  nextId: (prefix: string) => string,
+): void {
+  const requirementsContainer = $("#requirementstextcontainer").first();
+  const textContainer = $("#textcontainer").first();
+  const scope = requirementsContainer.length > 0 ? requirementsContainer : textContainer.length > 0 ? textContainer : $("body");
+
+  const fallbackRoot = makeNode(nextId("block"), "Requirements", "requireAll");
+  let appended = false;
+
+  scope.find("h2, h3, h4").each((_i, heading) => {
+    const label = normalizeText($(heading).text());
+    if (!label || !includesRequirementLanguage(label)) return;
+    const sectionNode = makeNode(nextId("section"), label.replace(/:\s*$/, ""), "requireAll");
+    fallbackRoot.children.push(sectionNode);
+    appended = true;
+  });
+
+  scope.find("li").each((_i, li) => {
+    const line = normalizeText($(li).text());
+    if (!line) return;
+    fallbackRoot.children.push(parseListTextToNode(line, nextId));
+    appended = true;
+  });
+
+  if (!appended) {
+    const paragraphs = scope
+      .find("p")
+      .toArray()
+      .map((p) => normalizeText($(p).text()))
+      .filter((line) => line && includesRequirementLanguage(line))
+      .slice(0, 8);
+
+    for (const paragraph of paragraphs) {
+      fallbackRoot.children.push(parseListTextToNode(paragraph, nextId));
+      appended = true;
+    }
+  }
+
+  if (appended) {
+    rootNodes.push(fallbackRoot);
+  }
+}
+
 function parseRootNodes(html: string, sourceUrl: string): { title: string; rootNodes: ParsedDslNode[]; bodyText: string } {
   const $ = cheerio.load(html);
   const title = normalizeText($("h1.page-title, h1").first().text()) || "Program";
@@ -306,6 +382,7 @@ function parseRootNodes(html: string, sourceUrl: string): { title: string; rootN
       }
 
       if (courseTokens.length > 0) {
+        const nestedChoiceAttach = Boolean(currentChoiceNode && currentRoot && currentRoot !== currentChoiceNode);
         let attachTo = currentChoiceNode ?? currentRoot;
         if (
           currentChoiceNode &&
@@ -319,7 +396,9 @@ function parseRootNodes(html: string, sourceUrl: string): { title: string; rootN
         }
 
         const target = attachTo ?? makeNode(nextId("block"), "Requirements", "requireAll");
-        if (!rootNodes.includes(target)) rootNodes.push(target);
+        if (!rootNodes.includes(target) && !(nestedChoiceAttach && target === currentChoiceNode)) {
+          rootNodes.push(target);
+        }
         if (target !== currentChoiceNode) {
           currentRoot = target;
         }
@@ -336,6 +415,10 @@ function parseRootNodes(html: string, sourceUrl: string): { title: string; rootN
       target.children.push(makeNode(nextId("note"), merged, "note", { text: merged }));
     });
   });
+
+  if (rootNodes.length === 0) {
+    parseNonTableRootNodes($, rootNodes, nextId);
+  }
 
   return { title, rootNodes, bodyText };
 }

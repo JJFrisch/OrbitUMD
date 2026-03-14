@@ -156,6 +156,79 @@ function parseCourseTokens(text: string): Array<{ subject: string; number: strin
   return matches.map((match) => ({ subject: match[1], number: match[2] }));
 }
 
+function includesRequirementLanguage(text: string): boolean {
+  return /\b(require|required|requirements|credit|credits|must|choose|select|complete|course|track|major|minor|degree|curriculum|semester)\b/i.test(
+    text,
+  );
+}
+
+function parseListTextToNode(text: string, nextId: (prefix: string) => string): RequirementDslNode {
+  const chooseCount = parseChooseCount(text);
+  const courseTokens = parseCourseTokens(text);
+
+  if (chooseCount !== null && courseTokens.length > 0) {
+    const choiceNode = makeNode(nextId("choice"), text, "requireAny", { minCount: chooseCount });
+    for (const token of courseTokens) {
+      choiceNode.children.push(makeNode(nextId("course"), `${token.subject}${token.number}`, "course", token));
+    }
+    return choiceNode;
+  }
+
+  if (courseTokens.length >= 2 && /\b(and|&|or)\b/i.test(text)) {
+    return makeNode(nextId("group"), text, "courseGroup", { courses: courseTokens });
+  }
+
+  if (courseTokens.length === 1) {
+    const token = courseTokens[0];
+    return makeNode(nextId("course"), `${token.subject}${token.number}`, "course", token);
+  }
+
+  return makeNode(nextId("note"), text, "note", { text });
+}
+
+function parseNonTableRootNodes(
+  document: Document,
+  rootNodes: RequirementDslNode[],
+  nextId: (prefix: string) => string,
+): void {
+  const requirementsContainer = document.querySelector("#requirementstextcontainer");
+  const textContainer = document.querySelector("#textcontainer");
+  const scope = requirementsContainer ?? textContainer ?? document.body;
+
+  const fallbackRoot = makeNode(nextId("block"), "Requirements", "requireAll");
+  let appended = false;
+
+  for (const heading of Array.from(scope.querySelectorAll("h2, h3, h4"))) {
+    const label = normalizeText(heading.textContent ?? "");
+    if (!label || !includesRequirementLanguage(label)) continue;
+    fallbackRoot.children.push(makeNode(nextId("section"), label.replace(/:\s*$/, ""), "requireAll"));
+    appended = true;
+  }
+
+  for (const li of Array.from(scope.querySelectorAll("li"))) {
+    const text = normalizeText(li.textContent ?? "");
+    if (!text) continue;
+    fallbackRoot.children.push(parseListTextToNode(text, nextId));
+    appended = true;
+  }
+
+  if (!appended) {
+    const paragraphs = Array.from(scope.querySelectorAll("p"))
+      .map((p) => normalizeText(p.textContent ?? ""))
+      .filter((line) => line && includesRequirementLanguage(line))
+      .slice(0, 8);
+
+    for (const paragraph of paragraphs) {
+      fallbackRoot.children.push(parseListTextToNode(paragraph, nextId));
+      appended = true;
+    }
+  }
+
+  if (appended) {
+    rootNodes.push(fallbackRoot);
+  }
+}
+
 function inferNodeLabelFromUrl(url: string): string {
   const tail = url.split("/").filter(Boolean).pop() ?? "requirements";
   return tail.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -298,6 +371,7 @@ export function parseProgramDslFromHtml(
       }
 
       if (courseTokens.length > 0) {
+        const nestedChoiceAttach = Boolean(currentChoiceNode && currentRoot && currentRoot !== currentChoiceNode);
         let attachTo = currentChoiceNode ?? currentRoot;
         if (
           currentChoiceNode &&
@@ -310,7 +384,9 @@ export function parseProgramDslFromHtml(
           currentChoiceNode = null;
         }
         const target = attachTo ?? makeNode(nextId("block"), "Requirements", "requireAll");
-        if (!rootNodes.includes(target)) rootNodes.push(target);
+        if (!rootNodes.includes(target) && !(nestedChoiceAttach && target === currentChoiceNode)) {
+          rootNodes.push(target);
+        }
         if (target !== currentChoiceNode) {
           currentRoot = target;
         }
@@ -326,6 +402,10 @@ export function parseProgramDslFromHtml(
       currentRoot = target;
       target.children.push(makeNode(nextId("note"), merged, "note", { text: merged }));
     }
+  }
+
+  if (rootNodes.length === 0) {
+    parseNonTableRootNodes(document, rootNodes, nextId);
   }
 
   return { program, rootNodes };

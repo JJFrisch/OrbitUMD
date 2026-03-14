@@ -99,46 +99,6 @@
           "minCount": 3
         }
       ]
-    },
-    {
-      "id": "choice-7",
-      "label": "Choose 2 courses from the following (6 credits)",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-8",
-          "label": "ARHU340",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARHU",
-          "number": "340"
-        },
-        {
-          "id": "course-9",
-          "label": "BMGT355",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "355"
-        },
-        {
-          "id": "course-10",
-          "label": "ARHU386",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARHU",
-          "number": "386"
-        },
-        {
-          "id": "course-11",
-          "label": "TDPS441",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TDPS",
-          "number": "441"
-        }
-      ],
-      "minCount": 2
     }
   ],
   "flattened": {
@@ -175,18 +135,6 @@
           "nCourses": 3
         },
         "sortOrder": 3,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "choice-7",
-        "humanLabel": "Choose 2 courses from the following (6 credits)",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -270,42 +218,6 @@
           "number": "441"
         },
         "sortOrder": 9
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARHU",
-          "number": "340"
-        },
-        "sortOrder": 10
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "355"
-        },
-        "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARHU",
-          "number": "386"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TDPS",
-          "number": "441"
-        },
-        "sortOrder": 13
       }
     ]
   }

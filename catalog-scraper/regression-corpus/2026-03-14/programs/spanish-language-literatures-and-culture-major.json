@@ -334,78 +334,6 @@
       ]
     },
     {
-      "id": "choice-34",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-35",
-          "label": "SPAN318",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "318"
-        },
-        {
-          "id": "course-36",
-          "label": "SPAN370",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "370"
-        },
-        {
-          "id": "course-37",
-          "label": "SPAN371",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "371"
-        },
-        {
-          "id": "course-38",
-          "label": "SPAN372",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "372"
-        },
-        {
-          "id": "course-39",
-          "label": "SPAN373",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "373"
-        },
-        {
-          "id": "course-40",
-          "label": "SPAN374",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "374"
-        },
-        {
-          "id": "course-41",
-          "label": "SPAN375",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "375"
-        },
-        {
-          "id": "course-42",
-          "label": "SPAN480",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "480"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-44",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -558,94 +486,6 @@
           "minCount": 2
         }
       ]
-    },
-    {
-      "id": "choice-52",
-      "label": "Select two of the following courses in Spanish in Language, Culture, and Professional Contexts",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-53",
-          "label": "SPAN318",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "318"
-        },
-        {
-          "id": "course-54",
-          "label": "SPAN370",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "370"
-        },
-        {
-          "id": "course-55",
-          "label": "SPAN371",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "371"
-        },
-        {
-          "id": "course-56",
-          "label": "SPAN372",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "372"
-        },
-        {
-          "id": "course-57",
-          "label": "SPAN373",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "373"
-        },
-        {
-          "id": "course-58",
-          "label": "SPAN374",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "374"
-        },
-        {
-          "id": "course-59",
-          "label": "SPAN375",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "375"
-        }
-      ],
-      "minCount": 2
-    },
-    {
-      "id": "choice-60",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-61",
-          "label": "SPAN422",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "422"
-        },
-        {
-          "id": "course-62",
-          "label": "SPAN480",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SPAN",
-          "number": "480"
-        }
-      ],
-      "minCount": 1
     },
     {
       "id": "block-64",
@@ -801,115 +641,79 @@
       {
         "tempId": "blk-11",
         "parentTempId": null,
-        "sourceNodeId": "choice-34",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-44",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 11,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-12",
-        "parentTempId": null,
-        "sourceNodeId": "block-44",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 12,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-13",
-        "parentTempId": "blk-12",
+        "parentTempId": "blk-11",
         "sourceNodeId": "choice-49",
         "humanLabel": "Select two 4xx-level courses in Spanish or Latin American Literature, Culture, and Media",
         "type": "SELECT_N",
         "params": {
           "nCourses": 2
         },
-        "sortOrder": 13,
+        "sortOrder": 12,
         "sourceNote": "Flattened from nested DSL"
       },
       {
-        "tempId": "blk-14",
+        "tempId": "blk-13",
         "parentTempId": null,
         "sourceNodeId": "block-50",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 14,
+        "sortOrder": 13,
         "sourceNote": "Flattened from nested DSL"
       },
       {
-        "tempId": "blk-15",
-        "parentTempId": "blk-14",
+        "tempId": "blk-14",
+        "parentTempId": "blk-13",
         "sourceNodeId": "choice-52",
         "humanLabel": "Select two of the following courses in Spanish in Language, Culture, and Professional Contexts",
         "type": "SELECT_N",
         "params": {
           "nCourses": 2
+        },
+        "sortOrder": 14,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-15",
+        "parentTempId": "blk-13",
+        "sourceNodeId": "choice-60",
+        "humanLabel": "Select one of the following",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
         },
         "sortOrder": 15,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-16",
-        "parentTempId": "blk-14",
-        "sourceNodeId": "choice-60",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 16,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-17",
-        "parentTempId": "blk-14",
+        "parentTempId": "blk-13",
         "sourceNodeId": "choice-63",
         "humanLabel": "Select two 4xx-level courses in Spanish or Latin American Literature, Culture, and Media",
         "type": "SELECT_N",
         "params": {
           "nCourses": 2
         },
-        "sortOrder": 17,
+        "sortOrder": 16,
         "sourceNote": "Flattened from nested DSL"
       },
       {
-        "tempId": "blk-18",
-        "parentTempId": null,
-        "sourceNodeId": "choice-52",
-        "humanLabel": "Select two of the following courses in Spanish in Language, Culture, and Professional Contexts",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 18,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-19",
-        "parentTempId": null,
-        "sourceNodeId": "choice-60",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 19,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-20",
+        "tempId": "blk-17",
         "parentTempId": null,
         "sourceNodeId": "block-64",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 20,
+        "sortOrder": 17,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -1204,10 +1008,9 @@
       },
       {
         "blockTempId": "blk-11",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "SPAN",
-          "number": "318"
+          "text": "Course Title"
         },
         "sortOrder": 34
       },
@@ -1216,7 +1019,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
-          "number": "370"
+          "number": "325"
         },
         "sortOrder": 35
       },
@@ -1225,7 +1028,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
-          "number": "371"
+          "number": "425"
         },
         "sortOrder": 36
       },
@@ -1234,86 +1037,87 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
-          "number": "372"
+          "number": "426"
         },
         "sortOrder": 37
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-13",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "318"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "370"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "371"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-14",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "SPAN",
+          "number": "372"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
           "number": "373"
         },
-        "sortOrder": 38
+        "sortOrder": 43
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
           "number": "374"
         },
-        "sortOrder": 39
+        "sortOrder": 44
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
           "number": "375"
         },
-        "sortOrder": 40
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "480"
-        },
-        "sortOrder": 41
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 42
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "325"
-        },
-        "sortOrder": 43
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "425"
-        },
-        "sortOrder": 44
-      },
-      {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "426"
-        },
         "sortOrder": 45
       },
       {
-        "blockTempId": "blk-14",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "SPAN",
+          "number": "422"
         },
         "sortOrder": 46
       },
@@ -1322,197 +1126,44 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
-          "number": "318"
+          "number": "480"
         },
         "sortOrder": 47
       },
       {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "370"
-        },
-        "sortOrder": 48
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "371"
-        },
-        "sortOrder": 49
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "372"
-        },
-        "sortOrder": 50
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "373"
-        },
-        "sortOrder": 51
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "374"
-        },
-        "sortOrder": 52
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "375"
-        },
-        "sortOrder": 53
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "422"
-        },
-        "sortOrder": 54
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "480"
-        },
-        "sortOrder": 55
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "318"
-        },
-        "sortOrder": 56
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "370"
-        },
-        "sortOrder": 57
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "371"
-        },
-        "sortOrder": 58
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "372"
-        },
-        "sortOrder": 59
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "373"
-        },
-        "sortOrder": 60
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "374"
-        },
-        "sortOrder": 61
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "375"
-        },
-        "sortOrder": 62
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "422"
-        },
-        "sortOrder": 63
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SPAN",
-          "number": "480"
-        },
-        "sortOrder": 64
-      },
-      {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-17",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Course Title"
         },
-        "sortOrder": 65
+        "sortOrder": 48
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-17",
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
           "number": "206"
         },
-        "sortOrder": 66
+        "sortOrder": 49
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-17",
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
           "number": "306"
         },
-        "sortOrder": 67
+        "sortOrder": 50
       },
       {
-        "blockTempId": "blk-20",
+        "blockTempId": "blk-17",
         "itemType": "COURSE",
         "payload": {
           "subject": "SPAN",
           "number": "307"
         },
-        "sortOrder": 68
+        "sortOrder": 51
       }
     ]
   }

@@ -130,62 +130,6 @@
           "minCount": 1
         }
       ]
-    },
-    {
-      "id": "choice-10",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-11",
-          "label": "ENCE420",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ENCE",
-          "number": "420"
-        },
-        {
-          "id": "course-12",
-          "label": "ENCE421",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ENCE",
-          "number": "421"
-        },
-        {
-          "id": "course-13",
-          "label": "ENCE422",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ENCE",
-          "number": "422"
-        },
-        {
-          "id": "course-14",
-          "label": "ARCH430",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARCH",
-          "number": "430"
-        },
-        {
-          "id": "course-15",
-          "label": "ARCH462",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARCH",
-          "number": "462"
-        },
-        {
-          "id": "course-16",
-          "label": "ARCH467",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARCH",
-          "number": "467"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -210,18 +154,6 @@
           "nCourses": 1
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-10",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -348,60 +280,6 @@
           "number": "467"
         },
         "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ENCE",
-          "number": "420"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ENCE",
-          "number": "421"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ENCE",
-          "number": "422"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARCH",
-          "number": "430"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARCH",
-          "number": "462"
-        },
-        "sortOrder": 19
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARCH",
-          "number": "467"
-        },
-        "sortOrder": 20
       }
     ]
   }

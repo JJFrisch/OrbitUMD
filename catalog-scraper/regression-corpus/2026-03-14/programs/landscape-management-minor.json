@@ -100,46 +100,6 @@
           "minCount": 2
         }
       ]
-    },
-    {
-      "id": "choice-8",
-      "label": "Select two of the following courses",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-9",
-          "label": "PLSC401",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PLSC",
-          "number": "401"
-        },
-        {
-          "id": "course-10",
-          "label": "PLSC402",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PLSC",
-          "number": "402"
-        },
-        {
-          "id": "course-11",
-          "label": "PLSC410",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PLSC",
-          "number": "410"
-        },
-        {
-          "id": "course-12",
-          "label": "PLSC453",
-          "nodeType": "course",
-          "children": [],
-          "subject": "PLSC",
-          "number": "453"
-        }
-      ],
-      "minCount": 2
     }
   ],
   "flattened": {
@@ -164,18 +124,6 @@
           "nCourses": 2
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-8",
-        "humanLabel": "Select two of the following courses",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -268,42 +216,6 @@
           "number": "453"
         },
         "sortOrder": 10
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PLSC",
-          "number": "401"
-        },
-        "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PLSC",
-          "number": "402"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PLSC",
-          "number": "410"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "PLSC",
-          "number": "453"
-        },
-        "sortOrder": 14
       }
     ]
   }

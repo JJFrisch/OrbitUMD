@@ -107,70 +107,6 @@
           "minCount": 4
         }
       ]
-    },
-    {
-      "id": "choice-6",
-      "label": "Select four of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-7",
-          "label": "BMGT360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "360"
-        },
-        {
-          "id": "course-8",
-          "label": "BMGT366",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "366"
-        },
-        {
-          "id": "course-9",
-          "label": "BMGT461",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "461"
-        },
-        {
-          "id": "course-10",
-          "label": "BMGT463",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "463"
-        },
-        {
-          "id": "course-11",
-          "label": "BMGT466",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "466"
-        },
-        {
-          "id": "course-12",
-          "label": "BMGT468",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "468"
-        },
-        {
-          "id": "course-13",
-          "label": "BMGT469",
-          "nodeType": "course",
-          "children": [],
-          "subject": "BMGT",
-          "number": "469"
-        }
-      ],
-      "minCount": 4
     }
   ],
   "flattened": {
@@ -195,18 +131,6 @@
           "nCourses": 4
         },
         "sortOrder": 2,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-3",
-        "parentTempId": null,
-        "sourceNodeId": "choice-6",
-        "humanLabel": "Select four of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 4
-        },
-        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -307,69 +231,6 @@
           "number": "469"
         },
         "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "360"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "366"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "461"
-        },
-        "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "463"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "466"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "468"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "469"
-        },
-        "sortOrder": 18
       }
     ]
   }

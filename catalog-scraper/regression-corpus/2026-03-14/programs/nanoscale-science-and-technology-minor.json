@@ -1,0 +1,171 @@
+{
+  "code": "nanoscale-science-and-technology-minor",
+  "title": "Nanoscale Science and Technology Minor",
+  "college": "Engineering",
+  "degreeType": "UNKNOWN",
+  "sourceUrl": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/nanoscale-science-technology-minor/",
+  "catalogYearStart": 2026,
+  "minCredits": 6,
+  "rootNodes": [
+    {
+      "id": "block-1",
+      "label": "Requirements",
+      "nodeType": "requireAll",
+      "children": [
+        {
+          "id": "note-2",
+          "label": "The minor requirement will consist of a total of five courses (at least 15 credits).",
+          "nodeType": "note",
+          "children": [],
+          "text": "The minor requirement will consist of a total of five courses (at least 15 credits)."
+        },
+        {
+          "id": "note-3",
+          "label": "At least two of the courses (6 credits) must be from the list of NanoFabrication/Nanosynthesis and/or NanoCharacterization electives.",
+          "nodeType": "note",
+          "children": [],
+          "text": "At least two of the courses (6 credits) must be from the list of NanoFabrication/Nanosynthesis and/or NanoCharacterization electives."
+        },
+        {
+          "id": "note-4",
+          "label": "At least two of the courses (6 credits) must be from the list of Fundamental Science and/or Nanoscience Electives. At least one of these must be listed as a NanoApplication / Specialization elective.",
+          "nodeType": "note",
+          "children": [],
+          "text": "At least two of the courses (6 credits) must be from the list of Fundamental Science and/or Nanoscience Electives. At least one of these must be listed as a NanoApplication / Specialization elective."
+        },
+        {
+          "id": "note-5",
+          "label": "Up to two courses (6 credits) may be double counted, i.e. used both toward satisfying the requirements of the major and the NS&T minor.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Up to two courses (6 credits) may be double counted, i.e. used both toward satisfying the requirements of the major and the NS&T minor."
+        },
+        {
+          "id": "note-6",
+          "label": "Three of the courses (9 credits) must be from outside the individual major. Cross listed courses (e.g. ENMA460/PHYS431) which are offered by the major department do not qualify as being outside the major.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Three of the courses (9 credits) must be from outside the individual major. Cross listed courses (e.g. ENMA460/PHYS431) which are offered by the major department do not qualify as being outside the major."
+        },
+        {
+          "id": "course-7",
+          "label": "THE400",
+          "nodeType": "course",
+          "children": [],
+          "subject": "THE",
+          "number": "400"
+        },
+        {
+          "id": "note-8",
+          "label": "No more than two courses (6 credits) from any one department will be credited toward the NS&T minor.",
+          "nodeType": "note",
+          "children": [],
+          "text": "No more than two courses (6 credits) from any one department will be credited toward the NS&T minor."
+        },
+        {
+          "id": "note-9",
+          "label": "A grade of \"C-\" or above is required in all courses to be credited toward the NS&T minor.",
+          "nodeType": "note",
+          "children": [],
+          "text": "A grade of \"C-\" or above is required in all courses to be credited toward the NS&T minor."
+        },
+        {
+          "id": "note-10",
+          "label": "Students wishing to participate in the NS&T minor must declare participation formally. Declaration of participation in the NS&T minor must follow a meeting with the individual department representative to the NS&T committee who will help the student develop a program of courses suitable for the minor and a schedule for taking those courses. Students from outside participating departments will consult with one of the MSE representatives to develop a program of courses and declare participation.",
+          "nodeType": "note",
+          "children": [],
+          "text": "Students wishing to participate in the NS&T minor must declare participation formally. Declaration of participation in the NS&T minor must follow a meeting with the individual department representative to the NS&T committee who will help the student develop a program of courses suitable for the minor and a schedule for taking those courses. Students from outside participating departments will consult with one of the MSE representatives to develop a program of courses and declare participation."
+        }
+      ]
+    }
+  ],
+  "flattened": {
+    "blocks": [
+      {
+        "tempId": "blk-1",
+        "parentTempId": null,
+        "sourceNodeId": "block-1",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 1,
+        "sourceNote": "Flattened from nested DSL"
+      }
+    ],
+    "items": [
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "The minor requirement will consist of a total of five courses (at least 15 credits)."
+        },
+        "sortOrder": 1
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "At least two of the courses (6 credits) must be from the list of NanoFabrication/Nanosynthesis and/or NanoCharacterization electives."
+        },
+        "sortOrder": 2
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "At least two of the courses (6 credits) must be from the list of Fundamental Science and/or Nanoscience Electives. At least one of these must be listed as a NanoApplication / Specialization elective."
+        },
+        "sortOrder": 3
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Up to two courses (6 credits) may be double counted, i.e. used both toward satisfying the requirements of the major and the NS&T minor."
+        },
+        "sortOrder": 4
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Three of the courses (9 credits) must be from outside the individual major. Cross listed courses (e.g. ENMA460/PHYS431) which are offered by the major department do not qualify as being outside the major."
+        },
+        "sortOrder": 5
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "THE",
+          "number": "400"
+        },
+        "sortOrder": 6
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "No more than two courses (6 credits) from any one department will be credited toward the NS&T minor."
+        },
+        "sortOrder": 7
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "A grade of \"C-\" or above is required in all courses to be credited toward the NS&T minor."
+        },
+        "sortOrder": 8
+      },
+      {
+        "blockTempId": "blk-1",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Students wishing to participate in the NS&T minor must declare participation formally. Declaration of participation in the NS&T minor must follow a meeting with the individual department representative to the NS&T committee who will help the student develop a program of courses suitable for the minor and a schedule for taking those courses. Students from outside participating departments will consult with one of the MSE representatives to develop a program of courses and declare participation."
+        },
+        "sortOrder": 9
+      }
+    ]
+  }
+}

@@ -110,94 +110,6 @@
       ]
     },
     {
-      "id": "choice-3",
-      "label": "Select two electives from the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-4",
-          "label": "AOSC123",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "123"
-        },
-        {
-          "id": "course-5",
-          "label": "AOSC200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "200"
-        },
-        {
-          "id": "course-6",
-          "label": "AOSC400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "400"
-        },
-        {
-          "id": "course-7",
-          "label": "AOSC431",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "431"
-        },
-        {
-          "id": "course-8",
-          "label": "AOSC433",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "433"
-        },
-        {
-          "id": "course-9",
-          "label": "AOSC434",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AOSC",
-          "number": "434"
-        }
-      ],
-      "minCount": 2
-    },
-    {
-      "id": "choice-10",
-      "label": "Select one of the following electives",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-11",
-          "label": "CHEM474",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CHEM",
-          "number": "474"
-        },
-        {
-          "id": "course-12",
-          "label": "GEOL471",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOL",
-          "number": "471"
-        },
-        {
-          "id": "course-13",
-          "label": "OTHER400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OTHER",
-          "number": "400"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-14",
       "label": "Courses offered by the Departments of Geography and Geology such as",
       "nodeType": "requireAll",
@@ -268,35 +180,11 @@
       {
         "tempId": "blk-4",
         "parentTempId": null,
-        "sourceNodeId": "choice-3",
-        "humanLabel": "Select two electives from the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 4,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-5",
-        "parentTempId": null,
-        "sourceNodeId": "choice-10",
-        "humanLabel": "Select one of the following electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 5,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-6",
-        "parentTempId": null,
         "sourceNodeId": "block-14",
         "humanLabel": "Courses offered by the Departments of Geography and Geology such as",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 6,
+        "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -394,8 +282,8 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "AOSC",
-          "number": "123"
+          "subject": "GEOG",
+          "number": "472"
         },
         "sortOrder": 11
       },
@@ -403,8 +291,8 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "AOSC",
-          "number": "200"
+          "subject": "GEOL",
+          "number": "437"
         },
         "sortOrder": 12
       },
@@ -412,91 +300,10 @@
         "blockTempId": "blk-4",
         "itemType": "COURSE",
         "payload": {
-          "subject": "AOSC",
-          "number": "400"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AOSC",
-          "number": "431"
-        },
-        "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AOSC",
-          "number": "433"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AOSC",
-          "number": "434"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CHEM",
-          "number": "474"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOL",
-          "number": "471"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "OTHER",
-          "number": "400"
-        },
-        "sortOrder": 19
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "472"
-        },
-        "sortOrder": 20
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOL",
-          "number": "437"
-        },
-        "sortOrder": 21
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
           "subject": "GEOL",
           "number": "452"
         },
-        "sortOrder": 22
+        "sortOrder": 13
       }
     ]
   }

@@ -210,22 +210,6 @@
           "text": "Select eight courses at the 3xx-level or above, of which four must be in Classics and one must be the following: 2 24"
         }
       ]
-    },
-    {
-      "id": "choice-26",
-      "label": "Select 12 credits at the 1xx-2xx level, at least 6 of which must be in Classics (CLAS courses) 1",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-29",
-          "label": "CLAS409",
-          "nodeType": "course",
-          "children": [],
-          "subject": "CLAS",
-          "number": "409"
-        }
-      ],
-      "minCount": 12
     }
   ],
   "flattened": {
@@ -369,18 +353,6 @@
         },
         "sortOrder": 13,
         "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-14",
-        "parentTempId": null,
-        "sourceNodeId": "choice-26",
-        "humanLabel": "Select 12 credits at the 1xx-2xx level, at least 6 of which must be in Classics (CLAS courses) 1",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 12
-        },
-        "sortOrder": 14,
-        "sourceNote": "Flattened from nested DSL"
       }
     ],
     "items": [
@@ -512,15 +484,6 @@
           "text": "Select eight courses at the 3xx-level or above, of which four must be in Classics and one must be the following: 2 24"
         },
         "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "CLAS",
-          "number": "409"
-        },
-        "sortOrder": 17
       }
     ]
   }

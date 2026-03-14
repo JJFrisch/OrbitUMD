@@ -308,182 +308,6 @@
       ]
     },
     {
-      "id": "choice-15",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-16",
-          "label": "ECON111",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "111"
-        },
-        {
-          "id": "course-17",
-          "label": "ECON175",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "175"
-        },
-        {
-          "id": "course-18",
-          "label": "ECON181",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "181"
-        },
-        {
-          "id": "course-19",
-          "label": "ECON200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "200"
-        },
-        {
-          "id": "course-20",
-          "label": "ECON201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "201"
-        },
-        {
-          "id": "course-22",
-          "label": "GVPT170",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "170"
-        },
-        {
-          "id": "course-23",
-          "label": "SOCY100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SOCY",
-          "number": "100"
-        },
-        {
-          "id": "course-24",
-          "label": "SOCY105",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SOCY",
-          "number": "105"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-26",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-27",
-          "label": "TLPL250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "250"
-        },
-        {
-          "id": "course-28",
-          "label": "TLPL360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "360"
-        },
-        {
-          "id": "course-29",
-          "label": "TLPL300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "300"
-        },
-        {
-          "id": "course-30",
-          "label": "TLPL481",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "481"
-        },
-        {
-          "id": "course-31",
-          "label": "TLPL488",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "488"
-        },
-        {
-          "id": "course-32",
-          "label": "EDHD413",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "413"
-        },
-        {
-          "id": "course-33",
-          "label": "EDHD426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "426"
-        },
-        {
-          "id": "course-35",
-          "label": "TLPL470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "470"
-        },
-        {
-          "id": "course-36",
-          "label": "TLPL471",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "471"
-        },
-        {
-          "id": "course-37",
-          "label": "TLPL479",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "479"
-        },
-        {
-          "id": "course-38",
-          "label": "TLPL478",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "478"
-        },
-        {
-          "id": "course-39",
-          "label": "TLPL489",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "489"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-40",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -836,206 +660,6 @@
       ]
     },
     {
-      "id": "choice-56",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-57",
-          "label": "ECON111",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "111"
-        },
-        {
-          "id": "course-58",
-          "label": "ECON175",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "175"
-        },
-        {
-          "id": "course-59",
-          "label": "ECON181",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "181"
-        },
-        {
-          "id": "course-60",
-          "label": "ECON200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "200"
-        },
-        {
-          "id": "course-61",
-          "label": "ECON201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "201"
-        },
-        {
-          "id": "course-63",
-          "label": "GVPT170",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "170"
-        },
-        {
-          "id": "course-64",
-          "label": "HIST200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "200"
-        },
-        {
-          "id": "course-65",
-          "label": "HIST201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "201"
-        },
-        {
-          "id": "course-66",
-          "label": "HIST208",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "208"
-        },
-        {
-          "id": "course-69",
-          "label": "SOCY100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SOCY",
-          "number": "100"
-        },
-        {
-          "id": "course-70",
-          "label": "SOCY105",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SOCY",
-          "number": "105"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-72",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-73",
-          "label": "TLPL250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "250"
-        },
-        {
-          "id": "course-74",
-          "label": "TLPL360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "360"
-        },
-        {
-          "id": "course-75",
-          "label": "TLPL481",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "481"
-        },
-        {
-          "id": "course-76",
-          "label": "TLPL488",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "488"
-        },
-        {
-          "id": "course-77",
-          "label": "EDHD426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "426"
-        },
-        {
-          "id": "course-78",
-          "label": "EDHD413",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "413"
-        },
-        {
-          "id": "course-80",
-          "label": "TLPL470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "470"
-        },
-        {
-          "id": "course-81",
-          "label": "TLPL471",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "471"
-        },
-        {
-          "id": "course-82",
-          "label": "TLPL479",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "479"
-        },
-        {
-          "id": "course-83",
-          "label": "TLPL300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "300"
-        },
-        {
-          "id": "course-84",
-          "label": "TLPL478",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "478"
-        },
-        {
-          "id": "course-85",
-          "label": "TLPL489",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "489"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-86",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -1356,182 +980,6 @@
           "text": "Professional Education Courses"
         }
       ]
-    },
-    {
-      "id": "choice-103",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-104",
-          "label": "ECON111",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "111"
-        },
-        {
-          "id": "course-105",
-          "label": "ECON175",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "175"
-        },
-        {
-          "id": "course-106",
-          "label": "ECON181",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "181"
-        },
-        {
-          "id": "course-107",
-          "label": "ECON200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "200"
-        },
-        {
-          "id": "course-108",
-          "label": "ECON201",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ECON",
-          "number": "201"
-        },
-        {
-          "id": "course-110",
-          "label": "GEOG202",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "202"
-        },
-        {
-          "id": "course-111",
-          "label": "SOCY100",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SOCY",
-          "number": "100"
-        },
-        {
-          "id": "course-112",
-          "label": "SOCY105",
-          "nodeType": "course",
-          "children": [],
-          "subject": "SOCY",
-          "number": "105"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-114",
-      "label": "Complete one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-115",
-          "label": "TLPL250",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "250"
-        },
-        {
-          "id": "course-116",
-          "label": "TLPL360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "360"
-        },
-        {
-          "id": "course-117",
-          "label": "TLPL481",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "481"
-        },
-        {
-          "id": "course-118",
-          "label": "TLPL488",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "488"
-        },
-        {
-          "id": "course-119",
-          "label": "EDHD413",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "413"
-        },
-        {
-          "id": "course-120",
-          "label": "EDHD426",
-          "nodeType": "course",
-          "children": [],
-          "subject": "EDHD",
-          "number": "426"
-        },
-        {
-          "id": "course-122",
-          "label": "TLPL470",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "470"
-        },
-        {
-          "id": "course-123",
-          "label": "TLPL471",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "471"
-        },
-        {
-          "id": "course-124",
-          "label": "TLPL479",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "479"
-        },
-        {
-          "id": "course-125",
-          "label": "TLPL300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "300"
-        },
-        {
-          "id": "course-126",
-          "label": "TLPL478",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "478"
-        },
-        {
-          "id": "course-127",
-          "label": "TLPL489",
-          "nodeType": "course",
-          "children": [],
-          "subject": "TLPL",
-          "number": "489"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -1605,32 +1053,28 @@
       {
         "tempId": "blk-7",
         "parentTempId": null,
-        "sourceNodeId": "choice-15",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-40",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 7,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-8",
         "parentTempId": null,
-        "sourceNodeId": "choice-26",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-44",
+        "humanLabel": "Primary Courses",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 8,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-9",
         "parentTempId": null,
-        "sourceNodeId": "block-40",
-        "humanLabel": "Requirements",
+        "sourceNodeId": "block-49",
+        "humanLabel": "Gateway Courses",
         "type": "ALL_OF",
         "params": {},
         "sortOrder": 9,
@@ -1638,52 +1082,52 @@
       },
       {
         "tempId": "blk-10",
-        "parentTempId": null,
-        "sourceNodeId": "block-44",
-        "humanLabel": "Primary Courses",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 10,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-11",
-        "parentTempId": null,
-        "sourceNodeId": "block-49",
-        "humanLabel": "Gateway Courses",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 11,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-12",
-        "parentTempId": "blk-11",
+        "parentTempId": "blk-9",
         "sourceNodeId": "choice-56",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
         },
-        "sortOrder": 12,
+        "sortOrder": 10,
         "sourceNote": "Flattened from nested DSL"
       },
       {
-        "tempId": "blk-13",
-        "parentTempId": "blk-11",
+        "tempId": "blk-11",
+        "parentTempId": "blk-9",
         "sourceNodeId": "choice-72",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
         },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": null,
+        "sourceNodeId": "block-86",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": null,
+        "sourceNodeId": "block-90",
+        "humanLabel": "Introductory Courses",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 13,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-14",
-        "parentTempId": null,
-        "sourceNodeId": "choice-56",
+        "parentTempId": "blk-13",
+        "sourceNodeId": "choice-103",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
@@ -1694,82 +1138,14 @@
       },
       {
         "tempId": "blk-15",
-        "parentTempId": null,
-        "sourceNodeId": "choice-72",
-        "humanLabel": "Select one of the following",
+        "parentTempId": "blk-13",
+        "sourceNodeId": "choice-114",
+        "humanLabel": "Complete one of the following",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
         },
         "sortOrder": 15,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-16",
-        "parentTempId": null,
-        "sourceNodeId": "block-86",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 16,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-17",
-        "parentTempId": null,
-        "sourceNodeId": "block-90",
-        "humanLabel": "Introductory Courses",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 17,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-18",
-        "parentTempId": "blk-17",
-        "sourceNodeId": "choice-103",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 18,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-19",
-        "parentTempId": "blk-17",
-        "sourceNodeId": "choice-114",
-        "humanLabel": "Complete one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 19,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-20",
-        "parentTempId": null,
-        "sourceNodeId": "choice-103",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 20,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-21",
-        "parentTempId": null,
-        "sourceNodeId": "choice-114",
-        "humanLabel": "Complete one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 21,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -2065,205 +1441,200 @@
       },
       {
         "blockTempId": "blk-7",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ECON",
-          "number": "111"
+          "text": "Course Title"
         },
         "sortOrder": 34
       },
       {
         "blockTempId": "blk-7",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ECON",
-          "number": "175"
+          "text": "College Requirements"
         },
         "sortOrder": 35
       },
       {
         "blockTempId": "blk-7",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional/Subject Area Courses"
+        },
+        "sortOrder": 36
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "201"
+        },
+        "sortOrder": 37
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "211"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "202"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "212"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "GEOG3xx one 300 level physical geography course"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "GEOG3xx one 300 level human geography course"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "GEOG3xx one 300 level technique course"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "GEOG3xx/4xx Upper Level Geography Electives"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 45
+      },
+      {
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "In addition to the required credit hours in geography, the social studies education program requires 29 credit hours of course work in history and the social sciences as outlined below."
+        },
+        "sortOrder": 46
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "111"
+        },
+        "sortOrder": 47
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ECON",
+          "number": "175"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "ECON",
           "number": "181"
         },
-        "sortOrder": 36
+        "sortOrder": 49
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "ECON",
           "number": "200"
         },
-        "sortOrder": 37
+        "sortOrder": 50
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "ECON",
           "number": "201"
         },
-        "sortOrder": 38
+        "sortOrder": 51
       },
       {
-        "blockTempId": "blk-7",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "GVPT",
           "number": "170"
         },
-        "sortOrder": 39
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "100"
-        },
-        "sortOrder": 40
-      },
-      {
-        "blockTempId": "blk-7",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "105"
-        },
-        "sortOrder": 41
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "250"
-        },
-        "sortOrder": 42
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "360"
-        },
-        "sortOrder": 43
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "300"
-        },
-        "sortOrder": 44
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "481"
-        },
-        "sortOrder": 45
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "488"
-        },
-        "sortOrder": 46
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDHD",
-          "number": "413"
-        },
-        "sortOrder": 47
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDHD",
-          "number": "426"
-        },
-        "sortOrder": 48
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "470"
-        },
-        "sortOrder": 49
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "471"
-        },
-        "sortOrder": 50
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "479"
-        },
-        "sortOrder": 51
-      },
-      {
-        "blockTempId": "blk-8",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "478"
-        },
         "sortOrder": 52
       },
       {
-        "blockTempId": "blk-8",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
-          "subject": "TLPL",
-          "number": "489"
+          "subject": "HIST",
+          "number": "200"
         },
         "sortOrder": 53
       },
       {
-        "blockTempId": "blk-9",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "HIST",
+          "number": "201"
         },
         "sortOrder": 54
       },
       {
-        "blockTempId": "blk-9",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
         "payload": {
-          "text": "College Requirements"
+          "subject": "HIST",
+          "number": "208"
         },
         "sortOrder": 55
       },
       {
-        "blockTempId": "blk-9",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Pre-Professional/Subject Area Courses"
+          "subject": "SOCY",
+          "number": "100"
         },
         "sortOrder": 56
       },
@@ -2271,67 +1642,67 @@
         "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GEOG",
-          "number": "201"
+          "subject": "SOCY",
+          "number": "105"
         },
         "sortOrder": 57
       },
       {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "GEOG",
-          "number": "211"
+          "text": "Lower-level ECON I-series course"
         },
         "sortOrder": 58
       },
       {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "GEOG",
-          "number": "202"
+          "text": "HIST elective - Latin America, Middle East, East Asia or Africa 3"
         },
         "sortOrder": 59
       },
       {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "GEOG",
-          "number": "212"
+          "text": "HIST elective - Britain and Western Europe or Eastern Europe and Russia 3"
         },
         "sortOrder": 60
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "GEOG3xx one 300 level physical geography course"
+          "text": "Pre-Professional/Education Courses"
         },
         "sortOrder": 61
       },
       {
         "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "GEOG3xx one 300 level human geography course"
+          "subject": "TLPL",
+          "number": "250"
         },
         "sortOrder": 62
       },
       {
         "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "GEOG3xx one 300 level technique course"
+          "subject": "TLPL",
+          "number": "360"
         },
         "sortOrder": 63
       },
       {
         "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "GEOG3xx/4xx Upper Level Geography Electives"
+          "subject": "TLPL",
+          "number": "481"
         },
         "sortOrder": 64
       },
@@ -2339,174 +1710,171 @@
         "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GEOG",
-          "number": "306"
+          "subject": "TLPL",
+          "number": "488"
         },
         "sortOrder": 65
       },
       {
         "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "In addition to the required credit hours in geography, the social studies education program requires 29 credit hours of course work in history and the social sciences as outlined below."
+          "subject": "EDHD",
+          "number": "426"
         },
         "sortOrder": 66
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ECON",
-          "number": "111"
+          "subject": "EDHD",
+          "number": "413"
         },
         "sortOrder": 67
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ECON",
-          "number": "175"
+          "subject": "TLPL",
+          "number": "470"
         },
         "sortOrder": 68
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ECON",
-          "number": "181"
+          "subject": "TLPL",
+          "number": "471"
         },
         "sortOrder": 69
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ECON",
-          "number": "200"
+          "subject": "TLPL",
+          "number": "479"
         },
         "sortOrder": 70
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "ECON",
-          "number": "201"
+          "subject": "TLPL",
+          "number": "300"
         },
         "sortOrder": 71
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "170"
+          "subject": "TLPL",
+          "number": "478"
         },
         "sortOrder": 72
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-11",
         "itemType": "COURSE",
         "payload": {
-          "subject": "HIST",
-          "number": "200"
+          "subject": "TLPL",
+          "number": "489"
         },
         "sortOrder": 73
       },
       {
-        "blockTempId": "blk-12",
-        "itemType": "COURSE",
+        "blockTempId": "blk-9",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "HIST",
-          "number": "201"
+          "text": "Professional Education Courses"
         },
         "sortOrder": 74
       },
       {
         "blockTempId": "blk-12",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "HIST",
-          "number": "208"
+          "text": "Course Title"
         },
         "sortOrder": 75
       },
       {
         "blockTempId": "blk-12",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "SOCY",
-          "number": "100"
+          "text": "College Requirements"
         },
         "sortOrder": 76
       },
       {
         "blockTempId": "blk-12",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "SOCY",
-          "number": "105"
+          "text": "Pre-Professional/Subject Area Courses"
         },
         "sortOrder": 77
       },
       {
-        "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Lower-level ECON I-series course"
+          "subject": "GVPT",
+          "number": "170"
         },
         "sortOrder": 78
       },
       {
-        "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
         "payload": {
-          "text": "HIST elective - Latin America, Middle East, East Asia or Africa 3"
+          "subject": "GVPT",
+          "number": "201"
         },
         "sortOrder": 79
       },
       {
-        "blockTempId": "blk-11",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
         "payload": {
-          "text": "HIST elective - Britain and Western Europe or Eastern Europe and Russia 3"
+          "subject": "GVPT",
+          "number": "241"
         },
         "sortOrder": 80
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "Pre-Professional/Education Courses"
+          "text": "Electives GVPT Electives"
         },
         "sortOrder": 81
       },
       {
         "blockTempId": "blk-13",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "TLPL",
-          "number": "250"
+          "text": "GVPT3xx/4xx GVPT Upper Level Courses"
         },
         "sortOrder": 82
       },
       {
         "blockTempId": "blk-13",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "TLPL",
-          "number": "360"
+          "text": "Social Science Quantitative Courses or Foreign Language (see GVPT advisor)"
         },
         "sortOrder": 83
       },
       {
         "blockTempId": "blk-13",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "TLPL",
-          "number": "481"
+          "text": "In addition to the required credit hours in GVPT, the social studies education program requires 29 credit hours of course work in history and the social sciences as outlined below."
         },
         "sortOrder": 84
       },
@@ -2514,8 +1882,8 @@
         "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
-          "subject": "TLPL",
-          "number": "488"
+          "subject": "HIST",
+          "number": "200"
         },
         "sortOrder": 85
       },
@@ -2523,8 +1891,8 @@
         "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDHD",
-          "number": "426"
+          "subject": "HIST",
+          "number": "201"
         },
         "sortOrder": 86
       },
@@ -2532,72 +1900,26 @@
         "blockTempId": "blk-13",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDHD",
-          "number": "413"
+          "subject": "HIST",
+          "number": "208"
         },
         "sortOrder": 87
       },
       {
         "blockTempId": "blk-13",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "TLPL",
-          "number": "470"
+          "text": "HIST elective - Latin America, Middle East, East Asia or Africa 3"
         },
         "sortOrder": 88
       },
       {
         "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "471"
-        },
-        "sortOrder": 89
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "479"
-        },
-        "sortOrder": 90
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "300"
-        },
-        "sortOrder": 91
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "478"
-        },
-        "sortOrder": 92
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "489"
-        },
-        "sortOrder": 93
-      },
-      {
-        "blockTempId": "blk-11",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "Professional Education Courses"
+          "text": "HIST elective - Britain and Western Europe or Eastern Europe and Russia 3"
         },
-        "sortOrder": 94
+        "sortOrder": 89
       },
       {
         "blockTempId": "blk-14",
@@ -2606,7 +1928,7 @@
           "subject": "ECON",
           "number": "111"
         },
-        "sortOrder": 95
+        "sortOrder": 90
       },
       {
         "blockTempId": "blk-14",
@@ -2615,7 +1937,7 @@
           "subject": "ECON",
           "number": "175"
         },
-        "sortOrder": 96
+        "sortOrder": 91
       },
       {
         "blockTempId": "blk-14",
@@ -2624,7 +1946,7 @@
           "subject": "ECON",
           "number": "181"
         },
-        "sortOrder": 97
+        "sortOrder": 92
       },
       {
         "blockTempId": "blk-14",
@@ -2633,7 +1955,7 @@
           "subject": "ECON",
           "number": "200"
         },
-        "sortOrder": 98
+        "sortOrder": 93
       },
       {
         "blockTempId": "blk-14",
@@ -2642,43 +1964,16 @@
           "subject": "ECON",
           "number": "201"
         },
-        "sortOrder": 99
+        "sortOrder": 94
       },
       {
         "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "170"
+          "subject": "GEOG",
+          "number": "202"
         },
-        "sortOrder": 100
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "200"
-        },
-        "sortOrder": 101
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "201"
-        },
-        "sortOrder": 102
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "208"
-        },
-        "sortOrder": 103
+        "sortOrder": 95
       },
       {
         "blockTempId": "blk-14",
@@ -2687,7 +1982,7 @@
           "subject": "SOCY",
           "number": "100"
         },
-        "sortOrder": 104
+        "sortOrder": 96
       },
       {
         "blockTempId": "blk-14",
@@ -2695,6 +1990,76 @@
         "payload": {
           "subject": "SOCY",
           "number": "105"
+        },
+        "sortOrder": 97
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Lower-level ECON I-series course"
+        },
+        "sortOrder": 98
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Pre-Professional Education Courses"
+        },
+        "sortOrder": 99
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "250"
+        },
+        "sortOrder": 100
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "360"
+        },
+        "sortOrder": 101
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "481"
+        },
+        "sortOrder": 102
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "TLPL",
+          "number": "488"
+        },
+        "sortOrder": 103
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "413"
+        },
+        "sortOrder": 104
+      },
+      {
+        "blockTempId": "blk-15",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "EDHD",
+          "number": "426"
         },
         "sortOrder": 105
       },
@@ -2703,7 +2068,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "TLPL",
-          "number": "250"
+          "number": "470"
         },
         "sortOrder": 106
       },
@@ -2712,7 +2077,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "TLPL",
-          "number": "360"
+          "number": "471"
         },
         "sortOrder": 107
       },
@@ -2721,7 +2086,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "TLPL",
-          "number": "481"
+          "number": "479"
         },
         "sortOrder": 108
       },
@@ -2730,7 +2095,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "TLPL",
-          "number": "488"
+          "number": "300"
         },
         "sortOrder": 109
       },
@@ -2738,8 +2103,8 @@
         "blockTempId": "blk-15",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDHD",
-          "number": "426"
+          "subject": "TLPL",
+          "number": "478"
         },
         "sortOrder": 110
       },
@@ -2747,574 +2112,18 @@
         "blockTempId": "blk-15",
         "itemType": "COURSE",
         "payload": {
-          "subject": "EDHD",
-          "number": "413"
+          "subject": "TLPL",
+          "number": "489"
         },
         "sortOrder": 111
       },
       {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "470"
-        },
-        "sortOrder": 112
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "471"
-        },
-        "sortOrder": 113
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "479"
-        },
-        "sortOrder": 114
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "300"
-        },
-        "sortOrder": 115
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "478"
-        },
-        "sortOrder": 116
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "489"
-        },
-        "sortOrder": 117
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 118
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "College Requirements"
-        },
-        "sortOrder": 119
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Pre-Professional/Subject Area Courses"
-        },
-        "sortOrder": 120
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "170"
-        },
-        "sortOrder": 121
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "201"
-        },
-        "sortOrder": 122
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GVPT",
-          "number": "241"
-        },
-        "sortOrder": 123
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Electives GVPT Electives"
-        },
-        "sortOrder": 124
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "GVPT3xx/4xx GVPT Upper Level Courses"
-        },
-        "sortOrder": 125
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Social Science Quantitative Courses or Foreign Language (see GVPT advisor)"
-        },
-        "sortOrder": 126
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "In addition to the required credit hours in GVPT, the social studies education program requires 29 credit hours of course work in history and the social sciences as outlined below."
-        },
-        "sortOrder": 127
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "200"
-        },
-        "sortOrder": 128
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "201"
-        },
-        "sortOrder": 129
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "208"
-        },
-        "sortOrder": 130
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "HIST elective - Latin America, Middle East, East Asia or Africa 3"
-        },
-        "sortOrder": 131
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "HIST elective - Britain and Western Europe or Eastern Europe and Russia 3"
-        },
-        "sortOrder": 132
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "111"
-        },
-        "sortOrder": 133
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "175"
-        },
-        "sortOrder": 134
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "181"
-        },
-        "sortOrder": 135
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "200"
-        },
-        "sortOrder": 136
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "201"
-        },
-        "sortOrder": 137
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "202"
-        },
-        "sortOrder": 138
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "100"
-        },
-        "sortOrder": 139
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "105"
-        },
-        "sortOrder": 140
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Lower-level ECON I-series course"
-        },
-        "sortOrder": 141
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Pre-Professional Education Courses"
-        },
-        "sortOrder": 142
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "250"
-        },
-        "sortOrder": 143
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "360"
-        },
-        "sortOrder": 144
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "481"
-        },
-        "sortOrder": 145
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "488"
-        },
-        "sortOrder": 146
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDHD",
-          "number": "413"
-        },
-        "sortOrder": 147
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDHD",
-          "number": "426"
-        },
-        "sortOrder": 148
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "470"
-        },
-        "sortOrder": 149
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "471"
-        },
-        "sortOrder": 150
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "479"
-        },
-        "sortOrder": 151
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "300"
-        },
-        "sortOrder": 152
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "478"
-        },
-        "sortOrder": 153
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "489"
-        },
-        "sortOrder": 154
-      },
-      {
-        "blockTempId": "blk-17",
+        "blockTempId": "blk-13",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Professional Education Courses"
         },
-        "sortOrder": 155
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "111"
-        },
-        "sortOrder": 156
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "175"
-        },
-        "sortOrder": 157
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "181"
-        },
-        "sortOrder": 158
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "200"
-        },
-        "sortOrder": 159
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ECON",
-          "number": "201"
-        },
-        "sortOrder": 160
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "202"
-        },
-        "sortOrder": 161
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "100"
-        },
-        "sortOrder": 162
-      },
-      {
-        "blockTempId": "blk-20",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "105"
-        },
-        "sortOrder": 163
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "250"
-        },
-        "sortOrder": 164
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "360"
-        },
-        "sortOrder": 165
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "481"
-        },
-        "sortOrder": 166
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "488"
-        },
-        "sortOrder": 167
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDHD",
-          "number": "413"
-        },
-        "sortOrder": 168
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "EDHD",
-          "number": "426"
-        },
-        "sortOrder": 169
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "470"
-        },
-        "sortOrder": 170
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "471"
-        },
-        "sortOrder": 171
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "479"
-        },
-        "sortOrder": 172
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "300"
-        },
-        "sortOrder": 173
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "478"
-        },
-        "sortOrder": 174
-      },
-      {
-        "blockTempId": "blk-21",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "TLPL",
-          "number": "489"
-        },
-        "sortOrder": 175
+        "sortOrder": 112
       }
     ]
   }

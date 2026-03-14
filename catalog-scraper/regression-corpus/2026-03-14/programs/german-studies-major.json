@@ -328,30 +328,6 @@
         }
       ],
       "minCredits": 6
-    },
-    {
-      "id": "choice-32",
-      "label": "Select three 2xx-4xx level elective courses",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-33",
-          "label": "GERS255",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GERS",
-          "number": "255"
-        },
-        {
-          "id": "course-34",
-          "label": "GERS289",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GERS",
-          "number": "289"
-        }
-      ],
-      "minCount": 3
     }
   ],
   "flattened": {
@@ -412,18 +388,6 @@
           "nCourses": 3
         },
         "sortOrder": 5,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-6",
-        "parentTempId": null,
-        "sourceNodeId": "choice-32",
-        "humanLabel": "Select three 2xx-4xx level elective courses",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
-        "sortOrder": 6,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -746,24 +710,6 @@
           "number": "389"
         },
         "sortOrder": 36
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GERS",
-          "number": "255"
-        },
-        "sortOrder": 37
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GERS",
-          "number": "289"
-        },
-        "sortOrder": 38
       }
     ]
   }

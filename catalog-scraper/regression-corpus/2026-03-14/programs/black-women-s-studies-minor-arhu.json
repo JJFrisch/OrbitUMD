@@ -106,78 +106,6 @@
           "text": "Electives 9"
         }
       ]
-    },
-    {
-      "id": "choice-4",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-5",
-          "label": "AASP263",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AASP",
-          "number": "263"
-        },
-        {
-          "id": "course-6",
-          "label": "AASP265",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AASP",
-          "number": "265"
-        },
-        {
-          "id": "course-7",
-          "label": "LGBT264",
-          "nodeType": "course",
-          "children": [],
-          "subject": "LGBT",
-          "number": "264"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-8",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-9",
-          "label": "WGSS314",
-          "nodeType": "course",
-          "children": [],
-          "subject": "WGSS",
-          "number": "314"
-        },
-        {
-          "id": "course-10",
-          "label": "AASP313",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AASP",
-          "number": "313"
-        },
-        {
-          "id": "course-11",
-          "label": "HIST360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "360"
-        },
-        {
-          "id": "course-12",
-          "label": "AASP398",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AASP",
-          "number": "398"
-        }
-      ],
-      "minCount": 1
     }
   ],
   "flattened": {
@@ -214,30 +142,6 @@
           "nCourses": 1
         },
         "sortOrder": 3,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "choice-4",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 4,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-5",
-        "parentTempId": null,
-        "sourceNodeId": "choice-8",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 5,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -328,69 +232,6 @@
           "text": "Electives 9"
         },
         "sortOrder": 10
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AASP",
-          "number": "263"
-        },
-        "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AASP",
-          "number": "265"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "LGBT",
-          "number": "264"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "WGSS",
-          "number": "314"
-        },
-        "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AASP",
-          "number": "313"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "360"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "AASP",
-          "number": "398"
-        },
-        "sortOrder": 17
       }
     ]
   }

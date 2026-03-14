@@ -180,118 +180,6 @@
       ]
     },
     {
-      "id": "choice-9",
-      "label": "Select one of the following Global Affairs courses",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-10",
-          "label": "GVPT200",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "200"
-        },
-        {
-          "id": "course-11",
-          "label": "GVPT280",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "280"
-        },
-        {
-          "id": "course-12",
-          "label": "GVPT289L",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "289L"
-        },
-        {
-          "id": "course-13",
-          "label": "GVPT354",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "354"
-        },
-        {
-          "id": "course-14",
-          "label": "GVPT360",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "360"
-        },
-        {
-          "id": "course-15",
-          "label": "GVPT456",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GVPT",
-          "number": "456"
-        },
-        {
-          "id": "course-16",
-          "label": "HIST224",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "224"
-        },
-        {
-          "id": "course-17",
-          "label": "HIST225",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "225"
-        },
-        {
-          "id": "course-18",
-          "label": "HIST240",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "240"
-        },
-        {
-          "id": "course-19",
-          "label": "HIST266",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "266"
-        },
-        {
-          "id": "course-20",
-          "label": "HIST353",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "353"
-        },
-        {
-          "id": "course-21",
-          "label": "HIST355",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "355"
-        },
-        {
-          "id": "course-22",
-          "label": "HIST357",
-          "nodeType": "course",
-          "children": [],
-          "subject": "HIST",
-          "number": "357"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-23",
       "label": "Select on of the following Military Affairs courses",
       "nodeType": "requireAll",
@@ -390,23 +278,11 @@
       {
         "tempId": "blk-3",
         "parentTempId": null,
-        "sourceNodeId": "choice-9",
-        "humanLabel": "Select one of the following Global Affairs courses",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 3,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-4",
-        "parentTempId": null,
         "sourceNodeId": "block-23",
         "humanLabel": "Select on of the following Military Affairs courses",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 4,
+        "sortOrder": 3,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -592,8 +468,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "200"
+          "subject": "BMGT",
+          "number": "360"
         },
         "sortOrder": 21
       },
@@ -601,8 +477,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "280"
+          "subject": "BMGT",
+          "number": "364"
         },
         "sortOrder": 22
       },
@@ -610,8 +486,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "289L"
+          "subject": "JOUR",
+          "number": "283"
         },
         "sortOrder": 23
       },
@@ -619,8 +495,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "354"
+          "subject": "SOCY",
+          "number": "120"
         },
         "sortOrder": 24
       },
@@ -628,8 +504,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "360"
+          "subject": "SOCY",
+          "number": "464"
         },
         "sortOrder": 25
       },
@@ -637,8 +513,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "GVPT",
-          "number": "456"
+          "subject": "SOCY",
+          "number": "465"
         },
         "sortOrder": 26
       },
@@ -646,8 +522,8 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "HIST",
-          "number": "224"
+          "subject": "SOCY",
+          "number": "869"
         },
         "sortOrder": 27
       },
@@ -655,127 +531,10 @@
         "blockTempId": "blk-3",
         "itemType": "COURSE",
         "payload": {
-          "subject": "HIST",
-          "number": "225"
-        },
-        "sortOrder": 28
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "240"
-        },
-        "sortOrder": 29
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "266"
-        },
-        "sortOrder": 30
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "353"
-        },
-        "sortOrder": 31
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "355"
-        },
-        "sortOrder": 32
-      },
-      {
-        "blockTempId": "blk-3",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "HIST",
-          "number": "357"
-        },
-        "sortOrder": 33
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "360"
-        },
-        "sortOrder": 34
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "BMGT",
-          "number": "364"
-        },
-        "sortOrder": 35
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "JOUR",
-          "number": "283"
-        },
-        "sortOrder": 36
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "120"
-        },
-        "sortOrder": 37
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "464"
-        },
-        "sortOrder": 38
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "465"
-        },
-        "sortOrder": 39
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "SOCY",
-          "number": "869"
-        },
-        "sortOrder": 40
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
           "subject": "BSST",
           "number": "334"
         },
-        "sortOrder": 41
+        "sortOrder": 28
       }
     ]
   }

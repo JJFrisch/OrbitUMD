@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-14T15:29:53.360Z",
+  "generatedAt": "2026-03-14T21:32:13.845Z",
   "totalDiscovered": 232,
-  "totalParsed": 224,
-  "totalFailed": 8,
+  "totalParsed": 232,
+  "totalFailed": 0,
   "outputDir": "/Users/jakefrischmann/repos/OrbitUMD/catalog-scraper/regression-corpus/2026-03-14",
   "programs": [
     {
@@ -10,9 +10,9 @@
       "title": "Agricultural and Resource Economics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/agricultural-resource-economics/agricultural-resource-economics-major/",
       "file": "programs/agricultural-and-resource-economics-major.json",
-      "rootNodeCount": 22,
-      "blockCount": 34,
-      "itemCount": 254
+      "rootNodeCount": 13,
+      "blockCount": 25,
+      "itemCount": 155
     },
     {
       "code": "global-poverty-minor",
@@ -28,18 +28,18 @@
       "title": "Animal Sciences Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/animal-sciences/animal-sciences-major/",
       "file": "programs/animal-sciences-major.json",
-      "rootNodeCount": 7,
-      "blockCount": 12,
-      "itemCount": 163
+      "rootNodeCount": 3,
+      "blockCount": 8,
+      "itemCount": 108
     },
     {
       "code": "environmental-science-and-policy-major",
       "title": "Environmental Science and Policy Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/environmental-science-policy/environmental-science-policy-major/",
       "file": "programs/environmental-science-and-policy-major.json",
-      "rootNodeCount": 39,
-      "blockCount": 48,
-      "itemCount": 326
+      "rootNodeCount": 30,
+      "blockCount": 39,
+      "itemCount": 288
     },
     {
       "code": "sustainability-studies-minor-agnr",
@@ -91,9 +91,9 @@
       "title": "Agricultural Science and Technology Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/plant-sciences-landscape-architecture/agricultural-science-technology-major/",
       "file": "programs/agricultural-science-and-technology-major.json",
-      "rootNodeCount": 18,
-      "blockCount": 25,
-      "itemCount": 280
+      "rootNodeCount": 12,
+      "blockCount": 19,
+      "itemCount": 225
     },
     {
       "code": "agricultural-science-and-technology-minor",
@@ -118,18 +118,18 @@
       "title": "Landscape Management Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/plant-sciences-landscape-architecture/landscape-management-minor/",
       "file": "programs/landscape-management-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 14
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 10
     },
     {
       "code": "plant-sciences-major",
       "title": "Plant Sciences Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/agriculture-natural-resources/plant-sciences-landscape-architecture/plant-sciences-major/",
       "file": "programs/plant-sciences-major.json",
-      "rootNodeCount": 12,
-      "blockCount": 18,
-      "itemCount": 192
+      "rootNodeCount": 7,
+      "blockCount": 13,
+      "itemCount": 131
     },
     {
       "code": "architecture-major",
@@ -145,9 +145,9 @@
       "title": "Construction Project Management Minor (ARCH)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/architecture-planning-preservation/construction-project-management-minor/",
       "file": "programs/construction-project-management-minor-arch.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 20
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 14
     },
     {
       "code": "creative-placemaking-minor-arch",
@@ -172,9 +172,9 @@
       "title": "Real Estate and the Built Environment Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/architecture-planning-preservation/real-estate-built-environment-major/",
       "file": "programs/real-estate-and-the-built-environment-major.json",
-      "rootNodeCount": 7,
-      "blockCount": 13,
-      "itemCount": 119
+      "rootNodeCount": 1,
+      "blockCount": 7,
+      "itemCount": 66
     },
     {
       "code": "real-estate-development-minor",
@@ -190,9 +190,9 @@
       "title": "American Studies Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/american-studies/american-studies-major/",
       "file": "programs/american-studies-major.json",
-      "rootNodeCount": 3,
-      "blockCount": 6,
-      "itemCount": 24
+      "rootNodeCount": 1,
+      "blockCount": 4,
+      "itemCount": 14
     },
     {
       "code": "u-s-latina-o-studies-minor",
@@ -202,6 +202,15 @@
       "rootNodeCount": 1,
       "blockCount": 1,
       "itemCount": 7
+    },
+    {
+      "code": "archaeology-minor-arth",
+      "title": "Archaeology Minor (ARTH)",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/art-history-archaeology/archaeology-minor/",
+      "file": "programs/archaeology-minor-arth.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 3
     },
     {
       "code": "art-history-major",
@@ -226,9 +235,9 @@
       "title": "Studio Art Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/art/art-major/",
       "file": "programs/studio-art-major.json",
-      "rootNodeCount": 22,
-      "blockCount": 37,
-      "itemCount": 117
+      "rootNodeCount": 17,
+      "blockCount": 32,
+      "itemCount": 97
     },
     {
       "code": "immersive-media-design-major-artt",
@@ -240,22 +249,40 @@
       "itemCount": 53
     },
     {
+      "code": "archaeology-minor-clas",
+      "title": "Archaeology Minor (CLAS)",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/archaeology-minor/",
+      "file": "programs/archaeology-minor-clas.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 3
+    },
+    {
       "code": "classical-mythology-minor",
       "title": "Classical Mythology Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/classical-mythology-minor/",
       "file": "programs/classical-mythology-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 14
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 9
     },
     {
       "code": "classical-languages-and-literatures-major",
       "title": "Classical Languages and Literatures Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/classics-major/",
       "file": "programs/classical-languages-and-literatures-major.json",
-      "rootNodeCount": 9,
-      "blockCount": 14,
-      "itemCount": 17
+      "rootNodeCount": 8,
+      "blockCount": 13,
+      "itemCount": 16
+    },
+    {
+      "code": "greek-language-and-culture-minor",
+      "title": "Greek Language and Culture Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/greek-language-culture-minor/",
+      "file": "programs/greek-language-and-culture-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 6
     },
     {
       "code": "latin-language-and-literature-minor",
@@ -271,9 +298,9 @@
       "title": "Communication Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/communication/communication-major/",
       "file": "programs/communication-major.json",
-      "rootNodeCount": 39,
-      "blockCount": 73,
-      "itemCount": 551
+      "rootNodeCount": 6,
+      "blockCount": 40,
+      "itemCount": 298
     },
     {
       "code": "rhetoric-minor-comm",
@@ -307,9 +334,9 @@
       "title": "Creative Writing Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/creative-writing-minor/",
       "file": "programs/creative-writing-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 8,
-      "itemCount": 17
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 9
     },
     {
       "code": "digital-storytelling-and-poetics-minor",
@@ -366,6 +393,15 @@
       "itemCount": 8
     },
     {
+      "code": "history-minor",
+      "title": "History Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/history-minor/",
+      "file": "programs/history-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 7
+    },
+    {
       "code": "middle-east-studies-minor",
       "title": "Middle East Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
@@ -388,9 +424,9 @@
       "title": "Israel Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/israel-studies-minor/",
       "file": "programs/israel-studies-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 50
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 28
     },
     {
       "code": "jewish-studies-major",
@@ -451,18 +487,18 @@
       "title": "Chinese Language Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/chinese/chinese-language-minor/",
       "file": "programs/chinese-language-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 41
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 21
     },
     {
       "code": "chinese-major",
       "title": "Chinese Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/chinese/chinese-major/",
       "file": "programs/chinese-major.json",
-      "rootNodeCount": 6,
-      "blockCount": 11,
-      "itemCount": 65
+      "rootNodeCount": 1,
+      "blockCount": 6,
+      "itemCount": 36
     },
     {
       "code": "cinema-and-media-studies-major-sllc",
@@ -478,27 +514,36 @@
       "title": "French Language and Literature Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/french-language-literature/french-major/",
       "file": "programs/french-language-and-literature-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 4,
-      "itemCount": 20
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 13
     },
     {
       "code": "french-studies-minor",
       "title": "French Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/french-language-literature/french-studies-minor/",
       "file": "programs/french-studies-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 4,
-      "itemCount": 18
+      "rootNodeCount": 2,
+      "blockCount": 3,
+      "itemCount": 12
     },
     {
       "code": "german-studies-major",
       "title": "German Studies Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/germanic-studies/german-studies-major/",
       "file": "programs/german-studies-major.json",
-      "rootNodeCount": 5,
-      "blockCount": 6,
-      "itemCount": 38
+      "rootNodeCount": 4,
+      "blockCount": 5,
+      "itemCount": 36
+    },
+    {
+      "code": "german-studies-minor",
+      "title": "German Studies Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/germanic-studies/german-studies-minor/",
+      "file": "programs/german-studies-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 5
     },
     {
       "code": "hebrew-studies-minor-sllc",
@@ -541,18 +586,18 @@
       "title": "Japanese Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/japanese/japanese-minor/",
       "file": "programs/japanese-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 8,
-      "itemCount": 41
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 21
     },
     {
       "code": "korean-studies-minor",
       "title": "Korean Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/korean-studies-minor/",
       "file": "programs/korean-studies-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 37
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 20
     },
     {
       "code": "persian-studies-major",
@@ -577,18 +622,18 @@
       "title": "Portuguese and Brazilian Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/portuguese-brazilian-studies-minor/",
       "file": "programs/portuguese-and-brazilian-studies-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 45
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 23
     },
     {
       "code": "romance-languages-major",
       "title": "Romance Languages Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/romance-languages/romance-languages-major/",
       "file": "programs/romance-languages-major.json",
-      "rootNodeCount": 7,
-      "blockCount": 10,
-      "itemCount": 38
+      "rootNodeCount": 6,
+      "blockCount": 9,
+      "itemCount": 34
     },
     {
       "code": "russian-language-and-literature-major",
@@ -613,36 +658,36 @@
       "title": "Spanish Minor 3: Heritage Language and Latina/o Culture",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/spanish-language-literatures-culture/spanish-heritage-language-latino-culture-minor/",
       "file": "programs/spanish-minor-3-heritage-language-and-latina-o-culture.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 47
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 28
     },
     {
       "code": "spanish-minor-2-language-culture-and-professional-contexts",
       "title": "Spanish Minor 2: Language, Culture, and Professional Contexts",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/spanish-language-literatures-culture/spanish-language-culture-professional-minor/",
       "file": "programs/spanish-minor-2-language-culture-and-professional-contexts.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 35
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 21
     },
     {
       "code": "spanish-language-literatures-and-culture-major",
       "title": "Spanish Language, Literatures, and Culture Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/spanish-language-literatures-culture/spanish-language-literatures-culture-major/",
       "file": "programs/spanish-language-literatures-and-culture-major.json",
-      "rootNodeCount": 11,
-      "blockCount": 20,
-      "itemCount": 68
+      "rootNodeCount": 8,
+      "blockCount": 17,
+      "itemCount": 51
     },
     {
       "code": "spanish-minor-1-literature-linguistics-and-culture",
       "title": "Spanish Minor 1: Literature, Linguistics, and Culture",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/spanish-language-literatures-culture/spanish-literature-linguistics-culture-minor/",
       "file": "programs/spanish-minor-1-literature-linguistics-and-culture.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 25
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 16
     },
     {
       "code": "latin-american-and-caribbean-studies-minor",
@@ -658,9 +703,9 @@
       "title": "Linguistics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/linguistics/linguistics-major/",
       "file": "programs/linguistics-major.json",
-      "rootNodeCount": 4,
-      "blockCount": 7,
-      "itemCount": 28
+      "rootNodeCount": 3,
+      "blockCount": 6,
+      "itemCount": 22
     },
     {
       "code": "linguistics-minor",
@@ -681,13 +726,22 @@
       "itemCount": 22
     },
     {
+      "code": "music-major",
+      "title": "Music Major",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/music/music-major/",
+      "file": "programs/music-major.json",
+      "rootNodeCount": 1,
+      "blockCount": 9,
+      "itemCount": 50
+    },
+    {
       "code": "music-performance-minor",
       "title": "Music Performance Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/music/music-performance-minor/",
       "file": "programs/music-performance-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 4,
-      "itemCount": 20
+      "rootNodeCount": 2,
+      "blockCount": 3,
+      "itemCount": 16
     },
     {
       "code": "philosophy-major",
@@ -712,18 +766,18 @@
       "title": "Philosophy, Politics, and Economics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-politics-economics-major/",
       "file": "programs/philosophy-politics-and-economics-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 5,
-      "itemCount": 74
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 44
     },
     {
       "code": "arts-leadership-minor",
       "title": "Arts Leadership Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/theatre-dance-performance-studies/arts-leadership-minor/",
       "file": "programs/arts-leadership-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 4,
-      "itemCount": 13
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 9
     },
     {
       "code": "dance-major",
@@ -748,9 +802,9 @@
       "title": "Black Women's Studies Minor (ARHU)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/women-gender-sexuality-studies/black-womens-studies-minor/",
       "file": "programs/black-women-s-studies-minor-arhu.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 17
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 10
     },
     {
       "code": "lgbtq-studies-minor",
@@ -766,18 +820,18 @@
       "title": "Women, Gender, and Sexuality Studies Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/women-gender-sexuality-studies/womens-gender-sexuality-studies-major/",
       "file": "programs/women-gender-and-sexuality-studies-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 266
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 141
     },
     {
       "code": "african-american-and-africana-studies-major",
       "title": "African American and Africana Studies Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/african-american-africana-studies/african-american-africana-studies-major/",
       "file": "programs/african-american-and-africana-studies-major.json",
-      "rootNodeCount": 5,
-      "blockCount": 6,
-      "itemCount": 36
+      "rootNodeCount": 4,
+      "blockCount": 5,
+      "itemCount": 34
     },
     {
       "code": "african-studies-minor",
@@ -802,36 +856,36 @@
       "title": "Black Women's Studies Minor (BSOS)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/african-american-africana-studies/black-womens-studies-minor/",
       "file": "programs/black-women-s-studies-minor-bsos.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 17
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 10
     },
     {
       "code": "anthropology-major",
       "title": "Anthropology Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/anthropology/anthropology-major/",
       "file": "programs/anthropology-major.json",
-      "rootNodeCount": 11,
-      "blockCount": 16,
-      "itemCount": 168
+      "rootNodeCount": 6,
+      "blockCount": 11,
+      "itemCount": 98
     },
     {
       "code": "criminology-and-criminal-justice-major",
       "title": "Criminology and Criminal Justice Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/criminology-criminal-justice/criminology-criminal-justice-major/",
       "file": "programs/criminology-and-criminal-justice-major.json",
-      "rootNodeCount": 4,
-      "blockCount": 10,
-      "itemCount": 29
+      "rootNodeCount": 1,
+      "blockCount": 7,
+      "itemCount": 21
     },
     {
       "code": "economics-major",
       "title": "Economics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/economics/economics-major/",
       "file": "programs/economics-major.json",
-      "rootNodeCount": 4,
-      "blockCount": 11,
-      "itemCount": 42
+      "rootNodeCount": 2,
+      "blockCount": 9,
+      "itemCount": 35
     },
     {
       "code": "economics-minor",
@@ -856,36 +910,36 @@
       "title": "Geographical Sciences Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/geographical-sciences/geographical-sciences-major/",
       "file": "programs/geographical-sciences-major.json",
-      "rootNodeCount": 10,
-      "blockCount": 19,
-      "itemCount": 86
+      "rootNodeCount": 5,
+      "blockCount": 14,
+      "itemCount": 63
     },
     {
       "code": "remote-sensing-of-environmental-change-minor",
       "title": "Remote Sensing of Environmental Change Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/geographical-sciences/remote-sensing-environmental-change-minor/",
       "file": "programs/remote-sensing-of-environmental-change-minor.json",
-      "rootNodeCount": 5,
-      "blockCount": 9,
-      "itemCount": 37
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 20
     },
     {
       "code": "global-terrorism-studies-minor",
       "title": "Global Terrorism Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/global-terrorism-studies-minor/",
       "file": "programs/global-terrorism-studies-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 4,
-      "itemCount": 50
+      "rootNodeCount": 2,
+      "blockCount": 3,
+      "itemCount": 29
     },
     {
       "code": "government-and-politics-major",
       "title": "Government and Politics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/government-politics/government-politics-major/",
       "file": "programs/government-and-politics-major.json",
-      "rootNodeCount": 7,
-      "blockCount": 11,
-      "itemCount": 114
+      "rootNodeCount": 3,
+      "blockCount": 7,
+      "itemCount": 75
     },
     {
       "code": "international-development-and-conflict-management-minor",
@@ -901,18 +955,18 @@
       "title": "International Relations Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/government-politics/international-relations-major/",
       "file": "programs/international-relations-major.json",
-      "rootNodeCount": 4,
-      "blockCount": 6,
-      "itemCount": 93
+      "rootNodeCount": 2,
+      "blockCount": 4,
+      "itemCount": 58
     },
     {
       "code": "hearing-and-speech-sciences-major",
       "title": "Hearing and Speech Sciences Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/hearing-speech-sciences/hearing-speech-sciences-major/",
       "file": "programs/hearing-and-speech-sciences-major.json",
-      "rootNodeCount": 5,
-      "blockCount": 9,
-      "itemCount": 67
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 40
     },
     {
       "code": "hearing-and-speech-sciences-minor",
@@ -1000,18 +1054,18 @@
       "title": "Survey Methodology Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/behavioral-social-sciences/survey-methodology-minor/",
       "file": "programs/survey-methodology-minor.json",
-      "rootNodeCount": 5,
-      "blockCount": 8,
-      "itemCount": 54
+      "rootNodeCount": 2,
+      "blockCount": 5,
+      "itemCount": 31
     },
     {
       "code": "accounting-major",
       "title": "Accounting Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/accounting/accounting-major/",
       "file": "programs/accounting-major.json",
-      "rootNodeCount": 7,
-      "blockCount": 11,
-      "itemCount": 72
+      "rootNodeCount": 4,
+      "blockCount": 8,
+      "itemCount": 48
     },
     {
       "code": "business-analytics-minor",
@@ -1045,27 +1099,27 @@
       "title": "Operations Management & Business Analytics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/decision-operations-information-technologies/operations-management-business-analytics-major/",
       "file": "programs/operations-management-business-analytics-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 23
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 16
     },
     {
       "code": "entrepreneurial-leadership-minor",
       "title": "Entrepreneurial Leadership Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/entrepreneurial-leadership-minor/",
       "file": "programs/entrepreneurial-leadership-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 22
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 13
     },
     {
       "code": "finance-major",
       "title": "Finance Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/finance/finance-major/",
       "file": "programs/finance-major.json",
-      "rootNodeCount": 4,
-      "blockCount": 8,
-      "itemCount": 41
+      "rootNodeCount": 2,
+      "blockCount": 5,
+      "itemCount": 25
     },
     {
       "code": "general-business-minor",
@@ -1090,27 +1144,27 @@
       "title": "Supply Chain Management Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/logistics-business-public-policy/supply-chain-management-major/",
       "file": "programs/supply-chain-management-major.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 34
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 19
     },
     {
       "code": "management-major",
       "title": "Management Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/management/management-major/",
       "file": "programs/management-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 18
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 11
     },
     {
       "code": "marketing-major",
       "title": "Marketing Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/business/marketing/marketing-major/",
       "file": "programs/marketing-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 23
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 14
     },
     {
       "code": "astronomy-major",
@@ -1126,54 +1180,54 @@
       "title": "Astronomy Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/astronomy/astronomy-minor/",
       "file": "programs/astronomy-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 7,
-      "itemCount": 26
+      "rootNodeCount": 1,
+      "blockCount": 4,
+      "itemCount": 14
     },
     {
       "code": "planetary-sciences-minor-astr",
       "title": "Planetary Sciences Minor (ASTR)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/astronomy/planetary-sciences-minor/",
       "file": "programs/planetary-sciences-minor-astr.json",
-      "rootNodeCount": 5,
-      "blockCount": 9,
-      "itemCount": 41
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 22
     },
     {
       "code": "atmospheric-chemistry-minor",
       "title": "Atmospheric Chemistry Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/atmospheric-oceanic-science/atmospheric-chemistry-minor/",
       "file": "programs/atmospheric-chemistry-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 6,
-      "itemCount": 22
+      "rootNodeCount": 2,
+      "blockCount": 4,
+      "itemCount": 13
     },
     {
       "code": "atmospheric-and-oceanic-science-major",
       "title": "Atmospheric and Oceanic Science Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/atmospheric-oceanic-science/atmospheric-oceanic-science-major/",
       "file": "programs/atmospheric-and-oceanic-science-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 45
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 28
     },
     {
       "code": "atmospheric-sciences-minor",
       "title": "Atmospheric Sciences Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/atmospheric-oceanic-science/atmospheric-sciences-minor/",
       "file": "programs/atmospheric-sciences-minor.json",
-      "rootNodeCount": 5,
-      "blockCount": 6,
-      "itemCount": 13
+      "rootNodeCount": 4,
+      "blockCount": 5,
+      "itemCount": 10
     },
     {
       "code": "meteorology-minor",
       "title": "Meteorology Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/atmospheric-oceanic-science/meteorology-minor/",
       "file": "programs/meteorology-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 5,
-      "itemCount": 13
+      "rootNodeCount": 3,
+      "blockCount": 4,
+      "itemCount": 10
     },
     {
       "code": "neuroscience-major-cmns",
@@ -1216,18 +1270,18 @@
       "title": "Computer Science Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/computer-science-major/",
       "file": "programs/computer-science-major.json",
-      "rootNodeCount": 12,
-      "blockCount": 23,
-      "itemCount": 210
+      "rootNodeCount": 6,
+      "blockCount": 15,
+      "itemCount": 128
     },
     {
       "code": "computer-science-minor",
       "title": "Computer Science Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/computer-science/computer-science-minor/",
       "file": "programs/computer-science-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 63
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 35
     },
     {
       "code": "data-science-minor-cmsc",
@@ -1279,54 +1333,54 @@
       "title": "Earth History Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/earth-history-minor/",
       "file": "programs/earth-history-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 23
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 12
     },
     {
       "code": "earth-material-properties-minor",
       "title": "Earth Material Properties Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/earth-material-properties-minor/",
       "file": "programs/earth-material-properties-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 26
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 14
     },
     {
       "code": "geochemistry-minor",
       "title": "Geochemistry Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/geochemistry-minor/",
       "file": "programs/geochemistry-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 7,
-      "itemCount": 30
+      "rootNodeCount": 1,
+      "blockCount": 4,
+      "itemCount": 16
     },
     {
       "code": "geology-major",
       "title": "Geology Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/geology-major/",
       "file": "programs/geology-major.json",
-      "rootNodeCount": 23,
-      "blockCount": 39,
-      "itemCount": 261
+      "rootNodeCount": 8,
+      "blockCount": 24,
+      "itemCount": 168
     },
     {
       "code": "geophysics-minor",
       "title": "Geophysics Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/geophysics-minor/",
       "file": "programs/geophysics-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 7,
-      "itemCount": 31
+      "rootNodeCount": 1,
+      "blockCount": 4,
+      "itemCount": 16
     },
     {
       "code": "hydrology-minor",
       "title": "Hydrology Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/hydrology-minor/",
       "file": "programs/hydrology-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 24
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 13
     },
     {
       "code": "paleobiology-minor-geol",
@@ -1342,27 +1396,27 @@
       "title": "Planetary Sciences Minor (GEOL)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/planetary-sciences-minor/",
       "file": "programs/planetary-sciences-minor-geol.json",
-      "rootNodeCount": 5,
-      "blockCount": 9,
-      "itemCount": 41
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 22
     },
     {
       "code": "surficial-geology-minor",
       "title": "Surficial Geology Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/geology/surficial-geology-minor/",
       "file": "programs/surficial-geology-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 29
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 15
     },
     {
       "code": "actuarial-mathematics-minor",
       "title": "Actuarial Mathematics Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/mathematics/actuarial-mathematics-minor/",
       "file": "programs/actuarial-mathematics-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 30
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 18
     },
     {
       "code": "data-science-minor-math",
@@ -1378,27 +1432,27 @@
       "title": "Mathematics Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/mathematics/mathematics-major/",
       "file": "programs/mathematics-major.json",
-      "rootNodeCount": 30,
-      "blockCount": 48,
-      "itemCount": 617
+      "rootNodeCount": 12,
+      "blockCount": 30,
+      "itemCount": 388
     },
     {
       "code": "mathematics-minor",
       "title": "Mathematics Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/mathematics/mathematics-minor/",
       "file": "programs/mathematics-minor.json",
-      "rootNodeCount": 6,
-      "blockCount": 11,
-      "itemCount": 44
+      "rootNodeCount": 1,
+      "blockCount": 6,
+      "itemCount": 24
     },
     {
       "code": "statistics-minor",
       "title": "Statistics Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/mathematics/statistics-minor/",
       "file": "programs/statistics-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 30
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 18
     },
     {
       "code": "physics-major",
@@ -1414,27 +1468,27 @@
       "title": "Physics Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/computer-mathematical-natural-sciences/physics/physics-minor/",
       "file": "programs/physics-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 39
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 20
     },
     {
       "code": "disability-studies-minor",
       "title": "Disability Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/counseling-higher-special-education/disability-studies-minor/",
       "file": "programs/disability-studies-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 42
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 24
     },
     {
       "code": "elementary-middle-special-education-major",
       "title": "Elementary/Middle Special Education Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/counseling-higher-special-education/elementary-middle-special-education-major/",
       "file": "programs/elementary-middle-special-education-major.json",
-      "rootNodeCount": 14,
-      "blockCount": 17,
-      "itemCount": 70
+      "rootNodeCount": 11,
+      "blockCount": 14,
+      "itemCount": 59
     },
     {
       "code": "leadership-studies-minor",
@@ -1450,18 +1504,18 @@
       "title": "Early Childhood/Early Childhood Special Education Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/human-development-quantitative-methodology/early-childhood-special-education-major/",
       "file": "programs/early-childhood-early-childhood-special-education-major.json",
-      "rootNodeCount": 4,
-      "blockCount": 5,
-      "itemCount": 64
+      "rootNodeCount": 3,
+      "blockCount": 4,
+      "itemCount": 50
     },
     {
       "code": "human-development-major",
       "title": "Human Development Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/human-development-quantitative-methodology/human-development-major/",
       "file": "programs/human-development-major.json",
-      "rootNodeCount": 7,
-      "blockCount": 9,
-      "itemCount": 82
+      "rootNodeCount": 5,
+      "blockCount": 7,
+      "itemCount": 62
     },
     {
       "code": "human-development-minor",
@@ -1477,9 +1531,9 @@
       "title": "Secondary Education Major - Art",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/art-education-major/",
       "file": "programs/secondary-education-major-art.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 51
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 34
     },
     {
       "code": "education-policy-equity-and-justice-minor-educ",
@@ -1495,63 +1549,63 @@
       "title": "Elementary Education Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/elementary-education-major/",
       "file": "programs/elementary-education-major.json",
-      "rootNodeCount": 3,
-      "blockCount": 4,
-      "itemCount": 75
+      "rootNodeCount": 2,
+      "blockCount": 3,
+      "itemCount": 53
     },
     {
       "code": "secondary-education-major-english",
       "title": "Secondary Education Major - English",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/english-education-major/",
       "file": "programs/secondary-education-major-english.json",
-      "rootNodeCount": 4,
-      "blockCount": 5,
-      "itemCount": 53
+      "rootNodeCount": 3,
+      "blockCount": 4,
+      "itemCount": 43
     },
     {
       "code": "secondary-education-major-mathematics",
       "title": "Secondary Education Major - Mathematics",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/mathematics-education-major/",
       "file": "programs/secondary-education-major-mathematics.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 31
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 19
     },
     {
       "code": "middle-school-education-major",
       "title": "Middle School Education Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/middle-school-education-major/",
       "file": "programs/middle-school-education-major.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 72
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 41
     },
     {
       "code": "secondary-education-major-science",
       "title": "Secondary Education Major - Science",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/science-education-major/",
       "file": "programs/secondary-education-major-science.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 27
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 18
     },
     {
       "code": "secondary-education-minor",
       "title": "Secondary Education Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/secondary-education-minor/",
       "file": "programs/secondary-education-minor.json",
-      "rootNodeCount": 4,
-      "blockCount": 7,
-      "itemCount": 63
+      "rootNodeCount": 1,
+      "blockCount": 4,
+      "itemCount": 34
     },
     {
       "code": "secondary-education-major-social-studies",
       "title": "Secondary Education Major - Social Studies",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/social-studies-education-major/",
       "file": "programs/secondary-education-major-social-studies.json",
-      "rootNodeCount": 14,
-      "blockCount": 21,
-      "itemCount": 175
+      "rootNodeCount": 8,
+      "blockCount": 15,
+      "itemCount": 112
     },
     {
       "code": "teaching-english-for-speakers-of-other-languages-tesol-education-minor",
@@ -1567,9 +1621,9 @@
       "title": "Secondary Education Major - World Language",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/education/teaching-learning-policy-leadership/world-language-education-major/",
       "file": "programs/secondary-education-major-world-language.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 38
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 26
     },
     {
       "code": "aerospace-engineering-major",
@@ -1630,9 +1684,9 @@
       "title": "Construction Project Management Minor (ENGR)",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/civil-environmental-engineering/construction-project-management-minor/",
       "file": "programs/construction-project-management-minor-engr.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 20
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 14
     },
     {
       "code": "project-management-minor",
@@ -1657,18 +1711,18 @@
       "title": "Computer Engineering Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/electrical-and-computer/computer-engineering-minor/",
       "file": "programs/computer-engineering-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 25
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 15
     },
     {
       "code": "cyber-physical-systems-engineering-major",
       "title": "Cyber-Physical Systems Engineering Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/electrical-and-computer/cyber-physical-systems-engineering-major/",
       "file": "programs/cyber-physical-systems-engineering-major.json",
-      "rootNodeCount": 9,
-      "blockCount": 12,
-      "itemCount": 79
+      "rootNodeCount": 6,
+      "blockCount": 9,
+      "itemCount": 61
     },
     {
       "code": "electrical-engineering-major",
@@ -1732,6 +1786,15 @@
       "rootNodeCount": 2,
       "blockCount": 2,
       "itemCount": 6
+    },
+    {
+      "code": "nanoscale-science-and-technology-minor",
+      "title": "Nanoscale Science and Technology Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/nanoscale-science-technology-minor/",
+      "file": "programs/nanoscale-science-and-technology-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 9
     },
     {
       "code": "robotics-and-autonomous-systems-minor-engr",
@@ -1819,9 +1882,9 @@
       "title": "Journalism Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/journalism/journalism-major/",
       "file": "programs/journalism-major.json",
-      "rootNodeCount": 17,
-      "blockCount": 22,
-      "itemCount": 96
+      "rootNodeCount": 13,
+      "blockCount": 18,
+      "itemCount": 65
     },
     {
       "code": "media-technology-and-democracy-minor",
@@ -1846,9 +1909,9 @@
       "title": "Family Health Major",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/family-science/family-health-major/",
       "file": "programs/family-health-major.json",
-      "rootNodeCount": 5,
-      "blockCount": 9,
-      "itemCount": 44
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 33
     },
     {
       "code": "global-health-major",
@@ -1864,18 +1927,18 @@
       "title": "Kinesiology: Biomechanics and Motor Control Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/kinesiology/kinesiology-biomechanics-motor-control-minor/",
       "file": "programs/kinesiology-biomechanics-and-motor-control-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 24
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 13
     },
     {
       "code": "kinesiology-exercise-physiology-minor",
       "title": "Kinesiology: Exercise Physiology Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/kinesiology/kinesiology-exercise-physiology-minor/",
       "file": "programs/kinesiology-exercise-physiology-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 24
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 13
     },
     {
       "code": "kinesiology-major",
@@ -1891,9 +1954,9 @@
       "title": "Kinesiology: Sport, Commerce, & Culture Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-health/kinesiology/kinesiology-sport-commerce-culture-minor/",
       "file": "programs/kinesiology-sport-commerce-culture-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 3,
-      "itemCount": 19
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 11
     },
     {
       "code": "public-health-science-major",
@@ -1927,9 +1990,9 @@
       "title": "Public Leadership Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/public-policy/public-leadership-minor/",
       "file": "programs/public-leadership-minor.json",
-      "rootNodeCount": 2,
-      "blockCount": 4,
-      "itemCount": 7
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 5
     },
     {
       "code": "public-policy-major",
@@ -1981,18 +2044,27 @@
       "title": "Asian American Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/asian-american-studies-minor/",
       "file": "programs/asian-american-studies-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 5,
-      "itemCount": 57
+      "rootNodeCount": 1,
+      "blockCount": 3,
+      "itemCount": 32
+    },
+    {
+      "code": "global-studies-minor",
+      "title": "Global Studies Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/global-studies-minor/",
+      "file": "programs/global-studies-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 4
     },
     {
       "code": "military-studies-minor",
       "title": "Military Studies Minor",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/military-studies-minor/",
       "file": "programs/military-studies-minor.json",
-      "rootNodeCount": 3,
-      "blockCount": 4,
-      "itemCount": 41
+      "rootNodeCount": 2,
+      "blockCount": 3,
+      "itemCount": 28
     },
     {
       "code": "naval-science-minor",
@@ -2017,43 +2089,10 @@
       "title": "Criminology and Criminal Justice Major at Shady Grove",
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/universities-shady-grove/behavioral-social-sciences/criminology-criminal-justice-major/",
       "file": "programs/criminology-and-criminal-justice-major-at-shady-grove.json",
-      "rootNodeCount": 4,
-      "blockCount": 8,
-      "itemCount": 27
+      "rootNodeCount": 1,
+      "blockCount": 5,
+      "itemCount": 19
     }
   ],
-  "failures": [
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/art-history-archaeology/archaeology-minor/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/archaeology-minor/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/greek-language-culture-minor/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/history-minor/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/germanic-studies/german-studies-minor/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/music/music-major/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/engineering/nanoscale-science-technology-minor/",
-      "reason": "Parser returned null"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/global-studies-minor/",
-      "reason": "Parser returned null"
-    }
-  ]
+  "failures": []
 }

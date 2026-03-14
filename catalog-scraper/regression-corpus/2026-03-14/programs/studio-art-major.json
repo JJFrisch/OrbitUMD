@@ -603,54 +603,6 @@
       ]
     },
     {
-      "id": "choice-74",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-75",
-          "label": "ARTT479",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "479"
-        },
-        {
-          "id": "course-76",
-          "label": "ARTT353",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "353"
-        },
-        {
-          "id": "course-77",
-          "label": "ARTT449",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "449"
-        },
-        {
-          "id": "course-79",
-          "label": "ARTT448",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "448"
-        },
-        {
-          "id": "course-80",
-          "label": "ARTT481",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "481"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-81",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -734,38 +686,6 @@
       ]
     },
     {
-      "id": "choice-87",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-89",
-          "label": "ARTT448",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "448"
-        },
-        {
-          "id": "course-90",
-          "label": "ARTT448",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "448"
-        },
-        {
-          "id": "course-91",
-          "label": "ARTT481",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "481"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-92",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -825,46 +745,6 @@
           "text": "ARTT33x An ARTT33x course"
         }
       ]
-    },
-    {
-      "id": "choice-94",
-      "label": "Select one of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-96",
-          "label": "ARTT418",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "418"
-        },
-        {
-          "id": "course-97",
-          "label": "ARTT438",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "438"
-        },
-        {
-          "id": "course-98",
-          "label": "ARTT438",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "438"
-        },
-        {
-          "id": "course-99",
-          "label": "ARTT481",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "481"
-        }
-      ],
-      "minCount": 1
     },
     {
       "id": "block-100",
@@ -1030,86 +910,6 @@
           "text": "Graphic Design Required Courses"
         }
       ]
-    },
-    {
-      "id": "choice-110",
-      "label": "Select six credits of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-111",
-          "label": "ARTT386",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "386"
-        }
-      ],
-      "minCount": 6
-    },
-    {
-      "id": "choice-113",
-      "label": "Select six credits ARTT3xx / 4xx Art Electives",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-115",
-          "label": "ARTT355",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "355"
-        },
-        {
-          "id": "course-116",
-          "label": "ARTT356",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "356"
-        },
-        {
-          "id": "course-117",
-          "label": "ARTT357",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "357"
-        },
-        {
-          "id": "course-118",
-          "label": "ARTT454",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "454"
-        },
-        {
-          "id": "course-119",
-          "label": "ARTT455",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "455"
-        },
-        {
-          "id": "course-120",
-          "label": "ARTT458",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "458"
-        },
-        {
-          "id": "course-121",
-          "label": "ARTT361",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ARTT",
-          "number": "361"
-        }
-      ],
-      "minCount": 6
     },
     {
       "id": "block-122",
@@ -1421,19 +1221,17 @@
       {
         "tempId": "blk-23",
         "parentTempId": null,
-        "sourceNodeId": "choice-74",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-81",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 23,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-24",
         "parentTempId": null,
-        "sourceNodeId": "block-81",
+        "sourceNodeId": "block-85",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
@@ -1442,30 +1240,30 @@
       },
       {
         "tempId": "blk-25",
-        "parentTempId": null,
-        "sourceNodeId": "block-85",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 25,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-26",
-        "parentTempId": "blk-25",
+        "parentTempId": "blk-24",
         "sourceNodeId": "choice-87",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
         },
+        "sortOrder": 25,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-26",
+        "parentTempId": null,
+        "sourceNodeId": "block-92",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 26,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-27",
-        "parentTempId": null,
-        "sourceNodeId": "choice-87",
+        "parentTempId": "blk-26",
+        "sourceNodeId": "choice-94",
         "humanLabel": "Select one of the following",
         "type": "SELECT_N",
         "params": {
@@ -1477,7 +1275,7 @@
       {
         "tempId": "blk-28",
         "parentTempId": null,
-        "sourceNodeId": "block-92",
+        "sourceNodeId": "block-100",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
@@ -1486,104 +1284,46 @@
       },
       {
         "tempId": "blk-29",
-        "parentTempId": "blk-28",
-        "sourceNodeId": "choice-94",
-        "humanLabel": "Select one of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "parentTempId": null,
+        "sourceNodeId": "block-104",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 29,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-30",
-        "parentTempId": null,
-        "sourceNodeId": "choice-94",
-        "humanLabel": "Select one of the following",
+        "parentTempId": "blk-29",
+        "sourceNodeId": "choice-110",
+        "humanLabel": "Select six credits of the following",
         "type": "SELECT_N",
         "params": {
-          "nCourses": 1
+          "nCourses": 6
         },
         "sortOrder": 30,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-31",
-        "parentTempId": null,
-        "sourceNodeId": "block-100",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-29",
+        "sourceNodeId": "choice-113",
+        "humanLabel": "Select six credits ARTT3xx / 4xx Art Electives",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 6
+        },
         "sortOrder": 31,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-32",
         "parentTempId": null,
-        "sourceNodeId": "block-104",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 32,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-33",
-        "parentTempId": "blk-32",
-        "sourceNodeId": "choice-110",
-        "humanLabel": "Select six credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 6
-        },
-        "sortOrder": 33,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-34",
-        "parentTempId": "blk-32",
-        "sourceNodeId": "choice-113",
-        "humanLabel": "Select six credits ARTT3xx / 4xx Art Electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 6
-        },
-        "sortOrder": 34,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-35",
-        "parentTempId": null,
-        "sourceNodeId": "choice-110",
-        "humanLabel": "Select six credits of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 6
-        },
-        "sortOrder": 35,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-36",
-        "parentTempId": null,
-        "sourceNodeId": "choice-113",
-        "humanLabel": "Select six credits ARTT3xx / 4xx Art Electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 6
-        },
-        "sortOrder": 36,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-37",
-        "parentTempId": null,
         "sourceNodeId": "block-122",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 37,
+        "sortOrder": 32,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -2088,10 +1828,9 @@
       },
       {
         "blockTempId": "blk-23",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ARTT",
-          "number": "479"
+          "text": "Course Title"
         },
         "sortOrder": 59
       },
@@ -2100,7 +1839,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "353"
+          "number": "428"
         },
         "sortOrder": 60
       },
@@ -2109,27 +1848,9 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "449"
-        },
-        "sortOrder": 61
-      },
-      {
-        "blockTempId": "blk-23",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "448"
-        },
-        "sortOrder": 62
-      },
-      {
-        "blockTempId": "blk-23",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
           "number": "481"
         },
-        "sortOrder": 63
+        "sortOrder": 61
       },
       {
         "blockTempId": "blk-24",
@@ -2137,28 +1858,45 @@
         "payload": {
           "text": "Course Title"
         },
-        "sortOrder": 64
+        "sortOrder": 62
       },
       {
-        "blockTempId": "blk-24",
+        "blockTempId": "blk-25",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "428"
+          "number": "448"
         },
-        "sortOrder": 65
+        "sortOrder": 63
       },
       {
-        "blockTempId": "blk-24",
+        "blockTempId": "blk-25",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "448"
+        },
+        "sortOrder": 64
+      },
+      {
+        "blockTempId": "blk-25",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "481"
         },
+        "sortOrder": 65
+      },
+      {
+        "blockTempId": "blk-24",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ARTT34x An ARTT34x course"
+        },
         "sortOrder": 66
       },
       {
-        "blockTempId": "blk-25",
+        "blockTempId": "blk-26",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Course Title"
@@ -2166,66 +1904,48 @@
         "sortOrder": 67
       },
       {
-        "blockTempId": "blk-26",
+        "blockTempId": "blk-27",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "448"
+          "number": "418"
         },
         "sortOrder": 68
       },
       {
-        "blockTempId": "blk-26",
+        "blockTempId": "blk-27",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "448"
+          "number": "438"
         },
         "sortOrder": 69
       },
       {
-        "blockTempId": "blk-26",
+        "blockTempId": "blk-27",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "481"
+          "number": "438"
         },
         "sortOrder": 70
       },
       {
-        "blockTempId": "blk-25",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "ARTT34x An ARTT34x course"
-        },
-        "sortOrder": 71
-      },
-      {
-        "blockTempId": "blk-27",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "448"
-        },
-        "sortOrder": 72
-      },
-      {
-        "blockTempId": "blk-27",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "448"
-        },
-        "sortOrder": 73
-      },
-      {
         "blockTempId": "blk-27",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "481"
         },
-        "sortOrder": 74
+        "sortOrder": 71
+      },
+      {
+        "blockTempId": "blk-26",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "ARTT33x An ARTT33x course"
+        },
+        "sortOrder": 72
       },
       {
         "blockTempId": "blk-28",
@@ -2233,49 +1953,62 @@
         "payload": {
           "text": "Course Title"
         },
-        "sortOrder": 75
-      },
-      {
-        "blockTempId": "blk-29",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "418"
-        },
-        "sortOrder": 76
-      },
-      {
-        "blockTempId": "blk-29",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "438"
-        },
-        "sortOrder": 77
-      },
-      {
-        "blockTempId": "blk-29",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "438"
-        },
-        "sortOrder": 78
-      },
-      {
-        "blockTempId": "blk-29",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "481"
-        },
-        "sortOrder": 79
+        "sortOrder": 73
       },
       {
         "blockTempId": "blk-28",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "ARTT33x An ARTT33x course"
+          "text": "ARTT4xx Advanced Studios (combination of inter-related courses) 1"
+        },
+        "sortOrder": 74
+      },
+      {
+        "blockTempId": "blk-28",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "ARTT",
+          "number": "481"
+        },
+        "sortOrder": 75
+      },
+      {
+        "blockTempId": "blk-29",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Course Title"
+        },
+        "sortOrder": 76
+      },
+      {
+        "blockTempId": "blk-29",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "College Requirements"
+        },
+        "sortOrder": 77
+      },
+      {
+        "blockTempId": "blk-29",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Requirements"
+        },
+        "sortOrder": 78
+      },
+      {
+        "blockTempId": "blk-29",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Foundation courses listed in Track 1 BA 18"
+        },
+        "sortOrder": 79
+      },
+      {
+        "blockTempId": "blk-29",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Supporting Area courses listed in Track 1 BA 1 9"
         },
         "sortOrder": 80
       },
@@ -2284,50 +2017,51 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "418"
+          "number": "386"
         },
         "sortOrder": 81
       },
       {
-        "blockTempId": "blk-30",
-        "itemType": "COURSE",
+        "blockTempId": "blk-29",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ARTT",
-          "number": "438"
+          "text": "ARTT45x Graphic Design Electives"
         },
         "sortOrder": 82
       },
       {
-        "blockTempId": "blk-30",
+        "blockTempId": "blk-31",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "438"
+          "number": "355"
         },
         "sortOrder": 83
       },
       {
-        "blockTempId": "blk-30",
+        "blockTempId": "blk-31",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "481"
+          "number": "356"
         },
         "sortOrder": 84
       },
       {
         "blockTempId": "blk-31",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "ARTT",
+          "number": "357"
         },
         "sortOrder": 85
       },
       {
         "blockTempId": "blk-31",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "ARTT4xx Advanced Studios (combination of inter-related courses) 1"
+          "subject": "ARTT",
+          "number": "454"
         },
         "sortOrder": 86
       },
@@ -2336,31 +2070,33 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
-          "number": "481"
+          "number": "455"
         },
         "sortOrder": 87
       },
       {
-        "blockTempId": "blk-32",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-31",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Course Title"
+          "subject": "ARTT",
+          "number": "458"
         },
         "sortOrder": 88
       },
       {
-        "blockTempId": "blk-32",
-        "itemType": "TEXT_RULE",
+        "blockTempId": "blk-31",
+        "itemType": "COURSE",
         "payload": {
-          "text": "College Requirements"
+          "subject": "ARTT",
+          "number": "361"
         },
         "sortOrder": 89
       },
       {
-        "blockTempId": "blk-32",
+        "blockTempId": "blk-29",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "Requirements"
+          "text": "Graphic Design Required Courses"
         },
         "sortOrder": 90
       },
@@ -2368,239 +2104,63 @@
         "blockTempId": "blk-32",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "Foundation courses listed in Track 1 BA 18"
+          "text": "Course Title"
         },
         "sortOrder": 91
       },
       {
         "blockTempId": "blk-32",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE",
         "payload": {
-          "text": "Supporting Area courses listed in Track 1 BA 1 9"
+          "subject": "ARTT",
+          "number": "386"
         },
         "sortOrder": 92
       },
       {
-        "blockTempId": "blk-33",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "386"
-        },
-        "sortOrder": 93
-      },
-      {
         "blockTempId": "blk-32",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "ARTT45x Graphic Design Electives"
-        },
-        "sortOrder": 94
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "355"
-        },
-        "sortOrder": 95
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "356"
-        },
-        "sortOrder": 96
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "357"
-        },
-        "sortOrder": 97
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "454"
-        },
-        "sortOrder": 98
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "455"
-        },
-        "sortOrder": 99
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "458"
-        },
-        "sortOrder": 100
-      },
-      {
-        "blockTempId": "blk-34",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "361"
-        },
-        "sortOrder": 101
-      },
-      {
-        "blockTempId": "blk-32",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Graphic Design Required Courses"
-        },
-        "sortOrder": 102
-      },
-      {
-        "blockTempId": "blk-35",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "386"
-        },
-        "sortOrder": 103
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "355"
-        },
-        "sortOrder": 104
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "356"
-        },
-        "sortOrder": 105
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "357"
-        },
-        "sortOrder": 106
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "454"
-        },
-        "sortOrder": 107
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "455"
-        },
-        "sortOrder": 108
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "458"
-        },
-        "sortOrder": 109
-      },
-      {
-        "blockTempId": "blk-36",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "361"
-        },
-        "sortOrder": 110
-      },
-      {
-        "blockTempId": "blk-37",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 111
-      },
-      {
-        "blockTempId": "blk-37",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "ARTT",
-          "number": "386"
-        },
-        "sortOrder": 112
-      },
-      {
-        "blockTempId": "blk-37",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "456"
         },
-        "sortOrder": 113
+        "sortOrder": 93
       },
       {
-        "blockTempId": "blk-37",
+        "blockTempId": "blk-32",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "457"
         },
-        "sortOrder": 114
+        "sortOrder": 94
       },
       {
-        "blockTempId": "blk-37",
+        "blockTempId": "blk-32",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "459"
         },
-        "sortOrder": 115
+        "sortOrder": 95
       },
       {
-        "blockTempId": "blk-37",
+        "blockTempId": "blk-32",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "488"
         },
-        "sortOrder": 116
+        "sortOrder": 96
       },
       {
-        "blockTempId": "blk-37",
+        "blockTempId": "blk-32",
         "itemType": "COURSE",
         "payload": {
           "subject": "ARTT",
           "number": "499"
         },
-        "sortOrder": 117
+        "sortOrder": 97
       }
     ]
   }

@@ -128,38 +128,6 @@
       ]
     },
     {
-      "id": "choice-11",
-      "label": "Select one upper-level geographic techniques course",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-12",
-          "label": "ELECT300",
-          "nodeType": "course",
-          "children": [],
-          "subject": "ELECT",
-          "number": "300"
-        },
-        {
-          "id": "course-13",
-          "label": "GEOG306",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "306"
-        },
-        {
-          "id": "course-15",
-          "label": "MATH120",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MATH",
-          "number": "120"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "block-17",
       "label": "Requirements",
       "nodeType": "requireAll",
@@ -272,46 +240,6 @@
           "minCount": 3
         }
       ]
-    },
-    {
-      "id": "choice-27",
-      "label": "Select three credits of upper-level geography electives",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-28",
-          "label": "GEOG306",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "306"
-        },
-        {
-          "id": "course-29",
-          "label": "GEOG272",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "272"
-        },
-        {
-          "id": "course-30",
-          "label": "GEOG276",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "276"
-        },
-        {
-          "id": "course-31",
-          "label": "GEOG373",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "373"
-        }
-      ],
-      "minCount": 3
     },
     {
       "id": "block-32",
@@ -604,158 +532,6 @@
       ]
     },
     {
-      "id": "choice-50",
-      "label": "Select one upper-level physical geography course",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-51",
-          "label": "GEOG301",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "301"
-        },
-        {
-          "id": "course-52",
-          "label": "GEOG340",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "340"
-        },
-        {
-          "id": "course-53",
-          "label": "GEOG415",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "415"
-        },
-        {
-          "id": "course-54",
-          "label": "GEOG418",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "418"
-        },
-        {
-          "id": "course-55",
-          "label": "GEOG441",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "441"
-        },
-        {
-          "id": "course-56",
-          "label": "GEOG442",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "442"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-57",
-      "label": "Select one upper-level human geography course",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-58",
-          "label": "GEOG330",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "330"
-        },
-        {
-          "id": "course-59",
-          "label": "GEOG332",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "332"
-        },
-        {
-          "id": "course-60",
-          "label": "GEOG333",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "333"
-        },
-        {
-          "id": "course-61",
-          "label": "GEOG335",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "335"
-        },
-        {
-          "id": "course-62",
-          "label": "GEOG413",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "413"
-        },
-        {
-          "id": "course-63",
-          "label": "GEOG431",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "431"
-        },
-        {
-          "id": "course-64",
-          "label": "GEOG432",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "432"
-        }
-      ],
-      "minCount": 1
-    },
-    {
-      "id": "choice-65",
-      "label": "Select three credits of upper-level geography electives",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-66",
-          "label": "GEOG306",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "306"
-        },
-        {
-          "id": "course-67",
-          "label": "GEOG272",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "272"
-        },
-        {
-          "id": "course-68",
-          "label": "GEOG276",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GEOG",
-          "number": "276"
-        }
-      ],
-      "minCount": 3
-    },
-    {
       "id": "block-69",
       "label": "Nine credits from the following list",
       "nodeType": "requireAll",
@@ -876,30 +652,30 @@
       {
         "tempId": "blk-5",
         "parentTempId": null,
-        "sourceNodeId": "choice-11",
-        "humanLabel": "Select one upper-level geographic techniques course",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-17",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 5,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-6",
-        "parentTempId": null,
-        "sourceNodeId": "block-17",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
+        "parentTempId": "blk-5",
+        "sourceNodeId": "choice-25",
+        "humanLabel": "Select one upper-level physical geography course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
         "sortOrder": 6,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-7",
-        "parentTempId": "blk-6",
-        "sourceNodeId": "choice-25",
-        "humanLabel": "Select one upper-level physical geography course",
+        "parentTempId": "blk-5",
+        "sourceNodeId": "choice-26",
+        "humanLabel": "Select one upper-level human geography course",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
@@ -909,140 +685,80 @@
       },
       {
         "tempId": "blk-8",
-        "parentTempId": "blk-6",
-        "sourceNodeId": "choice-26",
-        "humanLabel": "Select one upper-level human geography course",
+        "parentTempId": "blk-5",
+        "sourceNodeId": "choice-27",
+        "humanLabel": "Select three credits of upper-level geography electives",
         "type": "SELECT_N",
         "params": {
-          "nCourses": 1
+          "nCourses": 3
         },
         "sortOrder": 8,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-9",
-        "parentTempId": "blk-6",
-        "sourceNodeId": "choice-27",
-        "humanLabel": "Select three credits of upper-level geography electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
+        "parentTempId": null,
+        "sourceNodeId": "block-32",
+        "humanLabel": "Six credits from the following list",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 9,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-10",
         "parentTempId": null,
-        "sourceNodeId": "choice-27",
-        "humanLabel": "Select three credits of upper-level geography electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
+        "sourceNodeId": "block-43",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 10,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-11",
-        "parentTempId": null,
-        "sourceNodeId": "block-32",
-        "humanLabel": "Six credits from the following list",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 11,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-12",
-        "parentTempId": null,
-        "sourceNodeId": "block-43",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 12,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-13",
-        "parentTempId": "blk-12",
+        "parentTempId": "blk-10",
         "sourceNodeId": "choice-50",
         "humanLabel": "Select one upper-level physical geography course",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
+        },
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": "blk-10",
+        "sourceNodeId": "choice-57",
+        "humanLabel": "Select one upper-level human geography course",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": "blk-10",
+        "sourceNodeId": "choice-65",
+        "humanLabel": "Select three credits of upper-level geography electives",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 3
         },
         "sortOrder": 13,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-14",
-        "parentTempId": "blk-12",
-        "sourceNodeId": "choice-57",
-        "humanLabel": "Select one upper-level human geography course",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 14,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-15",
-        "parentTempId": "blk-12",
-        "sourceNodeId": "choice-65",
-        "humanLabel": "Select three credits of upper-level geography electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
-        "sortOrder": 15,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-16",
-        "parentTempId": null,
-        "sourceNodeId": "choice-50",
-        "humanLabel": "Select one upper-level physical geography course",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 16,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-17",
-        "parentTempId": null,
-        "sourceNodeId": "choice-57",
-        "humanLabel": "Select one upper-level human geography course",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
-        "sortOrder": 17,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-18",
-        "parentTempId": null,
-        "sourceNodeId": "choice-65",
-        "humanLabel": "Select three credits of upper-level geography electives",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 3
-        },
-        "sortOrder": 18,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-19",
         "parentTempId": null,
         "sourceNodeId": "block-69",
         "humanLabel": "Nine credits from the following list",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 19,
+        "sortOrder": 14,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -1152,97 +868,97 @@
       },
       {
         "blockTempId": "blk-5",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "ELECT",
-          "number": "300"
+          "text": "Course Title"
         },
         "sortOrder": 13
       },
       {
         "blockTempId": "blk-5",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "GEOG",
-          "number": "306"
+          "text": "College Requirements"
         },
         "sortOrder": 14
       },
       {
         "blockTempId": "blk-5",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MATH",
-          "number": "120"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "College Requirements"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-6",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Required Courses"
         },
-        "sortOrder": 18
+        "sortOrder": 15
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "201"
         },
-        "sortOrder": 19
+        "sortOrder": 16
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "211"
         },
-        "sortOrder": 20
+        "sortOrder": 17
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "202"
         },
-        "sortOrder": 21
+        "sortOrder": 18
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "212"
         },
-        "sortOrder": 22
+        "sortOrder": 19
       },
       {
-        "blockTempId": "blk-9",
+        "blockTempId": "blk-8",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "306"
+        },
+        "sortOrder": 20
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "272"
+        },
+        "sortOrder": 21
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "276"
+        },
+        "sortOrder": 22
+      },
+      {
+        "blockTempId": "blk-8",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "373"
         },
         "sortOrder": 23
       },
@@ -1251,7 +967,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "272"
+          "number": "416"
         },
         "sortOrder": 24
       },
@@ -1260,7 +976,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "276"
+          "number": "470"
         },
         "sortOrder": 25
       },
@@ -1269,174 +985,174 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "373"
+          "number": "472"
         },
         "sortOrder": 26
       },
       {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "306"
-        },
-        "sortOrder": 27
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "272"
-        },
-        "sortOrder": 28
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "276"
-        },
-        "sortOrder": 29
-      },
-      {
-        "blockTempId": "blk-10",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "373"
-        },
-        "sortOrder": 30
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "416"
-        },
-        "sortOrder": 31
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "470"
-        },
-        "sortOrder": 32
-      },
-      {
-        "blockTempId": "blk-11",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "472"
-        },
-        "sortOrder": 33
-      },
-      {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "473"
         },
-        "sortOrder": 34
+        "sortOrder": 27
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "475"
         },
-        "sortOrder": 35
+        "sortOrder": 28
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "476"
         },
-        "sortOrder": 36
+        "sortOrder": 29
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "477"
         },
-        "sortOrder": 37
+        "sortOrder": 30
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Supporting Courses"
         },
-        "sortOrder": 38
+        "sortOrder": 31
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "COURSE",
         "payload": {
           "subject": "MATH",
           "number": "120"
         },
-        "sortOrder": 39
+        "sortOrder": 32
       },
       {
-        "blockTempId": "blk-11",
+        "blockTempId": "blk-9",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Supporting courses approved by GEOG advisor 1 12"
         },
-        "sortOrder": 40
+        "sortOrder": 33
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-10",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Course Title"
         },
-        "sortOrder": 41
+        "sortOrder": 34
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-10",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Required Courses"
         },
-        "sortOrder": 42
+        "sortOrder": 35
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "201"
         },
-        "sortOrder": 43
+        "sortOrder": 36
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "211"
         },
-        "sortOrder": 44
+        "sortOrder": 37
       },
       {
-        "blockTempId": "blk-12",
+        "blockTempId": "blk-10",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "202"
+        },
+        "sortOrder": 38
+      },
+      {
+        "blockTempId": "blk-10",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "212"
+        },
+        "sortOrder": 39
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "301"
+        },
+        "sortOrder": 40
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "340"
+        },
+        "sortOrder": 41
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "415"
+        },
+        "sortOrder": 42
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "418"
+        },
+        "sortOrder": 43
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "441"
+        },
+        "sortOrder": 44
+      },
+      {
+        "blockTempId": "blk-11",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "442"
         },
         "sortOrder": 45
       },
@@ -1445,88 +1161,88 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "212"
+          "number": "330"
         },
         "sortOrder": 46
       },
       {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "301"
-        },
-        "sortOrder": 47
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "340"
-        },
-        "sortOrder": 48
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "415"
-        },
-        "sortOrder": 49
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "418"
-        },
-        "sortOrder": 50
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "441"
-        },
-        "sortOrder": 51
-      },
-      {
-        "blockTempId": "blk-13",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "442"
-        },
-        "sortOrder": 52
-      },
-      {
-        "blockTempId": "blk-14",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "330"
-        },
-        "sortOrder": 53
-      },
-      {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-12",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "332"
         },
-        "sortOrder": 54
+        "sortOrder": 47
       },
       {
-        "blockTempId": "blk-14",
+        "blockTempId": "blk-12",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "333"
+        },
+        "sortOrder": 48
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "335"
+        },
+        "sortOrder": 49
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "413"
+        },
+        "sortOrder": 50
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "431"
+        },
+        "sortOrder": 51
+      },
+      {
+        "blockTempId": "blk-12",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "432"
+        },
+        "sortOrder": 52
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "306"
+        },
+        "sortOrder": 53
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "272"
+        },
+        "sortOrder": 54
+      },
+      {
+        "blockTempId": "blk-13",
+        "itemType": "COURSE",
+        "payload": {
+          "subject": "GEOG",
+          "number": "276"
         },
         "sortOrder": 55
       },
@@ -1535,7 +1251,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "335"
+          "number": "371"
         },
         "sortOrder": 56
       },
@@ -1544,7 +1260,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "413"
+          "number": "417"
         },
         "sortOrder": 57
       },
@@ -1553,7 +1269,7 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "431"
+          "number": "461"
         },
         "sortOrder": 58
       },
@@ -1562,250 +1278,43 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
-          "number": "432"
+          "number": "471"
         },
         "sortOrder": 59
       },
       {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "306"
-        },
-        "sortOrder": 60
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "272"
-        },
-        "sortOrder": 61
-      },
-      {
-        "blockTempId": "blk-15",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "276"
-        },
-        "sortOrder": 62
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "301"
-        },
-        "sortOrder": 63
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "340"
-        },
-        "sortOrder": 64
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "415"
-        },
-        "sortOrder": 65
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "418"
-        },
-        "sortOrder": 66
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "441"
-        },
-        "sortOrder": 67
-      },
-      {
-        "blockTempId": "blk-16",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "442"
-        },
-        "sortOrder": 68
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "330"
-        },
-        "sortOrder": 69
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "332"
-        },
-        "sortOrder": 70
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "333"
-        },
-        "sortOrder": 71
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "335"
-        },
-        "sortOrder": 72
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "413"
-        },
-        "sortOrder": 73
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "431"
-        },
-        "sortOrder": 74
-      },
-      {
-        "blockTempId": "blk-17",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "432"
-        },
-        "sortOrder": 75
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "306"
-        },
-        "sortOrder": 76
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "272"
-        },
-        "sortOrder": 77
-      },
-      {
-        "blockTempId": "blk-18",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "276"
-        },
-        "sortOrder": 78
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "371"
-        },
-        "sortOrder": 79
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "417"
-        },
-        "sortOrder": 80
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "461"
-        },
-        "sortOrder": 81
-      },
-      {
-        "blockTempId": "blk-19",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GEOG",
-          "number": "471"
-        },
-        "sortOrder": 82
-      },
-      {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "GEOG",
           "number": "472"
         },
-        "sortOrder": 83
+        "sortOrder": 60
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-14",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Supporting Courses"
         },
-        "sortOrder": 84
+        "sortOrder": 61
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-14",
         "itemType": "COURSE",
         "payload": {
           "subject": "MATH",
           "number": "120"
         },
-        "sortOrder": 85
+        "sortOrder": 62
       },
       {
-        "blockTempId": "blk-19",
+        "blockTempId": "blk-14",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Supporting courses approved by GEOG advisor 1 12"
         },
-        "sortOrder": 86
+        "sortOrder": 63
       }
     ]
   }

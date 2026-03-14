@@ -130,70 +130,6 @@
           "minCount": 4
         }
       ]
-    },
-    {
-      "id": "choice-8",
-      "label": "Select two of the following",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-9",
-          "label": "FREN302",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "302"
-        },
-        {
-          "id": "course-10",
-          "label": "FREN306",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "306"
-        },
-        {
-          "id": "course-11",
-          "label": "FREN312",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "312"
-        },
-        {
-          "id": "course-12",
-          "label": "FREN313",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "313"
-        },
-        {
-          "id": "course-13",
-          "label": "FREN399",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "399"
-        },
-        {
-          "id": "course-14",
-          "label": "FREN351",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "351"
-        },
-        {
-          "id": "course-15",
-          "label": "FREN352",
-          "nodeType": "course",
-          "children": [],
-          "subject": "FREN",
-          "number": "352"
-        }
-      ],
-      "minCount": 2
     }
   ],
   "flattened": {
@@ -230,18 +166,6 @@
           "nCourses": 4
         },
         "sortOrder": 3,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-4",
-        "parentTempId": null,
-        "sourceNodeId": "choice-8",
-        "humanLabel": "Select two of the following",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 2
-        },
-        "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -360,69 +284,6 @@
           "number": "352"
         },
         "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "302"
-        },
-        "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "306"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "312"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "313"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "399"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "351"
-        },
-        "sortOrder": 19
-      },
-      {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "FREN",
-          "number": "352"
-        },
-        "sortOrder": 20
       }
     ]
   }

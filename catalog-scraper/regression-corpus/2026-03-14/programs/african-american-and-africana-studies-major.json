@@ -115,30 +115,6 @@
       ]
     },
     {
-      "id": "choice-12",
-      "label": "Select One",
-      "nodeType": "requireAny",
-      "children": [
-        {
-          "id": "course-13",
-          "label": "AAAS395",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AAAS",
-          "number": "395"
-        },
-        {
-          "id": "course-14",
-          "label": "AAAS390",
-          "nodeType": "course",
-          "children": [],
-          "subject": "AAAS",
-          "number": "390"
-        }
-      ],
-      "minCount": 1
-    },
-    {
       "id": "choice-15",
       "label": "Capstone (Choose One)",
       "nodeType": "requireAny",
@@ -362,8 +338,8 @@
       {
         "tempId": "blk-3",
         "parentTempId": null,
-        "sourceNodeId": "choice-12",
-        "humanLabel": "Select One",
+        "sourceNodeId": "choice-15",
+        "humanLabel": "Capstone (Choose One)",
         "type": "SELECT_N",
         "params": {
           "nCourses": 1
@@ -374,33 +350,21 @@
       {
         "tempId": "blk-4",
         "parentTempId": null,
-        "sourceNodeId": "choice-15",
-        "humanLabel": "Capstone (Choose One)",
-        "type": "SELECT_N",
-        "params": {
-          "nCourses": 1
-        },
+        "sourceNodeId": "block-19",
+        "humanLabel": "Requirements",
+        "type": "ALL_OF",
+        "params": {},
         "sortOrder": 4,
         "sourceNote": "Flattened from nested DSL"
       },
       {
         "tempId": "blk-5",
         "parentTempId": null,
-        "sourceNodeId": "block-19",
-        "humanLabel": "Requirements",
-        "type": "ALL_OF",
-        "params": {},
-        "sortOrder": 5,
-        "sourceNote": "Flattened from nested DSL"
-      },
-      {
-        "tempId": "blk-6",
-        "parentTempId": null,
         "sourceNodeId": "block-26",
         "humanLabel": "Requirements",
         "type": "ALL_OF",
         "params": {},
-        "sortOrder": 6,
+        "sortOrder": 5,
         "sourceNote": "Flattened from nested DSL"
       }
     ],
@@ -514,25 +478,23 @@
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
-          "number": "395"
+          "number": "397"
         },
         "sortOrder": 13
       },
       {
         "blockTempId": "blk-3",
-        "itemType": "COURSE",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "AAAS",
-          "number": "390"
+          "text": "AAAS4XX (Study Abroad in Africa or African Diaspora)"
         },
         "sortOrder": 14
       },
       {
-        "blockTempId": "blk-4",
-        "itemType": "COURSE",
+        "blockTempId": "blk-3",
+        "itemType": "TEXT_RULE",
         "payload": {
-          "subject": "AAAS",
-          "number": "397"
+          "text": "AAAS4XX (Capstone Seminar and Community Practicum)"
         },
         "sortOrder": 15
       },
@@ -540,28 +502,12 @@
         "blockTempId": "blk-4",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "AAAS4XX (Study Abroad in Africa or African Diaspora)"
+          "text": "Course Title"
         },
         "sortOrder": 16
       },
       {
         "blockTempId": "blk-4",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "AAAS4XX (Capstone Seminar and Community Practicum)"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-5",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-5",
         "itemType": "COURSE_GROUP",
         "payload": {
           "groupType": "PAIR",
@@ -576,18 +522,34 @@
             }
           ]
         },
-        "sortOrder": 19
+        "sortOrder": 17
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-4",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "Cluster 1"
         },
+        "sortOrder": 18
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
+        },
+        "sortOrder": 19
+      },
+      {
+        "blockTempId": "blk-4",
+        "itemType": "TEXT_RULE",
+        "payload": {
+          "text": "Cluster 2"
+        },
         "sortOrder": 20
       },
       {
-        "blockTempId": "blk-5",
+        "blockTempId": "blk-4",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
@@ -598,7 +560,7 @@
         "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "Cluster 2"
+          "text": "Course Title"
         },
         "sortOrder": 22
       },
@@ -606,123 +568,107 @@
         "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "A list of upper-level cluster courses that will meet this requirement is available on the AAAS department website each semester."
+          "text": "Analytic Component"
         },
         "sortOrder": 23
       },
       {
-        "blockTempId": "blk-6",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Course Title"
-        },
-        "sortOrder": 24
-      },
-      {
-        "blockTempId": "blk-6",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Analytic Component"
-        },
-        "sortOrder": 25
-      },
-      {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "301"
         },
-        "sortOrder": 26
+        "sortOrder": 24
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "ECON",
           "number": "200"
         },
-        "sortOrder": 27
+        "sortOrder": 25
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "PLCY",
           "number": "388"
         },
-        "sortOrder": 28
+        "sortOrder": 26
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "PLCY",
           "number": "401"
         },
-        "sortOrder": 29
+        "sortOrder": 27
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "TEXT_RULE",
         "payload": {
           "text": "AASP Policy Electives in African American Studies 9"
         },
-        "sortOrder": 30
+        "sortOrder": 28
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "398"
         },
-        "sortOrder": 31
+        "sortOrder": 29
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "411"
         },
-        "sortOrder": 32
+        "sortOrder": 30
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "441"
         },
-        "sortOrder": 33
+        "sortOrder": 31
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "443"
         },
-        "sortOrder": 34
+        "sortOrder": 32
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "498"
         },
-        "sortOrder": 35
+        "sortOrder": 33
       },
       {
-        "blockTempId": "blk-6",
+        "blockTempId": "blk-5",
         "itemType": "COURSE",
         "payload": {
           "subject": "AAAS",
           "number": "499"
         },
-        "sortOrder": 36
+        "sortOrder": 34
       }
     ]
   }

@@ -225,4 +225,69 @@ describe("UMD catalog parser nested tree rigor", () => {
     expect(statsChoice).toBeDefined();
     expect(statsChoice?.children.map((node) => node.label)).toEqual(["STAT100", "BMGT230"]);
   });
+
+  test("parses non-table archaeology minor list requirements", () => {
+    const html = loadFixture("archaeology-minor.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const requirements = rootNodes.find((node) => node.label === "Requirements");
+    expect(requirements).toBeDefined();
+    expect(requirements?.children.length).toBeGreaterThanOrEqual(3);
+
+    const firstListNode = requirements?.children[0];
+    expect(firstListNode?.nodeType).toBe("courseGroup");
+    expect(firstListNode?.courses?.map((course) => `${course.subject}${course.number}`)).toEqual([
+      "ANTH305",
+      "CLAS305",
+      "ARTH305",
+      "JWST319Y",
+      "ANTH240",
+      "CLAS180",
+      "ARTH200",
+    ]);
+  });
+
+  test("parses non-table policy-heavy history minor requirements", () => {
+    const html = loadFixture("history-minor.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const requirements = rootNodes.find((node) => node.label === "Requirements");
+    expect(requirements).toBeDefined();
+    expect(requirements?.children.every((node) => node.nodeType === "note")).toBe(true);
+    expect(requirements?.children.map((node) => node.text)).toContain(
+      "A minimum of 9 credits (3 courses) must be taken at the 3xx or 4xx-level.",
+    );
+  });
+
+  test("parses non-table music major section headings and courses", () => {
+    const html = loadFixture("music-major-non-table.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const requirements = rootNodes.find((node) => node.label === "Requirements");
+    expect(requirements).toBeDefined();
+
+    const sectionLabels = requirements?.children
+      .filter((node) => node.nodeType === "requireAll")
+      .map((node) => node.label);
+    expect(sectionLabels).toContain("The Bachelor of Music Degree (BM)");
+    expect(sectionLabels).toContain("Bachelor of Music Education (BME) Requirements");
+
+    const courseNodes = requirements?.children.filter((node) => node.nodeType === "course");
+    expect(courseNodes?.map((node) => node.label)).toContain("MUED474");
+
+    const groupedNode = requirements?.children.find((node) => node.nodeType === "courseGroup");
+    expect(groupedNode?.courses?.map((course) => `${course.subject}${course.number}`)).toEqual(
+      expect.arrayContaining(["MUED484", "MUED494"]),
+    );
+  });
+
+  test("parses textcontainer-only global studies minor content", () => {
+    const html = loadFixture("global-studies-minor.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const requirements = rootNodes.find((node) => node.label === "Requirements");
+    expect(requirements).toBeDefined();
+    expect(requirements?.children.length).toBeGreaterThanOrEqual(1);
+    expect(requirements?.children.some((node) => /choose one course/i.test(node.text ?? node.label))).toBe(true);
+  });
 });
