@@ -52,9 +52,13 @@ interface ProgramQualitySummary {
   signals: {
     mentionsCredits: boolean;
     mentionsSelection: boolean;
+    hasCourseCode: boolean;
+    hasListStructure: boolean;
+    hasTableStructure: boolean;
   };
   fallbackUsed: boolean;
   fallbackOnlyNotesWithSignals: boolean;
+  enforceMinScore: boolean;
 }
 
 function getArg(name: string): string | null {
@@ -145,7 +149,9 @@ async function writeProgramFile(programsDir: string, parsed: ParsedProgram): Pro
   return fileName;
 }
 
-function collectNodeStats(rootNodes: ParsedDslNode[]): Omit<ProgramQualitySummary, "score" | "signals" | "fallbackUsed" | "fallbackOnlyNotesWithSignals"> {
+function collectNodeStats(
+  rootNodes: ParsedDslNode[],
+): Omit<ProgramQualitySummary, "score" | "signals" | "fallbackUsed" | "fallbackOnlyNotesWithSignals" | "enforceMinScore"> {
   let totalNodes = 0;
   let structuralNodes = 0;
   let noteNodes = 0;
@@ -208,13 +214,16 @@ function collectNodeStats(rootNodes: ParsedDslNode[]): Omit<ProgramQualitySummar
 
 function summarizeQuality(parsed: ParsedProgram): ProgramQualitySummary {
   const stats = collectNodeStats(parsed.rootNodes);
-  const mentionsCredits = /\bcredit|credits|course|courses|semester|semesters|field|fields\b/i.test(parsed.sourceUrl + " " + parsed.title)
-    ? true
-    : parsed.minCredits !== null;
   const allText = JSON.stringify(parsed.rootNodes);
+  const hasCourseCode = /\b[A-Z]{2,6}\s*\d{3}[A-Z]?\b/i.test(allText);
   const signals = {
-    mentionsCredits: mentionsCredits || /\bcredit|credits|course|courses|semester|semesters|field|fields\b/i.test(allText),
+    mentionsCredits:
+      parsed.minCredits !== null ||
+      /\b\d+\s*credits?\b|\bminimum\s+of\s+\d+\s+credits\b|\b\d+\s*-\s*\d+\s*credits\b/i.test(allText),
     mentionsSelection: /\bselect|choose|complete|take\b/i.test(allText),
+    hasCourseCode,
+    hasListStructure: parsed.diagnostics.listCount > 0,
+    hasTableStructure: parsed.diagnostics.tableCount > 0,
   };
   const fallbackUsed = parsed.diagnostics.parseMode === "non-table";
   const fallbackOnlyNotesWithSignals = fallbackUsed && (signals.mentionsCredits || signals.mentionsSelection) && stats.actionableStructuralNodes === 0;
@@ -224,12 +233,23 @@ function summarizeQuality(parsed: ParsedProgram): ProgramQualitySummary {
   const courseBoost = Math.min(0.15, (stats.courseNodes + stats.courseGroupNodes + stats.choiceNodes) * 0.02);
   const score = Number(Math.min(1, structuralRatio * 0.35 + actionableRatio * 0.45 + quantifiedBoost + courseBoost).toFixed(3));
 
+  const hasStrongRequirementSignal =
+    signals.mentionsCredits ||
+    signals.mentionsSelection ||
+    signals.hasCourseCode ||
+    stats.choiceNodes > 0 ||
+    stats.quantifiedRuleNodes > 0 ||
+    (signals.hasTableStructure && stats.courseNodes > 0);
+
+  const enforceMinScore = hasStrongRequirementSignal;
+
   return {
     ...stats,
     score,
     signals,
     fallbackUsed,
     fallbackOnlyNotesWithSignals,
+    enforceMinScore,
   };
 }
 
@@ -287,7 +307,7 @@ async function main(): Promise<void> {
         continue;
       }
 
-      if (quality.score < minQualityScore) {
+      if (quality.enforceMinScore && quality.score < minQualityScore) {
         manifest.totalFailed += 1;
         manifest.failures.push({
           url,

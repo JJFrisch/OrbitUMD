@@ -95,7 +95,7 @@ function parseCollege(url: string, bodyText: string): string {
 
 function parseCourse(codeText: string): { subject: string; number: string } | null {
   const cleaned = normalizeText(codeText).toUpperCase();
-  const match = cleaned.match(/([A-Z]{2,6})\s*(\d{3}[A-Z]?)/);
+  const match = cleaned.match(/([A-Z]{2,6})\s*([1-9]\d{2}[A-Z]?)/);
   if (!match) return null;
   return { subject: match[1], number: match[2] };
 }
@@ -152,7 +152,7 @@ function isGenericChoiceLabel(text: string): boolean {
 }
 
 function parseCourseTokens(text: string): Array<{ subject: string; number: string }> {
-  const matches = Array.from(normalizeText(text).toUpperCase().matchAll(/([A-Z]{2,6})\s*(\d{3}[A-Z]?)/g));
+  const matches = Array.from(normalizeText(text).toUpperCase().matchAll(/([A-Z]{2,6})\s*([1-9]\d{2}[A-Z]?)/g));
   return matches.map((match) => ({ subject: match[1], number: match[2] }));
 }
 
@@ -238,6 +238,10 @@ function parseNonTableRootNodes(
   for (const li of Array.from(scope.querySelectorAll("li"))) {
     const text = normalizeText(li.textContent ?? "");
     if (!text) continue;
+    const hasCourseTokens = parseCourseTokens(text).length > 0;
+    const hasChooseCount = parseChooseCount(text) !== null;
+    const hasMinCredits = parseMinCredits(text) !== null;
+    if (!includesRequirementLanguage(text) && !hasCourseTokens && !hasChooseCount && !hasMinCredits) continue;
     (currentSection ?? fallbackRoot).children.push(parseListTextToNode(text, nextId));
     appended = true;
   }

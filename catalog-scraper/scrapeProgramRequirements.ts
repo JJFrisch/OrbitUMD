@@ -185,7 +185,7 @@ function isGenericChoiceLabel(text: string): boolean {
 }
 
 function parseCourseTokens(text: string): Array<{ subject: string; number: string }> {
-  const matches = Array.from(normalizeText(text).toUpperCase().matchAll(/([A-Z]{2,6})\s*(\d{3}[A-Z]?)/g));
+  const matches = Array.from(normalizeText(text).toUpperCase().matchAll(/([A-Z]{2,6})\s*([1-9]\d{2}[A-Z]?)/g));
   return matches.map((match) => ({ subject: match[1], number: match[2] }));
 }
 
@@ -271,6 +271,12 @@ function parseNonTableRootNodes(
   scope.find("li").each((_i, li) => {
     const line = normalizeText($(li).text());
     if (!line) return;
+    const hasCourseTokens = parseCourseTokens(line).length > 0;
+    const hasChooseCount = parseChooseCount(line) !== null;
+    const hasMinCredits = parseMinCredits(line) !== null;
+    if (!includesRequirementLanguage(line) && !hasCourseTokens && !hasChooseCount && !hasMinCredits) {
+      return;
+    }
     (currentSection ?? fallbackRoot).children.push(parseListTextToNode(line, nextId));
     appended = true;
   });

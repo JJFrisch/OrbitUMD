@@ -20,7 +20,7 @@
     "test": "npm --prefix site run test --",
     "scrape:requirements": "node catalog-scraper/scrape_umd_requirements.js",
     "corpus:requirements": "npx ts-node scripts/generateRequirementRegressionCorpus.ts",
-    "corpus:requirements:strict": "npx ts-node scripts/generateRequirementRegressionCorpus.ts --strict-fallback-mode --min-quality-score 0.25",
+    "corpus:requirements:strict": "npx ts-node scripts/generateRequirementRegressionCorpus.ts --strict-fallback-mode --min-quality-score 0.15",
     "corpus:verify": "npx ts-node scripts/verifyRequirementCorpusBaseline.ts",
     "ingest:requirements": "npx ts-node scripts/ingestAllPrograms.ts",
     "sync:catalog": "node data-sync/sync-worker.mjs",

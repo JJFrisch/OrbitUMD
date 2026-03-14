@@ -14,35 +14,28 @@
       "children": [
         {
           "id": "note-2",
-          "label": "International Development and Conflict Management",
+          "label": "The Global Studies Minor Program provides opportunities for students from any discipline or major to study how evolving global connections affect the well-being of people throughout the world. Students in this interdisciplinary program develop an understanding and appreciation of how and why interactions across national and ethnic borders are shaped by language, culture, politics, economic development, and conflict.",
           "nodeType": "note",
           "children": [],
-          "text": "International Development and Conflict Management"
+          "text": "The Global Studies Minor Program provides opportunities for students from any discipline or major to study how evolving global connections affect the well-being of people throughout the world. Students in this interdisciplinary program develop an understanding and appreciation of how and why interactions across national and ethnic borders are shaped by language, culture, politics, economic development, and conflict."
         },
         {
-          "id": "note-3",
-          "label": "International Engineering",
-          "nodeType": "note",
+          "id": "choice-3",
+          "label": "All students choose one course from a set of \"signature\" courses outside of their chosen track for exposure to major global issues addressed by the other Global Studies minors. The minors provide an opportunity for an experiential component within a student's elective courses, including a study abroad experience. The Global Studies Minor Program includes special activities that involve students across the minors, such as special speaker forums, participation in major events, and experiences in Washington, D.C.",
+          "nodeType": "requireAny",
           "children": [],
-          "text": "International Engineering"
-        },
-        {
-          "id": "note-4",
-          "label": "Global Poverty",
-          "nodeType": "note",
-          "children": [],
-          "text": "Global Poverty"
-        },
-        {
-          "id": "note-5",
-          "label": "Global Terrorism Studies",
-          "nodeType": "note",
-          "children": [],
-          "text": "Global Terrorism Studies"
+          "minCount": 1
         }
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "non-table",
+    "tableCount": 0,
+    "listCount": 1,
+    "paragraphCount": 3,
+    "headingCount": 0
+  },
   "flattened": {
     "blocks": [
       {
@@ -54,6 +47,18 @@
         "params": {},
         "sortOrder": 1,
         "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "choice-3",
+        "humanLabel": "All students choose one course from a set of \"signature\" courses outside of their chosen track for exposure to major global issues addressed by the other Global Studies minors. The minors provide an opportunity for an experiential component within a student's elective courses, including a study abroad experience. The Global Studies Minor Program includes special activities that involve students across the minors, such as special speaker forums, participation in major events, and experiences in Washington, D.C.",
+        "type": "SELECT_N",
+        "params": {
+          "nCourses": 1
+        },
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
       }
     ],
     "items": [
@@ -61,33 +66,9 @@
         "blockTempId": "blk-1",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "International Development and Conflict Management"
+          "text": "The Global Studies Minor Program provides opportunities for students from any discipline or major to study how evolving global connections affect the well-being of people throughout the world. Students in this interdisciplinary program develop an understanding and appreciation of how and why interactions across national and ethnic borders are shaped by language, culture, politics, economic development, and conflict."
         },
         "sortOrder": 1
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "International Engineering"
-        },
-        "sortOrder": 2
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Global Poverty"
-        },
-        "sortOrder": 3
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Global Terrorism Studies"
-        },
-        "sortOrder": 4
       }
     ]
   }

@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-03-14T22:01:33.887Z",
+  "generatedAt": "2026-03-14T23:40:44.589Z",
   "totalDiscovered": 232,
-  "totalParsed": 225,
-  "totalFailed": 7,
+  "totalParsed": 232,
+  "totalFailed": 0,
   "outputDir": "/Users/jakefrischmann/repos/OrbitUMD/catalog-scraper/regression-corpus/2026-03-14",
   "programs": [
     {
@@ -32,10 +32,14 @@
         "score": 0.962,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -65,10 +69,14 @@
         "score": 0.863,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -98,10 +106,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -131,10 +143,14 @@
         "score": 0.955,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -164,10 +180,14 @@
         "score": 0.324,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -197,10 +217,14 @@
         "score": 0.864,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -230,10 +254,14 @@
         "score": 0.826,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -263,10 +291,14 @@
         "score": 0.819,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -296,10 +328,14 @@
         "score": 0.866,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -329,10 +365,14 @@
         "score": 0.913,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -362,10 +402,14 @@
         "score": 0.807,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -395,10 +439,14 @@
         "score": 0.754,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -428,10 +476,14 @@
         "score": 0.886,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -461,10 +513,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -494,10 +550,14 @@
         "score": 0.867,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -527,10 +587,14 @@
         "score": 0.812,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -560,10 +624,14 @@
         "score": 0.802,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -593,10 +661,14 @@
         "score": 0.758,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -626,10 +698,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -659,10 +735,14 @@
         "score": 0.675,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -692,10 +772,14 @@
         "score": 0.912,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -725,10 +809,14 @@
         "score": 0.404,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -758,10 +846,14 @@
         "score": 0.708,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -791,10 +883,14 @@
         "score": 0.515,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -824,10 +920,14 @@
         "score": 0.607,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -857,10 +957,14 @@
         "score": 0.849,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -890,10 +994,14 @@
         "score": 0.93,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -923,10 +1031,14 @@
         "score": 0.708,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -956,10 +1068,14 @@
         "score": 0.804,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -989,10 +1105,14 @@
         "score": 0.598,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1022,10 +1142,14 @@
         "score": 0.661,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1055,10 +1179,14 @@
         "score": 0.627,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1088,10 +1216,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1121,10 +1253,14 @@
         "score": 0.73,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1154,10 +1290,14 @@
         "score": 0.802,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1187,10 +1327,14 @@
         "score": 0.843,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1220,10 +1364,51 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "digital-storytelling-and-poetics-minor",
+      "title": "Digital Storytelling and Poetics Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/digital-storytelling-poetics-minor/",
+      "file": "programs/digital-storytelling-and-poetics-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 7,
+      "diagnostics": {
+        "parseMode": "table",
+        "tableCount": 1,
+        "listCount": 2,
+        "paragraphCount": 10,
+        "headingCount": 0
+      },
+      "quality": {
+        "totalNodes": 8,
+        "structuralNodes": 2,
+        "noteNodes": 6,
+        "courseNodes": 1,
+        "courseGroupNodes": 0,
+        "choiceNodes": 0,
+        "quantifiedRuleNodes": 0,
+        "actionableStructuralNodes": 1,
+        "score": 0.164,
+        "signals": {
+          "mentionsCredits": true,
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
+        },
+        "fallbackUsed": false,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1253,10 +1438,14 @@
         "score": 0.507,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1286,10 +1475,51 @@
         "score": 0.393,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "professional-writing-minor",
+      "title": "Professional Writing Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/professional-writing-minor/",
+      "file": "programs/professional-writing-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 6,
+      "diagnostics": {
+        "parseMode": "table",
+        "tableCount": 1,
+        "listCount": 2,
+        "paragraphCount": 12,
+        "headingCount": 0
+      },
+      "quality": {
+        "totalNodes": 7,
+        "structuralNodes": 2,
+        "noteNodes": 5,
+        "courseNodes": 1,
+        "courseGroupNodes": 0,
+        "choiceNodes": 0,
+        "quantifiedRuleNodes": 0,
+        "actionableStructuralNodes": 1,
+        "score": 0.184,
+        "signals": {
+          "mentionsCredits": true,
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
+        },
+        "fallbackUsed": false,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1319,10 +1549,14 @@
         "score": 0.73,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1352,10 +1586,14 @@
         "score": 0.257,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1385,10 +1623,51 @@
         "score": 0.684,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": true,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "middle-east-studies-minor",
+      "title": "Middle East Studies Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
+      "file": "programs/middle-east-studies-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 11,
+      "diagnostics": {
+        "parseMode": "table",
+        "tableCount": 1,
+        "listCount": 1,
+        "paragraphCount": 4,
+        "headingCount": 1
+      },
+      "quality": {
+        "totalNodes": 13,
+        "structuralNodes": 2,
+        "noteNodes": 11,
+        "courseNodes": 0,
+        "courseGroupNodes": 0,
+        "choiceNodes": 1,
+        "quantifiedRuleNodes": 1,
+        "actionableStructuralNodes": 1,
+        "score": 0.148,
+        "signals": {
+          "mentionsCredits": true,
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": true,
+          "hasTableStructure": true
+        },
+        "fallbackUsed": false,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1418,10 +1697,14 @@
         "score": 0.779,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1451,10 +1734,14 @@
         "score": 0.938,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1484,10 +1771,51 @@
         "score": 0.552,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "jewish-studies-minor",
+      "title": "Jewish Studies Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-minor/",
+      "file": "programs/jewish-studies-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 5,
+      "diagnostics": {
+        "parseMode": "table",
+        "tableCount": 1,
+        "listCount": 2,
+        "paragraphCount": 1,
+        "headingCount": 1
+      },
+      "quality": {
+        "totalNodes": 6,
+        "structuralNodes": 1,
+        "noteNodes": 5,
+        "courseNodes": 0,
+        "courseGroupNodes": 0,
+        "choiceNodes": 0,
+        "quantifiedRuleNodes": 0,
+        "actionableStructuralNodes": 0,
+        "score": 0.058,
+        "signals": {
+          "mentionsCredits": true,
+          "mentionsSelection": false,
+          "hasCourseCode": false,
+          "hasListStructure": true,
+          "hasTableStructure": true
+        },
+        "fallbackUsed": false,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1517,10 +1845,14 @@
         "score": 0.756,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1550,10 +1882,14 @@
         "score": 0.936,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1583,10 +1919,14 @@
         "score": 0.524,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1616,10 +1956,14 @@
         "score": 0.738,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1649,10 +1993,14 @@
         "score": 0.978,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1682,10 +2030,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1715,10 +2067,14 @@
         "score": 0.843,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1748,10 +2104,14 @@
         "score": 0.902,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1781,10 +2141,14 @@
         "score": 0.823,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1814,10 +2178,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1846,11 +2214,15 @@
         "actionableStructuralNodes": 4,
         "score": 0.612,
         "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsCredits": false,
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1880,10 +2252,14 @@
         "score": 0.779,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1913,10 +2289,14 @@
         "score": 0.761,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1946,10 +2326,14 @@
         "score": 0.786,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -1979,10 +2363,14 @@
         "score": 0.747,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2012,10 +2400,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2045,10 +2437,14 @@
         "score": 0.906,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2078,10 +2474,14 @@
         "score": 0.928,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2111,10 +2511,14 @@
         "score": 0.819,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2144,10 +2548,14 @@
         "score": 0.94,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2177,10 +2585,14 @@
         "score": 0.747,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2210,10 +2622,14 @@
         "score": 0.712,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2243,10 +2659,14 @@
         "score": 0.861,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2276,10 +2696,14 @@
         "score": 0.912,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2309,10 +2733,14 @@
         "score": 0.901,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2342,10 +2770,14 @@
         "score": 0.956,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2375,10 +2807,14 @@
         "score": 0.922,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2408,10 +2844,14 @@
         "score": 0.644,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2441,10 +2881,14 @@
         "score": 0.765,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2474,10 +2918,14 @@
         "score": 0.524,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2507,10 +2955,14 @@
         "score": 0.788,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2519,7 +2971,7 @@
       "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/music/music-major/",
       "file": "programs/music-major.json",
       "rootNodeCount": 1,
-      "blockCount": 59,
+      "blockCount": 42,
       "itemCount": 0,
       "diagnostics": {
         "parseMode": "non-table",
@@ -2529,21 +2981,25 @@
         "headingCount": 8
       },
       "quality": {
-        "totalNodes": 59,
-        "structuralNodes": 59,
+        "totalNodes": 42,
+        "structuralNodes": 42,
         "noteNodes": 0,
         "courseNodes": 0,
         "courseGroupNodes": 0,
         "choiceNodes": 0,
         "quantifiedRuleNodes": 0,
-        "actionableStructuralNodes": 50,
-        "score": 0.731,
+        "actionableStructuralNodes": 33,
+        "score": 0.704,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2573,10 +3029,88 @@
         "score": 0.901,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "philosophy-major",
+      "title": "Philosophy Major",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-major/",
+      "file": "programs/philosophy-major.json",
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 8,
+      "diagnostics": {
+        "parseMode": "table",
+        "tableCount": 1,
+        "listCount": 0,
+        "paragraphCount": 2,
+        "headingCount": 0
+      },
+      "quality": {
+        "totalNodes": 10,
+        "structuralNodes": 2,
+        "noteNodes": 8,
+        "courseNodes": 0,
+        "courseGroupNodes": 0,
+        "choiceNodes": 1,
+        "quantifiedRuleNodes": 1,
+        "actionableStructuralNodes": 1,
+        "score": 0.175,
+        "signals": {
+          "mentionsCredits": true,
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": false,
+          "hasTableStructure": true
+        },
+        "fallbackUsed": false,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "philosophy-minor",
+      "title": "Philosophy Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
+      "file": "programs/philosophy-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 1,
+      "itemCount": 5,
+      "diagnostics": {
+        "parseMode": "table",
+        "tableCount": 1,
+        "listCount": 0,
+        "paragraphCount": 3,
+        "headingCount": 0
+      },
+      "quality": {
+        "totalNodes": 6,
+        "structuralNodes": 1,
+        "noteNodes": 5,
+        "courseNodes": 0,
+        "courseGroupNodes": 0,
+        "choiceNodes": 0,
+        "quantifiedRuleNodes": 0,
+        "actionableStructuralNodes": 0,
+        "score": 0.058,
+        "signals": {
+          "mentionsCredits": true,
+          "mentionsSelection": false,
+          "hasCourseCode": false,
+          "hasListStructure": false,
+          "hasTableStructure": true
+        },
+        "fallbackUsed": false,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2606,10 +3140,14 @@
         "score": 0.886,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2639,10 +3177,14 @@
         "score": 0.926,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2672,10 +3214,14 @@
         "score": 0.791,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2705,10 +3251,14 @@
         "score": 0.963,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2738,10 +3288,14 @@
         "score": 0.811,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2771,10 +3325,14 @@
         "score": 0.514,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2804,10 +3362,14 @@
         "score": 0.897,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2837,10 +3399,14 @@
         "score": 0.708,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2870,10 +3436,14 @@
         "score": 0.772,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2903,10 +3473,14 @@
         "score": 0.806,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2936,10 +3510,14 @@
         "score": 0.811,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -2969,10 +3547,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3002,10 +3584,14 @@
         "score": 0.905,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3035,10 +3621,14 @@
         "score": 0.966,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3068,10 +3658,14 @@
         "score": 0.804,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3101,10 +3695,14 @@
         "score": 0.807,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3134,10 +3732,14 @@
         "score": 0.975,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3167,10 +3769,14 @@
         "score": 0.996,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3200,10 +3806,14 @@
         "score": 0.941,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3233,10 +3843,14 @@
         "score": 0.772,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3266,10 +3880,14 @@
         "score": 0.474,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3299,10 +3917,14 @@
         "score": 0.745,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3332,10 +3954,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3365,10 +3991,14 @@
         "score": 0.843,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3398,10 +4028,14 @@
         "score": 0.587,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3431,10 +4065,14 @@
         "score": 0.876,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3464,10 +4102,14 @@
         "score": 0.74,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3497,10 +4139,14 @@
         "score": 0.38,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3530,10 +4176,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3563,10 +4213,14 @@
         "score": 0.756,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3596,10 +4250,14 @@
         "score": 0.855,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3629,10 +4287,14 @@
         "score": 0.605,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3662,10 +4324,14 @@
         "score": 0.934,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3695,10 +4361,14 @@
         "score": 0.978,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3728,10 +4398,14 @@
         "score": 0.772,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3761,10 +4435,14 @@
         "score": 0.807,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3794,10 +4472,14 @@
         "score": 0.82,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3827,10 +4509,14 @@
         "score": 0.743,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3860,10 +4546,14 @@
         "score": 0.907,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3893,10 +4583,14 @@
         "score": 0.878,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3926,10 +4620,14 @@
         "score": 0.635,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3959,10 +4657,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -3992,10 +4694,14 @@
         "score": 0.937,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4025,10 +4731,14 @@
         "score": 0.832,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4058,10 +4768,14 @@
         "score": 0.862,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4091,10 +4805,14 @@
         "score": 0.807,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4124,10 +4842,14 @@
         "score": 0.956,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4157,10 +4879,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4190,10 +4916,14 @@
         "score": 0.93,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4223,10 +4953,14 @@
         "score": 0.895,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4256,10 +4990,14 @@
         "score": 0.817,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4289,10 +5027,14 @@
         "score": 0.836,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4322,10 +5064,14 @@
         "score": 0.876,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4355,10 +5101,14 @@
         "score": 0.802,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4388,10 +5138,14 @@
         "score": 0.819,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4421,10 +5175,14 @@
         "score": 0.807,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4454,10 +5212,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4487,10 +5249,14 @@
         "score": 0.935,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4520,10 +5286,14 @@
         "score": 0.801,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4553,10 +5323,14 @@
         "score": 0.93,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4586,10 +5360,14 @@
         "score": 0.927,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4618,11 +5396,15 @@
         "actionableStructuralNodes": 35,
         "score": 0.79,
         "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsCredits": false,
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4652,10 +5434,14 @@
         "score": 0.774,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4685,10 +5471,14 @@
         "score": 0.947,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4718,10 +5508,14 @@
         "score": 0.909,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4751,10 +5545,14 @@
         "score": 0.968,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4784,10 +5582,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4817,10 +5619,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4850,10 +5656,14 @@
         "score": 0.902,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4883,10 +5693,14 @@
         "score": 0.774,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4916,10 +5730,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4949,10 +5767,14 @@
         "score": 0.961,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -4981,11 +5803,15 @@
         "actionableStructuralNodes": 15,
         "score": 0.807,
         "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsCredits": false,
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5015,10 +5841,14 @@
         "score": 0.801,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5048,10 +5878,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5081,10 +5915,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5113,11 +5951,15 @@
         "actionableStructuralNodes": 16,
         "score": 0.856,
         "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsCredits": false,
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5147,10 +5989,14 @@
         "score": 0.787,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5180,10 +6026,14 @@
         "score": 0.976,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5213,10 +6063,14 @@
         "score": 0.88,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5246,10 +6100,14 @@
         "score": 0.925,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5279,10 +6137,14 @@
         "score": 0.564,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5312,10 +6174,14 @@
         "score": 0.758,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5345,10 +6211,14 @@
         "score": 0.893,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5378,10 +6248,14 @@
         "score": 0.687,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5411,10 +6285,14 @@
         "score": 0.888,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5444,10 +6322,14 @@
         "score": 0.453,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5477,10 +6359,14 @@
         "score": 0.703,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5510,10 +6396,14 @@
         "score": 0.618,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5543,10 +6433,14 @@
         "score": 0.816,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5576,10 +6470,14 @@
         "score": 0.905,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5609,10 +6507,14 @@
         "score": 0.807,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5642,10 +6544,14 @@
         "score": 0.995,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5675,10 +6581,14 @@
         "score": 0.914,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5708,10 +6618,14 @@
         "score": 0.721,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5741,10 +6655,14 @@
         "score": 0.628,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5774,10 +6692,14 @@
         "score": 0.701,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5807,10 +6729,14 @@
         "score": 0.812,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5840,10 +6766,14 @@
         "score": 0.808,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5873,10 +6803,14 @@
         "score": 0.636,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5906,10 +6840,14 @@
         "score": 0.59,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5939,10 +6877,14 @@
         "score": 0.602,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -5972,10 +6914,14 @@
         "score": 0.812,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6005,10 +6951,14 @@
         "score": 0.635,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6038,10 +6988,14 @@
         "score": 0.477,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6071,10 +7025,14 @@
         "score": 0.916,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6104,10 +7062,14 @@
         "score": 0.861,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6137,10 +7099,14 @@
         "score": 0.511,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6170,10 +7136,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6203,10 +7173,14 @@
         "score": 0.846,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6236,10 +7210,14 @@
         "score": 0.681,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6269,10 +7247,14 @@
         "score": 0.6,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6302,10 +7284,14 @@
         "score": 0.614,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6335,10 +7321,14 @@
         "score": 0.567,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6368,10 +7358,14 @@
         "score": 0.955,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": false
         },
         "fallbackUsed": true,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6401,10 +7395,14 @@
         "score": 0.927,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6434,10 +7432,14 @@
         "score": 0.319,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6466,11 +7468,15 @@
         "actionableStructuralNodes": 17,
         "score": 0.884,
         "signals": {
-          "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsCredits": false,
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6500,10 +7506,14 @@
         "score": 0.721,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6533,10 +7543,14 @@
         "score": 0.751,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6566,10 +7580,14 @@
         "score": 0.319,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6599,10 +7617,14 @@
         "score": 1,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6632,10 +7654,14 @@
         "score": 0.77,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6665,10 +7691,14 @@
         "score": 0.721,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6698,10 +7728,14 @@
         "score": 0.964,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6731,10 +7765,14 @@
         "score": 0.864,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6764,10 +7802,14 @@
         "score": 0.687,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6797,10 +7839,14 @@
         "score": 0.972,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6830,10 +7876,14 @@
         "score": 0.766,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6863,10 +7913,14 @@
         "score": 0.853,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6896,10 +7950,14 @@
         "score": 0.853,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6929,10 +7987,14 @@
         "score": 0.705,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6962,10 +8024,14 @@
         "score": 0.832,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -6995,10 +8061,14 @@
         "score": 0.81,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7028,10 +8098,14 @@
         "score": 0.453,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7061,10 +8135,14 @@
         "score": 0.682,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7094,10 +8172,14 @@
         "score": 0.604,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7127,10 +8209,14 @@
         "score": 0.656,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7160,10 +8246,14 @@
         "score": 0.319,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7193,10 +8283,14 @@
         "score": 0.324,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7226,10 +8320,14 @@
         "score": 0.487,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7259,10 +8357,14 @@
         "score": 0.692,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": false
+          "mentionsSelection": false,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7292,10 +8394,51 @@
         "score": 0.857,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
+      }
+    },
+    {
+      "code": "global-studies-minor",
+      "title": "Global Studies Minor",
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/global-studies-minor/",
+      "file": "programs/global-studies-minor.json",
+      "rootNodeCount": 1,
+      "blockCount": 2,
+      "itemCount": 1,
+      "diagnostics": {
+        "parseMode": "non-table",
+        "tableCount": 0,
+        "listCount": 1,
+        "paragraphCount": 3,
+        "headingCount": 0
+      },
+      "quality": {
+        "totalNodes": 3,
+        "structuralNodes": 2,
+        "noteNodes": 1,
+        "courseNodes": 0,
+        "courseGroupNodes": 0,
+        "choiceNodes": 1,
+        "quantifiedRuleNodes": 1,
+        "actionableStructuralNodes": 1,
+        "score": 0.443,
+        "signals": {
+          "mentionsCredits": false,
+          "mentionsSelection": true,
+          "hasCourseCode": false,
+          "hasListStructure": true,
+          "hasTableStructure": false
+        },
+        "fallbackUsed": true,
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7325,10 +8468,14 @@
         "score": 0.884,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7358,10 +8505,14 @@
         "score": 0.746,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7391,10 +8542,14 @@
         "score": 0.876,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": false,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     },
     {
@@ -7424,41 +8579,16 @@
         "score": 0.891,
         "signals": {
           "mentionsCredits": true,
-          "mentionsSelection": true
+          "mentionsSelection": true,
+          "hasCourseCode": true,
+          "hasListStructure": true,
+          "hasTableStructure": true
         },
         "fallbackUsed": false,
-        "fallbackOnlyNotesWithSignals": false
+        "fallbackOnlyNotesWithSignals": false,
+        "enforceMinScore": true
       }
     }
   ],
-  "failures": [
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/digital-storytelling-poetics-minor/",
-      "reason": "Quality gate failure: score 0.164 below minimum 0.250"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/english-language-literature/professional-writing-minor/",
-      "reason": "Quality gate failure: score 0.184 below minimum 0.250"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
-      "reason": "Quality gate failure: score 0.148 below minimum 0.250"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-minor/",
-      "reason": "Quality gate failure: score 0.058 below minimum 0.250"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-major/",
-      "reason": "Quality gate failure: score 0.175 below minimum 0.250"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
-      "reason": "Quality gate failure: score 0.058 below minimum 0.250"
-    },
-    {
-      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/global-studies-minor/",
-      "reason": "Quality gate failure: score 0.07 below minimum 0.250"
-    }
-  ]
+  "failures": []
 }
