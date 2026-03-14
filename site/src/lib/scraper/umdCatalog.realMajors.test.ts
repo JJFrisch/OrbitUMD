@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
-import { parseProgramFromHtml } from "@/lib/scraper/umdCatalog";
+import { parseProgramDslFromHtml, parseProgramFromHtml } from "@/lib/scraper/umdCatalog";
 
 const thisDir = path.dirname(fileURLToPath(import.meta.url));
 
@@ -120,9 +120,19 @@ describe("UMD catalog parser broad coverage for pasted majors", () => {
       expect(program.title).toMatch(titlePattern);
 
       const seen = new Set(
-        items
-          .filter((item) => item.item_type === "COURSE")
-          .map((item) => `${String(item.payload.subject)}${String(item.payload.number)}`),
+        items.flatMap((item) => {
+          if (item.item_type === "COURSE") {
+            return [`${String(item.payload.subject)}${String(item.payload.number)}`];
+          }
+
+          if (item.item_type === "COURSE_GROUP") {
+            return ((item.payload.courses as Array<{ subject: string; number: string }> | undefined) ?? []).map(
+              (course) => `${course.subject}${course.number}`,
+            );
+          }
+
+          return [];
+        }),
       );
 
       for (const courseCode of requiredCodes) {
@@ -130,4 +140,89 @@ describe("UMD catalog parser broad coverage for pasted majors", () => {
       }
     });
   }
+});
+
+describe("UMD catalog parser nested tree rigor", () => {
+  test("captures architecture math choice inside a 35-credit requireAll block", () => {
+    const html = loadFixture("architecture-major.html");
+    const { rootNodes } = parseProgramFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const architectureFoundation = rootNodes.find((node) => /Architecture Foundation/i.test(node.label));
+    expect(architectureFoundation).toBeDefined();
+    expect(architectureFoundation?.nodeType).toBe("requireAll");
+    expect(architectureFoundation?.minCredits).toBe(35);
+
+    const mathChoice = architectureFoundation?.children.find((node) => node.nodeType === "requireAny");
+    expect(mathChoice).toBeDefined();
+    expect(mathChoice?.minCount).toBe(1);
+    expect(mathChoice?.children.map((node) => node.label)).toEqual(["MATH120", "MATH140"]);
+
+    const requiredArchitectureCourses = new Set(
+      architectureFoundation?.children.filter((node) => node.nodeType === "course").map((node) => node.label),
+    );
+    expect(requiredArchitectureCourses).toEqual(
+      new Set(["PHYS121", "ARCH171", "ARCH225", "ARCH226", "ARCH271"]),
+    );
+  });
+
+  test("builds a track-choice subtree for aerospace", () => {
+    const html = loadFixture("aerospace-major.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const trackGroup = rootNodes.find((node) => /Track Courses/i.test(node.label));
+    expect(trackGroup).toBeDefined();
+    expect(trackGroup?.nodeType).toBe("requireAny");
+    expect(trackGroup?.children.map((node) => node.label)).toEqual([
+      "Aeronautical Track",
+      "Astronautical Track",
+    ]);
+
+    const aeronautical = trackGroup?.children.find((node) => /Aeronautical/i.test(node.label));
+    const astronautical = trackGroup?.children.find((node) => /Astronautical/i.test(node.label));
+    expect(aeronautical?.children.map((node) => node.label)).toEqual(["ENAE423", "ENAE424"]);
+    expect(astronautical?.children.map((node) => node.label)).toEqual(["ENAE483", "ENAE484"]);
+  });
+
+  test("keeps middle-school biology pair options grouped beneath a single choice node", () => {
+    const html = loadFixture("middle-school-education.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const subjectArea = rootNodes.find((node) => /Pre-Professional/i.test(node.label));
+    expect(subjectArea).toBeDefined();
+    const biologyChoice = subjectArea?.children.find((node) => node.nodeType === "requireAny");
+    expect(biologyChoice?.children).toHaveLength(2);
+
+    for (const option of biologyChoice?.children ?? []) {
+      expect(option.nodeType).toBe("requireAll");
+      expect(option.children[0]?.nodeType).toBe("courseGroup");
+      expect(option.children[0]?.courses).toHaveLength(2);
+    }
+  });
+
+  test("collects AREC specializations under one choose-one specialization group", () => {
+    const html = loadFixture("arec-major.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const specializationGroup = rootNodes.find((node) => node.label === "Specialization Options");
+    expect(specializationGroup).toBeDefined();
+    expect(specializationGroup?.nodeType).toBe("requireAny");
+    expect(specializationGroup?.children).toHaveLength(3);
+
+    for (const specialization of specializationGroup?.children ?? []) {
+      expect(specialization.nodeType).toBe("requireAll");
+      expect(specialization.children.filter((node) => node.nodeType === "course").length).toBeGreaterThanOrEqual(5);
+    }
+  });
+
+  test("nests journalism statistics options inside the outside-college requirements block", () => {
+    const html = loadFixture("journalism-major.html");
+    const { rootNodes } = parseProgramDslFromHtml(html, "https://academiccatalog.umd.edu/undergraduate/mock");
+
+    const outsideCollege = rootNodes.find((node) => /Outside the College/i.test(node.label));
+    expect(outsideCollege).toBeDefined();
+
+    const statsChoice = outsideCollege?.children.find((node) => node.nodeType === "requireAny");
+    expect(statsChoice).toBeDefined();
+    expect(statsChoice?.children.map((node) => node.label)).toEqual(["STAT100", "BMGT230"]);
+  });
 });
