@@ -7,7 +7,27 @@ on:
     branches: [main]
 
 jobs:
+  corpus-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Verify corpus baseline
+        run: npm run corpus:verify
+
   frontend:
+    needs: corpus-guard
     runs-on: ubuntu-latest
     defaults:
       run:

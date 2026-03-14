@@ -156,6 +156,22 @@ function parseCourseTokens(text: string): Array<{ subject: string; number: strin
   return matches.map((match) => ({ subject: match[1], number: match[2] }));
 }
 
+function mentionsSelectionRule(text: string): boolean {
+  return /\b(select|choose|complete|take)\b/i.test(text);
+}
+
+function mentionsCreditRule(text: string): boolean {
+  return /\b(credit|credits|course|courses|field|fields|semester|semesters)\b/i.test(text);
+}
+
+function makePolicyNode(
+  nextId: (prefix: string) => string,
+  label: string,
+  extras: Partial<RequirementDslNode> = {},
+): RequirementDslNode {
+  return makeNode(nextId("policy"), label, "requireAll", extras);
+}
+
 function includesRequirementLanguage(text: string): boolean {
   return /\b(require|required|requirements|credit|credits|must|choose|select|complete|course|track|major|minor|degree|curriculum|semester)\b/i.test(
     text,
@@ -165,8 +181,9 @@ function includesRequirementLanguage(text: string): boolean {
 function parseListTextToNode(text: string, nextId: (prefix: string) => string): RequirementDslNode {
   const chooseCount = parseChooseCount(text);
   const courseTokens = parseCourseTokens(text);
+  const minCredits = parseMinCredits(text);
 
-  if (chooseCount !== null && courseTokens.length > 0) {
+  if (chooseCount !== null) {
     const choiceNode = makeNode(nextId("choice"), text, "requireAny", { minCount: chooseCount });
     for (const token of courseTokens) {
       choiceNode.children.push(makeNode(nextId("course"), `${token.subject}${token.number}`, "course", token));
@@ -176,6 +193,16 @@ function parseListTextToNode(text: string, nextId: (prefix: string) => string): 
 
   if (courseTokens.length >= 2 && /\b(and|&|or)\b/i.test(text)) {
     return makeNode(nextId("group"), text, "courseGroup", { courses: courseTokens });
+  }
+
+  if (minCredits !== null || mentionsCreditRule(text)) {
+    return makePolicyNode(nextId, text, {
+      ...(minCredits !== null ? { minCredits } : {}),
+    });
+  }
+
+  if (mentionsSelectionRule(text)) {
+    return makeNode(nextId("choice"), text, "requireAny", { minCount: chooseCount ?? 1 });
   }
 
   if (courseTokens.length === 1) {
@@ -197,18 +224,21 @@ function parseNonTableRootNodes(
 
   const fallbackRoot = makeNode(nextId("block"), "Requirements", "requireAll");
   let appended = false;
+  let currentSection: RequirementDslNode | null = null;
 
   for (const heading of Array.from(scope.querySelectorAll("h2, h3, h4"))) {
     const label = normalizeText(heading.textContent ?? "");
     if (!label || !includesRequirementLanguage(label)) continue;
-    fallbackRoot.children.push(makeNode(nextId("section"), label.replace(/:\s*$/, ""), "requireAll"));
+    const sectionNode = makeNode(nextId("section"), label.replace(/:\s*$/, ""), "requireAll");
+    fallbackRoot.children.push(sectionNode);
+    currentSection = sectionNode;
     appended = true;
   }
 
   for (const li of Array.from(scope.querySelectorAll("li"))) {
     const text = normalizeText(li.textContent ?? "");
     if (!text) continue;
-    fallbackRoot.children.push(parseListTextToNode(text, nextId));
+    (currentSection ?? fallbackRoot).children.push(parseListTextToNode(text, nextId));
     appended = true;
   }
 
@@ -219,7 +249,7 @@ function parseNonTableRootNodes(
       .slice(0, 8);
 
     for (const paragraph of paragraphs) {
-      fallbackRoot.children.push(parseListTextToNode(paragraph, nextId));
+      (currentSection ?? fallbackRoot).children.push(parseListTextToNode(paragraph, nextId));
       appended = true;
     }
   }

@@ -4,6 +4,7 @@ import path from "node:path";
 import {
   discoverProgramRequirementUrls,
   scrapeProgramRequirements,
+  type ParsedDslNode,
   type ParsedProgram,
 } from "../catalog-scraper/scrapeProgramRequirements";
 
@@ -26,6 +27,8 @@ interface CorpusManifest {
     rootNodeCount: number;
     blockCount: number;
     itemCount: number;
+    diagnostics: ParsedProgram["diagnostics"];
+    quality: ProgramQualitySummary;
   }>;
   failures: CrawlFailure[];
 }
@@ -36,10 +39,32 @@ interface RetryConfig {
   maxDelayMs: number;
 }
 
+interface ProgramQualitySummary {
+  score: number;
+  totalNodes: number;
+  structuralNodes: number;
+  noteNodes: number;
+  courseNodes: number;
+  courseGroupNodes: number;
+  choiceNodes: number;
+  quantifiedRuleNodes: number;
+  actionableStructuralNodes: number;
+  signals: {
+    mentionsCredits: boolean;
+    mentionsSelection: boolean;
+  };
+  fallbackUsed: boolean;
+  fallbackOnlyNotesWithSignals: boolean;
+}
+
 function getArg(name: string): string | null {
   const idx = process.argv.findIndex((arg) => arg === name);
   if (idx === -1 || idx + 1 >= process.argv.length) return null;
   return process.argv[idx + 1] ?? null;
+}
+
+function hasArg(name: string): boolean {
+  return process.argv.includes(name);
 }
 
 function parseIntArg(name: string, fallback: number): number {
@@ -109,6 +134,7 @@ async function writeProgramFile(programsDir: string, parsed: ParsedProgram): Pro
     catalogYearStart: parsed.catalogYearStart,
     minCredits: parsed.minCredits,
     rootNodes: parsed.rootNodes,
+    diagnostics: parsed.diagnostics,
     flattened: {
       blocks: parsed.blocks,
       items: parsed.items,
@@ -119,12 +145,103 @@ async function writeProgramFile(programsDir: string, parsed: ParsedProgram): Pro
   return fileName;
 }
 
+function collectNodeStats(rootNodes: ParsedDslNode[]): Omit<ProgramQualitySummary, "score" | "signals" | "fallbackUsed" | "fallbackOnlyNotesWithSignals"> {
+  let totalNodes = 0;
+  let structuralNodes = 0;
+  let noteNodes = 0;
+  let courseNodes = 0;
+  let courseGroupNodes = 0;
+  let choiceNodes = 0;
+  let quantifiedRuleNodes = 0;
+  let actionableStructuralNodes = 0;
+
+  const isActionableRequireAllLeaf = (node: ParsedDslNode): boolean => {
+    if (node.nodeType !== "requireAll") return false;
+    if (node.children.length > 0) return false;
+    return /\b(credit|credits|course|courses|field|fields|semester|semesters|select|choose|complete|take|required|must)\b/i.test(
+      node.label,
+    );
+  };
+
+  const visit = (node: ParsedDslNode): void => {
+    totalNodes += 1;
+    if (node.nodeType === "note") {
+      noteNodes += 1;
+    } else {
+      structuralNodes += 1;
+      if (node.nodeType === "course") courseNodes += 1;
+      if (node.nodeType === "courseGroup") courseGroupNodes += 1;
+      if (node.nodeType === "requireAny") choiceNodes += 1;
+      if (typeof node.minCount === "number" || typeof node.minCredits === "number") quantifiedRuleNodes += 1;
+      if (
+        node.nodeType === "course" ||
+        node.nodeType === "courseGroup" ||
+        node.nodeType === "requireAny" ||
+        typeof node.minCount === "number" ||
+        typeof node.minCredits === "number" ||
+        isActionableRequireAllLeaf(node)
+      ) {
+        actionableStructuralNodes += 1;
+      }
+    }
+
+    for (const child of node.children) {
+      visit(child);
+    }
+  };
+
+  for (const rootNode of rootNodes) {
+    visit(rootNode);
+  }
+
+  return {
+    totalNodes,
+    structuralNodes,
+    noteNodes,
+    courseNodes,
+    courseGroupNodes,
+    choiceNodes,
+    quantifiedRuleNodes,
+    actionableStructuralNodes,
+  };
+}
+
+function summarizeQuality(parsed: ParsedProgram): ProgramQualitySummary {
+  const stats = collectNodeStats(parsed.rootNodes);
+  const mentionsCredits = /\bcredit|credits|course|courses|semester|semesters|field|fields\b/i.test(parsed.sourceUrl + " " + parsed.title)
+    ? true
+    : parsed.minCredits !== null;
+  const allText = JSON.stringify(parsed.rootNodes);
+  const signals = {
+    mentionsCredits: mentionsCredits || /\bcredit|credits|course|courses|semester|semesters|field|fields\b/i.test(allText),
+    mentionsSelection: /\bselect|choose|complete|take\b/i.test(allText),
+  };
+  const fallbackUsed = parsed.diagnostics.parseMode === "non-table";
+  const fallbackOnlyNotesWithSignals = fallbackUsed && (signals.mentionsCredits || signals.mentionsSelection) && stats.actionableStructuralNodes === 0;
+  const structuralRatio = stats.totalNodes === 0 ? 0 : stats.structuralNodes / stats.totalNodes;
+  const actionableRatio = stats.totalNodes === 0 ? 0 : stats.actionableStructuralNodes / stats.totalNodes;
+  const quantifiedBoost = Math.min(0.2, stats.quantifiedRuleNodes * 0.04);
+  const courseBoost = Math.min(0.15, (stats.courseNodes + stats.courseGroupNodes + stats.choiceNodes) * 0.02);
+  const score = Number(Math.min(1, structuralRatio * 0.35 + actionableRatio * 0.45 + quantifiedBoost + courseBoost).toFixed(3));
+
+  return {
+    ...stats,
+    score,
+    signals,
+    fallbackUsed,
+    fallbackOnlyNotesWithSignals,
+  };
+}
+
 async function main(): Promise<void> {
   const maxPrograms = parseIntArg("--max-programs", 0);
   const outputArg = getArg("--output-dir");
   const retryAttempts = parseIntArg("--fetch-retries", 3);
   const retryBaseDelayMs = parseIntArg("--fetch-retry-base-ms", 600);
   const retryMaxDelayMs = parseIntArg("--fetch-retry-max-ms", 6000);
+  const minQualityScoreArg = getArg("--min-quality-score");
+  const minQualityScore = minQualityScoreArg ? Number.parseFloat(minQualityScoreArg) : 0;
+  const strictFallbackMode = hasArg("--strict-fallback-mode");
   const stamp = new Date().toISOString().slice(0, 10);
   const outputDir = path.resolve(outputArg ?? path.join("catalog-scraper", "regression-corpus", stamp));
   const programsDir = path.join(outputDir, "programs");
@@ -160,6 +277,25 @@ async function main(): Promise<void> {
         continue;
       }
 
+      const quality = summarizeQuality(parsed);
+      if (strictFallbackMode && quality.fallbackOnlyNotesWithSignals) {
+        manifest.totalFailed += 1;
+        manifest.failures.push({
+          url,
+          reason: `Strict fallback quality failure: fallback emitted no actionable structural nodes despite credit/selection signals (score=${quality.score})`,
+        });
+        continue;
+      }
+
+      if (quality.score < minQualityScore) {
+        manifest.totalFailed += 1;
+        manifest.failures.push({
+          url,
+          reason: `Quality gate failure: score ${quality.score} below minimum ${minQualityScore.toFixed(3)}`,
+        });
+        continue;
+      }
+
       const fileName = await writeProgramFile(programsDir, parsed);
       manifest.totalParsed += 1;
       manifest.programs.push({
@@ -170,6 +306,8 @@ async function main(): Promise<void> {
         rootNodeCount: parsed.rootNodes.length,
         blockCount: parsed.blocks.length,
         itemCount: parsed.items.length,
+        diagnostics: parsed.diagnostics,
+        quality,
       });
     } catch (error) {
       manifest.totalFailed += 1;

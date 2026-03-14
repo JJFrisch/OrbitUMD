@@ -13,11 +13,10 @@
       "nodeType": "requireAll",
       "children": [
         {
-          "id": "note-2",
+          "id": "policy-2",
           "label": "REQUIREMENTS: a total of at least 15 credits, including:",
-          "nodeType": "note",
-          "children": [],
-          "text": "REQUIREMENTS: a total of at least 15 credits, including:"
+          "nodeType": "requireAll",
+          "children": []
         },
         {
           "id": "group-3",
@@ -36,11 +35,10 @@
           ]
         },
         {
-          "id": "note-4",
+          "id": "policy-4",
           "label": "• 3 to 6 credits in courses taught in English focusing on ancient and/or modern Greek history, literature, and culture.",
-          "nodeType": "note",
-          "children": [],
-          "text": "• 3 to 6 credits in courses taught in English focusing on ancient and/or modern Greek history, literature, and culture."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
           "id": "group-5",
@@ -66,15 +64,21 @@
           "text": "The grade point average in the minor must be at least 2.0 and no grade below C- can be counted toward the minor."
         },
         {
-          "id": "note-7",
+          "id": "policy-7",
           "label": "Students are encouraged to include courses earned through study abroad that satisfy the requirements. A maximum of six credits earned at other institutions may be counted toward the minor. A maximum of six credits may be counted toward both the minor and the student's major.",
-          "nodeType": "note",
-          "children": [],
-          "text": "Students are encouraged to include courses earned through study abroad that satisfy the requirements. A maximum of six credits earned at other institutions may be counted toward the minor. A maximum of six credits may be counted toward both the minor and the student's major."
+          "nodeType": "requireAll",
+          "children": []
         }
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "non-table",
+    "tableCount": 0,
+    "listCount": 0,
+    "paragraphCount": 6,
+    "headingCount": 0
+  },
   "flattened": {
     "blocks": [
       {
@@ -86,14 +90,54 @@
         "params": {},
         "sortOrder": 1,
         "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-2",
+        "humanLabel": "REQUIREMENTS: a total of at least 15 credits, including:",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-4",
+        "humanLabel": "• 3 to 6 credits in courses taught in English focusing on ancient and/or modern Greek history, literature, and culture.",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-7",
+        "humanLabel": "Students are encouraged to include courses earned through study abroad that satisfy the requirements. A maximum of six credits earned at other institutions may be counted toward the minor. A maximum of six credits may be counted toward both the minor and the student's major.",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
       }
     ],
     "items": [
       {
         "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
+        "itemType": "COURSE_GROUP",
         "payload": {
-          "text": "REQUIREMENTS: a total of at least 15 credits, including:"
+          "groupType": "PAIR",
+          "courses": [
+            {
+              "subject": "THE",
+              "number": "300"
+            },
+            {
+              "subject": "OR",
+              "number": "400"
+            }
+          ]
         },
         "sortOrder": 1
       },
@@ -119,43 +163,9 @@
         "blockTempId": "blk-1",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "• 3 to 6 credits in courses taught in English focusing on ancient and/or modern Greek history, literature, and culture."
-        },
-        "sortOrder": 3
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE_GROUP",
-        "payload": {
-          "groupType": "PAIR",
-          "courses": [
-            {
-              "subject": "THE",
-              "number": "300"
-            },
-            {
-              "subject": "OR",
-              "number": "400"
-            }
-          ]
-        },
-        "sortOrder": 4
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
           "text": "The grade point average in the minor must be at least 2.0 and no grade below C- can be counted toward the minor."
         },
-        "sortOrder": 5
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "Students are encouraged to include courses earned through study abroad that satisfy the requirements. A maximum of six credits earned at other institutions may be counted toward the minor. A maximum of six credits may be counted toward both the minor and the student's major."
-        },
-        "sortOrder": 6
+        "sortOrder": 3
       }
     ]
   }

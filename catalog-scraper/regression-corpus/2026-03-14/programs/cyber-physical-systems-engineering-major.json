@@ -544,6 +544,13 @@
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "table",
+    "tableCount": 5,
+    "listCount": 1,
+    "paragraphCount": 4,
+    "headingCount": 7
+  },
   "flattened": {
     "blocks": [
       {

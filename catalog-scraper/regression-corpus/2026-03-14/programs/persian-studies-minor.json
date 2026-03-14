@@ -101,6 +101,13 @@
       "minCount": 9
     }
   ],
+  "diagnostics": {
+    "parseMode": "table",
+    "tableCount": 1,
+    "listCount": 1,
+    "paragraphCount": 0,
+    "headingCount": 0
+  },
   "flattened": {
     "blocks": [
       {

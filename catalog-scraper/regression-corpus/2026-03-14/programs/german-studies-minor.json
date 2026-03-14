@@ -13,19 +13,16 @@
       "nodeType": "requireAll",
       "children": [
         {
-          "id": "course-2",
-          "label": "GERS203",
-          "nodeType": "course",
-          "children": [],
-          "subject": "GERS",
-          "number": "203"
+          "id": "policy-2",
+          "label": "Courses taught in German beyond GERS203 or its equivalent",
+          "nodeType": "requireAll",
+          "children": []
         },
         {
-          "id": "note-3",
+          "id": "policy-3",
           "label": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture",
-          "nodeType": "note",
-          "children": [],
-          "text": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture"
+          "nodeType": "requireAll",
+          "children": []
         },
         {
           "id": "group-4",
@@ -44,11 +41,10 @@
           ]
         },
         {
-          "id": "note-5",
+          "id": "policy-5",
           "label": "All courses must be passed with a grade of \"C-\" or higher.",
-          "nodeType": "note",
-          "children": [],
-          "text": "All courses must be passed with a grade of \"C-\" or higher."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
           "id": "note-6",
@@ -60,6 +56,13 @@
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "non-table",
+    "tableCount": 0,
+    "listCount": 1,
+    "paragraphCount": 1,
+    "headingCount": 0
+  },
   "flattened": {
     "blocks": [
       {
@@ -71,26 +74,39 @@
         "params": {},
         "sortOrder": 1,
         "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-2",
+        "humanLabel": "Courses taught in German beyond GERS203 or its equivalent",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-3",
+        "humanLabel": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-5",
+        "humanLabel": "All courses must be passed with a grade of \"C-\" or higher.",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
       }
     ],
     "items": [
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "GERS",
-          "number": "203"
-        },
-        "sortOrder": 1
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "3 of these 5 courses (9 hours) must be 3xx or 4xx level: one language, one literature, and one culture"
-        },
-        "sortOrder": 2
-      },
       {
         "blockTempId": "blk-1",
         "itemType": "COURSE_GROUP",
@@ -107,15 +123,7 @@
             }
           ]
         },
-        "sortOrder": 3
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "All courses must be passed with a grade of \"C-\" or higher."
-        },
-        "sortOrder": 4
+        "sortOrder": 1
       },
       {
         "blockTempId": "blk-1",
@@ -123,7 +131,7 @@
         "payload": {
           "text": "An overall GPA of 2.0 in the minor is required for graduation."
         },
-        "sortOrder": 5
+        "sortOrder": 2
       }
     ]
   }

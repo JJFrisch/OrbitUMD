@@ -13,46 +13,41 @@
       "nodeType": "requireAll",
       "children": [
         {
-          "id": "note-2",
+          "id": "policy-2",
           "label": "The courses must be distributed in at least 2 geographic fields (Asia, Europe, United States, Middle East, etc.).",
-          "nodeType": "note",
-          "children": [],
-          "text": "The courses must be distributed in at least 2 geographic fields (Asia, Europe, United States, Middle East, etc.)."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
-          "id": "note-3",
+          "id": "policy-3",
           "label": "The courses must include at least one course in each of two chronological periods (pre-1750/post-1750).",
-          "nodeType": "note",
-          "children": [],
-          "text": "The courses must include at least one course in each of two chronological periods (pre-1750/post-1750)."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
-          "id": "note-4",
+          "id": "policy-4",
           "label": "A minimum of 9 credits (3 courses) must be taken at the 3xx or 4xx-level.",
-          "nodeType": "note",
+          "nodeType": "requireAll",
           "children": [],
-          "text": "A minimum of 9 credits (3 courses) must be taken at the 3xx or 4xx-level."
+          "minCredits": 9
         },
         {
-          "id": "note-5",
+          "id": "policy-5",
           "label": "No more than 3 credits (1 course) may be taken at the 1xx-level.",
-          "nodeType": "note",
-          "children": [],
-          "text": "No more than 3 credits (1 course) may be taken at the 1xx-level."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
-          "id": "note-6",
+          "id": "policy-6",
           "label": "No more than 3 credits (1 course) may be fulfilled by AP, IB, or transfer credit.",
-          "nodeType": "note",
-          "children": [],
-          "text": "No more than 3 credits (1 course) may be fulfilled by AP, IB, or transfer credit."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
-          "id": "note-7",
+          "id": "policy-7",
           "label": "A student may use a maximum of 6 credits (2 courses) to satisfy requirements for both a major and a minor. Courses completed for one minor may not be used to satisfy the requirements for another minor.",
-          "nodeType": "note",
-          "children": [],
-          "text": "A student may use a maximum of 6 credits (2 courses) to satisfy requirements for both a major and a minor. Courses completed for one minor may not be used to satisfy the requirements for another minor."
+          "nodeType": "requireAll",
+          "children": []
         },
         {
           "id": "note-8",
@@ -64,6 +59,13 @@
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "non-table",
+    "tableCount": 0,
+    "listCount": 1,
+    "paragraphCount": 1,
+    "headingCount": 0
+  },
   "flattened": {
     "blocks": [
       {
@@ -75,6 +77,68 @@
         "params": {},
         "sortOrder": 1,
         "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-2",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-2",
+        "humanLabel": "The courses must be distributed in at least 2 geographic fields (Asia, Europe, United States, Middle East, etc.).",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 2,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-3",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-3",
+        "humanLabel": "The courses must include at least one course in each of two chronological periods (pre-1750/post-1750).",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 3,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-4",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-4",
+        "humanLabel": "A minimum of 9 credits (3 courses) must be taken at the 3xx or 4xx-level.",
+        "type": "ALL_OF",
+        "params": {
+          "minCredits": 9
+        },
+        "sortOrder": 4,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-5",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-5",
+        "humanLabel": "No more than 3 credits (1 course) may be taken at the 1xx-level.",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 5,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-6",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-6",
+        "humanLabel": "No more than 3 credits (1 course) may be fulfilled by AP, IB, or transfer credit.",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 6,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-7",
+        "parentTempId": "blk-1",
+        "sourceNodeId": "policy-7",
+        "humanLabel": "A student may use a maximum of 6 credits (2 courses) to satisfy requirements for both a major and a minor. Courses completed for one minor may not be used to satisfy the requirements for another minor.",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 7,
+        "sourceNote": "Flattened from nested DSL"
       }
     ],
     "items": [
@@ -82,57 +146,9 @@
         "blockTempId": "blk-1",
         "itemType": "TEXT_RULE",
         "payload": {
-          "text": "The courses must be distributed in at least 2 geographic fields (Asia, Europe, United States, Middle East, etc.)."
-        },
-        "sortOrder": 1
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "The courses must include at least one course in each of two chronological periods (pre-1750/post-1750)."
-        },
-        "sortOrder": 2
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "A minimum of 9 credits (3 courses) must be taken at the 3xx or 4xx-level."
-        },
-        "sortOrder": 3
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "No more than 3 credits (1 course) may be taken at the 1xx-level."
-        },
-        "sortOrder": 4
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "No more than 3 credits (1 course) may be fulfilled by AP, IB, or transfer credit."
-        },
-        "sortOrder": 5
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "A student may use a maximum of 6 credits (2 courses) to satisfy requirements for both a major and a minor. Courses completed for one minor may not be used to satisfy the requirements for another minor."
-        },
-        "sortOrder": 6
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
           "text": "Any student is eligible to pursue the minor, with the exception of a student majoring in History."
         },
-        "sortOrder": 7
+        "sortOrder": 1
       }
     ]
   }

@@ -416,6 +416,13 @@
       "minCount": 2
     }
   ],
+  "diagnostics": {
+    "parseMode": "table",
+    "tableCount": 2,
+    "listCount": 0,
+    "paragraphCount": 2,
+    "headingCount": 2
+  },
   "flattened": {
     "blocks": [
       {

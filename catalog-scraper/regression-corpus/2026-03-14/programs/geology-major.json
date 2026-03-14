@@ -1516,6 +1516,13 @@
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "table",
+    "tableCount": 3,
+    "listCount": 0,
+    "paragraphCount": 10,
+    "headingCount": 3
+  },
   "flattened": {
     "blocks": [
       {

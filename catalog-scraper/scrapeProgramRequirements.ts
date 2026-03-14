@@ -42,6 +42,15 @@ export interface ParsedProgram {
   rootNodes: ParsedDslNode[];
   blocks: ParsedBlock[];
   items: ParsedItem[];
+  diagnostics: ParsedProgramDiagnostics;
+}
+
+export interface ParsedProgramDiagnostics {
+  parseMode: "table" | "non-table";
+  tableCount: number;
+  listCount: number;
+  paragraphCount: number;
+  headingCount: number;
 }
 
 export interface ParsedBlock {
@@ -180,6 +189,22 @@ function parseCourseTokens(text: string): Array<{ subject: string; number: strin
   return matches.map((match) => ({ subject: match[1], number: match[2] }));
 }
 
+function mentionsSelectionRule(text: string): boolean {
+  return /\b(select|choose|complete|take)\b/i.test(text);
+}
+
+function mentionsCreditRule(text: string): boolean {
+  return /\b(credit|credits|course|courses|field|fields|semester|semesters)\b/i.test(text);
+}
+
+function makePolicyNode(
+  nextId: (prefix: string) => string,
+  label: string,
+  extras: Partial<ParsedDslNode> = {},
+): ParsedDslNode {
+  return makeNode(nextId("policy"), label, "requireAll", extras);
+}
+
 function includesRequirementLanguage(text: string): boolean {
   return /\b(require|required|requirements|credit|credits|must|choose|select|complete|course|track|major|minor|degree|curriculum|semester)\b/i.test(
     text,
@@ -189,8 +214,9 @@ function includesRequirementLanguage(text: string): boolean {
 function parseListTextToNode(text: string, nextId: (prefix: string) => string): ParsedDslNode {
   const chooseCount = parseChooseCount(text);
   const courseTokens = parseCourseTokens(text);
+  const minCredits = parseMinCredits(text);
 
-  if (chooseCount !== null && courseTokens.length > 0) {
+  if (chooseCount !== null) {
     const choiceNode = makeNode(nextId("choice"), text, "requireAny", { minCount: chooseCount });
     for (const token of courseTokens) {
       choiceNode.children.push(makeNode(nextId("course"), `${token.subject}${token.number}`, "course", token));
@@ -200,6 +226,16 @@ function parseListTextToNode(text: string, nextId: (prefix: string) => string): 
 
   if (courseTokens.length >= 2 && /\b(and|&|or)\b/i.test(text)) {
     return makeNode(nextId("group"), text, "courseGroup", { courses: courseTokens });
+  }
+
+  if (minCredits !== null || mentionsCreditRule(text)) {
+    return makePolicyNode(nextId, text, {
+      ...(minCredits !== null ? { minCredits } : {}),
+    });
+  }
+
+  if (mentionsSelectionRule(text)) {
+    return makeNode(nextId("choice"), text, "requireAny", { minCount: chooseCount ?? 1 });
   }
 
   if (courseTokens.length === 1) {
@@ -221,19 +257,21 @@ function parseNonTableRootNodes(
 
   const fallbackRoot = makeNode(nextId("block"), "Requirements", "requireAll");
   let appended = false;
+  let currentSection: ParsedDslNode | null = null;
 
   scope.find("h2, h3, h4").each((_i, heading) => {
     const label = normalizeText($(heading).text());
     if (!label || !includesRequirementLanguage(label)) return;
     const sectionNode = makeNode(nextId("section"), label.replace(/:\s*$/, ""), "requireAll");
     fallbackRoot.children.push(sectionNode);
+    currentSection = sectionNode;
     appended = true;
   });
 
   scope.find("li").each((_i, li) => {
     const line = normalizeText($(li).text());
     if (!line) return;
-    fallbackRoot.children.push(parseListTextToNode(line, nextId));
+    (currentSection ?? fallbackRoot).children.push(parseListTextToNode(line, nextId));
     appended = true;
   });
 
@@ -246,7 +284,7 @@ function parseNonTableRootNodes(
       .slice(0, 8);
 
     for (const paragraph of paragraphs) {
-      fallbackRoot.children.push(parseListTextToNode(paragraph, nextId));
+      (currentSection ?? fallbackRoot).children.push(parseListTextToNode(paragraph, nextId));
       appended = true;
     }
   }
@@ -256,14 +294,26 @@ function parseNonTableRootNodes(
   }
 }
 
-function parseRootNodes(html: string, sourceUrl: string): { title: string; rootNodes: ParsedDslNode[]; bodyText: string } {
+function parseRootNodes(
+  html: string,
+  sourceUrl: string,
+): { title: string; rootNodes: ParsedDslNode[]; bodyText: string; diagnostics: ParsedProgramDiagnostics } {
   const $ = cheerio.load(html);
   const title = normalizeText($("h1.page-title, h1").first().text()) || "Program";
   const bodyText = normalizeText($("body").text());
 
   const rootNodes: ParsedDslNode[] = [];
   const requirementsContainer = $("#requirementstextcontainer").first();
+  const textContainer = $("#textcontainer").first();
   const root = requirementsContainer.length > 0 ? requirementsContainer : $("body");
+  const nonTableScope = requirementsContainer.length > 0 ? requirementsContainer : textContainer.length > 0 ? textContainer : $("body");
+  const diagnostics: ParsedProgramDiagnostics = {
+    parseMode: "table",
+    tableCount: root.find("table").length,
+    listCount: nonTableScope.find("ul, ol").length,
+    paragraphCount: nonTableScope.find("p").length,
+    headingCount: nonTableScope.find("h2, h3, h4").length,
+  };
 
   let nodeCounter = 0;
   const nextId = (prefix: string): string => {
@@ -418,9 +468,10 @@ function parseRootNodes(html: string, sourceUrl: string): { title: string; rootN
 
   if (rootNodes.length === 0) {
     parseNonTableRootNodes($, rootNodes, nextId);
+    diagnostics.parseMode = "non-table";
   }
 
-  return { title, rootNodes, bodyText };
+  return { title, rootNodes, bodyText, diagnostics };
 }
 
 function flattenDslNodes(rootNodes: ParsedDslNode[]): { blocks: ParsedBlock[]; items: ParsedItem[] } {
@@ -512,7 +563,7 @@ export async function scrapeProgramRequirements(url: string): Promise<ParsedProg
   }
 
   const html = await response.text();
-  const { title, rootNodes, bodyText } = parseRootNodes(html, url);
+  const { title, rootNodes, bodyText, diagnostics } = parseRootNodes(html, url);
 
   if (!title || rootNodes.length === 0) {
     return null;
@@ -531,5 +582,6 @@ export async function scrapeProgramRequirements(url: string): Promise<ParsedProg
     rootNodes,
     blocks,
     items,
+    diagnostics,
   };
 }

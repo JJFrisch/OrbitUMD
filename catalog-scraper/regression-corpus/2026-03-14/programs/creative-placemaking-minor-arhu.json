@@ -99,6 +99,13 @@
       "minCredits": 6
     }
   ],
+  "diagnostics": {
+    "parseMode": "table",
+    "tableCount": 1,
+    "listCount": 0,
+    "paragraphCount": 2,
+    "headingCount": 0
+  },
   "flattened": {
     "blocks": [
       {

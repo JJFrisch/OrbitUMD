@@ -58,370 +58,319 @@
           "id": "section-9",
           "label": "Bachelor of Music Education-Choral/General Track",
           "nodeType": "requireAll",
-          "children": []
-        },
-        {
-          "id": "note-10",
-          "label": "8 semesters of private lessons (Senior Recital in final semester)",
-          "nodeType": "note",
-          "children": [],
-          "text": "8 semesters of private lessons (Senior Recital in final semester)"
-        },
-        {
-          "id": "note-11",
-          "label": "8 semesters of large ensemble participation",
-          "nodeType": "note",
-          "children": [],
-          "text": "8 semesters of large ensemble participation"
-        },
-        {
-          "id": "note-12",
-          "label": "6-8 semesters of small ensemble participation",
-          "nodeType": "note",
-          "children": [],
-          "text": "6-8 semesters of small ensemble participation"
-        },
-        {
-          "id": "note-13",
-          "label": "4 semesters of music theory",
-          "nodeType": "note",
-          "children": [],
-          "text": "4 semesters of music theory"
-        },
-        {
-          "id": "note-14",
-          "label": "2 semesters of music history",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of music history"
-        },
-        {
-          "id": "note-15",
-          "label": "1 semester of global music",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of global music"
-        },
-        {
-          "id": "course-16",
-          "label": "OF400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OF",
-          "number": "400"
-        },
-        {
-          "id": "note-17",
-          "label": "2 semesters of class piano (Except Piano Majors)",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of class piano (Except Piano Majors)"
-        },
-        {
-          "id": "note-18",
-          "label": "1 semester of form and analysis",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of form and analysis"
-        },
-        {
-          "id": "note-19",
-          "label": "1 semester of conducting",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of conducting"
-        },
-        {
-          "id": "note-20",
-          "label": "1 semester of music literature",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of music literature"
-        },
-        {
-          "id": "note-21",
-          "label": "1 semester of music pedagogy",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of music pedagogy"
-        },
-        {
-          "id": "note-22",
-          "label": "3-5 credits of music electives",
-          "nodeType": "note",
-          "children": [],
-          "text": "3-5 credits of music electives"
-        },
-        {
-          "id": "note-23",
-          "label": "5 semesters of private lessons (Senior Recital in final semester)",
-          "nodeType": "note",
-          "children": [],
-          "text": "5 semesters of private lessons (Senior Recital in final semester)"
-        },
-        {
-          "id": "note-24",
-          "label": "5 semesters of ensemble participation",
-          "nodeType": "note",
-          "children": [],
-          "text": "5 semesters of ensemble participation"
-        },
-        {
-          "id": "note-25",
-          "label": "4 semesters of music theory",
-          "nodeType": "note",
-          "children": [],
-          "text": "4 semesters of music theory"
-        },
-        {
-          "id": "note-26",
-          "label": "2 semesters of music history",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of music history"
-        },
-        {
-          "id": "note-27",
-          "label": "1 semester of global music",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of global music"
-        },
-        {
-          "id": "note-28",
-          "label": "2 semesters of class piano (Except Piano Majors)",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of class piano (Except Piano Majors)"
-        },
-        {
-          "id": "note-29",
-          "label": "1 semester of form and analysis",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of form and analysis"
-        },
-        {
-          "id": "note-30",
-          "label": "6 credits of music electives",
-          "nodeType": "note",
-          "children": [],
-          "text": "6 credits of music electives"
-        },
-        {
-          "id": "note-31",
-          "label": "7 semesters of private lessons (Senior Recital in final semester)",
-          "nodeType": "note",
-          "children": [],
-          "text": "7 semesters of private lessons (Senior Recital in final semester)"
-        },
-        {
-          "id": "note-32",
-          "label": "7 semesters of large ensemble participation",
-          "nodeType": "note",
-          "children": [],
-          "text": "7 semesters of large ensemble participation"
-        },
-        {
-          "id": "note-33",
-          "label": "4 semesters of music theory",
-          "nodeType": "note",
-          "children": [],
-          "text": "4 semesters of music theory"
-        },
-        {
-          "id": "note-34",
-          "label": "2 semesters of music history",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of music history"
-        },
-        {
-          "id": "course-35",
-          "label": "OF400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OF",
-          "number": "400"
-        },
-        {
-          "id": "note-36",
-          "label": "2 semesters of class piano (Except Piano Majors)",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of class piano (Except Piano Majors)"
-        },
-        {
-          "id": "note-37",
-          "label": "1 semester of conducting",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of conducting"
-        },
-        {
-          "id": "note-38",
-          "label": "1 semester of global music",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of global music"
-        },
-        {
-          "id": "note-39",
-          "label": "27 credits MUED class instruments and field experience",
-          "nodeType": "note",
-          "children": [],
-          "text": "27 credits MUED class instruments and field experience"
-        },
-        {
-          "id": "note-40",
-          "label": "6 credits EDHD Human Development",
-          "nodeType": "note",
-          "children": [],
-          "text": "6 credits EDHD Human Development"
-        },
-        {
-          "id": "note-41",
-          "label": "3 credits TLPL Education Policy Studies",
-          "nodeType": "note",
-          "children": [],
-          "text": "3 credits TLPL Education Policy Studies"
-        },
-        {
-          "id": "course-42",
-          "label": "MUED474",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MUED",
-          "number": "474"
-        },
-        {
-          "id": "course-43",
-          "label": "MUED484",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MUED",
-          "number": "484"
-        },
-        {
-          "id": "course-44",
-          "label": "MUED494",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MUED",
-          "number": "494"
-        },
-        {
-          "id": "note-45",
-          "label": "7 semesters of private lessons (Senior Recital in final semester)",
-          "nodeType": "note",
-          "children": [],
-          "text": "7 semesters of private lessons (Senior Recital in final semester)"
-        },
-        {
-          "id": "note-46",
-          "label": "7 semesters of large ensemble participation",
-          "nodeType": "note",
-          "children": [],
-          "text": "7 semesters of large ensemble participation"
-        },
-        {
-          "id": "note-47",
-          "label": "4 semesters of music theory",
-          "nodeType": "note",
-          "children": [],
-          "text": "4 semesters of music theory"
-        },
-        {
-          "id": "note-48",
-          "label": "4 semesters of class piano (Except Piano Majors who take voice and upper level piano)",
-          "nodeType": "note",
-          "children": [],
-          "text": "4 semesters of class piano (Except Piano Majors who take voice and upper level piano)"
-        },
-        {
-          "id": "note-49",
-          "label": "2 semesters of music history",
-          "nodeType": "note",
-          "children": [],
-          "text": "2 semesters of music history"
-        },
-        {
-          "id": "course-50",
-          "label": "OF400",
-          "nodeType": "course",
-          "children": [],
-          "subject": "OF",
-          "number": "400"
-        },
-        {
-          "id": "note-51",
-          "label": "1 semester of conducting",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of conducting"
-        },
-        {
-          "id": "note-52",
-          "label": "1 semester of global music",
-          "nodeType": "note",
-          "children": [],
-          "text": "1 semester of global music"
-        },
-        {
-          "id": "note-53",
-          "label": "4 credits MUSC class instrument and vocal diction",
-          "nodeType": "note",
-          "children": [],
-          "text": "4 credits MUSC class instrument and vocal diction"
-        },
-        {
-          "id": "note-54",
-          "label": "19 credits MUED class instruments and field experience",
-          "nodeType": "note",
-          "children": [],
-          "text": "19 credits MUED class instruments and field experience"
-        },
-        {
-          "id": "note-55",
-          "label": "6 credits EDHD Human Development",
-          "nodeType": "note",
-          "children": [],
-          "text": "6 credits EDHD Human Development"
-        },
-        {
-          "id": "note-56",
-          "label": "3 credits TLPL Education Policy Studies",
-          "nodeType": "note",
-          "children": [],
-          "text": "3 credits TLPL Education Policy Studies"
-        },
-        {
-          "id": "course-57",
-          "label": "MUED474",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MUED",
-          "number": "474"
-        },
-        {
-          "id": "course-58",
-          "label": "MUED484",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MUED",
-          "number": "484"
-        },
-        {
-          "id": "course-59",
-          "label": "MUED494",
-          "nodeType": "course",
-          "children": [],
-          "subject": "MUED",
-          "number": "494"
+          "children": [
+            {
+              "id": "policy-10",
+              "label": "8 semesters of private lessons (Senior Recital in final semester)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-11",
+              "label": "8 semesters of large ensemble participation",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-12",
+              "label": "6-8 semesters of small ensemble participation",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-13",
+              "label": "4 semesters of music theory",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-14",
+              "label": "2 semesters of music history",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-15",
+              "label": "1 semester of global music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-16",
+              "label": "1 semester of 400 level music history elective",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-17",
+              "label": "2 semesters of class piano (Except Piano Majors)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-18",
+              "label": "1 semester of form and analysis",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-19",
+              "label": "1 semester of conducting",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-20",
+              "label": "1 semester of music literature",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-21",
+              "label": "1 semester of music pedagogy",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-22",
+              "label": "3-5 credits of music electives",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-23",
+              "label": "5 semesters of private lessons (Senior Recital in final semester)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-24",
+              "label": "5 semesters of ensemble participation",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-25",
+              "label": "4 semesters of music theory",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-26",
+              "label": "2 semesters of music history",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-27",
+              "label": "1 semester of global music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-28",
+              "label": "2 semesters of class piano (Except Piano Majors)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-29",
+              "label": "1 semester of form and analysis",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-30",
+              "label": "6 credits of music electives",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-31",
+              "label": "7 semesters of private lessons (Senior Recital in final semester)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-32",
+              "label": "7 semesters of large ensemble participation",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-33",
+              "label": "4 semesters of music theory",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-34",
+              "label": "2 semesters of music history",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-35",
+              "label": "1 semester of 400 level music history elective",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-36",
+              "label": "2 semesters of class piano (Except Piano Majors)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-37",
+              "label": "1 semester of conducting",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-38",
+              "label": "1 semester of global music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-39",
+              "label": "27 credits MUED class instruments and field experience",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-40",
+              "label": "6 credits EDHD Human Development",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-41",
+              "label": "3 credits TLPL Education Policy Studies",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-42",
+              "label": "2 credits MUED474 Pre-Student Teaching",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-43",
+              "label": "6 credits MUED484 Student Teaching in Elementary School: Music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-44",
+              "label": "6 credits MUED494 Student Teaching in Secondary School: Music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-45",
+              "label": "7 semesters of private lessons (Senior Recital in final semester)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-46",
+              "label": "7 semesters of large ensemble participation",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-47",
+              "label": "4 semesters of music theory",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-48",
+              "label": "4 semesters of class piano (Except Piano Majors who take voice and upper level piano)",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-49",
+              "label": "2 semesters of music history",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-50",
+              "label": "1 semester of 400 level music history elective",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-51",
+              "label": "1 semester of conducting",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-52",
+              "label": "1 semester of global music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-53",
+              "label": "4 credits MUSC class instrument and vocal diction",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-54",
+              "label": "19 credits MUED class instruments and field experience",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-55",
+              "label": "6 credits EDHD Human Development",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-56",
+              "label": "3 credits TLPL Education Policy Studies",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-57",
+              "label": "2 credits MUED474 Pre-Student Teaching",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-58",
+              "label": "6 credits MUED484 Student Teaching in Elementary School: Music",
+              "nodeType": "requireAll",
+              "children": []
+            },
+            {
+              "id": "policy-59",
+              "label": "6 credits MUED494 Student Teaching in Secondary School: Music",
+              "nodeType": "requireAll",
+              "children": []
+            }
+          ]
         }
       ]
     }
   ],
+  "diagnostics": {
+    "parseMode": "non-table",
+    "tableCount": 0,
+    "listCount": 4,
+    "paragraphCount": 16,
+    "headingCount": 8
+  },
   "flattened": {
     "blocks": [
       {
@@ -513,418 +462,508 @@
         "params": {},
         "sortOrder": 9,
         "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-10",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-10",
+        "humanLabel": "8 semesters of private lessons (Senior Recital in final semester)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 10,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-11",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-11",
+        "humanLabel": "8 semesters of large ensemble participation",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 11,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-12",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-12",
+        "humanLabel": "6-8 semesters of small ensemble participation",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 12,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-13",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-13",
+        "humanLabel": "4 semesters of music theory",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 13,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-14",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-14",
+        "humanLabel": "2 semesters of music history",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 14,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-15",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-15",
+        "humanLabel": "1 semester of global music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 15,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-16",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-16",
+        "humanLabel": "1 semester of 400 level music history elective",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 16,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-17",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-17",
+        "humanLabel": "2 semesters of class piano (Except Piano Majors)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 17,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-18",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-18",
+        "humanLabel": "1 semester of form and analysis",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 18,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-19",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-19",
+        "humanLabel": "1 semester of conducting",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 19,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-20",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-20",
+        "humanLabel": "1 semester of music literature",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 20,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-21",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-21",
+        "humanLabel": "1 semester of music pedagogy",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 21,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-22",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-22",
+        "humanLabel": "3-5 credits of music electives",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 22,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-23",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-23",
+        "humanLabel": "5 semesters of private lessons (Senior Recital in final semester)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 23,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-24",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-24",
+        "humanLabel": "5 semesters of ensemble participation",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 24,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-25",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-25",
+        "humanLabel": "4 semesters of music theory",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 25,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-26",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-26",
+        "humanLabel": "2 semesters of music history",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 26,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-27",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-27",
+        "humanLabel": "1 semester of global music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 27,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-28",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-28",
+        "humanLabel": "2 semesters of class piano (Except Piano Majors)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 28,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-29",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-29",
+        "humanLabel": "1 semester of form and analysis",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 29,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-30",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-30",
+        "humanLabel": "6 credits of music electives",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 30,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-31",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-31",
+        "humanLabel": "7 semesters of private lessons (Senior Recital in final semester)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 31,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-32",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-32",
+        "humanLabel": "7 semesters of large ensemble participation",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 32,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-33",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-33",
+        "humanLabel": "4 semesters of music theory",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 33,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-34",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-34",
+        "humanLabel": "2 semesters of music history",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 34,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-35",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-35",
+        "humanLabel": "1 semester of 400 level music history elective",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 35,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-36",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-36",
+        "humanLabel": "2 semesters of class piano (Except Piano Majors)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 36,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-37",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-37",
+        "humanLabel": "1 semester of conducting",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 37,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-38",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-38",
+        "humanLabel": "1 semester of global music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 38,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-39",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-39",
+        "humanLabel": "27 credits MUED class instruments and field experience",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 39,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-40",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-40",
+        "humanLabel": "6 credits EDHD Human Development",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 40,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-41",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-41",
+        "humanLabel": "3 credits TLPL Education Policy Studies",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 41,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-42",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-42",
+        "humanLabel": "2 credits MUED474 Pre-Student Teaching",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 42,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-43",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-43",
+        "humanLabel": "6 credits MUED484 Student Teaching in Elementary School: Music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 43,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-44",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-44",
+        "humanLabel": "6 credits MUED494 Student Teaching in Secondary School: Music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 44,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-45",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-45",
+        "humanLabel": "7 semesters of private lessons (Senior Recital in final semester)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 45,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-46",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-46",
+        "humanLabel": "7 semesters of large ensemble participation",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 46,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-47",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-47",
+        "humanLabel": "4 semesters of music theory",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 47,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-48",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-48",
+        "humanLabel": "4 semesters of class piano (Except Piano Majors who take voice and upper level piano)",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 48,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-49",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-49",
+        "humanLabel": "2 semesters of music history",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 49,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-50",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-50",
+        "humanLabel": "1 semester of 400 level music history elective",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 50,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-51",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-51",
+        "humanLabel": "1 semester of conducting",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 51,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-52",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-52",
+        "humanLabel": "1 semester of global music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 52,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-53",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-53",
+        "humanLabel": "4 credits MUSC class instrument and vocal diction",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 53,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-54",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-54",
+        "humanLabel": "19 credits MUED class instruments and field experience",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 54,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-55",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-55",
+        "humanLabel": "6 credits EDHD Human Development",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 55,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-56",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-56",
+        "humanLabel": "3 credits TLPL Education Policy Studies",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 56,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-57",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-57",
+        "humanLabel": "2 credits MUED474 Pre-Student Teaching",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 57,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-58",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-58",
+        "humanLabel": "6 credits MUED484 Student Teaching in Elementary School: Music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 58,
+        "sourceNote": "Flattened from nested DSL"
+      },
+      {
+        "tempId": "blk-59",
+        "parentTempId": "blk-9",
+        "sourceNodeId": "policy-59",
+        "humanLabel": "6 credits MUED494 Student Teaching in Secondary School: Music",
+        "type": "ALL_OF",
+        "params": {},
+        "sortOrder": 59,
+        "sourceNote": "Flattened from nested DSL"
       }
     ],
-    "items": [
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "8 semesters of private lessons (Senior Recital in final semester)"
-        },
-        "sortOrder": 1
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "8 semesters of large ensemble participation"
-        },
-        "sortOrder": 2
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "6-8 semesters of small ensemble participation"
-        },
-        "sortOrder": 3
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "4 semesters of music theory"
-        },
-        "sortOrder": 4
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of music history"
-        },
-        "sortOrder": 5
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of global music"
-        },
-        "sortOrder": 6
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "OF",
-          "number": "400"
-        },
-        "sortOrder": 7
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of class piano (Except Piano Majors)"
-        },
-        "sortOrder": 8
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of form and analysis"
-        },
-        "sortOrder": 9
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of conducting"
-        },
-        "sortOrder": 10
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of music literature"
-        },
-        "sortOrder": 11
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of music pedagogy"
-        },
-        "sortOrder": 12
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "3-5 credits of music electives"
-        },
-        "sortOrder": 13
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "5 semesters of private lessons (Senior Recital in final semester)"
-        },
-        "sortOrder": 14
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "5 semesters of ensemble participation"
-        },
-        "sortOrder": 15
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "4 semesters of music theory"
-        },
-        "sortOrder": 16
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of music history"
-        },
-        "sortOrder": 17
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of global music"
-        },
-        "sortOrder": 18
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of class piano (Except Piano Majors)"
-        },
-        "sortOrder": 19
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of form and analysis"
-        },
-        "sortOrder": 20
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "6 credits of music electives"
-        },
-        "sortOrder": 21
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "7 semesters of private lessons (Senior Recital in final semester)"
-        },
-        "sortOrder": 22
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "7 semesters of large ensemble participation"
-        },
-        "sortOrder": 23
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "4 semesters of music theory"
-        },
-        "sortOrder": 24
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of music history"
-        },
-        "sortOrder": 25
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "OF",
-          "number": "400"
-        },
-        "sortOrder": 26
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of class piano (Except Piano Majors)"
-        },
-        "sortOrder": 27
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of conducting"
-        },
-        "sortOrder": 28
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of global music"
-        },
-        "sortOrder": 29
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "27 credits MUED class instruments and field experience"
-        },
-        "sortOrder": 30
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "6 credits EDHD Human Development"
-        },
-        "sortOrder": 31
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "3 credits TLPL Education Policy Studies"
-        },
-        "sortOrder": 32
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MUED",
-          "number": "474"
-        },
-        "sortOrder": 33
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MUED",
-          "number": "484"
-        },
-        "sortOrder": 34
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MUED",
-          "number": "494"
-        },
-        "sortOrder": 35
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "7 semesters of private lessons (Senior Recital in final semester)"
-        },
-        "sortOrder": 36
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "7 semesters of large ensemble participation"
-        },
-        "sortOrder": 37
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "4 semesters of music theory"
-        },
-        "sortOrder": 38
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "4 semesters of class piano (Except Piano Majors who take voice and upper level piano)"
-        },
-        "sortOrder": 39
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "2 semesters of music history"
-        },
-        "sortOrder": 40
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "OF",
-          "number": "400"
-        },
-        "sortOrder": 41
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of conducting"
-        },
-        "sortOrder": 42
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "1 semester of global music"
-        },
-        "sortOrder": 43
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "4 credits MUSC class instrument and vocal diction"
-        },
-        "sortOrder": 44
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "19 credits MUED class instruments and field experience"
-        },
-        "sortOrder": 45
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "6 credits EDHD Human Development"
-        },
-        "sortOrder": 46
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "TEXT_RULE",
-        "payload": {
-          "text": "3 credits TLPL Education Policy Studies"
-        },
-        "sortOrder": 47
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MUED",
-          "number": "474"
-        },
-        "sortOrder": 48
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MUED",
-          "number": "484"
-        },
-        "sortOrder": 49
-      },
-      {
-        "blockTempId": "blk-1",
-        "itemType": "COURSE",
-        "payload": {
-          "subject": "MUED",
-          "number": "494"
-        },
-        "sortOrder": 50
-      }
-    ]
+    "items": []
   }
 }

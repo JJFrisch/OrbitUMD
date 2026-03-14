@@ -11,6 +11,52 @@ function loadFixture(name: string): string {
   return fs.readFileSync(filePath, "utf8");
 }
 
+function collectDslQuality(rootNodes: ReturnType<typeof parseProgramDslFromHtml>["rootNodes"]) {
+  let totalNodes = 0;
+  let noteNodes = 0;
+  let actionableStructuralNodes = 0;
+
+  const isActionableRequireAllLeaf = (node: (typeof rootNodes)[number]): boolean => {
+    if (node.nodeType !== "requireAll") return false;
+    if (node.children.length > 0) return false;
+    return /\b(credit|credits|course|courses|field|fields|semester|semesters|select|choose|complete|take|required|must)\b/i.test(
+      node.label,
+    );
+  };
+
+  const visit = (node: (typeof rootNodes)[number]): void => {
+    totalNodes += 1;
+    if (node.nodeType === "note") {
+      noteNodes += 1;
+    }
+
+    if (
+      node.nodeType === "course" ||
+      node.nodeType === "courseGroup" ||
+      node.nodeType === "requireAny" ||
+      typeof node.minCount === "number" ||
+      typeof node.minCredits === "number" ||
+      isActionableRequireAllLeaf(node)
+    ) {
+      actionableStructuralNodes += 1;
+    }
+
+    for (const child of node.children) {
+      visit(child);
+    }
+  };
+
+  for (const rootNode of rootNodes) {
+    visit(rootNode);
+  }
+
+  return {
+    totalNodes,
+    noteNodes,
+    actionableStructuralNodes,
+  };
+}
+
 describe("UMD catalog parser real-major behavior: Marketing", () => {
   test("detects SELECT_N=3 marketing electives and BMGT484", () => {
     const html = loadFixture("marketing-major.html");
@@ -253,8 +299,8 @@ describe("UMD catalog parser nested tree rigor", () => {
 
     const requirements = rootNodes.find((node) => node.label === "Requirements");
     expect(requirements).toBeDefined();
-    expect(requirements?.children.every((node) => node.nodeType === "note")).toBe(true);
-    expect(requirements?.children.map((node) => node.text)).toContain(
+    expect(requirements?.children.some((node) => node.nodeType === "requireAll")).toBe(true);
+    expect(requirements?.children.map((node) => node.label)).toContain(
       "A minimum of 9 credits (3 courses) must be taken at the 3xx or 4xx-level.",
     );
   });
@@ -272,10 +318,13 @@ describe("UMD catalog parser nested tree rigor", () => {
     expect(sectionLabels).toContain("The Bachelor of Music Degree (BM)");
     expect(sectionLabels).toContain("Bachelor of Music Education (BME) Requirements");
 
-    const courseNodes = requirements?.children.filter((node) => node.nodeType === "course");
-    expect(courseNodes?.map((node) => node.label)).toContain("MUED474");
+    const descendantNodes = requirements?.children.flatMap(function visit(node): typeof requirements.children {
+      return [node, ...node.children.flatMap(visit)];
+    });
+    const courseNodes = descendantNodes.filter((node) => node.nodeType === "course");
+    expect(courseNodes.map((node) => node.label)).toContain("MUED474");
 
-    const groupedNode = requirements?.children.find((node) => node.nodeType === "courseGroup");
+    const groupedNode = descendantNodes.find((node) => node.nodeType === "courseGroup");
     expect(groupedNode?.courses?.map((course) => `${course.subject}${course.number}`)).toEqual(
       expect.arrayContaining(["MUED484", "MUED494"]),
     );
@@ -290,4 +339,83 @@ describe("UMD catalog parser nested tree rigor", () => {
     expect(requirements?.children.length).toBeGreaterThanOrEqual(1);
     expect(requirements?.children.some((node) => /choose one course/i.test(node.text ?? node.label))).toBe(true);
   });
+});
+
+describe("UMD catalog parser historically flaky URL fixtures", () => {
+  const cases = [
+    {
+      fixture: "art-history-archaeology-archaeology-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/art-history-archaeology/archaeology-minor/",
+      requiredCodes: ["ANTH305", "CLAS305", "ARTH305", "JWST319Y"],
+      minActionable: 2,
+    },
+    {
+      fixture: "classical-languages-literature-archaeology-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/archaeology-minor/",
+      requiredCodes: ["ANTH305", "CLAS305", "ARTH305", "JWST319Y"],
+      minActionable: 2,
+    },
+    {
+      fixture: "classical-languages-literature-greek-language-culture-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/classical-languages-literature/greek-language-culture-minor/",
+      requiredCodes: ["GREK101", "GREK102", "GREK111", "GREK112"],
+      minActionable: 2,
+    },
+    {
+      fixture: "history-history-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/history-minor/",
+      requiredCodes: [],
+      minActionable: 2,
+    },
+    {
+      fixture: "germanic-studies-german-studies-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/languages-literatures-cultures/germanic-studies/german-studies-minor/",
+      requiredCodes: ["GERS103", "GERS203"],
+      minActionable: 2,
+    },
+    {
+      fixture: "music-music-major.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/music/music-major/",
+      requiredCodes: ["MUED474", "MUED484", "MUED494"],
+      minActionable: 2,
+    },
+    {
+      fixture: "undergraduate-studies-global-studies-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/undergraduate-studies/global-studies-minor/",
+      requiredCodes: [],
+      minActionable: 2,
+    },
+  ] as const;
+
+  for (const testCase of cases) {
+    test(`keeps ${testCase.url} parseable with structural fallback output`, () => {
+      const html = loadFixture(testCase.fixture);
+      const { program, rootNodes } = parseProgramFromHtml(html, testCase.url);
+
+      expect(program.title.length).toBeGreaterThan(0);
+      expect(rootNodes.length).toBeGreaterThan(0);
+
+      const quality = collectDslQuality(rootNodes);
+      expect(quality.totalNodes).toBeGreaterThan(0);
+      expect(quality.actionableStructuralNodes).toBeGreaterThanOrEqual(testCase.minActionable);
+
+      const seenCodes = new Set(
+        rootNodes.flatMap(function visit(node): string[] {
+          if (node.nodeType === "course") {
+            return [node.label];
+          }
+
+          if (node.nodeType === "courseGroup") {
+            return (node.courses ?? []).map((course) => `${course.subject}${course.number}`);
+          }
+
+          return node.children.flatMap(visit);
+        }),
+      );
+
+      for (const code of testCase.requiredCodes) {
+        expect(seenCodes.has(code)).toBe(true);
+      }
+    });
+  }
 });
