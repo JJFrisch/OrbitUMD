@@ -167,3 +167,83 @@ export interface UserPriorCreditRecord {
   countsTowardProgress: boolean;
   createdAt: string;
 }
+
+// ── Versioned requirement schema (programs/blocks/items) ──
+
+export type RequirementBlockTypeV2 =
+  | "ALL_OF"
+  | "SELECT_N"
+  | "CREDITS_MIN"
+  | "TRACK_GROUP"
+  | "POLICY"
+  | "BENCHMARK"
+  | "NOTE";
+
+export type RequirementItemTypeV2 =
+  | "COURSE"
+  | "COURSE_GROUP"
+  | "ATTRIBUTE"
+  | "LEVEL_CONSTRAINT"
+  | "SUBJECT_CONSTRAINT"
+  | "TEXT_RULE";
+
+export interface ProgramV2 {
+  id: string;
+  code: string;
+  title: string;
+  college: string | null;
+  degreeType: string | null;
+  catalogYearStart: number;
+  catalogYearEnd: number | null;
+  minCredits: number | null;
+  sourceUrl: string;
+}
+
+export interface RequirementBlockV2 {
+  id: string;
+  programId: string;
+  parentRequirementId: string | null;
+  type: string;
+  params: Record<string, unknown>;
+  humanLabel: string;
+  sortOrder: number;
+}
+
+export interface RequirementItemV2 {
+  id: string;
+  requirementBlockId: string;
+  itemType: string;
+  payload: Record<string, unknown>;
+  sortOrder: number;
+}
+
+export interface StudentCourseV2 {
+  id: string;
+  studentUid: string;
+  subject: string;
+  number: string;
+  title: string;
+  credits: number;
+  grade: string | null;
+  term: string | null;
+  isPlanned: boolean;
+}
+
+export interface StudentRequirementOverrideV2 {
+  id: string;
+  studentUid: string;
+  blockId: string;
+  overrideType: "WAIVED" | "MANUALLY_SATISFIED" | "COURSE_SUBSTITUTION";
+  details: Record<string, unknown>;
+}
+
+export interface BlockEvaluationResultV2 {
+  block: RequirementBlockV2;
+  satisfied: boolean;
+  usedCourses: StudentCourseV2[];
+  remainingCourses: number | null;
+  remainingCredits: number | null;
+  messages: string[];
+  children: BlockEvaluationResultV2[];
+  overrideApplied: boolean;
+}

@@ -10,6 +10,7 @@ import ScheduleBuilder from "./pages/ScheduleBuilder";
 import ScheduleLibrary from "./pages/ScheduleLibrary";
 import FourYearPlan from "./pages/FourYearPlan";
 import DegreeAudit from "./pages/DegreeAudit";
+import ProgramAudit from "./pages/ProgramAudit";
 import GenEds from "./pages/GenEds";
 import CreditImport from "./pages/CreditImport";
 import DegreeRequirements from "./pages/DegreeRequirement";
@@ -84,6 +85,7 @@ export const router = createBrowserRouter([
       { path: "build-my-week", element: <RequireAuth><ScheduleBuilder /></RequireAuth> }, // Redirect old route
       { path: "four-year-plan", element: <RequireAuth><FourYearPlan /></RequireAuth> },
       { path: "degree-audit", element: <RequireAuth><DegreeAudit /></RequireAuth> },
+      { path: "audit/:programCode", element: <RequireAuth><ProgramAudit /></RequireAuth> },
       { path: "gen-eds", element: <RequireAuth><GenEds /></RequireAuth> },
       { path: "credit-import", element: <RequireAuth><CreditImport /></RequireAuth> },
       { path: "degree-requirements", element: <RequireAuth><DegreeRequirements /></RequireAuth> },

@@ -7,6 +7,10 @@
     "dotenv": "^17.3.1",
     "pg": "^8.13.1"
   },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
   "scripts": {
     "postinstall": "npm --prefix site install",
     "dev": "npm --prefix site run dev --",
@@ -15,6 +19,7 @@
     "lint": "npm --prefix site run lint --",
     "test": "npm --prefix site run test --",
     "scrape:requirements": "node catalog-scraper/scrape_umd_requirements.js",
+    "ingest:requirements": "npx ts-node scripts/ingestAllPrograms.ts",
     "sync:catalog": "node data-sync/sync-worker.mjs",
     "sync:catalog:dry": "node data-sync/sync-worker.mjs --dry-run=true"
   }

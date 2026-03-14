@@ -1746,7 +1746,14 @@ export default function DegreeAudit() {
                               })()}
                             </p>
                           </div>
-                          {statusBadge(programAudit.status)}
+                          <div className="flex items-center gap-2">
+                            <Link to={`/audit/${encodeURIComponent(programAudit.bundle.programCode)}`}>
+                              <Button size="sm" variant="outline" className="border-border text-foreground/80">
+                                Open Tree Audit
+                              </Button>
+                            </Link>
+                            {statusBadge(programAudit.status)}
+                          </div>
                         </div>
 
                         <div className="flex items-center gap-4 mb-5">
