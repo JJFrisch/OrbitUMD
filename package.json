@@ -24,6 +24,7 @@
     "corpus:verify": "npx ts-node scripts/verifyRequirementCorpusBaseline.ts",
     "ingest:requirements": "npx ts-node scripts/ingestAllPrograms.ts",
     "sync:catalog": "node data-sync/sync-worker.mjs",
-    "sync:catalog:dry": "node data-sync/sync-worker.mjs --dry-run=true"
+    "sync:catalog:dry": "node data-sync/sync-worker.mjs --dry-run=true",
+    "corpus:quality:check": "npx ts-node scripts/checkCorpusQuality.ts --min-quality-score 0.15"
   }
 }

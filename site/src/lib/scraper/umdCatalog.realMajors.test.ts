@@ -385,9 +385,27 @@ describe("UMD catalog parser historically flaky URL fixtures", () => {
       requiredCodes: [],
       minActionable: 2,
     },
+    // Previously-failing strict-mode pages: credit-column sc_courselist tables with no raw course codes.
+    {
+      fixture: "history-middle-eastern-studies-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
+      requiredCodes: [],
+      minActionable: 3,
+    },
+    {
+      fixture: "jewish-studies-jewish-studies-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-minor/",
+      requiredCodes: [],
+      minActionable: 3,
+    },
+    {
+      fixture: "philosophy-philosophy-minor.html",
+      url: "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
+      requiredCodes: [],
+      minActionable: 3,
+    },
   ] as const;
-
-  for (const testCase of cases) {
+    for (const testCase of cases) {
     test(`keeps ${testCase.url} parseable with structural fallback output`, () => {
       const html = loadFixture(testCase.fixture);
       const { program, rootNodes } = parseProgramFromHtml(html, testCase.url);

@@ -426,6 +426,29 @@ function parseRootNodes(
       if (courseTokens.length >= 2 && /\b(and|&)\b/i.test(first)) {
         const pairNode = makeNode(nextId("pair"), first, "courseGroup", { courses: courseTokens });
         if (currentChoiceNode) {
+        // Detect sc_courselist rows: description text + bare credit integer in the hourscol.
+        // These rows (e.g. "History → 3", "Three or more courses at 3xx-level → 9") don't have
+        // real course codes but encode quantified requirements via the hours column.
+        const trimmedSecond = second.trim();
+        const hoursCreditValue = /^\d+$/.test(trimmedSecond) ? Number.parseInt(trimmedSecond, 10) : NaN;
+        if (
+          !Number.isNaN(hoursCreditValue) &&
+          hoursCreditValue > 0 &&
+          parseCourseTokens(first).length === 0 &&
+          first.trim().length > 0
+        ) {
+          const creditNode = mentionsSelectionRule(first)
+            ? makeNode(nextId("choice"), first, "requireAny", { minCount: 1, minCredits: hoursCreditValue })
+            : makePolicyNode(nextId, first, { minCredits: hoursCreditValue });
+          const target = currentRoot ?? makeNode(nextId("block"), "Requirements", "requireAll");
+          if (!rootNodes.includes(target)) rootNodes.push(target);
+          currentRoot = target;
+          target.children.push(creditNode);
+          return;
+        }
+
+        const courseTokens = parseCourseTokens(first);
+        if (courseTokens.length >= 2 && /\b(and|&)\b/i.test(first) {
           const optionNode = makeNode(nextId("option"), first, "requireAll");
           optionNode.children.push(pairNode);
           currentChoiceNode.children.push(optionNode);
@@ -479,9 +502,27 @@ function parseRootNodes(
 
   return { title, rootNodes, bodyText, diagnostics };
 }
+      target.children.push(makeNode(nextId("note"), merged, "note", { text: merged }));
 
 function flattenDslNodes(rootNodes: ParsedDslNode[]): { blocks: ParsedBlock[]; items: ParsedItem[] } {
   const blocks: ParsedBlock[] = [];
+  // Augment table-parsed structure with non-table list items from #requirementstextcontainer.
+  // Some pages (e.g. sc_courselist distribution tables) have policy <ul>s after the table
+  // that encode quantified rules not captured by the normal table parser.
+  if (rootNodes.length > 0 && requirementsContainer.length > 0) {
+    const lastRoot = rootNodes[rootNodes.length - 1];
+    requirementsContainer.find("li").each((_i, li) => {
+      const text = normalizeText($(li).text());
+      if (!text) return;
+      const hasCourseTokens = parseCourseTokens(text).length > 0;
+      const hasChooseCount = parseChooseCount(text) !== null;
+      const hasMinCredits = parseMinCredits(text) !== null;
+      if (!includesRequirementLanguage(text) && !hasCourseTokens && !hasChooseCount && !hasMinCredits) return;
+      lastRoot.children.push(parseListTextToNode(text, nextId));
+    });
+  }
+
+  if (rootNodes.length === 0) {
   const items: ParsedItem[] = [];
   let blockSort = 0;
   let itemSort = 0;

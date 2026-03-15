@@ -42,6 +42,10 @@ interface RetryConfig {
 interface ProgramQualitySummary {
   score: number;
   totalNodes: number;
+  interface ProgramQualitySummary {
+    parseClass: "table-backed" | "list-backed" | "informational-only";
+    score: number;
+    totalNodes: number;
   structuralNodes: number;
   noteNodes: number;
   courseNodes: number;
@@ -152,6 +156,9 @@ async function writeProgramFile(programsDir: string, parsed: ParsedProgram): Pro
 function collectNodeStats(
   rootNodes: ParsedDslNode[],
 ): Omit<ProgramQualitySummary, "score" | "signals" | "fallbackUsed" | "fallbackOnlyNotesWithSignals" | "enforceMinScore"> {
+  function collectNodeStats(
+    rootNodes: ParsedDslNode[],
+  ): Omit<ProgramQualitySummary, "parseClass" | "score" | "signals" | "fallbackUsed" | "fallbackOnlyNotesWithSignals" | "enforceMinScore"> {
   let totalNodes = 0;
   let structuralNodes = 0;
   let noteNodes = 0;
@@ -213,6 +220,22 @@ function collectNodeStats(
 }
 
 function summarizeQuality(parsed: ParsedProgram): ProgramQualitySummary {
+  function classifyParseMode(
+    parseMode: "table" | "non-table",
+    stats: ReturnType<typeof collectNodeStats>,
+  ): ProgramQualitySummary["parseClass"] {
+    const hasConcreteStructure =
+      stats.courseNodes > 0 ||
+      stats.courseGroupNodes > 0 ||
+      stats.quantifiedRuleNodes > 0 ||
+      stats.choiceNodes > 0;
+    if (parseMode === "table") {
+      return hasConcreteStructure ? "table-backed" : "informational-only";
+    }
+    return hasConcreteStructure ? "list-backed" : "informational-only";
+  }
+
+  function summarizeQuality(parsed: ParsedProgram): ProgramQualitySummary {
   const stats = collectNodeStats(parsed.rootNodes);
   const allText = JSON.stringify(parsed.rootNodes);
   const hasCourseCode = /\b[A-Z]{2,6}\s*\d{3}[A-Z]?\b/i.test(allText);
@@ -252,6 +275,19 @@ function summarizeQuality(parsed: ParsedProgram): ProgramQualitySummary {
     enforceMinScore,
   };
 }
+  const enforceMinScore = hasStrongRequirementSignal;
+  const parseClass = classifyParseMode(parsed.diagnostics.parseMode, stats);
+
+  return {
+    ...stats,
+    parseClass,
+    score,
+    signals,
+    fallbackUsed,
+    fallbackOnlyNotesWithSignals,
+    enforceMinScore,
+  };
+}
 
 async function main(): Promise<void> {
   const maxPrograms = parseIntArg("--max-programs", 0);
@@ -263,6 +299,31 @@ async function main(): Promise<void> {
   const minQualityScore = minQualityScoreArg ? Number.parseFloat(minQualityScoreArg) : 0;
   const strictFallbackMode = hasArg("--strict-fallback-mode");
   const stamp = new Date().toISOString().slice(0, 10);
+    const minQualityScore = minQualityScoreArg ? Number.parseFloat(minQualityScoreArg) : 0;
+    const strictFallbackMode = hasArg("--strict-fallback-mode");
+
+    // Class-specific quality thresholds: list-backed pages are held to a lower bar,
+    // and informational-only pages (no machine-readable courses/credits) are exempt.
+    const classThresholds: Record<string, number> = {
+      "table-backed": minQualityScore,
+      "list-backed": minQualityScore * 0.65,
+      "informational-only": 0,
+    };
+
+    // Load the strict allowlist of known informational pages that are exempt from quality gates.
+    const allowlistPath = path.resolve("catalog-scraper", "regression-corpus", "strict-allowlist.json");
+    const allowedUrls = new Set<string>();
+    try {
+      const rawAllowlist = await fs.readFile(allowlistPath, "utf8");
+      const allowlist = JSON.parse(rawAllowlist) as { entries?: Array<{ url: string }> };
+      for (const entry of allowlist.entries ?? []) {
+        if (entry.url) allowedUrls.add(entry.url);
+      }
+    } catch {
+      // allowlist file is optional; absence is not an error
+    }
+
+    const stamp = new Date().toISOString().slice(0, 10);
   const outputDir = path.resolve(outputArg ?? path.join("catalog-scraper", "regression-corpus", stamp));
   const programsDir = path.join(outputDir, "programs");
 
@@ -315,6 +376,15 @@ async function main(): Promise<void> {
         });
         continue;
       }
+        const effectiveThreshold = classThresholds[quality.parseClass] ?? minQualityScore;
+        if (quality.enforceMinScore && !allowedUrls.has(url) && quality.score < effectiveThreshold) {
+          manifest.totalFailed += 1;
+          manifest.failures.push({
+            url,
+            reason: `Quality gate failure: score ${quality.score} below ${effectiveThreshold.toFixed(3)} (class=${quality.parseClass})`,
+          });
+          continue;
+        }
 
       const fileName = await writeProgramFile(programsDir, parsed);
       manifest.totalParsed += 1;

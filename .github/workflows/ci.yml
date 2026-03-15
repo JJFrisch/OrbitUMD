@@ -25,6 +25,16 @@ jobs:
 
       - name: Verify corpus baseline
         run: npm run corpus:verify
+        - name: Verify corpus baseline
+          run: npm run corpus:verify
+
+        - name: Check corpus quality thresholds
+          run: npm run corpus:quality:check
+        - name: Verify corpus baseline
+          run: npm run corpus:verify
+
+        - name: Check corpus quality thresholds
+          run: npm run corpus:quality:check
 
   frontend:
     needs: corpus-guard

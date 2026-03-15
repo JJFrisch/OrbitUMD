@@ -389,6 +389,25 @@ export function parseProgramDslFromHtml(
         continue;
       }
 
+        // Detect sc_courselist rows: description + bare integer in the credit/hours column.
+        const trimmedSecond = second.trim();
+        const hoursCreditValue = /^\d+$/.test(trimmedSecond) ? Number.parseInt(trimmedSecond, 10) : NaN;
+        if (
+          !Number.isNaN(hoursCreditValue) &&
+          hoursCreditValue > 0 &&
+          parseCourseTokens(first).length === 0 &&
+          first.trim().length > 0
+        ) {
+          const creditNode = mentionsSelectionRule(first)
+            ? makeNode(nextId("choice"), first, "requireAny", { minCount: 1, minCredits: hoursCreditValue })
+            : makePolicyNode(nextId, first, { minCredits: hoursCreditValue });
+          const target = currentRoot ?? makeNode(nextId("block"), "Requirements", "requireAll");
+          if (!rootNodes.includes(target)) rootNodes.push(target);
+          currentRoot = target;
+          target.children.push(creditNode);
+          continue;
+        }
+
       const courseTokens = parseCourseTokens(first);
       if (courseTokens.length >= 2 && /\b(and|&)\b/i.test(first)) {
         const pairNode = makeNode(nextId("pair"), first, "courseGroup", { courses: courseTokens });
@@ -437,6 +456,25 @@ export function parseProgramDslFromHtml(
       target.children.push(makeNode(nextId("note"), merged, "note", { text: merged }));
     }
   }
+
+    // Augment table-parsed nodes with non-table list items from #requirementstextcontainer.
+    // Handles pages where policy/distribution <ul>s appear alongside an sc_courselist table.
+    if (rootNodes.length > 0) {
+      const reqContainer = document.querySelector("#requirementstextcontainer");
+      if (reqContainer) {
+        const lastRoot = rootNodes[rootNodes.length - 1];
+        for (const li of Array.from(reqContainer.querySelectorAll("li"))) {
+          if (li.closest("table")) continue;
+          const text = normalizeText(li.textContent ?? "");
+          if (!text) continue;
+          const hasCourseTokens = parseCourseTokens(text).length > 0;
+          const hasChooseCount = parseChooseCount(text) !== null;
+          const hasMinCredits = parseMinCredits(text) !== null;
+          if (!includesRequirementLanguage(text) && !hasCourseTokens && !hasChooseCount && !hasMinCredits) continue;
+          lastRoot.children.push(parseListTextToNode(text, nextId));
+        }
+      }
+    }
 
   if (rootNodes.length === 0) {
     parseNonTableRootNodes(document, rootNodes, nextId);
