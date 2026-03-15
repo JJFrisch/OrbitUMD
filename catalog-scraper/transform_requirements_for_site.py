@@ -205,20 +205,72 @@ def group_items_from_sequence(sequence: List[Tuple[str, BuilderCourse]]) -> List
     return items
 
 
+def normalize_life_sciences_math_code(code: str, should_normalize: bool) -> str:
+    if not should_normalize:
+        return code
+    if code == "MATH130":
+        return "MATH135"
+    if code == "MATH131":
+        return "MATH136"
+    return code
+
+
+def should_normalize_life_sciences_math_pair(parsed_rows: List[Dict[str, Any]], builder_sections: List[BuilderSection]) -> bool:
+    codes = {row.get("courseCode") for row in parsed_rows}
+    if "MATH130" not in codes or "MATH131" not in codes:
+        return False
+
+    titles = " ".join(section.get("title", "") for section in builder_sections).upper()
+    return "BSCI160" in titles or "ECOLOGY AND EVOLUTION" in titles
+
+
+def apply_life_sciences_math_normalization(parsed_rows: List[Dict[str, Any]], builder_sections: List[BuilderSection]) -> None:
+    should_normalize = should_normalize_life_sciences_math_pair(parsed_rows, builder_sections)
+    if not should_normalize:
+        return
+
+    for row in parsed_rows:
+        row["courseCode"] = normalize_life_sciences_math_code(row.get("courseCode", ""), True)
+
+    for section in builder_sections:
+        for item in section.get("items", []):
+            if item.get("type") == "OR":
+                for option in item.get("items", []):
+                    if option.get("code"):
+                        option["code"] = normalize_life_sciences_math_code(option["code"], True)
+            elif item.get("code"):
+                item["code"] = normalize_life_sciences_math_code(item["code"], True)
+
+
+def should_inline_choice_header(rows: List[Dict[str, Any]], start_index: int) -> bool:
+    saw_credited_course = False
+    saw_blank_credit_course = False
+
+    for next_row in rows[start_index + 1 :]:
+        parsed = parse_row_kind(next_row)
+        kind = parsed["kind"]
+
+        if kind in {"empty", "connector"}:
+            continue
+        if kind in {"total", "label", "choice_header"}:
+            break
+        if kind != "course":
+            break
+
+        if parsed.get("credits"):
+            saw_credited_course = True
+            continue
+
+        if saw_credited_course:
+            saw_blank_credit_course = True
+
+    return saw_credited_course and saw_blank_credit_course
+
+
 def builder_sections_from_block_rows(rows: List[Dict[str, Any]], block_index: int) -> List[BuilderSection]:
     sections: List[BuilderSection] = []
     current_section: Optional[BuilderSection] = None
-    sequence: List[Tuple[str, BuilderCourse]] = []
-
-    def flush_sequence() -> None:
-        nonlocal sequence, current_section
-        if not current_section:
-            return
-        grouped_items = group_items_from_sequence(sequence)
-        if grouped_items:
-            current_section.setdefault("items", [])
-            current_section["items"].extend(grouped_items)
-        sequence = []
+    pending_connector: Optional[str] = None
 
     def ensure_section(default_title: str) -> BuilderSection:
         nonlocal current_section
@@ -232,7 +284,49 @@ def builder_sections_from_block_rows(rows: List[Dict[str, Any]], block_index: in
             sections.append(current_section)
         return current_section
 
-    for row in rows:
+    def append_to_all_section(section: BuilderSection, course_code: str, connector: Optional[str], credits: Optional[str]) -> None:
+        items = section.setdefault("items", [])
+        last_item = items[-1] if items else None
+        merge_into_previous = connector == "or" or (
+            not credits
+            and last_item is not None
+            and (
+                ("code" in last_item and bool(last_item.get("code")))
+                or (last_item.get("type") == "OR" and bool(last_item.get("items")))
+            )
+        )
+
+        if not merge_into_previous:
+            items.append({"code": course_code})
+            return
+
+        if last_item and last_item.get("type") == "OR":
+            option_items = last_item.setdefault("items", [])
+            if not any(option.get("code") == course_code for option in option_items):
+                option_items.append({"code": course_code})
+            return
+
+        if last_item and "code" in last_item and last_item.get("code"):
+            items[-1] = {
+                "type": "OR",
+                "items": [{"code": last_item["code"]}, {"code": course_code}],
+            }
+            return
+
+        items.append({"code": course_code})
+
+    def append_to_choose_section(section: BuilderSection, course_code: str) -> None:
+        items = section.setdefault("items", [])
+        last_item = items[-1] if items else None
+        if last_item and last_item.get("type") == "OR":
+            option_items = last_item.setdefault("items", [])
+            if not any(option.get("code") == course_code for option in option_items):
+                option_items.append({"code": course_code})
+            return
+
+        items.append({"type": "OR", "items": [{"code": course_code}]})
+
+    for row_index, row in enumerate(rows):
         parsed = parse_row_kind(row)
         kind = parsed["kind"]
 
@@ -240,13 +334,13 @@ def builder_sections_from_block_rows(rows: List[Dict[str, Any]], block_index: in
             continue
 
         if kind == "total":
-            flush_sequence()
+            pending_connector = None
             section = ensure_section(f"Requirement Block {block_index + 1}")
             section.setdefault("rules", []).append(parsed["text"])
             continue
 
         if kind in {"label", "choice_header"}:
-            flush_sequence()
+            pending_connector = None
 
             text = parsed["text"]
             # Start a new section when we see a clear heading-like row.
@@ -257,6 +351,14 @@ def builder_sections_from_block_rows(rows: List[Dict[str, Any]], block_index: in
             )
 
             if looks_like_heading:
+                if (
+                    kind == "choice_header"
+                    and current_section
+                    and current_section.get("requirementType") == "all"
+                    and should_inline_choice_header(rows, row_index)
+                ):
+                    continue
+
                 section_type = "choose" if kind == "choice_header" else "all"
                 new_section: BuilderSection = {
                     "title": text.rstrip(":"),
@@ -275,33 +377,23 @@ def builder_sections_from_block_rows(rows: List[Dict[str, Any]], block_index: in
             continue
 
         if kind == "connector":
-            # Connector-only rows affect the next course when present.
-            if current_section is None:
-                ensure_section(f"Requirement Block {block_index + 1}")
-            if sequence:
-                # Keep marker by appending a no-op; next course will start a new chunk on AND.
-                # OR marker is already default behavior.
-                sequence.append((parsed["connector"], {"code": ""}))
+            pending_connector = parsed["connector"]
             continue
 
         if kind == "course":
             section = ensure_section(f"Requirement Block {block_index + 1}")
-            connector = parsed.get("connector") or "or"
+            connector = parsed.get("connector") or pending_connector
+            pending_connector = None
 
-            # Remove any connector-only placeholder.
-            while sequence and sequence[-1][1].get("code") == "":
-                connector = sequence[-1][0]
-                sequence.pop()
-
-            course_item: BuilderCourse = {"code": parsed["courseCode"]}
-            sequence.append((connector, course_item))
+            if section.get("requirementType") == "choose":
+                append_to_choose_section(section, parsed["courseCode"])
+            else:
+                append_to_all_section(section, parsed["courseCode"], connector, parsed.get("credits"))
 
             title = parsed.get("title")
             if title:
                 section.setdefault("rules", []).append(f"{parsed['courseCode']}: {title}")
             continue
-
-    flush_sequence()
 
     # Clean empty placeholder sections.
     cleaned: List[BuilderSection] = []
@@ -338,6 +430,7 @@ def normalize_course_blocks(course_blocks: List[Dict[str, Any]]) -> List[Dict[st
             )
 
         builder_sections = builder_sections_from_block_rows(rows, idx)
+        apply_life_sciences_math_normalization(parsed_rows, builder_sections)
 
         if parsed_rows or builder_sections:
             normalized.append(

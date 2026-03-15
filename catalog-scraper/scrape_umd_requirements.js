@@ -189,10 +189,35 @@ function groupItemsFromSequence(sequence) {
 	return items;
 }
 
+function shouldInlineChoiceHeader(rows, startIndex) {
+	let sawCreditedCourse = false;
+	let sawBlankCreditCourse = false;
+
+	for (let index = startIndex + 1; index < rows.length; index += 1) {
+		const parsed = parseRowKind(rows[index]);
+		const kind = parsed.kind;
+
+		if (kind === "empty" || kind === "connector") continue;
+		if (kind === "total" || kind === "label" || kind === "choice_header") break;
+		if (kind !== "course") break;
+
+		if (parsed.credits) {
+			sawCreditedCourse = true;
+			continue;
+		}
+
+		if (sawCreditedCourse) {
+			sawBlankCreditCourse = true;
+		}
+	}
+
+	return sawCreditedCourse && sawBlankCreditCourse;
+}
+
 function builderSectionsFromRows(rows, blockIndex) {
 	const sections = [];
 	let currentSection = null;
-	let sequence = [];
+	let pendingConnector = null;
 
 	function ensureSection(defaultTitle) {
 		if (!currentSection) {
@@ -207,29 +232,67 @@ function builderSectionsFromRows(rows, blockIndex) {
 		return currentSection;
 	}
 
-	function flushSequence() {
-		if (!currentSection) return;
-		const grouped = groupItemsFromSequence(sequence);
-		if (grouped.length) {
-			currentSection.items.push(...grouped);
+	function appendToAllSection(section, courseCode, connector, credits) {
+		const lastItem = section.items[section.items.length - 1] || null;
+		const mergeIntoPrevious =
+			connector === "or" ||
+			(!credits &&
+				lastItem &&
+				(
+					(typeof lastItem.code === "string" && lastItem.code) ||
+					(lastItem.type === "OR" && Array.isArray(lastItem.items) && lastItem.items.length > 0)
+				));
+
+		if (!mergeIntoPrevious) {
+			section.items.push({ code: courseCode });
+			return;
 		}
-		sequence = [];
+
+		if (lastItem.type === "OR" && Array.isArray(lastItem.items)) {
+			if (!lastItem.items.some((item) => item.code === courseCode)) {
+				lastItem.items.push({ code: courseCode });
+			}
+			return;
+		}
+
+		if (typeof lastItem.code === "string" && lastItem.code) {
+			section.items[section.items.length - 1] = {
+				type: "OR",
+				items: [{ code: lastItem.code }, { code: courseCode }],
+			};
+			return;
+		}
+
+		section.items.push({ code: courseCode });
 	}
 
-	for (const row of rows) {
+	function appendToChooseSection(section, courseCode) {
+		const lastItem = section.items[section.items.length - 1] || null;
+		if (lastItem && lastItem.type === "OR" && Array.isArray(lastItem.items)) {
+			if (!lastItem.items.some((item) => item.code === courseCode)) {
+				lastItem.items.push({ code: courseCode });
+			}
+			return;
+		}
+
+		section.items.push({ type: "OR", items: [{ code: courseCode }] });
+	}
+
+	for (let rowIndex = 0; rowIndex < rows.length; rowIndex += 1) {
+		const row = rows[rowIndex];
 		const parsed = parseRowKind(row);
 		const kind = parsed.kind;
 
 		if (kind === "empty") continue;
 
 		if (kind === "total") {
-			flushSequence();
+			pendingConnector = null;
 			ensureSection(`Requirement Block ${blockIndex + 1}`).rules.push(parsed.text);
 			continue;
 		}
 
 		if (kind === "label" || kind === "choice_header") {
-			flushSequence();
+			pendingConnector = null;
 			const text = parsed.text;
 			const looksLikeHeading =
 				kind === "choice_header" ||
@@ -237,6 +300,15 @@ function builderSectionsFromRows(rows, blockIndex) {
 				(parsed.credits !== null && !text.toLowerCase().startsWith("or "));
 
 			if (looksLikeHeading) {
+				if (
+					kind === "choice_header" &&
+					currentSection &&
+					currentSection.requirementType === "all" &&
+					shouldInlineChoiceHeader(rows, rowIndex)
+				) {
+					continue;
+				}
+
 				const sectionType = kind === "choice_header" ? "choose" : "all";
 				const nextSection = {
 					title: text.replace(/:$/, ""),
@@ -256,28 +328,27 @@ function builderSectionsFromRows(rows, blockIndex) {
 		}
 
 		if (kind === "connector") {
-			if (sequence.length) {
-				sequence.push([parsed.connector, { code: "" }]);
-			}
+			pendingConnector = parsed.connector;
 			continue;
 		}
 
 		if (kind === "course") {
 			const section = ensureSection(`Requirement Block ${blockIndex + 1}`);
-			let connector = parsed.connector || "or";
-			while (sequence.length && sequence[sequence.length - 1][1].code === "") {
-				connector = sequence[sequence.length - 1][0];
-				sequence.pop();
+			const connector = parsed.connector || pendingConnector || null;
+			pendingConnector = null;
+
+			if (section.requirementType === "choose") {
+				appendToChooseSection(section, parsed.courseCode);
+			} else {
+				appendToAllSection(section, parsed.courseCode, connector, parsed.credits);
 			}
 
-			sequence.push([connector, { code: parsed.courseCode }]);
 			if (parsed.title) {
 				section.rules.push(`${parsed.courseCode}: ${parsed.title}`);
 			}
 		}
 	}
 
-	flushSequence();
 	return sections.filter((section) => section.items.length || section.rules.length);
 }
 
