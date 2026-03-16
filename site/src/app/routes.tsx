@@ -1,27 +1,36 @@
-import { ReactNode, useEffect, useState } from "react";
+import { lazy, ReactNode, Suspense, useEffect, useState } from "react";
 import { Navigate, createBrowserRouter, useLocation } from "react-router";
 import RootLayout from "./layouts/RootLayout";
-import Welcome from "./pages/onboarding/Welcome";
-import BasicProfile from "./pages/onboarding/BasicProfile";
-import GoalSelection from "./pages/onboarding/GoalSelection";
-import Dashboard from "./pages/Dashboard";
-import GenerateSchedule from "./pages/GenerateSchedule";
-import ScheduleBuilder from "./pages/ScheduleBuilder";
-import ScheduleLibrary from "./pages/ScheduleLibrary";
-import FourYearPlan from "./pages/FourYearPlan";
-import DegreeAudit from "./pages/DegreeAudit";
-import ProgramAudit from "./pages/ProgramAudit";
-import GenEds from "./pages/GenEds";
-import CreditImport from "./pages/CreditImport";
-import DegreeRequirements from "./pages/DegreeRequirement";
-import Settings from "./pages/Settings";
-import Profile from "./pages/Profile";
-import Suggestions from "./pages/Suggestions";
-import NotFound from "./pages/NotFound";
-import SignIn from "./pages/SignIn";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
+const Welcome = lazy(() => import("./pages/onboarding/Welcome"));
+const BasicProfile = lazy(() => import("./pages/onboarding/BasicProfile"));
+const GoalSelection = lazy(() => import("./pages/onboarding/GoalSelection"));
+const Dashboard = lazy(() => import("./pages/Dashboard"));
+const GenerateSchedule = lazy(() => import("./pages/GenerateSchedule"));
+const ScheduleBuilder = lazy(() => import("./pages/ScheduleBuilder"));
+const ScheduleLibrary = lazy(() => import("./pages/ScheduleLibrary"));
+const FourYearPlan = lazy(() => import("./pages/FourYearPlan"));
+const DegreeAudit = lazy(() => import("./pages/DegreeAudit"));
+const ProgramAudit = lazy(() => import("./pages/ProgramAudit"));
+const GenEds = lazy(() => import("./pages/GenEds"));
+const CreditImport = lazy(() => import("./pages/CreditImport"));
+const DegreeRequirements = lazy(() => import("./pages/DegreeRequirement"));
+const Settings = lazy(() => import("./pages/Settings"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Suggestions = lazy(() => import("./pages/Suggestions"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const SignIn = lazy(() => import("./pages/SignIn"));
+
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function LoadingRoute() {
+  return <div className="p-6 text-sm text-muted-foreground">Loading page...</div>;
+}
+
+function withSuspense(children: ReactNode) {
+  return <Suspense fallback={<LoadingRoute />}>{children}</Suspense>;
+}
 
 function RequireAuth({ children }: { children: ReactNode }) {
   const [checking, setChecking] = useState(true);
@@ -76,25 +85,25 @@ export const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { index: true, element: <Welcome /> },
-      { path: "onboarding/profile", element: <RequireAuth><BasicProfile /></RequireAuth> },
-      { path: "onboarding/goals", element: <RequireAuth><GoalSelection /></RequireAuth> },
-      { path: "dashboard", element: <RequireAuth><Dashboard /></RequireAuth> },
-      { path: "sign-in", element: <SignIn /> },
-      { path: "generate-schedule", element: <RequireAuth><GenerateSchedule /></RequireAuth> },
-      { path: "schedule-builder", element: <RequireAuth><ScheduleBuilder /></RequireAuth> },
-      { path: "schedules", element: <RequireAuth><ScheduleLibrary /></RequireAuth> },
-      { path: "build-my-week", element: <RequireAuth><ScheduleBuilder /></RequireAuth> }, // Redirect old route
-      { path: "four-year-plan", element: <RequireAuth><FourYearPlan /></RequireAuth> },
-      { path: "degree-audit", element: <RequireAuth><DegreeAudit /></RequireAuth> },
-      { path: "audit/:programCode", element: <RequireAuth><ProgramAudit /></RequireAuth> },
-      { path: "gen-eds", element: <RequireAuth><GenEds /></RequireAuth> },
-      { path: "credit-import", element: <RequireAuth><CreditImport /></RequireAuth> },
-      { path: "degree-requirements", element: <RequireAuth><DegreeRequirements /></RequireAuth> },
-      { path: "profile", element: <RequireAuth><Profile /></RequireAuth> },
-      { path: "suggestions", element: <RequireAuth><Suggestions /></RequireAuth> },
-      { path: "settings", element: <RequireAuth><Settings /></RequireAuth> },
-      { path: "*", element: <NotFound /> },
+      { index: true, element: withSuspense(<Welcome />) },
+      { path: "onboarding/profile", element: withSuspense(<RequireAuth><BasicProfile /></RequireAuth>) },
+      { path: "onboarding/goals", element: withSuspense(<RequireAuth><GoalSelection /></RequireAuth>) },
+      { path: "dashboard", element: withSuspense(<RequireAuth><Dashboard /></RequireAuth>) },
+      { path: "sign-in", element: withSuspense(<SignIn />) },
+      { path: "generate-schedule", element: withSuspense(<RequireAuth><GenerateSchedule /></RequireAuth>) },
+      { path: "schedule-builder", element: withSuspense(<RequireAuth><ScheduleBuilder /></RequireAuth>) },
+      { path: "schedules", element: withSuspense(<RequireAuth><ScheduleLibrary /></RequireAuth>) },
+      { path: "build-my-week", element: withSuspense(<RequireAuth><ScheduleBuilder /></RequireAuth>) },
+      { path: "four-year-plan", element: withSuspense(<RequireAuth><FourYearPlan /></RequireAuth>) },
+      { path: "degree-audit", element: withSuspense(<RequireAuth><DegreeAudit /></RequireAuth>) },
+      { path: "audit/:programCode", element: withSuspense(<RequireAuth><ProgramAudit /></RequireAuth>) },
+      { path: "gen-eds", element: withSuspense(<RequireAuth><GenEds /></RequireAuth>) },
+      { path: "credit-import", element: withSuspense(<RequireAuth><CreditImport /></RequireAuth>) },
+      { path: "degree-requirements", element: withSuspense(<RequireAuth><DegreeRequirements /></RequireAuth>) },
+      { path: "profile", element: withSuspense(<RequireAuth><Profile /></RequireAuth>) },
+      { path: "suggestions", element: withSuspense(<RequireAuth><Suggestions /></RequireAuth>) },
+      { path: "settings", element: withSuspense(<RequireAuth><Settings /></RequireAuth>) },
+      { path: "*", element: withSuspense(<NotFound />) },
     ],
   },
 ], {
