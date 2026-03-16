@@ -15,6 +15,8 @@ import GenEds from "./pages/GenEds";
 import CreditImport from "./pages/CreditImport";
 import DegreeRequirements from "./pages/DegreeRequirement";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
+import Suggestions from "./pages/Suggestions";
 import NotFound from "./pages/NotFound";
 import SignIn from "./pages/SignIn";
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -89,6 +91,8 @@ export const router = createBrowserRouter([
       { path: "gen-eds", element: <RequireAuth><GenEds /></RequireAuth> },
       { path: "credit-import", element: <RequireAuth><CreditImport /></RequireAuth> },
       { path: "degree-requirements", element: <RequireAuth><DegreeRequirements /></RequireAuth> },
+      { path: "profile", element: <RequireAuth><Profile /></RequireAuth> },
+      { path: "suggestions", element: <RequireAuth><Suggestions /></RequireAuth> },
       { path: "settings", element: <RequireAuth><Settings /></RequireAuth> },
       { path: "*", element: <NotFound /> },
     ],

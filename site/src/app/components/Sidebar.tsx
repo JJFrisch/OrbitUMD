@@ -7,6 +7,8 @@ import {
   FileCheck2, 
   BookOpen, 
   Settings,
+  User,
+  Lightbulb,
   Orbit,
   PanelLeftClose,
   PanelLeftOpen
@@ -21,6 +23,8 @@ const navigation = [
   { name: "Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
   { name: "Degree Audit", href: "/degree-audit", icon: FileCheck2 },
   { name: "Gen Eds", href: "/gen-eds", icon: BookOpen },
+  { name: "Profile", href: "/profile", icon: User },
+  { name: "Suggestions", href: "/suggestions", icon: Lightbulb },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -38,13 +42,11 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       collapsed ? "w-20" : "w-64"
     )}>
       <div className={cn("border-b border-border", collapsed ? "p-3" : "p-6")}>
-        <div className="flex items-center justify-between gap-2">
+        <div className={cn("flex items-center gap-2", collapsed ? "justify-start" : "justify-between")}>
           <Link to="/dashboard" className="flex items-center gap-2 min-w-0">
             <Orbit className="w-8 h-8 text-red-500 shrink-0" />
             {!collapsed && (
-              <span className="text-2xl tracking-tight text-foreground truncate" style={{
-                textShadow: "0 0 20px rgba(239, 68, 68, 0.3)"
-              }}>
+              <span className="text-2xl tracking-tight text-foreground truncate [text-shadow:0_0_20px_rgba(239,68,68,0.3)]">
                 OrbitUMD
               </span>
             )}
@@ -56,7 +58,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
             size="icon"
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
             onClick={onToggleCollapse}
-            className="shrink-0"
+            className={cn("shrink-0", collapsed && "ml-2")}
           >
             {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
           </Button>
