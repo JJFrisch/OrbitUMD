@@ -62,6 +62,7 @@ const TERM_LABEL: Record<Season, string> = {
 };
 
 const WEEKDAYS: Weekday[] = ["M", "Tu", "W", "Th", "F"];
+const GENERATE_SCHEDULE_AUTOSAVE_KEY = "orbitumd:generate-schedule:draft:v1";
 
 function parseCourseCodes(raw: string): string[] {
   return Array.from(
@@ -456,6 +457,8 @@ export function AutoGenerateSchedulePage() {
   const [generated, setGenerated] = useState<GeneratedSchedule[]>([]);
   const [activeScheduleIndex, setActiveScheduleIndex] = useState(0);
   const [showSeatCounts, setShowSeatCounts] = useState(false);
+  const [lastAutosavedSnapshot, setLastAutosavedSnapshot] = useState<string>("");
+  const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
   const wheelLastAtRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
 
@@ -463,6 +466,103 @@ export function AutoGenerateSchedulePage() {
   const optionalCodes = useMemo(() => parseCourseCodes(optionalRaw), [optionalRaw]);
 
   const creditsWarning = maxCredits < minCredits;
+
+  const draftSnapshot = useMemo(
+    () => JSON.stringify({
+      season,
+      year,
+      requiredRaw,
+      optionalRaw,
+      minCredits,
+      maxCredits,
+      onlyOpen,
+      allowFaceToFace,
+      allowBlended,
+      allowOnline,
+      constraintStart,
+      constraintEnd,
+      constrainedDays: Array.from(constrainedDays).sort(),
+    }),
+    [
+      allowBlended,
+      allowFaceToFace,
+      allowOnline,
+      constrainedDays,
+      constraintEnd,
+      constraintStart,
+      maxCredits,
+      minCredits,
+      onlyOpen,
+      optionalRaw,
+      requiredRaw,
+      season,
+      year,
+    ],
+  );
+  const hasUnsavedCriteria = draftSnapshot !== lastAutosavedSnapshot;
+
+  useEffect(() => {
+    const raw = localStorage.getItem(GENERATE_SCHEDULE_AUTOSAVE_KEY);
+    if (!raw) return;
+
+    try {
+      const parsed = JSON.parse(raw) as {
+        savedAt?: number;
+        draft?: {
+          season?: Season;
+          year?: number;
+          requiredRaw?: string;
+          optionalRaw?: string;
+          minCredits?: number;
+          maxCredits?: number;
+          onlyOpen?: boolean;
+          allowFaceToFace?: boolean;
+          allowBlended?: boolean;
+          allowOnline?: boolean;
+          constraintStart?: string;
+          constraintEnd?: string;
+          constrainedDays?: Weekday[];
+        };
+      };
+
+      const draft = parsed.draft;
+      if (!draft) return;
+
+      setSeason((draft.season ?? "08") as Season);
+      setYear(Number(draft.year ?? 2026));
+      setRequiredRaw(String(draft.requiredRaw ?? ""));
+      setOptionalRaw(String(draft.optionalRaw ?? ""));
+      setMinCredits(Number(draft.minCredits ?? 12));
+      setMaxCredits(Number(draft.maxCredits ?? 20));
+      setOnlyOpen(draft.onlyOpen !== false);
+      setAllowFaceToFace(draft.allowFaceToFace !== false);
+      setAllowBlended(draft.allowBlended !== false);
+      setAllowOnline(draft.allowOnline !== false);
+      setConstraintStart(String(draft.constraintStart ?? "09:00"));
+      setConstraintEnd(String(draft.constraintEnd ?? "17:00"));
+      setConstrainedDays(new Set(Array.isArray(draft.constrainedDays) ? draft.constrainedDays : []));
+
+      if (Number.isFinite(parsed.savedAt)) {
+        setLastAutosavedAt(parsed.savedAt as number);
+      }
+    } catch {
+      // ignore broken local draft payload
+    }
+  }, []);
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      const savedAt = Date.now();
+      localStorage.setItem(
+        GENERATE_SCHEDULE_AUTOSAVE_KEY,
+        JSON.stringify({ savedAt, draft: JSON.parse(draftSnapshot) }),
+      );
+      setLastAutosavedSnapshot(draftSnapshot);
+      setLastAutosavedAt(savedAt);
+    }, 700);
+
+    return () => window.clearTimeout(timeout);
+  }, [draftSnapshot]);
 
   const timeConstraint = useMemo<TimeConstraint>(() => {
     const [startHourRaw, startMinuteRaw] = constraintStart.split(":").map((value) => Number(value));
@@ -606,6 +706,10 @@ export function AutoGenerateSchedulePage() {
         <div>
           <h1>Auto Generate Schedules</h1>
           <p>Set criteria, then generate conflict-free schedule options in OrbitUMD style.</p>
+          <p className="cp-muted-text">
+            {hasUnsavedCriteria ? "Unsaved criteria changes." : "Criteria saved."}
+            {lastAutosavedAt ? ` Autosaved ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.` : ""}
+          </p>
         </div>
         <button type="button" className="cp-builder-action-btn is-primary" onClick={handleGenerate} disabled={busy}>
           {busy ? <Loader2 size={14} className="spin" /> : <Sparkles size={14} />}

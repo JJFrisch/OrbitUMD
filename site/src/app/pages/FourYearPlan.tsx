@@ -27,6 +27,7 @@ import {
 } from "@/lib/requirements/audit";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 import { useTheme } from "../contexts/ThemeContext";
+import { features } from "process";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -42,6 +43,9 @@ interface PlannedCourse {
   grade?: string;
   countsTowardProgress: boolean;
 }
+
+soemtimes I wonder when the correct time will be to die and try and fly away like the song I will fly so featurures
+can kill toPlannedTerm (schedule: ScheduleWithSelections): PlannedTerm | null 2oo22o2o2o2o2o2i32rkkwhiwe
 
 interface PlannedTerm {
   id: string;

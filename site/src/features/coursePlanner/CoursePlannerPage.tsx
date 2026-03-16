@@ -8,6 +8,7 @@ import { useCoursePlannerStore } from "./state/coursePlannerStore";
 import "./styles/coursePlanner.css";
 
 const DEFAULT_SCHEDULE_NAME = "Default Schedule";
+const SCHEDULE_BUILDER_AUTOSAVE_KEY = "orbitumd:schedule-builder:draft:v1";
 
 function buildScheduleFingerprint(
   activeScheduleId: string | null,
@@ -52,6 +53,7 @@ export function CoursePlannerPage() {
   const [lastSavedFingerprint, setLastSavedFingerprint] = useState(() =>
     buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}),
   );
+  const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -95,6 +97,24 @@ export function CoursePlannerPage() {
     [activeScheduleId, scheduleName, selections],
   );
   const hasUnsavedChanges = currentFingerprint !== lastSavedFingerprint;
+
+  useEffect(() => {
+    const timeout = window.setTimeout(() => {
+      const payload = {
+        savedAt: Date.now(),
+        scheduleName,
+        activeScheduleId,
+        term: baseTerm,
+        year: baseYear,
+        selections: Object.values(selections),
+      };
+
+      localStorage.setItem(SCHEDULE_BUILDER_AUTOSAVE_KEY, JSON.stringify(payload));
+      setLastAutosavedAt(payload.savedAt);
+    }, 700);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeScheduleId, baseTerm, baseYear, scheduleName, selections]);
 
   const confirmLeaveWithoutSaving = useCallback(() => {
     if (!hasUnsavedChanges) return true;
@@ -249,6 +269,10 @@ export function CoursePlannerPage() {
       />
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
+      <p className="cp-muted-text">
+        {hasUnsavedChanges ? "Unsaved changes in this schedule." : "All schedule changes are saved."}
+        {lastAutosavedAt ? ` Autosaved ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.` : ""}
+      </p>
 
       <div className="course-planner-layout">
         <CourseSearchPanel />

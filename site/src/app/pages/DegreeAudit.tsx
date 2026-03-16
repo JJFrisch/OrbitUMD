@@ -298,6 +298,9 @@ interface RequirementSectionCardProps {
   byCourseCode: Map<string, AuditCourseStatus>; // Course code -> status map
   expandedSectionIds: Set<string>;
   setExpandedSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
+  expandedNotesSectionIds: Set<string>;
+  setExpandedNotesSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
+  condensedView: boolean;
   onEdit?: (section: any) => void;
 }
 
@@ -311,6 +314,9 @@ function RequirementSectionCard({
   byCourseCode,
   expandedSectionIds,
   setExpandedSectionIds,
+  expandedNotesSectionIds,
+  setExpandedNotesSectionIds,
+  condensedView,
   onEdit,
 }: RequirementSectionCardProps) {
   const wildcardMatchedCoursesByToken = useMemo(() => {
@@ -430,20 +436,39 @@ function RequirementSectionCard({
           {block?.title ? <span className="text-xs text-foreground/80">{block.title}</span> : null}
         </div>
 
-        {blockCourses.length > 0 && (
-          <div className="border border-border/30 rounded-md overflow-hidden mb-2">
-            {blockCourses.map((course) => (
-              <CourseRowDisplay
-                key={`${section.id}-${depth}-${course.code}`}
-                courseCode={course.code}
-                courseTitle={course.title}
-                credits={course.credits}
-                genEds={course.genEds}
-                status={course.status}
-              />
+        {blockCourses.length > 0 && block?.type === "OR" && condensedView ? (
+          <div className="mb-2 flex flex-wrap items-center gap-2">
+            {blockCourses.map((course, index) => (
+              <div key={`${section.id}-${depth}-${course.code}`} className="flex items-center gap-2">
+                <Badge variant="outline" className="border-border text-xs text-foreground/80">
+                  {course.code}
+                </Badge>
+                {index < blockCourses.length - 1 && (
+                  <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
+                )}
+              </div>
             ))}
           </div>
-        )}
+        ) : blockCourses.length > 0 ? (
+          <div className="border border-border/30 rounded-md overflow-hidden mb-2">
+            {blockCourses.map((course, index) => (
+              <div key={`${section.id}-${depth}-${course.code}`}>
+                <CourseRowDisplay
+                  courseCode={course.code}
+                  courseTitle={course.title}
+                  credits={course.credits}
+                  genEds={course.genEds}
+                  status={course.status}
+                />
+                {block?.type === "OR" && index < blockCourses.length - 1 && !condensedView && (
+                  <div className="border-b border-border/30 bg-amber-100/40 py-1 text-center text-[10px] font-medium tracking-wide text-amber-800 dark:bg-amber-700/10 dark:text-amber-300">
+                    OR
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : null}
 
         {Array.isArray(block?.children) && block.children.length > 0 && (
           <div className="space-y-2">
@@ -536,7 +561,7 @@ function RequirementSectionCard({
             </div>
           ) : sectionCourses.length > 0 ? (
             // Show individual course rows
-            <div className="mt-3 border border-border/30 rounded-md overflow-hidden">
+            <div className={`mt-3 border border-border/30 rounded-md overflow-hidden ${condensedView ? "max-h-64 overflow-y-auto" : ""}`}>
               {sectionCourses.map((course) => (
                 <CourseRowDisplay
                   key={course.code}
@@ -554,12 +579,28 @@ function RequirementSectionCard({
 
           {section.notes.length > 0 && (
             <div className="mt-3 pt-3 border-t border-border/30">
-              <p className="text-xs font-medium text-muted-foreground mb-2">Notes:</p>
-              <ul className="space-y-1">
-                {section.notes.map((note, idx) => (
-                  <li key={`${section.id}-note-${idx}`} className="text-xs text-foreground/70">• {note}</li>
-                ))}
-              </ul>
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground hover:text-foreground"
+                onClick={() => {
+                  setExpandedNotesSectionIds((prev) => {
+                    const next = new Set(prev);
+                    if (next.has(section.id)) next.delete(section.id);
+                    else next.add(section.id);
+                    return next;
+                  });
+                }}
+              >
+                <Info className="h-3.5 w-3.5" />
+                {expandedNotesSectionIds.has(section.id) ? "Hide Notes" : "Show Notes"}
+              </button>
+              {expandedNotesSectionIds.has(section.id) && (
+                <ul className="space-y-1 mt-2">
+                  {section.notes.map((note, idx) => (
+                    <li key={`${section.id}-note-${idx}`} className="text-xs text-foreground/70">• {note}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
         </>
@@ -580,6 +621,8 @@ export default function DegreeAudit() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [activeProgramIndex, setActiveProgramIndex] = useState(0);
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
+  const [expandedNotesSectionIds, setExpandedNotesSectionIds] = useState<Set<string>>(new Set());
+  const [condensedAuditView, setCondensedAuditView] = useState(false);
   const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(new Map());
   const [editingProgramIndex, setEditingProgramIndex] = useState<number | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
@@ -1542,10 +1585,22 @@ export default function DegreeAudit() {
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-4xl text-foreground mb-2">Degree Audit</h1>
-          <p className="text-muted-foreground">
-            Live audit powered by selected major/minor requirements and your MAIN schedules.
-          </p>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <div>
+              <h1 className="text-4xl text-foreground mb-2">Degree Audit</h1>
+              <p className="text-muted-foreground">
+                Live audit powered by selected major/minor requirements and your MAIN schedules.
+              </p>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              className="border-border"
+              onClick={() => setCondensedAuditView((prev) => !prev)}
+            >
+              {condensedAuditView ? "Expanded View" : "Condensed View"}
+            </Button>
+          </div>
         </div>
 
         {loading && <p className="text-muted-foreground">Running degree audit...</p>}
@@ -2167,6 +2222,9 @@ export default function DegreeAudit() {
                                       byCourseCode={byCourseCode}
                                       expandedSectionIds={expandedSectionIds}
                                       setExpandedSectionIds={setExpandedSectionIds}
+                                      expandedNotesSectionIds={expandedNotesSectionIds}
+                                      setExpandedNotesSectionIds={setExpandedNotesSectionIds}
+                                      condensedView={condensedAuditView}
                                       onEdit={() => startEditingSection(index, section)}
                                     />
                                   );
@@ -2820,6 +2878,9 @@ export default function DegreeAudit() {
                                             byCourseCode={byCourseCode}
                                             expandedSectionIds={expandedSectionIds}
                                             setExpandedSectionIds={setExpandedSectionIds}
+                                            expandedNotesSectionIds={expandedNotesSectionIds}
+                                            setExpandedNotesSectionIds={setExpandedNotesSectionIds}
+                                            condensedView={condensedAuditView}
                                             onEdit={() => startEditingSection(index, section)}
                                           />
                                         );
