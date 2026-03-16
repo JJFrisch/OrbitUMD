@@ -729,6 +729,41 @@
   color: var(--cp-link);
 }
 
+.cp-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--cp-border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  background: var(--cp-surface-subtle);
+  color: var(--cp-text);
+}
+
+.cp-status-banner.is-unsaved {
+  border-color: #d16c78;
+  background: rgba(215, 38, 61, 0.12);
+}
+
+.cp-status-banner.is-saved {
+  border-color: #3e8f67;
+  background: rgba(26, 155, 91, 0.12);
+}
+
+.cp-status-banner-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+}
+
+.cp-status-banner-cloud {
+  width: 13px;
+  height: 13px;
+  margin-left: auto;
+  opacity: 0.75;
+}
+
 .spin {
   animation: cp-spin 0.9s linear infinite;
 }

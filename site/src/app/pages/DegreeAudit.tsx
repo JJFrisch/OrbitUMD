@@ -67,6 +67,25 @@ type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
 const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
 
+const DEPTH_INDENT_CLASSES = [
+  "ml-0",
+  "ml-[12px]",
+  "ml-[24px]",
+  "ml-[36px]",
+  "ml-[48px]",
+  "ml-[60px]",
+  "ml-[72px]",
+  "ml-[84px]",
+  "ml-[96px]",
+  "ml-[108px]",
+  "ml-[120px]",
+] as const;
+
+function getDepthIndentClass(depth: number): string {
+  const safeDepth = Number.isFinite(depth) ? Math.max(0, Math.floor(depth)) : 0;
+  return DEPTH_INDENT_CLASSES[Math.min(safeDepth, DEPTH_INDENT_CLASSES.length - 1)];
+}
+
 const WILDCARD_TOKEN_PATTERN = /^[A-Z]{4}(?:\/[A-Z]{4})*(?:XXX|[1-8]XX)$/;
 
 function normalizeProgramName(value: string): string {
@@ -426,8 +445,7 @@ function RequirementSectionCard({
           block?.type === "OR"
             ? "border-amber-300 bg-amber-50 dark:border-amber-600/40 dark:bg-amber-600/10"
             : "border-sky-300 bg-sky-50 dark:border-sky-600/40 dark:bg-sky-600/10"
-        }`}
-        style={{ marginLeft: `${depth * 12}px` }}
+        } ${getDepthIndentClass(depth)}`}
       >
         <div className="flex items-center justify-between gap-2 mb-2">
           <Badge variant="outline" className="text-xs border-border">
@@ -537,6 +555,8 @@ function RequirementSectionCard({
                   className="h-8 rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
                   value={slot.selectedCode ?? ""}
                   onChange={(event) => onSelectWildcardCourse?.(slot.key, event.target.value)}
+                  aria-label={`Select course for wildcard slot ${slot.token}`}
+                  title={`Select course for wildcard slot ${slot.token}`}
                 >
                   <option value="">Auto-select best match</option>
                   {slot.options.map((option) => (
@@ -1649,17 +1669,17 @@ export default function DegreeAudit() {
 
               <div className="mt-6 rounded-lg border border-border bg-input-background p-4">
                 <p className="text-sm text-muted-foreground mb-3">Credits Progress</p>
-                <div className="h-4 w-full rounded bg-muted overflow-hidden border border-border/60 flex">
+                <div className="space-y-2">
                   {(() => {
                     const total = Math.max(1, summary.requiredCredits);
                     const completedPct = Math.min(100, (summary.completedCredits / total) * 100);
-                    const inProgressPct = Math.min(Math.max(0, 100 - completedPct), (summary.inProgressCredits / total) * 100);
-                    const plannedPct = Math.min(Math.max(0, 100 - completedPct - inProgressPct), (summary.plannedCredits / total) * 100);
+                    const inProgressPct = Math.min(100, (summary.inProgressCredits / total) * 100);
+                    const plannedPct = Math.min(100, (summary.plannedCredits / total) * 100);
                     return (
                       <>
-                        <div className="h-full bg-green-500" style={{ width: `${completedPct}%` }} />
-                        <div className="h-full bg-blue-500" style={{ width: `${inProgressPct}%` }} />
-                        <div className="h-full bg-amber-500" style={{ width: `${plannedPct}%` }} />
+                        <Progress value={completedPct} className="h-2 [&>div]:bg-green-500" />
+                        <Progress value={inProgressPct} className="h-2 [&>div]:bg-blue-500" />
+                        <Progress value={plannedPct} className="h-2 [&>div]:bg-amber-500" />
                       </>
                     );
                   })()}
@@ -1916,6 +1936,8 @@ export default function DegreeAudit() {
                                               ...prev,
                                               requirementType: event.target.value === "choose" ? "choose" : "all",
                                             } : prev)}
+                                            aria-label="Section requirement type"
+                                            title="Section requirement type"
                                           >
                                             <option value="all">All Required</option>
                                             <option value="choose">Choose N</option>
@@ -1942,8 +1964,7 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""}`}
-                                              style={{ marginLeft: `${depth * 12}px` }}
+                                              className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""} ${getDepthIndentClass(depth)}`}
                                               onDragOver={(event) => {
                                                 event.preventDefault();
                                                 maybeAutoScrollDuringDrag(event.clientY);
@@ -1994,6 +2015,8 @@ export default function DegreeAudit() {
                                                       type: event.target.value === "OR" ? "OR" : "AND",
                                                     } : item),
                                                   } : prev)}
+                                                  aria-label="Logic group type"
+                                                  title="Logic group type"
                                                 >
                                                   <option value="AND">AND</option>
                                                   <option value="OR">OR</option>
@@ -2253,6 +2276,8 @@ export default function DegreeAudit() {
                                           ...prev,
                                           requirementType: event.target.value === "choose" ? "choose" : "all",
                                         } : prev)}
+                                        aria-label="Section requirement type"
+                                        title="Section requirement type"
                                       >
                                         <option value="all">All Required</option>
                                         <option value="choose">Choose N</option>
@@ -2279,8 +2304,7 @@ export default function DegreeAudit() {
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
                                               key={block.id}
-                                              className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""}`}
-                                              style={{ marginLeft: `${depth * 12}px` }}
+                                              className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""} ${getDepthIndentClass(depth)}`}
                                               onDragOver={(event) => {
                                                 event.preventDefault();
                                                 maybeAutoScrollDuringDrag(event.clientY);
@@ -2331,6 +2355,8 @@ export default function DegreeAudit() {
                                                   type: event.target.value === "OR" ? "OR" : "AND",
                                                 } : item),
                                               } : prev)}
+                                              aria-label="Logic group type"
+                                              title="Logic group type"
                                             >
                                               <option value="AND">AND</option>
                                               <option value="OR">OR</option>
@@ -2573,6 +2599,8 @@ export default function DegreeAudit() {
                                                     ...prev,
                                                     requirementType: event.target.value === "choose" ? "choose" : "all",
                                                   } : prev)}
+                                                  aria-label="Section requirement type"
+                                                  title="Section requirement type"
                                                 >
                                                   <option value="all">All Required</option>
                                                   <option value="choose">Choose N</option>
@@ -2599,8 +2627,7 @@ export default function DegreeAudit() {
                                                 {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                                   <div
                                                     key={block.id}
-                                                    className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""}`}
-                                                    style={{ marginLeft: `${depth * 12}px` }}
+                                                    className={`relative p-3 border rounded-md transition-[box-shadow,background-color,border-color] duration-150 ${activeDraftBlockId === block.id ? "border-red-600/40" : "border-border"} ${dragOverBlockId === block.id && blockDropHint?.blockId === block.id && blockDropHint.position === "inside" ? "ring-2 ring-red-500/35 bg-red-500/5 shadow-[0_0_0_3px_rgba(239,68,68,0.14)]" : ""} ${getDepthIndentClass(depth)}`}
                                                     onDragOver={(event) => {
                                                       event.preventDefault();
                                                       maybeAutoScrollDuringDrag(event.clientY);
@@ -2651,6 +2678,8 @@ export default function DegreeAudit() {
                                                             type: event.target.value === "OR" ? "OR" : "AND",
                                                           } : item),
                                                         } : prev)}
+                                                        aria-label="Logic group type"
+                                                        title="Logic group type"
                                                       >
                                                         <option value="AND">AND</option>
                                                         <option value="OR">OR</option>

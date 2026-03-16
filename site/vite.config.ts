@@ -17,9 +17,15 @@ export default defineConfig({
     },
   },
   build: {
+    // The requirements catalog data bundle is intentionally large and loaded lazily.
+    chunkSizeWarningLimit: 5500,
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (id.includes('umd_program_requirements.json')) {
+            return 'requirements-data'
+          }
+
           if (!id.includes('node_modules')) {
             return undefined
           }

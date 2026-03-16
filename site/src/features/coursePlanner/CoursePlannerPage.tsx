@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
+import { AlertCircle, CheckCircle2, Cloud } from "lucide-react";
 import { CourseSearchPanel } from "./components/search/CourseSearchPanel";
 import { CalendarView } from "./components/schedule/CalendarView";
 import { ScheduleDetailsOverlay } from "./components/schedule/ScheduleDetailsOverlay";
@@ -269,10 +270,14 @@ export function CoursePlannerPage() {
       />
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
-      <p className="cp-muted-text">
-        {hasUnsavedChanges ? "Unsaved changes in this schedule." : "All schedule changes are saved."}
-        {lastAutosavedAt ? ` Autosaved ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.` : ""}
-      </p>
+      <div className={`cp-status-banner ${hasUnsavedChanges ? "is-unsaved" : "is-saved"}`} role="status" aria-live="polite">
+        {hasUnsavedChanges ? <AlertCircle className="cp-status-banner-icon" /> : <CheckCircle2 className="cp-status-banner-icon" />}
+        <span>
+          {hasUnsavedChanges ? "Unsaved changes in this schedule." : "All schedule changes are saved."}
+          {lastAutosavedAt ? ` Autosaved ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.` : ""}
+        </span>
+        <Cloud className="cp-status-banner-cloud" />
+      </div>
 
       <div className="course-planner-layout">
         <CourseSearchPanel />
