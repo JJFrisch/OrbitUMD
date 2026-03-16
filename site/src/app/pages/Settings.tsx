@@ -41,9 +41,12 @@ import { GlobalSearchPanel } from "../components/GlobalSearchPanel";
 interface TermOption {
   id: string;
   label: string;
+  season: string;
+  year: number;
 }
 
 const ADMIN_UNLOCK_PASSWORD = "qim*fu2";
+const GRADUATION_SEASONS = ["spring", "summer", "fall", "winter"] as const;
 
 function normalizeProgramName(value: string): string {
   return value
@@ -82,6 +85,8 @@ export default function Settings() {
 
   const [termOptions, setTermOptions] = useState<TermOption[]>([]);
   const [expectedGraduationTermId, setExpectedGraduationTermId] = useState<string>("none");
+  const [expectedGraduationSeason, setExpectedGraduationSeason] = useState<string>("none");
+  const [expectedGraduationYear, setExpectedGraduationYear] = useState<string>("none");
   const [priorCreditSummary, setPriorCreditSummary] = useState({ totalCredits: 0, apCredits: 0, apRecords: 0 });
 
   const [defaultTerm, setDefaultTerm] = useState(() => localStorage.getItem("orbitumd-default-term") ?? "none");
@@ -155,6 +160,8 @@ export default function Settings() {
         setTermOptions((terms ?? []).map((row: any) => ({
           id: row.id,
           label: `${seasonLabel[row.season] ?? row.season} ${row.year}`,
+          season: String(row.season ?? "").toLowerCase(),
+          year: Number(row.year),
         })));
         setPriorCreditSummary(summarizePriorCredits(priorCredits));
         setErrorMessage(null);
@@ -186,6 +193,48 @@ export default function Settings() {
   }, [allPrograms, userPrograms]);
 
   const primaryProgram = useMemo(() => userPrograms.find((program) => program.isPrimary) ?? null, [userPrograms]);
+
+  const graduationYearOptions = useMemo(() => {
+    const years = new Set<number>();
+    const currentYear = new Date().getFullYear();
+
+    for (const term of termOptions) {
+      years.add(term.year);
+    }
+
+    for (let offset = 0; offset < 8; offset += 1) {
+      years.add(currentYear + offset);
+    }
+
+    return Array.from(years).sort((a, b) => a - b);
+  }, [termOptions]);
+
+  const selectedGraduationTerm = useMemo(() => {
+    if (expectedGraduationSeason === "none" || expectedGraduationYear === "none") {
+      return null;
+    }
+
+    return termOptions.find((term) => (
+      term.season === expectedGraduationSeason
+      && String(term.year) === expectedGraduationYear
+    )) ?? null;
+  }, [expectedGraduationSeason, expectedGraduationYear, termOptions]);
+
+  useEffect(() => {
+    if (expectedGraduationTermId === "none") {
+      setExpectedGraduationSeason("none");
+      setExpectedGraduationYear("none");
+      return;
+    }
+
+    const selected = termOptions.find((term) => term.id === expectedGraduationTermId);
+    if (!selected) {
+      return;
+    }
+
+    setExpectedGraduationSeason(selected.season);
+    setExpectedGraduationYear(String(selected.year));
+  }, [expectedGraduationTermId, termOptions]);
 
   const handleSaveProfile = async () => {
     if (!userId) return;
@@ -276,11 +325,20 @@ export default function Settings() {
   const handleSaveGraduationTerm = async () => {
     if (!primaryProgram) return;
 
+    const termIdToSave = expectedGraduationSeason === "none" || expectedGraduationYear === "none"
+      ? "none"
+      : selectedGraduationTerm?.id ?? null;
+
+    if (termIdToSave === null) {
+      setSaveMessage("Selected graduation season/year is not available yet. Try another term.");
+      return;
+    }
+
     try {
       if (primaryProgram.id.startsWith("local-link:")) {
         await setLocalCatalogExpectedGraduationTerm(
           primaryProgram.id,
-          expectedGraduationTermId === "none" ? null : expectedGraduationTermId,
+          termIdToSave === "none" ? null : termIdToSave,
         );
         await refreshAcademicData();
         setSaveMessage("Expected graduation term saved.");
@@ -292,7 +350,7 @@ export default function Settings() {
       const supabase = getSupabaseClient();
       const { error } = await supabase
         .from("user_degree_programs")
-        .update({ expected_graduation_term_id: expectedGraduationTermId === "none" ? null : expectedGraduationTermId })
+        .update({ expected_graduation_term_id: termIdToSave === "none" ? null : termIdToSave })
         .eq("id", primaryProgram.id)
         .eq("user_id", userId);
 
@@ -593,22 +651,42 @@ export default function Settings() {
 
                   <div>
                     <Label>Expected Graduation (Primary Program)</Label>
-                    <div className="flex gap-2 mt-2">
-                      <Select value={expectedGraduationTermId} onValueChange={setExpectedGraduationTermId}>
-                        <SelectTrigger className="bg-input-background border-border flex-1">
-                          <SelectValue placeholder="Select expected graduation term" />
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
+                      <Select value={expectedGraduationSeason} onValueChange={setExpectedGraduationSeason}>
+                        <SelectTrigger className="bg-input-background border-border">
+                          <SelectValue placeholder="Season" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="none">Not set</SelectItem>
-                          {termOptions.map((term) => (
-                            <SelectItem key={term.id} value={term.id}>{term.label}</SelectItem>
+                          {GRADUATION_SEASONS.map((season) => (
+                            <SelectItem key={season} value={season}>{season.charAt(0).toUpperCase() + season.slice(1)}</SelectItem>
                           ))}
                         </SelectContent>
                       </Select>
+
+                      <Select value={expectedGraduationYear} onValueChange={setExpectedGraduationYear}>
+                        <SelectTrigger className="bg-input-background border-border">
+                          <SelectValue placeholder="Year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Not set</SelectItem>
+                          {graduationYearOptions.map((year) => (
+                            <SelectItem key={`grad-year-${year}`} value={String(year)}>{String(year)}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+
                       <Button variant="outline" className="border-border" onClick={handleSaveGraduationTerm} disabled={!primaryProgram}>
                         Save
                       </Button>
                     </div>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {selectedGraduationTerm
+                        ? `Matching term: ${selectedGraduationTerm.label}`
+                        : expectedGraduationSeason !== "none" && expectedGraduationYear !== "none"
+                          ? "That season/year is not currently available in the term catalog."
+                          : "Set a season and year, or leave both as Not set."}
+                    </p>
                     {!primaryProgram && <p className="text-xs text-muted-foreground mt-1">Set a primary program first to save graduation term.</p>}
                   </div>
 

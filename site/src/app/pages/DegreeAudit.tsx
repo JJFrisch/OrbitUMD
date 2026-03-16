@@ -25,6 +25,7 @@ import {
   type AuditCourseStatus,
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
+import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 
 interface AuditCourse {
   code: string;
@@ -1254,14 +1255,7 @@ export default function DegreeAudit() {
             continue;
           }
 
-          const creditCodes = String(credit.umdCourseCode ?? "")
-            .split(/[|,]/)
-            .map((value) => value.trim().toUpperCase())
-            .filter(Boolean);
-
-          if (creditCodes.length === 0) {
-            creditCodes.push(`NO UMD CREDIT ${String(credit.id).slice(0, 8).toUpperCase()}`);
-          }
+          const creditCodes = resolvePriorCreditCourseCodes(credit);
 
           for (const code of creditCodes) {
             const current: AuditCourse = {
@@ -1537,7 +1531,8 @@ export default function DegreeAudit() {
   const electiveOverflow = useMemo(() => {
     return courses.filter((course) => {
       const contributes = getContributionLabelsForCourseCode(course.code, contributionMap).length > 0;
-      return !contributes;
+      const hasGenEdTags = Array.isArray(course.genEds) && course.genEds.some((code) => String(code ?? "").trim().length > 0);
+      return !contributes && !hasGenEdTags;
     });
   }, [contributionMap, courses]);
 

@@ -25,6 +25,7 @@ import {
   loadProgramRequirementBundles,
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
+import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 import { useTheme } from "../contexts/ThemeContext";
 
 type SortOrder = "current" | "ascending" | "descending";
@@ -167,13 +168,7 @@ function buildPriorCreditTerms(priorCredits: Awaited<ReturnType<typeof listUserP
 
   for (const credit of priorCredits) {
     const termLabel = credit.termAwarded ?? "Prior to UMD";
-    const creditCodes = String(credit.umdCourseCode ?? "")
-      .split(/[|,]/)
-      .map((value) => value.trim().toUpperCase())
-      .filter(Boolean);
-    const normalizedCodes = creditCodes.length > 0
-      ? creditCodes
-      : [`NO UMD CREDIT ${String(credit.id).slice(0, 8).toUpperCase()}`];
+    const normalizedCodes = resolvePriorCreditCourseCodes(credit);
 
     for (const code of normalizedCodes) {
       const entries = grouped.get(termLabel) ?? [];
