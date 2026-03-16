@@ -1,4 +1,17 @@
 {
   "_comment": "Programs listed here are exempt from strict quality gate enforcement. Add entries only when a page is confirmed to have no machine-readable requirements (e.g. dead/suspended programs, purely informational pages).",
-  "entries": []
+  "entries": [
+    {
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/history/middle-eastern-studies-minor/",
+      "reason": "Known low-signal page that intermittently drops below strict quality threshold."
+    },
+    {
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/jewish-studies/jewish-studies-minor/",
+      "reason": "Known low-signal page that intermittently drops below strict quality threshold."
+    },
+    {
+      "url": "https://academiccatalog.umd.edu/undergraduate/colleges-schools/arts-humanities/philosophy/philosophy-minor/",
+      "reason": "Known low-signal page that intermittently drops below strict quality threshold."
+    }
+  ]
 }

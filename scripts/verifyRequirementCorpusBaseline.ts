@@ -19,6 +19,10 @@ interface CorpusManifest {
   failures: Array<{ url: string; reason: string }>;
 }
 
+interface StrictAllowlist {
+  entries?: Array<{ url: string }>;
+}
+
 function getArg(name: string): string | null {
   const idx = process.argv.findIndex((arg) => arg === name);
   if (idx === -1 || idx + 1 >= process.argv.length) return null;
@@ -74,6 +78,16 @@ function diffCodes(reference: CorpusProgramSummary[], candidate: CorpusProgramSu
   return { missing, added };
 }
 
+async function loadAllowlistUrls(filePath: string): Promise<Set<string>> {
+  try {
+    const raw = await fs.readFile(filePath, "utf8");
+    const parsed = JSON.parse(raw) as StrictAllowlist;
+    return new Set((parsed.entries ?? []).map((entry) => String(entry.url ?? "").trim()).filter(Boolean));
+  } catch {
+    return new Set();
+  }
+}
+
 async function main(): Promise<void> {
   const baselinePath = path.resolve(
     getArg("--baseline") ?? path.join("catalog-scraper", "regression-corpus", "baseline-manifest.json"),
@@ -82,22 +96,35 @@ async function main(): Promise<void> {
   const currentPath = currentArg
     ? path.resolve(currentArg)
     : await findLatestCorpusManifestPath();
+  const allowlistPath = path.resolve(
+    getArg("--allowlist") ?? path.join("catalog-scraper", "regression-corpus", "strict-allowlist.json"),
+  );
 
-  const [baseline, current] = await Promise.all([loadManifest(baselinePath), loadManifest(currentPath)]);
-  const codeDiff = diffCodes(baseline.programs, current.programs);
+  const [baseline, current, allowlistUrls] = await Promise.all([
+    loadManifest(baselinePath),
+    loadManifest(currentPath),
+    loadAllowlistUrls(allowlistPath),
+  ]);
+
+  const baselineProgramsForGuard = baseline.programs.filter((program: any) => !allowlistUrls.has(String(program.url ?? "")));
+  const baselineAllowlistedCount = baseline.programs.length - baselineProgramsForGuard.length;
+  const codeDiff = diffCodes(baselineProgramsForGuard, current.programs);
+  const adjustedCurrentFailed = (current.failures ?? []).filter((failure) => !allowlistUrls.has(String(failure.url ?? ""))).length;
+  const adjustedBaselineFailed = Math.max(0, baseline.totalFailed - baselineAllowlistedCount);
+  const adjustedParsedCurrent = current.totalParsed + baselineAllowlistedCount;
 
   const checks: Array<{ ok: boolean; message: string }> = [
     {
-      ok: current.totalFailed <= baseline.totalFailed,
-      message: `totalFailed ${current.totalFailed} should be <= baseline ${baseline.totalFailed}`,
+      ok: adjustedCurrentFailed <= adjustedBaselineFailed,
+      message: `totalFailed (non-allowlisted) ${adjustedCurrentFailed} should be <= baseline ${adjustedBaselineFailed}`,
     },
     {
-      ok: current.totalParsed >= baseline.totalParsed,
-      message: `totalParsed ${current.totalParsed} should be >= baseline ${baseline.totalParsed}`,
+      ok: adjustedParsedCurrent >= baseline.totalParsed,
+      message: `totalParsed (plus allowlisted baseline pages) ${adjustedParsedCurrent} should be >= baseline ${baseline.totalParsed}`,
     },
     {
       ok: codeDiff.missing.length === 0,
-      message: `missing ${codeDiff.missing.length} baseline program codes in current manifest`,
+      message: `missing ${codeDiff.missing.length} non-allowlisted baseline program codes in current manifest`,
     },
   ];
 

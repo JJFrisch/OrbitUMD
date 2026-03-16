@@ -26,11 +26,29 @@ jobs:
       - name: Install root dependencies
         run: npm ci
 
+      - name: Resolve corpus manifest path
+        id: corpus_manifest
+        shell: bash
+        run: |
+          today_manifest="catalog-scraper/regression-corpus/$(date -u +%F)/manifest.json"
+          if [ -f "$today_manifest" ]; then
+            echo "path=$today_manifest" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          latest_manifest=$(find catalog-scraper/regression-corpus -maxdepth 2 -type f -name manifest.json | sort -r | head -n 1)
+          if [ -z "$latest_manifest" ]; then
+            echo "No regression corpus manifest found." >&2
+            exit 1
+          fi
+
+          echo "path=$latest_manifest" >> "$GITHUB_OUTPUT"
+
       - name: Verify corpus baseline
-        run: npm run corpus:verify
+        run: npm run corpus:verify -- --current "${{ steps.corpus_manifest.outputs.path }}"
 
       - name: Check corpus quality thresholds
-        run: npm run corpus:quality:check
+        run: npm run corpus:quality:check -- --manifest "${{ steps.corpus_manifest.outputs.path }}"
 
   frontend:
     needs: corpus-guard
