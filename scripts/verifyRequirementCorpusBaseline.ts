@@ -25,6 +25,38 @@ function getArg(name: string): string | null {
   return process.argv[idx + 1] ?? null;
 }
 
+async function findLatestCorpusManifestPath(): Promise<string> {
+  const corpusRoot = path.resolve(path.join("catalog-scraper", "regression-corpus"));
+  const todayFolder = new Date().toISOString().slice(0, 10);
+  const todayManifest = path.join(corpusRoot, todayFolder, "manifest.json");
+
+  try {
+    await fs.access(todayManifest);
+    return todayManifest;
+  } catch {
+    // Fall back to latest available dated folder below.
+  }
+
+  const entries = await fs.readdir(corpusRoot, { withFileTypes: true });
+  const datedFolders = entries
+    .filter((entry) => entry.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(entry.name))
+    .map((entry) => entry.name)
+    .sort((a, b) => b.localeCompare(a));
+
+  for (const folder of datedFolders) {
+    const candidate = path.join(corpusRoot, folder, "manifest.json");
+    try {
+      await fs.access(candidate);
+      console.log(`[corpus:verify] using latest available manifest: ${folder}`);
+      return candidate;
+    } catch {
+      // Keep scanning.
+    }
+  }
+
+  throw new Error(`No manifest.json found in ${corpusRoot}`);
+}
+
 async function loadManifest(filePath: string): Promise<CorpusManifest> {
   const raw = await fs.readFile(filePath, "utf8");
   return JSON.parse(raw) as CorpusManifest;
@@ -46,9 +78,10 @@ async function main(): Promise<void> {
   const baselinePath = path.resolve(
     getArg("--baseline") ?? path.join("catalog-scraper", "regression-corpus", "baseline-manifest.json"),
   );
-  const currentPath = path.resolve(
-    getArg("--current") ?? path.join("catalog-scraper", "regression-corpus", new Date().toISOString().slice(0, 10), "manifest.json"),
-  );
+  const currentArg = getArg("--current");
+  const currentPath = currentArg
+    ? path.resolve(currentArg)
+    : await findLatestCorpusManifestPath();
 
   const [baseline, current] = await Promise.all([loadManifest(baselinePath), loadManifest(currentPath)]);
   const codeDiff = diffCodes(baseline.programs, current.programs);

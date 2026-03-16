@@ -43,11 +43,43 @@ function parseFloatArg(name: string, fallback: number): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
 }
 
+async function findLatestCorpusManifestPath(): Promise<string> {
+  const corpusRoot = path.resolve(path.join("catalog-scraper", "regression-corpus"));
+  const todayFolder = new Date().toISOString().slice(0, 10);
+  const todayManifest = path.join(corpusRoot, todayFolder, "manifest.json");
+
+  try {
+    await fs.access(todayManifest);
+    return todayManifest;
+  } catch {
+    // Fall back to latest available dated folder below.
+  }
+
+  const entries = await fs.readdir(corpusRoot, { withFileTypes: true });
+  const datedFolders = entries
+    .filter((entry) => entry.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(entry.name))
+    .map((entry) => entry.name)
+    .sort((a, b) => b.localeCompare(a));
+
+  for (const folder of datedFolders) {
+    const candidate = path.join(corpusRoot, folder, "manifest.json");
+    try {
+      await fs.access(candidate);
+      console.log(`[quality-check] using latest available manifest: ${folder}`);
+      return candidate;
+    } catch {
+      // Keep scanning.
+    }
+  }
+
+  throw new Error(`No manifest.json found in ${corpusRoot}`);
+}
+
 async function main(): Promise<void> {
-  const manifestPath = path.resolve(
-    getArg("--manifest") ??
-      path.join("catalog-scraper", "regression-corpus", new Date().toISOString().slice(0, 10), "manifest.json"),
-  );
+  const manifestArg = getArg("--manifest");
+  const manifestPath = manifestArg
+    ? path.resolve(manifestArg)
+    : await findLatestCorpusManifestPath();
   const allowlistPath = path.resolve(
     getArg("--allowlist") ?? path.join("catalog-scraper", "regression-corpus", "strict-allowlist.json"),
   );
