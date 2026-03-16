@@ -1,54 +1,44 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Bug, Lightbulb, Mail, Send } from "lucide-react";
+import { useLocation } from "react-router";
 import { toast } from "sonner";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
-
-type SuggestionType = "feature" | "bug" | "other";
-
-type StoredSuggestion = {
-  id: string;
-  createdAt: string;
-  type: SuggestionType;
-  title: string;
-  details: string;
-  contact: string;
-};
-
-const STORAGE_KEY = "orbitumd:suggestions:v1";
-
-function loadSuggestions(): StoredSuggestion[] {
-  if (typeof window === "undefined") return [];
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as StoredSuggestion[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveSuggestions(suggestions: StoredSuggestion[]) {
-  if (typeof window === "undefined") return;
-  window.localStorage.setItem(STORAGE_KEY, JSON.stringify(suggestions));
-}
+import { createUserFeedbackSubmission, listUserFeedbackSubmissions, type FeedbackType, type UserFeedbackSubmission } from "@/lib/repositories/userFeedbackRepository";
 
 export default function Suggestions() {
-  const [type, setType] = useState<SuggestionType>("feature");
+  const location = useLocation();
+  const [type, setType] = useState<FeedbackType>("feature");
   const [title, setTitle] = useState("");
   const [details, setDetails] = useState("");
   const [contact, setContact] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [history, setHistory] = useState<UserFeedbackSubmission[]>([]);
+  const [loadingHistory, setLoadingHistory] = useState(true);
 
-  const contactEmailHref = useMemo(() => {
-    const subject = encodeURIComponent("OrbitUMD feedback");
-    const body = encodeURIComponent("Share your suggestion or issue details here.");
-    return `mailto:orbitumd@umd.edu?subject=${subject}&body=${body}`;
+  useEffect(() => {
+    let active = true;
+    void listUserFeedbackSubmissions()
+      .then((rows) => {
+        if (!active) return;
+        setHistory(rows);
+      })
+      .catch((error) => {
+        if (!active) return;
+        toast.error(error instanceof Error ? error.message : "Unable to load feedback history.");
+      })
+      .finally(() => {
+        if (active) setLoadingHistory(false);
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const submitSuggestion = () => {
+  const submitSuggestion = async () => {
     const normalizedTitle = title.trim();
     const normalizedDetails = details.trim();
     const normalizedContact = contact.trim();
@@ -58,23 +48,26 @@ export default function Suggestions() {
       return;
     }
 
-    const next: StoredSuggestion = {
-      id: crypto.randomUUID(),
-      createdAt: new Date().toISOString(),
-      type,
-      title: normalizedTitle,
-      details: normalizedDetails,
-      contact: normalizedContact,
-    };
+    setSubmitting(true);
+    try {
+      const created = await createUserFeedbackSubmission({
+        feedbackType: type,
+        title: normalizedTitle,
+        details: normalizedDetails,
+        contact: normalizedContact || undefined,
+        pagePath: location.pathname,
+      });
 
-    const existing = loadSuggestions();
-    saveSuggestions([next, ...existing].slice(0, 50));
-
-    setTitle("");
-    setDetails("");
-    setContact("");
-
-    toast.success("Suggestion saved. Thank you for helping improve OrbitUMD.");
+      setHistory((prev) => [created, ...prev].slice(0, 20));
+      setTitle("");
+      setDetails("");
+      setContact("");
+      toast.success("Feedback saved to OrbitUMD.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to submit feedback.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -106,7 +99,7 @@ export default function Suggestions() {
             <Mail className="w-4 h-4 text-blue-400" />
             <h2 className="font-medium">Contact</h2>
           </div>
-          <a className="text-sm underline text-foreground" href={contactEmailHref}>Email the OrbitUMD team</a>
+          <p className="text-sm text-muted-foreground">Use the form below and include contact details if you want a follow-up.</p>
         </Card>
       </div>
 
@@ -148,10 +141,33 @@ export default function Suggestions() {
         </div>
 
         <div className="flex justify-end">
-          <Button onClick={submitSuggestion}>
+          <Button onClick={() => void submitSuggestion()} disabled={submitting}>
             <Send className="w-4 h-4 mr-2" />
-            Submit
+            {submitting ? "Submitting..." : "Submit"}
           </Button>
+        </div>
+      </Card>
+
+      <Card className="p-6 space-y-4">
+        <h2 className="text-xl font-semibold">Recent Submissions</h2>
+        {loadingHistory ? <p className="text-sm text-muted-foreground">Loading your recent feedback...</p> : null}
+        {!loadingHistory && history.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No feedback submitted yet.</p>
+        ) : null}
+        <div className="space-y-3">
+          {history.map((item) => (
+            <div key={item.id} className="rounded-lg border border-border bg-input-background p-3">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-medium">{item.title}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{item.feedbackType} • {new Date(item.createdAt).toLocaleString()}</p>
+                </div>
+                <span className="rounded-full border border-border px-2 py-1 text-[10px] uppercase tracking-wide text-muted-foreground">{item.status}</span>
+              </div>
+              <p className="text-sm text-muted-foreground mt-2">{item.details}</p>
+              {item.contact ? <p className="text-xs text-muted-foreground mt-2">Contact: {item.contact}</p> : null}
+            </div>
+          ))}
         </div>
       </Card>
     </div>

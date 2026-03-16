@@ -1,9 +1,17 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
-import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 
 const LOCAL_SELECTED_PROGRAMS_KEY = "orbitumd-local-selected-programs";
 const LOCAL_PROGRAMS_GUEST_SCOPE = "__guest__";
 const LOCAL_PROGRAMS_MIGRATION_KEY = "orbitumd-local-selected-programs-migrated-v2";
+
+let requirementsCatalogPromise: Promise<any> | null = null;
+
+async function loadRequirementsCatalog() {
+  if (!requirementsCatalogPromise) {
+    requirementsCatalogPromise = import("@/lib/data/umd_program_requirements.json").then((module) => module.default);
+  }
+  return requirementsCatalogPromise;
+}
 
 type LocalSelectedProgram = {
   id: string;
@@ -243,6 +251,7 @@ export async function listProgramCatalogOptions(): Promise<CatalogProgramOption[
     // DB catalog can be unavailable; fall back to local static/API sources.
   }
 
+  const requirementsCatalog = await loadRequirementsCatalog();
   const catalogPrograms = ((requirementsCatalog as any)?.programs ?? []) as Array<{ id: string; name: string; type?: string }>;
   for (const program of catalogPrograms) {
     const type = isMinorLikeProgramType(String(program.type ?? ""), program.name) ? "minor" : "major";

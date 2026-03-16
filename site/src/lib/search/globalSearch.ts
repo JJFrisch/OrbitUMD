@@ -1,5 +1,4 @@
 import { plannerApi } from "@/lib/api/planner";
-import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 
 export type GlobalSearchResult = {
   id: string;
@@ -84,6 +83,14 @@ const PAGE_DOCS: SearchDoc[] = [
 ];
 
 let cachedDocs: SearchDoc[] | null = null;
+let requirementsCatalogPromise: Promise<{ programs?: CatalogProgram[] }> | null = null;
+
+async function loadRequirementsCatalog() {
+  if (!requirementsCatalogPromise) {
+    requirementsCatalogPromise = import("@/lib/data/umd_program_requirements.json").then((module) => module.default as { programs?: CatalogProgram[] });
+  }
+  return requirementsCatalogPromise;
+}
 
 function normalizeText(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
@@ -102,11 +109,12 @@ function extractCodes(section: CatalogProgram["builderSections"][number]): strin
   return Array.from(new Set(direct.map((code) => code.toUpperCase())));
 }
 
-function buildDocs(): SearchDoc[] {
+async function buildDocs(): Promise<SearchDoc[]> {
   if (cachedDocs) return cachedDocs;
 
   const docs: SearchDoc[] = [...PAGE_DOCS];
-  const programs = ((requirementsCatalog as { programs?: CatalogProgram[] }).programs ?? []);
+  const requirementsCatalog = await loadRequirementsCatalog();
+  const programs = (requirementsCatalog.programs ?? []);
 
   for (const program of programs) {
     const overview = (program.specializations ?? []).slice(0, 2).join(" ");
@@ -161,7 +169,7 @@ export async function searchOrbitContent(query: string): Promise<GlobalSearchRes
   if (!trimmed) return [];
 
   const queryTokens = tokenize(trimmed);
-  const staticResults = buildDocs()
+  const staticResults = (await buildDocs())
     .map((doc) => ({ doc, score: scoreDoc(queryTokens, doc) }))
     .filter((entry) => entry.score > 0)
     .sort((a, b) => b.score - a.score)

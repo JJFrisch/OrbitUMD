@@ -16,7 +16,7 @@ import {
 } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
 import { useTheme } from "../contexts/ThemeContext";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
   addUserDegreeProgramFromCatalogOption,
   listUserDegreePrograms,
@@ -36,6 +36,7 @@ import {
   buildProgramTemplateKey,
   saveProgramRequirementTemplate,
 } from "@/lib/repositories/programRequirementTemplatesRepository";
+import { GlobalSearchPanel } from "../components/GlobalSearchPanel";
 
 interface TermOption {
   id: string;
@@ -62,6 +63,7 @@ function summarizePriorCredits(priorCredits: Array<{ sourceType: string; credits
 }
 
 export default function Settings() {
+  const navigate = useNavigate();
   const { theme, toggleTheme, setTheme } = useTheme();
 
   const [loading, setLoading] = useState(true);
@@ -441,350 +443,369 @@ export default function Settings() {
 
   return (
     <div className="p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-6">
-          <h1 className="text-4xl mb-2">Settings</h1>
-          <p className="text-muted-foreground">Manage your profile, programs, and planning preferences</p>
-        </div>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
+        <div>
+          <div className="mb-6">
+            <h1 className="text-4xl mb-2">Settings</h1>
+            <p className="text-muted-foreground">Manage your profile, programs, and planning preferences</p>
+          </div>
 
-        {loading && <p className="text-muted-foreground">Loading settings...</p>}
-        {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
-        {!loading && !errorMessage && (
-          <div className="space-y-6">
-            {saveMessage && (
-              <Card className="p-4 bg-card border-border">
-                <p className="text-sm text-foreground/80">{saveMessage}</p>
+          {loading && <p className="text-muted-foreground">Loading settings...</p>}
+          {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
+          {!loading && !errorMessage && (
+            <div className="space-y-6">
+              {saveMessage && (
+                <Card className="p-4 bg-card border-border">
+                  <p className="text-sm text-foreground/80">{saveMessage}</p>
+                </Card>
+              )}
+
+              <Card className="p-6 bg-card border-border">
+                <div className="flex items-center gap-2 mb-6">
+                  {theme === "dark" ? <Moon className="w-5 h-5 text-purple-400" /> : <Sun className="w-5 h-5 text-amber-500" />}
+                  <h2 className="text-2xl">Appearance</h2>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <div>
+                    <Label htmlFor="theme-toggle">Dark Mode</Label>
+                    <p className="text-xs text-muted-foreground mt-1">Toggle between light and dark theme.</p>
+                  </div>
+                  <Switch id="theme-toggle" checked={theme === "dark"} onCheckedChange={handleToggleAppearance} />
+                </div>
               </Card>
-            )}
 
-            <Card className="p-6 bg-card border-border">
-              <div className="flex items-center gap-2 mb-6">
-                {theme === "dark" ? <Moon className="w-5 h-5 text-purple-400" /> : <Sun className="w-5 h-5 text-amber-500" />}
-                <h2 className="text-2xl">Appearance</h2>
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div>
-                  <Label htmlFor="theme-toggle">Dark Mode</Label>
-                  <p className="text-xs text-muted-foreground mt-1">Toggle between light and dark theme.</p>
-                </div>
-                <Switch id="theme-toggle" checked={theme === "dark"} onCheckedChange={handleToggleAppearance} />
-              </div>
-            </Card>
-
-            <Card className="p-6 bg-card border-border">
-              <div className="flex items-center gap-2 mb-6">
-                <User className="w-5 h-5 text-red-400" />
-                <h2 className="text-2xl">Profile Information</h2>
-              </div>
-
-              <form
-                className="space-y-4"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  void handleSaveProfile();
-                }}
-              >
-                <div>
-                  <Label htmlFor="name">Full Name</Label>
-                  <Input id="name" value={fullName} onChange={(event) => setFullName(event.target.value)} className="bg-input-background border-border" />
+              <Card className="p-6 bg-card border-border">
+                <div className="flex items-center gap-2 mb-6">
+                  <User className="w-5 h-5 text-red-400" />
+                  <h2 className="text-2xl">Profile Information</h2>
                 </div>
 
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="bg-input-background border-border" />
+                <form
+                  className="space-y-4"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    void handleSaveProfile();
+                  }}
+                >
+                  <div>
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input id="name" value={fullName} onChange={(event) => setFullName(event.target.value)} className="bg-input-background border-border" />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="bg-input-background border-border" />
+                  </div>
+
+                  <div>
+                    <Label htmlFor="uid">UMD UID</Label>
+                    <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} className="bg-input-background border-border" />
+                  </div>
+
+                  <Button type="submit" className="bg-primary hover:bg-primary/90">
+                    Save Profile Changes
+                  </Button>
+                </form>
+              </Card>
+
+              <Card className="p-6 bg-card border-border">
+                <div className="flex items-center gap-2 mb-6">
+                  <GraduationCap className="w-5 h-5 text-blue-400" />
+                  <h2 className="text-2xl">Academic Information</h2>
                 </div>
 
-                <div>
-                  <Label htmlFor="uid">UMD UID</Label>
-                  <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} className="bg-input-background border-border" />
-                </div>
-
-                <Button type="submit" className="bg-primary hover:bg-primary/90">
-                  Save Profile Changes
-                </Button>
-              </form>
-            </Card>
-
-            <Card className="p-6 bg-card border-border">
-              <div className="flex items-center gap-2 mb-6">
-                <GraduationCap className="w-5 h-5 text-blue-400" />
-                <h2 className="text-2xl">Academic Information</h2>
-              </div>
-
-              <div className="mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-                <div className="rounded-lg border border-border bg-input-background p-3">
-                  <p className="text-xs text-muted-foreground">Prior Credit Total</p>
-                  <p className="text-xl text-foreground">{priorCreditSummary.totalCredits}</p>
-                </div>
-                <div className="rounded-lg border border-border bg-input-background p-3">
-                  <p className="text-xs text-muted-foreground">AP Credits</p>
-                  <p className="text-xl text-foreground">{priorCreditSummary.apCredits}</p>
-                </div>
-                <div className="rounded-lg border border-border bg-input-background p-3">
-                  <p className="text-xs text-muted-foreground">AP Records</p>
-                  <p className="text-xl text-foreground">{priorCreditSummary.apRecords}</p>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <Label className="mb-2 block">Declared Programs</Label>
-                  <p className="text-xs text-muted-foreground mb-2">Drag and drop to reorder your majors/minors.</p>
-                  {userPrograms.length === 0 ? (
-                    <p className="text-sm text-muted-foreground">No declared programs yet.</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {userPrograms.map((program) => (
-                        <div
-                          key={program.id}
-                          draggable
-                          onDragStart={() => setDraggingProgramId(program.id)}
-                          onDragOver={(event) => event.preventDefault()}
-                          onDrop={() => void handleDropProgram(program.id)}
-                          className="flex items-center justify-between rounded-lg border border-border bg-input-background p-3 gap-3 cursor-grab active:cursor-grabbing"
-                        >
-                          <div>
-                            <p className="text-sm text-foreground">{program.programName}</p>
-                            <p className="text-xs text-muted-foreground">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {program.isPrimary ? (
-                              <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30"><Star className="w-3 h-3 mr-1" />Primary</Badge>
-                            ) : (
-                              <Button variant="outline" size="sm" className="border-border" onClick={() => handleSetPrimaryProgram(program.id)}>
-                                Set Primary
-                              </Button>
-                            )}
-                            <Button variant="outline" size="sm" className="border-red-400 text-red-800 hover:bg-red-100 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-600/10" onClick={() => handleRemoveProgram(program.id)}>
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div>
-                  <Label>Add Program</Label>
-                  <div className="flex gap-2 mt-2">
-                    <Select value={selectedProgramToAdd} onValueChange={setSelectedProgramToAdd}>
-                      <SelectTrigger className="bg-input-background border-border flex-1">
-                        <SelectValue placeholder="Select a major/minor program" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {addablePrograms.map((program) => (
-                          <SelectItem key={program.key} value={program.key}>{program.name} ({program.type})</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Button variant="outline" className="border-border" onClick={handleAddProgram} disabled={!selectedProgramToAdd}>
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add
-                    </Button>
+                <div className="mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+                  <div className="rounded-lg border border-border bg-input-background p-3">
+                    <p className="text-xs text-muted-foreground">Prior Credit Total</p>
+                    <p className="text-xl text-foreground">{priorCreditSummary.totalCredits}</p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-input-background p-3">
+                    <p className="text-xs text-muted-foreground">AP Credits</p>
+                    <p className="text-xl text-foreground">{priorCreditSummary.apCredits}</p>
+                  </div>
+                  <div className="rounded-lg border border-border bg-input-background p-3">
+                    <p className="text-xs text-muted-foreground">AP Records</p>
+                    <p className="text-xl text-foreground">{priorCreditSummary.apRecords}</p>
                   </div>
                 </div>
 
-                <Separator className="bg-border" />
+                <div className="space-y-4">
+                  <div>
+                    <Label className="mb-2 block">Declared Programs</Label>
+                    <p className="text-xs text-muted-foreground mb-2">Drag and drop to reorder your majors/minors.</p>
+                    {userPrograms.length === 0 ? (
+                      <p className="text-sm text-muted-foreground">No declared programs yet.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {userPrograms.map((program) => (
+                          <div
+                            key={program.id}
+                            draggable
+                            onDragStart={() => setDraggingProgramId(program.id)}
+                            onDragOver={(event) => event.preventDefault()}
+                            onDrop={() => void handleDropProgram(program.id)}
+                            className="flex items-center justify-between rounded-lg border border-border bg-input-background p-3 gap-3 cursor-grab active:cursor-grabbing"
+                          >
+                            <div>
+                              <p className="text-sm text-foreground">{program.programName}</p>
+                              <p className="text-xs text-muted-foreground">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              {program.isPrimary ? (
+                                <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30"><Star className="w-3 h-3 mr-1" />Primary</Badge>
+                              ) : (
+                                <Button variant="outline" size="sm" className="border-border" onClick={() => handleSetPrimaryProgram(program.id)}>
+                                  Set Primary
+                                </Button>
+                              )}
+                              <Button variant="outline" size="sm" className="border-red-400 text-red-800 hover:bg-red-100 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-600/10" onClick={() => handleRemoveProgram(program.id)}>
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
-                <div>
-                  <Label>Expected Graduation (Primary Program)</Label>
-                  <div className="flex gap-2 mt-2">
-                    <Select value={expectedGraduationTermId} onValueChange={setExpectedGraduationTermId}>
-                      <SelectTrigger className="bg-input-background border-border flex-1">
-                        <SelectValue placeholder="Select expected graduation term" />
+                  <div>
+                    <Label>Add Program</Label>
+                    <div className="flex gap-2 mt-2">
+                      <Select value={selectedProgramToAdd} onValueChange={setSelectedProgramToAdd}>
+                        <SelectTrigger className="bg-input-background border-border flex-1">
+                          <SelectValue placeholder="Select a major/minor program" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {addablePrograms.map((program) => (
+                            <SelectItem key={program.key} value={program.key}>{program.name} ({program.type})</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button variant="outline" className="border-border" onClick={handleAddProgram} disabled={!selectedProgramToAdd}>
+                        <Plus className="w-4 h-4 mr-2" />
+                        Add
+                      </Button>
+                    </div>
+                  </div>
+
+                  <Separator className="bg-border" />
+
+                  <div>
+                    <Label>Expected Graduation (Primary Program)</Label>
+                    <div className="flex gap-2 mt-2">
+                      <Select value={expectedGraduationTermId} onValueChange={setExpectedGraduationTermId}>
+                        <SelectTrigger className="bg-input-background border-border flex-1">
+                          <SelectValue placeholder="Select expected graduation term" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">Not set</SelectItem>
+                          {termOptions.map((term) => (
+                            <SelectItem key={term.id} value={term.id}>{term.label}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Button variant="outline" className="border-border" onClick={handleSaveGraduationTerm} disabled={!primaryProgram}>
+                        Save
+                      </Button>
+                    </div>
+                    {!primaryProgram && <p className="text-xs text-muted-foreground mt-1">Set a primary program first to save graduation term.</p>}
+                  </div>
+
+                  <Separator className="bg-border" />
+
+                  <div>
+                    <Label className="mb-2 block">Degree Requirements</Label>
+                    <p className="text-xs text-muted-foreground mb-3">
+                      Requirement sections are loaded from your saved rule sets or scraped catalog bundles.
+                    </p>
+                    <Link to="/degree-requirements">
+                      <Button variant="outline" size="sm" className="border-border hover:bg-accent">
+                        <Edit className="w-4 h-4 mr-2" />
+                        Open Degree Requirements
+                      </Button>
+                    </Link>
+                  </div>
+                </div>
+              </Card>
+
+              <Card className="p-6 bg-card border-border">
+                <div className="flex items-center gap-2 mb-6">
+                  <Settings2 className="w-5 h-5 text-purple-400" />
+                  <h2 className="text-2xl">Preferences</h2>
+                </div>
+
+                <form
+                  className="space-y-4"
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    handleSavePreferences();
+                  }}
+                >
+                  <div>
+                    <Label>Default Term</Label>
+                    <Select value={defaultTerm} onValueChange={setDefaultTerm}>
+                      <SelectTrigger className="bg-input-background border-border">
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="none">Not set</SelectItem>
+                        <SelectItem value="none">Auto (current term)</SelectItem>
                         {termOptions.map((term) => (
                           <SelectItem key={term.id} value={term.id}>{term.label}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button variant="outline" className="border-border" onClick={handleSaveGraduationTerm} disabled={!primaryProgram}>
-                      Save
-                    </Button>
+                    <p className="text-xs text-muted-foreground mt-1">Used by scheduler screens on this device.</p>
                   </div>
-                  {!primaryProgram && <p className="text-xs text-muted-foreground mt-1">Set a primary program first to save graduation term.</p>}
-                </div>
 
-                <Separator className="bg-border" />
-
-                <div>
-                  <Label className="mb-2 block">Degree Requirements</Label>
-                  <p className="text-xs text-muted-foreground mb-3">
-                    Requirement sections are loaded from your saved rule sets or scraped catalog bundles.
-                  </p>
-                  <Link to="/degree-requirements">
-                    <Button variant="outline" size="sm" className="border-border hover:bg-accent">
-                      <Edit className="w-4 h-4 mr-2" />
-                      Open Degree Requirements
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-6 bg-card border-border">
-              <div className="flex items-center gap-2 mb-6">
-                <Settings2 className="w-5 h-5 text-purple-400" />
-                <h2 className="text-2xl">Preferences</h2>
-              </div>
-
-              <form
-                className="space-y-4"
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  handleSavePreferences();
-                }}
-              >
-                <div>
-                  <Label>Default Term</Label>
-                  <Select value={defaultTerm} onValueChange={setDefaultTerm}>
-                    <SelectTrigger className="bg-input-background border-border">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="none">Auto (current term)</SelectItem>
-                      {termOptions.map((term) => (
-                        <SelectItem key={term.id} value={term.id}>{term.label}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <p className="text-xs text-muted-foreground mt-1">Used by scheduler screens on this device.</p>
-                </div>
-
-                <div>
-                  <Label>Schedule View Preference</Label>
-                  <Select value={scheduleView} onValueChange={setScheduleView}>
-                    <SelectTrigger className="bg-input-background border-border">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="weekly">Weekly Calendar</SelectItem>
-                      <SelectItem value="list">List View</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <Button type="submit" className="bg-primary hover:bg-primary/90">
-                  Save Preferences
-                </Button>
-              </form>
-            </Card>
-
-            <Card className="p-6 bg-card border-border">
-              <div className="flex items-center justify-between gap-3 mb-4">
-                <div>
-                  <h2 className="text-2xl">Admin</h2>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Admins can save official requirement template JSON for majors/minors.
-                  </p>
-                </div>
-                {isAdmin ? (
-                  <Badge className="bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-600/20 dark:text-emerald-300 dark:border-emerald-600/30">
-                    ADMIN
-                  </Badge>
-                ) : (
-                  <Badge variant="outline" className="border-border text-foreground/70">USER</Badge>
-                )}
-              </div>
-
-              {!isAdmin && (
-                <form
-                  className="space-y-3"
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    void handleUnlockAdmin();
-                  }}
-                >
-                  <Label htmlFor="admin-password">Admin Password</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="admin-password"
-                      type="password"
-                      value={adminPassword}
-                      onChange={(event) => setAdminPassword(event.target.value)}
-                      className="bg-input-background border-border"
-                      placeholder="Enter admin password"
-                    />
-                    <Button type="submit" variant="outline" className="border-border">
-                      Become Admin
-                    </Button>
-                  </div>
-                </form>
-              )}
-
-              {isAdmin && (
-                <div className="space-y-4">
                   <div>
-                    <Label>Program Template Target</Label>
-                    <Select value={adminProgramId} onValueChange={setAdminProgramId}>
-                      <SelectTrigger className="bg-input-background border-border mt-2">
-                        <SelectValue placeholder="Select one of your declared programs" />
+                    <Label>Schedule View Preference</Label>
+                    <Select value={scheduleView} onValueChange={setScheduleView}>
+                      <SelectTrigger className="bg-input-background border-border">
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {userPrograms.map((program) => (
-                          <SelectItem key={program.id} value={program.id}>
-                            {program.programName} ({program.degreeType ?? "program"})
-                          </SelectItem>
-                        ))}
+                        <SelectItem value="weekly">Weekly Calendar</SelectItem>
+                        <SelectItem value="list">List View</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  <Button type="submit" className="bg-primary hover:bg-primary/90">
+                    Save Preferences
+                  </Button>
+                </form>
+              </Card>
+
+              <Card className="p-6 bg-card border-border">
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <div>
+                    <h2 className="text-2xl">Admin</h2>
                     <p className="text-xs text-muted-foreground mt-1">
-                      The selected program's key determines which default template future users will receive.
+                      Admins can save official requirement template JSON for majors/minors.
                     </p>
                   </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" className="border-border" onClick={() => void handleLoadTemplateDraft()} disabled={!adminProgramId}>
-                      Load Current Template Draft
-                    </Button>
-                    <Button className="bg-primary hover:bg-primary/90" onClick={() => void handleSaveOfficialTemplate()} disabled={!adminProgramId}>
-                      Save Official Template JSON
-                    </Button>
-                  </div>
-
-                  <div>
-                    <Label htmlFor="admin-template-json">Official Requirement Template JSON</Label>
-                    <Textarea
-                      id="admin-template-json"
-                      value={adminTemplateJson}
-                      onChange={(event) => setAdminTemplateJson(event.target.value)}
-                      className="mt-2 min-h-[280px] font-mono text-xs"
-                    />
-                  </div>
+                  {isAdmin ? (
+                    <Badge className="bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-600/20 dark:text-emerald-300 dark:border-emerald-600/30">
+                      ADMIN
+                    </Badge>
+                  ) : (
+                    <Badge variant="outline" className="border-border text-foreground/70">USER</Badge>
+                  )}
                 </div>
-              )}
 
-              {adminTemplateMessage && <p className="text-sm text-foreground/80 mt-4">{adminTemplateMessage}</p>}
-            </Card>
+                {!isAdmin && (
+                  <form
+                    className="space-y-3"
+                    onSubmit={(event) => {
+                      event.preventDefault();
+                      void handleUnlockAdmin();
+                    }}
+                  >
+                    <Label htmlFor="admin-password">Admin Password</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="admin-password"
+                        type="password"
+                        value={adminPassword}
+                        onChange={(event) => setAdminPassword(event.target.value)}
+                        className="bg-input-background border-border"
+                        placeholder="Enter admin password"
+                      />
+                      <Button type="submit" variant="outline" className="border-border">
+                        Become Admin
+                      </Button>
+                    </div>
+                  </form>
+                )}
 
-            <Card className="p-6 bg-card border-border">
-              <div className="flex items-center gap-2 mb-6">
-                <Mail className="w-5 h-5 text-amber-400" />
-                <h2 className="text-2xl">Data Management</h2>
-              </div>
+                {isAdmin && (
+                  <div className="space-y-4">
+                    <div>
+                      <Label>Program Template Target</Label>
+                      <Select value={adminProgramId} onValueChange={setAdminProgramId}>
+                        <SelectTrigger className="bg-input-background border-border mt-2">
+                          <SelectValue placeholder="Select one of your declared programs" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {userPrograms.map((program) => (
+                            <SelectItem key={program.id} value={program.id}>
+                              {program.programName} ({program.degreeType ?? "program"})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        The selected program's key determines which default template future users will receive.
+                      </p>
+                    </div>
 
-              <div className="space-y-3">
-                <Link to="/credit-import">
-                  <Button variant="outline" className="w-full border-border hover:bg-accent">
-                    Open Credit Import
+                    <div className="flex flex-wrap gap-2">
+                      <Button variant="outline" className="border-border" onClick={() => void handleLoadTemplateDraft()} disabled={!adminProgramId}>
+                        Load Current Template Draft
+                      </Button>
+                      <Button className="bg-primary hover:bg-primary/90" onClick={() => void handleSaveOfficialTemplate()} disabled={!adminProgramId}>
+                        Save Official Template JSON
+                      </Button>
+                    </div>
+
+                    <div>
+                      <Label htmlFor="admin-template-json">Official Requirement Template JSON</Label>
+                      <Textarea
+                        id="admin-template-json"
+                        value={adminTemplateJson}
+                        onChange={(event) => setAdminTemplateJson(event.target.value)}
+                        className="mt-2 min-h-[280px] font-mono text-xs"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {adminTemplateMessage && <p className="text-sm text-foreground/80 mt-4">{adminTemplateMessage}</p>}
+              </Card>
+
+              <Card className="p-6 bg-card border-border">
+                <div className="flex items-center gap-2 mb-6">
+                  <Mail className="w-5 h-5 text-amber-400" />
+                  <h2 className="text-2xl">Data Management</h2>
+                </div>
+
+                <div className="space-y-3">
+                  <Link to="/credit-import">
+                    <Button variant="outline" className="w-full border-border hover:bg-accent">
+                      Open Credit Import
+                    </Button>
+                  </Link>
+                  <Link to="/schedules">
+                    <Button variant="outline" className="w-full border-border hover:bg-accent">
+                      Manage Saved Schedules
+                    </Button>
+                  </Link>
+                  <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>
+                    Open Testudo
                   </Button>
-                </Link>
-                <Link to="/schedules">
-                  <Button variant="outline" className="w-full border-border hover:bg-accent">
-                    Manage Saved Schedules
-                  </Button>
-                </Link>
-                <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>
-                  Open Testudo
-                </Button>
+                </div>
+              </Card>
+            </div>
+          )}
+        </div>
+
+        <aside className="xl:sticky xl:top-8 space-y-4">
+          <Card className="p-4 bg-card border-border">
+            <div className="flex items-center justify-between gap-3 mb-3">
+              <div>
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">Settings Tools</p>
+                <h2 className="text-lg font-semibold">Quick Access</h2>
               </div>
-            </Card>
-          </div>
-        )}
+              <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate("/profile")} title="Open profile">
+                <User className="w-5 h-5" />
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground">Profile stays available here now that the shell top bar is gone.</p>
+          </Card>
+
+          <GlobalSearchPanel />
+        </aside>
       </div>
     </div>
   );

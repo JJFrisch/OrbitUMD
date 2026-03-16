@@ -1,6 +1,3 @@
-import { plannerApi } from "@/lib/api/planner";
-import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
-import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
 let warmStarted = false;
@@ -12,11 +9,17 @@ async function runWarmup() {
     return;
   }
 
+  const [plannerModule, degreeProgramsModule, priorCreditsModule] = await Promise.all([
+    import("@/lib/api/planner"),
+    import("@/lib/repositories/degreeProgramsRepository"),
+    import("@/lib/repositories/priorCreditsRepository"),
+  ]);
+
   const dataWarmup = [
-    plannerApi.listAllSchedulesWithSelections(),
-    plannerApi.listFourYearPlans(),
-    listUserDegreePrograms(),
-    listUserPriorCredits(),
+    plannerModule.plannerApi.listAllSchedulesWithSelections(),
+    plannerModule.plannerApi.listFourYearPlans(),
+    degreeProgramsModule.listUserDegreePrograms(),
+    priorCreditsModule.listUserPriorCredits(),
     supabase
       .from("terms")
       .select("id, year, season, umd_term_code")
