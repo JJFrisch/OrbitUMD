@@ -205,6 +205,29 @@ function sectionFromDraft(draft: SectionDraft, existingSectionId?: string) {
   };
 }
 
+function mutateSectionWithDraft(section: any, mutateDraft: (draft: SectionDraft) => void) {
+  const draft = draftFromSection(section);
+  mutateDraft(draft);
+  const normalized = sectionFromDraft(draft, section.id);
+  return {
+    ...section,
+    ...normalized,
+    specializationId: section.specializationId,
+  };
+}
+
+function mapDraftBlocksRecursively(
+  blocks: EditableLogicBlock[],
+  mapper: (block: EditableLogicBlock) => EditableLogicBlock,
+): EditableLogicBlock[] {
+  return blocks.map((block) => {
+    const withChildren = Array.isArray(block.children)
+      ? { ...block, children: mapDraftBlocksRecursively(block.children, mapper) }
+      : block;
+    return mapper(withChildren);
+  });
+}
+
 function parseSelections(stored: unknown): Array<any> {
   const payload = (stored ?? []) as { selections?: any[] } | any[];
   if (Array.isArray(payload)) return payload;
@@ -321,6 +344,462 @@ interface RequirementSectionCardProps {
   setExpandedNotesSectionIds: (prev: (s: Set<string>) => Set<string>) => void;
   condensedView: boolean;
   onEdit?: (section: any) => void;
+  onSaveSection?: (nextSection: any) => void;
+}
+
+function RequirementSectionTableCard({
+  section,
+  sectionEval,
+  wildcardSlots = [],
+  onSelectWildcardCourse,
+  allCourses,
+  courseDetails,
+  byCourseCode,
+  expandedNotesSectionIds,
+  setExpandedNotesSectionIds,
+  onEdit,
+  onSaveSection,
+}: RequirementSectionCardProps) {
+  const [editingTitle, setEditingTitle] = useState(false);
+  const [titleDraft, setTitleDraft] = useState(section.title ?? "");
+  const [editingRequirement, setEditingRequirement] = useState(false);
+  const [requirementDraft, setRequirementDraft] = useState<"all" | "choose">(section.requirementType === "choose" ? "choose" : "all");
+  const [chooseCountDraft, setChooseCountDraft] = useState<number>(Math.max(1, Number(section.chooseCount ?? 1)));
+  const [editingNotes, setEditingNotes] = useState(false);
+  const [notesDraft, setNotesDraft] = useState((section.notes ?? []).join("\n"));
+  const [editingCode, setEditingCode] = useState<{ originalCode: string; query: string } | null>(null);
+  const [codeSearchPending, setCodeSearchPending] = useState(false);
+  const [codeSearchResults, setCodeSearchResults] = useState<CourseSearchResult[]>([]);
+
+  useEffect(() => {
+    setTitleDraft(section.title ?? "");
+    setRequirementDraft(section.requirementType === "choose" ? "choose" : "all");
+    setChooseCountDraft(Math.max(1, Number(section.chooseCount ?? 1)));
+    setNotesDraft((section.notes ?? []).join("\n"));
+  }, [section]);
+
+  useEffect(() => {
+    if (!editingCode || !editingCode.query.trim()) {
+      setCodeSearchResults([]);
+      return;
+    }
+
+    let active = true;
+    const timeout = window.setTimeout(() => {
+      const run = async () => {
+        setCodeSearchPending(true);
+        try {
+          const results = await plannerApi.searchCoursesAcrossRecentTerms(editingCode.query.trim());
+          if (!active) return;
+          const mapped = (results ?? [])
+            .map((course) => ({
+              id: course.id,
+              code: String(course.id ?? "").toUpperCase(),
+              title: String(course.title ?? "Untitled"),
+            }))
+            .filter((course) => course.code)
+            .slice(0, 10);
+          setCodeSearchResults(mapped);
+        } catch {
+          if (active) setCodeSearchResults([]);
+        } finally {
+          if (active) setCodeSearchPending(false);
+        }
+      };
+      void run();
+    }, 220);
+
+    return () => {
+      active = false;
+      window.clearTimeout(timeout);
+    };
+  }, [editingCode]);
+
+  const wildcardMatchedCoursesByToken = useMemo(() => {
+    const map = new Map<string, AuditCourse>();
+    const allCoursesByCode = new Map(allCourses.map((course) => [course.code.toUpperCase(), course]));
+
+    for (const slot of wildcardSlots) {
+      const effectiveCode = String(slot.effectiveCode ?? "").toUpperCase();
+      if (!effectiveCode) continue;
+      const matched = allCoursesByCode.get(effectiveCode);
+      if (!matched) continue;
+
+      map.set(slot.token.toUpperCase(), {
+        code: slot.token.toUpperCase(),
+        title: `${matched.code} - ${matched.title}`,
+        credits: matched.credits,
+        genEds: matched.genEds,
+        status: matched.status,
+      });
+    }
+
+    return map;
+  }, [allCourses, wildcardSlots]);
+
+  const sectionCourses = useMemo(() => {
+    const coursesByCode = new Map(allCourses.map((c) => [c.code.toUpperCase(), c]));
+    const courses: AuditCourse[] = [];
+
+    for (const code of section.courseCodes) {
+      const baseCode = code.toUpperCase();
+      const wildcardMatchedCourse = wildcardMatchedCoursesByToken.get(baseCode);
+      if (wildcardMatchedCourse) {
+        courses.push(wildcardMatchedCourse);
+        continue;
+      }
+
+      const auditCourse = coursesByCode.get(baseCode);
+      const details = courseDetails.get(baseCode);
+
+      if (auditCourse && details) {
+        courses.push({
+          ...auditCourse,
+          title: details.title || auditCourse.title,
+          credits: details.credits || auditCourse.credits,
+          genEds: details.genEds || auditCourse.genEds,
+        });
+      } else if (details) {
+        const status = byCourseCode.get(baseCode) ?? "not_started";
+        courses.push({
+          code: details.code,
+          title: details.title,
+          credits: details.credits,
+          genEds: details.genEds,
+          status,
+        });
+      } else if (auditCourse) {
+        courses.push(auditCourse);
+      } else {
+        const status = byCourseCode.get(baseCode) ?? "not_started";
+        courses.push({
+          code: baseCode,
+          title: baseCode,
+          credits: 0,
+          genEds: [],
+          status,
+        });
+      }
+    }
+
+    return courses;
+  }, [section, allCourses, courseDetails, byCourseCode, wildcardMatchedCoursesByToken]);
+
+  const coursesByCode = useMemo(() => {
+    return new Map(sectionCourses.map((course) => [course.code.toUpperCase(), course]));
+  }, [sectionCourses]);
+
+  const classRows = useMemo(() => {
+    const optionGroups = Array.isArray(section.optionGroups) ? section.optionGroups : [];
+    const standaloneCodes = Array.isArray(section.standaloneCodes) ? section.standaloneCodes : [];
+    const consumed = new Set<string>();
+
+    const rows: Array<{ key: string; codes: string[]; type: "OR" | "AND" }> = [];
+    for (const group of optionGroups) {
+      const cleaned = (group ?? []).map((code: string) => String(code).toUpperCase()).filter(Boolean);
+      if (cleaned.length === 0) continue;
+      cleaned.forEach((code: string) => consumed.add(code));
+      rows.push({ key: `or-${cleaned.join("-")}`, codes: cleaned, type: "OR" });
+    }
+
+    const andCodes = standaloneCodes
+      .map((code: string) => String(code).toUpperCase())
+      .filter((code: string) => Boolean(code));
+    andCodes.forEach((code: string) => consumed.add(code));
+    for (const code of andCodes) {
+      rows.push({ key: `and-${code}`, codes: [code], type: "AND" });
+    }
+
+    for (const rawCode of section.courseCodes ?? []) {
+      const code = String(rawCode).toUpperCase();
+      if (!code || consumed.has(code)) continue;
+      rows.push({ key: `fallback-${code}`, codes: [code], type: "AND" });
+    }
+
+    return rows;
+  }, [section]);
+
+  const saveTitle = () => {
+    const nextTitle = titleDraft.trim() || "Untitled Section";
+    onSaveSection?.({ ...section, title: nextTitle });
+    setEditingTitle(false);
+  };
+
+  const saveRequirement = () => {
+    onSaveSection?.({
+      ...section,
+      requirementType: requirementDraft,
+      chooseCount: requirementDraft === "choose" ? Math.max(1, Number(chooseCountDraft || 1)) : undefined,
+    });
+    setEditingRequirement(false);
+  };
+
+  const saveNotes = () => {
+    onSaveSection?.({
+      ...section,
+      notes: notesDraft
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean),
+    });
+    setEditingNotes(false);
+  };
+
+  const saveCodeReplacement = (oldCode: string, newCodeRaw: string) => {
+    const nextCode = String(newCodeRaw).toUpperCase().trim();
+    if (!nextCode || nextCode === oldCode) {
+      setEditingCode(null);
+      return;
+    }
+    const nextSection = mutateSectionWithDraft(section, (draft) => {
+      draft.blocks = mapDraftBlocksRecursively(draft.blocks, (block) => ({
+        ...block,
+        codes: block.codes.map((code) => (String(code).toUpperCase() === oldCode ? nextCode : String(code).toUpperCase())),
+      }));
+    });
+    onSaveSection?.(nextSection);
+    setEditingCode(null);
+    setCodeSearchResults([]);
+  };
+
+  return (
+    <Card className="bg-input-background border-border p-0 overflow-hidden">
+      <table className="w-full text-sm">
+        <thead className="bg-muted/40 border-b border-border">
+          <tr>
+            <th className="px-3 py-2 text-left text-xs text-muted-foreground">Section</th>
+            <th className="px-3 py-2 text-left text-xs text-muted-foreground">Requirement</th>
+            <th className="px-3 py-2 text-left text-xs text-muted-foreground">Progress</th>
+            <th className="px-3 py-2 text-left text-xs text-muted-foreground">Classes Needed</th>
+            <th className="px-3 py-2 text-right text-xs text-muted-foreground">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr className="border-b border-border bg-card/40 align-top">
+            <td className="px-3 py-3" onDoubleClick={() => setEditingTitle(true)}>
+              {editingTitle ? (
+                <Input
+                  value={titleDraft}
+                  onChange={(event) => setTitleDraft(event.target.value)}
+                  onBlur={saveTitle}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      saveTitle();
+                    }
+                  }}
+                  autoFocus
+                  className="h-8"
+                />
+              ) : (
+                <div>
+                  <p className={`font-medium ${sectionHeaderClass(sectionEval)}`}>{section.title}</p>
+                  <p className="text-xs text-muted-foreground">Double-click to edit</p>
+                </div>
+              )}
+            </td>
+            <td className="px-3 py-3" onDoubleClick={() => setEditingRequirement(true)}>
+              {editingRequirement ? (
+                <div className="flex items-center gap-2">
+                  <select
+                    className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
+                    value={requirementDraft}
+                    onChange={(event) => setRequirementDraft(event.target.value === "choose" ? "choose" : "all")}
+                    aria-label="Section requirement type"
+                    title="Section requirement type"
+                  >
+                    <option value="all">All Required</option>
+                    <option value="choose">Choose N</option>
+                  </select>
+                  {requirementDraft === "choose" && (
+                    <Input
+                      type="number"
+                      min={1}
+                      value={chooseCountDraft}
+                      onChange={(event) => setChooseCountDraft(Math.max(1, Number(event.target.value) || 1))}
+                      className="h-8 w-20"
+                    />
+                  )}
+                  <Button type="button" size="sm" variant="outline" onClick={saveRequirement}>Save</Button>
+                </div>
+              ) : (
+                <span className="text-foreground/85">
+                  {section.requirementType === "choose" ? `Choose ${section.chooseCount ?? 1}` : "All Required"}
+                </span>
+              )}
+            </td>
+            <td className="px-3 py-3">
+              <div className="flex items-center gap-2">
+                {statusBadge(sectionEval.status)}
+                <span className="text-xs text-muted-foreground">
+                  {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots)} / {sectionEval.requiredSlots}
+                </span>
+              </div>
+            </td>
+            <td className="px-3 py-3 text-xs text-muted-foreground">
+              Double-click any class code below to edit/search.
+            </td>
+            <td className="px-3 py-3">
+              <div className="flex items-center justify-end gap-2">
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="border-border text-foreground/80"
+                  onClick={() => onEdit?.(section)}
+                >
+                  <Pencil className="h-3.5 w-3.5 mr-1" />
+                  Edit
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="border-border text-foreground/80"
+                  onClick={() => {
+                    setExpandedNotesSectionIds((prev) => {
+                      const next = new Set(prev);
+                      if (next.has(section.id)) next.delete(section.id);
+                      else next.add(section.id);
+                      return next;
+                    });
+                  }}
+                >
+                  <Info className="h-3.5 w-3.5 mr-1" />
+                  {expandedNotesSectionIds.has(section.id) ? "Hide Notes" : "Info"}
+                </Button>
+              </div>
+            </td>
+          </tr>
+
+          {wildcardSlots.length > 0 && (
+            <tr className="border-b border-border bg-muted/20">
+              <td className="px-3 py-2 text-xs text-muted-foreground" colSpan={2}>Wildcard Slots</td>
+              <td className="px-3 py-2 text-xs text-muted-foreground" colSpan={3}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {wildcardSlots.map((slot) => (
+                    <label key={slot.key} className="text-xs text-muted-foreground flex flex-col gap-1">
+                      <span>{slot.token}</span>
+                      <select
+                        className="h-8 rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+                        value={slot.selectedCode ?? ""}
+                        onChange={(event) => onSelectWildcardCourse?.(slot.key, event.target.value)}
+                        aria-label={`Select course for wildcard slot ${slot.token}`}
+                        title={`Select course for wildcard slot ${slot.token}`}
+                      >
+                        <option value="">Auto-select best match</option>
+                        {slot.options.map((option) => (
+                          <option key={`${slot.key}-${option.code}`} value={option.code}>
+                            {option.code} - {option.title}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  ))}
+                </div>
+              </td>
+            </tr>
+          )}
+
+          {classRows.map((row) => (
+            <tr key={`${section.id}-${row.key}`} className="border-b border-border align-top">
+              <td className="px-3 py-2 text-xs text-muted-foreground">Class Option</td>
+              <td className="px-3 py-2 text-xs text-foreground/85">{row.type === "OR" ? "Choose 1" : "Required"}</td>
+              <td className="px-3 py-2 text-xs text-muted-foreground">{row.codes.length} course{row.codes.length === 1 ? "" : "s"}</td>
+              <td className="px-3 py-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  {row.codes.map((code, codeIndex) => {
+                    const token = String(code).toUpperCase();
+                    const course = coursesByCode.get(token);
+                    const displayText = course ? `${course.code} ${course.title}` : token;
+                    const isEditing = editingCode?.originalCode === token;
+                    return (
+                      <div key={`${row.key}-${token}-${codeIndex}`} className="flex items-center gap-2">
+                        {isEditing ? (
+                          <div className="rounded-md border border-border bg-input-background p-2 w-[360px] max-w-full">
+                            <Input
+                              value={editingCode.query}
+                              onChange={(event) => setEditingCode({ ...editingCode, query: event.target.value })}
+                              placeholder="Search class code/title"
+                              className="h-8 mb-2"
+                              autoFocus
+                            />
+                            {codeSearchPending ? (
+                              <p className="text-[11px] text-muted-foreground">Searching...</p>
+                            ) : (
+                              <div className="max-h-28 overflow-y-auto space-y-1">
+                                {codeSearchResults.map((result) => (
+                                  <button
+                                    key={`${token}-${result.code}`}
+                                    type="button"
+                                    className="w-full rounded border border-border px-2 py-1 text-left text-xs hover:bg-accent"
+                                    onClick={() => saveCodeReplacement(token, result.code)}
+                                  >
+                                    <span className="font-medium text-foreground">{result.code}</span>
+                                    <span className="text-muted-foreground"> · {result.title}</span>
+                                  </button>
+                                ))}
+                              </div>
+                            )}
+                            <div className="mt-2 flex justify-end gap-2">
+                              <Button type="button" size="sm" variant="outline" onClick={() => setEditingCode(null)}>Cancel</Button>
+                              <Button type="button" size="sm" onClick={() => saveCodeReplacement(token, editingCode.query)}>Apply</Button>
+                            </div>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            className="rounded border border-border px-2 py-1 text-xs text-foreground/85 hover:bg-accent"
+                            onDoubleClick={() => setEditingCode({ originalCode: token, query: token })}
+                            title="Double-click to edit class"
+                          >
+                            {displayText}
+                          </button>
+                        )}
+                        {row.type === "OR" && codeIndex < row.codes.length - 1 && (
+                          <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </td>
+              <td className="px-3 py-2" />
+            </tr>
+          ))}
+
+          {expandedNotesSectionIds.has(section.id) && (
+            <tr className="bg-muted/20">
+              <td className="px-3 py-2 text-xs text-muted-foreground">Notes</td>
+              <td className="px-3 py-2" colSpan={4} onDoubleClick={() => setEditingNotes(true)}>
+                {editingNotes ? (
+                  <div className="space-y-2">
+                    <Textarea
+                      value={notesDraft}
+                      onChange={(event) => setNotesDraft(event.target.value)}
+                      className="min-h-[96px]"
+                    />
+                    <div className="flex justify-end gap-2">
+                      <Button type="button" size="sm" variant="outline" onClick={() => setEditingNotes(false)}>Cancel</Button>
+                      <Button type="button" size="sm" onClick={saveNotes}>Save Notes</Button>
+                    </div>
+                  </div>
+                ) : section.notes.length > 0 ? (
+                  <ul className="space-y-1">
+                    {section.notes.map((note: string, idx: number) => (
+                      <li key={`${section.id}-note-${idx}`} className="text-xs text-foreground/80">• {note}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-muted-foreground">No notes. Double-click to add notes.</p>
+                )}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </Card>
+  );
 }
 
 function RequirementSectionCard({
@@ -1672,16 +2151,9 @@ export default function DegreeAudit() {
                 <div className="space-y-2">
                   {(() => {
                     const total = Math.max(1, summary.requiredCredits);
-                    const completedPct = Math.min(100, (summary.completedCredits / total) * 100);
-                    const inProgressPct = Math.min(100, (summary.inProgressCredits / total) * 100);
-                    const plannedPct = Math.min(100, (summary.plannedCredits / total) * 100);
-                    return (
-                      <>
-                        <Progress value={completedPct} className="h-2 [&>div]:bg-green-500" />
-                        <Progress value={inProgressPct} className="h-2 [&>div]:bg-blue-500" />
-                        <Progress value={plannedPct} className="h-2 [&>div]:bg-amber-500" />
-                      </>
-                    );
+                    const earnedOrInFlight = Math.min(summary.requiredCredits, summary.completedCredits + summary.inProgressCredits + summary.plannedCredits);
+                    const overallPct = Math.min(100, (earnedOrInFlight / total) * 100);
+                    return <Progress value={overallPct} className="h-3 [&>div]:bg-red-500" />;
                   })()}
                 </div>
 
@@ -1831,6 +2303,26 @@ export default function DegreeAudit() {
                           <span className="text-foreground text-sm">
                             {Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots)} / {programAudit.requiredSlots} required classes
                           </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 mb-5">
+                          {programAudit.sectionRows.slice(0, 4).map(({ section, eval: sectionEval }) => {
+                            const sectionPercent = sectionEval.requiredSlots === 0
+                              ? 0
+                              : (Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots) / sectionEval.requiredSlots) * 100;
+                            return (
+                              <Card key={`${programAudit.bundle.programId}-summary-${section.id}`} className="p-3 bg-input-background border-border">
+                                <div className="flex items-center justify-between mb-2">
+                                  <h3 className="text-sm text-muted-foreground truncate">{section.title}</h3>
+                                  <Info className="w-3.5 h-3.5 text-muted-foreground" />
+                                </div>
+                                <p className="text-xl text-foreground mb-2">
+                                  {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots)} / {sectionEval.requiredSlots}
+                                </p>
+                                <Progress value={sectionPercent} className="h-2" />
+                              </Card>
+                            );
+                          })}
                         </div>
 
                         {programAudit.bundle.specializationOptions && programAudit.bundle.specializationOptions.length > 0 && (
@@ -2234,7 +2726,7 @@ export default function DegreeAudit() {
                                   }
 
                                   return (
-                                    <RequirementSectionCard
+                                    <RequirementSectionTableCard
                                       key={section.id}
                                       section={section}
                                       sectionEval={sectionEval}
@@ -2249,6 +2741,13 @@ export default function DegreeAudit() {
                                       setExpandedNotesSectionIds={setExpandedNotesSectionIds}
                                       condensedView={condensedAuditView}
                                       onEdit={() => startEditingSection(index, section)}
+                                      onSaveSection={(nextSection) => {
+                                        const nextSections = programAudit.bundle.sections.map((item) => item.id === section.id ? {
+                                          ...nextSection,
+                                          specializationId: item.specializationId,
+                                        } : item);
+                                        persistProgramSections(programAudit.bundle.programId, nextSections);
+                                      }}
                                     />
                                   );
                                 })}
@@ -2896,7 +3395,7 @@ export default function DegreeAudit() {
                                         }
 
                                         return (
-                                          <RequirementSectionCard
+                                          <RequirementSectionTableCard
                                             key={section.id}
                                             section={section}
                                             sectionEval={sectionEval}
@@ -2911,6 +3410,13 @@ export default function DegreeAudit() {
                                             setExpandedNotesSectionIds={setExpandedNotesSectionIds}
                                             condensedView={condensedAuditView}
                                             onEdit={() => startEditingSection(index, section)}
+                                            onSaveSection={(nextSection) => {
+                                              const nextSections = programAudit.bundle.sections.map((item) => item.id === section.id ? {
+                                                ...nextSection,
+                                                specializationId: item.specializationId,
+                                              } : item);
+                                              persistProgramSections(programAudit.bundle.programId, nextSections);
+                                            }}
                                           />
                                         );
                                       })}
