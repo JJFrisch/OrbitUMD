@@ -1,4 +1,6 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
+import { listUserDegreePrograms } from "./degreeProgramsRepository";
+import { compareAcademicTerms, getCurrentAcademicTerm } from "../scheduling/termProgress";
 
 let termCodeColumnsSupported: boolean | null = null;
 
@@ -7,6 +9,11 @@ const TERM_CODE_TO_SEASON: Record<string, string> = {
   "05": "summer",
   "08": "fall",
   "12": "winter",
+};
+
+type PlanningTerm = {
+  termCode: "01" | "08";
+  termYear: number;
 };
 
 function messageFromUnknownError(error: unknown): string {
@@ -77,6 +84,150 @@ function mapScheduleRowWithDerivedTerm(row: any): ScheduleWithSelections {
     term_year: row?.term_year ?? derivedTermYear,
     selections_json: row?.selections_json ?? [],
   };
+}
+
+function toPlanningTermFromSeasonYear(seasonRaw: unknown, yearRaw: unknown): PlanningTerm | null {
+  const season = String(seasonRaw ?? "").toLowerCase();
+  const year = Number(yearRaw);
+  if (!Number.isFinite(year) || year < 1900) return null;
+
+  if (season === "spring") return { termCode: "01", termYear: year };
+  if (season === "fall") return { termCode: "08", termYear: year };
+
+  if (season === "summer") {
+    return { termCode: "01", termYear: year };
+  }
+
+  if (season === "winter") {
+    return { termCode: "08", termYear: year };
+  }
+
+  return null;
+}
+
+function normalizeToPlanningTerm(term: { termCode: string; termYear: number }): PlanningTerm {
+  if (term.termCode === "01") return { termCode: "01", termYear: term.termYear };
+  if (term.termCode === "08") return { termCode: "08", termYear: term.termYear };
+  if (term.termCode === "05") return { termCode: "08", termYear: term.termYear };
+  return { termCode: "01", termYear: term.termYear };
+}
+
+function nextPlanningTerm(term: PlanningTerm): PlanningTerm {
+  if (term.termCode === "01") {
+    return { termCode: "08", termYear: term.termYear };
+  }
+  return { termCode: "01", termYear: term.termYear + 1 };
+}
+
+function termNameNoSpace(termCode: string, termYear: number): string {
+  const season = termCode === "01" ? "Spring" : "Fall";
+  return `${season}${termYear}`;
+}
+
+function buildPlanningTerms(startTerm: PlanningTerm, graduationTerm: PlanningTerm | null): PlanningTerm[] {
+  const normalizedStart = normalizeToPlanningTerm(startTerm);
+
+  if (!graduationTerm) {
+    const terms: PlanningTerm[] = [];
+    let cursor = normalizedStart;
+    for (let i = 0; i < 8; i += 1) {
+      terms.push(cursor);
+      cursor = nextPlanningTerm(cursor);
+    }
+    return terms;
+  }
+
+  const normalizedGrad = normalizeToPlanningTerm(graduationTerm);
+  if (compareAcademicTerms(normalizedGrad, normalizedStart) < 0) {
+    return buildPlanningTerms(normalizedStart, null);
+  }
+
+  const terms: PlanningTerm[] = [];
+  let cursor = normalizedStart;
+  while (compareAcademicTerms(cursor, normalizedGrad) <= 0 && terms.length < 24) {
+    terms.push(cursor);
+    cursor = nextPlanningTerm(cursor);
+  }
+
+  return terms;
+}
+
+async function ensureExpectedMainSchedules(existingSchedules: ScheduleWithSelections[]): Promise<number> {
+  const primaryTerms = new Set(
+    existingSchedules
+      .filter((schedule) => schedule.is_primary && schedule.term_code && typeof schedule.term_year === "number")
+      .map((schedule) => `${schedule.term_code}-${schedule.term_year}`),
+  );
+
+  const earliestMain = existingSchedules
+    .filter((schedule) => schedule.is_primary && schedule.term_code && typeof schedule.term_year === "number")
+    .map((schedule) => ({ termCode: String(schedule.term_code), termYear: Number(schedule.term_year) }))
+    .sort((a, b) => compareAcademicTerms(a, b))[0];
+
+  let startTerm: PlanningTerm | null = null;
+  let graduationTerm: PlanningTerm | null = null;
+
+  try {
+    const programs = await listUserDegreePrograms();
+    const primaryProgram = programs.find((program) => program.isPrimary) ?? programs[0] ?? null;
+
+    if (primaryProgram) {
+      const termIds = [primaryProgram.startedTermId, primaryProgram.expectedGraduationTermId].filter(
+        (id): id is string => typeof id === "string" && id.trim().length > 0,
+      );
+
+      if (termIds.length > 0) {
+        const supabase = getSupabaseClient();
+        const { data } = await supabase
+          .from("terms")
+          .select("id, season, year")
+          .in("id", termIds);
+
+        const rows = (data ?? []) as Array<{ id?: string; season?: string; year?: number }>;
+        const byId = new Map(rows.map((row) => [String(row.id ?? ""), row]));
+
+        const startedRow = primaryProgram.startedTermId ? byId.get(primaryProgram.startedTermId) : null;
+        const gradRow = primaryProgram.expectedGraduationTermId ? byId.get(primaryProgram.expectedGraduationTermId) : null;
+
+        startTerm = toPlanningTermFromSeasonYear(startedRow?.season, startedRow?.year);
+        graduationTerm = toPlanningTermFromSeasonYear(gradRow?.season, gradRow?.year);
+      }
+    }
+  } catch {
+    // Fall back to existing schedule terms and current term below.
+  }
+
+  if (!startTerm && earliestMain) {
+    startTerm = normalizeToPlanningTerm({ termCode: earliestMain.termCode, termYear: earliestMain.termYear });
+  }
+
+  if (!startTerm) {
+    const current = getCurrentAcademicTerm();
+    startTerm = normalizeToPlanningTerm({ termCode: current.termCode, termYear: current.termYear });
+  }
+
+  const expectedTerms = buildPlanningTerms(startTerm, graduationTerm);
+  let createdCount = 0;
+
+  for (const term of expectedTerms) {
+    const key = `${term.termCode}-${term.termYear}`;
+    if (primaryTerms.has(key)) {
+      continue;
+    }
+
+    await saveScheduleWithSelections({
+      name: `MAIN ${termNameNoSpace(term.termCode, term.termYear)}`,
+      termCode: term.termCode,
+      termYear: term.termYear,
+      isPrimary: true,
+      selectionsJson: [],
+    });
+
+    primaryTerms.add(key);
+    createdCount += 1;
+  }
+
+  return createdCount;
 }
 
 function extractSelectionsArray(raw: unknown): unknown[] {
@@ -466,5 +617,20 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
 
   if (error) normalizeScheduleError(error);
   const cleaned = await stripAutoSeededFirstSchedules(data ?? []);
-  return cleaned.map(mapScheduleRowWithDerivedTerm);
+  const mapped = cleaned.map(mapScheduleRowWithDerivedTerm);
+
+  const createdMainCount = await ensureExpectedMainSchedules(mapped);
+  if (createdMainCount === 0) {
+    return mapped;
+  }
+
+  const { data: refreshedData, error: refreshedError } = await supabase
+    .from("user_schedules")
+    .select("*, terms(umd_term_code, year)")
+    .eq("user_id", userId)
+    .order("updated_at", { ascending: true });
+
+  if (refreshedError) normalizeScheduleError(refreshedError);
+  const refreshedCleaned = await stripAutoSeededFirstSchedules(refreshedData ?? []);
+  return refreshedCleaned.map(mapScheduleRowWithDerivedTerm);
 }

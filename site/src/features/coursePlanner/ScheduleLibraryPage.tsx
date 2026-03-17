@@ -425,7 +425,7 @@ export function ScheduleLibraryPage() {
                 onChange={(event) => setSearchInput(event.target.value)}
                 placeholder="Search schedule name or class..."
               />
-              <select value={termFilter} onChange={(event) => setTermFilter(event.target.value)}>
+              <select value={termFilter} onChange={(event) => setTermFilter(event.target.value)} aria-label="Filter schedules by term" title="Filter schedules by term">
                 <option value="all">All Terms</option>
                 {termOptions.map((option) => (
                   <option key={option.value} value={option.value}>
