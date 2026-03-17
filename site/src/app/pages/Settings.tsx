@@ -16,7 +16,7 @@ import {
 } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
 import { useTheme } from "../contexts/ThemeContext";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import {
   addUserDegreeProgramFromCatalogOption,
   listUserDegreePrograms,
@@ -66,7 +66,6 @@ function summarizePriorCredits(priorCredits: Array<{ sourceType: string; credits
 }
 
 export default function Settings() {
-  const navigate = useNavigate();
   const { theme, toggleTheme, setTheme } = useTheme();
 
   const [loading, setLoading] = useState(true);
@@ -875,11 +874,8 @@ export default function Settings() {
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">Settings Tools</p>
                 <h2 className="text-lg font-semibold">Quick Access</h2>
               </div>
-              <Button variant="ghost" size="icon" className="rounded-full" onClick={() => navigate("/profile")} title="Open profile">
-                <User className="w-5 h-5" />
-              </Button>
             </div>
-            <p className="text-xs text-muted-foreground">Profile stays available here now that the shell top bar is gone.</p>
+            <p className="text-xs text-muted-foreground">Profile fields live on this Settings page.</p>
           </Card>
 
           <GlobalSearchPanel />

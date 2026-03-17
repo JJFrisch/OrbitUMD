@@ -17,7 +17,6 @@ const GenEds = lazy(() => import("./pages/GenEds"));
 const CreditImport = lazy(() => import("./pages/CreditImport"));
 const DegreeRequirements = lazy(() => import("./pages/DegreeRequirement"));
 const Settings = lazy(() => import("./pages/Settings"));
-const Profile = lazy(() => import("./pages/Profile"));
 const Suggestions = lazy(() => import("./pages/Suggestions"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const SignIn = lazy(() => import("./pages/SignIn"));
@@ -100,7 +99,6 @@ export const router = createBrowserRouter([
       { path: "gen-eds", element: withSuspense(<RequireAuth><GenEds /></RequireAuth>) },
       { path: "credit-import", element: withSuspense(<RequireAuth><CreditImport /></RequireAuth>) },
       { path: "degree-requirements", element: withSuspense(<RequireAuth><DegreeRequirements /></RequireAuth>) },
-      { path: "profile", element: withSuspense(<RequireAuth><Profile /></RequireAuth>) },
       { path: "suggestions", element: withSuspense(<RequireAuth><Suggestions /></RequireAuth>) },
       { path: "settings", element: withSuspense(<RequireAuth><Settings /></RequireAuth>) },
       { path: "*", element: withSuspense(<NotFound />) },

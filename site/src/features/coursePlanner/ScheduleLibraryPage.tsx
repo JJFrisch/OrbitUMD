@@ -159,13 +159,16 @@ export function ScheduleLibraryPage() {
 
   const refreshSchedules = async () => {
     const results = await plannerApi.listAllSchedulesWithSelections();
-    setSchedules(results);
+    const byRecent = [...results].sort((left, right) => (
+      new Date(right.updated_at).getTime() - new Date(left.updated_at).getTime()
+    ));
+    setSchedules(byRecent);
     setErrorMessage(null);
     setPreviewScheduleId((current) => {
-      if (current && results.some((schedule) => schedule.id === current)) {
+      if (current && byRecent.some((schedule) => schedule.id === current)) {
         return current;
       }
-      return results[0]?.id ?? "";
+      return byRecent[0]?.id ?? "";
     });
   };
 
@@ -174,10 +177,13 @@ export function ScheduleLibraryPage() {
     const run = async () => {
       try {
         const results = await plannerApi.listAllSchedulesWithSelections();
+        const byRecent = [...results].sort((left, right) => (
+          new Date(right.updated_at).getTime() - new Date(left.updated_at).getTime()
+        ));
         if (!active) return;
-        setSchedules(results);
+        setSchedules(byRecent);
         setErrorMessage(null);
-        setPreviewScheduleId(results[0]?.id ?? "");
+        setPreviewScheduleId(byRecent[0]?.id ?? "");
       } catch (error) {
         if (!active) return;
         const msg = error instanceof Error ? error.message : "Failed to load schedules.";

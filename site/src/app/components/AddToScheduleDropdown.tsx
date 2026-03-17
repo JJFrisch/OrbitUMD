@@ -28,6 +28,24 @@ const TERM_LABEL: Record<string, string> = {
   "12": "Winter",
 };
 
+let cachedChoices: ScheduleChoice[] | null = null;
+let cachedChoicesPromise: Promise<ScheduleChoice[]> | null = null;
+
+async function loadScheduleChoicesCached(): Promise<ScheduleChoice[]> {
+  if (cachedChoices) return cachedChoices;
+  if (!cachedChoicesPromise) {
+    cachedChoicesPromise = listAvailableScheduleChoices()
+      .then((choices) => {
+        cachedChoices = choices;
+        return choices;
+      })
+      .finally(() => {
+        cachedChoicesPromise = null;
+      });
+  }
+  return cachedChoicesPromise;
+}
+
 export function AddToScheduleDropdown({
   courseCode,
   courseTitle,
@@ -39,24 +57,19 @@ export function AddToScheduleDropdown({
 }: AddToScheduleDropdownProps) {
   const [open, setOpen] = useState(false);
   const [loadingSchedules, setLoadingSchedules] = useState(false);
-  const [schedules, setSchedules] = useState<ScheduleChoice[]>([]);
+  const [schedules, setSchedules] = useState<ScheduleChoice[]>(cachedChoices ?? []);
   const [pendingScheduleId, setPendingScheduleId] = useState<string | null>(null);
-  const [loadedOnce, setLoadedOnce] = useState(false);
+  const [loadedOnce, setLoadedOnce] = useState(Boolean(cachedChoices));
 
   useEffect(() => {
-    if (!open || loadedOnce || loadingSchedules) return;
+    if (loadedOnce || loadingSchedules) return;
 
     let active = true;
-    const timeout = window.setTimeout(() => {
-      if (!active) return;
-      setLoadingSchedules(false);
-      onMessage?.("Loading schedules timed out. Please try again.");
-    }, 8000);
 
     const run = async () => {
       setLoadingSchedules(true);
       try {
-        const choices = await listAvailableScheduleChoices();
+        const choices = await loadScheduleChoicesCached();
         if (!active) return;
         setSchedules(choices);
         setLoadedOnce(true);
@@ -72,9 +85,8 @@ export function AddToScheduleDropdown({
     void run();
     return () => {
       active = false;
-      window.clearTimeout(timeout);
     };
-  }, [loadedOnce, loadingSchedules, onMessage, open]);
+  }, [loadedOnce, loadingSchedules, onMessage]);
 
   const isBusy = useMemo(() => pendingScheduleId !== null, [pendingScheduleId]);
 

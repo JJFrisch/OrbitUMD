@@ -1,6 +1,6 @@
 import { plannerApi } from "@/lib/api/planner";
 import { getSupabaseClient } from "@/lib/supabase/client";
-import { Search, User, ChevronDown, Lightbulb, Settings, LogOut, CircleHelp } from "lucide-react";
+import { Search, ChevronDown, Lightbulb, Settings, LogOut, CircleHelp } from "lucide-react";
 import { type FormEvent, useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { Button } from "./ui/button";
@@ -71,12 +71,6 @@ const SEARCH_TARGETS: SiteSearchTarget[] = [
     description: "Browse and satisfy Maryland General Education requirements.",
     path: "/gen-eds",
     keywords: ["gen ed", "gened", "distributive", "fundamental"],
-  },
-  {
-    label: "Profile",
-    description: "Manage your account profile and contact details.",
-    path: "/profile",
-    keywords: ["profile", "account", "name", "email"],
   },
   {
     label: "Settings",
@@ -356,16 +350,6 @@ export default function TopBar() {
           <Lightbulb className="w-5 h-5" />
         </Button>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full"
-          onClick={() => navigate("/profile")}
-          title="Profile"
-        >
-          <User className="w-5 h-5" />
-        </Button>
-
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
@@ -380,7 +364,6 @@ export default function TopBar() {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border" />
-            <DropdownMenuItem onClick={() => navigate("/profile")}>Profile</DropdownMenuItem>
             <DropdownMenuItem onClick={() => navigate("/settings")}>
               <Settings className="mr-2 w-4 h-4" />
               Settings

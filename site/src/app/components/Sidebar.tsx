@@ -7,7 +7,6 @@ import {
   FileCheck2, 
   BookOpen, 
   Settings,
-  User,
   Lightbulb,
   Orbit,
   PanelLeftClose,
@@ -23,7 +22,6 @@ const navigation = [
   { name: "Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
   { name: "Degree Audit", href: "/degree-audit", icon: FileCheck2 },
   { name: "Gen Eds", href: "/gen-eds", icon: BookOpen },
-  { name: "Profile", href: "/profile", icon: User },
   { name: "Suggestions", href: "/suggestions", icon: Lightbulb },
   { name: "Settings", href: "/settings", icon: Settings },
 ];

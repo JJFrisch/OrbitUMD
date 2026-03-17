@@ -215,16 +215,26 @@ async function ensureExpectedMainSchedules(existingSchedules: ScheduleWithSelect
       continue;
     }
 
-    await saveScheduleWithSelections({
-      name: `MAIN ${termNameNoSpace(term.termCode, term.termYear)}`,
-      termCode: term.termCode,
-      termYear: term.termYear,
-      isPrimary: true,
-      selectionsJson: [],
-    });
+    try {
+      await saveScheduleWithSelections({
+        name: `MAIN ${termNameNoSpace(term.termCode, term.termYear)}`,
+        termCode: term.termCode,
+        termYear: term.termYear,
+        isPrimary: true,
+        selectionsJson: [],
+      });
+      createdCount += 1;
+    } catch (error) {
+      const message = error instanceof Error ? error.message.toLowerCase() : "";
+      const isDuplicate = message.includes("already exists") || message.includes("duplicate key value");
+      if (!isDuplicate) {
+        throw error;
+      }
+    }
 
+    // Whether newly created here or created by a concurrent request,
+    // treat this term as satisfied and continue.
     primaryTerms.add(key);
-    createdCount += 1;
   }
 
   return createdCount;
@@ -555,6 +565,21 @@ export async function saveScheduleWithSelections(input: SaveScheduleInput): Prom
     if (existingByName?.id) payload.id = existingByName.id;
   }
 
+  if (input.isPrimary === true) {
+    let demoteQuery = supabase
+      .from("user_schedules")
+      .update({ is_primary: false })
+      .eq("user_id", userId)
+      .eq("term_id", termId);
+
+    if (typeof payload.id === "string" && payload.id.length > 0) {
+      demoteQuery = demoteQuery.neq("id", payload.id);
+    }
+
+    const { error: demoteError } = await demoteQuery;
+    if (demoteError) normalizeScheduleError(demoteError);
+  }
+
   const { data, error } = await supabase
     .from("user_schedules")
     .upsert(payload, { onConflict: "id" })
@@ -613,7 +638,7 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
     .from("user_schedules")
     .select("*, terms(umd_term_code, year)")
     .eq("user_id", userId)
-    .order("updated_at", { ascending: true });
+    .order("updated_at", { ascending: false });
 
   if (error) normalizeScheduleError(error);
   const cleaned = await stripAutoSeededFirstSchedules(data ?? []);
@@ -628,7 +653,7 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
     .from("user_schedules")
     .select("*, terms(umd_term_code, year)")
     .eq("user_id", userId)
-    .order("updated_at", { ascending: true });
+    .order("updated_at", { ascending: false });
 
   if (refreshedError) normalizeScheduleError(refreshedError);
   const refreshedCleaned = await stripAutoSeededFirstSchedules(refreshedData ?? []);
