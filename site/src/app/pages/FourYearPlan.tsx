@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
+import { NeededClassesPanel } from "../components/NeededClassesPanel";
 import {
   Select,
   SelectContent,
@@ -28,6 +29,9 @@ import {
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 import { useTheme } from "../contexts/ThemeContext";
 import { features } from "process";
+import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
+import { addCourseToSchedule } from "@/lib/scheduling/quickAddToSchedule";
+import { buildNeededClassItems, type NeededClassItem } from "@/lib/requirements/neededClassesAdvisor";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -227,6 +231,8 @@ export default function FourYearPlan() {
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
   const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
   const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
+  const [showNeededPanel, setShowNeededPanel] = useState(false);
+  const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
 
   useEffect(() => {
     let active = true;
@@ -376,6 +382,99 @@ export default function FourYearPlan() {
     };
   }, [academicGpaHistory.overallGPA, duplicateScheduleSectionKeys, terms]);
 
+  const timelineTermLabels = useMemo(
+    () => terms.filter((term) => term.source === "schedule").map((term) => term.termLabel),
+    [terms],
+  );
+
+  useEffect(() => {
+    let active = true;
+
+    const run = async () => {
+      const byCourseCode = new Map<string, "completed" | "in_progress" | "planned" | "not_started">();
+      const byCourseTags = new Map<string, string[]>();
+      const rankStatus = (status: "completed" | "in_progress" | "planned" | "not_started") => {
+        if (status === "completed") return 4;
+        if (status === "in_progress") return 3;
+        if (status === "planned") return 2;
+        return 1;
+      };
+
+      for (const term of terms) {
+        for (const course of term.courses) {
+          const code = String(course.code).toUpperCase();
+          if (!code) continue;
+          const existing = byCourseCode.get(code) ?? "not_started";
+          const next = rankStatus(course.status) > rankStatus(existing) ? course.status : existing;
+          byCourseCode.set(code, next);
+          byCourseTags.set(code, Array.isArray(course.tags) ? course.tags : []);
+        }
+      }
+
+      const neededCourseCodes = Array.from(
+        new Set(requirementBundles.flatMap((bundle) => bundle.sections.flatMap((section) => section.courseCodes ?? []))),
+      ).map((code) => String(code).toUpperCase()).filter(Boolean);
+
+      let details = new Map();
+      if (neededCourseCodes.length > 0) {
+        details = await lookupCourseDetails(neededCourseCodes);
+      }
+
+      if (!active) return;
+
+      const items = buildNeededClassItems({
+        bundles: requirementBundles,
+        byCourseCode,
+        byCourseTags,
+        courseDetails: details,
+        totalPlannedCredits: summary.totalCredits,
+        timelineTermLabels,
+      });
+      setNeededItems(items);
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [requirementBundles, summary.totalCredits, terms, timelineTermLabels]);
+
+  const refreshMainSchedules = async () => {
+    const all = await plannerApi.listAllSchedulesWithSelections();
+    setMainSchedules(all.filter((schedule) => schedule.is_primary));
+  };
+
+  const handleDropNeededIntoTerm = async (raw: string, term: PlannedTerm) => {
+    if (term.source !== "schedule") return;
+
+    let payload: { type?: string; courseCode?: string; title?: string; credits?: number; genEdCode?: string } | null = null;
+    try {
+      payload = JSON.parse(raw);
+    } catch {
+      payload = null;
+    }
+    if (!payload || payload.type !== "needed-course" || !payload.courseCode) return;
+
+    try {
+      const result = await addCourseToSchedule({
+        scheduleId: term.scheduleId,
+        courseCode: payload.courseCode,
+        courseTitle: payload.title ?? payload.courseCode,
+        credits: Number(payload.credits ?? 3) || 3,
+        genEds: payload.genEdCode ? [payload.genEdCode] : [],
+      });
+
+      if (result.added) {
+        toast.success(`${payload.courseCode} added to ${term.scheduleName}.`);
+        await refreshMainSchedules();
+      } else {
+        toast.message(result.reason ?? `${payload.courseCode} is already in this schedule.`);
+      }
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to add class to schedule.");
+    }
+  };
+
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -514,9 +613,14 @@ export default function FourYearPlan() {
             </p>
           </div>
 
-          <Link to="/schedules">
-            <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            <Button type="button" variant="outline" className="border-border" onClick={() => setShowNeededPanel(true)}>
+              What's Needed
+            </Button>
+            <Link to="/schedules">
+              <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
+            </Link>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
@@ -659,6 +763,15 @@ export default function FourYearPlan() {
                 <div
                   className="p-5 cursor-pointer hover:bg-popover transition-colors"
                   onClick={() => toggleTerm(term.id)}
+                  onDragOver={(event) => {
+                    if (term.source !== "schedule") return;
+                    event.preventDefault();
+                  }}
+                  onDrop={(event) => {
+                    if (term.source !== "schedule") return;
+                    event.preventDefault();
+                    void handleDropNeededIntoTerm(event.dataTransfer.getData("text/plain"), term);
+                  }}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 flex-wrap">
@@ -791,6 +904,18 @@ export default function FourYearPlan() {
           })}
         </div>
       </div>
+
+      <NeededClassesPanel
+        open={showNeededPanel}
+        title="What's Needed"
+        subtitle="Drag a course into a term card to add it to that MAIN schedule."
+        items={neededItems}
+        defaultSort="category"
+        onClose={() => setShowNeededPanel(false)}
+        onApplyGenEdFilter={(genEdCode) => {
+          window.location.href = `/schedule-builder?gened=${encodeURIComponent(genEdCode)}`;
+        }}
+      />
     </div>
   );
 }

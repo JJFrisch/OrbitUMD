@@ -1,11 +1,21 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { AlertCircle, CheckCircle2, Cloud } from "lucide-react";
+import { NeededClassesPanel } from "@/app/components/NeededClassesPanel";
+import { Button } from "@/app/components/ui/button";
 import { CourseSearchPanel } from "./components/search/CourseSearchPanel";
 import { CalendarView } from "./components/schedule/CalendarView";
 import { ScheduleDetailsOverlay } from "./components/schedule/ScheduleDetailsOverlay";
 import { ScheduleBuilderHeader } from "./components/ScheduleBuilderHeader";
 import { useCoursePlannerStore } from "./state/coursePlannerStore";
+import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
+import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
+import { loadProgramRequirementBundles, type ProgramRequirementBundle, type AuditCourseStatus } from "@/lib/requirements/audit";
+import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
+import { plannerApi } from "@/lib/api/planner";
+import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
+import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { buildNeededClassItems, type NeededClassItem } from "@/lib/requirements/neededClassesAdvisor";
 import "./styles/coursePlanner.css";
 
 const DEFAULT_SCHEDULE_NAME = "Default Schedule";
@@ -42,6 +52,9 @@ export function CoursePlannerPage() {
   const setPrintMode = useCoursePlannerStore((state) => state.setPrintMode);
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const toggleInfoPanel = useCoursePlannerStore((state) => state.toggleInfoPanel);
+  const setFilters = useCoursePlannerStore((state) => state.setFilters);
+  const executeSearch = useCoursePlannerStore((state) => state.executeSearch);
+  const addPlannedCourseByCode = useCoursePlannerStore((state) => state.addPlannedCourseByCode);
 
   const activeScheduleId = useCoursePlannerStore((state) => state.activeScheduleId);
   const savedSchedules = useCoursePlannerStore((state) => state.savedSchedules);
@@ -55,6 +68,9 @@ export function CoursePlannerPage() {
     buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}),
   );
   const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
+  const [showNeededPanel, setShowNeededPanel] = useState(false);
+  const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
+  const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -136,6 +152,17 @@ export function CoursePlannerPage() {
   useEffect(() => {
     void useCoursePlannerStore.getState().executeSearch();
   }, []);
+
+  useEffect(() => {
+    const genEd = searchParams.get("gened");
+    if (!genEd) return;
+    const normalized = genEd.toUpperCase().trim();
+    setFilters((current) => ({
+      ...current,
+      genEds: current.genEds.includes(normalized) ? current.genEds : [...current.genEds, normalized],
+    }));
+    void executeSearch();
+  }, [executeSearch, searchParams, setFilters]);
 
   // Load saved schedules for the current term
   useEffect(() => {
@@ -231,6 +258,86 @@ export function CoursePlannerPage() {
     [savedSchedules],
   );
 
+  useEffect(() => {
+    let active = true;
+    const run = async () => {
+      try {
+        const [programs, priorCredits, schedules] = await Promise.all([
+          listUserDegreePrograms(),
+          listUserPriorCredits(),
+          plannerApi.listAllSchedulesWithSelections(),
+        ]);
+        const bundles = await loadProgramRequirementBundles(programs);
+        if (!active) return;
+        setRequirementBundles(bundles);
+
+        const byCourseCode = new Map<string, AuditCourseStatus>();
+        const byCourseTags = new Map<string, string[]>();
+        const timelineTermLabels: string[] = [];
+
+        for (const schedule of schedules.filter((item) => item.is_primary && item.term_code && item.term_year)) {
+          const termLabel = `${schedule.term_code}-${schedule.term_year}`;
+          timelineTermLabels.push(termLabel);
+          const status = getAcademicProgressStatus({ termCode: schedule.term_code!, termYear: schedule.term_year! });
+          const payload = (schedule.selections_json ?? {}) as { selections?: Array<any> };
+          const selectionsList = Array.isArray(payload) ? payload : (Array.isArray(payload.selections) ? payload.selections : []);
+
+          for (const selection of selectionsList) {
+            const code = String(selection?.course?.courseCode ?? "").toUpperCase();
+            if (!code) continue;
+            const current = byCourseCode.get(code) ?? "not_started";
+            const nextRank = status === "completed" ? 4 : status === "in_progress" ? 3 : status === "planned" ? 2 : 1;
+            const currentRank = current === "completed" ? 4 : current === "in_progress" ? 3 : current === "planned" ? 2 : 1;
+            byCourseCode.set(code, nextRank > currentRank ? status : current);
+            byCourseTags.set(code, Array.isArray(selection?.course?.genEds) ? selection.course.genEds : []);
+          }
+        }
+
+        for (const credit of priorCredits) {
+          if (credit.countsTowardProgress === false) continue;
+          for (const code of resolvePriorCreditCourseCodes(credit)) {
+            byCourseCode.set(code, "completed");
+            byCourseTags.set(code, Array.isArray(credit.genEdCodes) ? credit.genEdCodes : []);
+          }
+        }
+
+        const currentPlannerSelections = Object.values(useCoursePlannerStore.getState().selections);
+        for (const selection of currentPlannerSelections) {
+          const code = String(selection?.course?.courseCode ?? "").toUpperCase();
+          if (!code) continue;
+          const current = byCourseCode.get(code) ?? "not_started";
+          if (current === "not_started") byCourseCode.set(code, "planned");
+          byCourseTags.set(code, Array.isArray(selection?.course?.genEds) ? selection.course.genEds : []);
+        }
+
+        const neededCodes = Array.from(new Set(bundles.flatMap((bundle) => bundle.sections.flatMap((section) => section.courseCodes ?? []))))
+          .map((code) => String(code).toUpperCase())
+          .filter(Boolean);
+        const details = neededCodes.length > 0 ? await lookupCourseDetails(neededCodes) : new Map();
+        if (!active) return;
+
+        const targetTermLabel = `${resolvedTerm}-${resolvedYear}`;
+        const items = buildNeededClassItems({
+          bundles,
+          byCourseCode,
+          byCourseTags,
+          courseDetails: details,
+          timelineTermLabels,
+          targetTermLabel,
+        });
+        setNeededItems(items);
+      } catch {
+        if (!active) return;
+        setNeededItems([]);
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [resolvedTerm, resolvedYear, selections]);
+
   return (
     <div className="course-planner-root">
       <ScheduleBuilderHeader
@@ -270,6 +377,11 @@ export function CoursePlannerPage() {
       />
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
+      <div className="mb-2 flex justify-end">
+        <Button type="button" variant="outline" className="border-border" onClick={() => setShowNeededPanel(true)}>
+          What's Needed
+        </Button>
+      </div>
       <div className={`cp-status-banner ${hasUnsavedChanges ? "is-unsaved" : "is-saved"}`} role="status" aria-live="polite">
         {hasUnsavedChanges ? <AlertCircle className="cp-status-banner-icon" /> : <CheckCircle2 className="cp-status-banner-icon" />}
         <span>
@@ -279,7 +391,26 @@ export function CoursePlannerPage() {
         <Cloud className="cp-status-banner-cloud" />
       </div>
 
-      <div className="course-planner-layout">
+      <div
+        className="course-planner-layout"
+        onDragOver={(event) => event.preventDefault()}
+        onDrop={(event) => {
+          event.preventDefault();
+          let payload: { type?: string; courseCode?: string; title?: string; credits?: number; genEdCode?: string } | null = null;
+          try {
+            payload = JSON.parse(event.dataTransfer.getData("text/plain"));
+          } catch {
+            payload = null;
+          }
+          if (!payload || payload.type !== "needed-course" || !payload.courseCode) return;
+          addPlannedCourseByCode({
+            courseCode: payload.courseCode,
+            title: payload.title ?? payload.courseCode,
+            credits: Number(payload.credits ?? 3) || 3,
+            genEds: payload.genEdCode ? [payload.genEdCode] : [],
+          });
+        }}
+      >
         <CourseSearchPanel />
         <CalendarView />
       </div>
@@ -290,6 +421,31 @@ export function CoursePlannerPage() {
           if (selectedInfoKey) {
             toggleInfoPanel(selectedInfoKey);
           }
+        }}
+      />
+
+      <NeededClassesPanel
+        open={showNeededPanel}
+        title="What's Needed"
+        subtitle="Auto-sorted for this semester. Drag a class into the schedule area to add it."
+        items={neededItems}
+        defaultSort="recommended"
+        onClose={() => setShowNeededPanel(false)}
+        onApplyGenEdFilter={(genEdCode) => {
+          setFilters((current) => ({
+            ...current,
+            genEds: current.genEds.includes(genEdCode) ? current.genEds : [...current.genEds, genEdCode],
+          }));
+          void executeSearch();
+        }}
+        onAddCourse={(item) => {
+          if (!item.courseCode) return;
+          addPlannedCourseByCode({
+            courseCode: item.courseCode,
+            title: item.title,
+            credits: item.credits,
+            genEds: item.genEdCode ? [item.genEdCode] : [],
+          });
         }}
       />
     </div>

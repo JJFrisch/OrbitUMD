@@ -66,6 +66,7 @@ interface CoursePlannerState {
   toggleInfoPanel: (sectionKey: string) => void;
   removeSelection: (sectionKey: string) => void;
   replaceSelections: (selections: ScheduleSelection[]) => void;
+  addPlannedCourseByCode: (input: { courseCode: string; title: string; credits?: number; genEds?: string[] }) => void;
 
   calendarMeetings: () => CalendarMeeting[];
   calendarBounds: () => { startHour: number; endHour: number };
@@ -429,6 +430,55 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       selectedInfoKey: null,
       activeScheduleId: null,
       saveError: undefined,
+    });
+  },
+
+  addPlannedCourseByCode: ({ courseCode, title, credits = 3, genEds = [] }) => {
+    const normalizedCode = String(courseCode).toUpperCase().replace(/\s+/g, "");
+    if (!normalizedCode) return;
+    const sectionCode = "NOT CHOSEN";
+    const sectionKey = `${normalizedCode}-${sectionCode}`;
+
+    set((state) => {
+      if (Object.values(state.selections).some((selection) => (
+        String(selection?.course?.courseCode ?? "").toUpperCase().replace(/\s+/g, "") === normalizedCode
+      ))) {
+        return state;
+      }
+
+      const selection: ScheduleSelection = {
+        sectionKey,
+        course: {
+          courseCode: normalizedCode,
+          name: title || normalizedCode,
+          id: normalizedCode,
+          deptId: normalizedCode.slice(0, 4),
+          credits,
+          minCredits: credits,
+          maxCredits: credits,
+          genEds,
+          term: "",
+          year: 0,
+          sections: [],
+        },
+        section: {
+          id: sectionKey,
+          courseCode: normalizedCode,
+          sectionCode,
+          instructor: "",
+          instructors: [],
+          totalSeats: 0,
+          openSeats: 0,
+          meetings: [],
+        },
+      };
+
+      return {
+        selections: {
+          ...state.selections,
+          [sectionKey]: selection,
+        },
+      };
     });
   },
 
