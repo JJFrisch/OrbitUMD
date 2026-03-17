@@ -978,7 +978,7 @@ function RequirementSectionTableCard({
   return (
     <>
       <Card className="bg-input-background border-border p-0 overflow-hidden">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm degree-audit-table">
           <thead className="bg-muted/40 border-b border-border">
             <tr>
               <th className="px-3 py-2 text-left text-xs text-muted-foreground">Section</th>
@@ -2166,10 +2166,10 @@ export default function DegreeAudit() {
 
     const [sourceBlockId, code] = raw.split("::");
     if (!sourceBlockId || !code) return;
-    if (position === "before") {
-      moveCodeToBlockPosition(sourceBlockId, code, targetBlockId, 0);
-    } else {
+    if (position === "inside") {
       moveCodeToBlockPosition(sourceBlockId, code, targetBlockId, Number.POSITIVE_INFINITY);
+    } else {
+      moveCodeFromBlockToSection(sourceBlockId, code);
     }
     setDragOverBlockId(null);
     setBlockDropHint(null);
@@ -2628,7 +2628,7 @@ export default function DegreeAudit() {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-8 degree-audit-page">
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
           <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -2638,7 +2638,7 @@ export default function DegreeAudit() {
                 Live audit powered by selected major/minor requirements and your MAIN schedules.
               </p>
             </div>
-            <div className="flex items-center gap-2 flex-wrap justify-end">
+            <div className="flex items-center gap-2 flex-wrap justify-end no-print">
               <Button
                 type="button"
                 variant="outline"
@@ -3164,8 +3164,8 @@ export default function DegreeAudit() {
                                               </div>
                                               {dragOverBlockId === block.id && (
                                                 <p className="text-[11px] text-red-400 mb-2">
-                                                  {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to place above this block."}
-                                                  {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to place below this block."}
+                                                  {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to move above this block (outside the block)."}
+                                                  {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to move below this block (outside the block)."}
                                                   {(!blockDropHint || blockDropHint.blockId !== block.id || blockDropHint.position === "inside") && "Drop to nest inside this block."}
                                                 </p>
                                               )}
@@ -3576,8 +3576,8 @@ export default function DegreeAudit() {
                                           </div>
                                           {dragOverBlockId === block.id && (
                                             <p className="text-[11px] text-red-400 mb-2">
-                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to place above this block."}
-                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to place below this block."}
+                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to move above this block (outside the block)."}
+                                              {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to move below this block (outside the block)."}
                                               {(!blockDropHint || blockDropHint.blockId !== block.id || blockDropHint.position === "inside") && "Drop to nest inside this block."}
                                             </p>
                                           )}
@@ -3964,8 +3964,8 @@ export default function DegreeAudit() {
                                                     </div>
                                                     {dragOverBlockId === block.id && (
                                                       <p className="text-[11px] text-red-400 mb-2">
-                                                        {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to place above this block."}
-                                                        {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to place below this block."}
+                                                        {blockDropHint?.blockId === block.id && blockDropHint.position === "before" && "Drop to move above this block (outside the block)."}
+                                                        {blockDropHint?.blockId === block.id && blockDropHint.position === "after" && "Drop to move below this block (outside the block)."}
                                                         {(!blockDropHint || blockDropHint.blockId !== block.id || blockDropHint.position === "inside") && "Drop to nest inside this block."}
                                                       </p>
                                                     )}

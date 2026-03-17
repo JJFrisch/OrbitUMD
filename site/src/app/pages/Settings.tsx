@@ -914,11 +914,18 @@ export default function Settings() {
           <Card className="p-4 bg-card border-border">
             <div className="flex items-center justify-between gap-3 mb-3">
               <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Settings Tools</p>
-                <h2 className="text-lg font-semibold">Quick Access</h2>
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">Onboarding</p>
+                <h2 className="text-lg font-semibold">Need A Refresher?</h2>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground">Profile fields live on this Settings page.</p>
+            <p className="text-xs text-muted-foreground mb-3">
+              Replay onboarding instructions and walkthrough pages.
+            </p>
+            <Link to="/onboarding/profile">
+              <Button variant="outline" className="w-full border-border hover:bg-accent">
+                Repeat Onboarding Instructions
+              </Button>
+            </Link>
           </Card>
 
           <GlobalSearchPanel />
