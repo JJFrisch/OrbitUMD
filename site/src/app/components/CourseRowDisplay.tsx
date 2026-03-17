@@ -34,14 +34,22 @@ export function CourseRowDisplay({
 }: CourseRowDisplayProps) {
   const [showDetails, setShowDetails] = useState(false);
 
+  const statusBgClass = status === "completed" 
+    ? "bg-green-600/10 border-green-600/20" 
+    : status === "in_progress" 
+      ? "bg-blue-600/10 border-blue-600/20" 
+      : "hover:bg-accent/30";
+
   return (
     <>
-      <div className="flex items-center justify-between py-3 px-4 border-b border-border/50 last:border-b-0 hover:bg-accent/30 transition-colors">
+      <div 
+        className={`flex items-center justify-between py-3 px-4 border-b border-border/50 last:border-b-0 transition-colors cursor-pointer ${statusBgClass}`}
+        onClick={() => setShowDetails(true)}
+      >
         <div className="flex-1 min-w-0">
           <Button
             variant="link"
             className="h-auto p-0 text-base font-medium text-red-500 hover:text-red-600 justify-start"
-            onClick={() => setShowDetails(true)}
           >
             {courseCode}
           </Button>

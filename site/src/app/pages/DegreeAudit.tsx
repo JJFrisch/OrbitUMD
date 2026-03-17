@@ -86,7 +86,7 @@ function getDepthIndentClass(depth: number): string {
   return DEPTH_INDENT_CLASSES[Math.min(safeDepth, DEPTH_INDENT_CLASSES.length - 1)];
 }
 
-const WILDCARD_TOKEN_PATTERN = /^(?:[A-Z]{4}(?:\/[A-Z]{4})*)?(?:XXX|[1-8]XX)$/;
+const WILDCARD_TOKEN_PATTERN = /^(?:[A-Z]{4}(?::[A-Z]{4})*)?(?:XXX|[1-8]XX)$/;
 
 function normalizeProgramName(value: string): string {
   return value
@@ -290,24 +290,24 @@ interface WildcardSlotMeta {
 function parseWildcardRule(raw: string): WildcardRule | null {
   const token = String(raw ?? "").toUpperCase().trim();
 
-  // DEPT4NXX — specific dept, level-band (e.g. CMSC4XX)
-  const levelRange = token.match(/^([A-Z]{4})([1-8])XX$/);
+  // DEPT:DEPT:4XX — specific depts, level-band (e.g. CMSC:MATH:4XX)
+  const levelRange = token.match(/^([A-Z]{4}(?::[A-Z]{4})*)([1-8])XX$/);
   if (levelRange) {
     const levelBase = Number(levelRange[2]) * 100;
     return {
       token,
-      departments: [levelRange[1]],
+      departments: levelRange[1].split(":").map((part) => part.toUpperCase()),
       minLevel: levelBase,
       maxLevel: levelBase + 99,
     };
   }
 
-  // DEPT4/DEPT2...XXX — one or more specific depts, any level
-  const anyLevel = token.match(/^([A-Z]{4}(?:\/[A-Z]{4})*)XXX$/);
+  // DEPT:DEPT:XXX — one or more specific depts, any level (e.g. CMSC:MATH:XXX)
+  const anyLevel = token.match(/^([A-Z]{4}(?::[A-Z]{4})*)XXX$/);
   if (anyLevel) {
     return {
       token,
-      departments: anyLevel[1].split("/").map((part) => part.toUpperCase()),
+      departments: anyLevel[1].split(":").map((part) => part.toUpperCase()),
     };
   }
 
@@ -772,7 +772,7 @@ function RequirementSectionTableCard({
                     <Pencil className="h-3.5 w-3.5 mr-1" />Edit
                   </Button>
                   <Button type="button" size="sm" variant="outline" className="border-border text-foreground/80" onClick={() => setExpandedNotesSectionIds((prev) => { const next = new Set(prev); if (next.has(section.id)) next.delete(section.id); else next.add(section.id); return next; })}>
-                    <Info className="h-3.5 w-3.5 mr-1" />{expandedNotesSectionIds.has(section.id) ? "Hide Notes" : "Info"}
+                    {expandedNotesSectionIds.has(section.id) ? "Hide Notes" : "Info"}
                   </Button>
                 </div>
               </td>
@@ -1124,6 +1124,27 @@ function RequirementSectionTableCard({
     setCodeSearchResults([]);
   };
 
+  const addCourseToSectionDirectly = (courseCode: string) => {
+    const normalized = courseCode.toUpperCase().trim();
+    if (!normalized) return;
+    
+    const nextSection = mutateSectionWithDraft(section, (draft) => {
+      // Find the first AND block, or create one if none exist
+      const firstAndBlockIdx = draft.blocks.findIndex(b => b.type === "AND");
+      if (firstAndBlockIdx !== -1) {
+        draft.blocks[firstAndBlockIdx].codes = Array.from(new Set([...draft.blocks[firstAndBlockIdx].codes, normalized]));
+      } else {
+        draft.blocks.push({
+          id: createLocalId("blk"),
+          type: "AND",
+          codes: [normalized]
+        });
+      }
+    });
+
+    onSaveSection?.(nextSection);
+  };
+
   return (
     <Card className="bg-input-background border-border p-0 overflow-hidden">
       <table className="w-full text-sm">
@@ -1227,7 +1248,6 @@ function RequirementSectionTableCard({
                     });
                   }}
                 >
-                  <Info className="h-3.5 w-3.5 mr-1" />
                   {expandedNotesSectionIds.has(section.id) ? "Hide Notes" : "Info"}
                 </Button>
               </div>
