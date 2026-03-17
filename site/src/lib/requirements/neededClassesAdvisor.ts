@@ -22,6 +22,32 @@ export interface NeededClassItem {
   draggable: boolean;
 }
 
+export interface RecommendationTimelineTerm {
+  id: string;
+  label: string;
+}
+
+export interface RecommendedTermPlan {
+  termId: string;
+  termLabel: string;
+  courseCodes: string[];
+  credits: number;
+  targetCredits: number;
+}
+
+export interface GraduationFitCheck {
+  isFeasible: boolean;
+  neededCredits: number;
+  capacityCredits: number;
+  termsRemaining: number;
+  message: string;
+}
+
+export interface RecommendationPlanResult {
+  assignments: RecommendedTermPlan[];
+  fitCheck: GraduationFitCheck;
+}
+
 export const GEN_ED_REQUIRED: Record<string, number> = {
   FSAR: 1,
   FSAW: 1,
@@ -215,4 +241,164 @@ export function buildNeededClassItems(params: {
   }
 
   return items;
+}
+
+function recommendationPriority(item: NeededClassItem): number {
+  const level = courseLevel(item.courseCode ?? "");
+  let score = 100;
+  if (item.category === "major_minor") score += 20;
+  if (item.programLabel?.startsWith("MAJOR:")) score += 15;
+  score -= item.prereqCodes.length * 12;
+  score -= level >= 400 ? 22 : level >= 300 ? 12 : 0;
+  score -= item.status === "planned" ? 10 : item.status === "in_progress" ? 22 : 0;
+  return score;
+}
+
+export function generateRecommendationPlan(params: {
+  items: NeededClassItem[];
+  timeline: RecommendationTimelineTerm[];
+  minCreditsPerTerm?: number;
+  maxCreditsPerTerm?: number;
+}): RecommendationPlanResult {
+  const { items, timeline, minCreditsPerTerm = 12, maxCreditsPerTerm = 16 } = params;
+  const scheduleTerms = timeline.length > 0 ? timeline : [];
+
+  const courseItems = items
+    .filter((item) => item.kind === "course" && item.courseCode)
+    .map((item) => ({ ...item, courseCode: item.courseCode! }));
+
+  const others = items.filter((item) => item.kind !== "course");
+
+  const totalNeededCredits = items.reduce((sum, item) => sum + Math.max(0, Number(item.credits) || 0), 0);
+  const remainingTerms = Math.max(1, scheduleTerms.length);
+  const balanced = Math.ceil(totalNeededCredits / remainingTerms);
+  const targetCredits = Math.max(minCreditsPerTerm, Math.min(maxCreditsPerTerm, balanced));
+  const hardCapacityPerTerm = maxCreditsPerTerm + 2;
+
+  const byCode = new Map(courseItems.map((item) => [item.courseCode, item]));
+  const internalPrereqs = new Map<string, string[]>();
+  const indegree = new Map<string, number>();
+  const dependents = new Map<string, string[]>();
+
+  for (const item of courseItems) {
+    const prereqs = item.prereqCodes.filter((code) => byCode.has(code));
+    internalPrereqs.set(item.courseCode, prereqs);
+    indegree.set(item.courseCode, prereqs.length);
+    for (const prereq of prereqs) {
+      dependents.set(prereq, [...(dependents.get(prereq) ?? []), item.courseCode]);
+    }
+  }
+
+  const unassigned = new Set(courseItems.map((item) => item.courseCode));
+  const assignedByTerm = new Map<string, string[]>();
+
+  const getReadyCourses = () => {
+    return Array.from(unassigned)
+      .filter((code) => (indegree.get(code) ?? 0) === 0)
+      .sort((left, right) => recommendationPriority(byCode.get(right)!) - recommendationPriority(byCode.get(left)!));
+  };
+
+  for (const term of scheduleTerms) {
+    let used = 0;
+    let ready = getReadyCourses();
+    while (ready.length > 0) {
+      const nextCode = ready[0];
+      const nextItem = byCode.get(nextCode)!;
+      const nextCredits = Math.max(1, Number(nextItem.credits) || 3);
+      if (used + nextCredits > hardCapacityPerTerm) break;
+
+      assignedByTerm.set(term.id, [...(assignedByTerm.get(term.id) ?? []), nextCode]);
+      used += nextCredits;
+      unassigned.delete(nextCode);
+
+      for (const dependent of dependents.get(nextCode) ?? []) {
+        indegree.set(dependent, Math.max(0, (indegree.get(dependent) ?? 0) - 1));
+      }
+
+      if (used >= targetCredits) break;
+      ready = getReadyCourses();
+    }
+  }
+
+  // If graph/capacity left courses unassigned, place them in least-loaded terms as fallback.
+  for (const code of Array.from(unassigned)) {
+    const course = byCode.get(code);
+    if (!course || scheduleTerms.length === 0) continue;
+    const credits = Math.max(1, Number(course.credits) || 3);
+
+    let chosen: RecommendationTimelineTerm | null = null;
+    let lowestLoad = Number.POSITIVE_INFINITY;
+    for (const term of scheduleTerms) {
+      const currentLoad = (assignedByTerm.get(term.id) ?? [])
+        .map((courseCode) => Math.max(1, Number(byCode.get(courseCode)?.credits ?? 3)))
+        .reduce((sum, value) => sum + value, 0);
+      if (currentLoad < lowestLoad) {
+        lowestLoad = currentLoad;
+        chosen = term;
+      }
+    }
+
+    if (!chosen) continue;
+    if (lowestLoad + credits > hardCapacityPerTerm + 3) continue;
+    assignedByTerm.set(chosen.id, [...(assignedByTerm.get(chosen.id) ?? []), code]);
+    unassigned.delete(code);
+  }
+
+  // Spread non-course requirement placeholders across lightest terms.
+  const placeholderCreditsByTerm = new Map<string, number>();
+  for (const placeholder of others) {
+    if (scheduleTerms.length === 0) break;
+    let chosen: RecommendationTimelineTerm | null = null;
+    let load = Number.POSITIVE_INFINITY;
+    for (const term of scheduleTerms) {
+      const courseLoad = (assignedByTerm.get(term.id) ?? [])
+        .map((courseCode) => Math.max(1, Number(byCode.get(courseCode)?.credits ?? 3)))
+        .reduce((sum, value) => sum + value, 0);
+      const placeholderLoad = placeholderCreditsByTerm.get(term.id) ?? 0;
+      if (courseLoad + placeholderLoad < load) {
+        load = courseLoad + placeholderLoad;
+        chosen = term;
+      }
+    }
+    if (!chosen) continue;
+    placeholderCreditsByTerm.set(chosen.id, (placeholderCreditsByTerm.get(chosen.id) ?? 0) + Math.max(0, Number(placeholder.credits) || 0));
+  }
+
+  const assignments: RecommendedTermPlan[] = scheduleTerms.map((term) => {
+    const courseCodes = assignedByTerm.get(term.id) ?? [];
+    const courseCredits = courseCodes
+      .map((courseCode) => Math.max(1, Number(byCode.get(courseCode)?.credits ?? 3)))
+      .reduce((sum, value) => sum + value, 0);
+    const placeholderCredits = placeholderCreditsByTerm.get(term.id) ?? 0;
+    return {
+      termId: term.id,
+      termLabel: term.label,
+      courseCodes,
+      credits: courseCredits + placeholderCredits,
+      targetCredits,
+    };
+  });
+
+  const neededCredits = Math.max(0, totalNeededCredits);
+  const capacityCredits = remainingTerms * hardCapacityPerTerm;
+  const feasibleByCredits = neededCredits <= capacityCredits;
+  const feasibleByGraph = unassigned.size === 0;
+  const isFeasible = feasibleByCredits && feasibleByGraph;
+
+  const message = isFeasible
+    ? `Plan fits ${neededCredits} needed credits across ${remainingTerms} remaining terms.`
+    : !feasibleByCredits
+      ? `Plan may not fit: ${neededCredits} needed credits exceeds approx capacity ${capacityCredits}.`
+      : `Plan may not fit prerequisite sequencing: ${unassigned.size} course(s) could not be placed cleanly.`;
+
+  return {
+    assignments,
+    fitCheck: {
+      isFeasible,
+      neededCredits,
+      capacityCredits,
+      termsRemaining: remainingTerms,
+      message,
+    },
+  };
 }

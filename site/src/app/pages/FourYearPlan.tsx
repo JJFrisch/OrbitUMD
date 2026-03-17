@@ -28,10 +28,14 @@ import {
 } from "@/lib/requirements/audit";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 import { useTheme } from "../contexts/ThemeContext";
-import { features } from "process";
 import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { addCourseToSchedule } from "@/lib/scheduling/quickAddToSchedule";
-import { buildNeededClassItems, type NeededClassItem } from "@/lib/requirements/neededClassesAdvisor";
+import {
+  buildNeededClassItems,
+  generateRecommendationPlan,
+  type NeededClassItem,
+  type RecommendationPlanResult,
+} from "@/lib/requirements/neededClassesAdvisor";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -233,6 +237,8 @@ export default function FourYearPlan() {
   const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
   const [showNeededPanel, setShowNeededPanel] = useState(false);
   const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
+  const [recommendationPlan, setRecommendationPlan] = useState<RecommendationPlanResult | null>(null);
+  const [applyingRecommendation, setApplyingRecommendation] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -430,7 +436,40 @@ export default function FourYearPlan() {
         totalPlannedCredits: summary.totalCredits,
         timelineTermLabels,
       });
-      setNeededItems(items);
+
+      const recommendationTimeline = terms
+        .filter((term) => term.source === "schedule" && term.status !== "completed")
+        .map((term) => ({ id: term.id, label: term.termLabel }));
+
+      const recommendation = generateRecommendationPlan({
+        items,
+        timeline: recommendationTimeline,
+      });
+
+      const recommendedTermByCourse = new Map<string, { label: string; index: number }>();
+      recommendation.assignments.forEach((assignment, termIndex) => {
+        assignment.courseCodes.forEach((code) => {
+          recommendedTermByCourse.set(code, { label: assignment.termLabel, index: termIndex });
+        });
+      });
+
+      const enriched = items.map((item) => {
+        if (!item.courseCode) return item;
+        const planned = recommendedTermByCourse.get(item.courseCode);
+        if (!planned) return item;
+        return {
+          ...item,
+          recommendedTermLabel: planned.label,
+          recommendationScore: item.recommendationScore + Math.max(0, 40 - planned.index * 4),
+          rationale: [
+            ...item.rationale,
+            `Sequenced recommendation places this in ${planned.label}.`,
+          ],
+        };
+      });
+
+      setRecommendationPlan(recommendation);
+      setNeededItems(enriched);
     };
 
     void run();
@@ -442,6 +481,46 @@ export default function FourYearPlan() {
   const refreshMainSchedules = async () => {
     const all = await plannerApi.listAllSchedulesWithSelections();
     setMainSchedules(all.filter((schedule) => schedule.is_primary));
+  };
+
+  const handleApplyRecommendationPlan = async () => {
+    if (!recommendationPlan || recommendationPlan.assignments.length === 0) {
+      toast.message("No recommendation is available to apply right now.");
+      return;
+    }
+
+    const scheduleByTermId = new Map(
+      terms
+        .filter((term) => term.source === "schedule")
+        .map((term) => [term.id, term]),
+    );
+
+    setApplyingRecommendation(true);
+    try {
+      for (const assignment of recommendationPlan.assignments) {
+        const targetTerm = scheduleByTermId.get(assignment.termId);
+        if (!targetTerm) continue;
+
+        for (const courseCode of assignment.courseCodes) {
+          const item = neededItems.find((entry) => entry.courseCode === courseCode);
+          if (!item) continue;
+          await addCourseToSchedule({
+            scheduleId: targetTerm.scheduleId,
+            courseCode,
+            courseTitle: item.title || courseCode,
+            credits: Number(item.credits ?? 3) || 3,
+            genEds: item.genEdCode ? [item.genEdCode] : [],
+          });
+        }
+      }
+
+      await refreshMainSchedules();
+      toast.success("Recommended four-year plan added to your MAIN schedules.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to apply recommended plan.");
+    } finally {
+      setApplyingRecommendation(false);
+    }
   };
 
   const handleDropNeededIntoTerm = async (raw: string, term: PlannedTerm) => {
@@ -739,6 +818,42 @@ export default function FourYearPlan() {
             </div>
           </div>
         </Card>
+
+        {recommendationPlan && (
+          <Card className="p-4 bg-card border-border mb-6">
+            <div className="mb-3 flex items-center justify-between gap-3 flex-wrap">
+              <div>
+                <h2 className="text-base text-foreground">Recommended Plan</h2>
+                <p className="text-xs text-muted-foreground">{recommendationPlan.fitCheck.message}</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Badge variant={recommendationPlan.fitCheck.isFeasible ? "outline" : "destructive"}>
+                  {recommendationPlan.fitCheck.isFeasible ? "Timeline Fit: OK" : "Timeline Fit: Risk"}
+                </Badge>
+                <Button
+                  type="button"
+                  className="bg-red-600 hover:bg-red-700"
+                  onClick={() => void handleApplyRecommendationPlan()}
+                  disabled={applyingRecommendation}
+                >
+                  {applyingRecommendation ? "Applying..." : "Start With Recommendation"}
+                </Button>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+              {recommendationPlan.assignments.map((assignment) => (
+                <div key={`rec-${assignment.termId}`} className="rounded-md border border-border bg-input-background p-3">
+                  <p className="text-sm text-foreground">{assignment.termLabel}</p>
+                  <p className="text-xs text-muted-foreground">{assignment.credits} / target {assignment.targetCredits} credits</p>
+                  <p className="mt-1 text-xs text-foreground/80">
+                    {assignment.courseCodes.length > 0 ? assignment.courseCodes.join(", ") : "No new courses suggested."}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
 
         {loading && <p className="text-muted-foreground">Loading four-year plan...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}

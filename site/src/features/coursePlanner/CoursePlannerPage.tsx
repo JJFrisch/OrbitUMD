@@ -10,12 +10,16 @@ import { ScheduleBuilderHeader } from "./components/ScheduleBuilderHeader";
 import { useCoursePlannerStore } from "./state/coursePlannerStore";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
-import { loadProgramRequirementBundles, type ProgramRequirementBundle, type AuditCourseStatus } from "@/lib/requirements/audit";
+import { loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/requirements/audit";
 import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { plannerApi } from "@/lib/api/planner";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
-import { buildNeededClassItems, type NeededClassItem } from "@/lib/requirements/neededClassesAdvisor";
+import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import {
+  buildNeededClassItems,
+  generateRecommendationPlan,
+  type NeededClassItem,
+} from "@/lib/requirements/neededClassesAdvisor";
 import "./styles/coursePlanner.css";
 
 const DEFAULT_SCHEDULE_NAME = "Default Schedule";
@@ -70,7 +74,6 @@ export function CoursePlannerPage() {
   const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
   const [showNeededPanel, setShowNeededPanel] = useState(false);
   const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
-  const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -269,16 +272,29 @@ export function CoursePlannerPage() {
         ]);
         const bundles = await loadProgramRequirementBundles(programs);
         if (!active) return;
-        setRequirementBundles(bundles);
 
         const byCourseCode = new Map<string, AuditCourseStatus>();
         const byCourseTags = new Map<string, string[]>();
-        const timelineTermLabels: string[] = [];
+        const timelineTerms = schedules
+          .filter((item) => item.is_primary && item.term_code && item.term_year)
+          .sort((left, right) => compareAcademicTerms(
+            { termCode: left.term_code!, termYear: left.term_year! },
+            { termCode: right.term_code!, termYear: right.term_year! },
+          ))
+          .map((item) => {
+            const label = `${item.term_code}-${item.term_year}`;
+            const status = getAcademicProgressStatus({ termCode: item.term_code!, termYear: item.term_year! });
+            return {
+              id: label,
+              label,
+              status,
+              schedule: item,
+            };
+          });
 
-        for (const schedule of schedules.filter((item) => item.is_primary && item.term_code && item.term_year)) {
-          const termLabel = `${schedule.term_code}-${schedule.term_year}`;
-          timelineTermLabels.push(termLabel);
-          const status = getAcademicProgressStatus({ termCode: schedule.term_code!, termYear: schedule.term_year! });
+        for (const entry of timelineTerms) {
+          const schedule = entry.schedule;
+          const status = entry.status;
           const payload = (schedule.selections_json ?? {}) as { selections?: Array<any> };
           const selectionsList = Array.isArray(payload) ? payload : (Array.isArray(payload.selections) ? payload.selections : []);
 
@@ -316,16 +332,46 @@ export function CoursePlannerPage() {
         const details = neededCodes.length > 0 ? await lookupCourseDetails(neededCodes) : new Map();
         if (!active) return;
 
+        const timelineLabels = timelineTerms.map((term) => term.label);
         const targetTermLabel = `${resolvedTerm}-${resolvedYear}`;
         const items = buildNeededClassItems({
           bundles,
           byCourseCode,
           byCourseTags,
           courseDetails: details,
-          timelineTermLabels,
+          timelineTermLabels: timelineLabels,
           targetTermLabel,
         });
-        setNeededItems(items);
+
+        const recommendation = generateRecommendationPlan({
+          items,
+          timeline: timelineTerms.filter((term) => term.status !== "completed").map((term) => ({ id: term.id, label: term.label })),
+        });
+
+        const recommendedTermByCourse = new Map<string, { label: string; index: number }>();
+        recommendation.assignments.forEach((assignment, termIndex) => {
+          assignment.courseCodes.forEach((code) => {
+            recommendedTermByCourse.set(code, { label: assignment.termLabel, index: termIndex });
+          });
+        });
+
+        const enriched = items.map((item) => {
+          if (!item.courseCode) return item;
+          const placement = recommendedTermByCourse.get(item.courseCode);
+          if (!placement) return item;
+          const proximityBoost = placement.label === targetTermLabel ? 40 : Math.max(0, 30 - placement.index * 4);
+          return {
+            ...item,
+            recommendedTermLabel: placement.label,
+            recommendationScore: item.recommendationScore + proximityBoost,
+            rationale: [
+              ...item.rationale,
+              `Prerequisite and load-balanced sequence suggests ${placement.label}.`,
+            ],
+          };
+        });
+
+        setNeededItems(enriched);
       } catch {
         if (!active) return;
         setNeededItems([]);
