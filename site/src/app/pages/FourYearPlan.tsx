@@ -293,7 +293,8 @@ export default function FourYearPlan() {
   const terms = useMemo(() => {
     const transformed = mainSchedules
       .map(toPlannedTerm)
-      .filter((term): term is PlannedTerm => term !== null);
+      .filter((term): term is PlannedTerm => term !== null)
+      .filter((term) => term.courses.length > 0);
 
     const priorTerms = buildPriorCreditTerms(priorCredits);
     const combined = [...transformed, ...priorTerms];

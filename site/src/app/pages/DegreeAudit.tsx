@@ -412,6 +412,37 @@ function courseStatusBorderClass(status: AuditCourseStatus): string {
   return "border-border bg-input-background text-foreground/85";
 }
 
+type SectionRowType = "OR" | "AND" | "SINGLE";
+
+function requiredSlotsFromLogicBlock(block: any): number {
+  const codes = Array.isArray(block?.codes) ? block.codes.filter(Boolean) : [];
+  const children = Array.isArray(block?.children) ? block.children : [];
+
+  const childRequired = children.reduce((sum: number, child: any) => sum + requiredSlotsFromLogicBlock(child), 0);
+  if (block?.type === "OR") {
+    const ownRequired = codes.length > 0 ? 1 : 0;
+    return ownRequired + childRequired;
+  }
+  return codes.length + childRequired;
+}
+
+function requiredSlotsForSection(section: any, baseRequiredSlots: number): number {
+  if (section.requirementType === "choose") {
+    return Math.max(1, Number(section.chooseCount ?? 1));
+  }
+
+  const logicBlocks = Array.isArray(section.logicBlocks) ? section.logicBlocks : [];
+  if (logicBlocks.length > 0) {
+    const structural = logicBlocks.reduce((sum: number, block: any) => sum + requiredSlotsFromLogicBlock(block), 0);
+    return Math.max(baseRequiredSlots, structural);
+  }
+
+  const standalone = Array.isArray(section.standaloneCodes) ? section.standaloneCodes.length : 0;
+  const optionGroups = Array.isArray(section.optionGroups) ? section.optionGroups.length : 0;
+  const fallback = Array.isArray(section.courseCodes) ? section.courseCodes.length : 0;
+  return Math.max(baseRequiredSlots, standalone + optionGroups, fallback);
+}
+
 function RequirementSectionTableCard({
   section,
   sectionEval,
@@ -580,24 +611,60 @@ function RequirementSectionTableCard({
   }, [section, allCourses, courseDetails, byCourseCode, wildcardMatchedCoursesByToken]);
 
   const classRows = useMemo(() => {
-    const optionGroups = Array.isArray(section.optionGroups) ? section.optionGroups : [];
-    const standaloneCodes = Array.isArray(section.standaloneCodes) ? section.standaloneCodes : [];
+    const rows: Array<{ key: string; codes: string[]; type: SectionRowType; depth: number }> = [];
     const consumed = new Set<string>();
-    const rows: Array<{ key: string; codes: string[]; type: "OR" | "AND" }> = [];
-    for (const group of optionGroups) {
-      const cleaned = (group ?? []).map((code: string) => String(code).toUpperCase()).filter(Boolean);
-      if (cleaned.length === 0) continue;
-      cleaned.forEach((code: string) => consumed.add(code));
-      rows.push({ key: `or-${cleaned.join("-")}`, codes: cleaned, type: "OR" });
+
+    const pushFromBlock = (block: any, depth: number, path: string) => {
+      const codes = (Array.isArray(block?.codes) ? block.codes : [])
+        .map((code: string) => String(code).toUpperCase())
+        .filter(Boolean);
+
+      if (codes.length > 0) {
+        codes.forEach((code: string) => consumed.add(code));
+        rows.push({
+          key: `${path}-codes-${codes.join("|")}`,
+          codes,
+          type: block?.type === "OR" ? "OR" : "AND",
+          depth,
+        });
+      }
+
+      const children = Array.isArray(block?.children) ? block.children : [];
+      children.forEach((child: any, index: number) => {
+        pushFromBlock(child, depth + 1, `${path}-child-${index}`);
+      });
+    };
+
+    if (Array.isArray(section.logicBlocks) && section.logicBlocks.length > 0) {
+      section.logicBlocks.forEach((block: any, index: number) => {
+        pushFromBlock(block, 0, `logic-${index}`);
+      });
+    } else {
+      const optionGroups = Array.isArray(section.optionGroups) ? section.optionGroups : [];
+      for (const group of optionGroups) {
+        const cleaned = (group ?? []).map((code: string) => String(code).toUpperCase()).filter(Boolean);
+        if (cleaned.length === 0) continue;
+        cleaned.forEach((code: string) => consumed.add(code));
+        rows.push({ key: `or-${cleaned.join("-")}`, codes: cleaned, type: "OR", depth: 0 });
+      }
     }
-    const andCodes = standaloneCodes.map((code: string) => String(code).toUpperCase()).filter(Boolean);
-    andCodes.forEach((code: string) => consumed.add(code));
-    for (const code of andCodes) rows.push({ key: `and-${code}`, codes: [code], type: "AND" });
+
+    const standaloneCodes = Array.isArray(section.standaloneCodes)
+      ? section.standaloneCodes.map((code: string) => String(code).toUpperCase()).filter(Boolean)
+      : [];
+
+    for (const code of standaloneCodes) {
+      if (consumed.has(code)) continue;
+      consumed.add(code);
+      rows.push({ key: `standalone-${code}`, codes: [code], type: "SINGLE", depth: 0 });
+    }
+
     for (const rawCode of section.courseCodes ?? []) {
       const code = String(rawCode).toUpperCase();
       if (!code || consumed.has(code)) continue;
-      rows.push({ key: `fallback-${code}`, codes: [code], type: "AND" });
+      rows.push({ key: `fallback-${code}`, codes: [code], type: "SINGLE", depth: 0 });
     }
+
     return rows;
   }, [section]);
 
@@ -626,7 +693,15 @@ function RequirementSectionTableCard({
         codes: block.codes.map((code) => (String(code).toUpperCase() === oldCode ? nextCode : String(code).toUpperCase())),
       }));
     });
-    onSaveSection?.(nextSection);
+    onSaveSection?.({
+      ...nextSection,
+      courseCodes: (nextSection.courseCodes ?? []).map((code: string) =>
+        String(code).toUpperCase() === oldCode ? nextCode : String(code).toUpperCase(),
+      ),
+      standaloneCodes: (nextSection.standaloneCodes ?? []).map((code: string) =>
+        String(code).toUpperCase() === oldCode ? nextCode : String(code).toUpperCase(),
+      ),
+    });
     setEditingCode(null);
     setCodeSearchResults([]);
   };
@@ -638,25 +713,18 @@ function RequirementSectionTableCard({
       new Set([...(section.courseCodes ?? []), ...(section.standaloneCodes ?? [])])
     ).map((c: string) => String(c).toUpperCase());
     if (existing.includes(normalized)) { setAddingCourse(false); setAddQuery(""); return; }
-    const nextSection = mutateSectionWithDraft(section, (draft) => {
-      // Add to the first AND block, or create one
-      const firstAndBlock = draft.blocks.find((b) => b.type === "AND");
-      if (firstAndBlock) {
-        draft.blocks = mapDraftBlocksRecursively(draft.blocks, (block) =>
-          block.id === firstAndBlock.id ? { ...block, codes: [...block.codes, normalized] } : block,
-        );
-      } else {
-        const blockId = createLocalId("blk-auto");
-        draft.blocks = [...draft.blocks, { id: blockId, type: "AND", codes: [normalized] }];
-      }
-    });
+    const nextSection = {
+      ...section,
+      courseCodes: Array.from(new Set([...(section.courseCodes ?? []), normalized])),
+      standaloneCodes: Array.from(new Set([...(section.standaloneCodes ?? []), normalized])),
+    };
     onSaveSection?.(nextSection);
     setAddingCourse(false);
     setAddQuery("");
     setAddSearchResults([]);
   };
 
-  const renderCourseButton = (token: string, rowKey: string, codeIndex: number, isLastInOr: boolean, rowType: "OR" | "AND") => {
+  const renderCourseButton = (token: string, rowKey: string, codeIndex: number, isLastInOr: boolean, rowType: SectionRowType) => {
     const isEditing = editingCode?.originalCode === token;
     const course = sectionCoursesByCode.get(token);
     const status: AuditCourseStatus = course?.status ?? byCourseCode.get(token) ?? "not_started";
@@ -722,7 +790,7 @@ function RequirementSectionTableCard({
             <tr>
               <th className="px-3 py-2 text-left text-xs text-muted-foreground">Section</th>
               <th className="px-3 py-2 text-left text-xs text-muted-foreground">Requirement</th>
-              <th className="px-3 py-2 text-left text-xs text-muted-foreground">Progress</th>
+              <th className="px-3 py-2 text-left text-xs text-muted-foreground w-[180px] min-w-[180px]">Progress</th>
               <th className="px-3 py-2 text-left text-xs text-muted-foreground">Classes Needed</th>
               <th className="px-3 py-2 text-right text-xs text-muted-foreground">Actions</th>
             </tr>
@@ -758,11 +826,11 @@ function RequirementSectionTableCard({
                   </span>
                 )}
               </td>
-              <td className="px-3 py-3">
+              <td className="px-3 py-3 w-[180px] min-w-[180px]">
                 <div className="flex items-center gap-2">
                   {statusBadge(sectionEval.status)}
                   <span className="text-xs text-muted-foreground">
-                    {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots)} / {sectionEval.requiredSlots}
+                    {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots + sectionEval.plannedSlots)} / {sectionEval.requiredSlots}
                   </span>
                 </div>
               </td>
@@ -807,10 +875,12 @@ function RequirementSectionTableCard({
             {classRows.map((row) => (
               <tr key={`${section.id}-${row.key}`} className="border-b border-border align-top">
                 <td className="px-3 py-2 text-xs text-muted-foreground">Course</td>
-                <td className="px-3 py-2 text-xs text-foreground/85">{row.type === "OR" ? "Choose 1" : "Required"}</td>
+                <td className="px-3 py-2 text-xs text-foreground/85">
+                  {row.type === "OR" ? "Choose 1" : row.type === "SINGLE" ? "Standalone" : "Required"}
+                </td>
                 <td className="px-3 py-2 text-xs text-muted-foreground">{row.codes.length} course{row.codes.length === 1 ? "" : "s"}</td>
                 <td className="px-3 py-2">
-                  <div className="flex flex-wrap items-center gap-2">
+                  <div className={`flex flex-wrap items-center gap-2 ${getDepthIndentClass(row.depth)}`}>
                     {row.codes.map((code, codeIndex) =>
                       renderCourseButton(String(code).toUpperCase(), row.key, codeIndex, codeIndex === row.codes.length - 1, row.type)
                     )}
@@ -2151,7 +2221,7 @@ export default function DegreeAudit() {
           ...wildcardStatuses,
         ].sort((a, b) => rank(a) - rank(b));
 
-        const requiredSlots = Math.max(baseEval.requiredSlots, section.requirementType === "choose" ? section.chooseCount ?? 1 : slotStatuses.length);
+        const requiredSlots = requiredSlotsForSection(section, baseEval.requiredSlots);
         const relevant = slotStatuses.slice(0, requiredSlots);
 
         const completedSlots = relevant.filter((status) => status === "completed").length;
