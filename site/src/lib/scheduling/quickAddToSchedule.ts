@@ -116,7 +116,7 @@ function findScheduleById(
 
 function makePlannedSelection(input: QuickAddCourseInput): ScheduleSelectionLike {
   const normalizedCode = input.courseCode.replace(/\s+/g, "").toUpperCase();
-  const sectionCode = "UNCHOOSEN";
+  const sectionCode = "NOT CHOSEN";
 
   return {
     sectionKey: `${normalizedCode}-${sectionCode}`,

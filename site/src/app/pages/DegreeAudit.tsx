@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Pencil, Plus, Save, X, ExternalLink } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Mail, MessageSquare, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -1080,7 +1080,10 @@ function RequirementSectionTableCard({
                   <div className={`flex flex-wrap items-center gap-2 ${getDepthIndentClass(row.depth)}`}>
                     {row.type === "OR"
                       ? row.choices.map((choice, choiceIndex) => (
-                        <div key={`${row.key}-choice-${choiceIndex}`} className="flex items-center gap-2 rounded border border-border/50 px-2 py-1">
+                        <div key={`${row.key}-choice-${choiceIndex}`} className="flex items-center gap-2 rounded-md border border-amber-300/40 bg-amber-500/5 px-2 py-1">
+                          <Badge variant="outline" className="border-amber-300/60 text-[10px] text-amber-700 dark:text-amber-300">
+                            Option {String.fromCharCode(65 + choiceIndex)}
+                          </Badge>
                           {choice.map((code, codeIndex) => (
                             <div key={`${row.key}-choice-${choiceIndex}-${code}`} className="flex items-center gap-2">
                               {renderCourseButton(String(code).toUpperCase(), `${row.key}-choice-${choiceIndex}`, codeIndex, codeIndex === choice.length - 1, "AND")}
@@ -1089,9 +1092,7 @@ function RequirementSectionTableCard({
                               )}
                             </div>
                           ))}
-                          {choiceIndex < row.choices.length - 1 && (
-                            <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
-                          )}
+                          {choiceIndex < row.choices.length - 1 && <span className="mx-1 text-xs text-muted-foreground">/</span>}
                         </div>
                       ))
                       : (row.choices[0] ?? []).map((code, codeIndex) =>
@@ -2591,6 +2592,41 @@ export default function DegreeAudit() {
 
   const electiveCredits = electiveOverflow.reduce((sum, course) => sum + course.credits, 0);
 
+  const degreeAuditShareText = useMemo(() => {
+    const lines: string[] = [];
+    lines.push("OrbitUMD Degree Audit Summary");
+    lines.push(`Credits: ${summary.totalCredits}/${summary.requiredCredits}`);
+    lines.push(`Completed: ${summary.completedCredits} | In Progress: ${summary.inProgressCredits} | Planned: ${summary.plannedCredits}`);
+    lines.push("");
+    for (const programAudit of programAudits) {
+      const done = Math.min(
+        programAudit.requiredSlots,
+        programAudit.completedSlots + programAudit.inProgressSlots + programAudit.plannedSlots,
+      );
+      lines.push(`${programAudit.bundle.programName}: ${done}/${programAudit.requiredSlots} classes`);
+    }
+    if (typeof window !== "undefined") {
+      lines.push("");
+      lines.push(`View: ${window.location.href}`);
+    }
+    return lines.join("\n");
+  }, [programAudits, summary]);
+
+  const handlePrintDegreeAudit = () => {
+    window.print();
+  };
+
+  const handleEmailDegreeAudit = () => {
+    const subject = encodeURIComponent("OrbitUMD Degree Audit");
+    const body = encodeURIComponent(degreeAuditShareText);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  };
+
+  const handleTextDegreeAudit = () => {
+    const body = encodeURIComponent(degreeAuditShareText);
+    window.location.href = `sms:?&body=${body}`;
+  };
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto">
@@ -2602,14 +2638,43 @@ export default function DegreeAudit() {
                 Live audit powered by selected major/minor requirements and your MAIN schedules.
               </p>
             </div>
-            <Button
-              type="button"
-              variant="outline"
-              className="border-border"
-              onClick={() => setCondensedAuditView((prev) => !prev)}
-            >
-              {condensedAuditView ? "Expanded View" : "Condensed View"}
-            </Button>
+            <div className="flex items-center gap-2 flex-wrap justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                className="border-border"
+                onClick={handlePrintDegreeAudit}
+              >
+                <Printer className="w-4 h-4 mr-2" />
+                Print / PDF
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="border-border"
+                onClick={handleEmailDegreeAudit}
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Email
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="border-border"
+                onClick={handleTextDegreeAudit}
+              >
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Text
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                className="border-border"
+                onClick={() => setCondensedAuditView((prev) => !prev)}
+              >
+                {condensedAuditView ? "Expanded View" : "Condensed View"}
+              </Button>
+            </div>
           </div>
         </div>
 

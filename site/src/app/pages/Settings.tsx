@@ -30,6 +30,7 @@ import {
   type UserDegreeProgram,
 } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
+import { listUserRequirementSectionEdits } from "@/lib/repositories/userRequirementSectionEditsRepository";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { loadProgramRequirementBundles } from "@/lib/requirements/audit";
 import {
@@ -498,6 +499,41 @@ export default function Settings() {
     }
   };
 
+  const handleSetCurrentDegreeToTemplate = async () => {
+    try {
+      const selectedProgram = userPrograms.find((program) => program.id === adminProgramId);
+      if (!selectedProgram) throw new Error("Select one of your declared programs first.");
+
+      const [bundles, sectionEdits] = await Promise.all([
+        loadProgramRequirementBundles([selectedProgram]),
+        listUserRequirementSectionEdits(),
+      ]);
+
+      const baseSections = bundles[0]?.sections ?? [];
+      const editedSections = sectionEdits[selectedProgram.programId];
+      const sectionsToSave = Array.isArray(editedSections) && editedSections.length > 0
+        ? editedSections
+        : baseSections;
+
+      if (sectionsToSave.length === 0) {
+        throw new Error("Current degree audit has no sections to save as template.");
+      }
+
+      const programKey = buildProgramTemplateKey({
+        programId: selectedProgram.programId,
+        programCode: selectedProgram.programCode,
+        programName: selectedProgram.programName,
+        degreeType: selectedProgram.degreeType,
+      });
+
+      await saveProgramRequirementTemplate(programKey, sectionsToSave);
+      setAdminTemplateJson(JSON.stringify(sectionsToSave, null, 2));
+      setAdminTemplateMessage(`Set current degree to template for ${selectedProgram.programName}.`);
+    } catch (error) {
+      setAdminTemplateMessage(error instanceof Error ? error.message : "Unable to set current degree to template.");
+    }
+  };
+
   return (
     <div className="p-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
@@ -818,6 +854,13 @@ export default function Settings() {
                     </div>
 
                     <div className="flex flex-wrap gap-2">
+                      <Button
+                        className="bg-primary hover:bg-primary/90"
+                        onClick={() => void handleSetCurrentDegreeToTemplate()}
+                        disabled={!adminProgramId}
+                      >
+                        Set Current Degree To Template
+                      </Button>
                       <Button variant="outline" className="border-border" onClick={() => void handleLoadTemplateDraft()} disabled={!adminProgramId}>
                         Load Current Template Draft
                       </Button>
