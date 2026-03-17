@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { CalendarDays, Loader2, Sparkles } from "lucide-react";
 import { getSectionsForCourse, searchCoursesWithStrategy } from "./services/courseSearchService";
