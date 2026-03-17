@@ -239,6 +239,22 @@ export default function FourYearPlan() {
   const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
   const [recommendationPlan, setRecommendationPlan] = useState<RecommendationPlanResult | null>(null);
   const [applyingRecommendation, setApplyingRecommendation] = useState(false);
+  const [strictPriorPrereqs, setStrictPriorPrereqs] = useState<boolean>(() => {
+    const stored = localStorage.getItem("orbitumd:advisor:strict-prior-prereqs");
+    return stored === null ? true : stored === "true";
+  });
+  const [creditTarget, setCreditTarget] = useState<number>(() => {
+    const stored = Number(localStorage.getItem("orbitumd:advisor:credit-target") ?? 15);
+    return [12, 15, 18].includes(stored) ? stored : 15;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("orbitumd:advisor:strict-prior-prereqs", String(strictPriorPrereqs));
+  }, [strictPriorPrereqs]);
+
+  useEffect(() => {
+    localStorage.setItem("orbitumd:advisor:credit-target", String(creditTarget));
+  }, [creditTarget]);
 
   useEffect(() => {
     let active = true;
@@ -444,6 +460,8 @@ export default function FourYearPlan() {
       const recommendation = generateRecommendationPlan({
         items,
         timeline: recommendationTimeline,
+        strictPriorTermsOnly: strictPriorPrereqs,
+        preferredCreditsPerTerm: creditTarget,
       });
 
       const recommendedTermByCourse = new Map<string, { label: string; index: number }>();
@@ -476,7 +494,7 @@ export default function FourYearPlan() {
     return () => {
       active = false;
     };
-  }, [requirementBundles, summary.totalCredits, terms, timelineTermLabels]);
+  }, [creditTarget, requirementBundles, strictPriorPrereqs, summary.totalCredits, terms, timelineTermLabels]);
 
   const refreshMainSchedules = async () => {
     const all = await plannerApi.listAllSchedulesWithSelections();
@@ -693,6 +711,24 @@ export default function FourYearPlan() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant={strictPriorPrereqs ? "default" : "outline"}
+              className={strictPriorPrereqs ? "bg-red-600 hover:bg-red-700" : "border-border"}
+              onClick={() => setStrictPriorPrereqs((current) => !current)}
+            >
+              {strictPriorPrereqs ? "Prereqs: Prior Terms Only" : "Prereqs: Co-Term Allowed"}
+            </Button>
+            <Select value={String(creditTarget)} onValueChange={(value) => setCreditTarget(Number(value))}>
+              <SelectTrigger className="w-44 bg-input-background border-border">
+                <SelectValue placeholder="Credit target" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="12">Target 12 cr / term</SelectItem>
+                <SelectItem value="15">Target 15 cr / term</SelectItem>
+                <SelectItem value="18">Target 18 cr / term</SelectItem>
+              </SelectContent>
+            </Select>
             <Button type="button" variant="outline" className="border-border" onClick={() => setShowNeededPanel(true)}>
               What's Needed
             </Button>

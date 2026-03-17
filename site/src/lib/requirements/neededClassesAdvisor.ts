@@ -259,8 +259,17 @@ export function generateRecommendationPlan(params: {
   timeline: RecommendationTimelineTerm[];
   minCreditsPerTerm?: number;
   maxCreditsPerTerm?: number;
+  preferredCreditsPerTerm?: number;
+  strictPriorTermsOnly?: boolean;
 }): RecommendationPlanResult {
-  const { items, timeline, minCreditsPerTerm = 12, maxCreditsPerTerm = 16 } = params;
+  const {
+    items,
+    timeline,
+    minCreditsPerTerm = 12,
+    maxCreditsPerTerm = 16,
+    preferredCreditsPerTerm,
+    strictPriorTermsOnly = false,
+  } = params;
   const scheduleTerms = timeline.length > 0 ? timeline : [];
 
   const courseItems = items
@@ -272,7 +281,8 @@ export function generateRecommendationPlan(params: {
   const totalNeededCredits = items.reduce((sum, item) => sum + Math.max(0, Number(item.credits) || 0), 0);
   const remainingTerms = Math.max(1, scheduleTerms.length);
   const balanced = Math.ceil(totalNeededCredits / remainingTerms);
-  const targetCredits = Math.max(minCreditsPerTerm, Math.min(maxCreditsPerTerm, balanced));
+  const requestedTarget = Number(preferredCreditsPerTerm ?? balanced) || balanced;
+  const targetCredits = Math.max(minCreditsPerTerm, Math.min(maxCreditsPerTerm, requestedTarget));
   const hardCapacityPerTerm = maxCreditsPerTerm + 2;
 
   const byCode = new Map(courseItems.map((item) => [item.courseCode, item]));
@@ -301,8 +311,11 @@ export function generateRecommendationPlan(params: {
   for (const term of scheduleTerms) {
     let used = 0;
     let ready = getReadyCourses();
+    const strictReadySnapshot = strictPriorTermsOnly ? [...ready] : [];
+
     while (ready.length > 0) {
-      const nextCode = ready[0];
+      const nextCode = strictPriorTermsOnly ? strictReadySnapshot.find((code) => unassigned.has(code)) : ready[0];
+      if (!nextCode) break;
       const nextItem = byCode.get(nextCode)!;
       const nextCredits = Math.max(1, Number(nextItem.credits) || 3);
       if (used + nextCredits > hardCapacityPerTerm) break;
@@ -311,12 +324,25 @@ export function generateRecommendationPlan(params: {
       used += nextCredits;
       unassigned.delete(nextCode);
 
-      for (const dependent of dependents.get(nextCode) ?? []) {
-        indegree.set(dependent, Math.max(0, (indegree.get(dependent) ?? 0) - 1));
+      if (!strictPriorTermsOnly) {
+        for (const dependent of dependents.get(nextCode) ?? []) {
+          indegree.set(dependent, Math.max(0, (indegree.get(dependent) ?? 0) - 1));
+        }
       }
 
       if (used >= targetCredits) break;
-      ready = getReadyCourses();
+      ready = strictPriorTermsOnly
+        ? strictReadySnapshot.filter((code) => unassigned.has(code))
+        : getReadyCourses();
+    }
+
+    if (strictPriorTermsOnly) {
+      const termAssigned = assignedByTerm.get(term.id) ?? [];
+      for (const completedThisTerm of termAssigned) {
+        for (const dependent of dependents.get(completedThisTerm) ?? []) {
+          indegree.set(dependent, Math.max(0, (indegree.get(dependent) ?? 0) - 1));
+        }
+      }
     }
   }
 
