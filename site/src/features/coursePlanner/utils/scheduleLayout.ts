@@ -156,7 +156,7 @@ export function getBlockGeometry(
   meeting: CalendarMeeting,
   bounds: { startHour: number; endHour: number }
 ): { topPct: number; heightPct: number; leftPct: number; widthPct: number } {
-  const totalRange = Math.max(1, bounds.endHour - bounds.startHour + 1);
+  const totalRange = Math.max(1, bounds.endHour - bounds.startHour);
   const topPct = ((meeting.startHour - bounds.startHour) / totalRange) * 100;
   const heightPct = ((meeting.endHour - meeting.startHour) / totalRange) * 100;
   const widthPct = 100 / meeting.conflictTotal;
