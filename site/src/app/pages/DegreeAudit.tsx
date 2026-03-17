@@ -958,15 +958,18 @@ function RequirementSectionTableCard({
             </div>
           </div>
         ) : (
-                          <button
-                            type="button"
-                            className={`rounded border px-2 py-1 text-xs transition-colors hover:brightness-110 ${borderClass}`}
-                            onClick={() => setDetailCode(token)}
-                            onDoubleClick={(e) => { e.stopPropagation(); setEditingCode({ originalCode: token, query: token }); }}
-                            title="Click for details · Double-click to edit"
-                          >
-                            {displayText}
-                          </button>
+          <>
+            <button
+              type="button"
+              className={`degree-audit-chip-button rounded border px-2 py-1 text-xs transition-colors hover:brightness-110 ${borderClass}`}
+              onClick={() => setDetailCode(token)}
+              onDoubleClick={(e) => { e.stopPropagation(); setEditingCode({ originalCode: token, query: token }); }}
+              title="Click for details · Double-click to edit"
+            >
+              {displayText}
+            </button>
+            <span className="degree-audit-chip-print hidden text-[11px] leading-snug">{displayText}</span>
+          </>
         )}
         {rowType === "OR" && !isLastInOr && (
           <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
@@ -2760,7 +2763,7 @@ export default function DegreeAudit() {
               <Card className="bg-card border-border mb-6 p-4">
                 <div className="flex items-center justify-between gap-3 mb-3">
                   <h2 className="text-xl text-foreground">Program Audits</h2>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 no-print">
                     <Badge variant="outline" className="border-border text-foreground/80">
                       {sectionEditSyncState === "saving" && <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />}
                       {sectionEditSyncState === "synced" && <Cloud className="w-3.5 h-3.5 mr-1" />}
@@ -2799,7 +2802,7 @@ export default function DegreeAudit() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-4 no-print">
                   {programAudits.map((programAudit, index) => (
                     <Button
                       key={`tab-${programAudit.bundle.programId}-${index}`}
@@ -2817,7 +2820,7 @@ export default function DegreeAudit() {
 
                 <div
                   ref={sliderRef}
-                  className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2"
+                  className="degree-audit-program-slider flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2"
                   onScroll={(event) => {
                     const target = event.currentTarget;
                     const width = target.clientWidth || 1;
@@ -2827,9 +2830,17 @@ export default function DegreeAudit() {
                     }
                   }}
                 >
-                  {programAudits.map((programAudit, index) => (
-                    <div key={`${programAudit.bundle.programId}-${index}`} className="min-w-full snap-start">
-                      <Card className="bg-card border-border p-5">
+                  {programAudits.map((programAudit, index) => {
+                    const hasPriorMajor = programAudits
+                      .slice(0, index)
+                      .some((audit) => audit.bundle.kind === "major");
+                    const printBreakClass = programAudit.bundle.kind === "major" && hasPriorMajor
+                      ? "print-break-before"
+                      : "";
+
+                    return (
+                    <div key={`${programAudit.bundle.programId}-${index}`} className="degree-audit-program-slide min-w-full snap-start">
+                      <Card className={`degree-audit-program-card bg-card border-border p-5 ${printBreakClass}`}>
                         <div className="flex items-center justify-between gap-3 mb-3">
                           <div>
                             <h2
@@ -4199,7 +4210,7 @@ export default function DegreeAudit() {
                         </div>
                       </Card>
                     </div>
-                  ))}
+                  );})}
                 </div>
 
                 <div className="mt-3 flex items-center justify-center gap-2">

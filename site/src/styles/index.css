@@ -46,6 +46,38 @@
 		background: transparent !important;
 	}
 
+	.degree-audit-page .degree-audit-program-slider {
+		display: block !important;
+		overflow: visible !important;
+	}
+
+	.degree-audit-page .degree-audit-program-slide {
+		min-width: 0 !important;
+		width: 100% !important;
+	}
+
+	.degree-audit-page .degree-audit-program-card {
+		break-inside: avoid;
+		page-break-inside: avoid;
+		margin-bottom: 16px;
+	}
+
+	.degree-audit-page .degree-audit-program-card.print-break-before {
+		break-before: page;
+		page-break-before: always;
+	}
+
+	.degree-audit-page .degree-audit-chip-button {
+		display: none !important;
+	}
+
+	.degree-audit-page .degree-audit-chip-print {
+		display: inline !important;
+		padding: 0 !important;
+		border: 0 !important;
+		background: transparent !important;
+	}
+
 	.degree-audit-page .bg-card,
 	.degree-audit-page .bg-input-background,
 	.degree-audit-page .bg-muted,
