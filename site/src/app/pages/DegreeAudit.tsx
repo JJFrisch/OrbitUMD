@@ -697,26 +697,15 @@ function RequirementSectionTableCard({
             </div>
           </div>
         ) : (
-                          <>
-                            <button
-                              type="button"
-                              className={`rounded border px-2 py-1 text-xs transition-colors hover:brightness-110 ${borderClass}`}
-                              onClick={() => setDetailCode(token)}
-                              onDoubleClick={(e) => { e.stopPropagation(); setEditingCode({ originalCode: token, query: token }); }}
-                              title="Click for details · Double-click to edit"
-                            >
-                              {displayText}
-                            </button>
-                            <AddToScheduleDropdown
-                              courseCode={token}
-                              courseTitle={course?.title ?? token}
-                              credits={Number(course?.credits ?? 0) || 0}
-                              genEds={course?.genEds ?? []}
-                              buttonLabel="Add"
-                              compact
-                              onMessage={setAddScheduleMessage}
-                            />
-                          </>
+                          <button
+                            type="button"
+                            className={`rounded border px-2 py-1 text-xs transition-colors hover:brightness-110 ${borderClass}`}
+                            onClick={() => setDetailCode(token)}
+                            onDoubleClick={(e) => { e.stopPropagation(); setEditingCode({ originalCode: token, query: token }); }}
+                            title="Click for details · Double-click to edit"
+                          >
+                            {displayText}
+                          </button>
         )}
         {rowType === "OR" && !isLastInOr && (
           <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>

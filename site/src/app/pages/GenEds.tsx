@@ -626,8 +626,8 @@ export default function GenEds() {
             </Card>
 
             {selectedGenEd && (
-              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-                <Card className="max-w-3xl w-full p-6 bg-card border-border max-h-[80vh] overflow-y-auto">
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setSelectedGenEd(null)}>
+                <Card className="max-w-3xl w-full p-6 bg-card border-border max-h-[80vh] overflow-y-auto" onClick={(event) => event.stopPropagation()}>
                   <div className="flex items-start justify-between mb-4 gap-4">
                     <div>
                       <h3 className="text-2xl text-foreground mb-1">{selectedGenEd.code} · {selectedGenEd.name}</h3>

@@ -41,17 +41,25 @@ export function AddToScheduleDropdown({
   const [loadingSchedules, setLoadingSchedules] = useState(false);
   const [schedules, setSchedules] = useState<ScheduleChoice[]>([]);
   const [pendingScheduleId, setPendingScheduleId] = useState<string | null>(null);
+  const [loadedOnce, setLoadedOnce] = useState(false);
 
   useEffect(() => {
-    if (!open || schedules.length > 0 || loadingSchedules) return;
+    if (!open || loadedOnce || loadingSchedules) return;
 
     let active = true;
+    const timeout = window.setTimeout(() => {
+      if (!active) return;
+      setLoadingSchedules(false);
+      onMessage?.("Loading schedules timed out. Please try again.");
+    }, 8000);
+
     const run = async () => {
       setLoadingSchedules(true);
       try {
         const choices = await listAvailableScheduleChoices();
         if (!active) return;
         setSchedules(choices);
+        setLoadedOnce(true);
       } catch (error) {
         if (!active) return;
         setSchedules([]);
@@ -64,8 +72,9 @@ export function AddToScheduleDropdown({
     void run();
     return () => {
       active = false;
+      window.clearTimeout(timeout);
     };
-  }, [loadingSchedules, onMessage, open, schedules.length]);
+  }, [loadedOnce, loadingSchedules, onMessage, open]);
 
   const isBusy = useMemo(() => pendingScheduleId !== null, [pendingScheduleId]);
 
