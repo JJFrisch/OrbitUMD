@@ -50,6 +50,7 @@ interface SectionDraft {
   requirementType: "all" | "choose";
   chooseCount?: number;
   notesText: string;
+  sectionCodes: string[];
   blocks: EditableLogicBlock[];
 }
 
@@ -148,6 +149,21 @@ function draftFromSection(section: any): SectionDraft {
     : section.optionGroups?.map((codes: string[]) => ({ type: "OR", codes })) ?? [];
 
   const blocks = sourceBlocks.map((block: any, idx: number) => normalizeDraftBlock(block, idx));
+  const blockCodeSet = new Set<string>();
+  const collectCodes = (items: EditableLogicBlock[]) => {
+    for (const item of items) {
+      for (const code of item.codes) blockCodeSet.add(String(code).toUpperCase());
+      if (Array.isArray(item.children) && item.children.length > 0) collectCodes(item.children);
+    }
+  };
+  collectCodes(blocks);
+
+  const sectionCodes = Array.from(
+    new Set([
+      ...(section.standaloneCodes ?? []),
+      ...(section.courseCodes ?? []),
+    ].map((code: string) => String(code).toUpperCase()).filter((code: string) => code && !blockCodeSet.has(code))),
+  );
 
   return {
     id: section.id,
@@ -155,6 +171,7 @@ function draftFromSection(section: any): SectionDraft {
     requirementType: section.requirementType ?? "all",
     chooseCount: section.chooseCount,
     notesText: (section.notes ?? []).join("\n"),
+    sectionCodes,
     blocks,
   };
 }
@@ -188,7 +205,10 @@ function sectionFromDraft(draft: SectionDraft, existingSectionId?: string) {
 
   const flattened = collectBlocks(normalizedBlocks);
   const optionGroups = flattened.filter((b) => b.type === "OR").map((b) => b.codes);
-  const standaloneCodes = flattened.filter((b) => b.type === "AND").flatMap((b) => b.codes);
+  const standaloneCodes = [...new Set([
+    ...flattened.filter((b) => b.type === "AND").flatMap((b) => b.codes),
+    ...(draft.sectionCodes ?? []).map((code) => String(code).toUpperCase()).filter(Boolean),
+  ])];
   const courseCodes = [...new Set([...optionGroups.flat(), ...standaloneCodes])];
   const notes = draft.notesText.split("\n").map((line) => line.trim()).filter(Boolean);
 
@@ -420,10 +440,156 @@ function requiredSlotsFromLogicBlock(block: any): number {
 
   const childRequired = children.reduce((sum: number, child: any) => sum + requiredSlotsFromLogicBlock(child), 0);
   if (block?.type === "OR") {
-    const ownRequired = codes.length > 0 ? 1 : 0;
-    return ownRequired + childRequired;
+    const alternatives: number[] = [];
+    codes.forEach(() => alternatives.push(1));
+    children.forEach((child: any) => alternatives.push(requiredSlotsFromLogicBlock(child)));
+    if (alternatives.length === 0) return 0;
+    return Math.min(...alternatives.filter((value) => value > 0));
   }
   return codes.length + childRequired;
+}
+
+function statusToCounts(status: AuditCourseStatus): { completed: number; inProgress: number; planned: number } {
+  if (status === "completed") return { completed: 1, inProgress: 0, planned: 0 };
+  if (status === "in_progress") return { completed: 0, inProgress: 1, planned: 0 };
+  if (status === "planned") return { completed: 0, inProgress: 0, planned: 1 };
+  return { completed: 0, inProgress: 0, planned: 0 };
+}
+
+function rankProgressAlternative(option: { required: number; completed: number; inProgress: number; planned: number }): number {
+  return (option.completed * 1000) + (option.inProgress * 100) + (option.planned * 10) - option.required;
+}
+
+function evaluateLogicBlockCounts(
+  block: any,
+  byCourseCode: Map<string, AuditCourseStatus>,
+): { required: number; completed: number; inProgress: number; planned: number } {
+  const codes = (Array.isArray(block?.codes) ? block.codes : [])
+    .map((code: string) => String(code).toUpperCase())
+    .filter(Boolean);
+  const children = Array.isArray(block?.children) ? block.children : [];
+
+  if (block?.type === "OR") {
+    const options = [
+      ...codes.map((code: string) => {
+        const status = byCourseCode.get(code) ?? "not_started";
+        const counts = statusToCounts(status);
+        return { required: 1, completed: counts.completed, inProgress: counts.inProgress, planned: counts.planned };
+      }),
+      ...children.map((child: any) => evaluateLogicBlockCounts(child, byCourseCode)),
+    ].filter((option) => option.required > 0);
+
+    if (options.length === 0) return { required: 0, completed: 0, inProgress: 0, planned: 0 };
+    return options.sort((a, b) => rankProgressAlternative(b) - rankProgressAlternative(a))[0];
+  }
+
+  let required = 0;
+  let completed = 0;
+  let inProgress = 0;
+  let planned = 0;
+
+  for (const code of codes) {
+    const status = byCourseCode.get(code) ?? "not_started";
+    const counts = statusToCounts(status);
+    required += 1;
+    completed += counts.completed;
+    inProgress += counts.inProgress;
+    planned += counts.planned;
+  }
+
+  for (const child of children) {
+    const childCounts = evaluateLogicBlockCounts(child, byCourseCode);
+    required += childCounts.required;
+    completed += childCounts.completed;
+    inProgress += childCounts.inProgress;
+    planned += childCounts.planned;
+  }
+
+  return { required, completed, inProgress, planned };
+}
+
+function collectCodesFromLogicBlocks(blocks: any[]): Set<string> {
+  const codes = new Set<string>();
+  const visit = (block: any) => {
+    (Array.isArray(block?.codes) ? block.codes : []).forEach((code: string) => {
+      const normalized = String(code).toUpperCase();
+      if (normalized) codes.add(normalized);
+    });
+    (Array.isArray(block?.children) ? block.children : []).forEach((child: any) => visit(child));
+  };
+  blocks.forEach((block) => visit(block));
+  return codes;
+}
+
+function evaluateSectionCounts(
+  section: any,
+  byCourseCode: Map<string, AuditCourseStatus>,
+): { requiredSlots: number; completedSlots: number; inProgressSlots: number; plannedSlots: number; status: AuditCourseStatus } {
+  if (section.requirementType === "choose") {
+    const baseEval = evaluateRequirementSection(section, byCourseCode);
+    return {
+      requiredSlots: baseEval.requiredSlots,
+      completedSlots: baseEval.completedSlots,
+      inProgressSlots: baseEval.inProgressSlots,
+      plannedSlots: baseEval.plannedSlots,
+      status: baseEval.status,
+    };
+  }
+
+  const logicBlocks = Array.isArray(section.logicBlocks) ? section.logicBlocks : [];
+  let required = 0;
+  let completed = 0;
+  let inProgress = 0;
+  let planned = 0;
+
+  if (logicBlocks.length > 0) {
+    for (const block of logicBlocks) {
+      const counts = evaluateLogicBlockCounts(block, byCourseCode);
+      required += counts.required;
+      completed += counts.completed;
+      inProgress += counts.inProgress;
+      planned += counts.planned;
+    }
+  } else {
+    for (const group of section.optionGroups ?? []) {
+      const normalizedGroup = (group ?? []).map((code: string) => String(code).toUpperCase()).filter(Boolean);
+      if (normalizedGroup.length === 0) continue;
+      const statuses = normalizedGroup.map((code: string) => byCourseCode.get(code) ?? "not_started");
+      const bestStatus = statuses.sort((a, b) => rank(b) - rank(a))[0] ?? "not_started";
+      const counts = statusToCounts(bestStatus);
+      required += 1;
+      completed += counts.completed;
+      inProgress += counts.inProgress;
+      planned += counts.planned;
+    }
+  }
+
+  const logicCodes = collectCodesFromLogicBlocks(logicBlocks);
+  const extraCodes = Array.from(new Set([
+    ...(section.standaloneCodes ?? []),
+    ...(section.courseCodes ?? []),
+  ].map((code: string) => String(code).toUpperCase()).filter((code: string) => code && !logicCodes.has(code))));
+
+  for (const code of extraCodes) {
+    const counts = statusToCounts(byCourseCode.get(code) ?? "not_started");
+    required += 1;
+    completed += counts.completed;
+    inProgress += counts.inProgress;
+    planned += counts.planned;
+  }
+
+  let status: AuditCourseStatus = "not_started";
+  if (required > 0 && completed >= required) status = "completed";
+  else if (required > 0 && completed + inProgress >= required) status = "in_progress";
+  else if (required > 0 && completed + inProgress + planned >= required) status = "planned";
+
+  return {
+    requiredSlots: required,
+    completedSlots: completed,
+    inProgressSlots: inProgress,
+    plannedSlots: planned,
+    status,
+  };
 }
 
 function requiredSlotsForSection(section: any, baseRequiredSlots: number): number {
@@ -611,28 +777,55 @@ function RequirementSectionTableCard({
   }, [section, allCourses, courseDetails, byCourseCode, wildcardMatchedCoursesByToken]);
 
   const classRows = useMemo(() => {
-    const rows: Array<{ key: string; codes: string[]; type: SectionRowType; depth: number }> = [];
+    const rows: Array<{ key: string; choices: string[][]; type: SectionRowType; depth: number }> = [];
     const consumed = new Set<string>();
 
-    const pushFromBlock = (block: any, depth: number, path: string) => {
-      const codes = (Array.isArray(block?.codes) ? block.codes : [])
+    const collectAndCodes = (block: any): string[] => {
+      const ownCodes = (Array.isArray(block?.codes) ? block.codes : [])
         .map((code: string) => String(code).toUpperCase())
         .filter(Boolean);
+      const childCodes = (Array.isArray(block?.children) ? block.children : []).flatMap((child: any) => {
+        if (child?.type === "OR") {
+          const childOptions = extractOptions(child);
+          const best = childOptions.sort((a, b) => a.length - b.length)[0] ?? [];
+          return best;
+        }
+        return collectAndCodes(child);
+      });
+      return Array.from(new Set([...ownCodes, ...childCodes]));
+    };
 
-      if (codes.length > 0) {
-        codes.forEach((code: string) => consumed.add(code));
+    const extractOptions = (block: any): string[][] => {
+      if (!block) return [];
+      if (block.type === "AND") {
+        const andCodes = collectAndCodes(block);
+        return andCodes.length > 0 ? [andCodes] : [];
+      }
+
+      const options: string[][] = [];
+      const directCodes = (Array.isArray(block.codes) ? block.codes : [])
+        .map((code: string) => String(code).toUpperCase())
+        .filter(Boolean);
+      directCodes.forEach((code: string) => options.push([code]));
+      const children = Array.isArray(block.children) ? block.children : [];
+      children.forEach((child: any) => {
+        options.push(...extractOptions(child));
+      });
+      return options;
+    };
+
+    const pushFromBlock = (block: any, depth: number, path: string) => {
+      const choices = extractOptions(block).map((choice) => Array.from(new Set(choice)));
+
+      if (choices.length > 0) {
+        choices.flat().forEach((code: string) => consumed.add(code));
         rows.push({
-          key: `${path}-codes-${codes.join("|")}`,
-          codes,
+          key: `${path}-choices-${choices.map((choice) => choice.join("+")).join("|")}`,
+          choices,
           type: block?.type === "OR" ? "OR" : "AND",
           depth,
         });
       }
-
-      const children = Array.isArray(block?.children) ? block.children : [];
-      children.forEach((child: any, index: number) => {
-        pushFromBlock(child, depth + 1, `${path}-child-${index}`);
-      });
     };
 
     if (Array.isArray(section.logicBlocks) && section.logicBlocks.length > 0) {
@@ -645,7 +838,7 @@ function RequirementSectionTableCard({
         const cleaned = (group ?? []).map((code: string) => String(code).toUpperCase()).filter(Boolean);
         if (cleaned.length === 0) continue;
         cleaned.forEach((code: string) => consumed.add(code));
-        rows.push({ key: `or-${cleaned.join("-")}`, codes: cleaned, type: "OR", depth: 0 });
+        rows.push({ key: `or-${cleaned.join("-")}`, choices: [cleaned], type: "OR", depth: 0 });
       }
     }
 
@@ -656,13 +849,13 @@ function RequirementSectionTableCard({
     for (const code of standaloneCodes) {
       if (consumed.has(code)) continue;
       consumed.add(code);
-      rows.push({ key: `standalone-${code}`, codes: [code], type: "SINGLE", depth: 0 });
+      rows.push({ key: `standalone-${code}`, choices: [[code]], type: "SINGLE", depth: 0 });
     }
 
     for (const rawCode of section.courseCodes ?? []) {
       const code = String(rawCode).toUpperCase();
       if (!code || consumed.has(code)) continue;
-      rows.push({ key: `fallback-${code}`, codes: [code], type: "SINGLE", depth: 0 });
+      rows.push({ key: `fallback-${code}`, choices: [[code]], type: "SINGLE", depth: 0 });
     }
 
     return rows;
@@ -878,12 +1071,32 @@ function RequirementSectionTableCard({
                 <td className="px-3 py-2 text-xs text-foreground/85">
                   {row.type === "OR" ? "Choose 1" : row.type === "SINGLE" ? "Standalone" : "Required"}
                 </td>
-                <td className="px-3 py-2 text-xs text-muted-foreground">{row.codes.length} course{row.codes.length === 1 ? "" : "s"}</td>
+                <td className="px-3 py-2 text-xs text-muted-foreground">
+                  {row.type === "OR"
+                    ? `${row.choices.length} option${row.choices.length === 1 ? "" : "s"}`
+                    : `${(row.choices[0]?.length ?? 0)} course${(row.choices[0]?.length ?? 0) === 1 ? "" : "s"}`}
+                </td>
                 <td className="px-3 py-2">
                   <div className={`flex flex-wrap items-center gap-2 ${getDepthIndentClass(row.depth)}`}>
-                    {row.codes.map((code, codeIndex) =>
-                      renderCourseButton(String(code).toUpperCase(), row.key, codeIndex, codeIndex === row.codes.length - 1, row.type)
-                    )}
+                    {row.type === "OR"
+                      ? row.choices.map((choice, choiceIndex) => (
+                        <div key={`${row.key}-choice-${choiceIndex}`} className="flex items-center gap-2 rounded border border-border/50 px-2 py-1">
+                          {choice.map((code, codeIndex) => (
+                            <div key={`${row.key}-choice-${choiceIndex}-${code}`} className="flex items-center gap-2">
+                              {renderCourseButton(String(code).toUpperCase(), `${row.key}-choice-${choiceIndex}`, codeIndex, codeIndex === choice.length - 1, "AND")}
+                              {codeIndex < choice.length - 1 && (
+                                <span className="text-[10px] font-medium tracking-wide text-sky-700 dark:text-sky-300">AND</span>
+                              )}
+                            </div>
+                          ))}
+                          {choiceIndex < row.choices.length - 1 && (
+                            <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
+                          )}
+                        </div>
+                      ))
+                      : (row.choices[0] ?? []).map((code, codeIndex) =>
+                        renderCourseButton(String(code).toUpperCase(), row.key, codeIndex, codeIndex === (row.choices[0] ?? []).length - 1, row.type)
+                      )}
                   </div>
                 </td>
                 <td className="px-3 py-2" />
@@ -1493,6 +1706,7 @@ export default function DegreeAudit() {
       requirementType: "all",
       chooseCount: 1,
       notesText: "",
+      sectionCodes: [],
       blocks: [{ id: blockId, type: "AND", codes: [] }],
     });
     setActiveDraftBlockId(blockId);
@@ -1610,6 +1824,23 @@ export default function DegreeAudit() {
         ? { ...block, codes: Array.from(new Set([...block.codes, normalized])) }
         : block),
     } : prev);
+    setCourseSearchMessage(null);
+    return true;
+  };
+
+  const addCodeToSectionLevel = (code: string): boolean => {
+    const normalized = code.toUpperCase().trim();
+    if (!normalized) return false;
+
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+      const inBlocks = flattenDraftBlocks(prev.blocks).some(({ block }) => block.codes.includes(normalized));
+      if (inBlocks || (prev.sectionCodes ?? []).includes(normalized)) return prev;
+      return {
+        ...prev,
+        sectionCodes: [...(prev.sectionCodes ?? []), normalized],
+      };
+    });
     setCourseSearchMessage(null);
     return true;
   };
@@ -1827,6 +2058,57 @@ export default function DegreeAudit() {
     });
   };
 
+  const moveCodeFromBlockToSection = (sourceBlockId: string, code: string) => {
+    setSectionDraft((prev) => {
+      if (!prev) return prev;
+      const existsInSource = findCodeIndexInBlock(prev.blocks, sourceBlockId, code) >= 0;
+      if (!existsInSource) return prev;
+
+      const nextBlocks = mapBlocksRecursively(prev.blocks, (block) =>
+        block.id === sourceBlockId
+          ? { ...block, codes: block.codes.filter((value) => value !== code) }
+          : block,
+      );
+
+      return {
+        ...prev,
+        blocks: nextBlocks,
+        sectionCodes: Array.from(new Set([...(prev.sectionCodes ?? []), code])),
+      };
+    });
+  };
+
+  const moveCodeFromSectionToBlock = (
+    code: string,
+    targetBlockId: string,
+    targetIndex: number,
+  ) => {
+    setSectionDraft((prev) => {
+      if (!prev || !(prev.sectionCodes ?? []).includes(code)) return prev;
+
+      const withoutSectionCode = {
+        ...prev,
+        sectionCodes: (prev.sectionCodes ?? []).filter((value) => value !== code),
+      };
+
+      const nextBlocks = mapBlocksRecursively(withoutSectionCode.blocks, (block) => {
+        if (block.id !== targetBlockId) return block;
+        const baseCodes = block.codes.filter((value) => value !== code);
+        const insertAt = Number.isFinite(targetIndex)
+          ? Math.max(0, Math.min(baseCodes.length, targetIndex))
+          : baseCodes.length;
+        const nextCodes = [...baseCodes];
+        nextCodes.splice(insertAt, 0, code);
+        return { ...block, codes: nextCodes };
+      });
+
+      return {
+        ...withoutSectionCode,
+        blocks: nextBlocks,
+      };
+    });
+  };
+
   const getDropPositionForBlock = (clientY: number, element: HTMLElement): BlockDropPosition => {
     const rect = element.getBoundingClientRect();
     const relativeY = clientY - rect.top;
@@ -1861,6 +2143,20 @@ export default function DegreeAudit() {
     if (raw.startsWith("BLOCK::")) {
       const sourceBlockId = raw.replace("BLOCK::", "");
       nestBlockIntoBlock(sourceBlockId, targetBlockId, position);
+      setDragOverBlockId(null);
+      setBlockDropHint(null);
+      setCodeDropHint(null);
+      return;
+    }
+
+    if (raw.startsWith("SECTION::")) {
+      const code = raw.replace("SECTION::", "").toUpperCase().trim();
+      if (!code) return;
+      if (position === "before") {
+        moveCodeFromSectionToBlock(code, targetBlockId, 0);
+      } else {
+        moveCodeFromSectionToBlock(code, targetBlockId, Number.POSITIVE_INFINITY);
+      }
       setDragOverBlockId(null);
       setBlockDropHint(null);
       setCodeDropHint(null);
@@ -2213,25 +2509,20 @@ export default function DegreeAudit() {
           .map((slot) => byCourseCode.get(String(slot.effectiveCode ?? "").toUpperCase()) ?? "not_started")
           .filter((status) => status !== "not_started" || wildcardSlots.length > 0);
 
-        const baseEval = evaluateRequirementSection(section, byCourseCode);
-        const slotStatuses = [
-          ...Array(baseEval.completedSlots).fill("completed" as AuditCourseStatus),
-          ...Array(baseEval.inProgressSlots).fill("in_progress" as AuditCourseStatus),
-          ...Array(baseEval.plannedSlots).fill("planned" as AuditCourseStatus),
-          ...wildcardStatuses,
-        ].sort((a, b) => rank(a) - rank(b));
+        const baseCounts = evaluateSectionCounts(section, byCourseCode);
 
-        const requiredSlots = requiredSlotsForSection(section, baseEval.requiredSlots);
-        const relevant = slotStatuses.slice(0, requiredSlots);
+        const requiredSlots = Math.max(0, baseCounts.requiredSlots + wildcardSlots.length);
+        const completedSlots = baseCounts.completedSlots + wildcardStatuses.filter((status) => status === "completed").length;
+        const inProgressSlots = baseCounts.inProgressSlots + wildcardStatuses.filter((status) => status === "in_progress").length;
+        const plannedSlots = baseCounts.plannedSlots + wildcardStatuses.filter((status) => status === "planned").length;
 
-        const completedSlots = relevant.filter((status) => status === "completed").length;
-        const inProgressSlots = relevant.filter((status) => status === "in_progress").length;
-        const plannedSlots = relevant.filter((status) => status === "planned").length;
-
-        let status: AuditCourseStatus = "not_started";
-        if (completedSlots >= requiredSlots) status = "completed";
-        else if (completedSlots + inProgressSlots >= requiredSlots) status = "in_progress";
-        else if (completedSlots + inProgressSlots + plannedSlots >= requiredSlots) status = "planned";
+        let status: AuditCourseStatus = baseCounts.status;
+        if (requiredSlots > 0) {
+          if (completedSlots >= requiredSlots) status = "completed";
+          else if (completedSlots + inProgressSlots >= requiredSlots) status = "in_progress";
+          else if (completedSlots + inProgressSlots + plannedSlots >= requiredSlots) status = "planned";
+          else status = "not_started";
+        }
 
         return {
           section,
@@ -2671,6 +2962,59 @@ export default function DegreeAudit() {
                                         />
 
                                         <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
+                                        <div
+                                          className="mb-2 rounded-md border border-dashed border-border p-2"
+                                          onDragOver={(event) => {
+                                            event.preventDefault();
+                                            maybeAutoScrollDuringDrag(event.clientY);
+                                          }}
+                                          onDrop={(event) => {
+                                            event.preventDefault();
+                                            const raw = event.dataTransfer.getData("text/plain");
+                                            if (!raw || raw.startsWith("BLOCK::") || raw.startsWith("SECTION::")) return;
+                                            const [sourceBlockId, code] = raw.split("::");
+                                            if (!sourceBlockId || !code) return;
+                                            moveCodeFromBlockToSection(sourceBlockId, code);
+                                            setDragOverBlockId(null);
+                                            setBlockDropHint(null);
+                                            setCodeDropHint(null);
+                                          }}
+                                        >
+                                          <p className="mb-1 text-[11px] text-muted-foreground">In Section (outside blocks)</p>
+                                          <div className="flex flex-wrap gap-2">
+                                            {(sectionDraft.sectionCodes ?? []).map((sectionCode) => (
+                                              <Badge
+                                                key={`section-level-${sectionCode}`}
+                                                variant="outline"
+                                                className="border-border text-foreground/80 cursor-move"
+                                                draggable
+                                                onDragStart={(event) => {
+                                                  event.dataTransfer.effectAllowed = "move";
+                                                  event.dataTransfer.setData("text/plain", `SECTION::${sectionCode}`);
+                                                }}
+                                              >
+                                                {sectionCode}
+                                                <button
+                                                  type="button"
+                                                  className="ml-2"
+                                                  onMouseDown={(event) => {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                                  }}
+                                                  onClick={() => setSectionDraft((prev) => prev ? {
+                                                    ...prev,
+                                                    sectionCodes: (prev.sectionCodes ?? []).filter((value) => value !== sectionCode),
+                                                  } : prev)}
+                                                >
+                                                  x
+                                                </button>
+                                              </Badge>
+                                            ))}
+                                            {(sectionDraft.sectionCodes ?? []).length === 0 && (
+                                              <span className="text-xs text-muted-foreground">Drop class chips here to keep them in the section (not inside a block).</span>
+                                            )}
+                                          </div>
+                                        </div>
                                         <div className="space-y-2 mb-3">
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
@@ -2892,17 +3236,29 @@ export default function DegreeAudit() {
                                                   <p className="text-sm text-foreground">{course.code}</p>
                                                   <p className="text-xs text-muted-foreground">{course.title}</p>
                                                 </div>
-                                                <Button
-                                                  type="button"
-                                                  size="sm"
-                                                  variant="outline"
-                                                  disabled={!activeDraftBlockId}
-                                                  onClick={() => {
-                                                    addCodeToActiveBlock(course.code);
-                                                  }}
-                                                >
-                                                  Add to Block
-                                                </Button>
+                                                <div className="flex items-center gap-2">
+                                                  <Button
+                                                    type="button"
+                                                    size="sm"
+                                                    variant="outline"
+                                                    disabled={!activeDraftBlockId}
+                                                    onClick={() => {
+                                                      addCodeToActiveBlock(course.code);
+                                                    }}
+                                                  >
+                                                    Add to Block
+                                                  </Button>
+                                                  <Button
+                                                    type="button"
+                                                    size="sm"
+                                                    variant="outline"
+                                                    onClick={() => {
+                                                      addCodeToSectionLevel(course.code);
+                                                    }}
+                                                  >
+                                                    Add to Section
+                                                  </Button>
+                                                </div>
                                               </div>
                                             ))}
                                           </div>
@@ -3018,6 +3374,59 @@ export default function DegreeAudit() {
                                     />
 
                                     <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
+                                    <div
+                                      className="mb-2 rounded-md border border-dashed border-border p-2"
+                                      onDragOver={(event) => {
+                                        event.preventDefault();
+                                        maybeAutoScrollDuringDrag(event.clientY);
+                                      }}
+                                      onDrop={(event) => {
+                                        event.preventDefault();
+                                        const raw = event.dataTransfer.getData("text/plain");
+                                        if (!raw || raw.startsWith("BLOCK::") || raw.startsWith("SECTION::")) return;
+                                        const [sourceBlockId, code] = raw.split("::");
+                                        if (!sourceBlockId || !code) return;
+                                        moveCodeFromBlockToSection(sourceBlockId, code);
+                                        setDragOverBlockId(null);
+                                        setBlockDropHint(null);
+                                        setCodeDropHint(null);
+                                      }}
+                                    >
+                                      <p className="mb-1 text-[11px] text-muted-foreground">In Section (outside blocks)</p>
+                                      <div className="flex flex-wrap gap-2">
+                                        {(sectionDraft.sectionCodes ?? []).map((sectionCode) => (
+                                          <Badge
+                                            key={`section-level-${sectionCode}`}
+                                            variant="outline"
+                                            className="border-border text-foreground/80 cursor-move"
+                                            draggable
+                                            onDragStart={(event) => {
+                                              event.dataTransfer.effectAllowed = "move";
+                                              event.dataTransfer.setData("text/plain", `SECTION::${sectionCode}`);
+                                            }}
+                                          >
+                                            {sectionCode}
+                                            <button
+                                              type="button"
+                                              className="ml-2"
+                                              onMouseDown={(event) => {
+                                                event.preventDefault();
+                                                event.stopPropagation();
+                                              }}
+                                              onClick={() => setSectionDraft((prev) => prev ? {
+                                                ...prev,
+                                                sectionCodes: (prev.sectionCodes ?? []).filter((value) => value !== sectionCode),
+                                              } : prev)}
+                                            >
+                                              x
+                                            </button>
+                                          </Badge>
+                                        ))}
+                                        {(sectionDraft.sectionCodes ?? []).length === 0 && (
+                                          <span className="text-xs text-muted-foreground">Drop class chips here to keep them in the section (not inside a block).</span>
+                                        )}
+                                      </div>
+                                    </div>
                                         <div className="space-y-2 mb-3">
                                           {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                             <div
@@ -3239,17 +3648,29 @@ export default function DegreeAudit() {
                                               <p className="text-sm text-foreground">{course.code}</p>
                                               <p className="text-xs text-muted-foreground">{course.title}</p>
                                             </div>
-                                            <Button
-                                              type="button"
-                                              size="sm"
-                                              variant="outline"
-                                              disabled={!activeDraftBlockId}
-                                              onClick={() => {
-                                                addCodeToActiveBlock(course.code);
-                                              }}
-                                            >
-                                              Add to Block
-                                            </Button>
+                                            <div className="flex items-center gap-2">
+                                              <Button
+                                                type="button"
+                                                size="sm"
+                                                variant="outline"
+                                                disabled={!activeDraftBlockId}
+                                                onClick={() => {
+                                                  addCodeToActiveBlock(course.code);
+                                                }}
+                                              >
+                                                Add to Block
+                                              </Button>
+                                              <Button
+                                                type="button"
+                                                size="sm"
+                                                variant="outline"
+                                                onClick={() => {
+                                                  addCodeToSectionLevel(course.code);
+                                                }}
+                                              >
+                                                Add to Section
+                                              </Button>
+                                            </div>
                                           </div>
                                         ))}
                                       </div>
@@ -3341,6 +3762,59 @@ export default function DegreeAudit() {
                                               />
 
                                               <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
+                                              <div
+                                                className="mb-2 rounded-md border border-dashed border-border p-2"
+                                                onDragOver={(event) => {
+                                                  event.preventDefault();
+                                                  maybeAutoScrollDuringDrag(event.clientY);
+                                                }}
+                                                onDrop={(event) => {
+                                                  event.preventDefault();
+                                                  const raw = event.dataTransfer.getData("text/plain");
+                                                  if (!raw || raw.startsWith("BLOCK::") || raw.startsWith("SECTION::")) return;
+                                                  const [sourceBlockId, code] = raw.split("::");
+                                                  if (!sourceBlockId || !code) return;
+                                                  moveCodeFromBlockToSection(sourceBlockId, code);
+                                                  setDragOverBlockId(null);
+                                                  setBlockDropHint(null);
+                                                  setCodeDropHint(null);
+                                                }}
+                                              >
+                                                <p className="mb-1 text-[11px] text-muted-foreground">In Section (outside blocks)</p>
+                                                <div className="flex flex-wrap gap-2">
+                                                  {(sectionDraft.sectionCodes ?? []).map((sectionCode) => (
+                                                    <Badge
+                                                      key={`section-level-${sectionCode}`}
+                                                      variant="outline"
+                                                      className="border-border text-foreground/80 cursor-move"
+                                                      draggable
+                                                      onDragStart={(event) => {
+                                                        event.dataTransfer.effectAllowed = "move";
+                                                        event.dataTransfer.setData("text/plain", `SECTION::${sectionCode}`);
+                                                      }}
+                                                    >
+                                                      {sectionCode}
+                                                      <button
+                                                        type="button"
+                                                        className="ml-2"
+                                                        onMouseDown={(event) => {
+                                                          event.preventDefault();
+                                                          event.stopPropagation();
+                                                        }}
+                                                        onClick={() => setSectionDraft((prev) => prev ? {
+                                                          ...prev,
+                                                          sectionCodes: (prev.sectionCodes ?? []).filter((value) => value !== sectionCode),
+                                                        } : prev)}
+                                                      >
+                                                        x
+                                                      </button>
+                                                    </Badge>
+                                                  ))}
+                                                  {(sectionDraft.sectionCodes ?? []).length === 0 && (
+                                                    <span className="text-xs text-muted-foreground">Drop class chips here to keep them in the section (not inside a block).</span>
+                                                  )}
+                                                </div>
+                                              </div>
                                               <div className="space-y-2 mb-3">
                                                 {flattenDraftBlocks(sectionDraft.blocks).map(({ block, depth }) => (
                                                   <div
@@ -3562,17 +4036,29 @@ export default function DegreeAudit() {
                                                         <p className="text-sm text-foreground">{course.code}</p>
                                                         <p className="text-xs text-muted-foreground">{course.title}</p>
                                                       </div>
-                                                      <Button
-                                                        type="button"
-                                                        size="sm"
-                                                        variant="outline"
-                                                        disabled={!activeDraftBlockId}
-                                                        onClick={() => {
-                                                          addCodeToActiveBlock(course.code);
-                                                        }}
-                                                      >
-                                                        Add to Block
-                                                      </Button>
+                                                      <div className="flex items-center gap-2">
+                                                        <Button
+                                                          type="button"
+                                                          size="sm"
+                                                          variant="outline"
+                                                          disabled={!activeDraftBlockId}
+                                                          onClick={() => {
+                                                            addCodeToActiveBlock(course.code);
+                                                          }}
+                                                        >
+                                                          Add to Block
+                                                        </Button>
+                                                        <Button
+                                                          type="button"
+                                                          size="sm"
+                                                          variant="outline"
+                                                          onClick={() => {
+                                                            addCodeToSectionLevel(course.code);
+                                                          }}
+                                                        >
+                                                          Add to Section
+                                                        </Button>
+                                                      </div>
                                                     </div>
                                                   ))}
                                                 </div>
