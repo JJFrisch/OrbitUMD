@@ -11,6 +11,7 @@ type QuickAddCourseInput = {
   courseTitle: string;
   credits: number;
   genEds?: string[];
+  scheduleId?: string;
 };
 
 type CourseLike = {
@@ -46,6 +47,14 @@ type AddCourseResult = {
   added: boolean;
   scheduleName: string;
   reason?: string;
+};
+
+export type ScheduleChoice = {
+  id: string;
+  name: string;
+  termCode: string;
+  termYear: number;
+  isPrimary: boolean;
 };
 
 function parseSelections(stored: unknown): ScheduleSelectionLike[] {
@@ -95,9 +104,19 @@ function pickTargetSchedule(schedules: ScheduleWithSelections[]): ScheduleWithSe
   return null;
 }
 
+function findScheduleById(
+  schedules: ScheduleWithSelections[],
+  scheduleId: string,
+): ScheduleWithSelections | null {
+  const target = schedules.find((schedule) => schedule.id === scheduleId) ?? null;
+  if (!target) return null;
+  if (!target.term_code || typeof target.term_year !== "number") return null;
+  return target;
+}
+
 function makePlannedSelection(input: QuickAddCourseInput): ScheduleSelectionLike {
   const normalizedCode = input.courseCode.replace(/\s+/g, "").toUpperCase();
-  const sectionCode = "PLANNED";
+  const sectionCode = "UNCHOOSEN";
 
   return {
     sectionKey: `${normalizedCode}-${sectionCode}`,
@@ -118,7 +137,7 @@ function makePlannedSelection(input: QuickAddCourseInput): ScheduleSelectionLike
       id: `${normalizedCode}-${sectionCode}`,
       courseCode: normalizedCode,
       sectionCode,
-      instructor: "Planned",
+      instructor: "",
       instructors: [],
       totalSeats: 0,
       openSeats: 0,
@@ -127,10 +146,42 @@ function makePlannedSelection(input: QuickAddCourseInput): ScheduleSelectionLike
   };
 }
 
-export async function addCourseToPrimarySchedule(input: QuickAddCourseInput): Promise<AddCourseResult> {
+export async function listAvailableScheduleChoices(): Promise<ScheduleChoice[]> {
+  const schedules = await listAllSchedulesWithSelections();
+
+  return schedules
+    .filter((schedule) => schedule.term_code && typeof schedule.term_year === "number")
+    .map((schedule) => ({
+      id: schedule.id,
+      name: schedule.name,
+      termCode: schedule.term_code!,
+      termYear: schedule.term_year!,
+      isPrimary: Boolean(schedule.is_primary),
+    }))
+    .sort((left, right) => {
+      const termCompare = compareAcademicTerms(
+        { termCode: left.termCode, termYear: left.termYear },
+        { termCode: right.termCode, termYear: right.termYear },
+      );
+      if (termCompare !== 0) return termCompare;
+      if (left.isPrimary !== right.isPrimary) return left.isPrimary ? -1 : 1;
+      return left.name.localeCompare(right.name);
+    });
+}
+
+export async function addCourseToSchedule(input: QuickAddCourseInput): Promise<AddCourseResult> {
   const normalizedCode = input.courseCode.replace(/\s+/g, "").toUpperCase();
   const allSchedules = await listAllSchedulesWithSelections();
-  let target = pickTargetSchedule(allSchedules);
+  let target: ScheduleWithSelections | null = null;
+
+  if (input.scheduleId) {
+    target = findScheduleById(allSchedules, input.scheduleId);
+    if (!target) {
+      throw new Error("The selected schedule could not be found or has no term information.");
+    }
+  } else {
+    target = pickTargetSchedule(allSchedules);
+  }
 
   if (!target) {
     const current = getCurrentAcademicTerm();
@@ -179,4 +230,8 @@ export async function addCourseToPrimarySchedule(input: QuickAddCourseInput): Pr
     added: true,
     scheduleName: target.name,
   };
+}
+
+export async function addCourseToPrimarySchedule(input: QuickAddCourseInput): Promise<AddCourseResult> {
+  return addCourseToSchedule(input);
 }

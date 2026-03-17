@@ -8,6 +8,7 @@ import { Progress } from "../components/ui/progress";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import { CourseRowDisplay } from "../components/CourseRowDisplay";
+import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
 import { plannerApi } from "@/lib/api/planner";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
@@ -443,6 +444,7 @@ function RequirementSectionTableCard({
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [addScheduleMessage, setAddScheduleMessage] = useState<string | null>(null);
 
   useEffect(() => {
     setTitleDraft(section.title ?? "");
@@ -512,6 +514,7 @@ function RequirementSectionTableCard({
   // Load course detail when detailCode changes
   useEffect(() => {
     if (!detailCode) { setDetailData(null); return; }
+    setAddScheduleMessage(null);
     // Check cached courseDetails first
     const cached = courseDetails.get(detailCode.toUpperCase());
     if (cached) { setDetailData(cached); return; }
@@ -694,15 +697,26 @@ function RequirementSectionTableCard({
             </div>
           </div>
         ) : (
-          <button
-            type="button"
-            className={`rounded border px-2 py-1 text-xs transition-colors hover:brightness-110 ${borderClass}`}
-            onClick={() => setDetailCode(token)}
-            onDoubleClick={(e) => { e.stopPropagation(); setEditingCode({ originalCode: token, query: token }); }}
-            title="Click for details · Double-click to edit"
-          >
-            {displayText}
-          </button>
+                          <>
+                            <button
+                              type="button"
+                              className={`rounded border px-2 py-1 text-xs transition-colors hover:brightness-110 ${borderClass}`}
+                              onClick={() => setDetailCode(token)}
+                              onDoubleClick={(e) => { e.stopPropagation(); setEditingCode({ originalCode: token, query: token }); }}
+                              title="Click for details · Double-click to edit"
+                            >
+                              {displayText}
+                            </button>
+                            <AddToScheduleDropdown
+                              courseCode={token}
+                              courseTitle={course?.title ?? token}
+                              credits={Number(course?.credits ?? 0) || 0}
+                              genEds={course?.genEds ?? []}
+                              buttonLabel="Add"
+                              compact
+                              onMessage={setAddScheduleMessage}
+                            />
+                          </>
         )}
         {rowType === "OR" && !isLastInOr && (
           <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
@@ -890,10 +904,19 @@ function RequirementSectionTableCard({
                 {detailData && <p className="text-muted-foreground text-sm mt-0.5">{detailData.title}</p>}
               </div>
               <div className="flex items-center gap-2">
+                <AddToScheduleDropdown
+                  courseCode={detailCode}
+                  courseTitle={detailData?.title ?? detailCode}
+                  credits={Number(detailData?.credits ?? 0) || 0}
+                  genEds={detailData?.genEds ?? []}
+                  onMessage={setAddScheduleMessage}
+                />
                 <a href={`https://app.testudo.umd.edu/soc/search?courseId=${detailCode}&sectionId=&termId=&_openSectionsOnly=on&credits=ANY&courseLevelFilter=ALL&instructor=&_facetoface=on&_blended=on&_online=on&courseStartHour=0700&courseStartMin=00&courseStartAM=AM&courseEndHour=1200&courseEndMin=00&courseEndAM=AM&teachingCenter=ALL`} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground" aria-label={`Open ${detailCode} in Testudo`} title={`Open ${detailCode} in Testudo`}><ExternalLink className="h-4 w-4" /></a>
                 <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setDetailCode(null)}><X className="h-4 w-4" /></Button>
               </div>
             </div>
+
+            {addScheduleMessage && <p className="mb-3 text-xs text-muted-foreground">{addScheduleMessage}</p>}
 
             {detailLoading && <p className="text-muted-foreground text-sm">Loading…</p>}
 

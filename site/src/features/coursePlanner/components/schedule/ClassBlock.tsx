@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import type { CalendarMeeting } from "../../types/coursePlanner";
 import { getBlockGeometry } from "../../utils/scheduleLayout";
 import { formatHourDecimal } from "../../utils/scheduleFormatting";
+import { formatSectionLabel } from "../../utils/sectionLabels";
 
 interface ClassBlockProps {
   meeting: CalendarMeeting;
@@ -56,7 +57,7 @@ export function ClassBlock({ meeting, color, textColor, bounds, readOnly, showDe
           ) : (
             <span className="cp-class-time">{formatHourDecimal(meeting.startHour)} - {formatHourDecimal(meeting.endHour)}</span>
           )}
-          <span className="cp-class-line">Section {meeting.sectionCode}</span>
+          <span className="cp-class-line">{formatSectionLabel(meeting.sectionCode)}</span>
           {meeting.instructor && <span className="cp-class-line">{meeting.instructor}</span>}
           {meeting.location && <span className="cp-class-line">{meeting.location}</span>}
         </>

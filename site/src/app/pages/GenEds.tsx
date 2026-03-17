@@ -28,7 +28,7 @@ import {
 import { plannerApi } from "@/lib/api/planner";
 import { getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import { getAuthenticatedUserId, getSupabaseClient } from "@/lib/supabase/client";
-import { addCourseToPrimarySchedule } from "@/lib/scheduling/quickAddToSchedule";
+import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
 
 interface TaggedCourse {
   code: string;
@@ -208,7 +208,6 @@ export default function GenEds() {
   const [coursesByTag, setCoursesByTag] = useState<Map<string, TaggedCourse[]>>(new Map());
   const [sampleCourses, setSampleCourses] = useState<Array<{ code: string; title: string; credits: number; genEds: string[] }>>([]);
   const [loadingSamples, setLoadingSamples] = useState(false);
-  const [addPendingCode, setAddPendingCode] = useState<string | null>(null);
   const [addScheduleMessage, setAddScheduleMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -358,32 +357,8 @@ export default function GenEds() {
   }, [selectedGenEd]);
 
   useEffect(() => {
-    setAddPendingCode(null);
     setAddScheduleMessage(null);
   }, [selectedGenEd?.code]);
-
-  const handleAddCourseToSchedule = async (course: { code: string; title: string; credits: number; genEds: string[] }) => {
-    setAddPendingCode(course.code);
-    setAddScheduleMessage(null);
-    try {
-      const result = await addCourseToPrimarySchedule({
-        courseCode: course.code,
-        courseTitle: course.title,
-        credits: course.credits,
-        genEds: course.genEds,
-      });
-
-      if (result.added) {
-        setAddScheduleMessage(`Added ${course.code} to ${result.scheduleName}.`);
-      } else {
-        setAddScheduleMessage(result.reason ?? `${course.code} is already in ${result.scheduleName}.`);
-      }
-    } catch (error) {
-      setAddScheduleMessage(error instanceof Error ? error.message : "Unable to add course to schedule.");
-    } finally {
-      setAddPendingCode(null);
-    }
-  };
 
   const genEdRows = useMemo(() => {
     const discoveredCodes = Array.from(coursesByTag.keys());
@@ -715,16 +690,15 @@ export default function GenEds() {
                             </div>
                             <div className="flex items-center gap-2">
                               <Badge variant="outline" className="border-red-600/40 text-red-300">{selectedGenEd.code}</Badge>
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="outline"
-                                className="border-border"
-                                onClick={() => void handleAddCourseToSchedule(course)}
-                                disabled={addPendingCode === course.code}
-                              >
-                                {addPendingCode === course.code ? "Adding..." : "Add To MAIN"}
-                              </Button>
+                              <AddToScheduleDropdown
+                                courseCode={course.code}
+                                courseTitle={course.title}
+                                credits={course.credits}
+                                genEds={course.genEds}
+                                buttonLabel="Add to schedule"
+                                compact
+                                onMessage={setAddScheduleMessage}
+                              />
                             </div>
                           </div>
                         ))}

@@ -182,6 +182,26 @@ export function buildCalendarMeetings(params: {
 }): CalendarMeeting[] {
   const built: CalendarMeeting[] = [];
 
+  if (!Array.isArray(params.meetings) || params.meetings.length === 0) {
+    built.push({
+      id: `${params.sectionKey}-other-0`,
+      sectionKey: params.sectionKey,
+      courseCode: params.courseCode,
+      displayCourseCode: params.displayCourseCode,
+      sectionCode: params.sectionCode,
+      title: params.title,
+      instructor: params.instructor,
+      day: "Other",
+      startHour: 0,
+      endHour: 0,
+      location: "TBA",
+      conflictIndex: 0,
+      conflictTotal: 1,
+      isHoverPreview: params.isHoverPreview,
+    });
+    return built;
+  }
+
   for (const meeting of params.meetings) {
     const startHour = meeting.startTime ? parseTimeToHour(meeting.startTime) : Number.NaN;
     const endHour = meeting.endTime ? parseTimeToHour(meeting.endTime) : Number.NaN;

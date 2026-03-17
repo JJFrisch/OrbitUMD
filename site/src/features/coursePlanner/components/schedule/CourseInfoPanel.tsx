@@ -11,6 +11,7 @@ import {
   isMappableBuildingCode,
   sanitizeNullableText,
 } from "../../utils/courseDetails";
+import { formatSectionLabel } from "../../utils/sectionLabels";
 
 export function CourseInfoPanel() {
   const selectedInfoKey = useCoursePlannerStore((state) => state.selectedInfoKey);
@@ -41,7 +42,7 @@ export function CourseInfoPanel() {
           (view on Testudo)
         </a>
       </h4>
-      <p>{formatCredits(selection.course.minCredits, selection.course.maxCredits)} | Section {selection.section.sectionCode}</p>
+      <p>{formatCredits(selection.course.minCredits, selection.course.maxCredits)} | {formatSectionLabel(selection.section.sectionCode)}</p>
 
       <div className="cp-info-lines">
         {(selection.section.instructors.length > 0 ? selection.section.instructors : [selection.section.instructor || "Staff"]).map((name) => {

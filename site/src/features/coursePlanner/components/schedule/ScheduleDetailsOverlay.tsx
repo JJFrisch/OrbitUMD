@@ -13,6 +13,7 @@ import {
   isMappableBuildingCode,
   sanitizeNullableText,
 } from "../../utils/courseDetails";
+import { formatSectionLabel } from "../../utils/sectionLabels";
 
 interface ScheduleDetailsOverlayProps {
   selectedSectionKey: string | null;
@@ -36,7 +37,7 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
     <BottomSheet
       open={Boolean(selection)}
       onClose={onClose}
-      title={`${selection.course.courseCode} ${selection.section.sectionCode}`}
+      title={`${selection.course.courseCode} ${formatSectionLabel(selection.section.sectionCode)}`}
       className="cp-bottom-sheet-calendar"
     >
       <div className="cp-overlay-grid">
@@ -51,7 +52,7 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
           </a>
         </p>
         <p>
-          {formatCredits(selection.course.minCredits, selection.course.maxCredits)} | Section {selection.section.sectionCode}
+          {formatCredits(selection.course.minCredits, selection.course.maxCredits)} | {formatSectionLabel(selection.section.sectionCode)}
           {genEdLabel ? ` | Gen Eds: ${genEdLabel}` : ""}
         </p>
 

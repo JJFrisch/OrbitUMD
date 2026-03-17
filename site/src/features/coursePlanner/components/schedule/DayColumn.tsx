@@ -1,5 +1,6 @@
 import type { CalendarMeeting, Weekday } from "../../types/coursePlanner";
 import { getCourseColor, getReadableTextColor } from "../../utils/colorPalette";
+import { isUnspecifiedSectionCode } from "../../utils/sectionLabels";
 import { ClassBlock } from "./ClassBlock";
 
 interface DayColumnProps {
@@ -27,6 +28,14 @@ export function DayColumn({
 }: DayColumnProps) {
   const dayMeetings = meetings.filter((meeting) => meeting.day === day);
   const isOtherDay = day === "Other";
+  const orderedMeetings = isOtherDay
+    ? [...dayMeetings].sort((left, right) => {
+      const leftUnspecified = isUnspecifiedSectionCode(left.sectionCode);
+      const rightUnspecified = isUnspecifiedSectionCode(right.sectionCode);
+      if (leftUnspecified === rightUnspecified) return 0;
+      return leftUnspecified ? 1 : -1;
+    })
+    : dayMeetings;
   const hourRows = Math.max(1, bounds.endHour - bounds.startHour + 1);
   const trackHeight = `${hourRows * 56}px`;
 
@@ -37,7 +46,7 @@ export function DayColumn({
         className={`cp-day-track ${isOtherDay ? "cp-day-track-other" : ""}`}
         style={isOtherDay ? { minHeight: trackHeight } : { height: trackHeight }}
       >
-        {dayMeetings.map((meeting) => {
+        {orderedMeetings.map((meeting) => {
           const color = colorBySection[meeting.sectionKey] ?? getCourseColor(meeting.courseCode);
           const textColor = getReadableTextColor(color);
 

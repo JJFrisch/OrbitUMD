@@ -5,7 +5,7 @@ import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import type { AuditCourseStatus } from "@/lib/requirements/audit";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
-import { addCourseToPrimarySchedule } from "@/lib/scheduling/quickAddToSchedule";
+import { AddToScheduleDropdown } from "./AddToScheduleDropdown";
 
 interface CourseDetailsPopupProps {
   isOpen: boolean;
@@ -106,7 +106,6 @@ export function CourseDetailsPopup({
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState<string[]>([courseCode]);
   const [historyIndex, setHistoryIndex] = useState(0);
-  const [addPending, setAddPending] = useState(false);
   const [addMessage, setAddMessage] = useState<string | null>(null);
 
   const selectCourse = (courseCodeToOpen: string) => {
@@ -177,28 +176,6 @@ export function CourseDetailsPopup({
     [activeDetails?.description],
   );
   const prerequisitesText = activeDetails?.prereqs?.trim() || splitDetails.prerequisites;
-
-  const handleAddToSchedule = async () => {
-    setAddPending(true);
-    try {
-      const result = await addCourseToPrimarySchedule({
-        courseCode: activeCourseCode,
-        courseTitle: shownTitle,
-        credits: Number(shownCredits ?? 0) || 0,
-        genEds: shownGenEds,
-      });
-
-      if (result.added) {
-        setAddMessage(`Added ${activeCourseCode} to ${result.scheduleName}.`);
-      } else {
-        setAddMessage(result.reason ?? `${activeCourseCode} is already in ${result.scheduleName}.`);
-      }
-    } catch (error) {
-      setAddMessage(error instanceof Error ? error.message : "Unable to add course to schedule.");
-    } finally {
-      setAddPending(false);
-    }
-  };
 
   return (
     <Dialog
@@ -287,9 +264,13 @@ export function CourseDetailsPopup({
           </div>
 
           <div className="pt-2">
-            <Button type="button" variant="outline" className="border-border" onClick={() => void handleAddToSchedule()} disabled={addPending}>
-              {addPending ? "Adding..." : "Add To MAIN Schedule"}
-            </Button>
+            <AddToScheduleDropdown
+              courseCode={activeCourseCode}
+              courseTitle={shownTitle}
+              credits={Number(shownCredits ?? 0) || 0}
+              genEds={shownGenEds}
+              onMessage={setAddMessage}
+            />
             {addMessage && <p className="mt-2 text-xs text-muted-foreground">{addMessage}</p>}
           </div>
 
