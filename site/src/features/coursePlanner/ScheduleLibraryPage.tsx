@@ -208,7 +208,7 @@ export function ScheduleLibraryPage() {
     }
 
     setSortBy(key);
-    setSortOrder("asc");
+    setSortOrder(key === "lastEdited" ? "desc" : "asc");
   };
 
   const filteredAndSorted = useMemo(() => {

@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import { ArrowUpDown, Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
+import { ArrowUpDown, Calendar, CheckCircle2, Clock3, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -12,21 +12,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../components/ui/dialog";
 import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import type { ScheduleSelection } from "@/features/coursePlanner/types/coursePlanner";
-import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits, updatePriorCredit } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
-import {
-  buildCourseContributionMap,
-  getContributionLabelsForCourseCode,
-  loadProgramRequirementBundles,
-  type ProgramRequirementBundle,
-} from "@/lib/requirements/audit";
+import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-import { useTheme } from "../contexts/ThemeContext";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -215,35 +215,34 @@ function statusRank(status: AcademicProgressStatus): number {
   return 1;
 }
 
+function formatStatusLabel(status: AcademicProgressStatus): string {
+  return status === "in_progress" ? "In Progress" : status === "completed" ? "Completed" : "Planned";
+}
+
 export default function FourYearPlan() {
-  const { theme } = useTheme();
   const [sortOrder, setSortOrder] = useState<SortOrder>("current");
-  const [collapsedTerms, setCollapsedTerms] = useState<Set<string>>(new Set());
-  const [showContributionHighlight, setShowContributionHighlight] = useState(true);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savingGradeKey, setSavingGradeKey] = useState<string | null>(null);
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
   const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
-  const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
+  const [detailCode, setDetailCode] = useState<string | null>(null);
+  const [detailData, setDetailData] = useState<CourseDetails | null>(null);
+  const [detailLoading, setDetailLoading] = useState(false);
 
   useEffect(() => {
     let active = true;
 
     const run = async () => {
       try {
-        const [all, selectedPrograms, loadedPriorCredits] = await Promise.all([
+        const [all, loadedPriorCredits] = await Promise.all([
           plannerApi.listAllSchedulesWithSelections(),
-          listUserDegreePrograms(),
           listUserPriorCredits(),
         ]);
-
-        const bundles = await loadProgramRequirementBundles(selectedPrograms);
         if (!active) return;
 
         setMainSchedules(all.filter((schedule) => schedule.is_primary));
         setPriorCredits(loadedPriorCredits);
-        setRequirementBundles(bundles);
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -258,6 +257,30 @@ export default function FourYearPlan() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!detailCode) {
+      setDetailData(null);
+      setDetailLoading(false);
+      return;
+    }
+
+    let active = true;
+    setDetailLoading(true);
+    void lookupCourseDetails([detailCode]).then((result) => {
+      if (!active) return;
+      setDetailData(result.get(detailCode.toUpperCase()) ?? null);
+      setDetailLoading(false);
+    }).catch(() => {
+      if (!active) return;
+      setDetailData(null);
+      setDetailLoading(false);
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [detailCode]);
 
   const academicGpaHistory = useMemo(() => {
     const completedScheduleGrades = mainSchedules.flatMap((schedule) => {
@@ -328,8 +351,6 @@ export default function FourYearPlan() {
     const completed = terms.filter((term) => term.status === "completed");
     return [...current, ...future, ...completed];
   }, [sortOrder, terms]);
-
-  const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
   const duplicateScheduleSectionKeys = useMemo(() => {
     const earnedCourseCodes = new Set(
@@ -447,59 +468,13 @@ export default function FourYearPlan() {
     }
   };
 
-  const toggleTerm = (termId: string) => {
-    const next = new Set(collapsedTerms);
-    if (next.has(termId)) {
-      next.delete(termId);
-    } else {
-      next.add(termId);
-    }
-    setCollapsedTerms(next);
+  const openScheduleInBuilder = (term: PlannedTerm) => {
+    if (term.source !== "schedule") return;
+    navigateToScheduleBuilder(term.scheduleId, term.termCode, term.termYear);
   };
 
-  const contributionPalette = theme === "dark"
-    ? [
-        { border: "#0ea5e9", bg: "rgba(14,165,233,0.16)", text: "#7dd3fc" },
-        { border: "#f97316", bg: "rgba(249,115,22,0.16)", text: "#fdba74" },
-        { border: "#22c55e", bg: "rgba(34,197,94,0.16)", text: "#86efac" },
-        { border: "#e11d48", bg: "rgba(225,29,72,0.16)", text: "#fda4af" },
-        { border: "#f59e0b", bg: "rgba(245,158,11,0.16)", text: "#fcd34d" },
-      ] as const
-    : [
-        { border: "#0284c7", bg: "#e0f2fe", text: "#0c4a6e" },
-        { border: "#ea580c", bg: "#ffedd5", text: "#7c2d12" },
-        { border: "#16a34a", bg: "#dcfce7", text: "#14532d" },
-        { border: "#e11d48", bg: "#ffe4e6", text: "#881337" },
-        { border: "#d97706", bg: "#fef3c7", text: "#78350f" },
-      ] as const;
-
-  const contributionBadgeStyle = (label: string) => {
-    const index = Math.abs(label.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
-    return contributionPalette[index];
-  };
-
-  const contributionCardStyle = (labels: string[]) => {
-    if (!showContributionHighlight || labels.length === 0) return {};
-    const styles = labels.map((label) => contributionBadgeStyle(label));
-
-    if (styles.length === 1) {
-      return {
-        borderColor: styles[0].border,
-        backgroundColor: styles[0].bg,
-      };
-    }
-
-    const segments = styles.map((style, idx) => {
-      const start = Math.round((idx / styles.length) * 100);
-      const end = Math.round(((idx + 1) / styles.length) * 100);
-      return `${style.border} ${start}% ${end}%`;
-    });
-
-    return {
-      borderColor: "transparent",
-      borderImage: `linear-gradient(90deg, ${segments.join(", ")}) 1`,
-      backgroundColor: theme === "dark" ? "rgba(38, 38, 38, 0.92)" : "#f8fafc",
-    };
+  const navigateToScheduleBuilder = (scheduleId: string, termCode: string, termYear: number) => {
+    window.location.href = `/schedule-builder?scheduleId=${encodeURIComponent(scheduleId)}&term=${termCode}-${termYear}`;
   };
 
   return (
@@ -614,15 +589,6 @@ export default function FourYearPlan() {
               <span className="text-foreground/80">Sort Terms</span>
             </div>
             <div className="flex items-center gap-3">
-              <Button
-                type="button"
-                variant="outline"
-                className={`border-border ${showContributionHighlight ? "bg-cyan-100 text-cyan-900 dark:bg-transparent dark:text-cyan-300" : "text-foreground/80"}`}
-                onClick={() => setShowContributionHighlight((current) => !current)}
-              >
-                {showContributionHighlight ? "Contribution Highlight: On" : "Contribution Highlight: Off"}
-              </Button>
-
               <Select value={sortOrder} onValueChange={(value: SortOrder) => setSortOrder(value)}>
                 <SelectTrigger className="w-56 bg-input-background border-border">
                 <SelectValue />
@@ -654,144 +620,181 @@ export default function FourYearPlan() {
 
         <div className="space-y-5">
           {visibleTerms.map((term) => {
-            const isCollapsed = collapsedTerms.has(term.id);
+            const termGpa = typeof term.semesterGPA === "number"
+              ? term.semesterGPA.toFixed(3)
+              : (typeof term.cumulativeGPA === "number" ? term.cumulativeGPA.toFixed(3) : "-");
             return (
               <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>
-                <div
-                  className="p-5 cursor-pointer hover:bg-popover transition-colors"
-                  onClick={() => toggleTerm(term.id)}
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3 flex-wrap">
-                      <h3 className="text-xl text-foreground">{term.termLabel}</h3>
-                      <Badge variant="outline" className="border-border">{term.credits} credits</Badge>
-                      {statusBadge(term.status)}
-                      <Badge variant="outline" className="border-border text-foreground/80">{term.source === "schedule" ? `MAIN: ${term.scheduleName}` : term.scheduleName}</Badge>
-                      {typeof term.semesterGPA === "number" && (
-                        <Badge variant="outline" className="border-border text-foreground/80">Semester GPA {term.semesterGPA.toFixed(3)}</Badge>
-                      )}
-                      {typeof term.cumulativeGPA === "number" && (
-                        <Badge variant="outline" className="border-border text-foreground/80">Cumulative GPA {term.cumulativeGPA.toFixed(3)}</Badge>
-                      )}
-                    </div>
-                    {isCollapsed ? (
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
-                    ) : (
-                      <ChevronUp className="w-5 h-5 text-muted-foreground" />
-                    )}
+                <div className="px-5 pt-5 pb-3">
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="text-left border-b border-border">
+                          <th className="py-2 pr-3 text-muted-foreground font-medium">Schedule Name</th>
+                          <th className="py-2 pr-3 text-muted-foreground font-medium">Term</th>
+                          <th className="py-2 pr-3 text-muted-foreground font-medium">Total Credits</th>
+                          <th className="py-2 pr-3 text-muted-foreground font-medium">GPA</th>
+                          <th className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
+                          <th className="py-2 text-muted-foreground font-medium">View</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-border/60">
+                          <td className="py-2 pr-3 text-foreground font-medium">{term.scheduleName}</td>
+                          <td className="py-2 pr-3 text-foreground/90">{term.termLabel}</td>
+                          <td className="py-2 pr-3 text-foreground/90">{term.credits}</td>
+                          <td className="py-2 pr-3 text-foreground/90">{termGpa}</td>
+                          <td className="py-2 pr-3">{statusBadge(term.status)}</td>
+                          <td className="py-2">
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              className="border-border"
+                              onClick={() => openScheduleInBuilder(term)}
+                              disabled={term.source !== "schedule"}
+                            >
+                              View
+                            </Button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
 
-                {!isCollapsed && (
-                  <div className="px-5 pb-5">
-                    {term.courses.length === 0 ? (
-                      <p className="text-muted-foreground">No classes in this MAIN schedule.</p>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2">
-                        {term.courses.map((course) => (
-                          (() => {
-                            const contributionLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+                <div className="px-5 pb-5">
+                  {term.courses.length === 0 ? (
+                    <p className="text-muted-foreground">No classes in this MAIN schedule.</p>
+                  ) : (
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-left border-b border-border">
+                            <th className="py-2 pr-3 text-muted-foreground font-medium">Course Code</th>
+                            <th className="py-2 pr-3 text-muted-foreground font-medium">Section</th>
+                            <th className="py-2 pr-3 text-muted-foreground font-medium">Course Full Name</th>
+                            <th className="py-2 pr-3 text-muted-foreground font-medium">Credits</th>
+                            <th className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
+                            <th className="py-2 text-muted-foreground font-medium">Details</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {term.courses.map((course) => {
                             const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
-                            const countsTowardProgress = course.countsTowardProgress && !isDuplicate;
-                            const visibleContributionLabels = countsTowardProgress ? contributionLabels : [];
-                            const cardStyle = contributionCardStyle(visibleContributionLabels);
                             return (
-                          <Card
-                            key={course.sectionKey}
-                            className={`p-2 border ${
-                              course.status === "completed"
-                                ? "border-green-600/40 bg-green-600/10"
-                                : course.status === "in_progress"
-                                  ? "border-blue-600/40 bg-blue-600/10"
-                                  : "border-border bg-accent/40"
-                            }`}
-                            style={cardStyle}
-                          >
-                            <div className="flex items-start justify-between gap-2 mb-0.5">
-                              <h4 className="text-foreground font-medium text-sm leading-tight">{course.code} - {course.sectionCode}</h4>
-                              <Badge variant="outline" className="border-border text-xs">{course.credits}cr</Badge>
-                            </div>
-                            <p className="text-[11px] text-foreground/80 mb-0.5 leading-tight line-clamp-1">{course.title}</p>
-                            {course.status === "completed" ? (
-                              <div className="mb-1 flex items-center gap-2">
-                                <span className="text-[10px] text-muted-foreground">Grade</span>
-                                <Select
-                                  value={course.grade ?? "__none__"}
-                                  onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
-                                  disabled={savingGradeKey === course.sectionKey}
-                                >
-                                  <SelectTrigger className="h-7 w-[118px] bg-input-background border-border text-[11px]">
-                                    <SelectValue placeholder="Add grade" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="__none__">No grade</SelectItem>
-                                    {GRADE_OPTIONS.map((grade) => (
-                                      <SelectItem key={grade} value={grade}>{grade}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                                {savingGradeKey === course.sectionKey && <span className="text-[10px] text-muted-foreground">Saving...</span>}
-                              </div>
-                            ) : course.grade ? (
-                              <p className="text-[10px] text-muted-foreground mb-1 leading-tight">Grade {course.grade}</p>
-                            ) : null}
-
-                            <div className="flex items-center justify-between gap-2 flex-wrap">
-                              <div className="flex flex-wrap gap-1">
-                                {isDuplicate && (
-                                  <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
-                                    Duplicate credit
-                                  </Badge>
-                                )}
-                                {!countsTowardProgress && (
-                                  <Badge className="text-[10px] bg-slate-200 text-slate-900 border border-slate-300 dark:bg-slate-600/20 dark:text-slate-300 dark:border-slate-500/40">
-                                    Does not count
-                                  </Badge>
-                                )}
-                                {course.tags.slice(0, 2).map((tag) => (
-                                  <Badge key={`${course.sectionKey}-${tag}`} className="bg-red-100 text-red-900 border border-red-300 text-xs dark:bg-red-600/20 dark:text-red-300 dark:border-red-600/30">
-                                    {tag}
-                                  </Badge>
-                                ))}
-
-                                {showContributionHighlight && visibleContributionLabels.slice(0, 2).map((label) => {
-                                  const palette = contributionBadgeStyle(label);
-                                  return (
-                                    <Badge
-                                      key={`${course.sectionKey}-${label}`}
-                                      className="text-xs border"
-                                      style={{
-                                        color: palette.text,
-                                        borderColor: palette.border,
-                                        backgroundColor: palette.bg,
-                                      }}
-                                    >
-                                      {label}
-                                    </Badge>
-                                  );
-                                })}
-                              </div>
-                              {statusBadge(course.status)}
-                            </div>
-                          </Card>
+                              <tr
+                                key={course.sectionKey}
+                                className="border-b border-border/60 hover:bg-popover/60 cursor-pointer"
+                                onClick={() => setDetailCode(course.code)}
+                              >
+                                <td className="py-2 pr-3 text-foreground font-medium">{course.code}</td>
+                                <td className="py-2 pr-3 text-foreground/90">{course.sectionCode}</td>
+                                <td className="py-2 pr-3 text-foreground/90">{course.title}</td>
+                                <td className="py-2 pr-3 text-foreground/90">{course.credits}</td>
+                                <td className="py-2 pr-3">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    {statusBadge(course.status)}
+                                    {isDuplicate && (
+                                      <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
+                                        Duplicate credit
+                                      </Badge>
+                                    )}
+                                    {course.status === "completed" && (
+                                      <Select
+                                        value={course.grade ?? "__none__"}
+                                        onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
+                                        disabled={savingGradeKey === course.sectionKey}
+                                      >
+                                        <SelectTrigger
+                                          className="h-7 w-[118px] bg-input-background border-border text-[11px]"
+                                          onClick={(event) => event.stopPropagation()}
+                                        >
+                                          <SelectValue placeholder="Add grade" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          <SelectItem value="__none__">No grade</SelectItem>
+                                          {GRADE_OPTIONS.map((grade) => (
+                                            <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    )}
+                                  </div>
+                                </td>
+                                <td className="py-2">
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    variant="outline"
+                                    className="border-border"
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setDetailCode(course.code);
+                                    }}
+                                  >
+                                    View
+                                  </Button>
+                                </td>
+                              </tr>
                             );
-                          })()
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="mt-3 text-right">
-                      <span className="text-xs text-muted-foreground">
-                        Last updated {new Date(term.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                      </span>
+                          })}
+                        </tbody>
+                      </table>
                     </div>
+                  )}
+
+                  <div className="mt-3 text-right">
+                    <span className="text-xs text-muted-foreground">
+                      Last updated {new Date(term.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    </span>
                   </div>
-                )}
+                </div>
               </Card>
             );
           })}
         </div>
       </div>
+
+      <Dialog open={Boolean(detailCode)} onOpenChange={(open) => {
+        if (!open) setDetailCode(null);
+      }}>
+        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{detailData?.code ?? detailCode ?? "Course Details"}</DialogTitle>
+            <DialogDescription>{detailData?.title ?? "Loading course details..."}</DialogDescription>
+          </DialogHeader>
+
+          {detailLoading ? (
+            <p className="text-sm text-muted-foreground">Loading details...</p>
+          ) : !detailData ? (
+            <p className="text-sm text-muted-foreground">No detailed data found for this course.</p>
+          ) : (
+            <div className="space-y-4 text-sm">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <Card className="p-3 bg-input-background border-border">
+                  <p className="text-xs text-muted-foreground mb-1">Credits</p>
+                  <p className="text-foreground">{detailData.credits || "-"}</p>
+                </Card>
+                <Card className="p-3 bg-input-background border-border sm:col-span-2">
+                  <p className="text-xs text-muted-foreground mb-1">Gen Eds</p>
+                  <p className="text-foreground">{detailData.genEds.length > 0 ? detailData.genEds.join(", ") : "None listed"}</p>
+                </Card>
+              </div>
+
+              <div>
+                <p className="text-xs text-muted-foreground mb-1">Description</p>
+                <p className="text-foreground whitespace-pre-wrap">{detailData.description || "No description available."}</p>
+              </div>
+
+              <div>
+                <p className="text-xs text-muted-foreground mb-1">Prerequisites</p>
+                <p className="text-foreground whitespace-pre-wrap">{detailData.prereqs || "None listed."}</p>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
