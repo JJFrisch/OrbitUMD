@@ -74,14 +74,6 @@ export function CoursePlannerPage() {
   const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
   const [showNeededPanel, setShowNeededPanel] = useState(false);
   const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
-  const [strictPriorPrereqs, setStrictPriorPrereqs] = useState<boolean>(() => {
-    const stored = localStorage.getItem("orbitumd:advisor:strict-prior-prereqs");
-    return stored === null ? true : stored === "true";
-  });
-  const [creditTarget, setCreditTarget] = useState<number>(() => {
-    const stored = Number(localStorage.getItem("orbitumd:advisor:credit-target") ?? 15);
-    return [12, 15, 18].includes(stored) ? stored : 15;
-  });
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -270,14 +262,6 @@ export function CoursePlannerPage() {
   );
 
   useEffect(() => {
-    localStorage.setItem("orbitumd:advisor:strict-prior-prereqs", String(strictPriorPrereqs));
-  }, [strictPriorPrereqs]);
-
-  useEffect(() => {
-    localStorage.setItem("orbitumd:advisor:credit-target", String(creditTarget));
-  }, [creditTarget]);
-
-  useEffect(() => {
     let active = true;
     const run = async () => {
       try {
@@ -362,8 +346,8 @@ export function CoursePlannerPage() {
         const recommendation = generateRecommendationPlan({
           items,
           timeline: timelineTerms.filter((term) => term.status !== "completed").map((term) => ({ id: term.id, label: term.label })),
-          strictPriorTermsOnly: strictPriorPrereqs,
-          preferredCreditsPerTerm: creditTarget,
+          strictPriorTermsOnly: true,
+          preferredCreditsPerTerm: 15,
         });
 
         const recommendedTermByCourse = new Map<string, { label: string; index: number }>();
@@ -400,7 +384,7 @@ export function CoursePlannerPage() {
     return () => {
       active = false;
     };
-  }, [creditTarget, resolvedTerm, resolvedYear, selections, strictPriorPrereqs]);
+  }, [resolvedTerm, resolvedYear, selections]);
 
   return (
     <div className="course-planner-root">
@@ -438,46 +422,11 @@ export function CoursePlannerPage() {
         onScheduleSelect={handleScheduleSelect}
         savePending={savePending}
         saveMessage={saveMessage}
+        extraHeaderActionLabel="What's Needed"
+        onExtraHeaderActionClick={() => setShowNeededPanel(true)}
       />
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
-      <div className="mb-2 flex justify-end gap-2 flex-wrap">
-        <Button
-          type="button"
-          variant={strictPriorPrereqs ? "default" : "outline"}
-          className={strictPriorPrereqs ? "bg-red-600 hover:bg-red-700" : "border-border"}
-          onClick={() => setStrictPriorPrereqs((current) => !current)}
-        >
-          {strictPriorPrereqs ? "Prereqs: Prior Terms Only" : "Prereqs: Co-Term Allowed"}
-        </Button>
-        <Button
-          type="button"
-          variant={creditTarget === 12 ? "default" : "outline"}
-          className={creditTarget === 12 ? "bg-red-600 hover:bg-red-700" : "border-border"}
-          onClick={() => setCreditTarget(12)}
-        >
-          12 cr
-        </Button>
-        <Button
-          type="button"
-          variant={creditTarget === 15 ? "default" : "outline"}
-          className={creditTarget === 15 ? "bg-red-600 hover:bg-red-700" : "border-border"}
-          onClick={() => setCreditTarget(15)}
-        >
-          15 cr
-        </Button>
-        <Button
-          type="button"
-          variant={creditTarget === 18 ? "default" : "outline"}
-          className={creditTarget === 18 ? "bg-red-600 hover:bg-red-700" : "border-border"}
-          onClick={() => setCreditTarget(18)}
-        >
-          18 cr
-        </Button>
-        <Button type="button" variant="outline" className="border-border" onClick={() => setShowNeededPanel(true)}>
-          What's Needed
-        </Button>
-      </div>
       <div className={`cp-status-banner ${hasUnsavedChanges ? "is-unsaved" : "is-saved"}`} role="status" aria-live="polite">
         {hasUnsavedChanges ? <AlertCircle className="cp-status-banner-icon" /> : <CheckCircle2 className="cp-status-banner-icon" />}
         <span>

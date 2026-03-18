@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import { NeededClassesPanel } from "../components/NeededClassesPanel";
 import {
   Select,
   SelectContent,
@@ -28,14 +27,6 @@ import {
 } from "@/lib/requirements/audit";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 import { useTheme } from "../contexts/ThemeContext";
-import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
-import { addCourseToSchedule } from "@/lib/scheduling/quickAddToSchedule";
-import {
-  buildNeededClassItems,
-  generateRecommendationPlan,
-  type NeededClassItem,
-  type RecommendationPlanResult,
-} from "@/lib/requirements/neededClassesAdvisor";
 
 type SortOrder = "current" | "ascending" | "descending";
 
@@ -235,26 +226,6 @@ export default function FourYearPlan() {
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
   const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
   const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
-  const [showNeededPanel, setShowNeededPanel] = useState(false);
-  const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
-  const [recommendationPlan, setRecommendationPlan] = useState<RecommendationPlanResult | null>(null);
-  const [applyingRecommendation, setApplyingRecommendation] = useState(false);
-  const [strictPriorPrereqs, setStrictPriorPrereqs] = useState<boolean>(() => {
-    const stored = localStorage.getItem("orbitumd:advisor:strict-prior-prereqs");
-    return stored === null ? true : stored === "true";
-  });
-  const [creditTarget, setCreditTarget] = useState<number>(() => {
-    const stored = Number(localStorage.getItem("orbitumd:advisor:credit-target") ?? 15);
-    return [12, 15, 18].includes(stored) ? stored : 15;
-  });
-
-  useEffect(() => {
-    localStorage.setItem("orbitumd:advisor:strict-prior-prereqs", String(strictPriorPrereqs));
-  }, [strictPriorPrereqs]);
-
-  useEffect(() => {
-    localStorage.setItem("orbitumd:advisor:credit-target", String(creditTarget));
-  }, [creditTarget]);
 
   useEffect(() => {
     let active = true;
@@ -404,174 +375,6 @@ export default function FourYearPlan() {
     };
   }, [academicGpaHistory.overallGPA, duplicateScheduleSectionKeys, terms]);
 
-  const timelineTermLabels = useMemo(
-    () => terms.filter((term) => term.source === "schedule").map((term) => term.termLabel),
-    [terms],
-  );
-
-  useEffect(() => {
-    let active = true;
-
-    const run = async () => {
-      const byCourseCode = new Map<string, "completed" | "in_progress" | "planned" | "not_started">();
-      const byCourseTags = new Map<string, string[]>();
-      const rankStatus = (status: "completed" | "in_progress" | "planned" | "not_started") => {
-        if (status === "completed") return 4;
-        if (status === "in_progress") return 3;
-        if (status === "planned") return 2;
-        return 1;
-      };
-
-      for (const term of terms) {
-        for (const course of term.courses) {
-          const code = String(course.code).toUpperCase();
-          if (!code) continue;
-          const existing = byCourseCode.get(code) ?? "not_started";
-          const next = rankStatus(course.status) > rankStatus(existing) ? course.status : existing;
-          byCourseCode.set(code, next);
-          byCourseTags.set(code, Array.isArray(course.tags) ? course.tags : []);
-        }
-      }
-
-      const neededCourseCodes = Array.from(
-        new Set(requirementBundles.flatMap((bundle) => bundle.sections.flatMap((section) => section.courseCodes ?? []))),
-      ).map((code) => String(code).toUpperCase()).filter(Boolean);
-
-      let details = new Map();
-      if (neededCourseCodes.length > 0) {
-        details = await lookupCourseDetails(neededCourseCodes);
-      }
-
-      if (!active) return;
-
-      const items = buildNeededClassItems({
-        bundles: requirementBundles,
-        byCourseCode,
-        byCourseTags,
-        courseDetails: details,
-        totalPlannedCredits: summary.totalCredits,
-        timelineTermLabels,
-      });
-
-      const recommendationTimeline = terms
-        .filter((term) => term.source === "schedule" && term.status !== "completed")
-        .map((term) => ({ id: term.id, label: term.termLabel }));
-
-      const recommendation = generateRecommendationPlan({
-        items,
-        timeline: recommendationTimeline,
-        strictPriorTermsOnly: strictPriorPrereqs,
-        preferredCreditsPerTerm: creditTarget,
-      });
-
-      const recommendedTermByCourse = new Map<string, { label: string; index: number }>();
-      recommendation.assignments.forEach((assignment, termIndex) => {
-        assignment.courseCodes.forEach((code) => {
-          recommendedTermByCourse.set(code, { label: assignment.termLabel, index: termIndex });
-        });
-      });
-
-      const enriched = items.map((item) => {
-        if (!item.courseCode) return item;
-        const planned = recommendedTermByCourse.get(item.courseCode);
-        if (!planned) return item;
-        return {
-          ...item,
-          recommendedTermLabel: planned.label,
-          recommendationScore: item.recommendationScore + Math.max(0, 40 - planned.index * 4),
-          rationale: [
-            ...item.rationale,
-            `Sequenced recommendation places this in ${planned.label}.`,
-          ],
-        };
-      });
-
-      setRecommendationPlan(recommendation);
-      setNeededItems(enriched);
-    };
-
-    void run();
-    return () => {
-      active = false;
-    };
-  }, [creditTarget, requirementBundles, strictPriorPrereqs, summary.totalCredits, terms, timelineTermLabels]);
-
-  const refreshMainSchedules = async () => {
-    const all = await plannerApi.listAllSchedulesWithSelections();
-    setMainSchedules(all.filter((schedule) => schedule.is_primary));
-  };
-
-  const handleApplyRecommendationPlan = async () => {
-    if (!recommendationPlan || recommendationPlan.assignments.length === 0) {
-      toast.message("No recommendation is available to apply right now.");
-      return;
-    }
-
-    const scheduleByTermId = new Map(
-      terms
-        .filter((term) => term.source === "schedule")
-        .map((term) => [term.id, term]),
-    );
-
-    setApplyingRecommendation(true);
-    try {
-      for (const assignment of recommendationPlan.assignments) {
-        const targetTerm = scheduleByTermId.get(assignment.termId);
-        if (!targetTerm) continue;
-
-        for (const courseCode of assignment.courseCodes) {
-          const item = neededItems.find((entry) => entry.courseCode === courseCode);
-          if (!item) continue;
-          await addCourseToSchedule({
-            scheduleId: targetTerm.scheduleId,
-            courseCode,
-            courseTitle: item.title || courseCode,
-            credits: Number(item.credits ?? 3) || 3,
-            genEds: item.genEdCode ? [item.genEdCode] : [],
-          });
-        }
-      }
-
-      await refreshMainSchedules();
-      toast.success("Recommended four-year plan added to your MAIN schedules.");
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unable to apply recommended plan.");
-    } finally {
-      setApplyingRecommendation(false);
-    }
-  };
-
-  const handleDropNeededIntoTerm = async (raw: string, term: PlannedTerm) => {
-    if (term.source !== "schedule") return;
-
-    let payload: { type?: string; courseCode?: string; title?: string; credits?: number; genEdCode?: string } | null = null;
-    try {
-      payload = JSON.parse(raw);
-    } catch {
-      payload = null;
-    }
-    if (!payload || payload.type !== "needed-course" || !payload.courseCode) return;
-
-    try {
-      const result = await addCourseToSchedule({
-        scheduleId: term.scheduleId,
-        courseCode: payload.courseCode,
-        courseTitle: payload.title ?? payload.courseCode,
-        credits: Number(payload.credits ?? 3) || 3,
-        genEds: payload.genEdCode ? [payload.genEdCode] : [],
-      });
-
-      if (result.added) {
-        toast.success(`${payload.courseCode} added to ${term.scheduleName}.`);
-        await refreshMainSchedules();
-      } else {
-        toast.message(result.reason ?? `${payload.courseCode} is already in this schedule.`);
-      }
-    } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unable to add class to schedule.");
-    }
-  };
-
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -711,27 +514,6 @@ export default function FourYearPlan() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant={strictPriorPrereqs ? "default" : "outline"}
-              className={strictPriorPrereqs ? "bg-red-600 hover:bg-red-700" : "border-border"}
-              onClick={() => setStrictPriorPrereqs((current) => !current)}
-            >
-              {strictPriorPrereqs ? "Prereqs: Prior Terms Only" : "Prereqs: Co-Term Allowed"}
-            </Button>
-            <Select value={String(creditTarget)} onValueChange={(value) => setCreditTarget(Number(value))}>
-              <SelectTrigger className="w-44 bg-input-background border-border">
-                <SelectValue placeholder="Credit target" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="12">Target 12 cr / term</SelectItem>
-                <SelectItem value="15">Target 15 cr / term</SelectItem>
-                <SelectItem value="18">Target 18 cr / term</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button type="button" variant="outline" className="border-border" onClick={() => setShowNeededPanel(true)}>
-              What's Needed
-            </Button>
             <Link to="/schedules">
               <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
             </Link>
@@ -855,42 +637,6 @@ export default function FourYearPlan() {
           </div>
         </Card>
 
-        {recommendationPlan && (
-          <Card className="p-4 bg-card border-border mb-6">
-            <div className="mb-3 flex items-center justify-between gap-3 flex-wrap">
-              <div>
-                <h2 className="text-base text-foreground">Recommended Plan</h2>
-                <p className="text-xs text-muted-foreground">{recommendationPlan.fitCheck.message}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant={recommendationPlan.fitCheck.isFeasible ? "outline" : "destructive"}>
-                  {recommendationPlan.fitCheck.isFeasible ? "Timeline Fit: OK" : "Timeline Fit: Risk"}
-                </Badge>
-                <Button
-                  type="button"
-                  className="bg-red-600 hover:bg-red-700"
-                  onClick={() => void handleApplyRecommendationPlan()}
-                  disabled={applyingRecommendation}
-                >
-                  {applyingRecommendation ? "Applying..." : "Start With Recommendation"}
-                </Button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-              {recommendationPlan.assignments.map((assignment) => (
-                <div key={`rec-${assignment.termId}`} className="rounded-md border border-border bg-input-background p-3">
-                  <p className="text-sm text-foreground">{assignment.termLabel}</p>
-                  <p className="text-xs text-muted-foreground">{assignment.credits} / target {assignment.targetCredits} credits</p>
-                  <p className="mt-1 text-xs text-foreground/80">
-                    {assignment.courseCodes.length > 0 ? assignment.courseCodes.join(", ") : "No new courses suggested."}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </Card>
-        )}
-
         {loading && <p className="text-muted-foreground">Loading four-year plan...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
@@ -914,15 +660,6 @@ export default function FourYearPlan() {
                 <div
                   className="p-5 cursor-pointer hover:bg-popover transition-colors"
                   onClick={() => toggleTerm(term.id)}
-                  onDragOver={(event) => {
-                    if (term.source !== "schedule") return;
-                    event.preventDefault();
-                  }}
-                  onDrop={(event) => {
-                    if (term.source !== "schedule") return;
-                    event.preventDefault();
-                    void handleDropNeededIntoTerm(event.dataTransfer.getData("text/plain"), term);
-                  }}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3 flex-wrap">
@@ -1055,18 +792,6 @@ export default function FourYearPlan() {
           })}
         </div>
       </div>
-
-      <NeededClassesPanel
-        open={showNeededPanel}
-        title="What's Needed"
-        subtitle="Drag a course into a term card to add it to that MAIN schedule."
-        items={neededItems}
-        defaultSort="category"
-        onClose={() => setShowNeededPanel(false)}
-        onApplyGenEdFilter={(genEdCode) => {
-          window.location.href = `/schedule-builder?gened=${encodeURIComponent(genEdCode)}`;
-        }}
-      />
     </div>
   );
 }

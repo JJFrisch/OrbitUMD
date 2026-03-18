@@ -31,6 +31,8 @@ interface ScheduleBuilderHeaderProps {
   onScheduleSelect: (scheduleId: string | "__new") => void;
   savePending: boolean;
   saveMessage?: string;
+  extraHeaderActionLabel?: string;
+  onExtraHeaderActionClick?: () => void;
 }
 
 export function ScheduleBuilderHeader({
@@ -53,6 +55,8 @@ export function ScheduleBuilderHeader({
   onScheduleSelect,
   savePending,
   saveMessage,
+  extraHeaderActionLabel,
+  onExtraHeaderActionClick,
 }: ScheduleBuilderHeaderProps) {
   return (
     <header className="cp-builder-header">
@@ -63,6 +67,9 @@ export function ScheduleBuilderHeader({
         </div>
         <div className="cp-builder-actions">
           <button type="button" className="cp-builder-action-btn is-primary">Build Schedules</button>
+          {extraHeaderActionLabel && onExtraHeaderActionClick && (
+            <button type="button" className="cp-builder-action-btn" onClick={onExtraHeaderActionClick}>{extraHeaderActionLabel}</button>
+          )}
           <button type="button" className="cp-builder-action-btn" onClick={onViewAllSchedules}>View All Schedules</button>
         </div>
       </div>

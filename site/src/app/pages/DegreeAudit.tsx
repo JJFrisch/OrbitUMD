@@ -2747,16 +2747,6 @@ export default function DegreeAudit() {
                 </div>
               </div>
 
-              <div className="flex gap-3 mt-6 pt-6 border-t border-border">
-                <Link to="/four-year-plan" className="flex-1">
-                  <Button variant="outline" className="w-full border-border text-foreground/80 hover:bg-accent">
-                    Open Four-Year Plan
-                  </Button>
-                </Link>
-                <Link to="/degree-requirements" className="flex-1">
-                  <Button className="w-full bg-red-600 hover:bg-red-700">Review Requirement Details</Button>
-                </Link>
-              </div>
             </Card>
 
             {programAudits.length > 0 && (
@@ -4272,6 +4262,12 @@ export default function DegreeAudit() {
                 </p>
               </div>
             </Card>
+
+            <div className="mt-6 flex justify-end">
+              <Link to="/degree-requirements">
+                <Button className="bg-red-600 hover:bg-red-700">Review Requirement Details</Button>
+              </Link>
+            </div>
           </>
         )}
       </div>
