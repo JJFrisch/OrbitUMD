@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import { ArrowUpDown, Calendar, CheckCircle2, Clock3, GraduationCap } from "lucide-react";
+import { ArrowUpDown, Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -13,6 +13,12 @@ import {
   SelectValue,
 } from "../components/ui/select";
 import {
+  buildCourseContributionMap,
+  getContributionLabelsForCourseCode,
+  loadProgramRequirementBundles,
+  type ProgramRequirementBundle,
+} from "@/lib/requirements/audit";
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -22,6 +28,7 @@ import {
 import { plannerApi } from "@/lib/api/planner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import type { ScheduleSelection } from "@/features/coursePlanner/types/coursePlanner";
+import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits, updatePriorCredit } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
@@ -219,13 +226,45 @@ function formatStatusLabel(status: AcademicProgressStatus): string {
   return status === "in_progress" ? "In Progress" : status === "completed" ? "Completed" : "Planned";
 }
 
+function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
+  const COURSE_RE = /([A-Z]{4}\d{3}[A-Z]?)/g;
+  const parts: Array<{ type: "text" | "code"; value: string }> = [];
+  let last = 0;
+  let match: RegExpExecArray | null;
+  while ((match = COURSE_RE.exec(text)) !== null) {
+    if (match.index > last) parts.push({ type: "text", value: text.slice(last, match.index) });
+    parts.push({ type: "code", value: match[1] });
+    last = match.index + match[1].length;
+  }
+  if (last < text.length) parts.push({ type: "text", value: text.slice(last) });
+
+  return (
+    <>
+      {parts.map((part, index) => part.type === "code" ? (
+        <button
+          key={`${part.value}-${index}`}
+          type="button"
+          className="font-medium text-red-500 hover:underline"
+          onClick={() => onCourseClick(part.value)}
+        >
+          {part.value}
+        </button>
+      ) : (
+        <span key={`text-${index}`}>{part.value}</span>
+      ))}
+    </>
+  );
+}
+
 export default function FourYearPlan() {
   const [sortOrder, setSortOrder] = useState<SortOrder>("current");
+  const [showGpaDetails, setShowGpaDetails] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savingGradeKey, setSavingGradeKey] = useState<string | null>(null);
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
   const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
+  const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
@@ -235,14 +274,17 @@ export default function FourYearPlan() {
 
     const run = async () => {
       try {
-        const [all, loadedPriorCredits] = await Promise.all([
+        const [all, selectedPrograms, loadedPriorCredits] = await Promise.all([
           plannerApi.listAllSchedulesWithSelections(),
+          listUserDegreePrograms(),
           listUserPriorCredits(),
         ]);
+        const bundles = await loadProgramRequirementBundles(selectedPrograms);
         if (!active) return;
 
         setMainSchedules(all.filter((schedule) => schedule.is_primary));
         setPriorCredits(loadedPriorCredits);
+        setRequirementBundles(bundles);
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -396,6 +438,49 @@ export default function FourYearPlan() {
     };
   }, [academicGpaHistory.overallGPA, duplicateScheduleSectionKeys, terms]);
 
+  const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
+
+  const contributionPalette = [
+    {
+      borderClass: "border-sky-500",
+      bgClass: "bg-sky-500/10",
+      textClass: "text-sky-700 dark:text-sky-300",
+    },
+    {
+      borderClass: "border-orange-500",
+      bgClass: "bg-orange-500/10",
+      textClass: "text-orange-700 dark:text-orange-300",
+    },
+    {
+      borderClass: "border-emerald-500",
+      bgClass: "bg-emerald-500/10",
+      textClass: "text-emerald-700 dark:text-emerald-300",
+    },
+    {
+      borderClass: "border-rose-500",
+      bgClass: "bg-rose-500/10",
+      textClass: "text-rose-700 dark:text-rose-300",
+    },
+    {
+      borderClass: "border-amber-500",
+      bgClass: "bg-amber-500/10",
+      textClass: "text-amber-700 dark:text-amber-300",
+    },
+  ] as const;
+
+  const contributionBadgeClass = (label: string) => {
+    const index = Math.abs(label.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
+    const entry = contributionPalette[index];
+    return `border ${entry.borderClass} ${entry.bgClass} ${entry.textClass}`;
+  };
+
+  const contributionRowClass = (labels: string[]) => {
+    if (labels.length === 0) return "";
+    const index = Math.abs(labels[0].split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
+    const entry = contributionPalette[index];
+    return `${entry.bgClass} ${entry.borderClass} border-l-4`;
+  };
+
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -541,35 +626,56 @@ export default function FourYearPlan() {
           <Card className="p-4 bg-card border-border mb-6">
             <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
               <h2 className="text-base text-foreground">UMD GPA Details</h2>
-              <span className="text-xs text-muted-foreground">
-                Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-xs text-muted-foreground">
+                  Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
+                </span>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  className="border-border"
+                  onClick={() => setShowGpaDetails((current) => !current)}
+                >
+                  {showGpaDetails ? (
+                    <>
+                      <ChevronUp className="w-4 h-4 mr-1" /> Hide
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-4 h-4 mr-1" /> Show
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="text-left border-b border-border">
-                    <th className="py-2 pr-3 text-muted-foreground font-medium">Term</th>
-                    <th className="py-2 pr-3 text-muted-foreground font-medium">Attempted</th>
-                    <th className="py-2 pr-3 text-muted-foreground font-medium">Quality Points</th>
-                    <th className="py-2 pr-3 text-muted-foreground font-medium">Semester GPA</th>
-                    <th className="py-2 text-muted-foreground font-medium">Cumulative GPA</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {academicGpaHistory.terms.map((term) => (
-                    <tr key={term.termLabel} className="border-b border-border/60 last:border-b-0">
-                      <td className="py-2 pr-3 text-foreground">{term.termLabel}</td>
-                      <td className="py-2 pr-3 text-foreground/90">{term.attemptedCredits.toFixed(2)}</td>
-                      <td className="py-2 pr-3 text-foreground/90">{term.qualityPoints.toFixed(3)}</td>
-                      <td className="py-2 pr-3 text-foreground/90">{term.semesterGPA?.toFixed(3) ?? "-"}</td>
-                      <td className="py-2 text-foreground/90">{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
+            {showGpaDetails && (
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="text-left border-b border-border">
+                      <th className="py-2 pr-3 text-muted-foreground font-medium">Term</th>
+                      <th className="py-2 pr-3 text-muted-foreground font-medium">Attempted</th>
+                      <th className="py-2 pr-3 text-muted-foreground font-medium">Quality Points</th>
+                      <th className="py-2 pr-3 text-muted-foreground font-medium">Semester GPA</th>
+                      <th className="py-2 text-muted-foreground font-medium">Cumulative GPA</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {academicGpaHistory.terms.map((term) => (
+                      <tr key={term.termLabel} className="border-b border-border/60 last:border-b-0">
+                        <td className="py-2 pr-3 text-foreground">{term.termLabel}</td>
+                        <td className="py-2 pr-3 text-foreground/90">{term.attemptedCredits.toFixed(2)}</td>
+                        <td className="py-2 pr-3 text-foreground/90">{term.qualityPoints.toFixed(3)}</td>
+                        <td className="py-2 pr-3 text-foreground/90">{term.semesterGPA?.toFixed(3) ?? "-"}</td>
+                        <td className="py-2 text-foreground/90">{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </Card>
         )}
 
@@ -628,22 +734,12 @@ export default function FourYearPlan() {
                 <div className="px-5 pt-5 pb-3">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
-                      <thead>
-                        <tr className="text-left border-b border-border">
-                          <th className="py-2 pr-3 text-muted-foreground font-medium">Schedule Name</th>
-                          <th className="py-2 pr-3 text-muted-foreground font-medium">Term</th>
-                          <th className="py-2 pr-3 text-muted-foreground font-medium">Total Credits</th>
-                          <th className="py-2 pr-3 text-muted-foreground font-medium">GPA</th>
-                          <th className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
-                          <th className="py-2 text-muted-foreground font-medium">View</th>
-                        </tr>
-                      </thead>
                       <tbody>
-                        <tr className="border-b border-border/60">
-                          <td className="py-2 pr-3 text-foreground font-medium">{term.scheduleName}</td>
-                          <td className="py-2 pr-3 text-foreground/90">{term.termLabel}</td>
-                          <td className="py-2 pr-3 text-foreground/90">{term.credits}</td>
-                          <td className="py-2 pr-3 text-foreground/90">{termGpa}</td>
+                        <tr className="border-b border-border/60 text-base md:text-lg">
+                          <td className="py-2 pr-3 text-foreground font-semibold">{term.scheduleName}</td>
+                          <td className="py-2 pr-3 text-foreground font-semibold">{term.termLabel}</td>
+                          <td className="py-2 pr-3 text-foreground font-semibold">{term.credits}</td>
+                          <td className="py-2 pr-3 text-foreground font-semibold">{termGpa}</td>
                           <td className="py-2 pr-3">{statusBadge(term.status)}</td>
                           <td className="py-2">
                             <Button
@@ -682,10 +778,12 @@ export default function FourYearPlan() {
                         <tbody>
                           {term.courses.map((course) => {
                             const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
+                            const contributionLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+                            const rowClass = contributionRowClass(contributionLabels);
                             return (
                               <tr
                                 key={course.sectionKey}
-                                className="border-b border-border/60 hover:bg-popover/60 cursor-pointer"
+                                className={`border-b border-border/60 hover:bg-popover/60 cursor-pointer ${rowClass}`}
                                 onClick={() => setDetailCode(course.code)}
                               >
                                 <td className="py-2 pr-3 text-foreground font-medium">{course.code}</td>
@@ -700,6 +798,16 @@ export default function FourYearPlan() {
                                         Duplicate credit
                                       </Badge>
                                     )}
+                                    {contributionLabels.slice(0, 2).map((label) => {
+                                      return (
+                                        <Badge
+                                          key={`${course.sectionKey}-${label}`}
+                                          className={`text-[10px] ${contributionBadgeClass(label)}`}
+                                        >
+                                          {label}
+                                        </Badge>
+                                      );
+                                    })}
                                     {course.status === "completed" && (
                                       <Select
                                         value={course.grade ?? "__none__"}
@@ -784,12 +892,22 @@ export default function FourYearPlan() {
 
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Description</p>
-                <p className="text-foreground whitespace-pre-wrap">{detailData.description || "No description available."}</p>
+                <p className="text-foreground whitespace-pre-wrap">
+                  <LinkedCourseText
+                    text={detailData.description || "No description available."}
+                    onCourseClick={(code) => setDetailCode(code.toUpperCase())}
+                  />
+                </p>
               </div>
 
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Prerequisites</p>
-                <p className="text-foreground whitespace-pre-wrap">{detailData.prereqs || "None listed."}</p>
+                <p className="text-foreground whitespace-pre-wrap">
+                  <LinkedCourseText
+                    text={detailData.prereqs || "None listed."}
+                    onCourseClick={(code) => setDetailCode(code.toUpperCase())}
+                  />
+                </p>
               </div>
             </div>
           )}
