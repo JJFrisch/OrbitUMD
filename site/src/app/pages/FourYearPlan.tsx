@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import { ArrowUpDown, Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
+import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -34,8 +34,6 @@ import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressS
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-
-type SortOrder = "current" | "ascending" | "descending";
 
 interface PlannedCourse {
   sectionKey: string;
@@ -257,7 +255,6 @@ function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick
 }
 
 export default function FourYearPlan() {
-  const [sortOrder, setSortOrder] = useState<SortOrder>("current");
   const [showGpaDetails, setShowGpaDetails] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -380,19 +377,11 @@ export default function FourYearPlan() {
   }, [academicGpaHistory.terms, mainSchedules, priorCredits]);
 
   const visibleTerms = useMemo(() => {
-    if (sortOrder === "ascending") {
-      return [...terms];
-    }
-
-    if (sortOrder === "descending") {
-      return [...terms].reverse();
-    }
-
     const current = terms.filter((term) => term.status === "in_progress");
     const future = terms.filter((term) => term.status === "planned");
     const completed = terms.filter((term) => term.status === "completed");
     return [...current, ...future, ...completed];
-  }, [sortOrder, terms]);
+  }, [terms]);
 
   const duplicateScheduleSectionKeys = useMemo(() => {
     const earnedCourseCodes = new Set(
@@ -688,27 +677,6 @@ export default function FourYearPlan() {
           </Card>
         )}
 
-        <Card className="p-4 bg-card border-border mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
-              <span className="text-foreground/80">Sort Terms</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Select value={sortOrder} onValueChange={(value: SortOrder) => setSortOrder(value)}>
-                <SelectTrigger className="w-56 bg-input-background border-border">
-                <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="current">Current First</SelectItem>
-                  <SelectItem value="ascending">Ascending (Oldest First)</SelectItem>
-                  <SelectItem value="descending">Descending (Newest First)</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </Card>
-
         {loading && <p className="text-muted-foreground">Loading four-year plan...</p>}
         {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
 
@@ -772,7 +740,6 @@ export default function FourYearPlan() {
                             <th className="py-2 pr-3 text-muted-foreground font-medium">Course Full Name</th>
                             <th className="py-2 pr-3 text-muted-foreground font-medium">Credits</th>
                             <th className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
-                            <th className="py-2 text-muted-foreground font-medium">Details</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -829,20 +796,6 @@ export default function FourYearPlan() {
                                       </Select>
                                     )}
                                   </div>
-                                </td>
-                                <td className="py-2">
-                                  <Button
-                                    type="button"
-                                    size="sm"
-                                    variant="outline"
-                                    className="border-border"
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      setDetailCode(course.code);
-                                    }}
-                                  >
-                                    View
-                                  </Button>
                                 </td>
                               </tr>
                             );
