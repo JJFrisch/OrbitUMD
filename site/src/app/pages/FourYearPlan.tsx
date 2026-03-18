@@ -694,36 +694,24 @@ export default function FourYearPlan() {
 
         <div className="space-y-5">
           {visibleTerms.map((term) => {
-            const termGpa = typeof term.semesterGPA === "number"
-              ? term.semesterGPA.toFixed(3)
-              : (typeof term.cumulativeGPA === "number" ? term.cumulativeGPA.toFixed(3) : "-");
             return (
               <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>
-                <div className="px-5 pt-5 pb-3">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <tbody>
-                        <tr className="border-b border-border/60 text-base md:text-lg">
-                          <td className="py-2 pr-3 text-foreground font-semibold">{term.scheduleName}</td>
-                          <td className="py-2 pr-3 text-foreground font-semibold">{term.termLabel}</td>
-                          <td className="py-2 pr-3 text-foreground font-semibold">{term.credits}</td>
-                          <td className="py-2 pr-3 text-foreground font-semibold">{termGpa}</td>
-                          <td className="py-2 pr-3">{statusBadge(term.status)}</td>
-                          <td className="py-2">
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              className="border-border"
-                              onClick={() => openScheduleInBuilder(term)}
-                              disabled={term.source !== "schedule"}
-                            >
-                              View
-                            </Button>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div className="px-5 pt-5 pb-3 border-b border-border/60 flex items-center justify-between gap-3 flex-wrap text-base md:text-lg">
+                  <p className="text-foreground font-semibold">
+                    Name: {term.scheduleName} - Term: {term.termLabel} - Total Credits: {term.credits}
+                  </p>
+                  <div className="flex items-center gap-3">
+                    <span className="text-foreground/90 font-semibold">{formatStatusLabel(term.status)}</span>
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="border-border"
+                      onClick={() => openScheduleInBuilder(term)}
+                      disabled={term.source !== "schedule"}
+                    >
+                      View
+                    </Button>
                   </div>
                 </div>
 
