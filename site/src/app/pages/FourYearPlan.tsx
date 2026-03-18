@@ -107,9 +107,9 @@ function statusBadge(status: AcademicProgressStatus) {
 }
 
 function termCardAccent(status: AcademicProgressStatus): string {
-  if (status === "completed") return "border-green-600/30";
-  if (status === "in_progress") return "border-blue-600/35 shadow-lg shadow-blue-900/10";
-  return "border-border";
+  if (status === "completed") return "border-green-600/30 bg-green-500/5";
+  if (status === "in_progress") return "border-blue-600/35 bg-blue-500/5 shadow-lg shadow-blue-900/10";
+  return "border-border bg-amber-500/5";
 }
 
 function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
@@ -222,6 +222,12 @@ function statusRank(status: AcademicProgressStatus): number {
 
 function formatStatusLabel(status: AcademicProgressStatus): string {
   return status === "in_progress" ? "In Progress" : status === "completed" ? "Completed" : "Planned";
+}
+
+function statusTextClass(status: AcademicProgressStatus): string {
+  if (status === "completed") return "text-green-700 dark:text-green-300";
+  if (status === "in_progress") return "text-blue-700 dark:text-blue-300";
+  return "text-amber-700 dark:text-amber-300";
 }
 
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
@@ -697,11 +703,12 @@ export default function FourYearPlan() {
             return (
               <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>
                 <div className="px-5 pt-5 pb-3 border-b border-border/60 flex items-center justify-between gap-3 flex-wrap text-base md:text-lg">
-                  <p className="text-foreground font-semibold">
-                    Name: {term.scheduleName} - Term: {term.termLabel} - Total Credits: {term.credits}
+                  <p className="text-foreground text-xl md:text-2xl">
+                    {term.termLabel}
                   </p>
                   <div className="flex items-center gap-3">
-                    <span className="text-foreground/90 font-semibold">{formatStatusLabel(term.status)}</span>
+                    <span className="text-foreground/90">{term.credits} credits</span>
+                    <span className={statusTextClass(term.status)}>{formatStatusLabel(term.status)}</span>
                     <Button
                       type="button"
                       size="sm"
