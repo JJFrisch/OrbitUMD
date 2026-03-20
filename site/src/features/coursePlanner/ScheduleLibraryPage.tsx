@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Plus, Star, Trash2, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
+import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds } from "./utils/scheduleLayout";
 import { Timeline } from "./components/schedule/Timeline";
 import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
@@ -261,10 +262,42 @@ export function ScheduleLibraryPage() {
       groupMap.set(key, existing);
     }
 
-    return Array.from(groupMap.entries()).map(([term, groupSchedules]) => ({
-      term,
-      schedules: groupSchedules,
-    }));
+    const grouped = Array.from(groupMap.entries()).map(([term, groupSchedules]) => {
+      const reference = groupSchedules[0];
+      const termCode = reference?.term_code ?? null;
+      const termYear = reference?.term_year ?? null;
+      return {
+        term,
+        schedules: groupSchedules,
+        termCode,
+        termYear,
+      };
+    });
+
+    const rank = (termCode: string | null, termYear: number | null) => {
+      if (!termCode || !termYear) return 3;
+      const status = getAcademicProgressStatus({ termCode, termYear });
+      if (status === "in_progress") return 0;
+      if (status === "planned") return 1;
+      return 2;
+    };
+
+    grouped.sort((left, right) => {
+      const leftRank = rank(left.termCode, left.termYear);
+      const rightRank = rank(right.termCode, right.termYear);
+      if (leftRank !== rightRank) return leftRank - rightRank;
+
+      if (!left.termCode || !left.termYear || !right.termCode || !right.termYear) {
+        return left.term.localeCompare(right.term);
+      }
+
+      return compareAcademicTerms(
+        { termCode: left.termCode, termYear: left.termYear },
+        { termCode: right.termCode, termYear: right.termYear },
+      );
+    });
+
+    return grouped.map(({ term, schedules }) => ({ term, schedules }));
   }, [filteredAndSorted]);
 
   const previewSchedule = useMemo(

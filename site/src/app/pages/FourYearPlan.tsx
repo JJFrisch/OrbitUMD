@@ -386,7 +386,9 @@ export default function FourYearPlan() {
     const current = terms.filter((term) => term.status === "in_progress");
     const future = terms.filter((term) => term.status === "planned");
     const completed = terms.filter((term) => term.status === "completed");
-    return [...current, ...future, ...completed];
+    const priorToUmd = completed.filter((term) => term.termLabel === "Prior to UMD");
+    const completedRegular = completed.filter((term) => term.termLabel !== "Prior to UMD");
+    return [...current, ...future, ...completedRegular, ...priorToUmd];
   }, [terms]);
 
   const duplicateScheduleSectionKeys = useMemo(() => {
