@@ -1,25 +1,55 @@
-import { lazy, ReactNode, Suspense, useEffect, useState } from "react";
+import { lazy, type ComponentType, ReactNode, Suspense, useEffect, useState } from "react";
 import { Navigate, createBrowserRouter, useLocation } from "react-router";
 import RootLayout from "./layouts/RootLayout";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
-const Welcome = lazy(() => import("./pages/onboarding/Welcome"));
-const BasicProfile = lazy(() => import("./pages/onboarding/BasicProfile"));
-const GoalSelection = lazy(() => import("./pages/onboarding/GoalSelection"));
-const Dashboard = lazy(() => import("./pages/Dashboard"));
-const GenerateSchedule = lazy(() => import("./pages/GenerateSchedule"));
-const ScheduleBuilder = lazy(() => import("./pages/ScheduleBuilder"));
-const ScheduleLibrary = lazy(() => import("./pages/ScheduleLibrary"));
-const FourYearPlan = lazy(() => import("./pages/FourYearPlan"));
-const DegreeAudit = lazy(() => import("./pages/DegreeAudit"));
-const ProgramAudit = lazy(() => import("./pages/ProgramAudit"));
-const GenEds = lazy(() => import("./pages/GenEds"));
-const CreditImport = lazy(() => import("./pages/CreditImport"));
-const DegreeRequirements = lazy(() => import("./pages/DegreeRequirement"));
-const Settings = lazy(() => import("./pages/Settings"));
-const Suggestions = lazy(() => import("./pages/Suggestions"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const SignIn = lazy(() => import("./pages/SignIn"));
+function lazyWithRetry<T extends ComponentType<any>>(
+  loader: () => Promise<{ default: T }>,
+  chunkName: string,
+) {
+  const retryKey = `orbitumd:lazy-retry:${chunkName}`;
+  return lazy(async () => {
+    try {
+      const module = await loader();
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(retryKey);
+      }
+      return module;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const isChunkFetchError = /Failed to fetch dynamically imported module|Loading chunk [\d]+ failed/i.test(message);
+      if (isChunkFetchError && typeof window !== "undefined") {
+        const alreadyRetried = sessionStorage.getItem(retryKey) === "1";
+        if (!alreadyRetried) {
+          sessionStorage.setItem(retryKey, "1");
+          window.location.reload();
+          await new Promise<never>(() => {
+            // Wait forever because reload should interrupt execution.
+          });
+        }
+      }
+      throw error;
+    }
+  });
+}
+
+const Welcome = lazyWithRetry(() => import("./pages/onboarding/Welcome"), "Welcome");
+const BasicProfile = lazyWithRetry(() => import("./pages/onboarding/BasicProfile"), "BasicProfile");
+const GoalSelection = lazyWithRetry(() => import("./pages/onboarding/GoalSelection"), "GoalSelection");
+const Dashboard = lazyWithRetry(() => import("./pages/Dashboard"), "Dashboard");
+const GenerateSchedule = lazyWithRetry(() => import("./pages/GenerateSchedule"), "GenerateSchedule");
+const ScheduleBuilder = lazyWithRetry(() => import("./pages/ScheduleBuilder"), "ScheduleBuilder");
+const ScheduleLibrary = lazyWithRetry(() => import("./pages/ScheduleLibrary"), "ScheduleLibrary");
+const FourYearPlan = lazyWithRetry(() => import("./pages/FourYearPlan"), "FourYearPlan");
+const DegreeAudit = lazyWithRetry(() => import("./pages/DegreeAudit"), "DegreeAudit");
+const ProgramAudit = lazyWithRetry(() => import("./pages/ProgramAudit"), "ProgramAudit");
+const GenEds = lazyWithRetry(() => import("./pages/GenEds"), "GenEds");
+const CreditImport = lazyWithRetry(() => import("./pages/CreditImport"), "CreditImport");
+const DegreeRequirements = lazyWithRetry(() => import("./pages/DegreeRequirement"), "DegreeRequirements");
+const Settings = lazyWithRetry(() => import("./pages/Settings"), "Settings");
+const Suggestions = lazyWithRetry(() => import("./pages/Suggestions"), "Suggestions");
+const NotFound = lazyWithRetry(() => import("./pages/NotFound"), "NotFound");
+const SignIn = lazyWithRetry(() => import("./pages/SignIn"), "SignIn");
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
@@ -261,6 +261,7 @@ function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick
 }
 
 export default function FourYearPlan() {
+  const navigate = useNavigate();
   const [showGpaDetails, setShowGpaDetails] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -556,7 +557,7 @@ export default function FourYearPlan() {
   };
 
   const navigateToScheduleBuilder = (scheduleId: string, termCode: string, termYear: number) => {
-    window.location.href = `/schedule-builder?scheduleId=${encodeURIComponent(scheduleId)}&term=${termCode}-${termYear}`;
+    navigate(`/schedule-builder?scheduleId=${encodeURIComponent(scheduleId)}&term=${termCode}-${termYear}`);
   };
 
   return (
