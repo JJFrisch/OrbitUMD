@@ -1,5 +1,5 @@
 import { lazy, type ComponentType, ReactNode, Suspense, useEffect, useState } from "react";
-import { Navigate, createBrowserRouter, useLocation } from "react-router";
+import { isRouteErrorResponse, Link, Navigate, createBrowserRouter, useLocation, useRouteError } from "react-router";
 import RootLayout from "./layouts/RootLayout";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
@@ -61,6 +61,37 @@ function withSuspense(children: ReactNode) {
   return <Suspense fallback={<LoadingRoute />}>{children}</Suspense>;
 }
 
+function AppRouteErrorBoundary() {
+  const error = useRouteError();
+  const description = isRouteErrorResponse(error)
+    ? `${error.status} ${error.statusText}`
+    : error instanceof Error
+      ? error.message
+      : "Something unexpected went wrong while loading this page.";
+
+  return (
+    <div className="p-8 max-w-2xl mx-auto">
+      <h1 className="text-2xl text-foreground mb-2">We hit a loading issue</h1>
+      <p className="text-muted-foreground mb-6">{description}</p>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          className="inline-flex items-center rounded-md bg-red-600 px-4 py-2 text-sm text-white hover:bg-red-700"
+          onClick={() => window.location.reload()}
+        >
+          Reload App
+        </button>
+        <Link
+          to="/dashboard"
+          className="inline-flex items-center rounded-md border border-border px-4 py-2 text-sm text-foreground hover:bg-accent"
+        >
+          Go to Dashboard
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function RequireAuth({ children }: { children: ReactNode }) {
   const [checking, setChecking] = useState(true);
   const [isAuthed, setIsAuthed] = useState(false);
@@ -113,6 +144,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
+    errorElement: <AppRouteErrorBoundary />,
     children: [
       { index: true, element: withSuspense(<Welcome />) },
       { path: "onboarding/profile", element: withSuspense(<RequireAuth><BasicProfile /></RequireAuth>) },

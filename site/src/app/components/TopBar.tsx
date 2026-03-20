@@ -43,8 +43,8 @@ const SEARCH_TARGETS: SiteSearchTarget[] = [
     keywords: ["home", "overview", "progress", "dashboard"],
   },
   {
-    label: "Schedule Builder",
-    description: "Build schedules, search classes, and compare sections.",
+    label: "Edit Schedule",
+    description: "Edit schedules, search classes, and compare sections.",
     path: "/schedule-builder",
     keywords: ["schedule", "build", "planner", "classes", "testudo"],
   },
@@ -391,7 +391,7 @@ export default function TopBar() {
           <div className="space-y-2 text-sm text-muted-foreground">
             <p>Try these places next:</p>
             <ul className="list-disc pl-5 space-y-1">
-              <li>Search by course code in Schedule Builder, for example CMSC131.</li>
+              <li>Search by course code in Edit Schedule, for example CMSC131.</li>
               <li>Open Degree Audit for requirement-level details and progress status.</li>
               <li>Use Suggestions & Help to report issues or request a feature.</li>
             </ul>

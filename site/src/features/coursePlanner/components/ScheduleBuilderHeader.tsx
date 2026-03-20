@@ -1,5 +1,4 @@
-import { Calendar, Eye, EyeOff, Loader2, Printer, Save } from "lucide-react";
-import type { VisibilityMode } from "../types/coursePlanner";
+import { Calendar, Loader2, Printer, Save } from "lucide-react";
 
 interface CatalogTermOption {
   id: string;
@@ -20,15 +19,10 @@ interface ScheduleBuilderHeaderProps {
   termOptions: CatalogTermOption[];
   selectedTermId: string;
   onSelectedTermChange: (termId: string) => void;
-  visibilityMode: VisibilityMode;
-  onToggleVisibility: () => void;
   onExportPrint: () => void;
   onViewAllSchedules: () => void;
-  savedSchedules: SavedScheduleOption[];
-  activeScheduleId: string | null;
   onSave: () => void;
   onSaveShortcut?: () => void;
-  onScheduleSelect: (scheduleId: string | "__new") => void;
   savePending: boolean;
   saveMessage?: string;
   extraHeaderActionLabel?: string;
@@ -44,15 +38,10 @@ export function ScheduleBuilderHeader({
   termOptions,
   selectedTermId,
   onSelectedTermChange,
-  visibilityMode,
-  onToggleVisibility,
   onExportPrint,
   onViewAllSchedules,
-  savedSchedules,
-  activeScheduleId,
   onSave,
   onSaveShortcut,
-  onScheduleSelect,
   savePending,
   saveMessage,
   extraHeaderActionLabel,
@@ -62,11 +51,11 @@ export function ScheduleBuilderHeader({
     <header className="cp-builder-header">
       <div className="cp-builder-top-row">
         <div>
-          <h1>Schedule Builder</h1>
-          <p>Create and manage multiple schedule options for each semester.</p>
+          <h1>Edit Schedule</h1>
+          <p>Edit and save your schedule for the selected term.</p>
         </div>
         <div className="cp-builder-actions">
-          <button type="button" className="cp-builder-action-btn is-primary">Build Schedules</button>
+          <button type="button" className="cp-builder-action-btn is-primary">Edit Schedule</button>
           {extraHeaderActionLabel && onExtraHeaderActionClick && (
             <button type="button" className="cp-builder-action-btn" onClick={onExtraHeaderActionClick}>{extraHeaderActionLabel}</button>
           )}
@@ -75,22 +64,6 @@ export function ScheduleBuilderHeader({
       </div>
 
       <div className="cp-builder-controls">
-        <label>
-          Schedule:
-          <select
-            value={activeScheduleId ?? "__new"}
-            onChange={(event) => {
-              const val = event.target.value;
-              onScheduleSelect(val === "__new" ? "__new" : val);
-            }}
-          >
-            <option value="__new">+ New Schedule</option>
-            {savedSchedules.map((s) => (
-              <option key={s.id} value={s.id}>{s.name}</option>
-            ))}
-          </select>
-        </label>
-
         <input
           value={scheduleName}
           onChange={(event) => onScheduleNameChange(event.target.value)}
@@ -122,11 +95,6 @@ export function ScheduleBuilderHeader({
           <span>{courseCount} courses</span>
           <span>{credits} credits</span>
         </div>
-
-        <button type="button" className="cp-builder-action-btn" onClick={onToggleVisibility}>
-          {visibilityMode === "full" ? <EyeOff size={13} /> : <Eye size={13} />}
-          {visibilityMode === "full" ? "Busy/Free" : "Full"}
-        </button>
 
         <button type="button" className="cp-builder-action-btn" onClick={onExportPrint}>
           <Printer size={13} /> Export / Print

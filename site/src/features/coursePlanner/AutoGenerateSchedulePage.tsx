@@ -525,7 +525,7 @@ export function AutoGenerateSchedulePage() {
         };
       };
 
-      const draft = parsed.draft;
+      const { draft } = parsed;
       if (!draft) return;
 
       setSeason((draft.season ?? "08") as Season);
@@ -924,7 +924,7 @@ export function AutoGenerateSchedulePage() {
                     navigate(`/schedule-builder?term=${termId(season, year)}`);
                   }}
                 >
-                  Open In Schedule Builder
+                  Open In Edit Schedule
                 </button>
               </article>
             )}

@@ -420,11 +420,11 @@ export function ScheduleLibraryPage() {
       <div className="cp-view-header">
         <div>
           <h1>All Schedules</h1>
-          <p>Compare schedules by term, set MAIN per term, and open any option in Schedule Builder.</p>
+          <p>Compare schedules by term, set MAIN per term, and open any option in Edit Schedule.</p>
         </div>
 
         <div className="cp-view-actions">
-          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>Build Schedules</button>
+          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>Edit Schedules</button>
           <button type="button" className="cp-builder-action-btn is-primary">View All Schedules</button>
           <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>
             <Plus size={13} /> New Schedule
@@ -587,8 +587,8 @@ export function ScheduleLibraryPage() {
                                 type="button"
                                 className="cp-inline-link"
                                 disabled={busy}
-                                onClick={() => handleStartRename(schedule)}
-                                aria-label="Rename schedule"
+                                onClick={() => openInBuilder(schedule)}
+                                aria-label="Edit schedule"
                               >
                                 <Edit2 size={13} />
                               </button>

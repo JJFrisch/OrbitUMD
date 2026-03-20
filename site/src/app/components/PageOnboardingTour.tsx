@@ -46,7 +46,7 @@ const TOUR_DEFINITIONS: TourDefinition[] = [
   },
   {
     key: "schedule-builder",
-    label: "Schedule Builder",
+    label: "Edit Schedule",
     matchPath: (path) => path === "/schedule-builder" || path === "/build-my-week",
     steps: [
       {

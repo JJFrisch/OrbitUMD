@@ -47,12 +47,10 @@ export function CoursePlannerPage() {
   const [saveMessage, setSaveMessage] = useState<string | undefined>(undefined);
   const baseTerm = useCoursePlannerStore((state) => state.term);
   const baseYear = useCoursePlannerStore((state) => state.year);
-  const visibilityMode = useCoursePlannerStore((state) => state.visibilityMode);
   const selectedInfoKey = useCoursePlannerStore((state) => state.selectedInfoKey);
   const selections = useCoursePlannerStore((state) => state.selections);
   const resolvedTerm = useCoursePlannerStore((state) => state.resolvedTerm);
   const resolvedYear = useCoursePlannerStore((state) => state.resolvedYear);
-  const setVisibilityMode = useCoursePlannerStore((state) => state.setVisibilityMode);
   const setPrintMode = useCoursePlannerStore((state) => state.setPrintMode);
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const toggleInfoPanel = useCoursePlannerStore((state) => state.toggleInfoPanel);
@@ -61,11 +59,9 @@ export function CoursePlannerPage() {
   const addPlannedCourseByCode = useCoursePlannerStore((state) => state.addPlannedCourseByCode);
 
   const activeScheduleId = useCoursePlannerStore((state) => state.activeScheduleId);
-  const savedSchedules = useCoursePlannerStore((state) => state.savedSchedules);
   const savePending = useCoursePlannerStore((state) => state.savePending);
   const saveSchedule = useCoursePlannerStore((state) => state.saveSchedule);
   const loadSchedule = useCoursePlannerStore((state) => state.loadSchedule);
-  const refreshScheduleList = useCoursePlannerStore((state) => state.refreshScheduleList);
   const startNewSchedule = useCoursePlannerStore((state) => state.startNewSchedule);
   const saveError = useCoursePlannerStore((state) => state.saveError);
   const [lastSavedFingerprint, setLastSavedFingerprint] = useState(() =>
@@ -167,11 +163,6 @@ export function CoursePlannerPage() {
     void executeSearch();
   }, [executeSearch, searchParams, setFilters]);
 
-  // Load saved schedules for the current term
-  useEffect(() => {
-    void refreshScheduleList();
-  }, [resolvedTerm, resolvedYear, refreshScheduleList]);
-
   // Support deep-linking from the Schedule Library, e.g.
   // /schedule-builder?scheduleId=<id>&term=08-2026
   useEffect(() => {
@@ -211,13 +202,11 @@ export function CoursePlannerPage() {
       if (!confirmLeaveWithoutSaving()) {
         return;
       }
-      void loadSchedule(scheduleId).then(() => {
+      void loadSchedule(scheduleId).then((record) => {
         const state = useCoursePlannerStore.getState();
-        const match = state.savedSchedules.find((s) => s.id === scheduleId);
-        if (match) {
-          setScheduleName(match.name);
-          setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, match.name, state.selections));
-        }
+        if (!record) return;
+        setScheduleName(record.name);
+        setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, record.name, state.selections));
       });
     }
   }, [confirmLeaveWithoutSaving, loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
@@ -233,33 +222,6 @@ export function CoursePlannerPage() {
       setLastSavedFingerprint(buildScheduleFingerprint(state.activeScheduleId, scheduleName, state.selections));
     });
   }, [activeScheduleId, saveSchedule, scheduleName]);
-
-  const handleScheduleSelect = useCallback((scheduleId: string | "__new") => {
-    if (!confirmLeaveWithoutSaving()) {
-      return;
-    }
-
-    if (scheduleId === "__new") {
-      startNewSchedule();
-      setScheduleName(DEFAULT_SCHEDULE_NAME);
-      setLastSavedFingerprint(buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}));
-      return;
-    }
-
-    void loadSchedule(scheduleId).then(() => {
-      const state = useCoursePlannerStore.getState();
-      const match = savedSchedules.find((s) => s.id === scheduleId);
-      if (match) {
-        setScheduleName(match.name);
-        setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, match.name, state.selections));
-      }
-    });
-  }, [confirmLeaveWithoutSaving, loadSchedule, savedSchedules, startNewSchedule]);
-
-  const scheduleOptions = useMemo(
-    () => savedSchedules.map((s) => ({ id: s.id, name: s.name })),
-    [savedSchedules],
-  );
 
   useEffect(() => {
     let active = true;
@@ -293,8 +255,7 @@ export function CoursePlannerPage() {
           });
 
         for (const entry of timelineTerms) {
-          const schedule = entry.schedule;
-          const status = entry.status;
+          const { schedule, status } = entry;
           const payload = (schedule.selections_json ?? {}) as { selections?: Array<any> };
           const selectionsList = Array.isArray(payload) ? payload : (Array.isArray(payload.selections) ? payload.selections : []);
 
@@ -402,8 +363,6 @@ export function CoursePlannerPage() {
           if (!termCode || !Number.isFinite(parsedYear)) return;
           setCatalogTerm(termCode, parsedYear);
         }}
-        visibilityMode={visibilityMode}
-        onToggleVisibility={() => setVisibilityMode(visibilityMode === "full" ? "busy_free" : "full")}
         onExportPrint={() => {
           setPrintMode(true);
           requestAnimationFrame(() => {
@@ -415,11 +374,8 @@ export function CoursePlannerPage() {
           if (!confirmLeaveWithoutSaving()) return;
           navigate("/schedules");
         }}
-        savedSchedules={scheduleOptions}
-        activeScheduleId={activeScheduleId}
         onSave={handleSaveClick}
         onSaveShortcut={handleSaveClick}
-        onScheduleSelect={handleScheduleSelect}
         savePending={savePending}
         saveMessage={saveMessage}
         extraHeaderActionLabel="What's Needed"

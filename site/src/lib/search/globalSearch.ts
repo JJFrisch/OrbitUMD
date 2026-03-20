@@ -47,7 +47,7 @@ const PAGE_DOCS: SearchDoc[] = [
   {
     id: "page-schedule-builder",
     kind: "page",
-    title: "Schedule Builder",
+    title: "Edit Schedule",
     summary: "Search Testudo courses, compare sections, and build a weekly schedule.",
     detail: "Best place for live course lookups, section conflicts, and registration planning.",
     path: "/schedule-builder",

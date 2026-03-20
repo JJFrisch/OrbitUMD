@@ -78,7 +78,7 @@ interface CoursePlannerState {
   saveError?: string;
 
   saveSchedule: (name: string) => Promise<void>;
-  loadSchedule: (scheduleId: string) => Promise<void>;
+  loadSchedule: (scheduleId: string) => Promise<ScheduleWithSelections | null>;
   refreshScheduleList: () => Promise<void>;
   startNewSchedule: () => void;
 }
@@ -586,23 +586,40 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       const record = await loadScheduleById(scheduleId);
       if (!record) {
         set({ savePending: false, saveError: "Schedule not found" });
-        return;
+        return null;
       }
 
       const selectionsMap = mapStoredSelectionsToState(record.selections_json);
+      const nextTerm = record.term_code && typeof record.term_year === "number"
+        ? { term: record.term_code, year: record.term_year }
+        : null;
 
       set({
         activeScheduleId: record.id,
         selections: selectionsMap,
         hoveredSelection: null,
         selectedInfoKey: null,
+        ...(nextTerm
+          ? {
+              term: nextTerm.term,
+              year: nextTerm.year,
+              resolvedTerm: nextTerm.term,
+              resolvedYear: nextTerm.year,
+              filters: {
+                ...get().filters,
+                searchTerm: "",
+              },
+            }
+          : {}),
         savePending: false,
       });
+      return record;
     } catch (error) {
       set({
         savePending: false,
         saveError: errorMessage(error, "Load failed"),
       });
+      return null;
     }
   },
 }));
