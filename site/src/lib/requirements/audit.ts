@@ -136,6 +136,13 @@ const BIOLOGY_SPECIALIZATION_ORDER = [
   { id: "bio-individualized-studies", name: "Individualized Studies" },
 ] as const;
 
+const PHYSICS_SPECIALIZATION_ORDER = [
+  { id: "physics-track-major", name: "The Physics Major" },
+  { id: "physics-track-education", name: "Physics Education" },
+  { id: "physics-track-biophysics", name: "Bio-Physics" },
+  { id: "physics-track-applied", name: "Applied Physics" },
+] as const;
+
 function createId(): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
     return crypto.randomUUID();
@@ -506,6 +513,44 @@ function isBiologicalSciencesMajor(program: UserDegreeProgram): boolean {
   return normalizeName(program.programName).includes("biological sciences");
 }
 
+function isPhysicsMajor(program: UserDegreeProgram): boolean {
+  return normalizeName(program.programName) === "physics";
+}
+
+function hasAnyCourseCodes(section: RequirementSectionBundle): boolean {
+  return section.courseCodes.length > 0 || section.optionGroups.some((group) => group.length > 0) || section.logicBlocks.some((block) => block.codes.length > 0);
+}
+
+function normalizePhysicsCoreMathChoice(section: RequirementSectionBundle): RequirementSectionBundle {
+  const hasMATH243 = section.courseCodes.includes("MATH243");
+  const mentionsAltPair = section.notes.some((note) => /\bMATH240\b.*\bMATH246\b/i.test(note));
+  if (!hasMATH243 || !mentionsAltPair) {
+    return section;
+  }
+
+  const nonMathCoreCodes = dedupeCodes(
+    section.courseCodes.filter((code) => code !== "MATH243" && code !== "MATH240" && code !== "MATH246")
+  );
+
+  const normalizedCourseCodes = dedupeCodes([...nonMathCoreCodes, "MATH243", "MATH240", "MATH246"]);
+  const normalizedLogicBlocks: RequirementSectionBundle["logicBlocks"] = [
+    ...nonMathCoreCodes.map((code) => ({ type: "AND" as const, codes: [code] })),
+    {
+      type: "OR" as const,
+      codes: ["MATH243"],
+      children: [{ type: "AND" as const, codes: ["MATH240", "MATH246"] }],
+    },
+  ];
+
+  return {
+    ...section,
+    courseCodes: normalizedCourseCodes,
+    optionGroups: [],
+    standaloneCodes: nonMathCoreCodes,
+    logicBlocks: normalizedLogicBlocks,
+  };
+}
+
 function mapBiologyScrapedSections(scraped: ScrapedProgram): {
   sections: RequirementSectionBundle[];
   specializationOptions: Array<{ id: string; name: string }>;
@@ -538,6 +583,46 @@ function mapBiologyScrapedSections(scraped: ScrapedProgram): {
   return {
     sections,
     specializationOptions: BIOLOGY_SPECIALIZATION_ORDER.map((spec) => ({ id: spec.id, name: spec.name })),
+  };
+}
+
+function mapPhysicsScrapedSections(scraped: ScrapedProgram): {
+  sections: RequirementSectionBundle[];
+  specializationOptions: Array<{ id: string; name: string }>;
+} {
+  const sections: RequirementSectionBundle[] = [];
+  const blocks = scraped.requirementCourseBlocks ?? [];
+
+  if (blocks.length > 0) {
+    const baseSections = blocks[0]?.builderSections ?? [];
+    sections.push(
+      ...baseSections
+        .map((section) => normalizePhysicsCoreMathChoice(mapScrapedSection(section)))
+        .filter((section) => hasAnyCourseCodes(section))
+    );
+
+    const mappedTrackBlocks = blocks.slice(1, 5);
+    mappedTrackBlocks.forEach((block, idx) => {
+      const spec = PHYSICS_SPECIALIZATION_ORDER[idx];
+      if (!spec || !block?.builderSections) return;
+
+      const specSections = block.builderSections
+        .map((section) => ({ ...mapScrapedSection(section), specializationId: spec.id }))
+        .filter((section) => hasAnyCourseCodes(section));
+
+      sections.push(...specSections);
+    });
+  } else {
+    sections.push(
+      ...(scraped.builderSections ?? [])
+        .map((section) => normalizePhysicsCoreMathChoice(mapScrapedSection(section)))
+        .filter((section) => hasAnyCourseCodes(section))
+    );
+  }
+
+  return {
+    sections,
+    specializationOptions: PHYSICS_SPECIALIZATION_ORDER.map((spec) => ({ id: spec.id, name: spec.name })),
   };
 }
 
@@ -671,6 +756,10 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
 
     if (scraped && isBiologicalSciencesMajor(program)) {
       const mapped = mapBiologyScrapedSections(scraped);
+      sections = mapped.sections;
+      specializationOptions = mapped.specializationOptions;
+    } else if (scraped && isPhysicsMajor(program)) {
+      const mapped = mapPhysicsScrapedSections(scraped);
       sections = mapped.sections;
       specializationOptions = mapped.specializationOptions;
     } else {

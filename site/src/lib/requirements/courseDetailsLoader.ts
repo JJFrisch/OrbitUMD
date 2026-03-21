@@ -54,20 +54,46 @@ export async function lookupCourseDetails(courseCodes: string[]): Promise<Map<st
 
   try {
     const termCode = await getCurrentTermCode();
+    const allTerms = await fetchTerms().catch(() => []);
+    const termCandidates = [
+      termCode,
+      ...allTerms.map((term) => term.code).filter((code) => code !== termCode),
+    ].slice(0, 8);
 
     // Search for each course
     for (const code of normalizedCodes) {
       try {
-        const courses = await searchCourses({
-          termCode,
-          query: code,
-          deptId: code.replace(/\d+/, "").toUpperCase(),
-        });
+        const deptId = code.replace(/\d+/, "").toUpperCase();
+        let matchedCourse: (Awaited<ReturnType<typeof searchCourses>>[number] | null) = null;
+        let matchedTerm = termCode;
 
-        if (courses.length > 0) {
-          const course = courses.find((item) => item.id.toUpperCase() === code) ?? courses[0];
+        for (const candidateTerm of termCandidates) {
+          let courses = await searchCourses({
+            termCode: candidateTerm,
+            query: code,
+            deptId,
+          });
+
+          // Some valid courses are excluded by strict dept filters in certain catalog sync states.
+          // Retry without dept filter before declaring the course unavailable.
+          if (courses.length === 0) {
+            courses = await searchCourses({
+              termCode: candidateTerm,
+              query: code,
+            });
+          }
+
+          if (courses.length > 0) {
+            matchedCourse = courses.find((item) => item.id.toUpperCase() === code) ?? courses[0];
+            matchedTerm = candidateTerm;
+            break;
+          }
+        }
+
+        if (matchedCourse) {
+          const course = matchedCourse;
           const relationshipFallback = (!course.relationships?.prereqs || !course.description)
-            ? await fetchCourseRelationshipsFromUmdApi(termCode, code)
+            ? await fetchCourseRelationshipsFromUmdApi(matchedTerm, code)
             : null;
 
           result.set(code, {
@@ -79,7 +105,23 @@ export async function lookupCourseDetails(courseCodes: string[]): Promise<Map<st
             prereqs: course.relationships?.prereqs ?? relationshipFallback?.prereqs,
           });
         } else {
-          missingCodes.add(code);
+          let relationshipFallback: { prereqs?: string; description?: string } | null = null;
+          for (const candidateTerm of termCandidates) {
+            relationshipFallback = await fetchCourseRelationshipsFromUmdApi(candidateTerm, code).catch(() => null);
+            if (relationshipFallback) break;
+          }
+          if (relationshipFallback) {
+            result.set(code, {
+              code,
+              title: code,
+              credits: 0,
+              genEds: [],
+              description: relationshipFallback.description,
+              prereqs: relationshipFallback.prereqs,
+            });
+          } else {
+            missingCodes.add(code);
+          }
         }
       } catch {
         missingCodes.add(code);

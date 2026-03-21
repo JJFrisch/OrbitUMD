@@ -1,5 +1,8 @@
 name: Sync UMD Catalog
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch:
     inputs:
@@ -18,10 +21,10 @@ jobs:
         working-directory: site
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -32,8 +35,21 @@ jobs:
 
       - name: Sync UMD catalog to Supabase
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_URL: ${{ secrets['SUPABASE_URL'] }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets['SUPABASE_SERVICE_ROLE_KEY'] }}
+          VITE_SUPABASE_URL: ${{ secrets['VITE_SUPABASE_URL'] }}
+          SUPABASE_SERVICE_KEY: ${{ secrets['SUPABASE_SERVICE_KEY'] }}
           UMD_API_BASE_URL: https://api.umd.io/v1
           UMD_SYNC_TERMS: ${{ github.event.inputs.terms }}
-        run: npm run sync:umd
+        run: |
+          export SUPABASE_URL="${SUPABASE_URL:-$VITE_SUPABASE_URL}"
+          export SUPABASE_SERVICE_ROLE_KEY="${SUPABASE_SERVICE_ROLE_KEY:-$SUPABASE_SERVICE_KEY}"
+
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "Missing Supabase credentials. Configure repo or environment secrets:"
+            echo "- SUPABASE_URL (or VITE_SUPABASE_URL)"
+            echo "- SUPABASE_SERVICE_ROLE_KEY (or SUPABASE_SERVICE_KEY)"
+            exit 1
+          fi
+
+          npm run sync:umd

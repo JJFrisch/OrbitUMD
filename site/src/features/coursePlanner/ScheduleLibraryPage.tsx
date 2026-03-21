@@ -58,20 +58,36 @@ function getEarliestLatest(schedule: ScheduleWithSelections): { earliest: string
 
   const parseClock = (raw: string | undefined) => {
     if (!raw) return Number.NaN;
-    const normalized = raw.trim().toLowerCase();
-    const match = normalized.match(/^(\d{1,2}):(\d{2})(am|pm)$/);
-    if (!match) return Number.NaN;
-    const [, hourRaw, minuteRaw, suffix] = match;
-    let hour = Number(hourRaw);
-    const minute = Number(minuteRaw);
+    const normalized = raw.trim().toLowerCase().replace(/\s+/g, "");
 
-    if (suffix === "am") {
-      if (hour === 12) hour = 0;
-    } else if (hour !== 12) {
-      hour += 12;
+    // Supports: 10:00am, 10:00 am, 10:00AM, and 24-hour 14:30
+    const ampmMatch = normalized.match(/^(\d{1,2}):(\d{2})(am|pm)$/);
+    if (ampmMatch) {
+      const [, hourRaw, minuteRaw, suffix] = ampmMatch;
+      let hour = Number(hourRaw);
+      const minute = Number(minuteRaw);
+      if (!Number.isFinite(hour) || !Number.isFinite(minute)) return Number.NaN;
+
+      if (suffix === "am") {
+        if (hour === 12) hour = 0;
+      } else if (hour !== 12) {
+        hour += 12;
+      }
+
+      return hour + minute / 60;
     }
 
-    return hour + minute / 60;
+    const twentyFourHourMatch = normalized.match(/^(\d{1,2}):(\d{2})$/);
+    if (twentyFourHourMatch) {
+      const [, hourRaw, minuteRaw] = twentyFourHourMatch;
+      const hour = Number(hourRaw);
+      const minute = Number(minuteRaw);
+      if (!Number.isFinite(hour) || !Number.isFinite(minute)) return Number.NaN;
+      if (hour < 0 || hour > 23 || minute < 0 || minute > 59) return Number.NaN;
+      return hour + minute / 60;
+    }
+
+    return Number.NaN;
   };
 
   const toClock = (hourValue: number) => {
