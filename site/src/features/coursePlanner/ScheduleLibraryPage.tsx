@@ -420,12 +420,10 @@ export function ScheduleLibraryPage() {
       <div className="cp-view-header">
         <div>
           <h1>All Schedules</h1>
-          <p>Compare schedules by term, set MAIN per term, and open any option in Edit Schedule.</p>
+          <p>Compare and edit schedules.</p>
         </div>
 
         <div className="cp-view-actions">
-          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>Edit Schedules</button>
-          <button type="button" className="cp-builder-action-btn is-primary">View All Schedules</button>
           <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>
             <Plus size={13} /> New Schedule
           </button>

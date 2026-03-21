@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { AlertCircle, CheckCircle2, Cloud } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 import { NeededClassesPanel } from "@/app/components/NeededClassesPanel";
-import { Button } from "@/app/components/ui/button";
 import { CourseSearchPanel } from "./components/search/CourseSearchPanel";
 import { CalendarView } from "./components/schedule/CalendarView";
 import { ScheduleDetailsOverlay } from "./components/schedule/ScheduleDetailsOverlay";
@@ -24,6 +23,7 @@ import "./styles/coursePlanner.css";
 
 const DEFAULT_SCHEDULE_NAME = "Default Schedule";
 const SCHEDULE_BUILDER_AUTOSAVE_KEY = "orbitumd:schedule-builder:draft:v1";
+type SaveStatus = "idle" | "saving" | "saved" | "autosaved" | "error";
 
 function buildScheduleFingerprint(
   activeScheduleId: string | null,
@@ -68,6 +68,7 @@ export function CoursePlannerPage() {
     buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}),
   );
   const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [showNeededPanel, setShowNeededPanel] = useState(false);
   const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
 
@@ -113,6 +114,7 @@ export function CoursePlannerPage() {
     [activeScheduleId, scheduleName, selections],
   );
   const hasUnsavedChanges = currentFingerprint !== lastSavedFingerprint;
+  const saveStatusTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -131,6 +133,12 @@ export function CoursePlannerPage() {
 
     return () => window.clearTimeout(timeout);
   }, [activeScheduleId, baseTerm, baseYear, scheduleName, selections]);
+
+  useEffect(() => () => {
+    if (saveStatusTimer.current) {
+      window.clearTimeout(saveStatusTimer.current);
+    }
+  }, []);
 
   const confirmLeaveWithoutSaving = useCallback(() => {
     if (!hasUnsavedChanges) return true;
@@ -217,11 +225,59 @@ export function CoursePlannerPage() {
       window.setTimeout(() => setSaveMessage(undefined), 5000);
     }
 
+    setSaveStatus("saving");
     void saveSchedule(scheduleName).then(() => {
       const state = useCoursePlannerStore.getState();
+      const now = Date.now();
       setLastSavedFingerprint(buildScheduleFingerprint(state.activeScheduleId, scheduleName, state.selections));
+      setLastAutosavedAt(now);
+      setSaveStatus("saved");
+      if (saveStatusTimer.current) window.clearTimeout(saveStatusTimer.current);
+      saveStatusTimer.current = window.setTimeout(() => setSaveStatus("idle"), 3500);
+    }).catch(() => {
+      setSaveStatus("error");
     });
   }, [activeScheduleId, saveSchedule, scheduleName]);
+
+  useEffect(() => {
+    if (!hasUnsavedChanges || savePending) return;
+
+    const timeout = window.setTimeout(() => {
+      setSaveStatus("saving");
+      void saveSchedule(scheduleName).then(() => {
+        const state = useCoursePlannerStore.getState();
+        const now = Date.now();
+        setLastSavedFingerprint(buildScheduleFingerprint(state.activeScheduleId, scheduleName, state.selections));
+        setLastAutosavedAt(now);
+        setSaveStatus("autosaved");
+      }).catch(() => {
+        setSaveStatus("error");
+      });
+    }, 900);
+
+    return () => window.clearTimeout(timeout);
+  }, [hasUnsavedChanges, savePending, saveSchedule, scheduleName]);
+
+  const saveStatusText = useMemo(() => {
+    const timeLabel = lastAutosavedAt
+      ? new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+      : null;
+    if (saveStatus === "saving") return "Saving...";
+    if (saveStatus === "saved") return timeLabel ? `Saved ${timeLabel}` : "Saved";
+    if (saveStatus === "autosaved") return timeLabel ? `Auto saved ${timeLabel}` : "Auto saved";
+    if (saveStatus === "error") return "Save failed";
+    if (timeLabel) return `Last saved ${timeLabel}`;
+    return null;
+  }, [lastAutosavedAt, saveStatus]);
+
+  const saveStatusTone: "saving" | "saved" | "autosaved" | "error" =
+    saveStatus === "saving"
+      ? "saving"
+      : saveStatus === "saved"
+        ? "saved"
+        : saveStatus === "error"
+          ? "error"
+          : "autosaved";
 
   useEffect(() => {
     let active = true;
@@ -378,19 +434,14 @@ export function CoursePlannerPage() {
         onSaveShortcut={handleSaveClick}
         savePending={savePending}
         saveMessage={saveMessage}
-        extraHeaderActionLabel="What's Needed"
-        onExtraHeaderActionClick={() => setShowNeededPanel(true)}
+        extraControlActionLabel="What's Needed"
+        extraControlActionIcon={<BarChart3 size={14} />}
+        onExtraControlActionClick={() => setShowNeededPanel(true)}
+        saveStatusText={saveStatusText ?? undefined}
+        saveStatusTone={saveStatusTone}
       />
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
-      <div className={`cp-status-banner ${hasUnsavedChanges ? "is-unsaved" : "is-saved"}`} role="status" aria-live="polite">
-        {hasUnsavedChanges ? <AlertCircle className="cp-status-banner-icon" /> : <CheckCircle2 className="cp-status-banner-icon" />}
-        <span>
-          {hasUnsavedChanges ? "Unsaved changes in this schedule." : "All schedule changes are saved."}
-          {lastAutosavedAt ? ` Autosaved ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}.` : ""}
-        </span>
-        <Cloud className="cp-status-banner-cloud" />
-      </div>
 
       <div
         className="course-planner-layout"

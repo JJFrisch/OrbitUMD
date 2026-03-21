@@ -87,10 +87,42 @@
   align-items: flex-start;
 }
 
+.cp-builder-top-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .cp-builder-top-row h1 {
   margin: 0;
   font-size: 24px;
   letter-spacing: 0.01em;
+}
+
+.cp-builder-save-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  border: 1px solid var(--cp-header-border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--cp-header-muted);
+}
+
+.cp-builder-save-status.is-saving {
+  color: #f8fafc;
+}
+
+.cp-builder-save-status.is-saved,
+.cp-builder-save-status.is-autosaved {
+  color: #d1fae5;
+}
+
+.cp-builder-save-status.is-error {
+  color: #fecaca;
 }
 
 .cp-builder-top-row p {
@@ -130,11 +162,27 @@
   color: var(--cp-danger-foreground);
 }
 
+.cp-builder-action-btn.is-accent {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.42);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12), 0 8px 18px rgba(8, 12, 24, 0.35);
+}
+
+.cp-builder-action-btn.is-accent:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
 .cp-builder-controls {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
+}
+
+.cp-builder-controls-spacer {
+  flex: 1;
 }
 
 .cp-builder-controls label {
@@ -221,6 +269,7 @@
   background: transparent;
   outline: none;
   color: var(--cp-text);
+  font-size: 14px;
 }
 
 .cp-suggestions {
@@ -236,6 +285,7 @@
   color: var(--cp-select-text);
   text-align: left;
   padding: 6px 8px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -364,13 +414,13 @@
 
 .cp-course-card h4 {
   margin: 0;
-  font-size: 15px;
+  font-size: 17px;
   color: var(--cp-text);
 }
 
 .cp-course-card p {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--cp-muted);
 }
 
@@ -388,7 +438,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .cp-course-meta button {
@@ -434,12 +484,12 @@
 }
 
 .cp-section-row strong {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--cp-text);
 }
 
 .cp-section-row span {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--cp-muted);
 }
 
@@ -467,7 +517,7 @@
   width: fit-content;
   color: var(--cp-link);
   text-decoration: none;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .cp-prof-link:hover {
@@ -509,7 +559,7 @@
 }
 
 .cp-time-label {
-  height: 56px;
+  height: 112px;
   padding-right: 8px;
   text-align: right;
   font-size: 11px;
@@ -545,14 +595,14 @@
 
 .cp-day-track {
   position: relative;
-  height: calc(56px * 12);
+  height: calc(112px * 12);
   background-image: linear-gradient(to bottom, color-mix(in srgb, var(--cp-grid-line) 75%, transparent) 1px, transparent 1px);
-  background-size: 100% 56px;
+  background-size: 100% 112px;
 }
 
 .cp-day-track-other {
   height: auto;
-  min-height: calc(56px * 12);
+  min-height: calc(112px * 12);
   padding: 8px;
   display: grid;
   gap: 8px;
@@ -582,11 +632,12 @@
 
 .cp-class-block strong {
   display: block;
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .cp-class-block span {
   display: block;
+  font-size: 12px;
 }
 
 .cp-class-block.is-preview {

@@ -1,13 +1,9 @@
-import { Calendar, Loader2, Printer, Save } from "lucide-react";
+import { Loader2, Printer, Save } from "lucide-react";
+import type { ReactNode } from "react";
 
 interface CatalogTermOption {
   id: string;
   label: string;
-}
-
-interface SavedScheduleOption {
-  id: string;
-  name: string;
 }
 
 interface ScheduleBuilderHeaderProps {
@@ -25,8 +21,11 @@ interface ScheduleBuilderHeaderProps {
   onSaveShortcut?: () => void;
   savePending: boolean;
   saveMessage?: string;
-  extraHeaderActionLabel?: string;
-  onExtraHeaderActionClick?: () => void;
+  extraControlActionLabel?: string;
+  extraControlActionIcon?: ReactNode;
+  onExtraControlActionClick?: () => void;
+  saveStatusText?: string;
+  saveStatusTone?: "saving" | "saved" | "autosaved" | "error";
 }
 
 export function ScheduleBuilderHeader({
@@ -44,21 +43,25 @@ export function ScheduleBuilderHeader({
   onSaveShortcut,
   savePending,
   saveMessage,
-  extraHeaderActionLabel,
-  onExtraHeaderActionClick,
+  extraControlActionLabel,
+  extraControlActionIcon,
+  onExtraControlActionClick,
+  saveStatusText,
+  saveStatusTone = "autosaved",
 }: ScheduleBuilderHeaderProps) {
   return (
     <header className="cp-builder-header">
       <div className="cp-builder-top-row">
-        <div>
+        <div className="cp-builder-top-title-wrap">
           <h1>Edit Schedule</h1>
-          <p>Edit and save your schedule for the selected term.</p>
+          {saveStatusText && (
+            <span className={`cp-builder-save-status is-${saveStatusTone}`}>
+              {saveStatusTone === "saving" && <Loader2 size={12} className="animate-spin" />}
+              {saveStatusText}
+            </span>
+          )}
         </div>
         <div className="cp-builder-actions">
-          <button type="button" className="cp-builder-action-btn is-primary">Edit Schedule</button>
-          {extraHeaderActionLabel && onExtraHeaderActionClick && (
-            <button type="button" className="cp-builder-action-btn" onClick={onExtraHeaderActionClick}>{extraHeaderActionLabel}</button>
-          )}
           <button type="button" className="cp-builder-action-btn" onClick={onViewAllSchedules}>View All Schedules</button>
         </div>
       </div>
@@ -104,13 +107,18 @@ export function ScheduleBuilderHeader({
           {savePending ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
           {savePending ? "Saving…" : "Save"}
         </button>
+
+        <div className="cp-builder-controls-spacer" />
+
+        {extraControlActionLabel && onExtraControlActionClick && (
+          <button type="button" className="cp-builder-action-btn is-accent" onClick={onExtraControlActionClick}>
+            {extraControlActionIcon}
+            {extraControlActionLabel}
+          </button>
+        )}
       </div>
 
       {saveMessage && <div className="cp-builder-subtitle">{saveMessage}</div>}
-
-      <div className="cp-builder-subtitle">
-        <Calendar size={14} /> Weekly Schedule
-      </div>
     </header>
   );
 }
