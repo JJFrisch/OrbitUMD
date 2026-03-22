@@ -1080,15 +1080,15 @@ function RequirementSectionTableCard({
                     : `${(row.choices[0]?.length ?? 0)} course${(row.choices[0]?.length ?? 0) === 1 ? "" : "s"}`}
                 </td>
                 <td className="px-3 py-2">
-                  <div className={`flex flex-wrap items-center gap-2 ${getDepthIndentClass(row.depth)}`}>
+                  <div className={`flex flex-wrap items-start gap-2 ${getDepthIndentClass(row.depth)}`}>
                             {row.type === "OR"
                       ? row.choices.map((choice, choiceIndex) => (
-                        <div key={`${row.key}-choice-${choiceIndex}`} className="flex items-center gap-2 rounded-md border border-amber-300/40 bg-amber-500/5 px-2 py-1">
+                        <div key={`${row.key}-choice-${choiceIndex}`} className="flex flex-col items-start gap-1 rounded-md border border-amber-300/40 bg-amber-500/5 px-2 py-1">
                           <Badge variant="outline" className="border-amber-300/60 text-[10px] text-amber-700 dark:text-amber-300">
                             Option {String.fromCharCode(65 + choiceIndex)}
                           </Badge>
                           {choice.map((code, codeIndex) => (
-                            <div key={`${row.key}-choice-${choiceIndex}-${code}`} className="flex items-center gap-2">
+                            <div key={`${row.key}-choice-${choiceIndex}-${code}`} className="w-full">
                               {renderCourseButton(String(code).toUpperCase(), `${row.key}-choice-${choiceIndex}`, codeIndex, codeIndex === choice.length - 1, "AND")}
                             </div>
                           ))}
