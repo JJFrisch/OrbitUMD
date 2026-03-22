@@ -1,4 +1,5 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
+import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 
 export interface ProgramTemplateProgramLike {
   programId?: string;
@@ -18,7 +19,10 @@ export interface ProgramRequirementTemplateRow {
 export interface ProgramRequirementTemplatePayload {
   sections: any[];
   specializations: string[];
+  catalogVersion?: string;
 }
+
+const CURRENT_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
 
 function normalizeText(value: string): string {
   return value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -72,6 +76,7 @@ export async function fetchProgramRequirementTemplatePayloadByKey(
     return {
       sections: data.sections_json as any[],
       specializations: [],
+      catalogVersion: "legacy",
     };
   }
 
@@ -81,10 +86,11 @@ export async function fetchProgramRequirementTemplatePayloadByKey(
     const specializations = Array.isArray(json.specializations)
       ? json.specializations.map((entry) => String(entry ?? "")).filter((entry) => entry.length > 0)
       : [];
-    return { sections, specializations };
+    const catalogVersion = typeof json.catalogVersion === "string" ? json.catalogVersion : "legacy";
+    return { sections, specializations, catalogVersion };
   }
 
-  return { sections: [], specializations: [] };
+  return { sections: [], specializations: [], catalogVersion: "legacy" };
 }
 
 export async function saveProgramRequirementTemplate(programKey: string, sections: any[]): Promise<void> {
@@ -109,6 +115,7 @@ export async function saveProgramRequirementTemplatePayload(
         sections_json: {
           sections: payload.sections,
           specializations: payload.specializations,
+          catalogVersion: payload.catalogVersion ?? CURRENT_CATALOG_VERSION,
         },
         updated_by: userId,
         updated_at: new Date().toISOString(),

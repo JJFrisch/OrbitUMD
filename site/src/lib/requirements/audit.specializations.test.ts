@@ -127,7 +127,7 @@ describe("audit specialization mapping", () => {
     expect(bundles).toHaveLength(1);
 
     const physics = bundles[0];
-    expect(physics.source).toBe("official");
+    expect(physics.source).toBe("scraped");
     expect(physics.specializationOptions).toEqual([
       { id: "physics-track-major", name: "The Physics Major" },
       { id: "physics-track-education", name: "Physics Education" },

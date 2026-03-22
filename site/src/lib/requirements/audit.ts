@@ -8,6 +8,8 @@ import type { RequirementNode, RequirementSection } from "@/lib/types/requiremen
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import csRequirements from "@/lib/data/cs_major_requirements.json";
 
+const CURRENT_REQUIREMENTS_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
+
 export type AuditCourseStatus = "completed" | "in_progress" | "planned" | "not_started";
 
 export interface RequirementSectionBundle {
@@ -845,7 +847,9 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
     try {
       const officialTemplate = await fetchProgramRequirementTemplatePayloadByKey(programTemplateKey);
       const officialSections = coerceRequirementSectionBundles(officialTemplate?.sections ?? []);
-      if (officialSections.length > 0) {
+      const templateVersion = String(officialTemplate?.catalogVersion ?? "legacy");
+      const templateIsCurrent = templateVersion === CURRENT_REQUIREMENTS_CATALOG_VERSION;
+      if (officialSections.length > 0 && templateIsCurrent) {
         let resolvedOfficialSections = officialSections;
         let resolvedSpecializationOptions: Array<{ id: string; name: string }> | undefined;
 
@@ -900,6 +904,8 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       continue;
     }
 
+    const scraped = findScrapedProgram(program);
+
     let dbSections: RequirementSection[] = [];
     try {
       dbSections = await fetchProgramRequirements(program.programId);
@@ -908,7 +914,7 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       dbSections = [];
     }
 
-    if (dbSections.length > 0) {
+    if (dbSections.length > 0 && !scraped) {
       bundles.push({
         programId: program.programId,
         programName: program.programName,
@@ -920,8 +926,6 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       });
       continue;
     }
-
-    const scraped = findScrapedProgram(program);
 
     let sections: RequirementSectionBundle[] = [];
     let specializationOptions: Array<{ id: string; name: string }> | undefined;

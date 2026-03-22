@@ -1,14 +1,21 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Mail, MessageSquare, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Mail, Menu, MessageSquare, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
 import { Progress } from "../components/ui/progress";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
 import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
+import { toast } from "sonner";
 import { plannerApi } from "@/lib/api/planner";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
@@ -68,6 +75,9 @@ type SectionEditSyncState = "idle" | "saving" | "synced" | "local";
 
 const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
 const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
+const REQUIREMENTS_CATALOG_VERSION_KEY = "orbitumd:requirements-catalog-version";
+const REQUIREMENTS_CATALOG_RESET_KEY = "orbitumd:requirements-catalog-reset-pending";
+const CURRENT_REQUIREMENTS_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
 
 const DEPTH_INDENT_CLASSES = [
   "ml-0",
@@ -1554,7 +1564,7 @@ export default function DegreeAudit() {
   const [activeProgramIndex, setActiveProgramIndex] = useState(0);
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
   const [expandedNotesSectionIds, setExpandedNotesSectionIds] = useState<Set<string>>(new Set());
-  const [condensedAuditView, setCondensedAuditView] = useState(false);
+  const condensedAuditView = false;
   const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(new Map());
   const [editingProgramIndex, setEditingProgramIndex] = useState<number | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
@@ -1579,6 +1589,13 @@ export default function DegreeAudit() {
     return {};
   });
   const [sectionEditSyncState, setSectionEditSyncState] = useState<SectionEditSyncState>("idle");
+  const [skipPersistedSectionEdits, setSkipPersistedSectionEdits] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(REQUIREMENTS_CATALOG_RESET_KEY) === CURRENT_REQUIREMENTS_CATALOG_VERSION;
+    } catch {
+      return false;
+    }
+  });
   const sliderRef = useRef<HTMLDivElement | null>(null);
   const editorCardRef = useRef<HTMLDivElement | null>(null);
   const saveRequestIdRef = useRef(0);
@@ -1588,6 +1605,52 @@ export default function DegreeAudit() {
     if (!hasUnsavedEditorDraft) return true;
     return window.confirm("Do you want to save your work? Select No to discard your unsaved changes.");
   }, [hasUnsavedEditorDraft]);
+
+  useEffect(() => {
+    try {
+      const lastSeenCatalogVersion = localStorage.getItem(REQUIREMENTS_CATALOG_VERSION_KEY);
+      if (lastSeenCatalogVersion !== CURRENT_REQUIREMENTS_CATALOG_VERSION) {
+        localStorage.setItem(REQUIREMENTS_CATALOG_VERSION_KEY, CURRENT_REQUIREMENTS_CATALOG_VERSION);
+        localStorage.setItem(REQUIREMENTS_CATALOG_RESET_KEY, CURRENT_REQUIREMENTS_CATALOG_VERSION);
+        localStorage.removeItem(CUSTOM_AUDIT_SECTIONS_KEY);
+        setCustomSectionsByProgram({});
+        setSkipPersistedSectionEdits(true);
+        toast.info("Requirements have been updated", {
+          description: "Degree requirements were refreshed from the latest UMD catalog. Your audit now uses the updated requirements.",
+        });
+      }
+    } catch {
+      // noop
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!skipPersistedSectionEdits) return;
+
+    let active = true;
+    const run = async () => {
+      try {
+        const existingEdits = await listUserRequirementSectionEdits();
+        if (!active) return;
+
+        const programKeys = Object.keys(existingEdits);
+        await Promise.all(programKeys.map((programKey) => saveUserRequirementSectionEdit(programKey, [])));
+        if (!active) return;
+
+        setCustomSectionsByProgram({});
+        localStorage.removeItem(CUSTOM_AUDIT_SECTIONS_KEY);
+        localStorage.removeItem(REQUIREMENTS_CATALOG_RESET_KEY);
+        setSkipPersistedSectionEdits(false);
+      } catch {
+        // Keep reset flag so we retry on next load.
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [skipPersistedSectionEdits]);
 
   useEffect(() => {
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
@@ -1617,6 +1680,23 @@ export default function DegreeAudit() {
     let active = true;
 
     const run = async () => {
+      const resetPending = (() => {
+        try {
+          return localStorage.getItem(REQUIREMENTS_CATALOG_RESET_KEY) === CURRENT_REQUIREMENTS_CATALOG_VERSION;
+        } catch {
+          return false;
+        }
+      })();
+
+      if (resetPending) {
+        setSectionEditSyncState("synced");
+        return;
+      }
+
+      if (skipPersistedSectionEdits) {
+        setSectionEditSyncState("synced");
+        return;
+      }
       try {
         const serverEdits = await listUserRequirementSectionEdits();
         if (!active) return;
@@ -2638,41 +2718,27 @@ export default function DegreeAudit() {
               </p>
             </div>
             <div className="flex items-center gap-2 flex-wrap justify-end no-print">
-              <Button
-                type="button"
-                variant="outline"
-                className="border-border"
-                onClick={handlePrintDegreeAudit}
-              >
-                <Printer className="w-4 h-4 mr-2" />
-                Print / PDF
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="border-border"
-                onClick={handleEmailDegreeAudit}
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Email
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="border-border"
-                onClick={handleTextDegreeAudit}
-              >
-                <MessageSquare className="w-4 h-4 mr-2" />
-                Text
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="border-border"
-                onClick={() => setCondensedAuditView((prev) => !prev)}
-              >
-                {condensedAuditView ? "Expanded View" : "Condensed View"}
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button type="button" variant="outline" size="icon" className="border-border" aria-label="Audit actions" title="Audit actions">
+                    <Menu className="w-4 h-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-44">
+                  <DropdownMenuItem onSelect={(event) => { event.preventDefault(); handlePrintDegreeAudit(); }}>
+                    <Printer className="w-4 h-4 mr-2" />
+                    Print / PDF
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={(event) => { event.preventDefault(); handleEmailDegreeAudit(); }}>
+                    <Mail className="w-4 h-4 mr-2" />
+                    Email
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={(event) => { event.preventDefault(); handleTextDegreeAudit(); }}>
+                    <MessageSquare className="w-4 h-4 mr-2" />
+                    Text
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
@@ -2862,11 +2928,6 @@ export default function DegreeAudit() {
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Link to={`/audit/${encodeURIComponent(programAudit.bundle.programCode)}`}>
-                              <Button size="sm" variant="outline" className="border-border text-foreground/80">
-                                Open Tree Audit
-                              </Button>
-                            </Link>
                             {statusBadge(programAudit.status)}
                           </div>
                         </div>
