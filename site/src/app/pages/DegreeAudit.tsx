@@ -1092,7 +1092,6 @@ function RequirementSectionTableCard({
                               {renderCourseButton(String(code).toUpperCase(), `${row.key}-choice-${choiceIndex}`, codeIndex, codeIndex === choice.length - 1, "AND")}
                             </div>
                           ))}
-                          {choiceIndex < row.choices.length - 1 && <span className="mx-1 text-xs text-muted-foreground">/</span>}
                         </div>
                       ))
                       : (row.choices[0] ?? []).map((code, codeIndex) =>

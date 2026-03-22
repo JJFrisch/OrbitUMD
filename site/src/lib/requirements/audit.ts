@@ -358,6 +358,137 @@ function mapScrapedSection(
   };
 }
 
+function extractCourseCodesFromText(value: string): string[] {
+  return dedupeCodes((value.match(/\b[A-Z]{4}\d{3}[A-Z]?\b/g) ?? []).map((code) => code.toUpperCase()));
+}
+
+function looksLikeCourseListTitle(title: string): boolean {
+  const normalized = String(title ?? "").trim();
+  if (!normalized) return false;
+  return /^([A-Z]{4}\d{3}[A-Z]?)(\s*&\s*[A-Z]{4}\d{3}[A-Z]?)+\b/.test(normalized);
+}
+
+function isGenericRequirementBlockTitle(title: string): boolean {
+  return /^Requirement Block\s+\d+$/i.test(String(title ?? "").trim());
+}
+
+function headingLikeNote(notes: string[]): string | null {
+  for (const raw of notes) {
+    const note = String(raw ?? "").trim();
+    if (!note) continue;
+    if (note.includes(":")) continue;
+    if (/\b[A-Z]{4}\d{3}[A-Z]?\b/.test(note)) continue;
+    if (/\b(total credits?|courses a-z|approved courses|undergraduate|graduate)\b/i.test(note)) continue;
+    return note;
+  }
+  return null;
+}
+
+function normalizeSectionWithTitleCodes(section: RequirementSectionBundle): RequirementSectionBundle {
+  if (!looksLikeCourseListTitle(section.title)) return section;
+
+  const titleCodes = extractCourseCodesFromText(section.title);
+  if (titleCodes.length === 0) return section;
+
+  const mergedStandalone = dedupeCodes([...(section.standaloneCodes ?? []), ...titleCodes]);
+  const mergedCourseCodes = dedupeCodes([...(section.courseCodes ?? []), ...titleCodes]);
+
+  const existingAndBlockCodes = new Set(
+    (section.logicBlocks ?? [])
+      .filter((block) => block.type === "AND")
+      .flatMap((block) => block.codes)
+      .map((code) => code.toUpperCase()),
+  );
+
+  const appendedAndBlocks = titleCodes
+    .filter((code) => !existingAndBlockCodes.has(code))
+    .map((code) => ({ type: "AND" as const, codes: [code] }));
+
+  return {
+    ...section,
+    courseCodes: mergedCourseCodes,
+    standaloneCodes: mergedStandalone,
+    logicBlocks: [...(section.logicBlocks ?? []), ...appendedAndBlocks],
+  };
+}
+
+function mergeSections(primary: RequirementSectionBundle, incoming: RequirementSectionBundle): RequirementSectionBundle {
+  const optionGroups = [
+    ...(primary.optionGroups ?? []),
+    ...(incoming.optionGroups ?? []),
+  ].map((group) => dedupeCodes(group));
+
+  const merged = {
+    ...primary,
+    notes: Array.from(new Set([...(primary.notes ?? []), ...(incoming.notes ?? [])])),
+    courseCodes: dedupeCodes([...(primary.courseCodes ?? []), ...(incoming.courseCodes ?? [])]),
+    optionGroups,
+    standaloneCodes: dedupeCodes([...(primary.standaloneCodes ?? []), ...(incoming.standaloneCodes ?? [])]),
+    logicBlocks: [...(primary.logicBlocks ?? []), ...(incoming.logicBlocks ?? [])],
+  };
+
+  return {
+    ...merged,
+    special: isSpecialSection(merged.title, merged.notes),
+  };
+}
+
+function sectionSignature(section: RequirementSectionBundle): string {
+  const title = String(section.title ?? "").toLowerCase().trim();
+  const requirementType = section.requirementType ?? "all";
+  const chooseCount = section.chooseCount ?? "";
+  const specializationId = section.specializationId ?? "";
+  const codes = dedupeCodes(section.courseCodes ?? []).sort().join("|");
+  return `${title}::${requirementType}::${chooseCount}::${specializationId}::${codes}`;
+}
+
+function normalizeGenericScrapedSections(sections: RequirementSectionBundle[]): RequirementSectionBundle[] {
+  const merged: RequirementSectionBundle[] = [];
+
+  for (const rawSection of sections) {
+    const section = normalizeSectionWithTitleCodes(rawSection);
+
+    if (looksLikeCourseListTitle(section.title) && merged.length > 0) {
+      const prev = merged[merged.length - 1];
+      const prevHeading = headingLikeNote(prev.notes ?? []);
+      const shouldMergeIntoPrevious =
+        isGenericRequirementBlockTitle(prev.title) ||
+        /foundation|required courses?/i.test(prev.title) ||
+        Boolean(prevHeading && /foundation|required courses?/i.test(prevHeading));
+
+      if (shouldMergeIntoPrevious) {
+        merged[merged.length - 1] = mergeSections(prev, section);
+        continue;
+      }
+    }
+
+    merged.push(section);
+  }
+
+  const dedupedBySignature = new Map<string, RequirementSectionBundle>();
+  for (const section of merged) {
+    const key = sectionSignature(section);
+    if (!dedupedBySignature.has(key)) {
+      dedupedBySignature.set(key, section);
+      continue;
+    }
+
+    const existing = dedupedBySignature.get(key)!;
+    dedupedBySignature.set(key, mergeSections(existing, section));
+  }
+
+  return Array.from(dedupedBySignature.values()).map((section) => {
+    if (!isGenericRequirementBlockTitle(section.title)) return section;
+    const heading = headingLikeNote(section.notes ?? []);
+    if (!heading) return section;
+    return {
+      ...section,
+      title: heading,
+      special: isSpecialSection(heading, section.notes ?? []),
+    };
+  });
+}
+
 /**
  * Convert CS Major requirements structure to RequirementSectionBundle[].
  * Handles both base requirements and specialization-specific requirements.
@@ -811,6 +942,8 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
           }
         }
       }
+
+      sections = normalizeGenericScrapedSections(sections);
     }
 
     bundles.push({
