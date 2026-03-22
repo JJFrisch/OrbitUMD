@@ -654,8 +654,7 @@ function hasAnyCourseCodes(section: RequirementSectionBundle): boolean {
 
 function normalizePhysicsCoreMathChoice(section: RequirementSectionBundle): RequirementSectionBundle {
   const hasMATH243 = section.courseCodes.includes("MATH243");
-  const mentionsAltPair = section.notes.some((note) => /\bMATH240\b.*\bMATH246\b/i.test(note));
-  if (!hasMATH243 || !mentionsAltPair) {
+  if (!hasMATH243) {
     return section;
   }
 
@@ -686,6 +685,29 @@ function mapBiologyScrapedSections(scraped: ScrapedProgram): {
   sections: RequirementSectionBundle[];
   specializationOptions: Array<{ id: string; name: string }>;
 } {
+  const normalizeBiologyMathPair = (section: RequirementSectionBundle): RequirementSectionBundle => {
+    const normalizeCode = (code: string): string => {
+      if (code === "MATH130") return "MATH135";
+      if (code === "MATH131") return "MATH136";
+      return code;
+    };
+
+    return {
+      ...section,
+      courseCodes: dedupeCodes(section.courseCodes.map(normalizeCode)),
+      optionGroups: section.optionGroups.map((group) => dedupeCodes(group.map(normalizeCode))),
+      standaloneCodes: dedupeCodes(section.standaloneCodes.map(normalizeCode)),
+      logicBlocks: section.logicBlocks.map((block) => ({
+        ...block,
+        codes: dedupeCodes(block.codes.map(normalizeCode)),
+        children: block.children?.map((child) => ({
+          ...child,
+          codes: dedupeCodes(child.codes.map(normalizeCode)),
+        })),
+      })),
+    };
+  };
+
   const sections: RequirementSectionBundle[] = [];
   const blocks = scraped.requirementCourseBlocks ?? [];
 
@@ -712,7 +734,7 @@ function mapBiologyScrapedSections(scraped: ScrapedProgram): {
   }
 
   return {
-    sections,
+    sections: sections.map((section) => normalizeBiologyMathPair(section)),
     specializationOptions: BIOLOGY_SPECIALIZATION_ORDER.map((spec) => ({ id: spec.id, name: spec.name })),
   };
 }

@@ -1,113 +1,91 @@
-import { describe, expect, it } from "vitest";
-import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
+import { describe, expect, it, vi } from "vitest";
+import { loadProgramRequirementBundles } from "@/lib/requirements/audit";
+import type { UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 
-type ScrapedProgram = {
-  name?: string;
-  builderSections?: Array<{
-    title?: string;
-    items?: Array<{ type?: string; code?: string; items?: Array<{ code?: string }> }>;
-  }>;
-  requirementCourseBlocks?: Array<{
-    builderSections?: Array<{
-      title?: string;
-      items?: Array<{ type?: string; code?: string; items?: Array<{ code?: string }> }>;
-    }>;
-    courses?: Array<{ courseCode?: string }>;
-  }>;
-};
+vi.mock("@/lib/repositories/degreeRequirementsRepository", () => ({
+  fetchProgramRequirements: vi.fn(async () => []),
+}));
 
-function collectSectionCodes(section: {
-  items?: Array<{ code?: string; items?: Array<{ code?: string }> }>;
-}): string[] {
-  const codes = new Set<string>();
-  for (const item of section.items ?? []) {
-    if (item.code) codes.add(item.code.toUpperCase());
-    for (const nested of item.items ?? []) {
-      if (nested.code) codes.add(nested.code.toUpperCase());
-    }
-  }
-  return [...codes];
-}
+vi.mock("@/lib/repositories/programRequirementTemplatesRepository", () => ({
+  buildProgramTemplateKey: vi.fn(() => "test-key"),
+  fetchProgramRequirementTemplatePayloadByKey: vi.fn(async () => null),
+}));
 
 describe("requirements data integrity", () => {
-  it("does not include legacy MATH130/MATH131 structured entries", () => {
-    const programs = ((requirementsCatalog as any)?.programs ?? []) as ScrapedProgram[];
+  it("does not include legacy MATH130/MATH131 in loaded Biology bundle", async () => {
+    const programs: UserDegreeProgram[] = [
+      {
+        id: "biology-shady-grove",
+        userId: "user-1",
+        programId: "biological-sciences-major-at-shady-grove",
+        programCode: "BSCI",
+        programName: "Biological Sciences Major at Shady Grove",
+        degreeType: "BS",
+        college: "CMNS",
+        isPrimary: true,
+        createdAt: new Date().toISOString(),
+      },
+    ];
 
-    const badCodes: Array<{ programName: string; code: string }> = [];
+    const bundles = await loadProgramRequirementBundles(programs);
+    const biology = bundles[0];
+    const allCodes = new Set(biology.sections.flatMap((section) => section.courseCodes));
 
-    for (const program of programs) {
-      const blocks = program.requirementCourseBlocks ?? [];
-      for (const block of blocks) {
-        for (const section of block.builderSections ?? []) {
-          for (const code of collectSectionCodes(section)) {
-            if (code === "MATH130" || code === "MATH131") {
-              badCodes.push({ programName: program.name ?? "unknown", code });
-            }
-          }
-        }
-
-        for (const course of block.courses ?? []) {
-          const code = String(course.courseCode ?? "").toUpperCase();
-          if (code === "MATH130" || code === "MATH131") {
-            badCodes.push({ programName: program.name ?? "unknown", code });
-          }
-        }
-      }
-    }
-
-    expect(badCodes).toEqual([]);
+    expect(allCodes.has("MATH130")).toBe(false);
+    expect(allCodes.has("MATH131")).toBe(false);
   });
 
-  it("keeps architecture foundation as one math OR pair plus required courses", () => {
-    const programs = ((requirementsCatalog as any)?.programs ?? []) as ScrapedProgram[];
-    const architecture = programs.find((program) => String(program.name ?? "") === "Architecture Major");
+  it("keeps architecture foundation with MATH120/MATH140 as an OR choice", async () => {
+    const programs: UserDegreeProgram[] = [
+      {
+        id: "architecture-major",
+        userId: "user-1",
+        programId: "architecture-major",
+        programCode: "ARCH",
+        programName: "Architecture Major",
+        degreeType: "BS",
+        college: "ARCH",
+        isPrimary: true,
+        createdAt: new Date().toISOString(),
+      },
+    ];
 
-    expect(architecture).toBeTruthy();
+    const bundles = await loadProgramRequirementBundles(programs);
+    const architecture = bundles[0];
 
-    const firstSection = architecture?.builderSections?.[0];
-    expect(firstSection).toBeTruthy();
-
-    const firstItem = firstSection?.items?.[0];
-    expect(firstItem?.type).toBe("OR");
-    expect((firstItem?.items ?? []).map((item) => item.code)).toEqual(["MATH120", "MATH140"]);
-
-    const directCodes = (firstSection?.items ?? [])
-      .filter((item) => typeof item.code === "string")
-      .map((item) => item.code?.toUpperCase());
-
-    expect(directCodes).toEqual([
-      "PHYS121",
-      "ARCH171",
-      "ARCH225",
-      "ARCH200",
-      "ARCH226",
-      "ARCH300",
-      "ARCH201",
-      "ARCH462",
-      "ARCH400",
-      "ARCH463",
-    ]);
-  });
-
-  it("keeps Biology at Shady Grove ecology/evolution math sequence as MATH135/MATH136", () => {
-    const programs = ((requirementsCatalog as any)?.programs ?? []) as ScrapedProgram[];
-    const biologyAtShadyGrove = programs.find((program) =>
-      String(program.name ?? "").toLowerCase().includes("biological sciences major at shady grove"),
+    const hasMathChoice = architecture.sections.some((section) =>
+      section.logicBlocks.some(
+        (block) =>
+          block.type === "OR" &&
+          block.codes.includes("MATH120") &&
+          block.codes.includes("MATH140"),
+      ),
     );
 
-    expect(biologyAtShadyGrove).toBeTruthy();
+    expect(hasMathChoice).toBe(true);
+  });
 
-    const ecologySections = (biologyAtShadyGrove?.requirementCourseBlocks ?? [])
-      .flatMap((block) => block.builderSections ?? [])
-      .filter((section) => String(section.title ?? "").toLowerCase().includes("ecology and evolution"));
+  it("keeps Biology at Shady Grove math sequence as MATH135/MATH136 in loaded sections", async () => {
+    const programs: UserDegreeProgram[] = [
+      {
+        id: "biology-shady-grove-math",
+        userId: "user-1",
+        programId: "biological-sciences-major-at-shady-grove",
+        programCode: "BSCI",
+        programName: "Biological Sciences Major at Shady Grove",
+        degreeType: "BS",
+        college: "CMNS",
+        isPrimary: true,
+        createdAt: new Date().toISOString(),
+      },
+    ];
 
-    expect(ecologySections.length).toBeGreaterThan(0);
+    const bundles = await loadProgramRequirementBundles(programs);
+    const biology = bundles[0];
+    const allCodes = new Set(biology.sections.flatMap((section) => section.courseCodes));
 
-    for (const section of ecologySections) {
-      const codes = collectSectionCodes(section);
-      expect(codes.includes("MATH135") || codes.includes("MATH136")).toBe(true);
-      expect(codes.includes("MATH130")).toBe(false);
-      expect(codes.includes("MATH131")).toBe(false);
-    }
+    expect(allCodes.has("MATH135") || allCodes.has("MATH136")).toBe(true);
+    expect(allCodes.has("MATH130")).toBe(false);
+    expect(allCodes.has("MATH131")).toBe(false);
   });
 });

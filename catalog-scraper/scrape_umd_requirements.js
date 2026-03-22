@@ -25,6 +25,15 @@ const NUMBER_WORDS = {
 	ten: 10,
 };
 
+const EXCLUDED_PATH_SEGMENTS = [
+	"/approved-courses/",
+	"/undergraduate/programs",
+	"/courses/",
+	"/academic-calendar/",
+	"/faculty-staff/",
+	"/archive/",
+];
+
 function normalizeText(value) {
 	return (value || "").replace(/\u00a0/g, " ").replace(/\s+/g, " ").trim();
 }
@@ -94,13 +103,15 @@ function isProgramUrl(url) {
 	const lower = url.toLowerCase();
 	if (!lower.startsWith("https://academiccatalog.umd.edu/undergraduate/")) return false;
 	if (!lower.includes("/colleges-schools/")) return false;
-	return lower.includes("-major/") || lower.includes("-minor/");
+	if (EXCLUDED_PATH_SEGMENTS.some((segment) => lower.includes(segment))) return false;
+	return true;
 }
 
 function classifyProgramType(url, title) {
 	const lower = `${url} ${title}`.toLowerCase();
 	if (lower.includes("-minor/") || /\bminor\b/.test(lower)) return "minor";
-	return "major";
+	if (lower.includes("-major/") || /\bmajor\b/.test(lower)) return "major";
+	return null;
 }
 
 function parseChooseCount(text) {
@@ -132,6 +143,14 @@ function normalizeCourseCode(raw) {
 	};
 }
 
+function extractAllCourseCodes(raw) {
+	const text = normalizeText(raw).toUpperCase();
+	if (!text) return [];
+	const matches = text.match(/[A-Z]{2,6}(?:\/[A-Z]{2,6})?\s*(?:\d{3}[A-Z]?|[1-4]XX|XXX)/g) || [];
+	const normalized = matches.map((token) => normalizeText(token).replace(/\s+/g, ""));
+	return [...new Set(normalized)];
+}
+
 function parseRowKind(row) {
 	const codeRaw = normalizeText(row.course_code);
 	const title = normalizeText(row.title);
@@ -144,6 +163,19 @@ function parseRowKind(row) {
 	}
 	if (/^(and|or|and\/or)$/i.test(codeRaw)) {
 		return { kind: "connector", connector: codeRaw.toLowerCase() };
+	}
+
+	const allCourseCodes = extractAllCourseCodes(codeRaw);
+	if (allCourseCodes.length > 0) {
+		const connectorMatch = codeRaw.match(/^(or|and)\s+/i);
+		return {
+			kind: "course",
+			courseCode: allCourseCodes[0],
+			courseCodes: allCourseCodes,
+			connector: connectorMatch ? connectorMatch[1].toLowerCase() : null,
+			title,
+			credits,
+		};
 	}
 
 	const parsedCourse = normalizeCourseCode(codeRaw);
@@ -336,15 +368,27 @@ function builderSectionsFromRows(rows, blockIndex) {
 			const section = ensureSection(`Requirement Block ${blockIndex + 1}`);
 			const connector = parsed.connector || pendingConnector || null;
 			pendingConnector = null;
+			const courseCodes = Array.isArray(parsed.courseCodes) && parsed.courseCodes.length > 0
+				? parsed.courseCodes
+				: [parsed.courseCode];
 
 			if (section.requirementType === "choose") {
-				appendToChooseSection(section, parsed.courseCode);
+				for (const code of courseCodes) {
+					appendToChooseSection(section, code);
+				}
 			} else {
-				appendToAllSection(section, parsed.courseCode, connector, parsed.credits);
+				for (let codeIndex = 0; codeIndex < courseCodes.length; codeIndex += 1) {
+					appendToAllSection(
+						section,
+						courseCodes[codeIndex],
+						codeIndex === 0 ? connector : "and",
+						parsed.credits,
+					);
+				}
 			}
 
 			if (parsed.title) {
-				section.rules.push(`${parsed.courseCode}: ${parsed.title}`);
+				section.rules.push(`${courseCodes[0]}: ${parsed.title}`);
 			}
 		}
 	}
@@ -385,23 +429,169 @@ function parseRequirementContainer($, $container) {
 
 		const courses = [];
 		for (const row of rows) {
-			const parsed = normalizeCourseCode(row.course_code);
-			if (!parsed) continue;
-			courses.push({
-				courseCode: parsed.courseCode,
-				title: row.title || "",
-				credits: row.credits || null,
-			});
+			const allCodes = extractAllCourseCodes(row.course_code);
+			if (!allCodes.length) continue;
+			for (const courseCode of allCodes) {
+				courses.push({
+					courseCode,
+					title: row.title || "",
+					credits: row.credits || null,
+				});
+			}
 		}
 
 		courseBlocks.push({
 			kind: "course_list_table",
 			courses,
-			builderSections: builderSectionsFromRows(rows, tableIndex),
+			builderSections: normalizeBuilderSections(builderSectionsFromRows(rows, tableIndex)),
 		});
 	});
 
 	return { textBlocks, courseBlocks };
+}
+
+function extractCourseCodesFromText(text) {
+	const matches = normalizeText(text).toUpperCase().match(/\b[A-Z]{4}\d{3}[A-Z]?\b/g);
+	return matches ? [...new Set(matches)] : [];
+}
+
+function looksLikeCourseListTitle(title) {
+	const normalized = normalizeText(title);
+	if (!normalized) return false;
+	return /^([A-Z]{4}\d{3}[A-Z]?)(\s*&\s*[A-Z]{4}\d{3}[A-Z]?)+\b/.test(normalized);
+}
+
+function isGenericRequirementBlockTitle(title) {
+	return /^Requirement Block\s+\d+$/i.test(normalizeText(title));
+}
+
+function headingLikeRuleText(rules) {
+	for (const raw of rules || []) {
+		const rule = normalizeText(raw);
+		if (!rule) continue;
+		if (rule.includes(":")) continue;
+		if (/\b[A-Z]{4}\d{3}[A-Z]?\b/.test(rule)) continue;
+		if (/\b(total credits?|courses a-z|approved courses|undergraduate|graduate)\b/i.test(rule)) continue;
+		return rule;
+	}
+	return null;
+}
+
+function flattenItemCodes(items) {
+	const out = [];
+	for (const item of items || []) {
+		if (!item || typeof item !== "object") continue;
+		if (typeof item.code === "string" && item.code) {
+			out.push(item.code.toUpperCase());
+		}
+		if (item.type === "OR" && Array.isArray(item.items)) {
+			for (const option of item.items) {
+				if (option?.code) out.push(String(option.code).toUpperCase());
+			}
+		}
+	}
+	return [...new Set(out)];
+}
+
+function mergeSectionItems(primaryItems, incomingItems) {
+	const existingCodes = new Set(flattenItemCodes(primaryItems));
+	const merged = [...(primaryItems || [])];
+
+	for (const item of incomingItems || []) {
+		if (!item || typeof item !== "object") continue;
+		if (typeof item.code === "string" && item.code) {
+			const code = item.code.toUpperCase();
+			if (!existingCodes.has(code)) {
+				merged.push({ code });
+				existingCodes.add(code);
+			}
+			continue;
+		}
+		if (item.type === "OR" && Array.isArray(item.items)) {
+			const options = [];
+			for (const option of item.items) {
+				const code = option?.code ? String(option.code).toUpperCase() : "";
+				if (!code || existingCodes.has(code)) continue;
+				options.push({ code });
+				existingCodes.add(code);
+			}
+			if (options.length === 1) merged.push(options[0]);
+			else if (options.length > 1) merged.push({ type: "OR", items: options });
+		}
+	}
+
+	return merged;
+}
+
+function sectionSignature(section) {
+	const codes = flattenItemCodes(section.items).sort().join("|");
+	const title = normalizeText(section.title).toLowerCase();
+	return `${title}::${section.requirementType || "all"}::${section.chooseCount || ""}::${codes}`;
+}
+
+function normalizeBuilderSections(sections) {
+	const merged = [];
+
+	for (const sourceSection of sections || []) {
+		const section = {
+			title: normalizeText(sourceSection.title),
+			requirementType: sourceSection.requirementType || "all",
+			items: [...(sourceSection.items || [])],
+			rules: [...(sourceSection.rules || [])],
+			...(typeof sourceSection.chooseCount === "number" ? { chooseCount: sourceSection.chooseCount } : {}),
+		};
+
+		if (looksLikeCourseListTitle(section.title)) {
+			const titleCodes = extractCourseCodesFromText(section.title);
+			const existingCodes = new Set(flattenItemCodes(section.items));
+			for (const code of titleCodes) {
+				if (!existingCodes.has(code)) {
+					section.items.push({ code });
+					existingCodes.add(code);
+				}
+			}
+
+			if (merged.length > 0) {
+				const previous = merged[merged.length - 1];
+				const previousHeading = headingLikeRuleText(previous.rules || []);
+				const shouldMerge =
+					isGenericRequirementBlockTitle(previous.title) ||
+					/foundation|required courses?/i.test(previous.title) ||
+					Boolean(previousHeading && /foundation|required courses?/i.test(previousHeading));
+
+				if (shouldMerge) {
+					previous.items = mergeSectionItems(previous.items, section.items);
+					previous.rules = [...new Set([...(previous.rules || []), ...(section.rules || [])])];
+					continue;
+				}
+			}
+		}
+
+		merged.push(section);
+	}
+
+	const deduped = new Map();
+	for (const section of merged) {
+		const signature = sectionSignature(section);
+		if (!deduped.has(signature)) {
+			deduped.set(signature, section);
+			continue;
+		}
+
+		const existing = deduped.get(signature);
+		existing.items = mergeSectionItems(existing.items, section.items);
+		existing.rules = [...new Set([...(existing.rules || []), ...(section.rules || [])])];
+	}
+
+	return [...deduped.values()].map((section) => {
+		if (!isGenericRequirementBlockTitle(section.title)) return section;
+		const heading = headingLikeRuleText(section.rules || []);
+		if (!heading) return section;
+		return {
+			...section,
+			title: heading,
+		};
+	});
 }
 
 function flattenBuilderSections(courseBlocks) {
@@ -411,7 +601,7 @@ function flattenBuilderSections(courseBlocks) {
 			sections.push(section);
 		}
 	}
-	return sections;
+	return normalizeBuilderSections(sections);
 }
 
 function extractSpecializationLines(lines) {
@@ -427,12 +617,13 @@ async function scrapeProgram(url) {
 	if (!$container.length) return null;
 
 	const { textBlocks, courseBlocks } = parseRequirementContainer($, $container);
-	const builderSections = flattenBuilderSections(courseBlocks);
-	if (!textBlocks.length && !builderSections.length) return null;
+	const flattenedBuilderSections = flattenBuilderSections(courseBlocks);
+	if (!textBlocks.length && !flattenedBuilderSections.length) return null;
 
 	const specializations = extractSpecializationLines(textBlocks);
 	const programName = pageTitle || normalizeText($("title").text()) || url;
 	const type = classifyProgramType(url, programName);
+	if (!type) return null;
 
 	return {
 		id: slugify(programName),
@@ -442,7 +633,7 @@ async function scrapeProgram(url) {
 		requirementsUrl: `${url.replace(/#.*$/, "")}#requirementstextcontainer`,
 		pageTitle: programName,
 		specializations,
-		builderSections,
+		builderSections: courseBlocks.length > 0 ? [] : flattenedBuilderSections,
 		requirementCourseBlocks: courseBlocks,
 		requirementTextRules: textBlocks,
 	};
