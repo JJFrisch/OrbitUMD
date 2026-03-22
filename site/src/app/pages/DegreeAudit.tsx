@@ -1081,7 +1081,7 @@ function RequirementSectionTableCard({
                 </td>
                 <td className="px-3 py-2">
                   <div className={`flex flex-wrap items-center gap-2 ${getDepthIndentClass(row.depth)}`}>
-                    {row.type === "OR"
+                            {row.type === "OR"
                       ? row.choices.map((choice, choiceIndex) => (
                         <div key={`${row.key}-choice-${choiceIndex}`} className="flex items-center gap-2 rounded-md border border-amber-300/40 bg-amber-500/5 px-2 py-1">
                           <Badge variant="outline" className="border-amber-300/60 text-[10px] text-amber-700 dark:text-amber-300">
@@ -1090,9 +1090,6 @@ function RequirementSectionTableCard({
                           {choice.map((code, codeIndex) => (
                             <div key={`${row.key}-choice-${choiceIndex}-${code}`} className="flex items-center gap-2">
                               {renderCourseButton(String(code).toUpperCase(), `${row.key}-choice-${choiceIndex}`, codeIndex, codeIndex === choice.length - 1, "AND")}
-                              {codeIndex < choice.length - 1 && (
-                                <span className="text-[10px] font-medium tracking-wide text-sky-700 dark:text-sky-300">AND</span>
-                              )}
                             </div>
                           ))}
                           {choiceIndex < row.choices.length - 1 && <span className="mx-1 text-xs text-muted-foreground">/</span>}

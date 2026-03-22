@@ -693,6 +693,24 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       const officialTemplate = await fetchProgramRequirementTemplatePayloadByKey(programTemplateKey);
       const officialSections = coerceRequirementSectionBundles(officialTemplate?.sections ?? []);
       if (officialSections.length > 0) {
+        let resolvedOfficialSections = officialSections;
+        let resolvedSpecializationOptions: Array<{ id: string; name: string }> | undefined;
+
+        if (isPhysicsMajor(program)) {
+          const hasTaggedSpecializationSections = officialSections.some((section) => Boolean(section.specializationId));
+          resolvedSpecializationOptions = PHYSICS_SPECIALIZATION_ORDER.map((spec) => ({ id: spec.id, name: spec.name }));
+
+          if (!hasTaggedSpecializationSections) {
+            const scraped = findScrapedProgram(program);
+            if (scraped) {
+              const mapped = mapPhysicsScrapedSections(scraped);
+              const officialBaseSections = officialSections.filter((section) => !section.specializationId);
+              const mappedSpecializationSections = mapped.sections.filter((section) => Boolean(section.specializationId));
+              resolvedOfficialSections = [...officialBaseSections, ...mappedSpecializationSections];
+            }
+          }
+        }
+
         bundles.push({
           programId: program.programId,
           programName: program.programName,
@@ -700,7 +718,8 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
           kind: resolveProgramKind(program),
           source: "official",
           specializations: officialTemplate?.specializations ?? [],
-          sections: officialSections,
+          sections: resolvedOfficialSections,
+          specializationOptions: resolvedSpecializationOptions,
         });
         continue;
       }
