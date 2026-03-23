@@ -1,4 +1,5 @@
 import type { RequirementBlockV2, RequirementItemV2, StudentCourseV2, BlockEvaluationResultV2 } from "@/lib/types/requirements";
+import { coursePartsAreEquivalent, normalizeSubjectCode } from "@/lib/requirements/courseCodeEquivalency";
 
 interface EvalContext {
   blocksById: Map<string, RequirementBlockV2>;
@@ -105,8 +106,7 @@ function evaluateLeafItems(
           const subject = String(item.payload.subject ?? "").toUpperCase();
           const number = String(item.payload.number ?? "").toUpperCase();
           const hit = studentCourses.find((course) =>
-            course.subject.toUpperCase() === subject &&
-            course.number.toUpperCase() === number &&
+            coursePartsAreEquivalent(course.subject, course.number, subject, number) &&
             passed(course.grade),
           );
 
@@ -125,8 +125,7 @@ function evaluateLeafItems(
             const subject = String(target.subject ?? "").toUpperCase();
             const number = String(target.number ?? "").toUpperCase();
             return studentCourses.find((course) =>
-              course.subject.toUpperCase() === subject &&
-              course.number.toUpperCase() === number &&
+              coursePartsAreEquivalent(course.subject, course.number, subject, number) &&
               passed(course.grade),
             );
           });
@@ -178,8 +177,7 @@ function evaluateLeafItems(
         const subject = String(item.payload.subject ?? "").toUpperCase();
         const number = String(item.payload.number ?? "").toUpperCase();
         const hit = studentCourses.find((course) =>
-          course.subject.toUpperCase() === subject &&
-          course.number.toUpperCase() === number &&
+          coursePartsAreEquivalent(course.subject, course.number, subject, number) &&
           passed(course.grade),
         );
         if (hit) matched.push(hit);
@@ -206,13 +204,16 @@ function evaluateLeafItems(
             .map((value) => String(value).toUpperCase())
             .filter(Boolean)
         : null;
+      const normalizedSubjects = subjects
+        ? subjects.map((value) => normalizeSubjectCode(value))
+        : null;
       const minLevelRaw = Number(block.params.minLevel ?? 0);
       const minLevel = Number.isFinite(minLevelRaw) && minLevelRaw > 0 ? minLevelRaw : null;
 
       const eligible = studentCourses.filter((course) => {
         if (!passed(course.grade)) return false;
 
-        if (subjects && !subjects.includes(course.subject.toUpperCase())) {
+        if (normalizedSubjects && !normalizedSubjects.includes(normalizeSubjectCode(course.subject))) {
           return false;
         }
 
@@ -267,7 +268,12 @@ function dedupeCourses(courses: StudentCourseV2[]): StudentCourseV2[] {
   const out: StudentCourseV2[] = [];
 
   for (const course of courses) {
-    const key = `${course.subject.toUpperCase()}-${course.number.toUpperCase()}-${course.term ?? ""}`;
+    const normalizedSubject = normalizeSubjectCode(course.subject);
+    const numberWithHonorsNormalized = String(course.number ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+    const canonicalNumber = numberWithHonorsNormalized.match(/^(\d{3})H$/)
+      ? numberWithHonorsNormalized.slice(0, 3)
+      : numberWithHonorsNormalized;
+    const key = `${normalizedSubject}-${canonicalNumber}-${course.term ?? ""}`;
     if (seen.has(key)) continue;
     seen.add(key);
     out.push(course);

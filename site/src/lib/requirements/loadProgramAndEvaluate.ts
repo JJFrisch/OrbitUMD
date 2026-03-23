@@ -9,6 +9,7 @@ import type {
   RequirementDslNodeV2,
 } from "@/lib/types/requirements";
 import { buildEvalContextV2, evaluateProgramRequirementsV2 } from "@/lib/requirements/v2Evaluator";
+import { coursePartsAreEquivalent } from "@/lib/requirements/courseCodeEquivalency";
 
 interface ProgramRow {
   id: string;
@@ -165,8 +166,7 @@ function applyOverrides(
           const number = String(obj.number ?? "").toUpperCase();
           const matched = studentCourses.find(
             (course) =>
-              course.subject.toUpperCase() === subject &&
-              course.number.toUpperCase() === number,
+              coursePartsAreEquivalent(course.subject, course.number, subject, number),
           );
 
           if (matched) {
