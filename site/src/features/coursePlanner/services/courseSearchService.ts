@@ -37,6 +37,7 @@ const mergedSectionCache = new CourseDataCache<Section[]>(80, 3 * 60 * 1000);
 const deptCache = new CourseDataCache<Department[]>(1, 15 * 60 * 1000);
 const instructorCache = new CourseDataCache<string[]>(5, 10 * 60 * 1000);
 const instructorLookupCache = new CourseDataCache<InstructorLookup>(3, 20 * 60 * 1000);
+const seasonFallbackCache = new CourseDataCache<{ term: string; year: number }>(64, 30 * 60 * 1000);
 
 async function getJson<T>(url: string, signal?: AbortSignal): Promise<T> {
   const response = await fetch(url, { signal });
@@ -44,6 +45,48 @@ async function getJson<T>(url: string, signal?: AbortSignal): Promise<T> {
     throw new Error(`Request failed: ${response.status} ${response.statusText}`);
   }
   return response.json() as Promise<T>;
+}
+
+function normalizeTermCode(term: string): string {
+  return term.padStart(2, "0");
+}
+
+function parseSemesterCode(raw: string | number): { year: number; term: string } | null {
+  const text = String(raw);
+  if (!/^\d{6}$/.test(text)) {
+    return null;
+  }
+
+  return {
+    year: Number(text.slice(0, 4)),
+    term: normalizeTermCode(text.slice(4)),
+  };
+}
+
+async function resolveSeasonFallbackTerm(term: string, year: number, signal?: AbortSignal): Promise<{ term: string; year: number }> {
+  const normalizedTerm = normalizeTermCode(term);
+  const cacheKey = `${year}${normalizedTerm}`;
+
+  return seasonFallbackCache.getOrSet(cacheKey, async () => {
+    try {
+      const url = new URL("courses/semesters", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
+      const semesters = await getJson<Array<string | number>>(url.toString(), signal);
+
+      const candidates = semesters
+        .map(parseSemesterCode)
+        .filter((entry): entry is { year: number; term: string } => Boolean(entry))
+        .filter((entry) => entry.term === normalizedTerm && entry.year <= year)
+        .sort((left, right) => right.year - left.year);
+
+      if (candidates.length > 0) {
+        return candidates[0];
+      }
+    } catch {
+      // Keep requested term/year when semester discovery fails.
+    }
+
+    return { term: normalizedTerm, year };
+  });
 }
 
 function toNumber(value: unknown): number | undefined {
@@ -542,12 +585,13 @@ function applyClientFilters(courses: Course[], params: CourseSearchParams): Cour
 
 async function fetchJupiterCourses(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
   if (!JUPITER_BASE) return [];
+  const resolvedTerm = await resolveSeasonFallbackTerm(params.term, params.year, signal);
 
   const url = new URL("/v0/courses/withSections", JUPITER_BASE);
   url.searchParams.set("limit", "300");
   url.searchParams.set("offset", "0");
-  url.searchParams.set("term", params.term);
-  url.searchParams.set("year", String(params.year));
+  url.searchParams.set("term", resolvedTerm.term);
+  url.searchParams.set("year", String(resolvedTerm.year));
   if (params.normalizedInput) {
     if (EXACT_COURSE_CODE_REGEX.test(params.normalizedInput)) {
       url.searchParams.set("courseCodes", params.normalizedInput);
@@ -617,13 +661,14 @@ async function fetchCatalogCourses(params: CourseSearchParams): Promise<Course[]
 }
 
 async function fetchUmdCourses(params: CourseSearchParams, signal?: AbortSignal): Promise<Course[]> {
+  const resolvedTerm = await resolveSeasonFallbackTerm(params.term, params.year, signal);
   const departmentPrefix = extractDeptPrefix(params.normalizedInput);
   const pageLimit = params.normalizedInput ? 6 : 2;
   const allRows: any[] = [];
 
   for (let page = 1; page <= pageLimit; page += 1) {
     const url = new URL("courses", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
-    url.searchParams.set("semester", `${params.year}${params.term}`);
+    url.searchParams.set("semester", `${resolvedTerm.year}${resolvedTerm.term}`);
     url.searchParams.set("per_page", "120");
     url.searchParams.set("page", String(page));
     if (departmentPrefix) {
@@ -662,18 +707,20 @@ async function fetchUmdCourses(params: CourseSearchParams, signal?: AbortSignal)
 
 async function fetchJupiterSectionsForCourse(courseCode: string, term: string, year: number, signal?: AbortSignal): Promise<Section[]> {
   if (!JUPITER_BASE) return [];
+  const resolvedTerm = await resolveSeasonFallbackTerm(term, year, signal);
   const url = new URL("/v0/courses/withSections", JUPITER_BASE);
   url.searchParams.set("courseCodes", courseCode);
-  url.searchParams.set("term", term);
-  url.searchParams.set("year", String(year));
+  url.searchParams.set("term", resolvedTerm.term);
+  url.searchParams.set("year", String(resolvedTerm.year));
   const rows = await getJson<any[]>(url.toString(), signal);
   const rawSections = rows[0]?.sections ?? [];
   return rawSections.map((raw: any) => toJupiterSection(raw, courseCode));
 }
 
 async function fetchUmdSectionsForCourse(courseCode: string, term: string, year: number, signal?: AbortSignal): Promise<Section[]> {
+  const resolvedTerm = await resolveSeasonFallbackTerm(term, year, signal);
   const url = new URL("courses/sections", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
-  url.searchParams.set("semester", `${year}${term}`);
+  url.searchParams.set("semester", `${resolvedTerm.year}${resolvedTerm.term}`);
   url.searchParams.set("course_id", courseCode);
   const rows = await getJson<any[]>(url.toString(), signal);
   return rows.map((row) => toUmdSection(row, courseCode));
@@ -777,6 +824,7 @@ export async function getDepartments(signal?: AbortSignal): Promise<Department[]
 export async function getActiveInstructors(term: string, year: number, signal?: AbortSignal): Promise<string[]> {
   return instructorCache.getOrSet(`${term}-${year}`, async () => {
     if (!JUPITER_BASE) return [];
+    const resolvedTerm = await resolveSeasonFallbackTerm(term, year, signal);
 
     const all: string[] = [];
     let offset = 0;
@@ -784,8 +832,8 @@ export async function getActiveInstructors(term: string, year: number, signal?: 
 
     while (true) {
       const url = new URL("/v0/instructors/active", JUPITER_BASE);
-      url.searchParams.set("term", term);
-      url.searchParams.set("year", String(year));
+      url.searchParams.set("term", resolvedTerm.term);
+      url.searchParams.set("year", String(resolvedTerm.year));
       url.searchParams.set("offset", String(offset));
       url.searchParams.set("limit", String(limit));
 
