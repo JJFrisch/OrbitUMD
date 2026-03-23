@@ -572,13 +572,13 @@ export default function FourYearPlan() {
           </div>
 
           <div className="flex items-center gap-2">
-            <Link to="/schedules">
+            <Link to="/schedules" data-tour-target="four-year-manage-main">
               <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
             </Link>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6" data-tour-target="four-year-summary">
           <Card className="p-4 bg-card border-border">
             <div className="flex items-center gap-2 mb-2">
               <GraduationCap className="w-5 h-5 text-red-400" />
@@ -701,7 +701,7 @@ export default function FourYearPlan() {
           </Card>
         )}
 
-        <div className="space-y-5">
+        <div className="space-y-5" data-tour-target="four-year-timeline">
           {visibleTerms.map((term) => {
             return (
               <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>

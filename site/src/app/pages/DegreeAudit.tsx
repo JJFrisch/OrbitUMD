@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
-import { Link } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, Info, Loader2, Mail, Menu, MessageSquare, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, GraduationCap, Info, Loader2, Mail, Menu, MessageSquare, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -1554,6 +1554,7 @@ function RequirementSectionCard({
 }
 
 export default function DegreeAudit() {
+    const navigate = useNavigate();
   const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
   const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
   const [courses, setCourses] = useState<AuditCourse[]>([]);
@@ -2720,11 +2721,26 @@ export default function DegreeAudit() {
             <div className="flex items-center gap-2 flex-wrap justify-end no-print">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button type="button" variant="outline" size="icon" className="border-border" aria-label="Audit actions" title="Audit actions">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="border-border"
+                    aria-label="Audit actions"
+                    title="Audit actions"
+                    data-tour-target="degree-audit-actions"
+                  >
                     <Menu className="w-4 h-4" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-44">
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onSelect={(event) => {
+                    event.preventDefault();
+                    navigate("/settings#academic-information");
+                  }}>
+                    <GraduationCap className="w-4 h-4 mr-2" />
+                    Change Major / Minor
+                  </DropdownMenuItem>
                   <DropdownMenuItem onSelect={(event) => { event.preventDefault(); handlePrintDegreeAudit(); }}>
                     <Printer className="w-4 h-4 mr-2" />
                     Print / PDF
@@ -2748,7 +2764,7 @@ export default function DegreeAudit() {
 
         {!loading && !errorMessage && (
           <>
-            <Card className="p-6 bg-card border-border mb-6">
+            <Card className="p-6 bg-card border-border mb-6" data-tour-target="degree-audit-summary">
               <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
@@ -2872,6 +2888,7 @@ export default function DegreeAudit() {
 
                 <div
                   ref={sliderRef}
+                  data-tour-target="degree-audit-programs"
                   className="degree-audit-program-slider flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2"
                   onScroll={(event) => {
                     const target = event.currentTarget;

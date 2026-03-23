@@ -405,7 +405,8 @@ export function CoursePlannerPage() {
 
   return (
     <div className="course-planner-root">
-      <ScheduleBuilderHeader
+      <div data-tour-target="schedule-save-controls">
+        <ScheduleBuilderHeader
         scheduleName={scheduleName}
         onScheduleNameChange={setScheduleName}
         courseCount={stats.courseCount}
@@ -439,7 +440,8 @@ export function CoursePlannerPage() {
         onExtraControlActionClick={() => setShowNeededPanel(true)}
         saveStatusText={saveStatusText ?? undefined}
         saveStatusTone={saveStatusTone}
-      />
+        />
+      </div>
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
 
@@ -463,8 +465,12 @@ export function CoursePlannerPage() {
           });
         }}
       >
-        <CourseSearchPanel />
-        <CalendarView />
+        <div data-tour-target="schedule-search-panel">
+          <CourseSearchPanel />
+        </div>
+        <div data-tour-target="schedule-calendar">
+          <CalendarView />
+        </div>
       </div>
 
       <ScheduleDetailsOverlay

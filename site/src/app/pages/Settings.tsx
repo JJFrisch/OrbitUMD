@@ -16,7 +16,7 @@ import {
 } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
 import { useTheme } from "../contexts/ThemeContext";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import {
   addUserDegreeProgramFromCatalogOption,
   listUserDegreePrograms,
@@ -38,6 +38,7 @@ import {
   saveProgramRequirementTemplate,
 } from "@/lib/repositories/programRequirementTemplatesRepository";
 import { GlobalSearchPanel } from "../components/GlobalSearchPanel";
+import { resetAllPageTours } from "../components/PageOnboardingTour";
 
 interface TermOption {
   id: string;
@@ -48,6 +49,19 @@ interface TermOption {
 
 const ADMIN_UNLOCK_PASSWORD = "qim*fu2";
 const GRADUATION_SEASONS = ["spring", "summer", "fall", "winter"] as const;
+const SETTINGS_BACKUP_KEY = "orbitumd_settings_backup_v1";
+
+interface SettingsAccountBackup {
+  fullName?: string;
+  email?: string;
+  uid?: string;
+  defaultTerm?: string;
+  scheduleView?: string;
+  expectedGraduationTermId?: string | null;
+  expectedGraduationSeason?: string | null;
+  expectedGraduationYear?: string | null;
+  updatedAt?: string;
+}
 
 function normalizeProgramName(value: string): string {
   return value
@@ -67,6 +81,7 @@ function summarizePriorCredits(priorCredits: Array<{ sourceType: string; credits
 }
 
 export default function Settings() {
+  const location = useLocation();
   const { theme, toggleTheme, setTheme } = useTheme();
 
   const [loading, setLoading] = useState(true);
@@ -98,13 +113,45 @@ export default function Settings() {
   const [adminTemplateJson, setAdminTemplateJson] = useState("[]");
   const [adminTemplateMessage, setAdminTemplateMessage] = useState<string | null>(null);
 
-  const refreshAcademicData = async () => {
+  const readAccountBackup = (authUser: any): SettingsAccountBackup => {
+    const candidate = authUser?.user_metadata?.[SETTINGS_BACKUP_KEY];
+    if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) {
+      return {};
+    }
+    return candidate as SettingsAccountBackup;
+  };
+
+  const persistAccountBackup = async (patch: Partial<SettingsAccountBackup>) => {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase.auth.getUser();
+    if (error) throw error;
+
+    const authUser = data.user;
+    if (!authUser) return;
+
+    const current = readAccountBackup(authUser);
+    const nextBackup: SettingsAccountBackup = {
+      ...current,
+      ...patch,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const { error: updateError } = await supabase.auth.updateUser({
+      data: {
+        [SETTINGS_BACKUP_KEY]: nextBackup,
+      },
+    });
+
+    if (updateError) throw updateError;
+  };
+
+  const refreshAcademicData = async (fallbackExpectedGraduationTermId?: string | null) => {
     const [declared, available] = await Promise.all([listUserDegreePrograms(), listProgramCatalogOptions()]);
     setUserPrograms(declared);
     setAllPrograms(available);
 
     const primary = declared.find((program) => program.isPrimary) ?? declared[0] ?? null;
-    setExpectedGraduationTermId(primary?.expectedGraduationTermId ?? "none");
+    setExpectedGraduationTermId(primary?.expectedGraduationTermId ?? fallbackExpectedGraduationTermId ?? "none");
   };
 
   useEffect(() => {
@@ -118,6 +165,7 @@ export default function Settings() {
 
         const authUser = authData.user;
         if (!authUser) throw new Error("Please sign in to manage settings.");
+        const metadataBackup = readAccountBackup(authUser);
 
         const [{ data: profileRow, error: profileError }, { data: terms, error: termError }, priorCredits] = await Promise.all([
           supabase
@@ -136,7 +184,7 @@ export default function Settings() {
         if (profileError) throw profileError;
         if (termError) throw termError;
 
-        await refreshAcademicData();
+        await refreshAcademicData(metadataBackup.expectedGraduationTermId ?? null);
 
         const seasonLabel: Record<string, string> = {
           winter: "Winter",
@@ -148,14 +196,14 @@ export default function Settings() {
         if (!active) return;
 
         setUserId(authUser.id);
-        setFullName(String(profileRow?.display_name ?? authUser.user_metadata?.full_name ?? authUser.user_metadata?.name ?? ""));
-        setEmail(String(profileRow?.email ?? authUser.email ?? ""));
-        setUid(String(profileRow?.university_uid ?? ""));
+        setFullName(String(profileRow?.display_name ?? metadataBackup.fullName ?? authUser.user_metadata?.full_name ?? authUser.user_metadata?.name ?? ""));
+        setEmail(String(profileRow?.email ?? metadataBackup.email ?? authUser.email ?? ""));
+        setUid(String(profileRow?.university_uid ?? metadataBackup.uid ?? ""));
         if (profileRow?.preferred_theme === "light" || profileRow?.preferred_theme === "dark") {
           setTheme(profileRow.preferred_theme);
         }
-        setDefaultTerm(String(profileRow?.default_term_id ?? localStorage.getItem("orbitumd-default-term") ?? "none"));
-        setScheduleView(String(profileRow?.schedule_view ?? localStorage.getItem("orbitumd-schedule-view") ?? "weekly"));
+        setDefaultTerm(String(profileRow?.default_term_id ?? metadataBackup.defaultTerm ?? localStorage.getItem("orbitumd-default-term") ?? "none"));
+        setScheduleView(String(profileRow?.schedule_view ?? metadataBackup.scheduleView ?? localStorage.getItem("orbitumd-schedule-view") ?? "weekly"));
         setIsAdmin(profileRow?.role === "ADMIN");
         setTermOptions((terms ?? []).map((row: any) => ({
           id: row.id,
@@ -178,6 +226,19 @@ export default function Settings() {
       active = false;
     };
   }, [setTheme]);
+
+  useEffect(() => {
+    if (loading) return;
+    if (!location.hash) return;
+
+    const targetId = location.hash.replace(/^#/, "");
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    window.setTimeout(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 120);
+  }, [loading, location.hash]);
 
   useEffect(() => {
     if (adminProgramId) {
@@ -252,6 +313,11 @@ export default function Settings() {
       );
 
       if (error) throw error;
+      await persistAccountBackup({
+        fullName: fullName.trim() || undefined,
+        email: email.trim() || undefined,
+        uid: uid.trim() || undefined,
+      });
       setSaveMessage("Profile saved.");
     } catch (error) {
       setSaveMessage(error instanceof Error ? error.message : "Unable to save profile.");
@@ -340,6 +406,11 @@ export default function Settings() {
           primaryProgram.id,
           termIdToSave === "none" ? null : termIdToSave,
         );
+        await persistAccountBackup({
+          expectedGraduationTermId: termIdToSave === "none" ? null : termIdToSave,
+          expectedGraduationSeason: expectedGraduationSeason === "none" ? null : expectedGraduationSeason,
+          expectedGraduationYear: expectedGraduationYear === "none" ? null : expectedGraduationYear,
+        });
         await refreshAcademicData();
         setSaveMessage("Expected graduation term saved.");
         return;
@@ -355,6 +426,12 @@ export default function Settings() {
         .eq("user_id", userId);
 
       if (error) throw error;
+
+      await persistAccountBackup({
+        expectedGraduationTermId: termIdToSave === "none" ? null : termIdToSave,
+        expectedGraduationSeason: expectedGraduationSeason === "none" ? null : expectedGraduationSeason,
+        expectedGraduationYear: expectedGraduationYear === "none" ? null : expectedGraduationYear,
+      });
 
       await refreshAcademicData();
       setSaveMessage("Expected graduation term saved.");
@@ -407,6 +484,10 @@ export default function Settings() {
       );
 
       if (error) throw error;
+      await persistAccountBackup({
+        defaultTerm,
+        scheduleView,
+      });
       setSaveMessage("Preferences saved.");
     };
 
@@ -435,6 +516,11 @@ export default function Settings() {
     void run().catch((error) => {
       setSaveMessage(error instanceof Error ? error.message : "Unable to save appearance preference.");
     });
+  };
+
+  const handleReplayPageGuides = () => {
+    resetAllPageTours();
+    setSaveMessage("Page guides reset. Guides will open again the first time you visit each page.");
   };
 
   const handleUnlockAdmin = async () => {
@@ -553,7 +639,7 @@ export default function Settings() {
                 </Card>
               )}
 
-              <Card className="p-6 bg-card border-border">
+              <Card className="p-6 bg-card border-border" data-tour-target="settings-profile">
                 <div className="flex items-center gap-2 mb-6">
                   {theme === "dark" ? <Moon className="w-5 h-5 text-purple-400" /> : <Sun className="w-5 h-5 text-amber-500" />}
                   <h2 className="text-2xl">Appearance</h2>
@@ -568,7 +654,7 @@ export default function Settings() {
                 </div>
               </Card>
 
-              <Card className="p-6 bg-card border-border">
+              <Card id="academic-information" className="p-6 bg-card border-border" data-tour-target="settings-academic">
                 <div className="flex items-center gap-2 mb-6">
                   <User className="w-5 h-5 text-red-400" />
                   <h2 className="text-2xl">Profile Information</h2>
@@ -602,7 +688,7 @@ export default function Settings() {
                 </form>
               </Card>
 
-              <Card className="p-6 bg-card border-border">
+              <Card className="p-6 bg-card border-border" data-tour-target="settings-preferences">
                 <div className="flex items-center gap-2 mb-6">
                   <GraduationCap className="w-5 h-5 text-blue-400" />
                   <h2 className="text-2xl">Academic Information</h2>
@@ -919,13 +1005,11 @@ export default function Settings() {
               </div>
             </div>
             <p className="text-xs text-muted-foreground mb-3">
-              Replay onboarding instructions and walkthrough pages.
+              Replay first-time page walkthrough guides (without restarting profile/degree setup onboarding).
             </p>
-            <Link to="/onboarding/profile">
-              <Button variant="outline" className="w-full border-border hover:bg-accent">
-                Repeat Onboarding Instructions
-              </Button>
-            </Link>
+            <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={handleReplayPageGuides}>
+              Replay Page Guides
+            </Button>
           </Card>
 
           <GlobalSearchPanel />

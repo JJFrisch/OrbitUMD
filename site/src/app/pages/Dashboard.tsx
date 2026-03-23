@@ -415,7 +415,7 @@ export default function Dashboard() {
 
       {!loading && !errorMessage && (
         <>
-          <Card className="mb-6 border-border bg-card p-6">
+          <Card className="mb-6 border-border bg-card p-6" data-tour-target="dashboard-term-overview">
             <div className="mb-4 flex items-start justify-between gap-4 flex-wrap">
               <div>
                 <div className="mb-2 flex items-center gap-2">
@@ -464,7 +464,7 @@ export default function Dashboard() {
           </Card>
 
           <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <Card className="border-border bg-card p-6">
+            <Card className="border-border bg-card p-6" data-tour-target="dashboard-program-progress">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-xl">General Education Progress</h3>
                 <TooltipProvider>
@@ -556,7 +556,7 @@ export default function Dashboard() {
             </Card>
           </div>
 
-          <Card className="border-border bg-card p-6">
+          <Card className="border-border bg-card p-6" data-tour-target="dashboard-next-actions">
             <div className="mb-4 flex items-center gap-2">
               <AlertCircle className="h-5 w-5 text-amber-400" />
               <h3 className="text-xl">Suggested Next Steps</h3>
