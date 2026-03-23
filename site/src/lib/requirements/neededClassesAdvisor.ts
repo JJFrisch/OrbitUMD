@@ -1,5 +1,10 @@
 import type { AuditCourseStatus, ProgramRequirementBundle } from "@/lib/requirements/audit";
 import type { CourseDetails } from "@/lib/requirements/courseDetailsLoader";
+import {
+  canonicalCourseCode,
+  getEquivalentCourseCodes,
+  normalizeCourseCode,
+} from "@/lib/requirements/courseCodeEquivalency";
 
 export type NeededItemKind = "course" | "gened" | "elective";
 export type NeededItemCategory = "major_minor" | "gened" | "elective";
@@ -82,7 +87,33 @@ export const GEN_ED_TITLE: Record<string, string> = {
 
 export function parseCourseCodesFromText(text: string | undefined): string[] {
   const matches = String(text ?? "").toUpperCase().match(/[A-Z]{4}\d{3}[A-Z]?/g);
-  return Array.from(new Set(matches ?? []));
+  return Array.from(new Set((matches ?? []).map((code) => normalizeCourseCode(code)).filter(Boolean)));
+}
+
+function getStatusWithHonorsEquivalency(byCourseCode: Map<string, AuditCourseStatus>, code: string): AuditCourseStatus {
+  for (const candidate of getEquivalentCourseCodes(code)) {
+    const status = byCourseCode.get(candidate);
+    if (status) {
+      return status;
+    }
+  }
+
+  return "not_started";
+}
+
+function resolveEquivalentCodeInMap<T>(map: Map<string, T>, code: string): string | null {
+  const normalized = normalizeCourseCode(code);
+  if (map.has(normalized)) {
+    return normalized;
+  }
+
+  for (const candidate of getEquivalentCourseCodes(normalized)) {
+    if (map.has(candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
 }
 
 function courseLevel(code: string): number {
@@ -123,16 +154,17 @@ export function buildNeededClassItems(params: {
     const programLabel = `${bundle.kind.toUpperCase()}: ${bundle.programName}`;
     for (const section of bundle.sections) {
       for (const rawCode of section.courseCodes ?? []) {
-        const code = String(rawCode).toUpperCase();
-        if (!code || seenCourseCodes.has(code)) continue;
-        seenCourseCodes.add(code);
+        const code = normalizeCourseCode(rawCode);
+        const canonicalCode = canonicalCourseCode(code);
+        if (!code || seenCourseCodes.has(canonicalCode)) continue;
+        seenCourseCodes.add(canonicalCode);
 
-        const status = byCourseCode.get(code) ?? "not_started";
+        const status = getStatusWithHonorsEquivalency(byCourseCode, code);
         if (status === "completed") continue;
 
         const details = courseDetails?.get(code);
         const prereqCodes = parseCourseCodesFromText(details?.prereqs);
-        const unmetPrereqs = prereqCodes.filter((prereq) => (byCourseCode.get(prereq) ?? "not_started") === "not_started");
+        const unmetPrereqs = prereqCodes.filter((prereq) => getStatusWithHonorsEquivalency(byCourseCode, prereq) === "not_started");
         const level = courseLevel(code);
 
         const rationale: string[] = [];
@@ -184,7 +216,7 @@ export function buildNeededClassItems(params: {
 
   const earnedGenEdCount = new Map<string, number>();
   for (const [code, tags] of byCourseTags.entries()) {
-    const status = byCourseCode.get(code) ?? "not_started";
+    const status = getStatusWithHonorsEquivalency(byCourseCode, code);
     if (status === "not_started") continue;
     for (const rawTag of tags ?? []) {
       const tag = String(rawTag).toUpperCase();
@@ -291,7 +323,9 @@ export function generateRecommendationPlan(params: {
   const dependents = new Map<string, string[]>();
 
   for (const item of courseItems) {
-    const prereqs = item.prereqCodes.filter((code) => byCode.has(code));
+    const prereqs = item.prereqCodes
+      .map((code) => resolveEquivalentCodeInMap(byCode, code))
+      .filter((code): code is string => Boolean(code));
     internalPrereqs.set(item.courseCode, prereqs);
     indegree.set(item.courseCode, prereqs.length);
     for (const prereq of prereqs) {

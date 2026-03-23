@@ -7,6 +7,7 @@ import {
 import type { RequirementNode, RequirementSection } from "@/lib/types/requirements";
 import requirementsCatalog from "@/lib/data/umd_program_requirements.json";
 import csRequirements from "@/lib/data/cs_major_requirements.json";
+import { getEquivalentCourseCodes, normalizeCourseCode } from "@/lib/requirements/courseCodeEquivalency";
 
 const CURRENT_REQUIREMENTS_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
 
@@ -1006,9 +1007,11 @@ function statusRank(status: AuditCourseStatus): number {
 function bestStatusForCodes(codes: string[], byCourseCode: Map<string, AuditCourseStatus>): AuditCourseStatus {
   let best: AuditCourseStatus = "not_started";
   for (const code of codes) {
-    const status = byCourseCode.get(code.toUpperCase()) ?? "not_started";
-    if (statusRank(status) > statusRank(best)) {
-      best = status;
+    for (const candidate of getEquivalentCourseCodes(code)) {
+      const status = byCourseCode.get(candidate) ?? "not_started";
+      if (statusRank(status) > statusRank(best)) {
+        best = status;
+      }
     }
   }
   return best;
@@ -1092,11 +1095,17 @@ export function buildCourseContributionMap(bundles: ProgramRequirementBundle[]):
     const label = `${bundle.kind.charAt(0).toUpperCase()}${bundle.kind.slice(1)}: ${bundle.programName}`;
     for (const section of bundle.sections) {
       for (const code of section.courseCodes) {
-        const normalized = code.toUpperCase();
-        if (!map.has(normalized)) {
-          map.set(normalized, new Set());
+        const normalized = normalizeCourseCode(code);
+        const targets = normalized.includes("XX")
+          ? [normalized]
+          : getEquivalentCourseCodes(normalized);
+
+        for (const target of targets) {
+          if (!map.has(target)) {
+            map.set(target, new Set());
+          }
+          map.get(target)!.add(label);
         }
-        map.get(normalized)!.add(label);
       }
     }
   }
@@ -1112,13 +1121,21 @@ export function getContributionLabelsForCourseCode(
   courseCode: string,
   contributionMap: Map<string, string[]>,
 ): string[] {
-  const normalizedCode = courseCode.toUpperCase();
-  const labels = new Set<string>(contributionMap.get(normalizedCode) ?? []);
+  const normalizedCode = normalizeCourseCode(courseCode);
+  const equivalentCodes = getEquivalentCourseCodes(normalizedCode);
+  const labels = new Set<string>();
+
+  for (const equivalentCode of equivalentCodes) {
+    for (const label of contributionMap.get(equivalentCode) ?? []) {
+      labels.add(label);
+    }
+  }
 
   for (const [token, tokenLabels] of contributionMap.entries()) {
-    if (token === normalizedCode) continue;
+    if (equivalentCodes.includes(token)) continue;
     if (!token.includes("XX")) continue;
-    if (!wildcardMatchesCourseCode(token, normalizedCode)) continue;
+    const matchesAnyEquivalent = equivalentCodes.some((equivalentCode) => wildcardMatchesCourseCode(token, equivalentCode));
+    if (!matchesAnyEquivalent) continue;
     for (const label of tokenLabels) {
       labels.add(label);
     }
