@@ -2642,15 +2642,57 @@ export default function DegreeAudit() {
           .map((code) => parseWildcardRule(code))
           .filter((rule): rule is WildcardRule => Boolean(rule));
 
-        const wildcardSlots: WildcardSlotMeta[] = wildcardRules.map((rule, idx) => {
-          const slotKey = `${bundle.programId}:${section.id}:${idx}:${rule.token}`;
+        const wildcardSlotDescriptors = wildcardRules.map((rule, idx) => ({
+          rule,
+          slotKey: `${bundle.programId}:${section.id}:${idx}:${rule.token}`,
+        }));
+
+        const explicitCodesInSection = new Set(
+          section.courseCodes
+            .map((code) => String(code).toUpperCase())
+            .filter((code) => !parseWildcardRule(code)),
+        );
+
+        const chooseCount = section.requirementType === "choose" ? Math.max(1, Number(section.chooseCount ?? 1)) : 0;
+        const chooseSatisfiedExplicitCodes = new Set(
+          Array.from(explicitCodesInSection).filter((code) => (byCourseCode.get(code) ?? "not_started") !== "not_started"),
+        );
+
+        const selectedExplicitSectionWildcardCodes = new Set(
+          wildcardSlotDescriptors
+            .map(({ slotKey }) => String(wildcardSelections[slotKey] ?? "").toUpperCase())
+            .filter((code) => explicitCodesInSection.has(code)),
+        );
+
+        const canUseChooseOverflowCode = (candidateCode: string, currentSlotSelectedCode: string): boolean => {
+          if (section.requirementType !== "choose") return false;
+          if (!chooseSatisfiedExplicitCodes.has(candidateCode)) return false;
+
+          const selectedWithoutCurrent = Array.from(selectedExplicitSectionWildcardCodes).filter(
+            (code) => code !== currentSlotSelectedCode,
+          );
+          const wouldConsumeCount = selectedWithoutCurrent.includes(candidateCode)
+            ? selectedWithoutCurrent.length
+            : selectedWithoutCurrent.length + 1;
+
+          return (chooseSatisfiedExplicitCodes.size - wouldConsumeCount) >= chooseCount;
+        };
+
+        const wildcardSlots: WildcardSlotMeta[] = wildcardSlotDescriptors.map(({ rule, slotKey }) => {
           const selectedCode = wildcardSelections[slotKey];
+          const normalizedSelectedCode = String(selectedCode ?? "").toUpperCase();
 
           const options = courses
             .filter((course) => {
               const normalizedCode = course.code.toUpperCase();
-              if (explicitCodesInProgram.has(normalizedCode)) return false;
-              const selectedElsewhere = selectedCodesInProgram.has(normalizedCode) && normalizedCode !== String(selectedCode ?? "").toUpperCase();
+
+              if (explicitCodesInProgram.has(normalizedCode)) {
+                if (!canUseChooseOverflowCode(normalizedCode, normalizedSelectedCode)) {
+                  return false;
+                }
+              }
+
+              const selectedElsewhere = selectedCodesInProgram.has(normalizedCode) && normalizedCode !== normalizedSelectedCode;
               if (selectedElsewhere) return false;
               return courseMatchesWildcardRule(normalizedCode, rule);
             })
@@ -2675,35 +2717,26 @@ export default function DegreeAudit() {
           };
         });
 
-        const wildcardStatuses = wildcardSlots
-          .map((slot) => byCourseCode.get(String(slot.effectiveCode ?? "").toUpperCase()) ?? "not_started")
-          .filter((status) => status !== "not_started" || wildcardSlots.length > 0);
-
-        const baseCounts = evaluateSectionCounts(section, byCourseCode);
-
-        const requiredSlots = Math.max(0, baseCounts.requiredSlots + wildcardSlots.length);
-        const completedSlots = baseCounts.completedSlots + wildcardStatuses.filter((status) => status === "completed").length;
-        const inProgressSlots = baseCounts.inProgressSlots + wildcardStatuses.filter((status) => status === "in_progress").length;
-        const plannedSlots = baseCounts.plannedSlots + wildcardStatuses.filter((status) => status === "planned").length;
-
-        let status: AuditCourseStatus = baseCounts.status;
-        if (requiredSlots > 0) {
-          if (completedSlots >= requiredSlots) status = "completed";
-          else if (completedSlots + inProgressSlots >= requiredSlots) status = "in_progress";
-          else if (completedSlots + inProgressSlots + plannedSlots >= requiredSlots) status = "planned";
-          else status = "not_started";
+        const byCourseCodeWithWildcards = new Map(byCourseCode);
+        for (const slot of wildcardSlots) {
+          const effectiveCode = String(slot.effectiveCode ?? "").toUpperCase();
+          if (!effectiveCode) continue;
+          const effectiveStatus = byCourseCode.get(effectiveCode) ?? "not_started";
+          byCourseCodeWithWildcards.set(String(slot.token).toUpperCase(), effectiveStatus);
         }
+
+        const baseCounts = evaluateSectionCounts(section, byCourseCodeWithWildcards);
 
         return {
           section,
           wildcardSlots,
           eval: {
             sectionId: section.id,
-            status,
-            requiredSlots,
-            completedSlots,
-            inProgressSlots,
-            plannedSlots,
+            status: baseCounts.status,
+            requiredSlots: baseCounts.requiredSlots,
+            completedSlots: baseCounts.completedSlots,
+            inProgressSlots: baseCounts.inProgressSlots,
+            plannedSlots: baseCounts.plannedSlots,
           },
         };
       });
