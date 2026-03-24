@@ -582,6 +582,68 @@ function collectWildcardTokensWithOccurrences(section: any): string[] {
   return tokens;
 }
 
+function mergeVisibleSectionsWithStoredCustom(
+  visibleSections: any[],
+  storedCustomSections: any[] | undefined,
+  selectedSpecializationId?: string,
+): any[] {
+  if (!Array.isArray(storedCustomSections) || storedCustomSections.length === 0) {
+    return visibleSections;
+  }
+
+  const customById = new Map(
+    storedCustomSections
+      .filter((section) => section?.id)
+      .map((section) => [String(section.id), section]),
+  );
+
+  const mergedVisible = visibleSections.map((section) => customById.get(String(section.id)) ?? section);
+  const visibleIds = new Set(visibleSections.map((section) => String(section.id)));
+
+  const customExtras = storedCustomSections.filter((section) => {
+    if (!section?.id) return false;
+    const id = String(section.id);
+    if (visibleIds.has(id)) return false;
+
+    const specializationId = section.specializationId ? String(section.specializationId) : undefined;
+    if (!specializationId) return true;
+    return Boolean(selectedSpecializationId) && specializationId === selectedSpecializationId;
+  });
+
+  return [...mergedVisible, ...customExtras];
+}
+
+function mergeProgramCustomSections(existingSections: any[] | undefined, incomingSections: any[]): any[] {
+  const existing = Array.isArray(existingSections) ? existingSections : [];
+  const incoming = Array.isArray(incomingSections) ? incomingSections : [];
+
+  const incomingIds = new Set(incoming.map((section) => String(section?.id ?? "")).filter(Boolean));
+  const incomingSpecializations = new Set(
+    incoming
+      .map((section) => section?.specializationId ? String(section.specializationId) : "")
+      .filter(Boolean),
+  );
+  const includesBaseSections = incoming.some((section) => !section?.specializationId);
+
+  const kept = existing.filter((section) => {
+    const sectionId = String(section?.id ?? "");
+    if (sectionId && incomingIds.has(sectionId)) return false;
+
+    const specializationId = section?.specializationId ? String(section.specializationId) : "";
+    if (!specializationId) {
+      return !includesBaseSections;
+    }
+
+    if (incomingSpecializations.has(specializationId)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  return [...kept, ...incoming];
+}
+
 function evaluateSectionCounts(
   section: any,
   byCourseCode: Map<string, AuditCourseStatus>,
@@ -870,7 +932,7 @@ function RequirementSectionTableCard({
   }, [wildcardSlots]);
 
   const classRows = useMemo(() => {
-    const rows: Array<{ key: string; choices: string[][]; type: SectionRowType; depth: number }> = [];
+    const rows: Array<{ key: string; choices: string[][]; type: SectionRowType; depth: number; label?: string }> = [];
     const consumed = new Set<string>();
 
     const collectAndCodes = (block: any): string[] => {
@@ -917,6 +979,7 @@ function RequirementSectionTableCard({
           choices,
           type: block?.type === "OR" ? "OR" : "AND",
           depth,
+          label: typeof block?.title === "string" && block.title.trim().length > 0 ? block.title.trim() : undefined,
         });
       }
     };
@@ -1208,7 +1271,7 @@ function RequirementSectionTableCard({
             {/* Class rows */}
             {classRows.map((row) => (
               <tr key={`${section.id}-${row.key}`} className="border-b border-border align-top">
-                <td className="px-3 py-2 text-xs text-muted-foreground">Course</td>
+                <td className="px-3 py-2 text-xs text-muted-foreground">{row.label ?? "Course"}</td>
                 <td className="px-3 py-2 text-xs text-foreground/85">
                   {row.type === "OR" ? "Choose 1" : row.type === "SINGLE" ? "Standalone" : "Required"}
                 </td>
@@ -1973,9 +2036,11 @@ export default function DegreeAudit() {
   };
 
   const persistProgramSections = (programId: string, sections: any[]) => {
+    const mergedSections = mergeProgramCustomSections(customSectionsByProgram[programId], sections);
+
     setCustomSectionsByProgram((prev) => ({
       ...prev,
-      [programId]: sections,
+      [programId]: mergedSections,
     }));
     setBundles((prev) => prev.map((bundle) => (
       bundle.programId === programId
@@ -1987,7 +2052,7 @@ export default function DegreeAudit() {
     saveRequestIdRef.current = requestId;
     setSectionEditSyncState("saving");
 
-    void saveUserRequirementSectionEdit(programId, sections)
+    void saveUserRequirementSectionEdit(programId, mergedSections)
       .then(() => {
         if (saveRequestIdRef.current === requestId) {
           setSectionEditSyncState("synced");
@@ -2509,17 +2574,19 @@ export default function DegreeAudit() {
 
       const selectedSpecId = selectedSpecialization.get(index);
       const newSections = getCsRequirementSectionsForSpecialization(selectedSpecId);
+      const customSections = customSectionsByProgram[bundle.programId];
+      const mergedSections = mergeVisibleSectionsWithStoredCustom(newSections, customSections, selectedSpecId);
 
       return {
         ...bundle,
-        sections: newSections,
+        sections: mergedSections,
       };
     });
 
     setBundles(updatedBundles);
     // Note: only depend on selectedSpecialization, not bundles, to avoid infinite loops
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedSpecialization]);
+  }, [selectedSpecialization, customSectionsByProgram]);
 
   useEffect(() => {
     let active = true;
@@ -2609,11 +2676,19 @@ export default function DegreeAudit() {
         const loadedBundles = await loadProgramRequirementBundles(selectedPrograms);
         if (!active) return;
 
-        const withCustomSections = loadedBundles.map((bundle) => {
+        const withCustomSections = loadedBundles.map((bundle, index) => {
           const customSections = customSectionsByProgram[bundle.programId];
           if (!customSections || customSections.length === 0) {
             return bundle;
           }
+
+          if (bundle.source === "cs-specialized") {
+            const selectedSpecId = selectedSpecialization.get(index);
+            const generatedSections = getCsRequirementSectionsForSpecialization(selectedSpecId);
+            const mergedSections = mergeVisibleSectionsWithStoredCustom(generatedSections, customSections, selectedSpecId);
+            return { ...bundle, sections: mergedSections };
+          }
+
           return { ...bundle, sections: customSections };
         });
 
@@ -2634,17 +2709,25 @@ export default function DegreeAudit() {
     return () => {
       active = false;
     };
-  }, [customSectionsByProgram]);
+  }, [customSectionsByProgram, selectedSpecialization]);
 
   useEffect(() => {
     if (bundles.length === 0) return;
-    setBundles((prev) => prev.map((bundle) => {
+    setBundles((prev) => prev.map((bundle, index) => {
       const customSections = customSectionsByProgram[bundle.programId];
       if (!customSections || customSections.length === 0) return bundle;
+
+      if (bundle.source === "cs-specialized") {
+        const selectedSpecId = selectedSpecialization.get(index);
+        const generatedSections = getCsRequirementSectionsForSpecialization(selectedSpecId);
+        const mergedSections = mergeVisibleSectionsWithStoredCustom(generatedSections, customSections, selectedSpecId);
+        return { ...bundle, sections: mergedSections };
+      }
+
       if (bundle.sections === customSections) return bundle;
       return { ...bundle, sections: customSections };
     }));
-  }, [customSectionsByProgram]);
+  }, [customSectionsByProgram, selectedSpecialization]);
 
   // Load course details from database
   useEffect(() => {
