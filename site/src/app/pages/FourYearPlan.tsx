@@ -79,7 +79,7 @@ function genEdLabels(tags: string[]): string[] {
   return Array.from(new Set((tags ?? [])
     .map((tag) => String(tag ?? "").trim().toUpperCase())
     .filter((tag) => tag.length > 0)
-    .map((tag) => `Gen Ed: ${tag}`)));
+    .map((tag) => tag)));
 }
 
 function parseSelections(stored: unknown): ScheduleSelection[] {
@@ -464,6 +464,11 @@ export default function FourYearPlan() {
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
+  const primaryMajorLabel = useMemo(() => {
+    const primaryMajorBundle = requirementBundles.find((bundle) => bundle.kind === "major");
+    return primaryMajorBundle ? `Major: ${primaryMajorBundle.programName}` : null;
+  }, [requirementBundles]);
+
   const contributionPalette = [
     {
       borderClass: "border-sky-500",
@@ -492,7 +497,10 @@ export default function FourYearPlan() {
     },
   ] as const;
 
-  const contributionBadgeClass = (label: string) => {
+  const contributionBadgeClass = (label: string, isGenEdLabel = false) => {
+    if (isGenEdLabel) {
+      return "bg-slate-500/10 text-slate-700 dark:text-slate-300";
+    }
     const index = Math.abs(label.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
     const entry = contributionPalette[index];
     return `border ${entry.borderClass} ${entry.bgClass} ${entry.textClass}`;
@@ -503,6 +511,24 @@ export default function FourYearPlan() {
     const index = Math.abs(labels[0].split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
     const entry = contributionPalette[index];
     return `${entry.bgClass} ${entry.borderClass} border-l-4`;
+  };
+
+  const getCourseSortRank = (course: PlannedCourse): number => {
+    const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+    const hasPrimaryMajor = Boolean(primaryMajorLabel && requirementLabels.includes(primaryMajorLabel));
+    if (hasPrimaryMajor) return 0;
+    if (requirementLabels.some((label) => label.startsWith("Major:"))) return 1;
+    if (requirementLabels.some((label) => label.startsWith("Minor:"))) return 2;
+    if (genEdLabels(course.tags).length > 0) return 3;
+    return 4;
+  };
+
+  const sortCoursesForDisplay = (courses: PlannedCourse[]): PlannedCourse[] => {
+    return [...courses].sort((a, b) => {
+      const rankDiff = getCourseSortRank(a) - getCourseSortRank(b);
+      if (rankDiff !== 0) return rankDiff;
+      return a.code.localeCompare(b.code);
+    });
   };
 
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
@@ -767,12 +793,12 @@ export default function FourYearPlan() {
                           </tr>
                         </thead>
                         <tbody>
-                          {term.courses.map((course) => {
+                          {sortCoursesForDisplay(term.courses).map((course) => {
                             const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
-                            const contributionLabels = [
-                              ...getContributionLabelsForCourseCode(course.code, contributionMap),
-                              ...genEdLabels(course.tags),
-                            ];
+                            const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+                            const genEdContributionLabels = genEdLabels(course.tags);
+                            const genEdLabelSet = new Set(genEdContributionLabels);
+                            const contributionLabels = [...requirementLabels, ...genEdContributionLabels];
                             const rowClass = contributionRowClass(contributionLabels);
                             return (
                               <tr
@@ -796,7 +822,7 @@ export default function FourYearPlan() {
                                       return (
                                         <Badge
                                           key={`${course.sectionKey}-${label}`}
-                                          className={`text-[10px] ${contributionBadgeClass(label)}`}
+                                          className={`text-[10px] ${contributionBadgeClass(label, genEdLabelSet.has(label))}`}
                                         >
                                           {label}
                                         </Badge>

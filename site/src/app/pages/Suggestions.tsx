@@ -115,6 +115,7 @@ export default function Suggestions() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Title</label>
           <Input
+            className="border-border shadow-sm"
             placeholder="Short summary"
             value={title}
             onChange={(event) => setTitle(event.target.value)}
@@ -125,7 +126,7 @@ export default function Suggestions() {
           <label className="text-sm font-medium">Details</label>
           <Textarea
             placeholder="What happened, what you expected, and any context that can help."
-            className="min-h-36"
+            className="min-h-36 border-border shadow-sm"
             value={details}
             onChange={(event) => setDetails(event.target.value)}
           />
@@ -134,6 +135,7 @@ export default function Suggestions() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Contact (optional)</label>
           <Input
+            className="border-border shadow-sm"
             placeholder="Email or Discord handle"
             value={contact}
             onChange={(event) => setContact(event.target.value)}
