@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, GraduationCap, Info, Loader2, Mail, Menu, MessageSquare, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
+import { AlertCircle, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Clock, Cloud, CloudOff, FileText, GripVertical, GraduationCap, Info, Loader2, Mail, Menu, MessageSquare, Minus, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -540,6 +540,48 @@ function collectCodesFromLogicBlocks(blocks: any[]): Set<string> {
   return codes;
 }
 
+function collectWildcardTokensWithOccurrences(section: any): string[] {
+  const tokens: string[] = [];
+
+  const pushIfWildcard = (rawCode: string) => {
+    const normalized = String(rawCode ?? "").toUpperCase().trim();
+    if (!normalized) return;
+    if (parseWildcardRule(normalized)) {
+      tokens.push(normalized);
+    }
+  };
+
+  if (Array.isArray(section.logicBlocks) && section.logicBlocks.length > 0) {
+    const visit = (block: any) => {
+      (Array.isArray(block?.codes) ? block.codes : []).forEach((code: string) => pushIfWildcard(code));
+      (Array.isArray(block?.children) ? block.children : []).forEach((child: any) => visit(child));
+    };
+    section.logicBlocks.forEach((block: any) => visit(block));
+
+    const logicCodes = collectCodesFromLogicBlocks(section.logicBlocks);
+    (Array.isArray(section.standaloneCodes) ? section.standaloneCodes : [])
+      .map((code: string) => String(code).toUpperCase())
+      .filter((code: string) => code && !logicCodes.has(code))
+      .forEach((code: string) => pushIfWildcard(code));
+
+    (Array.isArray(section.courseCodes) ? section.courseCodes : [])
+      .map((code: string) => String(code).toUpperCase())
+      .filter((code: string) => code && !logicCodes.has(code))
+      .forEach((code: string) => pushIfWildcard(code));
+
+    return tokens;
+  }
+
+  (Array.isArray(section.optionGroups) ? section.optionGroups : []).forEach((group: string[]) => {
+    (Array.isArray(group) ? group : []).forEach((code: string) => pushIfWildcard(code));
+  });
+
+  (Array.isArray(section.standaloneCodes) ? section.standaloneCodes : []).forEach((code: string) => pushIfWildcard(code));
+  (Array.isArray(section.courseCodes) ? section.courseCodes : []).forEach((code: string) => pushIfWildcard(code));
+
+  return tokens;
+}
+
 function evaluateSectionCounts(
   section: any,
   byCourseCode: Map<string, AuditCourseStatus>,
@@ -652,6 +694,7 @@ function RequirementSectionTableCard({
   const [codeSearchPending, setCodeSearchPending] = useState(false);
   const [codeSearchResults, setCodeSearchResults] = useState<CourseSearchResult[]>([]);
   const [openWildcardSlotKey, setOpenWildcardSlotKey] = useState<string | null>(null);
+  const [wildcardPopupAnchor, setWildcardPopupAnchor] = useState<{ left: number; top: number } | null>(null);
   // Add-course-directly state
   const [addingCourse, setAddingCourse] = useState(false);
   const [addQuery, setAddQuery] = useState("");
@@ -669,6 +712,7 @@ function RequirementSectionTableCard({
     setChooseCountDraft(Math.max(1, Number(section.chooseCount ?? 1)));
     setNotesDraft((section.notes ?? []).join("\n"));
     setOpenWildcardSlotKey(null);
+    setWildcardPopupAnchor(null);
   }, [section]);
 
   useEffect(() => {
@@ -680,6 +724,7 @@ function RequirementSectionTableCard({
         return;
       }
       setOpenWildcardSlotKey(null);
+      setWildcardPopupAnchor(null);
     };
 
     document.addEventListener("mousedown", handleDocumentPointerDown);
@@ -1065,37 +1110,23 @@ function RequirementSectionTableCard({
                   className="h-6 w-6 border-border"
                   onClick={(event) => {
                     event.stopPropagation();
-                    setOpenWildcardSlotKey((current) => (current === wildcardSlot.key ? null : wildcardSlot.key));
+                    const target = event.currentTarget as HTMLButtonElement;
+                    const rect = target.getBoundingClientRect();
+                    setOpenWildcardSlotKey((current) => {
+                      const nextIsOpen = current !== wildcardSlot.key;
+                      if (nextIsOpen) {
+                        setWildcardPopupAnchor({ left: rect.left, top: rect.bottom + 6 });
+                        return wildcardSlot.key;
+                      }
+                      setWildcardPopupAnchor(null);
+                      return null;
+                    });
                   }}
                   title={`Select course for ${wildcardSlot.token}`}
                   aria-label={`Select course for ${wildcardSlot.token}`}
                 >
-                  <Plus className="h-3 w-3" />
+                  {openWildcardSlotKey === wildcardSlot.key ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
                 </Button>
-
-                {openWildcardSlotKey === wildcardSlot.key && (
-                  <div className="absolute left-0 top-7 z-20 w-80 rounded-md border border-border bg-card p-2 shadow-lg">
-                    <p className="mb-1 text-[11px] text-muted-foreground">{wildcardSlot.token} wildcard</p>
-                    <select
-                      className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
-                      value={wildcardSlot.selectedCode ?? ""}
-                      onChange={(event) => {
-                        onSelectWildcardCourse(wildcardSlot.key, event.target.value);
-                        setOpenWildcardSlotKey(null);
-                      }}
-                      onClick={(event) => event.stopPropagation()}
-                      aria-label={`Select course for ${wildcardSlot.token}`}
-                      title={`Select course for ${wildcardSlot.token}`}
-                    >
-                      <option value="">Auto-select best match</option>
-                      {wildcardSlot.options.map((option) => (
-                        <option key={`${wildcardSlot.key}-${option.code}`} value={option.code}>
-                          {option.code} - {option.title}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
               </div>
             )}
           </>
@@ -1274,6 +1305,40 @@ function RequirementSectionTableCard({
       </Card>
 
       {/* Course detail panel */}
+      {openWildcardSlotKey && wildcardPopupAnchor && (() => {
+        const openSlot = wildcardSlots.find((slot) => slot.key === openWildcardSlotKey);
+        if (!openSlot || !onSelectWildcardCourse) return null;
+
+        return (
+          <div
+            className="fixed z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg"
+            style={{ left: `${wildcardPopupAnchor.left}px`, top: `${wildcardPopupAnchor.top}px` }}
+            data-wildcard-slot={openSlot.key}
+          >
+            <p className="mb-1 text-[11px] text-muted-foreground">{openSlot.token} wildcard</p>
+            <select
+              className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+              value={openSlot.selectedCode ?? ""}
+              onChange={(event) => {
+                onSelectWildcardCourse(openSlot.key, event.target.value);
+                setOpenWildcardSlotKey(null);
+                setWildcardPopupAnchor(null);
+              }}
+              onClick={(event) => event.stopPropagation()}
+              aria-label={`Select course for ${openSlot.token}`}
+              title={`Select course for ${openSlot.token}`}
+            >
+              <option value="">Auto-select best match</option>
+              {openSlot.options.map((option) => (
+                <option key={`${openSlot.key}-${option.code}`} value={option.code}>
+                  {option.code} - {option.title}
+                </option>
+              ))}
+            </select>
+          </div>
+        );
+      })()}
+
       {detailCode && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setDetailCode(null)}>
           <Card className="max-w-xl w-full p-5 bg-card border-border max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
@@ -2694,14 +2759,17 @@ export default function DegreeAudit() {
       );
 
       const sectionRows = bundle.sections.map((section) => {
-        const wildcardRules = section.courseCodes
-          .map((code) => parseWildcardRule(code))
-          .filter((rule): rule is WildcardRule => Boolean(rule));
-
-        const wildcardSlotDescriptors = wildcardRules.map((rule, idx) => ({
-          rule,
-          slotKey: `${bundle.programId}:${section.id}:${idx}:${rule.token}`,
-        }));
+        const wildcardTokens = collectWildcardTokensWithOccurrences(section);
+        const wildcardSlotDescriptors = wildcardTokens
+          .map((token, idx) => {
+            const rule = parseWildcardRule(token);
+            if (!rule) return null;
+            return {
+              rule,
+              slotKey: `${bundle.programId}:${section.id}:${idx}:${rule.token}`,
+            };
+          })
+          .filter((descriptor): descriptor is { rule: WildcardRule; slotKey: string } => Boolean(descriptor));
 
         const explicitCodesInSection = new Set(
           section.courseCodes

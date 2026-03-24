@@ -8,7 +8,6 @@ import {
   BookOpen, 
   Settings,
   Lightbulb,
-  Orbit,
   PanelLeftClose,
   PanelLeftOpen
 } from "lucide-react";
@@ -42,7 +41,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       <div className={cn("border-b border-border", collapsed ? "p-3" : "p-6")}>
         <div className={cn("flex items-center gap-2", collapsed ? "justify-start" : "justify-between")}>
           <Link to="/dashboard" className="flex items-center gap-2 min-w-0">
-            <Orbit className="w-8 h-8 text-red-500 shrink-0" />
+            <img src="/orbit-swirl.svg" alt="OrbitUMD logo" className="w-8 h-8 shrink-0" />
             {!collapsed && (
               <span className="text-2xl tracking-tight text-foreground truncate [text-shadow:0_0_20px_rgba(239,68,68,0.3)]">
                 OrbitUMD

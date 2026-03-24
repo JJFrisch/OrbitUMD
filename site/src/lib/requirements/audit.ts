@@ -651,6 +651,10 @@ function isPhysicsMajor(program: UserDegreeProgram): boolean {
   return normalizeName(program.programName) === "physics";
 }
 
+function isComputerScienceMajor(program: UserDegreeProgram): boolean {
+  return program.programName.toLowerCase().includes("computer science");
+}
+
 function hasAnyCourseCodes(section: RequirementSectionBundle): boolean {
   return section.courseCodes.length > 0 || section.optionGroups.some((group) => group.length > 0) || section.logicBlocks.some((block) => block.codes.length > 0);
 }
@@ -850,7 +854,7 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
       const officialSections = coerceRequirementSectionBundles(officialTemplate?.sections ?? []);
       const templateVersion = String(officialTemplate?.catalogVersion ?? "legacy");
       const templateIsCurrent = templateVersion === CURRENT_REQUIREMENTS_CATALOG_VERSION;
-      if (officialSections.length > 0 && templateIsCurrent) {
+      if (officialSections.length > 0 && templateIsCurrent && !isComputerScienceMajor(program)) {
         let resolvedOfficialSections = officialSections;
         let resolvedSpecializationOptions: Array<{ id: string; name: string }> | undefined;
 
@@ -886,7 +890,7 @@ export async function loadProgramRequirementBundles(programs: UserDegreeProgram[
     }
 
     // Check if this is Computer Science Major - use specialized structure
-    if (program.programName.toLowerCase().includes("computer science")) {
+    if (isComputerScienceMajor(program)) {
       const specializationOptions = csRequirements.specializations.map((s) => ({
         id: s.id,
         name: s.name,
