@@ -34,6 +34,7 @@ import {
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
+import { canonicalCourseCode, getEquivalentCourseCodes, normalizeCourseCode } from "@/lib/requirements/courseCodeEquivalency";
 
 interface AuditCourse {
   code: string;
@@ -274,6 +275,13 @@ function rank(status: AuditCourseStatus): number {
 
 function mergeStatus(a: AuditCourseStatus, b: AuditCourseStatus): AuditCourseStatus {
   return rank(a) >= rank(b) ? a : b;
+}
+
+function statusFromPair(left: AuditCourseStatus, right: AuditCourseStatus): AuditCourseStatus {
+  const leftRank = rank(left);
+  const rightRank = rank(right);
+  if (leftRank === 0 || rightRank === 0) return "not_started";
+  return leftRank <= rightRank ? left : right;
 }
 
 function statusBadge(status: AuditCourseStatus) {
@@ -2363,7 +2371,9 @@ export default function DegreeAudit() {
           });
 
           for (const selection of parseSelections(schedule.selections_json)) {
-            const code = String(selection?.course?.courseCode ?? "").toUpperCase();
+            const rawCode = String(selection?.course?.courseCode ?? "").toUpperCase();
+            const normalizedCode = normalizeCourseCode(rawCode);
+            const code = canonicalCourseCode(normalizedCode);
             if (!code) continue;
 
             const current: AuditCourse = {
@@ -2396,7 +2406,9 @@ export default function DegreeAudit() {
 
           const creditCodes = resolvePriorCreditCourseCodes(credit);
 
-          for (const code of creditCodes) {
+          for (const rawCode of creditCodes) {
+            const normalizedCode = normalizeCourseCode(rawCode);
+            const code = canonicalCourseCode(normalizedCode);
             const current: AuditCourse = {
               code,
               title: credit.originalName,
@@ -2497,9 +2509,24 @@ export default function DegreeAudit() {
 
   const byCourseCode = useMemo(() => {
     const map = new Map<string, AuditCourseStatus>();
+
     for (const course of courses) {
-      map.set(course.code, course.status);
+      const canonical = canonicalCourseCode(course.code);
+      for (const equivalentCode of getEquivalentCourseCodes(canonical)) {
+        map.set(equivalentCode, mergeStatus(map.get(equivalentCode) ?? "not_started", course.status));
+      }
     }
+
+    const status340 = map.get("MATH340") ?? "not_started";
+    const status341 = map.get("MATH341") ?? "not_started";
+    const substitutionStatus = statusFromPair(status340, status341);
+
+    if (substitutionStatus !== "not_started") {
+      for (const equivalent of ["MATH240", "MATH241", "MATH246"]) {
+        map.set(equivalent, mergeStatus(map.get(equivalent) ?? "not_started", substitutionStatus));
+      }
+    }
+
     return map;
   }, [courses]);
 
@@ -2507,11 +2534,20 @@ export default function DegreeAudit() {
   const transcriptGpaHistory = useMemo(() => calculateTranscriptGPAHistory(priorCredits), [priorCredits]);
 
   const summary = useMemo(() => {
+    const mathSubstitutionActive = (byCourseCode.get("MATH340") ?? "not_started") !== "not_started"
+      && (byCourseCode.get("MATH341") ?? "not_started") !== "not_started";
+    const mathSubstitutionSuppressed = new Set(["MATH240", "MATH241", "MATH246"]);
+
     let completedCredits = 0;
     let inProgressCredits = 0;
     let plannedCredits = 0;
 
     for (const course of courses) {
+      const canonical = canonicalCourseCode(course.code);
+      if (mathSubstitutionActive && mathSubstitutionSuppressed.has(canonical)) {
+        continue;
+      }
+
       if (course.status === "completed") completedCredits += course.credits;
       else if (course.status === "in_progress") inProgressCredits += course.credits;
       else plannedCredits += course.credits;
@@ -2528,8 +2564,9 @@ export default function DegreeAudit() {
       plannedCredits,
       requiredCredits,
       overallGPA: transcriptGpaHistory.overallGPA,
+      mathSubstitutionActive,
     };
-  }, [courses, bundles, transcriptGpaHistory]);
+  }, [courses, bundles, transcriptGpaHistory, byCourseCode]);
 
   const programAudits = useMemo(() => {
     return bundles.map((bundle) => {

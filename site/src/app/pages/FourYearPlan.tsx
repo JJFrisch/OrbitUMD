@@ -74,6 +74,13 @@ const TERM_NAME: Record<string, string> = {
 
 const GRADE_OPTIONS = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F", "P", "S", "U", "I", "W", "AUD", "NGR", "IP", "NG", "NC", "CR", "WP", "WF"] as const;
 
+function genEdLabels(tags: string[]): string[] {
+  return Array.from(new Set((tags ?? [])
+    .map((tag) => String(tag ?? "").trim().toUpperCase())
+    .filter((tag) => tag.length > 0)
+    .map((tag) => `Gen Ed: ${tag}`)));
+}
+
 function parseSelections(stored: unknown): ScheduleSelection[] {
   const payload = (stored ?? []) as { selections?: ScheduleSelection[] } | ScheduleSelection[];
   if (Array.isArray(payload)) return payload;
@@ -743,7 +750,10 @@ export default function FourYearPlan() {
                         <tbody>
                           {term.courses.map((course) => {
                             const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
-                            const contributionLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+                            const contributionLabels = [
+                              ...getContributionLabelsForCourseCode(course.code, contributionMap),
+                              ...genEdLabels(course.tags),
+                            ];
                             const rowClass = contributionRowClass(contributionLabels);
                             return (
                               <tr
