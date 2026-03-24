@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap, Info } from "lucide-react";
+import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap, Info, X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -279,6 +279,8 @@ export default function FourYearPlan() {
   const navigate = useNavigate();
   const [showGpaDetails, setShowGpaDetails] = useState(false);
   const [showStandingInfo, setShowStandingInfo] = useState(false);
+  const [hideDuplicateNotice, setHideDuplicateNotice] = useState(false);
+  const [hideSubstitutionNotice, setHideSubstitutionNotice] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savingGradeKey, setSavingGradeKey] = useState<string | null>(null);
@@ -483,57 +485,50 @@ export default function FourYearPlan() {
     return primaryMajorBundle ? `Major: ${primaryMajorBundle.programName}` : null;
   }, [requirementBundles]);
 
-  const contributionPalette = [
-    {
-      borderClass: "border-sky-500",
-      bgClass: "bg-sky-500/10",
-      textClass: "text-sky-700 dark:text-sky-300",
-    },
-    {
-      borderClass: "border-orange-500",
-      bgClass: "bg-orange-500/10",
-      textClass: "text-orange-700 dark:text-orange-300",
-    },
-    {
-      borderClass: "border-emerald-500",
-      bgClass: "bg-emerald-500/10",
-      textClass: "text-emerald-700 dark:text-emerald-300",
-    },
-    {
-      borderClass: "border-rose-500",
-      bgClass: "bg-rose-500/10",
-      textClass: "text-rose-700 dark:text-rose-300",
-    },
-    {
-      borderClass: "border-amber-500",
-      bgClass: "bg-amber-500/10",
-      textClass: "text-amber-700 dark:text-amber-300",
-    },
-  ] as const;
+  const getContributionCategory = (requirementLabels: string[], hasGenEd: boolean) => {
+    const hasPrimaryMajor = Boolean(primaryMajorLabel && requirementLabels.includes(primaryMajorLabel));
+    if (hasPrimaryMajor) return "primary_major" as const;
+    if (requirementLabels.some((label) => label.startsWith("Major:"))) return "other_major" as const;
+    if (requirementLabels.some((label) => label.startsWith("Minor:"))) return "minor" as const;
+    if (hasGenEd) return "gen_ed" as const;
+    return "none" as const;
+  };
 
   const contributionBadgeClass = (label: string, isGenEdLabel = false) => {
     if (isGenEdLabel) {
-      return "bg-slate-500/10 text-slate-700 dark:text-slate-300";
+      return "bg-yellow-100 text-yellow-900 dark:bg-yellow-500/20 dark:text-yellow-300";
     }
-    const index = Math.abs(label.split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
-    const entry = contributionPalette[index];
-    return `border ${entry.borderClass} ${entry.bgClass} ${entry.textClass}`;
+
+    if (label.startsWith("Minor:")) {
+      return "border border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
+    }
+
+    if (label.startsWith("Major:")) {
+      if (primaryMajorLabel && label === primaryMajorLabel) {
+        return "border border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-300";
+      }
+      return "border border-orange-500 bg-orange-500/10 text-orange-700 dark:text-orange-300";
+    }
+
+    return "border border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300";
   };
 
-  const contributionRowClass = (labels: string[]) => {
-    if (labels.length === 0) return "";
-    const index = Math.abs(labels[0].split("").reduce((acc, ch) => acc + ch.charCodeAt(0), 0)) % contributionPalette.length;
-    const entry = contributionPalette[index];
-    return `${entry.bgClass} ${entry.borderClass} border-l-4`;
+  const contributionRowClass = (requirementLabels: string[], hasGenEd: boolean) => {
+    const category = getContributionCategory(requirementLabels, hasGenEd);
+    if (category === "primary_major") return "bg-sky-500/10 border-l-4 border-sky-500";
+    if (category === "other_major") return "bg-orange-500/10 border-l-4 border-orange-500";
+    if (category === "minor") return "bg-emerald-500/10 border-l-4 border-emerald-500";
+    if (category === "gen_ed") return "bg-yellow-100/60 dark:bg-yellow-500/10 border-l-4 border-slate-400";
+    return "";
   };
 
   const getCourseSortRank = (course: PlannedCourse): number => {
     const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
-    const hasPrimaryMajor = Boolean(primaryMajorLabel && requirementLabels.includes(primaryMajorLabel));
-    if (hasPrimaryMajor) return 0;
-    if (requirementLabels.some((label) => label.startsWith("Major:"))) return 1;
-    if (requirementLabels.some((label) => label.startsWith("Minor:"))) return 2;
-    if (genEdLabels(course.tags).length > 0) return 3;
+    const category = getContributionCategory(requirementLabels, genEdLabels(course.tags).length > 0);
+    if (category === "primary_major") return 0;
+    if (category === "other_major") return 1;
+    if (category === "minor") return 2;
+    if (category === "gen_ed") return 3;
     return 4;
   };
 
@@ -651,6 +646,14 @@ export default function FourYearPlan() {
               <h3 className="text-sm text-muted-foreground">Total Credits</h3>
             </div>
             <p className="text-3xl text-foreground">{summary.totalCredits}</p>
+          </Card>
+
+          <Card className="p-4 bg-card border-border">
+            <div className="flex items-center gap-2 mb-2">
+              <CheckCircle2 className="w-5 h-5 text-green-400" />
+              <h3 className="text-sm text-muted-foreground">Completed</h3>
+            </div>
+            <p className="text-3xl text-foreground">{summary.completedCredits}</p>
             <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
               <span>Standing: {officialStanding}</span>
               <Button
@@ -664,14 +667,6 @@ export default function FourYearPlan() {
                 <Info className="h-3.5 w-3.5" />
               </Button>
             </div>
-          </Card>
-
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle2 className="w-5 h-5 text-green-400" />
-              <h3 className="text-sm text-muted-foreground">Completed</h3>
-            </div>
-            <p className="text-3xl text-foreground">{summary.completedCredits}</p>
           </Card>
 
           <Card className="p-4 bg-card border-border">
@@ -756,23 +751,47 @@ export default function FourYearPlan() {
           </Card>
         )}
 
-        {!loading && summary.duplicateCourseCount > 0 && (
+        {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
           <Card className="p-3 mb-6 bg-amber-100 border-amber-300 dark:bg-amber-500/10 dark:border-amber-500/30">
-            <p className="text-sm text-amber-900 dark:text-amber-300">
-              Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit you already earned.
-              These repeated scheduled courses are flagged below and excluded from total credits.
-            </p>
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-sm text-amber-900 dark:text-amber-300">
+                Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit you already earned.
+                These repeated scheduled courses are flagged below and excluded from total credits.
+              </p>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-amber-900 hover:bg-amber-200/60 dark:text-amber-300 dark:hover:bg-amber-500/20"
+                onClick={() => setHideDuplicateNotice(true)}
+                aria-label="Dismiss duplicate credit notice"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </Card>
         )}
 
-        {!loading && summary.mathSubstitutionActive && (
+        {!loading && summary.mathSubstitutionActive && !hideSubstitutionNotice && (
           <Card className="p-3 mb-6 bg-sky-100 border-sky-300 dark:bg-sky-500/10 dark:border-sky-500/30">
-            <p className="text-sm text-sky-900 dark:text-sky-300">
-              Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
-              {summary.mathSubstitutionSuppressedCount > 0
-                ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from total credits to avoid double counting.`
-                : " MATH240/241/246 are excluded from total credits when this substitution is active to avoid double counting."}
-            </p>
+            <div className="flex items-start justify-between gap-3">
+              <p className="text-sm text-sky-900 dark:text-sky-300">
+                Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
+                {summary.mathSubstitutionSuppressedCount > 0
+                  ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from total credits to avoid double counting.`
+                  : " MATH240/241/246 are excluded from total credits when this substitution is active to avoid double counting."}
+              </p>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-6 w-6 text-sky-900 hover:bg-sky-200/60 dark:text-sky-300 dark:hover:bg-sky-500/20"
+                onClick={() => setHideSubstitutionNotice(true)}
+                aria-label="Dismiss substitution notice"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
           </Card>
         )}
 
@@ -843,7 +862,7 @@ export default function FourYearPlan() {
                             const genEdContributionLabels = genEdLabels(course.tags);
                             const genEdLabelSet = new Set(genEdContributionLabels);
                             const contributionLabels = [...requirementLabels, ...genEdContributionLabels];
-                            const rowClass = contributionRowClass(contributionLabels);
+                            const rowClass = contributionRowClass(requirementLabels, genEdContributionLabels.length > 0);
                             return (
                               <tr
                                 key={course.sectionKey}
