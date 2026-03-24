@@ -32,6 +32,7 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
+  const swirlLogoSrc = `${import.meta.env.BASE_URL}orbit-swirl.svg`;
 
   return (
     <aside className={cn(
@@ -41,7 +42,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       <div className={cn("border-b border-border", collapsed ? "p-3" : "p-6")}>
         <div className={cn("flex items-center gap-2", collapsed ? "justify-start" : "justify-between")}>
           <Link to="/dashboard" className="flex items-center gap-2 min-w-0">
-            <img src="/orbit-swirl.svg" alt="OrbitUMD logo" className="w-8 h-8 shrink-0" />
+            <img src={swirlLogoSrc} alt="OrbitUMD logo" className="w-8 h-8 shrink-0" />
             {!collapsed && (
               <span className="text-2xl tracking-tight text-foreground truncate [text-shadow:0_0_20px_rgba(239,68,68,0.3)]">
                 OrbitUMD

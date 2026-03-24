@@ -3302,7 +3302,7 @@ export default function DegreeAudit() {
                                   const editingThisSection = editingProgramIndex === index && editingSectionId === section.id && sectionDraft;
                                   if (editingThisSection) {
                                     return (
-                                      <Card key={section.id} ref={editorCardRef} className="bg-input-background border-border p-4">
+                                      <Card key={section.id} ref={editorCardRef} className="bg-card border-2 border-border p-5 shadow-xl shadow-black/10 ring-1 ring-red-500/20">
                                         <div className="flex items-center justify-between gap-2 mb-3">
                                           <h4 className="text-foreground">Edit Section</h4>
                                           <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
@@ -3316,9 +3316,10 @@ export default function DegreeAudit() {
                                             value={sectionDraft.title}
                                             onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
                                             placeholder="Title: section name"
+                                            className="border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                           />
                                           <select
-                                            className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
+                                            className="h-9 rounded-md border-2 border-border bg-input-background px-3 text-sm shadow-sm outline-none focus-visible:border-red-500/50 focus-visible:ring-2 focus-visible:ring-red-500/25"
                                             value={sectionDraft.requirementType}
                                             onChange={(event) => setSectionDraft((prev) => prev ? {
                                               ...prev,
@@ -3337,6 +3338,7 @@ export default function DegreeAudit() {
                                             onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
                                             placeholder="Section type count"
                                             disabled={sectionDraft.requirementType !== "choose"}
+                                            className="border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                           />
                                         </div>
 
@@ -3344,7 +3346,7 @@ export default function DegreeAudit() {
                                           value={sectionDraft.notesText}
                                           onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
                                           placeholder="Notes: one per line"
-                                          className="mb-3"
+                                          className="mb-3 border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                         />
 
                                         <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
@@ -3472,7 +3474,7 @@ export default function DegreeAudit() {
                                                       : item),
                                                   } : prev)}
                                                   placeholder="Optional group title"
-                                                  className="h-8 text-xs"
+                                                  className="h-8 border-2 border-border bg-input-background text-xs shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                                 />
                                                 <Button
                                                   type="button"
@@ -3596,6 +3598,7 @@ export default function DegreeAudit() {
                                             value={courseSearchQuery}
                                             onChange={(event) => setCourseSearchQuery(event.target.value)}
                                             placeholder="Search courses (e.g. BSCI330 or genetics)"
+                                            className="border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                           />
                                           <Button type="button" onClick={runCourseSearch} disabled={courseSearchPending} data-audit-search-btn="true">
                                             {courseSearchPending ? "Searching..." : "Search"}
@@ -3607,6 +3610,7 @@ export default function DegreeAudit() {
                                             value={wildcardTokenInput}
                                             onChange={(event) => setWildcardTokenInput(event.target.value)}
                                             placeholder="Insert wildcard token (e.g. BSCI3XX, CMSC/MATHXXX)"
+                                            className="border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                           />
                                           <Button type="button" variant="outline" onClick={addWildcardTokenToActiveBlock} disabled={!activeDraftBlockId}>
                                             Add Wildcard
@@ -3714,7 +3718,7 @@ export default function DegreeAudit() {
                                 })}
 
                                 {editingProgramIndex === index && sectionDraft && editingSectionId === null && (
-                                  <Card ref={editorCardRef} className="bg-input-background border-border p-4">
+                                  <Card ref={editorCardRef} className="bg-card border-2 border-border p-5 shadow-xl shadow-black/10 ring-1 ring-red-500/20">
                                     <div className="flex items-center justify-between gap-2 mb-3">
                                       <h4 className="text-foreground">Add Section</h4>
                                       <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
@@ -3728,9 +3732,10 @@ export default function DegreeAudit() {
                                         value={sectionDraft.title}
                                         onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, title: event.target.value } : prev)}
                                         placeholder="Title: section name"
+                                        className="border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                       />
                                       <select
-                                        className="h-9 rounded-md border border-input bg-input-background px-3 text-sm"
+                                        className="h-9 rounded-md border-2 border-border bg-input-background px-3 text-sm shadow-sm outline-none focus-visible:border-red-500/50 focus-visible:ring-2 focus-visible:ring-red-500/25"
                                         value={sectionDraft.requirementType}
                                         onChange={(event) => setSectionDraft((prev) => prev ? {
                                           ...prev,
@@ -3749,6 +3754,7 @@ export default function DegreeAudit() {
                                         onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, chooseCount: Number(event.target.value) || 1 } : prev)}
                                         placeholder="Section type count"
                                         disabled={sectionDraft.requirementType !== "choose"}
+                                        className="border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                       />
                                     </div>
 
@@ -3756,7 +3762,7 @@ export default function DegreeAudit() {
                                       value={sectionDraft.notesText}
                                       onChange={(event) => setSectionDraft((prev) => prev ? { ...prev, notesText: event.target.value } : prev)}
                                       placeholder="Notes: one per line"
-                                      className="mb-3"
+                                      className="mb-3 border-2 border-border bg-input-background shadow-sm focus-visible:border-red-500/50 focus-visible:ring-red-500/25"
                                     />
 
                                     <p className="text-xs font-medium text-muted-foreground mb-2">Classes Included:</p>
