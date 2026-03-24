@@ -18,6 +18,7 @@ import {
   loadProgramRequirementBundles,
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
+import { canonicalCourseCode } from "@/lib/requirements/courseCodeEquivalency";
 import {
   Dialog,
   DialogContent,
@@ -423,13 +424,31 @@ export default function FourYearPlan() {
       .filter((course) => course.countsTowardProgress)
       .filter((course) => !duplicateScheduleSectionKeys.has(course.sectionKey));
 
-    const completedCredits = countedCourses
+    const statusByCanonicalCode = new Map<string, AcademicProgressStatus>();
+    for (const course of countedCourses) {
+      const canonical = canonicalCourseCode(course.code);
+      const existing = statusByCanonicalCode.get(canonical);
+      if (!existing || statusRank(course.status) > statusRank(existing)) {
+        statusByCanonicalCode.set(canonical, course.status);
+      }
+    }
+
+    const math340Status = statusByCanonicalCode.get("MATH340");
+    const math341Status = statusByCanonicalCode.get("MATH341");
+    const hasMath340341Substitution = Boolean(math340Status && math341Status);
+    const substitutionSuppressed = new Set(["MATH240", "MATH241", "MATH246"]);
+
+    const coursesForTotals = hasMath340341Substitution
+      ? countedCourses.filter((course) => !substitutionSuppressed.has(canonicalCourseCode(course.code)))
+      : countedCourses;
+
+    const completedCredits = coursesForTotals
       .filter((course) => course.status === "completed")
       .reduce((sum, course) => sum + course.credits, 0);
-    const inProgressCredits = countedCourses
+    const inProgressCredits = coursesForTotals
       .filter((course) => course.status === "in_progress")
       .reduce((sum, course) => sum + course.credits, 0);
-    const plannedCredits = countedCourses
+    const plannedCredits = coursesForTotals
       .filter((course) => course.status === "planned")
       .reduce((sum, course) => sum + course.credits, 0);
 
