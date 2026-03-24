@@ -100,7 +100,7 @@ function getDepthIndentClass(depth: number): string {
   return DEPTH_INDENT_CLASSES[Math.min(safeDepth, DEPTH_INDENT_CLASSES.length - 1)];
 }
 
-const WILDCARD_TOKEN_PATTERN = /^(?:[A-Z]{4}(?::[A-Z]{4})*)?(?:XXX|[1-8]XX)$/;
+const WILDCARD_TOKEN_PATTERN = /^(?:[A-Z]{4}(?:[:/][A-Z]{4})*)?(?:XXX|[1-8]XX)$/;
 
 function normalizeProgramName(value: string): string {
   return value
@@ -330,24 +330,24 @@ interface WildcardSlotMeta {
 function parseWildcardRule(raw: string): WildcardRule | null {
   const token = String(raw ?? "").toUpperCase().trim();
 
-  // DEPT:DEPT:4XX — specific depts, level-band (e.g. CMSC:MATH:4XX)
-  const levelRange = token.match(/^([A-Z]{4}(?::[A-Z]{4})*)([1-8])XX$/);
+  // DEPT/DEPT/4XX (or DEPT:DEPT:4XX) — specific depts, level-band
+  const levelRange = token.match(/^([A-Z]{4}(?:[:/][A-Z]{4})*)([1-8])XX$/);
   if (levelRange) {
     const levelBase = Number(levelRange[2]) * 100;
     return {
       token,
-      departments: levelRange[1].split(":").map((part) => part.toUpperCase()),
+      departments: levelRange[1].split(/[:/]/).map((part) => part.toUpperCase()),
       minLevel: levelBase,
       maxLevel: levelBase + 99,
     };
   }
 
-  // DEPT:DEPT:XXX — one or more specific depts, any level (e.g. CMSC:MATH:XXX)
-  const anyLevel = token.match(/^([A-Z]{4}(?::[A-Z]{4})*)XXX$/);
+  // DEPT/DEPT/XXX (or DEPT:DEPT:XXX) — one or more specific depts, any level
+  const anyLevel = token.match(/^([A-Z]{4}(?:[:/][A-Z]{4})*)XXX$/);
   if (anyLevel) {
     return {
       token,
-      departments: anyLevel[1].split(":").map((part) => part.toUpperCase()),
+      departments: anyLevel[1].split(/[:/]/).map((part) => part.toUpperCase()),
     };
   }
 
@@ -668,7 +668,23 @@ function RequirementSectionTableCard({
     setRequirementDraft(section.requirementType === "choose" ? "choose" : "all");
     setChooseCountDraft(Math.max(1, Number(section.chooseCount ?? 1)));
     setNotesDraft((section.notes ?? []).join("\n"));
+    setOpenWildcardSlotKey(null);
   }, [section]);
+
+  useEffect(() => {
+    if (!openWildcardSlotKey) return;
+
+    const handleDocumentPointerDown = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest(`[data-wildcard-slot="${openWildcardSlotKey}"]`)) {
+        return;
+      }
+      setOpenWildcardSlotKey(null);
+    };
+
+    document.addEventListener("mousedown", handleDocumentPointerDown);
+    return () => document.removeEventListener("mousedown", handleDocumentPointerDown);
+  }, [openWildcardSlotKey]);
 
   // Debounced search while editing a code
   useEffect(() => {
@@ -796,12 +812,14 @@ function RequirementSectionTableCard({
     return result;
   }, [section, allCourses, courseDetails, byCourseCode, wildcardMatchedCoursesByToken]);
 
-  const wildcardSlotByToken = useMemo(() => {
-    const map = new Map<string, WildcardSlotMeta>();
+  const wildcardSlotsByToken = useMemo(() => {
+    const map = new Map<string, WildcardSlotMeta[]>();
     for (const slot of wildcardSlots) {
       const token = String(slot.token ?? "").toUpperCase();
-      if (!token || map.has(token)) continue;
-      map.set(token, slot);
+      if (!token) continue;
+      const current = map.get(token) ?? [];
+      current.push(slot);
+      map.set(token, current);
     }
     return map;
   }, [wildcardSlots]);
@@ -891,6 +909,36 @@ function RequirementSectionTableCard({
     return rows;
   }, [section]);
 
+  const wildcardSlotByRenderKey = useMemo(() => {
+    const map = new Map<string, WildcardSlotMeta>();
+    const tokenUsageCount = new Map<string, number>();
+
+    const assignSlot = (tokenRaw: string, rowKey: string, codeIndex: number) => {
+      const token = String(tokenRaw ?? "").toUpperCase();
+      const slots = wildcardSlotsByToken.get(token) ?? [];
+      if (slots.length === 0) return;
+
+      const used = tokenUsageCount.get(token) ?? 0;
+      const slot = slots[Math.min(used, slots.length - 1)];
+      tokenUsageCount.set(token, used + 1);
+      map.set(`${rowKey}-${token}-${codeIndex}`, slot);
+    };
+
+    for (const row of classRows) {
+      if (row.type === "OR") {
+        row.choices.forEach((choice, choiceIndex) => {
+          const rowKey = `${row.key}-choice-${choiceIndex}`;
+          choice.forEach((token, codeIndex) => assignSlot(token, rowKey, codeIndex));
+        });
+      } else {
+        const primaryChoice = row.choices[0] ?? [];
+        primaryChoice.forEach((token, codeIndex) => assignSlot(token, row.key, codeIndex));
+      }
+    }
+
+    return map;
+  }, [classRows, wildcardSlotsByToken]);
+
   const saveTitle = () => {
     const nextTitle = titleDraft.trim() || "Untitled Section";
     onSaveSection?.({ ...section, title: nextTitle });
@@ -948,15 +996,23 @@ function RequirementSectionTableCard({
   };
 
   const renderCourseButton = (token: string, rowKey: string, codeIndex: number, isLastInOr: boolean, rowType: SectionRowType) => {
+    const renderKey = `${rowKey}-${token}-${codeIndex}`;
     const isEditing = editingCode?.originalCode === token;
-    const course = sectionCoursesByCode.get(token);
-    const status: AuditCourseStatus = course?.status ?? byCourseCode.get(token) ?? "not_started";
-    const displayText = course ? `${course.code} · ${course.title}` : token;
+    const wildcardSlot = wildcardSlotByRenderKey.get(renderKey);
+    const wildcardMatchedCourse = wildcardSlot?.effectiveCode
+      ? allCourses.find((course) => course.code.toUpperCase() === String(wildcardSlot.effectiveCode).toUpperCase())
+      : undefined;
+    const course = wildcardMatchedCourse ?? sectionCoursesByCode.get(token);
+    const status: AuditCourseStatus = wildcardMatchedCourse?.status ?? course?.status ?? byCourseCode.get(token) ?? "not_started";
+    const displayText = wildcardMatchedCourse
+      ? `${token} · ${wildcardMatchedCourse.code} - ${wildcardMatchedCourse.title}`
+      : course
+        ? `${course.code} · ${course.title}`
+        : token;
     const borderClass = courseStatusBorderClass(status);
-    const wildcardSlot = wildcardSlotByToken.get(token.toUpperCase());
 
     return (
-      <div key={`${rowKey}-${token}-${codeIndex}`} className="flex items-center gap-2">
+      <div key={renderKey} className="flex items-center gap-2">
         {isEditing ? (
           <div className="rounded-md border border-border bg-input-background p-2 w-[360px] max-w-full z-10">
             <Input
@@ -1001,7 +1057,7 @@ function RequirementSectionTableCard({
             </button>
             <span className="degree-audit-chip-print hidden text-[11px] leading-snug">{displayText}</span>
             {wildcardSlot && onSelectWildcardCourse && (
-              <div className="relative">
+              <div className="relative" data-wildcard-slot={wildcardSlot.key}>
                 <Button
                   type="button"
                   size="icon"
