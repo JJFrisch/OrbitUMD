@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap } from "lucide-react";
+import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap, Info } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -238,6 +238,13 @@ function statusTextClass(status: AcademicProgressStatus): string {
   return "text-amber-700 dark:text-amber-300";
 }
 
+function getOfficialStanding(earnedCredits: number): "Freshman" | "Sophomore" | "Junior" | "Senior" {
+  if (earnedCredits <= 29) return "Freshman";
+  if (earnedCredits <= 59) return "Sophomore";
+  if (earnedCredits <= 89) return "Junior";
+  return "Senior";
+}
+
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
   const COURSE_RE = /([A-Z]{4}\d{3}[A-Z]?)/g;
   const parts: Array<{ type: "text" | "code"; value: string }> = [];
@@ -271,6 +278,7 @@ function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick
 export default function FourYearPlan() {
   const navigate = useNavigate();
   const [showGpaDetails, setShowGpaDetails] = useState(false);
+  const [showStandingInfo, setShowStandingInfo] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savingGradeKey, setSavingGradeKey] = useState<string | null>(null);
@@ -458,9 +466,15 @@ export default function FourYearPlan() {
       inProgressCredits,
       plannedCredits,
       duplicateCourseCount: duplicateScheduleSectionKeys.size,
+      mathSubstitutionActive: hasMath340341Substitution,
+      mathSubstitutionSuppressedCount: hasMath340341Substitution
+        ? countedCourses.filter((course) => substitutionSuppressed.has(canonicalCourseCode(course.code))).length
+        : 0,
       overallGPA: academicGpaHistory.overallGPA,
     };
   }, [academicGpaHistory.overallGPA, duplicateScheduleSectionKeys, terms]);
+
+  const officialStanding = useMemo(() => getOfficialStanding(summary.completedCredits), [summary.completedCredits]);
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
@@ -637,6 +651,19 @@ export default function FourYearPlan() {
               <h3 className="text-sm text-muted-foreground">Total Credits</h3>
             </div>
             <p className="text-3xl text-foreground">{summary.totalCredits}</p>
+            <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
+              <span>Standing: {officialStanding}</span>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-5 w-5 text-muted-foreground"
+                onClick={() => setShowStandingInfo(true)}
+                aria-label="Explain class standing thresholds"
+              >
+                <Info className="h-3.5 w-3.5" />
+              </Button>
+            </div>
           </Card>
 
           <Card className="p-4 bg-card border-border">
@@ -736,6 +763,23 @@ export default function FourYearPlan() {
               These repeated scheduled courses are flagged below and excluded from total credits.
             </p>
           </Card>
+        )}
+
+        {!loading && summary.mathSubstitutionActive && (
+          <Card className="p-3 mb-6 bg-sky-100 border-sky-300 dark:bg-sky-500/10 dark:border-sky-500/30">
+            <p className="text-sm text-sky-900 dark:text-sky-300">
+              Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
+              {summary.mathSubstitutionSuppressedCount > 0
+                ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from total credits to avoid double counting.`
+                : " MATH240/241/246 are excluded from total credits when this substitution is active to avoid double counting."}
+            </p>
+          </Card>
+        )}
+
+        {!loading && !errorMessage && visibleTerms.length > 0 && (
+          <p className="mb-4 text-xs text-muted-foreground">
+            Sort priority in each term: Primary major, other majors, minors, Gen Ed, then no tagged requirement.
+          </p>
         )}
 
         {loading && <p className="text-muted-foreground">Loading four-year plan...</p>}
@@ -917,6 +961,29 @@ export default function FourYearPlan() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showStandingInfo} onOpenChange={setShowStandingInfo}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>UMD Class Standing Thresholds</DialogTitle>
+            <DialogDescription>
+              Official undergraduate standing is based on total earned credit hours.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 text-sm">
+            <ul className="space-y-1 text-foreground">
+              <li>0-29 credits: Freshman</li>
+              <li>30-59 credits: Sophomore</li>
+              <li>60-89 credits: Junior</li>
+              <li>90+ credits: Senior</li>
+            </ul>
+            <p className="text-muted-foreground">
+              CMNS/ELMS may split Seniors into 90-103 and 104+, but this page uses the official university-wide standing brackets.
+            </p>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
