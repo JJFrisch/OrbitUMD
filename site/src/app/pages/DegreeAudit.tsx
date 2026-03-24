@@ -78,6 +78,7 @@ const CUSTOM_AUDIT_SECTIONS_KEY = "orbitumd:audit-custom-sections:v1";
 const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
 const REQUIREMENTS_CATALOG_VERSION_KEY = "orbitumd:requirements-catalog-version";
 const REQUIREMENTS_CATALOG_RESET_KEY = "orbitumd:requirements-catalog-reset-pending";
+const SPECIALIZATION_SELECTIONS_KEY = "orbitumd:specialization-selections:v1";
 const CURRENT_REQUIREMENTS_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
 
 const DEPTH_INDENT_CLASSES = [
@@ -650,6 +651,7 @@ function RequirementSectionTableCard({
   const [editingCode, setEditingCode] = useState<{ originalCode: string; query: string } | null>(null);
   const [codeSearchPending, setCodeSearchPending] = useState(false);
   const [codeSearchResults, setCodeSearchResults] = useState<CourseSearchResult[]>([]);
+  const [openWildcardSlotKey, setOpenWildcardSlotKey] = useState<string | null>(null);
   // Add-course-directly state
   const [addingCourse, setAddingCourse] = useState(false);
   const [addQuery, setAddQuery] = useState("");
@@ -793,6 +795,16 @@ function RequirementSectionTableCard({
     }
     return result;
   }, [section, allCourses, courseDetails, byCourseCode, wildcardMatchedCoursesByToken]);
+
+  const wildcardSlotByToken = useMemo(() => {
+    const map = new Map<string, WildcardSlotMeta>();
+    for (const slot of wildcardSlots) {
+      const token = String(slot.token ?? "").toUpperCase();
+      if (!token || map.has(token)) continue;
+      map.set(token, slot);
+    }
+    return map;
+  }, [wildcardSlots]);
 
   const classRows = useMemo(() => {
     const rows: Array<{ key: string; choices: string[][]; type: SectionRowType; depth: number }> = [];
@@ -941,6 +953,7 @@ function RequirementSectionTableCard({
     const status: AuditCourseStatus = course?.status ?? byCourseCode.get(token) ?? "not_started";
     const displayText = course ? `${course.code} · ${course.title}` : token;
     const borderClass = courseStatusBorderClass(status);
+    const wildcardSlot = wildcardSlotByToken.get(token.toUpperCase());
 
     return (
       <div key={`${rowKey}-${token}-${codeIndex}`} className="flex items-center gap-2">
@@ -987,6 +1000,48 @@ function RequirementSectionTableCard({
               {displayText}
             </button>
             <span className="degree-audit-chip-print hidden text-[11px] leading-snug">{displayText}</span>
+            {wildcardSlot && onSelectWildcardCourse && (
+              <div className="relative">
+                <Button
+                  type="button"
+                  size="icon"
+                  variant="outline"
+                  className="h-6 w-6 border-border"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setOpenWildcardSlotKey((current) => (current === wildcardSlot.key ? null : wildcardSlot.key));
+                  }}
+                  title={`Select course for ${wildcardSlot.token}`}
+                  aria-label={`Select course for ${wildcardSlot.token}`}
+                >
+                  <Plus className="h-3 w-3" />
+                </Button>
+
+                {openWildcardSlotKey === wildcardSlot.key && (
+                  <div className="absolute left-0 top-7 z-20 w-80 rounded-md border border-border bg-card p-2 shadow-lg">
+                    <p className="mb-1 text-[11px] text-muted-foreground">{wildcardSlot.token} wildcard</p>
+                    <select
+                      className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+                      value={wildcardSlot.selectedCode ?? ""}
+                      onChange={(event) => {
+                        onSelectWildcardCourse(wildcardSlot.key, event.target.value);
+                        setOpenWildcardSlotKey(null);
+                      }}
+                      onClick={(event) => event.stopPropagation()}
+                      aria-label={`Select course for ${wildcardSlot.token}`}
+                      title={`Select course for ${wildcardSlot.token}`}
+                    >
+                      <option value="">Auto-select best match</option>
+                      {wildcardSlot.options.map((option) => (
+                        <option key={`${wildcardSlot.key}-${option.code}`} value={option.code}>
+                          {option.code} - {option.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+            )}
           </>
         )}
         {rowType === "OR" && !isLastInOr && (
@@ -1044,7 +1099,7 @@ function RequirementSectionTableCard({
                 <div className="flex items-center gap-2">
                   {statusBadge(sectionEval.status)}
                   <span className="text-xs text-muted-foreground">
-                    {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots + sectionEval.plannedSlots)} / {sectionEval.requiredSlots}
+                    {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots)} / {sectionEval.requiredSlots}
                   </span>
                 </div>
               </td>
@@ -1062,28 +1117,6 @@ function RequirementSectionTableCard({
                 </div>
               </td>
             </tr>
-
-            {/* Wildcard slot rows */}
-            {wildcardSlots.length > 0 && (
-              <tr className="border-b border-border bg-muted/20">
-                <td className="px-3 py-2 text-xs text-muted-foreground" colSpan={2}>Wildcard Slots</td>
-                <td className="px-3 py-2 text-xs text-muted-foreground" colSpan={3}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {wildcardSlots.map((slot) => (
-                      <label key={slot.key} className="text-xs text-muted-foreground flex flex-col gap-1">
-                        <span>{slot.token}</span>
-                        <select className="h-8 rounded-md border border-input bg-input-background px-2 text-xs text-foreground" value={slot.selectedCode ?? ""} onChange={(e) => onSelectWildcardCourse?.(slot.key, e.target.value)} aria-label={`Select course for ${slot.token}`} title={`Select course for ${slot.token}`}>
-                          <option value="">Auto-select best match</option>
-                          {slot.options.map((opt) => (
-                            <option key={`${slot.key}-${opt.code}`} value={opt.code}>{opt.code} - {opt.title}</option>
-                          ))}
-                        </select>
-                      </label>
-                    ))}
-                  </div>
-                </td>
-              </tr>
-            )}
 
             {/* Class rows */}
             {classRows.map((row) => (
@@ -1574,7 +1607,15 @@ export default function DegreeAudit() {
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
   const [expandedNotesSectionIds, setExpandedNotesSectionIds] = useState<Set<string>>(new Set());
   const condensedAuditView = false;
-  const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(new Map());
+  const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(() => {
+    try {
+      const stored = localStorage.getItem(SPECIALIZATION_SELECTIONS_KEY);
+      if (!stored) return new Map();
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) return new Map(parsed);
+    } catch { /* noop */ }
+    return new Map();
+  });
   const [editingProgramIndex, setEditingProgramIndex] = useState<number | null>(null);
   const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
   const [sectionDraft, setSectionDraft] = useState<SectionDraft | null>(null);
@@ -2326,6 +2367,17 @@ export default function DegreeAudit() {
     if (editingProgramIndex === null || !sectionDraft) return;
     editorCardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [editingProgramIndex, sectionDraft]);
+
+  // Persist specialization selection changes to localStorage
+  useEffect(() => {
+    try {
+      if (selectedSpecialization.size === 0) {
+        localStorage.removeItem(SPECIALIZATION_SELECTIONS_KEY);
+      } else {
+        localStorage.setItem(SPECIALIZATION_SELECTIONS_KEY, JSON.stringify(Array.from(selectedSpecialization.entries())));
+      }
+    } catch { /* noop */ }
+  }, [selectedSpecialization]);
 
   // Handle specialization selection changes
   useEffect(() => {

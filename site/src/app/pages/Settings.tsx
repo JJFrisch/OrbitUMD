@@ -605,6 +605,22 @@ export default function Settings() {
         throw new Error("Current degree audit has no sections to save as template.");
       }
 
+      // Capture wildcard selections from localStorage if they exist
+      let wildcardSelectionsNote = "";
+      try {
+        const wildcardSelections = localStorage.getItem("orbitumd:audit-wildcard-selections:v1");
+        if (wildcardSelections) {
+          const parsed = JSON.parse(wildcardSelections);
+          // Filter to include only wildcards for this program
+          const programWildcards = Object.entries(parsed).filter(([key]) =>
+            key.startsWith(`${selectedProgram.programId}:`)
+          );
+          if (programWildcards.length > 0) {
+            wildcardSelectionsNote = `\n\nNote: This template includes ${programWildcards.length} wildcard course selection${programWildcards.length > 1 ? "s" : ""}. These selections are stored separately and will be restored when the template is loaded.`;
+          }
+        }
+      } catch { /* noop */ }
+
       const programKey = buildProgramTemplateKey({
         programId: selectedProgram.programId,
         programCode: selectedProgram.programCode,
@@ -614,7 +630,7 @@ export default function Settings() {
 
       await saveProgramRequirementTemplate(programKey, sectionsToSave);
       setAdminTemplateJson(JSON.stringify(sectionsToSave, null, 2));
-      setAdminTemplateMessage(`Set current degree to template for ${selectedProgram.programName}.`);
+      setAdminTemplateMessage(`Set current degree to template for ${selectedProgram.programName}.${wildcardSelectionsNote}`);
     } catch (error) {
       setAdminTemplateMessage(error instanceof Error ? error.message : "Unable to set current degree to template.");
     }
