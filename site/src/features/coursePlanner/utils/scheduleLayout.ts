@@ -157,14 +157,16 @@ export function getBlockGeometry(
   bounds: { startHour: number; endHour: number }
 ): { topPct: number; heightPct: number; leftPct: number; widthPct: number } {
   const totalRange = Math.max(1, bounds.endHour - bounds.startHour);
-  const topPct = ((meeting.startHour - bounds.startHour) / totalRange) * 100;
-  const heightPct = ((meeting.endHour - meeting.startHour) / totalRange) * 100;
+  const clampedStart = Math.min(Math.max(meeting.startHour, bounds.startHour), bounds.endHour);
+  const clampedEnd = Math.min(Math.max(meeting.endHour, bounds.startHour), bounds.endHour);
+  const topPct = ((clampedStart - bounds.startHour) / totalRange) * 100;
+  const heightPct = ((Math.max(clampedEnd, clampedStart) - clampedStart) / totalRange) * 100;
   const widthPct = 100 / meeting.conflictTotal;
   const leftPct = widthPct * meeting.conflictIndex;
 
   return {
-    topPct: Math.max(0, topPct),
-    heightPct: Math.max(1, heightPct),
+    topPct: Math.min(100, Math.max(0, topPct)),
+    heightPct: Math.max(1, Math.min(100, heightPct)),
     leftPct,
     widthPct,
   };

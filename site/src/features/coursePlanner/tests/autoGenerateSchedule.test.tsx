@@ -303,4 +303,114 @@ describe("AutoGenerateSchedulePage", () => {
       expect(screen.getByText(/No conflict-free schedules found for required courses under current criteria/)).toBeInTheDocument();
     });
   });
+
+  it("does not switch generated schedule on mostly vertical wheel scroll", async () => {
+    renderPage();
+
+    fireEvent.change(screen.getByLabelText("Required Courses"), {
+      target: { value: "CMSC131" },
+    });
+    fireEvent.change(screen.getByLabelText("Optional Courses"), {
+      target: { value: "ENGL101" },
+    });
+    fireEvent.change(screen.getByLabelText("Min Credits"), {
+      target: { value: "4" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    const generatedLabel = await screen.findByText(/Generated Schedules \(\d+\)/);
+    expect(generatedLabel).toBeInTheDocument();
+
+    const countMatch = generatedLabel.textContent?.match(/Generated Schedules \((\d+)\)/);
+    const generatedCount = Number(countMatch?.[1] ?? 0);
+    if (generatedCount <= 1) {
+      return;
+    }
+
+    const scroller = screen.getByTestId("generated-schedule-calendar").closest(".cp-generate-result-list");
+    expect(scroller).not.toBeNull();
+    if (!scroller) return;
+
+    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
+
+    fireEvent.wheel(scroller, { deltaX: 10, deltaY: 50 });
+
+    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
+  });
+
+  it("switches generated schedule on clearly horizontal wheel scroll", async () => {
+    renderPage();
+
+    fireEvent.change(screen.getByLabelText("Required Courses"), {
+      target: { value: "CMSC131" },
+    });
+    fireEvent.change(screen.getByLabelText("Optional Courses"), {
+      target: { value: "ENGL101" },
+    });
+    fireEvent.change(screen.getByLabelText("Min Credits"), {
+      target: { value: "4" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    const generatedLabel = await screen.findByText(/Generated Schedules \(\d+\)/);
+    expect(generatedLabel).toBeInTheDocument();
+
+    const countMatch = generatedLabel.textContent?.match(/Generated Schedules \((\d+)\)/);
+    const generatedCount = Number(countMatch?.[1] ?? 0);
+    if (generatedCount <= 1) {
+      return;
+    }
+
+    const scroller = screen.getByTestId("generated-schedule-calendar").closest(".cp-generate-result-list");
+    expect(scroller).not.toBeNull();
+    if (!scroller) return;
+
+    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
+
+    fireEvent.wheel(scroller, { deltaX: 120, deltaY: 20 });
+
+    expect(await screen.findByText(new RegExp(`Option 2 of ${generatedCount}`))).toBeInTheDocument();
+  });
+
+  it("does not switch generated schedule on mostly vertical touch gesture", async () => {
+    renderPage();
+
+    fireEvent.change(screen.getByLabelText("Required Courses"), {
+      target: { value: "CMSC131" },
+    });
+    fireEvent.change(screen.getByLabelText("Optional Courses"), {
+      target: { value: "ENGL101" },
+    });
+    fireEvent.change(screen.getByLabelText("Min Credits"), {
+      target: { value: "4" },
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    const generatedLabel = await screen.findByText(/Generated Schedules \(\d+\)/);
+    expect(generatedLabel).toBeInTheDocument();
+
+    const countMatch = generatedLabel.textContent?.match(/Generated Schedules \((\d+)\)/);
+    const generatedCount = Number(countMatch?.[1] ?? 0);
+    if (generatedCount <= 1) {
+      return;
+    }
+
+    const scroller = screen.getByTestId("generated-schedule-calendar").closest(".cp-generate-result-list");
+    expect(scroller).not.toBeNull();
+    if (!scroller) return;
+
+    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
+
+    fireEvent.touchStart(scroller, {
+      touches: [{ clientX: 200, clientY: 100 }],
+    });
+    fireEvent.touchEnd(scroller, {
+      changedTouches: [{ clientX: 150, clientY: 20 }],
+    });
+
+    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
+  });
 });

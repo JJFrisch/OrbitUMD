@@ -461,6 +461,7 @@ export function AutoGenerateSchedulePage() {
   const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
   const wheelLastAtRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
 
   const requiredCodes = useMemo(() => parseCourseCodes(requiredRaw), [requiredRaw]);
   const optionalCodes = useMemo(() => parseCourseCodes(optionalRaw), [optionalRaw]);
@@ -646,28 +647,39 @@ export function AutoGenerateSchedulePage() {
       return;
     }
 
-    const delta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
-    if (Math.abs(delta) < 8) return;
+    const absX = Math.abs(event.deltaX);
+    const absY = Math.abs(event.deltaY);
+    // Only switch schedules when horizontal intent is clear.
+    if (absX < 12 || absX < absY * 2) {
+      return;
+    }
 
     wheelLastAtRef.current = now;
-    if (delta > 0) goToNextSchedule();
+    if (event.deltaX > 0) goToNextSchedule();
     else goToPreviousSchedule();
   };
 
   const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
     touchStartXRef.current = event.touches[0]?.clientX ?? null;
+    touchStartYRef.current = event.touches[0]?.clientY ?? null;
   };
 
   const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
     if (generated.length <= 1) return;
     const startX = touchStartXRef.current;
+    const startY = touchStartYRef.current;
     touchStartXRef.current = null;
-    if (startX === null) return;
+    touchStartYRef.current = null;
+    if (startX === null || startY === null) return;
 
     const endX = event.changedTouches[0]?.clientX;
-    if (!Number.isFinite(endX)) return;
+    const endY = event.changedTouches[0]?.clientY;
+    if (!Number.isFinite(endX) || !Number.isFinite(endY)) return;
     const deltaX = startX - Number(endX);
-    if (Math.abs(deltaX) < 40) return;
+    const deltaY = startY - Number(endY);
+    const absX = Math.abs(deltaX);
+    const absY = Math.abs(deltaY);
+    if (absX < 40 || absX < absY * 1.5) return;
 
     if (deltaX > 0) goToNextSchedule();
     else goToPreviousSchedule();

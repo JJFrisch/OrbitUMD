@@ -64,6 +64,50 @@ describe("schedule layout", () => {
     expect(geometry.widthPct).toBe(50);
   });
 
+  it("aligns minute-offset meetings to exact percentage positions", () => {
+    const geometry = getBlockGeometry(
+      {
+        id: "minute-offset",
+        sectionKey: "S",
+        courseCode: "CMSC131",
+        sectionCode: "0101",
+        title: "x",
+        instructor: "x",
+        day: "Tu",
+        startHour: 9.25,
+        endHour: 10.75,
+        conflictIndex: 0,
+        conflictTotal: 1,
+      },
+      { startHour: 8, endHour: 16 }
+    );
+
+    expect(geometry.topPct).toBeCloseTo(15.625);
+    expect(geometry.heightPct).toBeCloseTo(18.75);
+  });
+
+  it("clamps meetings outside visible bounds", () => {
+    const geometry = getBlockGeometry(
+      {
+        id: "out-of-range",
+        sectionKey: "S",
+        courseCode: "CMSC131",
+        sectionCode: "0101",
+        title: "x",
+        instructor: "x",
+        day: "M",
+        startHour: 6,
+        endHour: 18,
+        conflictIndex: 0,
+        conflictTotal: 1,
+      },
+      { startHour: 8, endHour: 16 }
+    );
+
+    expect(geometry.topPct).toBe(0);
+    expect(geometry.heightPct).toBe(100);
+  });
+
   it("maps untimed meetings to Other", () => {
     const blocks = buildCalendarMeetings({
       sectionKey: "S",
