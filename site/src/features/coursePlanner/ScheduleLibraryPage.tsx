@@ -481,7 +481,6 @@ export function ScheduleLibraryPage() {
                   type="button"
                   className="cp-projected-times-info"
                   aria-label="What projected times means"
-                  aria-expanded={showProjectedInfo}
                   onClick={() => setShowProjectedInfo((current) => !current)}
                 >
                   i
