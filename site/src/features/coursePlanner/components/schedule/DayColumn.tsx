@@ -15,6 +15,8 @@ interface DayColumnProps {
   onRemove: (sectionKey: string) => void;
 }
 
+const CALENDAR_HOUR_HEIGHT_PX = 112;
+
 export function DayColumn({
   day,
   label,
@@ -37,7 +39,7 @@ export function DayColumn({
     })
     : dayMeetings;
   const hourRows = Math.max(1, bounds.endHour - bounds.startHour + 1);
-  const trackHeight = `${hourRows * 56}px`;
+  const trackHeight = `${hourRows * CALENDAR_HOUR_HEIGHT_PX}px`;
 
   return (
     <div className="cp-day-column" data-day={day}>
