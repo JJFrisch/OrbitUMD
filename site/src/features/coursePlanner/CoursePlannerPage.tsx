@@ -13,7 +13,7 @@ import { loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/req
 import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { plannerApi } from "@/lib/api/planner";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { compareAcademicTerms, getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import {
   buildNeededClassItems,
   generateRecommendationPlan,
@@ -101,6 +101,11 @@ export function CoursePlannerPage() {
   const termLabel = useMemo(() => {
     return `${termCodeToLabel[resolvedTerm] ?? "Term"} ${resolvedYear}`;
   }, [resolvedTerm, resolvedYear, termCodeToLabel]);
+
+  const showProjectedTimesNote = useMemo(() => {
+    const current = getCurrentAcademicTerm();
+    return compareAcademicTerms({ termCode: resolvedTerm, termYear: resolvedYear }, current) > 0;
+  }, [resolvedTerm, resolvedYear]);
 
   const generatedScheduleName = useMemo(() => {
     const isGenerated = searchParams.get("generated") === "1";
@@ -476,6 +481,7 @@ export function CoursePlannerPage() {
         onExtraControlActionClick={() => setShowNeededPanel(true)}
         saveStatusText={saveStatusText ?? undefined}
         saveStatusTone={saveStatusTone}
+        showProjectedTimesNote={showProjectedTimesNote}
         />
       </div>
 

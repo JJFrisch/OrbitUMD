@@ -5,6 +5,7 @@ import { getSectionsForCourse, searchCoursesWithStrategy } from "./services/cour
 import { useCoursePlannerStore } from "./state/coursePlannerStore";
 import { getSectionIdentityKey, normalizeSearchInput } from "./utils/formatting";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds, parseMeetingDays, parseTimeToHour } from "./utils/scheduleLayout";
+import { compareAcademicTerms, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import { Timeline } from "./components/schedule/Timeline";
 import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
 import type { CalendarMeeting, Course, ScheduleSelection, SearchFilters, Section, Weekday } from "./types/coursePlanner";
@@ -686,6 +687,10 @@ export function AutoGenerateSchedulePage() {
   };
 
   const activeSummary = activeSchedule ? buildScheduleSummary(activeSchedule) : null;
+  const showProjectedTimesNote = useMemo(() => {
+    const current = getCurrentAcademicTerm();
+    return compareAcademicTerms({ termCode: season, termYear: year }, current) > 0;
+  }, [season, year]);
   const activeScheduleMeetings = useMemo<CalendarMeeting[]>(() => {
     if (!activeSchedule) {
       return [];
@@ -716,7 +721,22 @@ export function AutoGenerateSchedulePage() {
     <div className="course-planner-root cp-generate-root">
       <header className="cp-generate-header">
         <div>
-          <h1>Auto Generate Schedules</h1>
+          <h1>
+            Auto Generate Schedules
+            {showProjectedTimesNote && (
+              <span className="cp-projected-times-note cp-projected-times-note-inline">
+                Projected Times
+                <button
+                  type="button"
+                  className="cp-projected-times-info"
+                  aria-label="What projected times means"
+                  title="Using projected times means this term's catalog offerings and meeting times are estimated from current and historical patterns. Actual classes and times for this term may change when the official schedule is released."
+                >
+                  i
+                </button>
+              </span>
+            )}
+          </h1>
           <p>Set criteria, then generate conflict-free schedule options in OrbitUMD style.</p>
           <p className="cp-muted-text">
             {hasUnsavedCriteria ? "Unsaved criteria changes." : "Criteria saved."}

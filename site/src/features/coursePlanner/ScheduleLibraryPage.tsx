@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Plus, Star, Trash2, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
-import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { compareAcademicTerms, getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds } from "./utils/scheduleLayout";
 import { Timeline } from "./components/schedule/Timeline";
 import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
@@ -321,6 +321,13 @@ export function ScheduleLibraryPage() {
     [previewScheduleId, schedules]
   );
 
+  const previewUsesProjectedTimes = useMemo(() => {
+    const current = getCurrentAcademicTerm();
+    const term = previewSchedule ? parseTermFromSchedule(previewSchedule) : null;
+    if (!term) return false;
+    return compareAcademicTerms({ termCode: term.termCode, termYear: term.termYear }, current) > 0;
+  }, [previewSchedule]);
+
   const termOptions = useMemo(() => {
     const keys = new Set<string>();
     for (const schedule of schedules) {
@@ -435,7 +442,22 @@ export function ScheduleLibraryPage() {
     <div className="course-planner-root cp-view-root">
       <div className="cp-view-header">
         <div>
-          <h1>All Schedules</h1>
+          <h1>
+            All Schedules
+            {previewUsesProjectedTimes && (
+              <span className="cp-projected-times-note cp-projected-times-note-inline">
+                Projected Times
+                <button
+                  type="button"
+                  className="cp-projected-times-info"
+                  aria-label="What projected times means"
+                  title="Using projected times means this term's catalog offerings and meeting times are estimated from current and historical patterns. Actual classes and times for this term may change when the official schedule is released."
+                >
+                  i
+                </button>
+              </span>
+            )}
+          </h1>
           <p>Compare and edit schedules.</p>
         </div>
 

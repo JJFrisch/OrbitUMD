@@ -26,6 +26,7 @@ interface ScheduleBuilderHeaderProps {
   onExtraControlActionClick?: () => void;
   saveStatusText?: string;
   saveStatusTone?: "saving" | "saved" | "autosaved" | "error";
+  showProjectedTimesNote?: boolean;
 }
 
 export function ScheduleBuilderHeader({
@@ -48,12 +49,26 @@ export function ScheduleBuilderHeader({
   onExtraControlActionClick,
   saveStatusText,
   saveStatusTone = "autosaved",
+  showProjectedTimesNote = false,
 }: ScheduleBuilderHeaderProps) {
   return (
     <header className="cp-builder-header">
       <div className="cp-builder-top-row">
         <div className="cp-builder-top-title-wrap">
           <h1>Edit Schedule</h1>
+          {showProjectedTimesNote && (
+            <span className="cp-projected-times-note">
+              Projected Times
+              <button
+                type="button"
+                className="cp-projected-times-info"
+                aria-label="What projected times means"
+                title="Using projected times means this term's catalog offerings and meeting times are estimated from current and historical patterns. Actual classes and times for this term may change when the official schedule is released."
+              >
+                i
+              </button>
+            </span>
+          )}
           {saveStatusText && (
             <span className={`cp-builder-save-status is-${saveStatusTone}`}>
               {saveStatusTone === "saving" && <Loader2 size={12} className="animate-spin" />}

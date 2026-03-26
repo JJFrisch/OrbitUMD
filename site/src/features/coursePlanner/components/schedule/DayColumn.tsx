@@ -38,7 +38,7 @@ export function DayColumn({
       return leftUnspecified ? 1 : -1;
     })
     : dayMeetings;
-  const hourRows = Math.max(1, bounds.endHour - bounds.startHour + 1);
+  const hourRows = Math.max(1, bounds.endHour - bounds.startHour);
   const trackHeight = `${hourRows * CALENDAR_HOUR_HEIGHT_PX}px`;
 
   return (
