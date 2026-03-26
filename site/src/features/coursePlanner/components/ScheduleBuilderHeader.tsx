@@ -1,5 +1,6 @@
-import { Loader2, Printer, Save, X } from "lucide-react";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Loader2, Printer, Save } from "lucide-react";
+import { useRef, useState, type ReactNode } from "react";
+import { ProjectedTimesPopover } from "./schedule/ProjectedTimesPopover";
 
 interface CatalogTermOption {
   id: string;
@@ -52,30 +53,7 @@ export function ScheduleBuilderHeader({
   showProjectedTimesNote = false,
 }: ScheduleBuilderHeaderProps) {
   const [showProjectedInfo, setShowProjectedInfo] = useState(false);
-  const projectedInfoRef = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    if (!showProjectedInfo) return;
-
-    const handlePointerDown = (event: MouseEvent) => {
-      if (!projectedInfoRef.current?.contains(event.target as Node)) {
-        setShowProjectedInfo(false);
-      }
-    };
-
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setShowProjectedInfo(false);
-      }
-    };
-
-    window.addEventListener("mousedown", handlePointerDown);
-    window.addEventListener("keydown", handleEscape);
-    return () => {
-      window.removeEventListener("mousedown", handlePointerDown);
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, [showProjectedInfo]);
+  const projectedInfoAnchorRef = useRef<HTMLButtonElement | null>(null);
 
   return (
     <header className="cp-builder-header">
@@ -83,33 +61,22 @@ export function ScheduleBuilderHeader({
         <div className="cp-builder-top-title-wrap">
           <h1>Edit Schedule</h1>
           {showProjectedTimesNote && (
-            <span ref={projectedInfoRef} className="cp-projected-times-note">
+            <span className="cp-projected-times-note">
               Projected Times
               <button
                 type="button"
+                ref={projectedInfoAnchorRef}
                 className="cp-projected-times-info"
                 aria-label="What projected times means"
                 onClick={() => setShowProjectedInfo((current) => !current)}
               >
                 i
               </button>
-              {showProjectedInfo && (
-                <span className="cp-projected-times-popover" role="dialog" aria-label="Projected times information">
-                  <button
-                    type="button"
-                    className="cp-projected-times-popover-close"
-                    aria-label="Close projected times information"
-                    onClick={() => setShowProjectedInfo(false)}
-                  >
-                    <X size={12} />
-                  </button>
-                  <strong>Projected Times</strong>
-                  <span>
-                    This term is using projected catalog data based on current and historical patterns.
-                    Actual classes and meeting times may change when the official schedule is released.
-                  </span>
-                </span>
-              )}
+              <ProjectedTimesPopover
+                anchorRef={projectedInfoAnchorRef}
+                visible={showProjectedInfo}
+                onClose={() => setShowProjectedInfo(false)}
+              />
             </span>
           )}
           {saveStatusText && (

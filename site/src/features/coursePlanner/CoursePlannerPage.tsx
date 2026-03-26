@@ -13,7 +13,8 @@ import { loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/req
 import { lookupCourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { plannerApi } from "@/lib/api/planner";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-import { compareAcademicTerms, getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
+import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { fetchTerms } from "@/lib/api/umdCourses";
 import {
   buildNeededClassItems,
   generateRecommendationPlan,
@@ -98,14 +99,31 @@ export function CoursePlannerPage() {
 
   const selectedTermId = useMemo(() => `${baseTerm}-${baseYear}`, [baseTerm, baseYear]);
 
+  const [latestCatalogTerm, setLatestCatalogTerm] = useState<{ termCode: string; termYear: number } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetchTerms()
+      .then((terms) => {
+        if (!active || terms.length === 0) return;
+        const sorted = terms.slice().sort((left, right) => compareAcademicTerms(left, right));
+        setLatestCatalogTerm(sorted[sorted.length - 1]);
+      })
+      .catch(() => {});
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const termLabel = useMemo(() => {
     return `${termCodeToLabel[resolvedTerm] ?? "Term"} ${resolvedYear}`;
   }, [resolvedTerm, resolvedYear, termCodeToLabel]);
 
   const showProjectedTimesNote = useMemo(() => {
-    const current = getCurrentAcademicTerm();
-    return compareAcademicTerms({ termCode: resolvedTerm, termYear: resolvedYear }, current) > 0;
-  }, [resolvedTerm, resolvedYear]);
+    if (!latestCatalogTerm) return false;
+    return compareAcademicTerms({ termCode: resolvedTerm, termYear: resolvedYear }, latestCatalogTerm) > 0;
+  }, [resolvedTerm, resolvedYear, latestCatalogTerm]);
 
   const generatedScheduleName = useMemo(() => {
     const isGenerated = searchParams.get("generated") === "1";

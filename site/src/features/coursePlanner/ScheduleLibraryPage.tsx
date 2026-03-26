@@ -1,11 +1,13 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Plus, Star, Trash2, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
-import { compareAcademicTerms, getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
+import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
+import { fetchTerms } from "@/lib/api/umdCourses";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds } from "./utils/scheduleLayout";
 import { Timeline } from "./components/schedule/Timeline";
 import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
+import { ProjectedTimesPopover } from "./components/schedule/ProjectedTimesPopover";
 import type { ScheduleSelection } from "./types/coursePlanner";
 import type { ScheduleWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import "./styles/coursePlanner.css";
@@ -174,7 +176,8 @@ export function ScheduleLibraryPage() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showProjectedInfo, setShowProjectedInfo] = useState(false);
-  const projectedInfoRef = useState(() => ({ current: null as HTMLSpanElement | null }))[0];
+  const projectedInfoRef = useRef<HTMLSpanElement | null>(null);
+  const [latestCatalogTerm, setLatestCatalogTerm] = useState<{ termCode: string; termYear: number } | null>(null);
 
   const refreshSchedules = async () => {
     const results = await plannerApi.listAllSchedulesWithSelections();
@@ -324,11 +327,28 @@ export function ScheduleLibraryPage() {
   );
 
   const previewUsesProjectedTimes = useMemo(() => {
-    const current = getCurrentAcademicTerm();
+    if (!latestCatalogTerm) return false;
     const term = previewSchedule ? parseTermFromSchedule(previewSchedule) : null;
     if (!term) return false;
-    return compareAcademicTerms({ termCode: term.termCode, termYear: term.termYear }, current) > 0;
-  }, [previewSchedule]);
+    return compareAcademicTerms({ termCode: term.termCode, termYear: term.termYear }, latestCatalogTerm) > 0;
+  }, [previewSchedule, latestCatalogTerm]);
+
+  useEffect(() => {
+    let active = true;
+    fetchTerms()
+      .then((terms) => {
+        if (!active || terms.length === 0) return;
+        const sorted = terms.slice().sort((left, right) => compareAcademicTerms(left, right));
+        setLatestCatalogTerm(sorted[sorted.length - 1]);
+      })
+      .catch(() => {
+        if (!active) return;
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!showProjectedInfo) return;
@@ -470,14 +490,10 @@ export function ScheduleLibraryPage() {
           <h1>
             All Schedules
             {previewUsesProjectedTimes && (
-              <span
-                ref={(node) => {
-                  projectedInfoRef.current = node;
-                }}
-                className="cp-projected-times-note cp-projected-times-note-inline"
-              >
+              <span className="cp-projected-times-note cp-projected-times-note-inline">
                 Projected Times
                 <button
+                  ref={projectedInfoRef}
                   type="button"
                   className="cp-projected-times-info"
                   aria-label="What projected times means"
@@ -485,15 +501,11 @@ export function ScheduleLibraryPage() {
                 >
                   i
                 </button>
-                {showProjectedInfo && (
-                  <span className="cp-projected-times-popover" role="dialog" aria-label="Projected times information">
-                    <strong>Projected Times</strong>
-                    <span>
-                      This term is using projected catalog data based on current and historical patterns.
-                      Actual classes and meeting times may change when the official schedule is released.
-                    </span>
-                  </span>
-                )}
+                <ProjectedTimesPopover
+                  anchorRef={projectedInfoRef}
+                  visible={showProjectedInfo}
+                  onClose={() => setShowProjectedInfo(false)}
+                />
               </span>
             )}
           </h1>

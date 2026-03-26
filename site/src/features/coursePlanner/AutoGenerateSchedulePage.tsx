@@ -5,9 +5,11 @@ import { getSectionsForCourse, searchCoursesWithStrategy } from "./services/cour
 import { useCoursePlannerStore } from "./state/coursePlannerStore";
 import { getSectionIdentityKey, normalizeSearchInput } from "./utils/formatting";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds, parseMeetingDays, parseTimeToHour } from "./utils/scheduleLayout";
-import { compareAcademicTerms, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
+import { compareAcademicTerms } from "@/lib/scheduling/termProgress";
+import { fetchTerms } from "@/lib/api/umdCourses";
 import { Timeline } from "./components/schedule/Timeline";
 import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
+import { ProjectedTimesPopover } from "./components/schedule/ProjectedTimesPopover";
 import type { CalendarMeeting, Course, ScheduleSelection, SearchFilters, Section, Weekday } from "./types/coursePlanner";
 import "./styles/coursePlanner.css";
 
@@ -688,11 +690,26 @@ export function AutoGenerateSchedulePage() {
     else goToPreviousSchedule();
   };
 
-  const activeSummary = activeSchedule ? buildScheduleSummary(activeSchedule) : null;
+  const [latestCatalogTerm, setLatestCatalogTerm] = useState<{ termCode: string; termYear: number } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetchTerms()
+      .then((terms) => {
+        if (!active || terms.length === 0) return;
+        const sorted = terms.slice().sort((left, right) => compareAcademicTerms(left, right));
+        setLatestCatalogTerm(sorted[sorted.length - 1]);
+      })
+      .catch(() => {});
+    return () => { active = false; };
+  }, []);
+
   const showProjectedTimesNote = useMemo(() => {
-    const current = getCurrentAcademicTerm();
-    return compareAcademicTerms({ termCode: season, termYear: year }, current) > 0;
-  }, [season, year]);
+    if (!latestCatalogTerm) return false;
+    return compareAcademicTerms({ termCode: season, termYear: year }, latestCatalogTerm) > 0;
+  }, [latestCatalogTerm, season, year]);
+
+  const activeSummary = activeSchedule ? buildScheduleSummary(activeSchedule) : null;
   const activeScheduleMeetings = useMemo<CalendarMeeting[]>(() => {
     if (!activeSchedule) {
       return [];
@@ -749,9 +766,10 @@ export function AutoGenerateSchedulePage() {
           <h1>
             Auto Generate Schedules
             {showProjectedTimesNote && (
-              <span ref={projectedInfoRef} className="cp-projected-times-note cp-projected-times-note-inline">
+              <span className="cp-projected-times-note cp-projected-times-note-inline">
                 Projected Times
                 <button
+                  ref={projectedInfoRef}
                   type="button"
                   className="cp-projected-times-info"
                   aria-label="What projected times means"
@@ -759,15 +777,11 @@ export function AutoGenerateSchedulePage() {
                 >
                   i
                 </button>
-                {showProjectedInfo && (
-                  <span className="cp-projected-times-popover" role="dialog" aria-label="Projected times information">
-                    <strong>Projected Times</strong>
-                    <span>
-                      This term is using projected catalog data based on current and historical patterns.
-                      Actual classes and meeting times may change when the official schedule is released.
-                    </span>
-                  </span>
-                )}
+                <ProjectedTimesPopover
+                  anchorRef={projectedInfoRef}
+                  visible={showProjectedInfo}
+                  onClose={() => setShowProjectedInfo(false)}
+                />
               </span>
             )}
           </h1>
