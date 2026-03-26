@@ -458,11 +458,13 @@ export function AutoGenerateSchedulePage() {
   const [generated, setGenerated] = useState<GeneratedSchedule[]>([]);
   const [activeScheduleIndex, setActiveScheduleIndex] = useState(0);
   const [showSeatCounts, setShowSeatCounts] = useState(false);
+  const [showProjectedInfo, setShowProjectedInfo] = useState(false);
   const [lastAutosavedSnapshot, setLastAutosavedSnapshot] = useState<string>("");
   const [lastAutosavedAt, setLastAutosavedAt] = useState<number | null>(null);
   const wheelLastAtRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
+  const projectedInfoRef = useRef<HTMLSpanElement | null>(null);
 
   const requiredCodes = useMemo(() => parseCourseCodes(requiredRaw), [requiredRaw]);
   const optionalCodes = useMemo(() => parseCourseCodes(optionalRaw), [optionalRaw]);
@@ -717,6 +719,29 @@ export function AutoGenerateSchedulePage() {
     [activeScheduleMeetings]
   );
 
+  useEffect(() => {
+    if (!showProjectedInfo) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!projectedInfoRef.current?.contains(event.target as Node)) {
+        setShowProjectedInfo(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowProjectedInfo(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handlePointerDown);
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("mousedown", handlePointerDown);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [showProjectedInfo]);
+
   return (
     <div className="course-planner-root cp-generate-root">
       <header className="cp-generate-header">
@@ -724,16 +749,26 @@ export function AutoGenerateSchedulePage() {
           <h1>
             Auto Generate Schedules
             {showProjectedTimesNote && (
-              <span className="cp-projected-times-note cp-projected-times-note-inline">
+              <span ref={projectedInfoRef} className="cp-projected-times-note cp-projected-times-note-inline">
                 Projected Times
                 <button
                   type="button"
                   className="cp-projected-times-info"
                   aria-label="What projected times means"
-                  title="Using projected times means this term's catalog offerings and meeting times are estimated from current and historical patterns. Actual classes and times for this term may change when the official schedule is released."
+                  aria-expanded={showProjectedInfo}
+                  onClick={() => setShowProjectedInfo((current) => !current)}
                 >
                   i
                 </button>
+                {showProjectedInfo && (
+                  <span className="cp-projected-times-popover" role="dialog" aria-label="Projected times information">
+                    <strong>Projected Times</strong>
+                    <span>
+                      This term is using projected catalog data based on current and historical patterns.
+                      Actual classes and meeting times may change when the official schedule is released.
+                    </span>
+                  </span>
+                )}
               </span>
             )}
           </h1>

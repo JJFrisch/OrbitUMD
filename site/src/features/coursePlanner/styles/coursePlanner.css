@@ -95,6 +95,7 @@
 }
 
 .cp-projected-times-note {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -126,6 +127,49 @@
   justify-content: center;
   cursor: help;
   padding: 0;
+}
+
+.cp-projected-times-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 8;
+  width: min(320px, 82vw);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 10px;
+  background: #10192f;
+  box-shadow: 0 12px 24px rgba(8, 12, 24, 0.35);
+  padding: 10px 12px;
+  color: #e9eefc;
+  display: grid;
+  gap: 6px;
+}
+
+.cp-projected-times-popover strong {
+  font-size: 12px;
+}
+
+.cp-projected-times-popover span {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #ced8ef;
+}
+
+.cp-projected-times-popover-close {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e9eefc;
+  border-radius: 6px;
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
 }
 
 .cp-builder-top-row h1 {

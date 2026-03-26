@@ -173,6 +173,8 @@ export function ScheduleLibraryPage() {
   const [actionPendingId, setActionPendingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showProjectedInfo, setShowProjectedInfo] = useState(false);
+  const projectedInfoRef = useState(() => ({ current: null as HTMLSpanElement | null }))[0];
 
   const refreshSchedules = async () => {
     const results = await plannerApi.listAllSchedulesWithSelections();
@@ -328,6 +330,29 @@ export function ScheduleLibraryPage() {
     return compareAcademicTerms({ termCode: term.termCode, termYear: term.termYear }, current) > 0;
   }, [previewSchedule]);
 
+  useEffect(() => {
+    if (!showProjectedInfo) return;
+
+    const handlePointerDown = (event: MouseEvent) => {
+      if (!projectedInfoRef.current?.contains(event.target as Node)) {
+        setShowProjectedInfo(false);
+      }
+    };
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setShowProjectedInfo(false);
+      }
+    };
+
+    window.addEventListener("mousedown", handlePointerDown);
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("mousedown", handlePointerDown);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [showProjectedInfo, projectedInfoRef]);
+
   const termOptions = useMemo(() => {
     const keys = new Set<string>();
     for (const schedule of schedules) {
@@ -445,16 +470,31 @@ export function ScheduleLibraryPage() {
           <h1>
             All Schedules
             {previewUsesProjectedTimes && (
-              <span className="cp-projected-times-note cp-projected-times-note-inline">
+              <span
+                ref={(node) => {
+                  projectedInfoRef.current = node;
+                }}
+                className="cp-projected-times-note cp-projected-times-note-inline"
+              >
                 Projected Times
                 <button
                   type="button"
                   className="cp-projected-times-info"
                   aria-label="What projected times means"
-                  title="Using projected times means this term's catalog offerings and meeting times are estimated from current and historical patterns. Actual classes and times for this term may change when the official schedule is released."
+                  aria-expanded={showProjectedInfo}
+                  onClick={() => setShowProjectedInfo((current) => !current)}
                 >
                   i
                 </button>
+                {showProjectedInfo && (
+                  <span className="cp-projected-times-popover" role="dialog" aria-label="Projected times information">
+                    <strong>Projected Times</strong>
+                    <span>
+                      This term is using projected catalog data based on current and historical patterns.
+                      Actual classes and meeting times may change when the official schedule is released.
+                    </span>
+                  </span>
+                )}
               </span>
             )}
           </h1>
