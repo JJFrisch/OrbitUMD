@@ -1,16 +1,16 @@
 # OrbitUMD
 
-OrbitUMD is an opinionated course and degree-planning companion for University of Maryland students. It brings together term-by-term schedule building, four‑year planning, and degree audit–style tracking into one clean, student‑friendly interface.
+OrbitUMD is a course and degree-planning companion for University of Maryland students. It brings together term-by-term schedule building, four‑year planning, and degree audit–style tracking into one clean, student‑friendly interface.
 
 ## What is OrbitUMD?
 
-UMD’s current tools (Testudo, Venus, spreadsheets, etc.) all solve pieces of the planning problem. OrbitUMD combines the best parts of each:
+UMD’s current tools (Testudo, Venus, Jupiterp, spreadsheets, etc.) all solve pieces of the planning problem. OrbitUMD combines the best parts of each:
 
 - A **Testudo-like course search and schedule builder** for building conflict‑free term schedules.
 - A **four‑year plan view** inspired by spreadsheet templates, so you can lay out all eight semesters at once.
-- **Degree and Gen Ed requirement tracking** similar to UMD’s Venus, so you can see what’s satisfied, what’s in progress, and what’s still missing.
+- **Degree and Gen Ed requirement tracking** similar to UMD’s Degree Audit, so you can see what’s satisfied, what’s in progress, and what’s still missing.
 
-The goal is a single, opinionated planning tool that feels fast, intuitive, and designed for how students actually think about their degrees.
+The goal is a single, planning tool that feels fast, intuitive, and designed to guide student's conceptualization of their degrees at UMD.
 
 ## Core Features (planned)
 
