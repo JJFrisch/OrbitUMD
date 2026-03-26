@@ -933,7 +933,9 @@ export function AutoGenerateSchedulePage() {
                   onClick={() => {
                     setCatalogTerm(season, year);
                     replaceSelections(activeSchedule.selections);
-                    navigate(`/schedule-builder?term=${termId(season, year)}`);
+                    navigate(
+                      `/schedule-builder?term=${termId(season, year)}&generated=1&generatedIndex=${activeScheduleIndex + 1}`
+                    );
                   }}
                 >
                   Open In Edit Schedule

@@ -118,7 +118,11 @@ export function ScheduleBuilderHeader({
         )}
       </div>
 
-      {saveMessage && <div className="cp-builder-subtitle">{saveMessage}</div>}
+      {saveMessage && (
+        <div className={saveMessage.toLowerCase().includes("already exists") ? "cp-error-text" : "cp-builder-subtitle"}>
+          {saveMessage}
+        </div>
+      )}
     </header>
   );
 }

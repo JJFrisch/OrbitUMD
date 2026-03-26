@@ -102,6 +102,16 @@ export function CoursePlannerPage() {
     return `${termCodeToLabel[resolvedTerm] ?? "Term"} ${resolvedYear}`;
   }, [resolvedTerm, resolvedYear, termCodeToLabel]);
 
+  const generatedScheduleName = useMemo(() => {
+    const isGenerated = searchParams.get("generated") === "1";
+    if (!isGenerated) return null;
+
+    const index = Number(searchParams.get("generatedIndex") ?? "1");
+    const safeIndex = Number.isFinite(index) && index > 0 ? Math.floor(index) : 1;
+    const termName = termCodeToLabel[baseTerm] ?? "Term";
+    return `Generated Schedule - ${termName} ${baseYear} ${safeIndex}`;
+  }, [baseTerm, baseYear, searchParams, termCodeToLabel]);
+
   const stats = useMemo(() => {
     const activeSelections = Object.values(selections);
     const courseCount = activeSelections.length;
@@ -177,7 +187,7 @@ export function CoursePlannerPage() {
     const rawTerm = searchParams.get("term");
     const scheduleId = searchParams.get("scheduleId");
     const shouldStartNew = searchParams.get("new") === "1";
-    const key = `${rawTerm ?? ""}|${scheduleId ?? ""}|${shouldStartNew ? "new" : "existing"}`;
+    const key = `${rawTerm ?? ""}|${scheduleId ?? ""}|${shouldStartNew ? "new" : "existing"}|${generatedScheduleName ?? ""}`;
 
     if (lastProcessedDeepLink.current === key) {
       return;
@@ -189,8 +199,9 @@ export function CoursePlannerPage() {
         return;
       }
       startNewSchedule();
-      setScheduleName(DEFAULT_SCHEDULE_NAME);
-      setLastSavedFingerprint(buildScheduleFingerprint(null, DEFAULT_SCHEDULE_NAME, {}));
+      const nextName = generatedScheduleName ?? DEFAULT_SCHEDULE_NAME;
+      setScheduleName(nextName);
+      setLastSavedFingerprint(buildScheduleFingerprint(null, nextName, {}));
       return;
     }
 
@@ -216,8 +227,19 @@ export function CoursePlannerPage() {
         setScheduleName(record.name);
         setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, record.name, state.selections));
       });
+      return;
     }
-  }, [confirmLeaveWithoutSaving, loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
+
+    if (generatedScheduleName) {
+      if (!confirmLeaveWithoutSaving()) {
+        return;
+      }
+      startNewSchedule();
+      setScheduleName(generatedScheduleName);
+      setLastSavedFingerprint(buildScheduleFingerprint(null, generatedScheduleName, {}));
+      return;
+    }
+  }, [confirmLeaveWithoutSaving, generatedScheduleName, loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
 
   const handleSaveClick = useCallback(() => {
     if (!activeScheduleId && scheduleName.trim().toLowerCase() === DEFAULT_SCHEDULE_NAME.toLowerCase()) {
@@ -235,9 +257,23 @@ export function CoursePlannerPage() {
       if (saveStatusTimer.current) window.clearTimeout(saveStatusTimer.current);
       saveStatusTimer.current = window.setTimeout(() => setSaveStatus("idle"), 3500);
     }).catch(() => {
+      const currentSaveError = (useCoursePlannerStore.getState().saveError ?? "").toLowerCase();
+      if (currentSaveError.includes("already exists") || currentSaveError.includes("duplicate")) {
+        setSaveMessage("A schedule with this name already exists in this scholastic term.");
+      }
       setSaveStatus("error");
     });
   }, [activeScheduleId, saveSchedule, scheduleName]);
+
+  useEffect(() => {
+    if (!saveError) return;
+    const normalized = saveError.toLowerCase();
+    if (normalized.includes("already exists") || normalized.includes("duplicate")) {
+      setSaveMessage("A schedule with this name already exists in this scholastic term.");
+      return;
+    }
+    setSaveMessage(saveError);
+  }, [saveError]);
 
   useEffect(() => {
     if (!hasUnsavedChanges || savePending) return;
