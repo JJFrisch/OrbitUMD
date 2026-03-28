@@ -176,21 +176,21 @@
   width: 420px;
   height: 420px;
   animation: welcome-spin 60s linear infinite;
-  opacity: 0.6;
+  opacity: 0.23;
 }
 
 .welcome-orbit-ring-2 {
   width: 620px;
   height: 620px;
   animation: welcome-spin 90s linear infinite reverse;
-  opacity: 0.7;
+  opacity: 0.4;
 }
 
 .welcome-orbit-ring-3 {
   width: 820px;
   height: 820px;
   animation: welcome-spin 120s linear infinite;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 
 .welcome-orbit-dot {
