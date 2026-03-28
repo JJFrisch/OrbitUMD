@@ -82,7 +82,8 @@ export default function Welcome() {
           </div>
 
           <h1 className="welcome-title">
-            Plan your <em>four&nbsp;years</em>,<br />not just your next semester.
+            Plan your <em>four&nbsp;years</em>.
+             {/* ,<br />not just your next semester. */}
           </h1>
 
           <p className="welcome-subtitle">

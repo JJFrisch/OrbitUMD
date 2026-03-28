@@ -222,15 +222,6 @@ export default function SignIn() {
             </Button>
           </div>
 
-          <Button
-            variant="ghost"
-            className="w-full text-muted-foreground hover:text-foreground"
-            onClick={() => navigate("/onboarding/goals")}
-            disabled={loading}
-          >
-            Skip for now
-          </Button>
-
           {message && <p className="text-sm text-green-600">{message}</p>}
           {error && <p className="text-sm text-red-600">{error}</p>}
         </CardContent>
