@@ -76,92 +76,96 @@ export default function Welcome() {
             <div className="welcome-orbit-dot" />
           </div>
 
-          <div className="welcome-badge">
-            <span className="welcome-badge-dot" />
-            Built for Terps · University of Maryland
-          </div>
-
-          <h1 className="welcome-title">
-            Plan your <em>four&nbsp;years</em>.
-             {/* ,<br />not just your next semester. */}
-          </h1>
-
-          <p className="welcome-subtitle">
-            Import your credits, map out majors and minors, discover Gen Eds, and generate class schedules that actually fit your life — all in one place.
-          </p>
-
-          <div className="welcome-stats">
-            <div className="welcome-stat">
-              <div className="welcome-stat-num">8</div>
-              <div className="welcome-stat-label">Semesters mapped</div>
+          <div className="welcome-hero-content">
+            <div className="welcome-badge">
+              <span className="welcome-badge-dot" />
+              Built for Terps · University of Maryland
             </div>
-            <div className="welcome-stat">
-              <div className="welcome-stat-num">100+</div>
-              <div className="welcome-stat-label">Majors & minors</div>
-            </div>
-            <div className="welcome-stat">
-              <div className="welcome-stat-num">0</div>
-              <div className="welcome-stat-label">Requirements missed</div>
-            </div>
-          </div>
 
-          <div className="welcome-cta-group">
-            <button
-              className="welcome-btn-primary"
-              type="button"
-              onClick={() => navigate("/sign-in?next=/onboarding/profile")}
-            >
-              Let's get started
-            </button>
-            <button
-              className="welcome-btn-ghost"
-              type="button"
-              onClick={() => navigate("/onboarding/goals")}
-            >
-              See how it works <span className="welcome-arrow">→</span>
-            </button>
+            <h1 className="welcome-title">
+              Design your <em>college&nbsp;journey.</em>
+               {/* ,<br />not just your next semester. */}
+            </h1>
+
+            <p className="welcome-subtitle">
+              Import your credits, map out majors and minors, discover Gen Eds, and generate class schedules that fit your life: build your UMD Orbit in one place.
+            </p>
+
+            <div className="welcome-stats">
+              <div className="welcome-stat">
+                <div className="welcome-stat-num">8</div>
+                <div className="welcome-stat-label">Semesters mapped</div>
+              </div>
+              <div className="welcome-stat">
+                <div className="welcome-stat-num">100+</div>
+                <div className="welcome-stat-label">Majors & minors</div>
+              </div>
+              <div className="welcome-stat">
+                <div className="welcome-stat-num">0</div>
+                <div className="welcome-stat-label">Requirements missed</div>
+              </div>
+            </div>
+
+            <div className="welcome-cta-group">
+              <button
+                className="welcome-btn-primary"
+                type="button"
+                onClick={() => navigate("/sign-in?next=/onboarding/profile")}
+              >
+                Let's get started
+              </button>
+              <button
+                className="welcome-btn-ghost"
+                type="button"
+                onClick={() => navigate("/onboarding/goals")}
+              >
+                See how it works <span className="welcome-arrow">→</span>
+              </button>
+            </div>
+            <p className="welcome-cta-note">Change your plan at any time — OrbitUMD updates everything automatically.</p>
           </div>
-          <p className="welcome-cta-note">Change your plan at any time — OrbitUMD updates everything automatically.</p>
         </main>
 
         <div className="welcome-features">
-          <div className="welcome-feature">
-            <div className="welcome-feature-icon">
-              <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
-                <path d="M3 9h12M9 3v12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
+          <div className="welcome-features-content">
+            <div className="welcome-feature">
+              <div className="welcome-feature-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+                  <path d="M3 9h12M9 3v12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className="welcome-feature-text">
+                <h3>Import Credits</h3>
+                <p>Bring in AP, IB, and transfer credits instantly. Your history, respected.</p>
+              </div>
             </div>
-            <div className="welcome-feature-text">
-              <h3>Import Credits</h3>
-              <p>Bring in AP, IB, and transfer credits instantly. Your history, respected.</p>
-            </div>
-          </div>
 
-          <div className="welcome-feature">
-            <div className="welcome-feature-icon">
-              <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
-                <rect x="2" y="2" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
-                <rect x="10" y="2" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
-                <rect x="2" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
-                <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
-              </svg>
+            <div className="welcome-feature">
+              <div className="welcome-feature-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+                  <rect x="2" y="2" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+                  <rect x="10" y="2" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+                  <rect x="2" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+                  <rect x="10" y="10" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+                </svg>
+              </div>
+              <div className="welcome-feature-text">
+                <h3>Map Requirements</h3>
+                <p>Every Gen Ed, major, and minor requirement tracked and visualized in real time.</p>
+              </div>
             </div>
-            <div className="welcome-feature-text">
-              <h3>Map Requirements</h3>
-              <p>Every Gen Ed, major, and minor requirement tracked and visualized in real time.</p>
-            </div>
-          </div>
 
-          <div className="welcome-feature">
-            <div className="welcome-feature-icon">
-              <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
-                <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.8" />
-                <path d="M9 5v4l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-              </svg>
-            </div>
-            <div className="welcome-feature-text">
-              <h3>Smart Schedules</h3>
-              <p>Generate conflict-free semester plans that match your workload and preferences.</p>
+            <div className="welcome-feature">
+              <div className="welcome-feature-icon">
+                <svg width="18" height="18" fill="none" viewBox="0 0 18 18">
+                  <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.8" />
+                  <path d="M9 5v4l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </div>
+              <div className="welcome-feature-text">
+                <h3>Smart Schedules</h3>
+                <p>Generate conflict-free semester plans that match your workload and preferences.</p>
+              </div>
             </div>
           </div>
         </div>
