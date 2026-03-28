@@ -152,13 +152,13 @@
   text-align: center;
   padding: 0;
   position: relative;
-  min-height: calc(100vh - 116px);
+  flex: 1;
 }
 
 .welcome-hero-content {
   width: 100%;
   max-width: 1100px;
-  padding: 60px 48px;
+  padding: 40px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -167,7 +167,7 @@
 
 .welcome-orbit-ring {
   position: absolute;
-  border: 1px dashed rgba(211, 47, 47, 0.18);
+  border: 2px solid rgba(211, 47, 47, 0.42);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -195,13 +195,12 @@
 
 .welcome-orbit-dot {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: var(--red);
   border-radius: 50%;
-  top: -4px;
+  top: 50%;
   left: 50%;
-  margin-left: -4px;
 }
 
 .welcome-orbit-dot::after {
@@ -220,13 +219,13 @@
   background: rgba(211, 47, 47, 0.08);
   border: 1px solid rgba(211, 47, 47, 0.2);
   color: var(--red);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 100px;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
   z-index: 2;
   animation: welcome-fadeUp 0.8s 0.2s ease both;
 }
@@ -241,12 +240,12 @@
 
 .welcome-title {
   font-family: "Playfair Display", serif;
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(3rem, 6.5vw, 5.2rem);
   font-weight: 900;
   line-height: 1.1;
   letter-spacing: -0.03em;
   color: var(--ink);
-  max-width: 720px;
+  max-width: 800px;
   z-index: 2;
   animation: welcome-fadeUp 0.8s 0.35s ease both;
 }
@@ -273,12 +272,12 @@
 }
 
 .welcome-subtitle {
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 300;
   color: var(--ink-muted);
-  max-width: 480px;
-  line-height: 1.6;
-  margin-top: 20px;
+  max-width: 520px;
+  line-height: 1.65;
+  margin-top: 24px;
   z-index: 2;
   animation: welcome-fadeUp 0.8s 0.5s ease both;
 }
@@ -302,16 +301,17 @@
 
 .welcome-stat-num {
   font-family: "Playfair Display", serif;
-  font-size: clamp(1.8rem, 4vw, 2rem);
+  font-size: clamp(2rem, 5vw, 2.4rem);
   font-weight: 700;
   color: var(--red);
 }
 
 .welcome-stat-label {
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   color: var(--ink-muted);
-  margin-top: 4px;
+  margin-top: 6px;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .welcome-cta-group {
@@ -333,8 +333,8 @@
   background: var(--red);
   color: #fff;
   border: 0;
-  padding: 13px 32px;
-  font-size: 0.9rem;
+  padding: 15px 40px;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.01em;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -372,8 +372,8 @@
   background: transparent;
   color: var(--ink-muted);
   border: 1px solid var(--border);
-  padding: 12px 24px;
-  font-size: 0.85rem;
+  padding: 14px 32px;
+  font-size: 0.95rem;
   font-weight: 400;
   display: flex;
   align-items: center;
@@ -396,9 +396,9 @@
 }
 
 .welcome-cta-note {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--ink-muted);
-  margin-top: 14px;
+  margin-top: 18px;
   opacity: 0.7;
   z-index: 2;
   animation: welcome-fadeUp 0.8s 0.95s ease both;
@@ -420,7 +420,7 @@
 }
 
 .welcome-feature {
-  padding: 28px 32px;
+  padding: 32px 40px;
   border-right: 1px solid var(--border);
   display: flex;
   gap: 16px;
@@ -444,14 +444,15 @@
 
 .welcome-feature-text h3 {
   font-family: "Playfair Display", serif;
-  font-size: 1rem;
-  margin-bottom: 4px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 6px;
 }
 
 .welcome-feature-text p {
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   color: var(--ink-muted);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 @keyframes welcome-spin {
@@ -539,13 +540,9 @@
     display: none;
   }
 
-  .welcome-hero {
-    min-height: auto;
-  }
-
   .welcome-hero-content {
     max-width: 100%;
-    padding: 48px 24px;
+    padding: 40px 24px;
   }
 
   .welcome-orbit-ring-2,

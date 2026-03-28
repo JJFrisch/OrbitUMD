@@ -12,18 +12,26 @@ export default function Welcome() {
     const handleMouseMove = (event: MouseEvent) => {
       const cx = window.innerWidth / 2;
       const cy = window.innerHeight / 2;
-      const dx = (event.clientX - cx) / cx;
-      const dy = (event.clientY - cy) / cy;
+      const dx = event.clientX - cx;
+      const dy = event.clientY - cy;
+      const angle = Math.atan2(dy, dx);
 
-      if (ring1Ref.current) {
-        ring1Ref.current.style.transform = `translate(${dx * -8}px, ${dy * -8}px)`;
-      }
-      if (ring2Ref.current) {
-        ring2Ref.current.style.transform = `translate(${dx * -14}px, ${dy * -14}px)`;
-      }
-      if (ring3Ref.current) {
-        ring3Ref.current.style.transform = `translate(${dx * -5}px, ${dy * -5}px)`;
-      }
+      const rings = [
+        { ref: ring1Ref, radius: 210 },
+        { ref: ring2Ref, radius: 310 },
+        { ref: ring3Ref, radius: 410 },
+      ];
+
+      rings.forEach(({ ref, radius }) => {
+        if (ref.current) {
+          const dot = ref.current.querySelector('.welcome-orbit-dot');
+          if (dot instanceof HTMLElement) {
+            const x = radius * Math.cos(angle);
+            const y = radius * Math.sin(angle);
+            dot.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+          }
+        }
+      });
     };
 
     window.addEventListener("mousemove", handleMouseMove);
