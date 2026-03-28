@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { Moon, Sun } from "lucide-react";
 import { Button } from "../components/ui/button";
@@ -28,6 +28,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const authNavigationStarted = useRef(false);
 
   useEffect(() => {
     let active = true;
@@ -52,6 +53,51 @@ export default function SignIn() {
         );
     };
 
+    const resolvePostAuthPath = async (authUser: { id: string }, requestedPath: string) => {
+      if (requestedPath && requestedPath !== "/onboarding/profile") {
+        return requestedPath;
+      }
+
+      const [{ data: profileRow, error: profileError }, { count: programCount, error: programError }] = await Promise.all([
+        supabase
+          .from("user_profiles")
+          .select("id, display_name, university_uid")
+          .eq("id", authUser.id)
+          .maybeSingle(),
+        supabase
+          .from("user_degree_programs")
+          .select("id", { head: true, count: "exact" })
+          .eq("user_id", authUser.id),
+      ]);
+
+      const hasProfileRow = !profileError && Boolean(profileRow?.id);
+      const hasProfileDetails = Boolean(
+        String(profileRow?.display_name ?? "").trim()
+          || String(profileRow?.university_uid ?? "").trim(),
+      );
+      const hasPrograms = !programError && (programCount ?? 0) > 0;
+      const isExistingUser = hasProfileRow && (hasProfileDetails || hasPrograms);
+
+      return isExistingUser ? "/dashboard" : "/onboarding/profile";
+    };
+
+    const navigateAfterAuth = async (authUser: { id: string }) => {
+      if (authNavigationStarted.current) return;
+      authNavigationStarted.current = true;
+      try {
+        const destination = await resolvePostAuthPath(authUser, nextPath);
+        sessionStorage.removeItem(AUTH_FLOW_KEY);
+        await ensureProfile();
+        if (active) {
+          navigate(destination, { replace: true });
+        }
+      } finally {
+        if (active) {
+          authNavigationStarted.current = false;
+        }
+      }
+    };
+
     const run = async () => {
       const authFlowPending = sessionStorage.getItem(AUTH_FLOW_KEY) === "pending";
 
@@ -63,9 +109,7 @@ export default function SignIn() {
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       if (data.session?.user) {
-        sessionStorage.removeItem(AUTH_FLOW_KEY);
-        await ensureProfile();
-        navigate(nextPath, { replace: true });
+        await navigateAfterAuth(data.session.user);
       }
     };
 
@@ -74,12 +118,7 @@ export default function SignIn() {
     const { data: authSubscription } = supabase.auth.onAuthStateChange((_event, session) => {
       if (!active) return;
       if (session?.user) {
-        sessionStorage.removeItem(AUTH_FLOW_KEY);
-        void ensureProfile().finally(() => {
-          if (active) {
-            navigate(nextPath, { replace: true });
-          }
-        });
+        void navigateAfterAuth(session.user);
       }
     });
 

@@ -4,7 +4,6 @@ import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Card } from "../../components/ui/card";
-import { Progress } from "../../components/ui/progress";
 import TranscriptUploadPanel from "../../components/TranscriptUploadPanel";
 import {
   Select,
@@ -91,6 +90,13 @@ export default function BasicProfile() {
   const [message, setMessage] = useState<string | null>(null);
   const [hasImportedTranscript, setHasImportedTranscript] = useState(false);
   const [transcriptProgramKeys, setTranscriptProgramKeys] = useState<string[]>([]);
+
+  const transcriptContinueReminder = [
+    "Go to testudo.umd.edu and open your unofficial transcript in Testudo.",
+    "Use your browser's Print action and save the transcript as a PDF.",
+    "Upload that PDF here and OrbitUMD will prefill the profile fields it can detect.",
+    "You can always fill out this information manually in the Fill out the form tab or skip and upload the information whenever best works for you.",
+  ].join("\n\n");
 
   const getErrorMessage = (error: unknown, fallback: string) => {
     if (error instanceof Error && error.message) return error.message;
@@ -296,8 +302,18 @@ export default function BasicProfile() {
   ];
 
   const handleContinue = async () => {
+    if (entryMethod === "transcript" && !hasImportedTranscript) {
+      window.alert(transcriptContinueReminder);
+    }
+
     setSaving(true);
     setMessage(null);
+    const destinationAfterSave = hasImportedTranscript
+      ? "/onboarding/goals"
+      : entryMethod === "manual"
+        ? "/credit-import?onboarding=1"
+        : "/onboarding/goals";
+
     try {
       const supabase = getSupabaseClient();
       const { data: authData } = await supabase.auth.getUser();
@@ -311,11 +327,7 @@ export default function BasicProfile() {
         if (selectedMajorKey) {
           localStorage.setItem("orbitumd-onboarding-major-key", selectedMajorKey);
         }
-        if (hasImportedTranscript) {
-          navigate("/dashboard");
-        } else {
-          navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
-        }
+        navigate(destinationAfterSave);
         return;
       }
 
@@ -403,11 +415,7 @@ export default function BasicProfile() {
       }
 
       setMessage("Profile saved.");
-      if (hasImportedTranscript) {
-        navigate("/dashboard");
-      } else {
-        navigate(isNewStudent ? "/onboarding/goals" : "/credit-import?onboarding=1");
-      }
+      navigate(destinationAfterSave);
     } catch (error) {
       setMessage(getErrorMessage(error, "Unable to save profile."));
     } finally {
@@ -423,15 +431,20 @@ export default function BasicProfile() {
           <span className="text-2xl text-foreground">OrbitUMD</span>
         </div>
 
-        <div className="mb-8">
-          <p className="text-sm text-muted-foreground text-center mb-2">Step 1 of 4: Basic Info</p>
-          <Progress value={25} className="h-2" />
-        </div>
-
         <Card className="p-8 bg-card border-border">
-          <div className="mb-6">
-            <h2 className="text-3xl text-foreground mb-2">Let's get started</h2>
-            <p className="text-muted-foreground">Tell us the basics so we can build the right plan for you.</p>
+          <div className="mb-6 flex items-start justify-between gap-3">
+            <div>
+              <h2 className="text-3xl text-foreground mb-2">Let's get started</h2>
+              <p className="text-muted-foreground">Tell us the basics so we can build the right plan for you.</p>
+            </div>
+            <Button
+              type="button"
+              variant="ghost"
+              className="text-muted-foreground hover:text-foreground"
+              onClick={() => navigate("/onboarding/goals")}
+            >
+              Skip
+            </Button>
           </div>
 
           <div className="space-y-6">

@@ -6,7 +6,7 @@ import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import { Badge } from "../components/ui/badge";
 import { Switch } from "../components/ui/switch";
-import { User, Mail, GraduationCap, Settings2, Moon, Sun, Edit, Plus, Trash2, Star } from "lucide-react";
+import { User, Mail, GraduationCap, Settings2, Moon, Sun, Edit, Plus, Trash2, Star, LogOut } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,7 @@ import {
 } from "../components/ui/select";
 import { Separator } from "../components/ui/separator";
 import { useTheme } from "../contexts/ThemeContext";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import {
   addUserDegreeProgramFromCatalogOption,
   listUserDegreePrograms,
@@ -82,11 +82,13 @@ function summarizePriorCredits(priorCredits: Array<{ sourceType: string; credits
 
 export default function Settings() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { theme, toggleTheme, setTheme } = useTheme();
 
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
+  const [signingOut, setSigningOut] = useState(false);
 
   const [userId, setUserId] = useState<string | null>(null);
   const [fullName, setFullName] = useState("");
@@ -521,6 +523,19 @@ export default function Settings() {
   const handleReplayPageGuides = () => {
     resetAllPageTours();
     setSaveMessage("Page guides reset. Guides will open again the first time you visit each page.");
+  };
+
+  const handleLogout = async () => {
+    setSigningOut(true);
+    try {
+      const supabase = getSupabaseClient();
+      await supabase.auth.signOut({ scope: "local" });
+      navigate("/sign-in", { replace: true });
+    } catch (error) {
+      setSaveMessage(error instanceof Error ? error.message : "Unable to sign out.");
+    } finally {
+      setSigningOut(false);
+    }
   };
 
   const handleUnlockAdmin = async () => {
@@ -1005,6 +1020,15 @@ export default function Settings() {
                   </Link>
                   <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>
                     Open Testudo
+                  </Button>
+                  <Button
+                    variant="outline"
+                    className="w-full border-red-500/40 text-red-300 hover:bg-red-600/10"
+                    onClick={() => void handleLogout()}
+                    disabled={signingOut}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {signingOut ? "Logging out..." : "Log out"}
                   </Button>
                 </div>
               </Card>

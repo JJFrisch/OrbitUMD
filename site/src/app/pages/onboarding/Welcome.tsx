@@ -45,14 +45,6 @@ export default function Welcome() {
           >
             Let's get started
           </Button>
-          <Button 
-            size="lg"
-            variant="outline"
-            onClick={() => navigate("/sign-in")}
-            className="border-border hover:bg-accent"
-          >
-            Sign in
-          </Button>
         </div>
 
         <p className="text-sm text-muted-foreground">

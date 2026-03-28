@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Info, SlidersHorizontal, X } from "lucide-react";
+import { Info, Loader2, SlidersHorizontal, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import type { NeededClassItem } from "@/lib/requirements/neededClassesAdvisor";
@@ -12,6 +12,7 @@ interface NeededClassesPanelProps {
   title: string;
   subtitle?: string;
   items: NeededClassItem[];
+  loading?: boolean;
   defaultSort?: NeededSort;
   onClose: () => void;
   onApplyGenEdFilter?: (genEdCode: string) => void;
@@ -24,6 +25,7 @@ export function NeededClassesPanel({
   title,
   subtitle,
   items,
+  loading = false,
   defaultSort = "category",
   onClose,
   onApplyGenEdFilter,
@@ -37,7 +39,7 @@ export function NeededClassesPanel({
   const visibleItems = useMemo(() => {
     const filtered = filterBy === "all" ? items : items.filter((item) => item.category === filterBy);
 
-    const sorted = [...filtered].sort((left, right) => {
+    return [...filtered].sort((left, right) => {
       if (sortBy === "recommended") {
         return right.recommendationScore - left.recommendationScore;
       }
@@ -49,8 +51,6 @@ export function NeededClassesPanel({
       if (categoryDelta !== 0) return categoryDelta;
       return left.sortableProgram.localeCompare(right.sortableProgram);
     });
-
-    return sorted;
   }, [filterBy, items, sortBy]);
 
   if (!open) return null;
@@ -69,6 +69,13 @@ export function NeededClassesPanel({
               <X className="h-4 w-4" />
             </Button>
           </div>
+
+          {loading && (
+            <div className="mb-2 inline-flex items-center gap-2 text-xs text-muted-foreground" aria-live="polite">
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              Loading classes...
+            </div>
+          )}
 
           <div className="flex flex-wrap items-center gap-2">
             <div className="inline-flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground">
@@ -156,7 +163,7 @@ export function NeededClassesPanel({
             );
           })}
 
-          {visibleItems.length === 0 && <p className="text-sm text-muted-foreground">No remaining items for this filter.</p>}
+          {!loading && visibleItems.length === 0 && <p className="text-sm text-muted-foreground">No remaining items for this filter.</p>}
         </div>
       </aside>
     </div>

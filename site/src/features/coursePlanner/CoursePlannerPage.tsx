@@ -72,6 +72,7 @@ export function CoursePlannerPage() {
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [showNeededPanel, setShowNeededPanel] = useState(false);
   const [neededItems, setNeededItems] = useState<NeededClassItem[]>([]);
+  const [neededItemsLoading, setNeededItemsLoading] = useState(false);
 
   const termCodeToLabel = useMemo<Record<string, string>>(() => ({
     "01": "Spring",
@@ -341,6 +342,7 @@ export function CoursePlannerPage() {
   useEffect(() => {
     let active = true;
     const run = async () => {
+      setNeededItemsLoading(true);
       try {
         const [programs, priorCredits, schedules] = await Promise.all([
           listUserDegreePrograms(),
@@ -453,6 +455,10 @@ export function CoursePlannerPage() {
       } catch {
         if (!active) return;
         setNeededItems([]);
+      } finally {
+        if (active) {
+          setNeededItemsLoading(false);
+        }
       }
     };
 
@@ -547,6 +553,7 @@ export function CoursePlannerPage() {
         title="What's Needed"
         subtitle="Auto-sorted for this semester. Drag a class into the schedule area to add it."
         items={neededItems}
+        loading={neededItemsLoading}
         defaultSort="recommended"
         onClose={() => setShowNeededPanel(false)}
         onApplyGenEdFilter={(genEdCode) => {
