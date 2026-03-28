@@ -96,7 +96,8 @@ export default function Welcome() {
             </h1>
 
             <p className="welcome-subtitle">
-              Import your credits, map out majors and minors, discover Gen Eds, and generate class schedules that fit your life: build your UMD Orbit in one place.
+              Import your credits, map out majors and minors, discover Gen Eds, and generate class schedules that fit your life: 
+              build your UMD Orbit in one place.
             </p>
 
             <div className="welcome-stats">
