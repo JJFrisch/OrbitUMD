@@ -176,7 +176,7 @@ export function ScheduleLibraryPage() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showProjectedInfo, setShowProjectedInfo] = useState(false);
-  const projectedInfoRef = useRef<HTMLSpanElement | null>(null);
+  const projectedInfoRef = useRef<HTMLButtonElement | null>(null);
   const [latestCatalogTerm, setLatestCatalogTerm] = useState<{ termCode: string; termYear: number } | null>(null);
 
   const refreshSchedules = async () => {
@@ -338,7 +338,9 @@ export function ScheduleLibraryPage() {
     fetchTerms()
       .then((terms) => {
         if (!active || terms.length === 0) return;
-        const sorted = terms.slice().sort((left, right) => compareAcademicTerms(left, right));
+        const sorted = terms
+          .map((term) => ({ termCode: term.code.slice(-2), termYear: term.year }))
+          .sort((left, right) => compareAcademicTerms(left, right));
         setLatestCatalogTerm(sorted[sorted.length - 1]);
       })
       .catch(() => {

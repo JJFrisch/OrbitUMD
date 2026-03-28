@@ -6,7 +6,7 @@ import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import { Badge } from "../components/ui/badge";
 import { Switch } from "../components/ui/switch";
-import { User, Mail, GraduationCap, Settings2, Moon, Sun, Edit, Plus, Trash2, Star, LogOut } from "lucide-react";
+import { User, Mail, GraduationCap, Settings2, Moon, Sun, Edit, Plus, Trash2, Star, LogOut, LogIn } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -89,6 +89,7 @@ export default function Settings() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [saveMessage, setSaveMessage] = useState<string | null>(null);
   const [signingOut, setSigningOut] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const [userId, setUserId] = useState<string | null>(null);
   const [fullName, setFullName] = useState("");
@@ -166,7 +167,19 @@ export default function Settings() {
         if (authError) throw authError;
 
         const authUser = authData.user;
-        if (!authUser) throw new Error("Please sign in to manage settings.");
+        if (!authUser) {
+          if (!active) return;
+          setIsAuthenticated(false);
+          setUserId(null);
+          setFullName("");
+          setEmail("");
+          setUid("");
+          setUserPrograms([]);
+          setAllPrograms([]);
+          setTermOptions([]);
+          setErrorMessage(null);
+          return;
+        }
         const metadataBackup = readAccountBackup(authUser);
 
         const [{ data: profileRow, error: profileError }, { data: terms, error: termError }, priorCredits] = await Promise.all([
@@ -197,6 +210,7 @@ export default function Settings() {
 
         if (!active) return;
 
+        setIsAuthenticated(true);
         setUserId(authUser.id);
         setFullName(String(profileRow?.display_name ?? metadataBackup.fullName ?? authUser.user_metadata?.full_name ?? authUser.user_metadata?.name ?? ""));
         setEmail(String(profileRow?.email ?? metadataBackup.email ?? authUser.email ?? ""));
@@ -536,6 +550,10 @@ export default function Settings() {
     } finally {
       setSigningOut(false);
     }
+  };
+
+  const handleLogin = () => {
+    navigate("/sign-in?next=/settings");
   };
 
   const handleUnlockAdmin = async () => {
@@ -1021,15 +1039,26 @@ export default function Settings() {
                   <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>
                     Open Testudo
                   </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full border-red-500/40 text-red-300 hover:bg-red-600/10"
-                    onClick={() => void handleLogout()}
-                    disabled={signingOut}
-                  >
-                    <LogOut className="w-4 h-4 mr-2" />
-                    {signingOut ? "Logging out..." : "Log out"}
-                  </Button>
+                  {isAuthenticated ? (
+                    <Button
+                      variant="outline"
+                      className="w-full border-red-500/40 text-red-300 hover:bg-red-600/10"
+                      onClick={() => void handleLogout()}
+                      disabled={signingOut}
+                    >
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {signingOut ? "Logging out..." : "Log out"}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="outline"
+                      className="w-full border-blue-500/40 text-blue-300 hover:bg-blue-600/10"
+                      onClick={handleLogin}
+                    >
+                      <LogIn className="w-4 h-4 mr-2" />
+                      Log in
+                    </Button>
+                  )}
                 </div>
               </Card>
             </div>
@@ -1037,6 +1066,22 @@ export default function Settings() {
         </div>
 
         <aside className="xl:sticky xl:top-8 space-y-4">
+          <Card className="p-4 bg-card border-border">
+            <p className="text-xs uppercase tracking-wide text-muted-foreground">Suggested Next Steps</p>
+            <h2 className="text-lg font-semibold mt-1 mb-2">Keep Your Work Saved</h2>
+            {isAuthenticated ? (
+              <p className="text-xs text-muted-foreground">You are logged in. Your work and preferences can sync with your account.</p>
+            ) : (
+              <>
+                <p className="text-xs text-muted-foreground mb-3">Log in to save your work and access it across devices.</p>
+                <Button variant="outline" className="w-full border-blue-500/40 text-blue-300 hover:bg-blue-600/10" onClick={handleLogin}>
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Log in to save work
+                </Button>
+              </>
+            )}
+          </Card>
+
           <Card className="p-4 bg-card border-border">
             <div className="flex items-center justify-between gap-3 mb-3">
               <div>

@@ -99,13 +99,6 @@ export default function SignIn() {
     };
 
     const run = async () => {
-      const authFlowPending = sessionStorage.getItem(AUTH_FLOW_KEY) === "pending";
-
-      if (!isAuthCallback && !authFlowPending) {
-        // Enforce explicit re-auth whenever the sign-in screen is opened directly.
-        await supabase.auth.signOut({ scope: "local" });
-      }
-
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       if (data.session?.user) {
@@ -228,6 +221,15 @@ export default function SignIn() {
               Continue With Apple
             </Button>
           </div>
+
+          <Button
+            variant="ghost"
+            className="w-full text-muted-foreground hover:text-foreground"
+            onClick={() => navigate("/onboarding/goals")}
+            disabled={loading}
+          >
+            Skip for now
+          </Button>
 
           {message && <p className="text-sm text-green-600">{message}</p>}
           {error && <p className="text-sm text-red-600">{error}</p>}

@@ -107,7 +107,9 @@ export function CoursePlannerPage() {
     fetchTerms()
       .then((terms) => {
         if (!active || terms.length === 0) return;
-        const sorted = terms.slice().sort((left, right) => compareAcademicTerms(left, right));
+        const sorted = terms
+          .map((term) => ({ termCode: term.code.slice(-2), termYear: term.year }))
+          .sort((left, right) => compareAcademicTerms(left, right));
         setLatestCatalogTerm(sorted[sorted.length - 1]);
       })
       .catch(() => {});

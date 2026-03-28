@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Calendar, CalendarDays, GraduationCap, FileCheck2, Orbit } from "lucide-react";
 import { Card } from "../../components/ui/card";
 import { Badge } from "../../components/ui/badge";
+import { getSupabaseClient } from "@/lib/supabase/client";
 
 const goals = [
   {
@@ -44,6 +46,38 @@ const goals = [
 
 export default function GoalSelection() {
   const navigate = useNavigate();
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    const supabase = getSupabaseClient();
+
+    const run = async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!active) return;
+      setIsAuthed(Boolean(data.session?.user));
+    };
+
+    void run();
+
+    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) return;
+      setIsAuthed(Boolean(session?.user));
+    });
+
+    return () => {
+      active = false;
+      subscription.subscription.unsubscribe();
+    };
+  }, []);
+
+  const navigateWithAuthGate = (targetPath: string) => {
+    if (isAuthed) {
+      navigate(targetPath);
+      return;
+    }
+    navigate(`/sign-in?next=${encodeURIComponent(targetPath)}`);
+  };
 
   return (
     <div className="min-h-screen p-8">
@@ -67,7 +101,7 @@ export default function GoalSelection() {
             return (
               <Card
                 key={goal.id}
-                onClick={() => navigate(goal.route)}
+                onClick={() => navigateWithAuthGate(goal.route)}
                 className={`p-6 bg-card border-border hover:border-neutral-600 cursor-pointer transition-all hover:scale-[1.02] ${goal.color}`}
               >
                 <div className="flex items-start gap-4">
@@ -80,6 +114,11 @@ export default function GoalSelection() {
                       <Badge variant="outline" className="text-xs border-border">
                         {goal.label}
                       </Badge>
+                      {!isAuthed && (
+                        <Badge variant="outline" className="text-[10px] border-amber-500/50 text-amber-300">
+                          Sign in required
+                        </Badge>
+                      )}
                     </div>
                     <p className="text-muted-foreground text-sm leading-relaxed">
                       {goal.description}
@@ -93,7 +132,7 @@ export default function GoalSelection() {
 
         <div className="text-center">
           <button
-            onClick={() => navigate("/dashboard")}
+            onClick={() => navigateWithAuthGate("/dashboard")}
             className="text-muted-foreground hover:text-foreground/80 text-sm underline"
           >
             Skip for now, take me to the dashboard

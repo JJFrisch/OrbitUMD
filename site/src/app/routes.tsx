@@ -148,7 +148,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: withSuspense(<Welcome />) },
       { path: "onboarding/profile", element: withSuspense(<RequireAuth><BasicProfile /></RequireAuth>) },
-      { path: "onboarding/goals", element: withSuspense(<RequireAuth><GoalSelection /></RequireAuth>) },
+      { path: "onboarding/goals", element: withSuspense(<GoalSelection />) },
       { path: "dashboard", element: withSuspense(<RequireAuth><Dashboard /></RequireAuth>) },
       { path: "sign-in", element: withSuspense(<SignIn />) },
       { path: "generate-schedule", element: withSuspense(<RequireAuth><GenerateSchedule /></RequireAuth>) },
@@ -162,7 +162,7 @@ export const router = createBrowserRouter([
       { path: "credit-import", element: withSuspense(<RequireAuth><CreditImport /></RequireAuth>) },
       { path: "degree-requirements", element: withSuspense(<RequireAuth><DegreeRequirements /></RequireAuth>) },
       { path: "suggestions", element: withSuspense(<RequireAuth><Suggestions /></RequireAuth>) },
-      { path: "settings", element: withSuspense(<RequireAuth><Settings /></RequireAuth>) },
+      { path: "settings", element: withSuspense(<Settings />) },
       { path: "*", element: withSuspense(<NotFound />) },
     ],
   },
