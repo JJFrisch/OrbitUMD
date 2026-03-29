@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OrbitUMD — Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #C62828;
+  --red-mid: #E53935;
+  --red-light: #EF9A9A;
+  --red-glow: rgba(198,40,40,0.12);
+  --gold: #F9A825;
+  --gold-light: rgba(249,168,37,0.15);
+  --cream: #FDFAF5;
+  --ink: #17120E;
+  --ink-2: #3D2E26;
+  --ink-muted: #7A6358;
+  --ink-ghost: #B09A8E;
+  --surface: #FFFFFF;
+  --surface-2: #FAF7F3;
+  --border: rgba(198,40,40,0.1);
+  --border-soft: rgba(55,35,25,0.08);
+  --shadow-sm: 0 1px 4px rgba(23,18,14,0.06), 0 4px 16px rgba(23,18,14,0.04);
+  --shadow-md: 0 2px 8px rgba(23,18,14,0.07), 0 8px 28px rgba(23,18,14,0.07);
+  --shadow-lg: 0 4px 16px rgba(23,18,14,0.1), 0 20px 50px rgba(23,18,14,0.1);
+  --r: 12px;
+  --r-sm: 8px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 200;
+  opacity: 0.55;
+}
+
+/* ── SHELL ── */
+.shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 100vh;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  animation: slideRight 0.6s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.sidebar::before {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(198,40,40,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.sidebar-logo-icon {
+  width: 32px; height: 32px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+}
+.logo-text span { color: #EF9A9A; }
+
+.nav-section {
+  padding: 20px 12px 8px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.nav-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.28);
+  font-weight: 500;
+  padding: 0 12px;
+  margin-bottom: 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.84rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: all 0.15s;
+  margin-bottom: 1px;
+  position: relative;
+}
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+.nav-item.active {
+  color: #fff;
+  background: rgba(198,40,40,0.25);
+  font-weight: 500;
+}
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 3px;
+  background: var(--red-mid);
+  border-radius: 0 2px 2px 0;
+}
+
+.nav-icon {
+  width: 16px; height: 16px;
+  opacity: 0.7;
+  flex-shrink: 0;
+}
+.nav-item.active .nav-icon { opacity: 1; }
+
+.nav-badge {
+  margin-left: auto;
+  background: var(--red-mid);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 100px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.nav-gap { height: 20px; }
+
+.sidebar-user {
+  padding: 16px 24px 20px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 0;
+}
+.sidebar-user:hover { background: rgba(255,255,255,0.04); }
+
+.user-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #E53935, #F9A825);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+.user-info { flex: 1; min-width: 0; }
+.user-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-role {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.35);
+  margin-top: 1px;
+}
+
+/* ── MAIN ── */
+.main {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  padding: 18px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--cream);
+  flex-shrink: 0;
+  animation: fadeDown 0.6s 0.1s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.topbar-left h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+}
+.topbar-left p {
+  font-size: 0.8rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+  font-weight: 300;
+}
+
+.topbar-actions { display: flex; align-items: center; gap: 10px; }
+
+.topbar-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.topbar-btn:hover { border-color: rgba(198,40,40,0.25); color: var(--red); }
+
+.topbar-btn.primary {
+  background: var(--red);
+  color: white;
+  border-color: var(--red);
+  box-shadow: 0 2px 10px rgba(198,40,40,0.3);
+}
+.topbar-btn.primary:hover { background: #B71C1C; box-shadow: 0 4px 16px rgba(198,40,40,0.4); }
+
+/* ── CONTENT AREA ── */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 36px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── ACTION PROMPT (top nudge) ── */
+.action-prompt {
+  background: linear-gradient(135deg, #1A0A0A 0%, #2C1010 100%);
+  border-radius: var(--r);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeUp 0.5s 0.2s cubic-bezier(0.16,1,0.3,1) both;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(198,40,40,0.3);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.action-prompt:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(198,40,40,0.2); }
+.action-prompt::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(249,168,37,0.6), transparent);
+}
+
+.prompt-icon {
+  width: 40px; height: 40px;
+  background: rgba(249,168,37,0.15);
+  border: 1px solid rgba(249,168,37,0.3);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.prompt-text { flex: 1; }
+.prompt-text strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #fff;
+  display: block;
+  margin-bottom: 2px;
+}
+.prompt-text span { font-size: 0.78rem; color: rgba(255,255,255,0.45); font-weight: 300; }
+
+.prompt-arrow {
+  color: rgba(255,255,255,0.3);
+  transition: transform 0.2s, color 0.2s;
+}
+.action-prompt:hover .prompt-arrow { transform: translateX(4px); color: var(--gold); }
+
+/* ── GRID LAYOUTS ── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+
+/* ── CARD ── */
+.card {
+  background: var(--surface);
+  border-radius: var(--r);
+  border: 1px solid var(--border-soft);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.card-subtitle {
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  margin-top: 2px;
+  font-weight: 300;
+}
+.card-link {
+  font-size: 0.75rem;
+  color: var(--red);
+  text-decoration: none;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 3px;
+  transition: gap 0.15s;
+  white-space: nowrap;
+}
+.card-link:hover { gap: 6px; }
+
+/* ── PROGRESS RING ── */
+.progress-hero {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.ring-wrap {
+  position: relative;
+  width: 110px; height: 110px;
+  flex-shrink: 0;
+}
+
+.ring-svg { transform: rotate(-90deg); }
+
+.ring-track { fill: none; stroke: #F0EAE2; stroke-width: 8; }
+.ring-fill {
+  fill: none;
+  stroke: var(--red);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 290;
+  stroke-dashoffset: 290;
+  transition: stroke-dashoffset 1.4s cubic-bezier(0.16,1,0.3,1);
+}
+.ring-fill-gold {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 290;
+  stroke-dashoffset: 290;
+  transition: stroke-dashoffset 1.6s 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+
+.ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.ring-pct {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+}
+.ring-sub { font-size: 0.62rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+
+.ring-details { flex: 1; }
+.ring-details p {
+  font-size: 0.82rem;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  font-weight: 300;
+  margin-bottom: 14px;
+}
+.ring-meta { display: flex; flex-direction: column; gap: 7px; }
+
+.ring-meta-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.78rem;
+}
+.ring-meta-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.ring-meta-label { color: var(--ink-muted); flex: 1; font-weight: 300; }
+.ring-meta-val { font-weight: 500; color: var(--ink-2); }
+
+/* ── SEMESTER TIMELINE ── */
+.semester-track { display: flex; flex-direction: column; gap: 10px; }
+
+.sem-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border: 1px solid transparent;
+}
+.sem-row:hover { background: var(--surface-2); border-color: var(--border-soft); }
+.sem-row.current { background: rgba(198,40,40,0.04); border-color: rgba(198,40,40,0.18); }
+
+.sem-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.sem-dot.done { background: var(--red); }
+.sem-dot.current-dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(249,168,37,0.25);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.sem-dot.future { background: #E0D6CC; }
+
+@keyframes pulse-dot { 0%,100%{box-shadow:0 0 0 3px rgba(249,168,37,0.25);} 50%{box-shadow:0 0 0 6px rgba(249,168,37,0.1);} }
+
+.sem-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  width: 100px;
+  flex-shrink: 0;
+}
+.sem-row.current .sem-name { color: var(--red); }
+
+.sem-bar-wrap { flex: 1; height: 5px; background: #EDE7E1; border-radius: 3px; overflow: hidden; }
+.sem-bar { height: 100%; border-radius: 3px; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); width: 0; }
+.sem-bar.done { background: linear-gradient(90deg, var(--red), #EF5350); }
+.sem-bar.cur  { background: linear-gradient(90deg, var(--gold), #FFD54F); }
+.sem-bar.fut  { background: #EDE7E1; width: 100% !important; }
+
+.sem-credits {
+  font-size: 0.72rem;
+  color: var(--ink-ghost);
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.sem-status {
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sem-status.done { background: rgba(198,40,40,0.08); color: var(--red); }
+.sem-status.cur  { background: rgba(249,168,37,0.15); color: #C77F00; }
+.sem-status.fut  { background: #F0EBE5; color: var(--ink-ghost); }
+
+/* ── REQUIREMENT GROUPS ── */
+.req-list { display: flex; flex-direction: column; gap: 12px; }
+
+.req-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.req-item:hover { border-color: rgba(198,40,40,0.2); box-shadow: 0 2px 8px rgba(198,40,40,0.06); }
+
+.req-check {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.req-check.done { background: rgba(198,40,40,0.1); color: var(--red); }
+.req-check.warn { background: rgba(249,168,37,0.15); color: #C77F00; }
+.req-check.open { background: #EDE7E1; color: var(--ink-ghost); }
+
+.req-text { flex: 1; }
+.req-name { font-size: 0.82rem; font-weight: 500; color: var(--ink-2); }
+.req-detail { font-size: 0.72rem; color: var(--ink-muted); font-weight: 300; margin-top: 1px; }
+
+.req-tag {
+  font-size: 0.68rem;
+  font-weight: 500;
+  padding: 3px 9px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.req-tag.done { background: rgba(198,40,40,0.08); color: var(--red); }
+.req-tag.warn { background: rgba(249,168,37,0.15); color: #C77F00; }
+.req-tag.open { background: #F0EBE5; color: var(--ink-ghost); }
+
+/* ── UPCOMING NUDGES ── */
+.nudge-list { display: flex; flex-direction: column; gap: 10px; }
+
+.nudge {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.nudge:hover { border-color: rgba(198,40,40,0.22); transform: translateY(-1px); box-shadow: 0 4px 14px rgba(198,40,40,0.07); }
+
+.nudge-icon-wrap {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nudge-icon-wrap.red { background: rgba(198,40,40,0.1); color: var(--red); }
+.nudge-icon-wrap.gold { background: rgba(249,168,37,0.12); color: #C77F00; }
+.nudge-icon-wrap.blue { background: rgba(30,100,220,0.08); color: #1E64DC; }
+
+.nudge-body { flex: 1; }
+.nudge-title { font-size: 0.82rem; font-weight: 500; color: var(--ink-2); margin-bottom: 2px; }
+.nudge-desc { font-size: 0.73rem; color: var(--ink-muted); font-weight: 300; line-height: 1.4; }
+.nudge-time { font-size: 0.68rem; color: var(--ink-ghost); margin-top: 4px; }
+
+.nudge-urgency {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+.nudge-urgency.high { background: var(--red-mid); box-shadow: 0 0 0 2px rgba(229,57,53,0.2); animation: pulse-dot 2s infinite; }
+.nudge-urgency.med  { background: var(--gold); }
+.nudge-urgency.low  { background: #C8BBAF; }
+
+/* ── COURSE SLOTS ── */
+.course-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.course-slot {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.course-slot:hover { border-color: rgba(198,40,40,0.2); background: #fff; }
+.course-slot.empty {
+  border-style: dashed;
+  background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  color: var(--ink-ghost);
+  font-size: 0.78rem;
+  min-height: 70px;
+  transition: all 0.15s;
+}
+.course-slot.empty:hover { border-color: rgba(198,40,40,0.3); color: var(--red); background: rgba(198,40,40,0.03); }
+
+.course-code { font-size: 0.7rem; font-weight: 600; color: var(--red); letter-spacing: 0.04em; margin-bottom: 2px; }
+.course-name { font-size: 0.8rem; font-weight: 500; color: var(--ink-2); margin-bottom: 4px; }
+.course-meta { font-size: 0.7rem; color: var(--ink-ghost); }
+
+/* ── STAT TRIO ── */
+.stat-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-soft); border-radius: var(--r); overflow: hidden; border: 1px solid var(--border-soft); }
+
+.stat-cell {
+  background: var(--surface);
+  padding: 18px 20px;
+  text-align: center;
+}
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.stat-num.red { color: var(--red); }
+.stat-num.gold { color: var(--gold); }
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 5px;
+  font-weight: 400;
+}
+
+/* ── GPA BADGE ── */
+.gpa-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 20px 0;
+}
+.gpa-val {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+}
+.gpa-val span { color: var(--red); }
+.gpa-desc { font-size: 0.75rem; color: var(--ink-muted); font-weight: 300; }
+.gpa-bar-wrap {
+  width: 100%; height: 6px;
+  background: #EDE7E1; border-radius: 3px;
+  overflow: hidden; margin-top: 8px;
+}
+.gpa-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  width: 0;
+  transition: width 1.5s 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.gpa-ticks {
+  display: flex; justify-content: space-between;
+  font-size: 0.62rem; color: var(--ink-ghost);
+  width: 100%; margin-top: 3px;
+}
+
+/* ── SECTION HEADING ── */
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin-bottom: 14px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.section-heading a {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  color: var(--red);
+  text-decoration: none;
+  font-weight: 500;
+  display: flex; align-items: center; gap: 3px;
+}
+
+/* ── DEADLINE BANNER ── */
+.deadline-banner {
+  background: rgba(249,168,37,0.08);
+  border: 1px solid rgba(249,168,37,0.3);
+  border-radius: var(--r);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  animation: fadeUp 0.5s 0.15s cubic-bezier(0.16,1,0.3,1) both;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.deadline-banner:hover { transform: translateY(-1px); }
+
+.deadline-icon { font-size: 1.1rem; }
+.deadline-text strong { font-size: 0.83rem; font-weight: 600; color: #8A5F00; display: block; }
+.deadline-text span { font-size: 0.76rem; color: #B38000; font-weight: 300; }
+.deadline-btn {
+  margin-left: auto;
+  background: #F9A825;
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.deadline-btn:hover { background: #F08F00; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* stagger cards */
+.card:nth-child(1) { animation-delay: 0.15s; }
+.card:nth-child(2) { animation-delay: 0.22s; }
+.card:nth-child(3) { animation-delay: 0.29s; }
+.card:nth-child(4) { animation-delay: 0.36s; }
+.card:nth-child(5) { animation-delay: 0.43s; }
+.card:nth-child(6) { animation-delay: 0.50s; }
+
+/* scrollbar */
+.content::-webkit-scrollbar { width: 5px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <a class="sidebar-logo" href="#">
+      <svg class="sidebar-logo-icon" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
+        <circle cx="16" cy="16" r="9" stroke="#EF5350" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
+        <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
+        <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
+      </svg>
+      <span class="logo-text">Orbit<span>UMD</span></span>
+    </a>
+
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <a class="nav-item active" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        Dashboard
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        My Four-Year Plan
+        <span class="nav-badge">3</span>
+      </a>
+
+      <div class="nav-gap"></div>
+      <div class="nav-label">Academics</div>
+
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 5v3l2.5 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Class Schedule
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M3 3h10v10H3z" stroke="currentColor" stroke-width="1.5" rx="1.5"/>
+          <path d="M6 3v10M10 3v10M3 7h10" stroke="currentColor" stroke-width="1.2"/>
+        </svg>
+        Gen Ed Tracker
+        <span class="nav-badge">2</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M2 13L6 3l4 7 3-4 1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Major Requirements
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="6" r="3" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M2 13c0-2.21 2.69-4 6-4s6 1.79 6 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Advisor Notes
+      </a>
+
+      <div class="nav-gap"></div>
+      <div class="nav-label">Explore</div>
+
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="7" cy="7" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        Course Search
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none">
+          <path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+        Minors & Certificates
+      </a>
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-avatar">AJ</div>
+      <div class="user-info">
+        <div class="user-name">Alex Johnson</div>
+        <div class="user-role">Junior · CS + Math</div>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="color:rgba(255,255,255,0.25);flex-shrink:0;">
+        <path d="M5 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2>Good morning, Alex ☀️</h2>
+        <p>Spring 2025 · Week 9 of 15 · Registration opens in 12 days</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="topbar-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.4"/><path d="M7 4.5V7l2 1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          Schedule Builder
+        </button>
+        <button class="topbar-btn primary">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Add Course
+        </button>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- Registration deadline banner -->
+      <div class="deadline-banner" id="deadlineBanner">
+        <span class="deadline-icon">📅</span>
+        <div class="deadline-text">
+          <strong>Fall 2025 Registration opens April 9 — only 12 days away</strong>
+          <span>You have 3 unfinished plans and 2 Gen Ed slots to fill before you can register.</span>
+        </div>
+        <button class="deadline-btn" onclick="document.getElementById('deadlineBanner').style.display='none'">Plan Now</button>
+      </div>
+
+      <!-- Action prompt -->
+      <div class="action-prompt">
+        <div class="prompt-icon">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2L11 7H16L12 10.5L13.5 16L9 12.5L4.5 16L6 10.5L2 7H7z" stroke="#F9A825" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="prompt-text">
+          <strong>You're 6 credits away from declaring your Math minor — finish it this fall.</strong>
+          <span>MATH 401 and MATH 415 are both offered and have open seats. Add them to your plan.</span>
+        </div>
+        <svg class="prompt-arrow" width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M5 9h8M10 6l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <!-- Row 1: Progress + Semester Timeline -->
+      <div class="grid-2">
+
+        <!-- Degree Progress -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Degree Progress</div>
+              <div class="card-subtitle">Computer Science, B.S.</div>
+            </div>
+            <a class="card-link" href="#">Full view →</a>
+          </div>
+          <div class="progress-hero">
+            <div class="ring-wrap">
+              <svg class="ring-svg" width="110" height="110" viewBox="0 0 110 110">
+                <circle class="ring-track" cx="55" cy="55" r="46"/>
+                <circle class="ring-fill" id="mainRing" cx="55" cy="55" r="46"/>
+              </svg>
+              <div class="ring-label">
+                <div class="ring-pct" id="ringPct">0%</div>
+                <div class="ring-sub">complete</div>
+              </div>
+            </div>
+            <div class="ring-details">
+              <p>On track for May 2026 graduation. Great momentum — keep it going.</p>
+              <div class="ring-meta">
+                <div class="ring-meta-item">
+                  <div class="ring-meta-dot" style="background:var(--red)"></div>
+                  <span class="ring-meta-label">Credits earned</span>
+                  <span class="ring-meta-val">87 / 120</span>
+                </div>
+                <div class="ring-meta-item">
+                  <div class="ring-meta-dot" style="background:var(--gold)"></div>
+                  <span class="ring-meta-label">In progress</span>
+                  <span class="ring-meta-val">15 credits</span>
+                </div>
+                <div class="ring-meta-item">
+                  <div class="ring-meta-dot" style="background:#EDE7E1"></div>
+                  <span class="ring-meta-label">Remaining</span>
+                  <span class="ring-meta-val">18 credits</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semester Timeline -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Eight-Semester Map</div>
+              <div class="card-subtitle">Credits per term</div>
+            </div>
+            <a class="card-link" href="#">Edit plan →</a>
+          </div>
+          <div class="semester-track">
+            <div class="sem-row"><div class="sem-dot done"></div><div class="sem-name">Fall 2022</div><div class="sem-bar-wrap"><div class="sem-bar done" data-w="100"></div></div><div class="sem-credits">16 cr</div><div class="sem-status done">Done</div></div>
+            <div class="sem-row"><div class="sem-dot done"></div><div class="sem-name">Spring 2023</div><div class="sem-bar-wrap"><div class="sem-bar done" data-w="94"></div></div><div class="sem-credits">15 cr</div><div class="sem-status done">Done</div></div>
+            <div class="sem-row"><div class="sem-dot done"></div><div class="sem-name">Fall 2023</div><div class="sem-bar-wrap"><div class="sem-bar done" data-w="100"></div></div><div class="sem-credits">16 cr</div><div class="sem-status done">Done</div></div>
+            <div class="sem-row"><div class="sem-dot done"></div><div class="sem-name">Spring 2024</div><div class="sem-bar-wrap"><div class="sem-bar done" data-w="88"></div></div><div class="sem-credits">14 cr</div><div class="sem-status done">Done</div></div>
+            <div class="sem-row current"><div class="sem-dot current-dot"></div><div class="sem-name">Spring 2025</div><div class="sem-bar-wrap"><div class="sem-bar cur" data-w="60"></div></div><div class="sem-credits">15 cr</div><div class="sem-status cur">In Progress</div></div>
+            <div class="sem-row"><div class="sem-dot future"></div><div class="sem-name">Fall 2025</div><div class="sem-bar-wrap"><div class="sem-bar fut" data-w="100"></div></div><div class="sem-credits">—</div><div class="sem-status fut">Plan now</div></div>
+            <div class="sem-row"><div class="sem-dot future"></div><div class="sem-name">Spring 2026</div><div class="sem-bar-wrap"><div class="sem-bar fut" data-w="100"></div></div><div class="sem-credits">—</div><div class="sem-status fut">Future</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 2: Requirements + Nudges -->
+      <div class="grid-2">
+
+        <!-- Requirements -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Requirements Checklist</div>
+              <div class="card-subtitle">Major · Gen Ed · University</div>
+            </div>
+            <a class="card-link" href="#">All reqs →</a>
+          </div>
+          <div class="req-list">
+            <div class="req-item">
+              <div class="req-check done">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="req-text">
+                <div class="req-name">Core CS Courses</div>
+                <div class="req-detail">CMSC 131, 132, 216, 250, 330, 351 — all complete</div>
+              </div>
+              <div class="req-tag done">Complete</div>
+            </div>
+            <div class="req-item">
+              <div class="req-check warn">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 3v4M6 9v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="req-text">
+                <div class="req-name">Upper-Level CS Electives</div>
+                <div class="req-detail">Need 2 more courses at 400-level or above</div>
+              </div>
+              <div class="req-tag warn">In Progress</div>
+            </div>
+            <div class="req-item">
+              <div class="req-check warn">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 3v4M6 9v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="req-text">
+                <div class="req-name">Gen Ed: Distributive Studies</div>
+                <div class="req-detail">2 of 5 categories remaining (Social Science, Humanities)</div>
+              </div>
+              <div class="req-tag warn">2 left</div>
+            </div>
+            <div class="req-item">
+              <div class="req-check open">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <div class="req-text">
+                <div class="req-name">Capstone / Senior Project</div>
+                <div class="req-detail">CMSC 435 or approved substitute — not yet planned</div>
+              </div>
+              <div class="req-tag open">Not started</div>
+            </div>
+            <div class="req-item">
+              <div class="req-check done">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="req-text">
+                <div class="req-name">Writing Intensive</div>
+                <div class="req-detail">Completed ENGL 393 in Fall 2024</div>
+              </div>
+              <div class="req-tag done">Complete</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nudges / Reminders -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Action Items</div>
+              <div class="card-subtitle">Things that need your attention</div>
+            </div>
+            <a class="card-link" href="#">All →</a>
+          </div>
+          <div class="nudge-list">
+            <div class="nudge">
+              <div class="nudge-icon-wrap red">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v7M8 12v.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <div class="nudge-body">
+                <div class="nudge-title">Plan Fall 2025 schedule</div>
+                <div class="nudge-desc">Registration opens April 9. You haven't started your fall plan yet.</div>
+                <div class="nudge-time">⚡ Due in 12 days</div>
+              </div>
+              <div class="nudge-urgency high"></div>
+            </div>
+            <div class="nudge">
+              <div class="nudge-icon-wrap gold">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.5"/><path d="M8 5.5V8l2 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="nudge-body">
+                <div class="nudge-title">Fill 2 remaining Gen Ed slots</div>
+                <div class="nudge-desc">Social Science and Humanities categories still open. See recommendations.</div>
+                <div class="nudge-time">📚 Before graduation</div>
+              </div>
+              <div class="nudge-urgency med"></div>
+            </div>
+            <div class="nudge">
+              <div class="nudge-icon-wrap gold">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="nudge-body">
+                <div class="nudge-title">Declare Math minor — only 6 cr left</div>
+                <div class="nudge-desc">MATH 401 & 415 available this fall. Advisor approval takes 5 days.</div>
+                <div class="nudge-time">🎓 Optional — high value</div>
+              </div>
+              <div class="nudge-urgency med"></div>
+            </div>
+            <div class="nudge">
+              <div class="nudge-icon-wrap blue">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 13c0-2.21 2.24-4 5-4s5 1.79 5 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="nudge-body">
+                <div class="nudge-title">Meet with advisor before registration</div>
+                <div class="nudge-desc">Recommended for students with open capstone requirements.</div>
+                <div class="nudge-time">🗓 Book a slot on Terrapin Connect</div>
+              </div>
+              <div class="nudge-urgency low"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Row 3: Current Courses + GPA + Credits stat -->
+      <div class="grid-2">
+
+        <!-- Current Courses -->
+        <div class="card">
+          <div class="section-heading">
+            Current Semester Courses
+            <a href="#">Edit this term →</a>
+          </div>
+          <div class="course-grid">
+            <div class="course-slot">
+              <div class="course-code">CMSC 411</div>
+              <div class="course-name">Computer Architecture</div>
+              <div class="course-meta">3 cr · MWF 10–11am · Brendan Iribe</div>
+            </div>
+            <div class="course-slot">
+              <div class="course-code">CMSC 421</div>
+              <div class="course-name">Intro to Artificial Intelligence</div>
+              <div class="course-meta">3 cr · TTh 2–3:15pm · IRB 0318</div>
+            </div>
+            <div class="course-slot">
+              <div class="course-code">MATH 461</div>
+              <div class="course-name">Linear Algebra</div>
+              <div class="course-meta">3 cr · MWF 1–2pm · MTH 0303</div>
+            </div>
+            <div class="course-slot">
+              <div class="course-code">ENGL 394</div>
+              <div class="course-name">Business Writing</div>
+              <div class="course-meta">3 cr · TTh 11–12:15pm · SKN 2117</div>
+            </div>
+            <div class="course-slot">
+              <div class="course-code">STAT 400</div>
+              <div class="course-name">Applied Probability & Stats</div>
+              <div class="course-meta">3 cr · MWF 3–4pm · MTH 0102</div>
+            </div>
+            <div class="course-slot empty">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Add a course
+            </div>
+          </div>
+        </div>
+
+        <!-- GPA + Stats -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Cumulative GPA</div>
+                <div class="card-subtitle">Through Spring 2024</div>
+              </div>
+            </div>
+            <div class="gpa-area">
+              <div class="gpa-val" id="gpaVal">0<span>.00</span></div>
+              <div class="gpa-desc">Dean's List threshold: 3.50 &nbsp;·&nbsp; Magna Cum Laude: 3.70</div>
+              <div class="gpa-bar-wrap"><div class="gpa-bar" id="gpaBar"></div></div>
+              <div class="gpa-ticks"><span>0.0</span><span>1.0</span><span>2.0</span><span>3.0</span><span>4.0</span></div>
+            </div>
+          </div>
+          <div class="stat-trio">
+            <div class="stat-cell">
+              <div class="stat-num red" id="credCount">0</div>
+              <div class="stat-label">Credits Earned</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-num">5</div>
+              <div class="stat-label">Courses Now</div>
+            </div>
+            <div class="stat-cell">
+              <div class="stat-num gold">3</div>
+              <div class="stat-label">Semesters Left</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+// ── Animate progress ring ──
+function animateRing() {
+  const circ = 2 * Math.PI * 46; // ≈ 289
+  const pct = 87 / 120;
+  const offset = circ * (1 - pct);
+  const ring = document.getElementById('mainRing');
+  const label = document.getElementById('ringPct');
+
+  // Set stroke-dasharray to actual circumference
+  ring.style.strokeDasharray = circ;
+  ring.style.strokeDashoffset = circ;
+
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      ring.style.strokeDashoffset = offset;
+    });
+  });
+
+  // Count up the percentage label
+  let current = 0;
+  const target = Math.round(pct * 100);
+  const dur = 1400;
+  const step = target / (dur / 16);
+  function tick() {
+    current = Math.min(current + step, target);
+    label.textContent = Math.round(current) + '%';
+    if (current < target) requestAnimationFrame(tick);
+  }
+  setTimeout(tick, 100);
+}
+
+// ── Animate semester bars ──
+function animateBars() {
+  document.querySelectorAll('.sem-bar:not(.fut)').forEach(bar => {
+    const w = bar.getAttribute('data-w');
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        bar.style.width = w + '%';
+      });
+    });
+  });
+}
+
+// ── Animate GPA ──
+function animateGPA() {
+  const target = 3.72;
+  const bar = document.getElementById('gpaBar');
+  const val = document.getElementById('gpaVal');
+  const dur = 1500;
+  let current = 0;
+  const step = target / (dur / 16);
+
+  // bar width as % of 4.0
+  setTimeout(() => { bar.style.width = (target / 4 * 100) + '%'; }, 100);
+
+  function tick() {
+    current = Math.min(current + step, target);
+    val.innerHTML = Math.floor(current) + '<span>.' + String(current.toFixed(2)).split('.')[1] + '</span>';
+    if (current < target) requestAnimationFrame(tick);
+  }
+  setTimeout(tick, 200);
+}
+
+// ── Animate credit counter ──
+function animateCredits() {
+  const el = document.getElementById('credCount');
+  let v = 0;
+  const target = 87;
+  const step = target / (1200 / 16);
+  function tick() {
+    v = Math.min(v + step, target);
+    el.textContent = Math.round(v);
+    if (v < target) requestAnimationFrame(tick);
+  }
+  setTimeout(tick, 300);
+}
+
+// ── Run on load ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    animateRing();
+    animateBars();
+    animateGPA();
+    animateCredits();
+  }, 300);
+});
+</script>
+</body>
+</html>
