@@ -49,7 +49,7 @@ export default function SignIn() {
     };
 
     const resolvePostAuthPath = async (authUser: { id: string }, requestedPath: string) => {
-      if (requestedPath && requestedPath !== "/onboarding/profile") {
+      if (requestedPath && requestedPath !== "/onboarding") {
         return requestedPath;
       }
 
@@ -73,7 +73,7 @@ export default function SignIn() {
       const hasPrograms = !programError && (programCount ?? 0) > 0;
       const isExistingUser = hasProfileRow && (hasProfileDetails || hasPrograms);
 
-      return isExistingUser ? "/dashboard" : "/onboarding/profile";
+      return isExistingUser ? "/dashboard" : "/onboarding";
     };
 
     const navigateAfterAuth = async (authUser: { id: string }) => {

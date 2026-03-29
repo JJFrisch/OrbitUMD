@@ -66,7 +66,7 @@ export default function Welcome() {
             <button
               type="button"
               className="welcome-nav-cta"
-              onClick={() => navigate("/sign-in?next=/onboarding/profile")}
+              onClick={() => navigate("/sign-in?next=/onboarding")}
             >
               Get Started →
             </button>
@@ -119,14 +119,14 @@ export default function Welcome() {
               <button
                 className="welcome-btn-primary"
                 type="button"
-                onClick={() => navigate("/sign-in?next=/onboarding/profile")}
+                onClick={() => navigate("/sign-in?next=/onboarding")}
               >
                 Let's get started
               </button>
               <button
                 className="welcome-btn-ghost"
                 type="button"
-                onClick={() => navigate("/onboarding/goals")}
+                onClick={() => navigate("/sign-in?next=/onboarding")}
               >
                 See how it works <span className="welcome-arrow">→</span>
               </button>

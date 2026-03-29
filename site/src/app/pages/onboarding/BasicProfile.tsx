@@ -74,7 +74,7 @@ async function loadAllUmdMajors(): Promise<CatalogProgramOption[]> {
   return Array.from(byName.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export default function BasicProfile() {
+export default function BasicProfile({ onNext }: { onNext?: () => void } = {}) {
   const navigate = useNavigate();
   const [isNewStudent, setIsNewStudent] = useState(false);
   const [entryMethod, setEntryMethod] = useState<"transcript" | "manual">("transcript");
@@ -327,7 +327,11 @@ export default function BasicProfile() {
         if (selectedMajorKey) {
           localStorage.setItem("orbitumd-onboarding-major-key", selectedMajorKey);
         }
-        navigate(destinationAfterSave);
+        if (onNext) {
+          onNext();
+        } else {
+          navigate(destinationAfterSave);
+        }
         return;
       }
 
@@ -415,7 +419,11 @@ export default function BasicProfile() {
       }
 
       setMessage("Profile saved.");
-      navigate(destinationAfterSave);
+      if (onNext) {
+        onNext();
+      } else {
+        navigate(destinationAfterSave);
+      }
     } catch (error) {
       setMessage(getErrorMessage(error, "Unable to save profile."));
     } finally {

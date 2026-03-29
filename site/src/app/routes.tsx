@@ -34,8 +34,7 @@ function lazyWithRetry<T extends ComponentType<any>>(
 }
 
 const Welcome = lazyWithRetry(() => import("./pages/onboarding/Welcome"), "Welcome");
-const BasicProfile = lazyWithRetry(() => import("./pages/onboarding/BasicProfile"), "BasicProfile");
-const GoalSelection = lazyWithRetry(() => import("./pages/onboarding/GoalSelection"), "GoalSelection");
+const OnboardingContainer = lazyWithRetry(() => import("./pages/onboarding/OnboardingContainer"), "OnboardingContainer");
 const Dashboard = lazyWithRetry(() => import("./pages/Dashboard"), "Dashboard");
 const GenerateSchedule = lazyWithRetry(() => import("./pages/GenerateSchedule"), "GenerateSchedule");
 const ScheduleBuilder = lazyWithRetry(() => import("./pages/ScheduleBuilder"), "ScheduleBuilder");
@@ -147,8 +146,7 @@ export const router = createBrowserRouter([
     errorElement: <AppRouteErrorBoundary />,
     children: [
       { index: true, element: withSuspense(<Welcome />) },
-      { path: "onboarding/profile", element: withSuspense(<RequireAuth><BasicProfile /></RequireAuth>) },
-      { path: "onboarding/goals", element: withSuspense(<GoalSelection />) },
+      { path: "onboarding", element: withSuspense(<RequireAuth><OnboardingContainer /></RequireAuth>) },
       { path: "dashboard", element: withSuspense(<RequireAuth><Dashboard /></RequireAuth>) },
       { path: "sign-in", element: withSuspense(<SignIn />) },
       { path: "generate-schedule", element: withSuspense(<RequireAuth><GenerateSchedule /></RequireAuth>) },
