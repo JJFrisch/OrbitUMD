@@ -5,6 +5,8 @@ import { getProfileEmailSnapshot } from "@/lib/supabase/profileEmailGate";
 import "./signin-login.css";
 
 const AUTH_FLOW_KEY = "orbitumd:auth:flow";
+const AUTH_CALLBACK_SEARCH_KEYS = ["code", "access_token", "refresh_token", "token_hash", "type", "error_description", "error"];
+const AUTH_CALLBACK_HASH_KEYS = ["access_token", "refresh_token", "token_hash", "type", "error_description", "error"];
 
 function buildAppRedirectUrl(path: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -17,8 +19,12 @@ export default function SignIn() {
   const [searchParams] = useSearchParams();
   const supabase = getSupabaseClient();
   const nextPath = searchParams.get("next") || "/dashboard";
-  const isAuthCallback = ["code", "access_token", "refresh_token", "token_hash", "type", "error_description"]
-    .some((key) => searchParams.has(key));
+  const isAuthCallback =
+    AUTH_CALLBACK_SEARCH_KEYS.some((key) => searchParams.has(key))
+    || (typeof window !== "undefined"
+      && AUTH_CALLBACK_HASH_KEYS.some((key) =>
+        new URLSearchParams(window.location.hash.replace(/^#/, "")).has(key),
+      ));
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -99,7 +105,73 @@ export default function SignIn() {
       }
     };
 
+    const finishEmailCallbackSignIn = async () => {
+      const hashParams =
+        typeof window !== "undefined"
+          ? new URLSearchParams(window.location.hash.replace(/^#/, ""))
+          : new URLSearchParams();
+
+      const callbackError =
+        searchParams.get("error_description")
+        ?? hashParams.get("error_description")
+        ?? searchParams.get("error")
+        ?? hashParams.get("error");
+
+      if (callbackError) {
+        throw new Error(callbackError);
+      }
+
+      const code = searchParams.get("code");
+      if (code) {
+        const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+        if (exchangeError) {
+          throw exchangeError;
+        }
+        return;
+      }
+
+      const tokenHash = searchParams.get("token_hash") ?? hashParams.get("token_hash");
+      const callbackType = searchParams.get("type") ?? hashParams.get("type");
+      if (tokenHash && callbackType) {
+        const { error: verifyError } = await supabase.auth.verifyOtp({
+          token_hash: tokenHash,
+          type: callbackType as any,
+        });
+        if (verifyError) {
+          throw verifyError;
+        }
+        return;
+      }
+
+      const accessToken = hashParams.get("access_token");
+      const refreshToken = hashParams.get("refresh_token");
+      if (accessToken && refreshToken) {
+        const { error: setSessionError } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
+        if (setSessionError) {
+          throw setSessionError;
+        }
+      }
+    };
+
     const run = async () => {
+      if (isAuthCallback) {
+        try {
+          await finishEmailCallbackSignIn();
+        } catch (callbackError) {
+          if (!active) return;
+          sessionStorage.removeItem(AUTH_FLOW_KEY);
+          setError(
+            callbackError instanceof Error
+              ? callbackError.message
+              : "Unable to finish sign-in. Request a new email link.",
+          );
+          setLoading(false);
+        }
+      }
+
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       if (data.session?.user) {

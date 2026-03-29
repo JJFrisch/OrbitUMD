@@ -238,6 +238,7 @@ body::before {
     linear-gradient(90deg, rgba(198,40,40,0.04) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
+  -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent);
   mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent);
 }
 
@@ -357,6 +358,7 @@ body::before {
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   -webkit-appearance: none;
+  appearance: none;
 }
 .field input::placeholder { color: var(--ink-ghost); }
 .field input:focus {
