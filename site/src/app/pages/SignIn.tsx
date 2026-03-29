@@ -8,6 +8,8 @@ const AUTH_FLOW_KEY = "orbitumd:auth:flow";
 const AUTH_CALLBACK_SEARCH_KEYS = ["code", "access_token", "refresh_token", "token_hash", "type", "error_description", "error"];
 const AUTH_CALLBACK_HASH_KEYS = ["access_token", "refresh_token", "token_hash", "type", "error_description", "error"];
 
+type LegalModalType = "terms" | "privacy" | null;
+
 function buildAppRedirectUrl(path: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/$/, "");
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -30,6 +32,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [openLegalModal, setOpenLegalModal] = useState<LegalModalType>(null);
   const authNavigationStarted = useRef(false);
 
   useEffect(() => {
@@ -264,14 +267,14 @@ export default function SignIn() {
             type="button"
             aria-label="Back to home"
           >
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
-              <circle cx="16" cy="16" r="9" stroke="#EF5350" strokeWidth="1.2" strokeDasharray="3 2"/>
-              <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
-              <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
-              <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
-            </svg>
             <span className="left-logo-text">Orbit<span>UMD</span></span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
+              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
 
           <div className="orbit-stage" aria-hidden="true">
@@ -409,13 +412,79 @@ export default function SignIn() {
 
             <div className="form-footer">
               <p>
-                By signing in, you agree to OrbitUMD&apos;s terms and privacy policy.
+                By signing in, you agree to OrbitUMD&apos;s{" "}
+                <button type="button" className="legal-link" onClick={() => setOpenLegalModal("terms")}>terms</button>
+                {" "}and{" "}
+                <button type="button" className="legal-link" onClick={() => setOpenLegalModal("privacy")}>privacy policy</button>
+                .
+                <br />
                 Your UMD credentials are never stored by OrbitUMD.
               </p>
             </div>
           </div>
         </div>
       </div>
+
+      {openLegalModal && (
+        <div
+          className="legal-modal-backdrop"
+          role="presentation"
+          onClick={() => setOpenLegalModal(null)}
+        >
+          <div
+            className="legal-modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="legal-modal-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="legal-modal-header">
+              <h3 id="legal-modal-title">
+                {openLegalModal === "terms" ? "OrbitUMD Terms" : "OrbitUMD Privacy Policy"}
+              </h3>
+              <button
+                type="button"
+                className="legal-close"
+                onClick={() => setOpenLegalModal(null)}
+                aria-label="Close legal dialog"
+              >
+                ×
+              </button>
+            </div>
+            {openLegalModal === "terms" ? (
+              <div className="legal-modal-body">
+                <p>
+                  OrbitUMD is provided for academic planning support. You are responsible for verifying all registration,
+                  prerequisite, and graduation requirements against official University of Maryland sources.
+                </p>
+                <p>
+                  Use of OrbitUMD is subject to responsible and lawful usage. Misuse, abuse, scraping, or attempts to
+                  interfere with service operation may result in revoked access.
+                </p>
+                <p>
+                  OrbitUMD does not guarantee seat availability, section timing stability, or administrative approvals.
+                  Always confirm final decisions with official advisors and systems before enrollment.
+                </p>
+              </div>
+            ) : (
+              <div className="legal-modal-body">
+                <p>
+                  OrbitUMD stores only the data needed to power your planning experience, such as profile details,
+                  selected programs, schedules, and onboarding inputs.
+                </p>
+                <p>
+                  Authentication is handled by Supabase. OrbitUMD does not store your UMD account password or raw login
+                  credentials.
+                </p>
+                <p>
+                  You can request deletion of your account data by contacting support. Operational logs may be retained
+                  briefly for security and reliability purposes.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

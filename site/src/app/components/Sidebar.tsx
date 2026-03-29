@@ -44,14 +44,14 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
     <aside className={cn("orbit-sidebar", collapsed && "collapsed")}>
       <div className="sidebar-header">
         <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
-            <circle cx="16" cy="16" r="9" stroke="#EF5350" strokeWidth="1.2" strokeDasharray="3 2"/>
-            <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
-            <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
-            <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
-          </svg>
           <span className="logo-text">Orbit<span>UMD</span></span>
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
+            <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
+            <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
+            <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </Link>
 
         <button
