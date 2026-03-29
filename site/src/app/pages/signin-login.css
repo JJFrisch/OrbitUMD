@@ -91,7 +91,7 @@
 
 .signin-template .orbit-ring {
   position: absolute;
-  border: 2px solid rgba(239, 83, 80, 0.28);
+  border: 2px dashed rgba(239, 83, 80, 0.28);
   border-radius: 50%;
 }
 
