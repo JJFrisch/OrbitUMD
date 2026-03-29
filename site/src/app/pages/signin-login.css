@@ -102,16 +102,17 @@
 }
 
 .signin-template .o2 {
-  width: 450px;
-  height: 450px;
-  animation: signin-spin 80s linear infinite reverse;
+  width: 480px; 
+  height: 470px; 
+  animation: spin 80s linear infinite reverse; 
+  opacity: 0.8;
 }
 
 .signin-template .o3 {
-  width: 580px;
-  height: 580px;
-  animation: signin-spin 110s linear infinite;
-  opacity: 0.62;
+  width: 680px; 
+  height: 680px; 
+  animation: spin 110s linear infinite; 
+  opacity: 0.42;
 }
 
 .signin-template .orbit-dot {

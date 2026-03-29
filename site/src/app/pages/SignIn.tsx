@@ -267,14 +267,15 @@ export default function SignIn() {
             type="button"
             aria-label="Back to home"
           >
-            <span className="left-logo-text">Orbit<span>UMD</span></span>
+            
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
               <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
               <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
-              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" stroke-dasharray="3 2" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" stroke-dasharray="3 2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
+            <span className="left-logo-text">Orbit<span>UMD</span></span>
           </button>
 
           <div className="orbit-stage" aria-hidden="true">
