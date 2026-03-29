@@ -2,6 +2,7 @@ import { lazy, type ComponentType, ReactNode, Suspense, useEffect, useState } fr
 import { isRouteErrorResponse, Link, Navigate, createBrowserRouter, useLocation, useRouteError } from "react-router";
 import RootLayout from "./layouts/RootLayout";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { userNeedsOnboardingByEmail } from "@/lib/supabase/profileEmailGate";
 
 function lazyWithRetry<T extends ComponentType<any>>(
   loader: () => Promise<{ default: T }>,
@@ -91,9 +92,16 @@ function AppRouteErrorBoundary() {
   );
 }
 
-function RequireAuth({ children }: { children: ReactNode }) {
+function RequireAuth({
+  children,
+  allowMissingProfileEmail = false,
+}: {
+  children: ReactNode;
+  allowMissingProfileEmail?: boolean;
+}) {
   const [checking, setChecking] = useState(true);
   const [isAuthed, setIsAuthed] = useState(false);
+  const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -104,10 +112,19 @@ function RequireAuth({ children }: { children: ReactNode }) {
       try {
         const { data } = await supabase.auth.getSession();
         if (!active) return;
-        setIsAuthed(Boolean(data.session?.user));
+        const user = data.session?.user;
+        setIsAuthed(Boolean(user));
+        if (user) {
+          const shouldOnboard = await userNeedsOnboardingByEmail(supabase, user.id);
+          if (!active) return;
+          setNeedsOnboarding(shouldOnboard);
+        } else {
+          setNeedsOnboarding(false);
+        }
       } catch {
         if (!active) return;
         setIsAuthed(false);
+        setNeedsOnboarding(false);
       } finally {
         if (active) setChecking(false);
       }
@@ -115,9 +132,17 @@ function RequireAuth({ children }: { children: ReactNode }) {
 
     void run();
 
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: subscription } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!active) return;
-      setIsAuthed(Boolean(session?.user));
+      const user = session?.user;
+      setIsAuthed(Boolean(user));
+      if (user) {
+        const shouldOnboard = await userNeedsOnboardingByEmail(supabase, user.id);
+        if (!active) return;
+        setNeedsOnboarding(shouldOnboard);
+      } else {
+        setNeedsOnboarding(false);
+      }
       setChecking(false);
     });
 
@@ -136,6 +161,10 @@ function RequireAuth({ children }: { children: ReactNode }) {
     return <Navigate to={`/sign-in?next=${encodeURIComponent(next)}`} replace />;
   }
 
+  if (!allowMissingProfileEmail && needsOnboarding) {
+    return <Navigate to="/onboarding" replace />;
+  }
+
   return <>{children}</>;
 }
 
@@ -146,7 +175,7 @@ export const router = createBrowserRouter([
     errorElement: <AppRouteErrorBoundary />,
     children: [
       { index: true, element: withSuspense(<Welcome />) },
-      { path: "onboarding", element: withSuspense(<RequireAuth><OnboardingContainer /></RequireAuth>) },
+      { path: "onboarding", element: withSuspense(<RequireAuth allowMissingProfileEmail><OnboardingContainer /></RequireAuth>) },
       { path: "dashboard", element: withSuspense(<RequireAuth><Dashboard /></RequireAuth>) },
       { path: "sign-in", element: withSuspense(<SignIn />) },
       { path: "generate-schedule", element: withSuspense(<RequireAuth><GenerateSchedule /></RequireAuth>) },

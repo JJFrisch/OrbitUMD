@@ -40,7 +40,7 @@ export default function RootLayout() {
   }
 
   return (
-    <div className="h-screen bg-background flex overflow-hidden">
+    <div className="orbit-shell h-screen bg-background flex overflow-hidden">
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((prev) => {

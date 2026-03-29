@@ -12,7 +12,7 @@ import {
   PanelLeftOpen
 } from "lucide-react";
 import { cn } from "./ui/utils";
-import { Button } from "./ui/button";
+import "./sidebar-template.css";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -32,62 +32,70 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
-  const swirlLogoSrc = `${import.meta.env.BASE_URL}orbit-swirl.svg`;
+  const userDisplay = "Student";
+  const userInitials = userDisplay
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((token) => token[0]?.toUpperCase() ?? "")
+    .join("") || "ST";
 
   return (
-    <aside className={cn(
-      "bg-card border-r border-border flex flex-col transition-all duration-200 h-screen sticky top-0 overflow-y-auto",
-      collapsed ? "w-20" : "w-64"
-    )}>
-      <div className={cn("border-b border-border", collapsed ? "p-3" : "p-6")}>
-        <div className={cn("flex items-center gap-2", collapsed ? "justify-start" : "justify-between")}>
-          <Link to="/dashboard" className="flex items-center gap-2 min-w-0">
-            <img src={swirlLogoSrc} alt="OrbitUMD logo" className="w-8 h-8 shrink-0" />
-            {!collapsed && (
-              <span className="text-2xl tracking-tight text-foreground truncate [text-shadow:0_0_20px_rgba(239,68,68,0.3)]">
-                OrbitUMD
-              </span>
-            )}
-          </Link>
+    <aside className={cn("orbit-sidebar", collapsed && "collapsed")}>
+      <div className="sidebar-header">
+        <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
+            <circle cx="16" cy="16" r="9" stroke="#EF5350" strokeWidth="1.2" strokeDasharray="3 2"/>
+            <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
+            <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
+            <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
+          </svg>
+          <span className="logo-text">Orbit<span>UMD</span></span>
+        </Link>
 
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon"
-            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            onClick={onToggleCollapse}
-            className={cn("shrink-0", collapsed && "ml-2")}
-          >
-            {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-          </Button>
-        </div>
+        <button
+          type="button"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={onToggleCollapse}
+          className="sidebar-collapse-btn"
+        >
+          {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+        </button>
       </div>
-      
-      <nav className="flex-1 p-4 space-y-1">
+
+      <nav className="nav-section">
+        <div className="nav-label">Overview</div>
         {navigation.map((item) => {
           const isSchedulesTab = item.href === "/schedules";
           const isActive = isSchedulesTab
             ? location.pathname === "/schedules" || location.pathname === "/schedule-builder" || location.pathname === "/build-my-week"
             : location.pathname === item.href;
+
+          const showBadge = item.name === "Generate Schedule" ? "3" : item.name === "Gen Eds" ? "2" : null;
+
           return (
             <Link
               key={item.name}
               to={item.href}
-              className={cn(
-                "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
-                collapsed && "justify-center px-2",
-                isActive
-                  ? "bg-red-600/20 text-red-400 border border-red-600/30"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
-              )}
+              className={cn("nav-item", isActive && "active")}
               title={collapsed ? item.name : undefined}
             >
-              <item.icon className="w-5 h-5" />
-              {!collapsed && <span className="text-sm">{item.name}</span>}
+              <item.icon className="nav-icon" />
+              <span className="nav-text">{item.name}</span>
+              {showBadge ? <span className="nav-badge">{showBadge}</span> : null}
             </Link>
           );
         })}
       </nav>
+
+      <Link to="/settings" className="sidebar-user" title={collapsed ? "Settings" : undefined}>
+        <div className="user-avatar">{userInitials}</div>
+        <div className="user-info">
+          <div className="user-name">{userDisplay}</div>
+          <div className="user-role">Account settings</div>
+        </div>
+      </Link>
     </aside>
   );
 }

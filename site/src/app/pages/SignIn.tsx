@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { getProfileEmailSnapshot } from "@/lib/supabase/profileEmailGate";
 import "./signin-login.css";
 
 const AUTH_FLOW_KEY = "orbitumd:auth:flow";
@@ -41,7 +42,6 @@ export default function SignIn() {
         .upsert(
           {
             id: authUser.id,
-            email: authUser.email ?? null,
             display_name: displayName,
           },
           { onConflict: "id" },
@@ -49,11 +49,8 @@ export default function SignIn() {
     };
 
     const resolvePostAuthPath = async (authUser: { id: string }, requestedPath: string) => {
-      if (requestedPath && requestedPath !== "/onboarding") {
-        return requestedPath;
-      }
-
-      const [{ data: profileRow, error: profileError }, { count: programCount, error: programError }] = await Promise.all([
+      const [{ hasProfileEmail }, { data: profileRow, error: profileError }, { count: programCount, error: programError }] = await Promise.all([
+        getProfileEmailSnapshot(supabase, authUser.id),
         supabase
           .from("user_profiles")
           .select("id, display_name, university_uid")
@@ -64,6 +61,15 @@ export default function SignIn() {
           .select("id", { head: true, count: "exact" })
           .eq("user_id", authUser.id),
       ]);
+
+      // Enforce onboarding whenever the profile does not yet include an email.
+      if (!hasProfileEmail) {
+        return "/onboarding";
+      }
+
+      if (requestedPath && requestedPath !== "/onboarding") {
+        return requestedPath;
+      }
 
       const hasProfileRow = !profileError && Boolean(profileRow?.id);
       const hasProfileDetails = Boolean(
@@ -171,200 +177,171 @@ export default function SignIn() {
     }
   };
 
-  const leftPanelRef = useRef<HTMLDivElement>(null);
-  const orbitRingsRef = useRef<(HTMLDivElement | null)[]>([]);
-
-  const handleMouseMove = (event: MouseEvent) => {
-    if (!leftPanelRef.current) return;
-    
-    const rect = leftPanelRef.current.getBoundingClientRect();
-    const cx = rect.left + rect.width / 2;
-    const cy = rect.top + rect.height / 2;
-    const dx = event.clientX - cx;
-    const dy = event.clientY - cy;
-    const angle = Math.atan2(dy, dx);
-
-    const ringConfigs = [
-      { radius: 120, duration: 55 },
-      { radius: 200, duration: 80 },
-      { radius: 280, duration: 110 },
-    ];
-
-    ringConfigs.forEach((config, index) => {
-      const ring = orbitRingsRef.current[index];
-      if (ring) {
-        const dot = ring.querySelector(".signin-orbit-dot") as HTMLElement;
-        if (dot) {
-          const x = config.radius * Math.cos(angle);
-          const y = config.radius * Math.sin(angle);
-          dot.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-        }
-      }
-    });
+  const showForgotHelp = () => {
+    setError(null);
+    setMessage("Enter your email and choose Sign in to OrbitUMD to receive a new sign-in link.");
   };
 
-  useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-
   return (
-    <div className="signin-shell">
-      {/* LEFT PANEL */}
-      <div className="signin-left" ref={leftPanelRef}>
-        {/* Logo Button */}
-        <button
-          className="signin-logo-btn"
-          onClick={() => navigate("/")}
-          type="button"
-          aria-label="Back to home"
-        >
-          <span className="signin-logo-text">OrbitUMD</span>
-        </button>
-
-        {/* Orbit Rings with Cursor-Tracking Dots */}
-        <div className="signin-orbits">
-          <div
-            className="signin-orbit-ring signin-orbit-ring-1"
-            ref={(el) => { if (el) orbitRingsRef.current[0] = el; }}
-          >
-            <div className="signin-orbit-dot"></div>
-          </div>
-          <div
-            className="signin-orbit-ring signin-orbit-ring-2"
-            ref={(el) => { if (el) orbitRingsRef.current[1] = el; }}
-          >
-            <div className="signin-orbit-dot"></div>
-          </div>
-          <div
-            className="signin-orbit-ring signin-orbit-ring-3"
-            ref={(el) => { if (el) orbitRingsRef.current[2] = el; }}
-          >
-            <div className="signin-orbit-dot"></div>
-          </div>
-        </div>
-
-        {/* Testimonial Section */}
-        <div className="signin-testimonial">
-          <p className="signin-testimonial-text">
-            "OrbitUMD helped me navigate my degree requirements with clarity and confidence."
-          </p>
-          <p className="signin-testimonial-author">— A UMD Student</p>
-        </div>
-      </div>
-
-      {/* RIGHT PANEL */}
-      <div className="signin-right">
-        <div className="signin-form-wrapper">
-          {/* Eyebrow with red line */}
-          <div className="signin-eyebrow">
-            <span className="signin-eyebrow-line"></span>
-            <span className="signin-eyebrow-text">Sign in or create account</span>
-          </div>
-
-          {/* Form Title and Description */}
-          <h1 className="signin-form-title">Welcome back.</h1>
-          <p className="signin-form-description">
-            Sign in to access your degree plan and course recommendations.
-          </p>
-
-          {/* SSO Buttons */}
-          <div className="signin-sso-buttons">
-            <button
-              className="signin-sso-btn signin-sso-google"
-              onClick={() => void handleOAuth("google")}
-              disabled={loading}
-              type="button"
-              aria-label="Sign in with Google"
-            >
-              <svg className="signin-sso-icon" viewBox="0 0 24 24" fill="none">
-                <text x="12" y="16" textAnchor="middle" fontSize="12" fontWeight="bold">
-                  G
-                </text>
-              </svg>
-              <span>Google</span>
-            </button>
-            <button
-              className="signin-sso-btn signin-sso-apple"
-              onClick={() => void handleOAuth("apple")}
-              disabled={loading}
-              type="button"
-              aria-label="Sign in with Apple"
-            >
-              <svg className="signin-sso-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.05 13.5c-.2-2.5 1.7-3.7 1.8-3.8-1-1.5-2.6-1.7-3.2-1.7-1.3-.1-2.6.8-3.3.8-.6 0-1.6-.8-2.7-.8-1.4 0-2.7.8-3.4 2.1-1.5 2.5-.4 6 1 8 .7 1 1.5 2.1 2.7 2.1 1 0 1.6-.7 3-1.2 1.3-.5 2.5-.7 3.6-.7 1.1 0 2.5.2 3.5 1.3-1.6 1.2-3.8 2.1-5.6 2.1-3 0-5.6-1.9-7.1-4.8-1.5-3-1.2-7 .5-9.5 1.5-2 3.9-3.3 6.6-3.3 1.7 0 3.1.5 4.1 1.4 1.1 1 1.7 2.2 1.8 3.5z" />
-              </svg>
-              <span>Apple</span>
-            </button>
-          </div>
-
-          {/* Divider */}
-          <div className="signin-divider">
-            <span className="signin-divider-line"></span>
-            <span className="signin-divider-text">or sign in with email</span>
-            <span className="signin-divider-line"></span>
-          </div>
-
-          {/* Email Form */}
-          <div className="signin-form-group">
-            <label htmlFor="signin-email" className="signin-label">Email Address</label>
-            <div className="signin-input-wrapper">
-              <svg className="signin-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M3 8l9 6 9-6M3 8v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              <input
-                id="signin-email"
-                type="email"
-                className="signin-input"
-                placeholder="you@umd.edu"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && email.trim() && !loading) {
-                    handleEmailSignIn();
-                  }
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Remember & Forgot Password */}
-          <div className="signin-form-footer">
-            <label className="signin-checkbox">
-              <input type="checkbox" defaultChecked className="signin-checkbox-input" />
-              <span>Remember me</span>
-            </label>
-            <button
-              className="signin-forgot-link"
-              onClick={() => navigate("/forgot-password")}
-              type="button"
-            >
-              Forgot password?
-            </button>
-          </div>
-
-          {/* Submit Button */}
+    <div className="signin-template">
+      <div className="shell">
+        <div className="left">
           <button
-            className="signin-submit-btn"
-            onClick={handleEmailSignIn}
-            disabled={loading || !email.trim()}
+            className="left-logo"
+            onClick={() => navigate("/")}
             type="button"
+            aria-label="Back to home"
           >
-            {loading ? "Signing in..." : "Sign In"}
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
+              <circle cx="16" cy="16" r="9" stroke="#EF5350" strokeWidth="1.2" strokeDasharray="3 2"/>
+              <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
+              <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
+              <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
+            </svg>
+            <span className="left-logo-text">Orbit<span>UMD</span></span>
           </button>
 
-          {/* Messages */}
-          {message && (
-            <div className="signin-message signin-message-success">
-              {message}
+          <div className="orbit-stage" aria-hidden="true">
+            <div className="orbit-ring o1"><div className="orbit-dot"></div></div>
+            <div className="orbit-ring o2"><div className="orbit-dot"></div></div>
+            <div className="orbit-ring o3"><div className="orbit-dot"></div></div>
+            <div className="orbit-center">
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+                <circle cx="13" cy="13" r="3" fill="#EF5350"/>
+                <circle cx="13" cy="13" r="7" stroke="#EF5350" strokeWidth="1" strokeDasharray="2.5 2"/>
+              </svg>
             </div>
-          )}
-          {error && (
-            <div className="signin-message signin-message-error">
-              {error}
+          </div>
+
+          <div className="left-bottom">
+            <h2 className="left-headline">
+              Your degree,<br />
+              finally <em>under<br />control.</em>
+            </h2>
+            <p className="left-sub">
+              OrbitUMD maps every credit, requirement, and semester so nothing slips through the cracks before graduation.
+            </p>
+            <div className="testimonial">
+              <p>"OrbitUMD helped me navigate my degree requirements with clarity and confidence."</p>
+              <div className="testimonial-author">
+                <div className="t-avatar">UM</div>
+                <span className="t-name">A UMD Student</span>
+              </div>
             </div>
-          )}
+          </div>
+        </div>
+
+        <div className="right">
+          <div className="form-wrap">
+            <div className="form-eyebrow">
+              <div className="eyebrow-line"></div>
+              <span className="eyebrow-text">University of Maryland</span>
+            </div>
+
+            <h1 className="form-title">Welcome back.</h1>
+            <p className="form-desc">Sign in to continue planning your four years at UMD.</p>
+
+            <div className="sso-stack">
+              <button
+                className="sso-btn"
+                onClick={() => void handleOAuth("google")}
+                disabled={loading}
+                type="button"
+                aria-label="Continue with Google"
+              >
+                <svg className="sso-logo" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M21.35 11.1h-9.18v2.96h5.27c-.23 1.5-1.71 4.4-5.27 4.4-3.17 0-5.75-2.62-5.75-5.84s2.58-5.84 5.75-5.84c1.8 0 3 .77 3.69 1.43l2.52-2.44C16.9 4.4 14.83 3.5 12.17 3.5 7.22 3.5 3.2 7.56 3.2 12.62s4.02 9.12 8.97 9.12c5.18 0 8.6-3.65 8.6-8.78 0-.59-.06-1.04-.17-1.48z" fill="#4285F4"/>
+                </svg>
+                Continue with Google
+              </button>
+              <button
+                className="sso-btn"
+                onClick={() => void handleOAuth("apple")}
+                disabled={loading}
+                type="button"
+                aria-label="Continue with Apple"
+              >
+                <svg className="sso-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M16.3 12.3c0-2 1.6-3 1.7-3.1-.9-1.3-2.3-1.5-2.8-1.5-1.2-.1-2.3.7-2.9.7-.6 0-1.4-.7-2.4-.7-1.3 0-2.4.7-3.1 1.9-1.3 2.2-.3 5.2.9 6.9.6 1 1.3 2 2.3 2 .9 0 1.4-.6 2.7-1 .9-.3 1.8-.3 2.7 0 .6.2 1.1.5 1.7.5 1 0 1.7-1 2.3-2 .7-1 .9-2 .9-2-.1 0-2-.8-2-2.6zm-1.8-6.7c.4-.5.8-1.3.7-2.1-.6 0-1.3.4-1.8.9-.4.4-.8 1.2-.7 1.9.7.1 1.4-.3 1.8-.7z"/>
+                </svg>
+                Continue with Apple
+              </button>
+            </div>
+
+            <div className="divider">
+              <div className="divider-line"></div>
+              <span className="divider-text">or sign in with email</span>
+              <div className="divider-line"></div>
+            </div>
+
+            <div className="field">
+              <label htmlFor="email">University Email</label>
+              <div className="field-wrap">
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="username@umd.edu"
+                  autoComplete="email"
+                  value={email}
+                  disabled={loading}
+                  onChange={(event) => setEmail(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" && email.trim() && !loading) {
+                      void handleEmailSignIn();
+                    }
+                  }}
+                />
+                <svg className="field-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <rect x="1.5" y="3" width="13" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/>
+                  <path d="M1.5 5.5l6.5 4 6.5-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div className="options-row">
+              <label className="remember">
+                <input type="checkbox" defaultChecked />
+                <span>Remember me</span>
+              </label>
+              <button className="forgot" onClick={showForgotHelp} type="button">
+                Forgot password?
+              </button>
+            </div>
+
+            <button
+              className="submit-btn"
+              onClick={() => void handleEmailSignIn()}
+              disabled={loading || !email.trim()}
+              type="button"
+            >
+              {loading ? "Signing in..." : "Sign in to OrbitUMD"}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M3 8h10M10 5l3 3-3 3" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
+            {message && <div className="signin-message success">{message}</div>}
+            {error && <div className="signin-message error">{error}</div>}
+
+            <div className="register-row">
+              New to OrbitUMD?{" "}
+              <button
+                className="register-link"
+                onClick={() => setMessage("Use your UMD email above and we will create your account automatically.")}
+                type="button"
+              >
+                Create your plan →
+              </button>
+            </div>
+
+            <div className="form-footer">
+              <p>
+                By signing in, you agree to OrbitUMD&apos;s terms and privacy policy.
+                Your UMD credentials are never stored by OrbitUMD.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

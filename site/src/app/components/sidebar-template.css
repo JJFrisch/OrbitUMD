@@ -1,0 +1,234 @@
+.orbit-shell {
+  --orb-red: #C62828;
+  --orb-red-mid: #E53935;
+  --orb-red-light: #EF9A9A;
+  --orb-cream: #FDFAF5;
+  --orb-ink: #17120E;
+  --orb-ink-2: #3D2E26;
+  --orb-border-soft: rgba(55, 35, 25, 0.08);
+}
+
+.orbit-shell .orbit-sidebar {
+  background: var(--orb-ink);
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease;
+}
+
+.orbit-shell .orbit-sidebar.collapsed {
+  width: 82px;
+  min-width: 82px;
+  max-width: 82px;
+}
+
+.orbit-shell .orbit-sidebar::before {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(198, 40, 40, 0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.orbit-shell .sidebar-header {
+  padding: 22px 20px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  z-index: 2;
+}
+
+.orbit-shell .sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  min-width: 0;
+}
+
+.orbit-shell .logo-text {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--orb-cream);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.orbit-shell .logo-text span {
+  color: var(--orb-red-light);
+}
+
+.orbit-shell .sidebar-collapse-btn {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.orbit-shell .sidebar-collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFF;
+}
+
+.orbit-shell .nav-section {
+  padding: 16px 12px 10px;
+  flex: 1;
+  overflow-y: auto;
+  z-index: 2;
+}
+
+.orbit-shell .nav-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.28);
+  font-weight: 500;
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.orbit-shell .orbit-sidebar.collapsed .nav-label,
+.orbit-shell .orbit-sidebar.collapsed .nav-text,
+.orbit-shell .orbit-sidebar.collapsed .nav-badge,
+.orbit-shell .orbit-sidebar.collapsed .user-info,
+.orbit-shell .orbit-sidebar.collapsed .logo-text {
+  display: none;
+}
+
+.orbit-shell .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.84rem;
+  font-weight: 400;
+  text-decoration: none;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+  position: relative;
+}
+
+.orbit-shell .orbit-sidebar.collapsed .nav-item {
+  justify-content: center;
+  padding: 10px;
+}
+
+.orbit-shell .nav-item:hover {
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.orbit-shell .nav-item.active {
+  color: #FFF;
+  background: rgba(198, 40, 40, 0.25);
+  font-weight: 500;
+}
+
+.orbit-shell .nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 3px;
+  background: var(--orb-red-mid);
+  border-radius: 0 2px 2px 0;
+}
+
+.orbit-shell .nav-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+.orbit-shell .nav-item.active .nav-icon {
+  opacity: 1;
+}
+
+.orbit-shell .nav-text {
+  white-space: nowrap;
+}
+
+.orbit-shell .nav-badge {
+  margin-left: auto;
+  background: var(--orb-red-mid);
+  color: #FFF;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 999px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.orbit-shell .sidebar-user {
+  padding: 14px 20px 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: none;
+  z-index: 2;
+}
+
+.orbit-shell .sidebar-user:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.orbit-shell .user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--orb-red-mid), #F9A825);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #FFF;
+  flex-shrink: 0;
+}
+
+.orbit-shell .user-info {
+  min-width: 0;
+}
+
+.orbit-shell .user-name {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.orbit-shell .user-role {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.36);
+  margin-top: 1px;
+}

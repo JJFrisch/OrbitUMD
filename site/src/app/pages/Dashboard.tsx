@@ -1,29 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
-import {
-  AlertCircle,
-  ArrowRight,
-  Calendar,
-  CheckCircle2,
-  Clock,
-  Info,
-} from "lucide-react";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
-import { Card } from "../components/ui/card";
-import { Progress } from "../components/ui/progress";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
+import { AlertCircle, ArrowRight, Calendar, CheckCircle2, Clock } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
-import { getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
-import { getSupabaseClient } from "@/lib/supabase/client";
+import { evaluateRequirementSection, loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/requirements/audit";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
-import { evaluateRequirementSection, loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/requirements/audit";
+import { getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
+import { getSupabaseClient } from "@/lib/supabase/client";
+import "./dashboard-template.css";
 
 interface CourseSnapshot {
   code: string;
@@ -97,6 +81,31 @@ function statusRank(status: AuditCourseStatus): number {
 
 function formatTermLabel(termCode: string, termYear: number): string {
   return `${TERM_NAME[termCode] ?? "Term"} ${termYear}`;
+}
+
+function getPercent(completed: number, total: number): number {
+  if (total === 0) return 0;
+  return Math.min(100, Math.round((completed / total) * 100));
+}
+
+function statusLabel(status: AuditCourseStatus): string {
+  if (status === "completed") return "Completed";
+  if (status === "in_progress") return "In Progress";
+  if (status === "planned") return "Planned";
+  return "Not Started";
+}
+
+function statusClass(status: AuditCourseStatus): string {
+  if (status === "completed") return "completed";
+  if (status === "in_progress") return "in-progress";
+  if (status === "planned") return "planned";
+  return "not-started";
+}
+
+function toneVisual(tone: "amber" | "blue" | "green"): { iconWrap: "gold" | "blue" | "green"; urgency: "med" | "low" | "high" } {
+  if (tone === "amber") return { iconWrap: "gold", urgency: "med" };
+  if (tone === "blue") return { iconWrap: "blue", urgency: "low" };
+  return { iconWrap: "green", urgency: "high" };
 }
 
 export default function Dashboard() {
@@ -356,7 +365,7 @@ export default function Dashboard() {
       items.push({
         id: "programs",
         title: "Declare your major/minor programs",
-        subtitle: "Program-aware auditing and contribution highlighting need at least one selected program.",
+        subtitle: "Program-aware auditing and requirement insights need at least one selected program.",
         href: "/settings",
         tone: "blue",
       });
@@ -367,7 +376,7 @@ export default function Dashboard() {
       items.push({
         id: "missing-grades",
         title: `Add missing grades for ${firstTerm}`,
-        subtitle: "Entering grades for ended semesters improves semester and overall GPA calculations.",
+        subtitle: "Adding grades for ended semesters improves your progress and planning quality.",
         href: "/four-year-plan",
         tone: "amber",
       });
@@ -378,7 +387,7 @@ export default function Dashboard() {
       items.push({
         id: "audit",
         title: `Review ${incompletePrograms[0].name} audit status`,
-        subtitle: "See unmet sections and what courses will satisfy them next.",
+        subtitle: "See unmet sections and what courses can satisfy them next.",
         href: "/degree-audit",
         tone: "green",
       });
@@ -394,192 +403,226 @@ export default function Dashboard() {
       });
     }
 
-    return items.slice(0, 3);
+    return items.slice(0, 4);
   }, [completedTermsMissingGrades, programSummary, terms.length]);
 
-  const toneClass = (tone: "amber" | "blue" | "green") => {
-    if (tone === "amber") return "border-amber-300 bg-amber-100 text-amber-900 hover:bg-amber-200 dark:border-amber-600/30 dark:bg-transparent dark:text-amber-300 dark:hover:bg-amber-600/10";
-    if (tone === "blue") return "border-blue-300 bg-blue-100 text-blue-900 hover:bg-blue-200 dark:border-blue-600/30 dark:bg-transparent dark:text-blue-300 dark:hover:bg-blue-600/10";
-    return "border-green-300 bg-green-100 text-green-900 hover:bg-green-200 dark:border-green-600/30 dark:bg-transparent dark:text-green-300 dark:hover:bg-green-600/10";
-  };
+  const primarySuggestion = suggestions[0];
 
   return (
-    <div className="mx-auto max-w-7xl p-8">
-      <div className="mb-8">
-        <h1 className="mb-2 text-4xl">Welcome back, {displayName}!</h1>
-        <p className="text-muted-foreground">Live overview from your saved schedules and selected programs</p>
+    <div className="dashboard-template">
+      <div className="topbar">
+        <div className="topbar-left">
+          <h2>Welcome back, {displayName}!</h2>
+          <p>Live overview from your saved schedules and selected programs</p>
+        </div>
+        <div className="topbar-actions">
+          <Link to="/schedules" className="topbar-btn">
+            View Schedules
+          </Link>
+          <Link to="/degree-audit" className="topbar-btn primary">
+            View Degree Audit
+          </Link>
+        </div>
       </div>
 
-      {loading && <p className="text-muted-foreground">Loading dashboard...</p>}
-      {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
+      <div className="content">
+        {completedTermsMissingGrades.length > 0 && (
+          <Link to="/four-year-plan" className="deadline-banner">
+            <span className="deadline-icon">📅</span>
+            <div className="deadline-text">
+              <strong>Some completed terms still need final grades</strong>
+              <span>
+                Add grades for {completedTermsMissingGrades[0]} to keep your dashboard progress metrics accurate.
+              </span>
+            </div>
+          </Link>
+        )}
 
-      {!loading && !errorMessage && (
-        <>
-          <Card className="mb-6 border-border bg-card p-6" data-tour-target="dashboard-term-overview">
-            <div className="mb-4 flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <div className="mb-2 flex items-center gap-2">
-                  <h2 className="text-2xl">{currentTerm ? `${currentTerm.label} Status` : "No Active Term"}</h2>
+        {primarySuggestion && (
+          <Link to={primarySuggestion.href} className="action-prompt">
+            <div className="prompt-icon">
+              <AlertCircle className="h-4 w-4" />
+            </div>
+            <div className="prompt-text">
+              <strong>{primarySuggestion.title}</strong>
+              <span>{primarySuggestion.subtitle}</span>
+            </div>
+            <ArrowRight className="h-4 w-4" color="rgba(255,255,255,0.45)" />
+          </Link>
+        )}
+
+        {loading && (
+          <div className="card">
+            <p className="loading-state">Loading dashboard...</p>
+          </div>
+        )}
+
+        {!loading && errorMessage && (
+          <div className="card">
+            <p className="error-state">{errorMessage}</p>
+          </div>
+        )}
+
+        {!loading && !errorMessage && (
+          <>
+            <div className="grid-2">
+              <section className="card" data-tour-target="dashboard-term-overview">
+                <div className="card-header">
+                  <div>
+                    <div className="card-title">Current Term Snapshot</div>
+                    <div className="card-subtitle">
+                      {currentTerm ? currentTerm.label : "No active term yet"}
+                    </div>
+                  </div>
                   {currentTerm && (
-                    <Badge variant="outline" className="border-blue-300 bg-blue-100 text-blue-900 dark:border-blue-600/30 dark:bg-blue-600/20 dark:text-blue-300">
-                      {currentTerm.status === "completed" ? "Completed" : currentTerm.status === "in_progress" ? "In Progress" : "Planned"}
-                    </Badge>
+                    <span className={`status-pill ${statusClass(currentTerm.status)}`}>
+                      {statusLabel(currentTerm.status)}
+                    </span>
                   )}
                 </div>
-                <p className="text-muted-foreground">
-                  {currentTerm ? `${currentTerm.courseCount} courses · ${currentTerm.credits} credits` : "Add MAIN schedules to populate this section."}
-                </p>
-              </div>
-              <Link to="/schedules">
-                <Button className="bg-primary hover:bg-primary/90">
-                  View Schedules
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Button>
-              </Link>
-            </div>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <div className="rounded-lg border border-border bg-input-background p-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <CheckCircle2 className="h-5 w-5 text-green-400" />
-                  <span className="text-sm text-muted-foreground">Completed</span>
-                </div>
-                <p className="text-2xl">{courseStatusCounts.completed} courses</p>
-              </div>
-              <div className="rounded-lg border border-border bg-input-background p-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-amber-400" />
-                  <span className="text-sm text-muted-foreground">In Progress</span>
-                </div>
-                <p className="text-2xl">{courseStatusCounts.inProgress} courses</p>
-              </div>
-              <div className="rounded-lg border border-border bg-input-background p-4">
-                <div className="mb-2 flex items-center gap-2">
-                  <Calendar className="h-5 w-5 text-blue-400" />
-                  <span className="text-sm text-muted-foreground">Planned</span>
-                </div>
-                <p className="text-2xl">{courseStatusCounts.planned} courses</p>
-              </div>
-            </div>
-          </Card>
-
-          <div className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-            <Card className="border-border bg-card p-6" data-tour-target="dashboard-program-progress">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-xl">General Education Progress</h3>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Info className="h-4 w-4 cursor-help text-muted-foreground" />
-                    </TooltipTrigger>
-                    <TooltipContent className="border-border bg-popover">
-                      <p>Calculated from MAIN schedule courses and term-relative status.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-
-              <div className="space-y-4">
-                <div>
-                  <div className="mb-2 flex justify-between">
-                    <span className="text-sm text-muted-foreground">Fundamental Studies</span>
-                    <span className="text-sm">{genEdCategoryProgress.fundamental.completed} / {genEdCategoryProgress.fundamental.total}</span>
+                <div className="stat-trio">
+                  <div className="stat-cell">
+                    <div className="stat-num">{courseStatusCounts.completed}</div>
+                    <div className="stat-label">Completed</div>
                   </div>
-                  <Progress value={genEdCategoryProgress.fundamental.total === 0 ? 0 : (genEdCategoryProgress.fundamental.completed / genEdCategoryProgress.fundamental.total) * 100} className="h-2" />
-                </div>
-                <div>
-                  <div className="mb-2 flex justify-between">
-                    <span className="text-sm text-muted-foreground">Distributive Studies</span>
-                    <span className="text-sm">{genEdCategoryProgress.distributive.completed} / {genEdCategoryProgress.distributive.total}</span>
+                  <div className="stat-cell">
+                    <div className="stat-num">{courseStatusCounts.inProgress}</div>
+                    <div className="stat-label">In Progress</div>
                   </div>
-                  <Progress value={genEdCategoryProgress.distributive.total === 0 ? 0 : (genEdCategoryProgress.distributive.completed / genEdCategoryProgress.distributive.total) * 100} className="h-2" />
-                </div>
-                <div>
-                  <div className="mb-2 flex justify-between">
-                    <span className="text-sm text-muted-foreground">I-Series</span>
-                    <span className="text-sm">{genEdCategoryProgress.iSeries.completed} / {genEdCategoryProgress.iSeries.total}</span>
+                  <div className="stat-cell">
+                    <div className="stat-num">{courseStatusCounts.planned}</div>
+                    <div className="stat-label">Planned</div>
                   </div>
-                  <Progress value={genEdCategoryProgress.iSeries.total === 0 ? 0 : (genEdCategoryProgress.iSeries.completed / genEdCategoryProgress.iSeries.total) * 100} className="h-2" />
                 </div>
-                <div>
-                  <div className="mb-2 flex justify-between">
-                    <span className="text-sm text-muted-foreground">Diversity</span>
-                    <span className="text-sm">{genEdCategoryProgress.diversity.completed} / {genEdCategoryProgress.diversity.total}</span>
-                  </div>
-                  <Progress value={genEdCategoryProgress.diversity.total === 0 ? 0 : (genEdCategoryProgress.diversity.completed / genEdCategoryProgress.diversity.total) * 100} className="h-2" />
-                </div>
-              </div>
+              </section>
 
-              <Link to="/gen-eds">
-                <Button variant="outline" className="mt-4 w-full border-border hover:bg-accent">
-                  View Detailed Gen Eds
-                </Button>
-              </Link>
-            </Card>
-
-            <Card className="border-border bg-card p-6">
-              <div className="mb-4 flex items-center justify-between">
-                <h3 className="text-xl">Program Progress</h3>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Info className="h-4 w-4 cursor-help text-muted-foreground" />
-                    </TooltipTrigger>
-                    <TooltipContent className="border-border bg-popover">
-                      <p>Section-level progress estimated from selected program requirements and course statuses.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
-              </div>
-
-              {programSummary.length === 0 ? (
-                <p className="text-sm text-muted-foreground">No declared major/minor yet. Add programs in Settings.</p>
-              ) : (
-                <div className="space-y-4">
-                  {programSummary.slice(0, 3).map((program) => (
-                    <div key={program.name}>
-                      <div className="mb-2 flex justify-between">
-                        <span className="text-sm text-muted-foreground">{program.name}</span>
-                        <span className="text-sm">{program.percent}%</span>
-                      </div>
-                      <Progress value={program.percent} className="h-2" />
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              <Link to="/degree-audit">
-                <Button variant="outline" className="mt-4 w-full border-border hover:bg-accent">
-                  View Full Degree Audit
-                </Button>
-              </Link>
-            </Card>
-          </div>
-
-          <Card className="border-border bg-card p-6" data-tour-target="dashboard-next-actions">
-            <div className="mb-4 flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-amber-400" />
-              <h3 className="text-xl">Suggested Next Steps</h3>
-            </div>
-
-            <div className="space-y-3">
-              {suggestions.map((suggestion) => (
-                <div key={suggestion.id} className="flex items-center justify-between rounded-lg border border-border bg-input-background p-4 gap-4">
+              <section className="card" data-tour-target="dashboard-program-progress">
+                <div className="card-header">
                   <div>
-                    <p className="mb-1">{suggestion.title}</p>
-                    <p className="text-sm text-muted-foreground">{suggestion.subtitle}</p>
+                    <div className="card-title">Program Progress</div>
+                    <div className="card-subtitle">Requirement fulfillment by declared program</div>
                   </div>
-                  <Link to={suggestion.href}>
-                    <Button variant="outline" className={toneClass(suggestion.tone)}>
-                      Open
-                    </Button>
-                  </Link>
+                  <Link to="/degree-audit" className="card-link">Full view →</Link>
                 </div>
-              ))}
+
+                {programSummary.length === 0 ? (
+                  <p className="empty-note">No declared major/minor yet. Add programs in Settings to activate auditing.</p>
+                ) : (
+                  <div className="metric-list">
+                    {programSummary.slice(0, 4).map((program) => (
+                      <div key={program.name} className="metric-row">
+                        <div className="metric-top">
+                          <span className="metric-name">{program.name}</span>
+                          <span className="metric-value">{program.percent}%</span>
+                        </div>
+                        <div className="metric-bar-wrap">
+                          <div className="metric-bar" style={{ width: `${program.percent}%` }}></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
             </div>
-          </Card>
-        </>
-      )}
+
+            <div className="grid-2">
+              <section className="card">
+                <div className="card-header">
+                  <div>
+                    <div className="card-title">General Education Progress</div>
+                    <div className="card-subtitle">Computed from schedule selections and prior credits</div>
+                  </div>
+                  <Link to="/gen-eds" className="card-link">Details →</Link>
+                </div>
+
+                <div className="metric-list">
+                  <div className="metric-row">
+                    <div className="metric-top">
+                      <span className="metric-name">Fundamental Studies</span>
+                      <span className="metric-value">
+                        {genEdCategoryProgress.fundamental.completed}/{genEdCategoryProgress.fundamental.total}
+                      </span>
+                    </div>
+                    <div className="metric-bar-wrap">
+                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.fundamental.completed, genEdCategoryProgress.fundamental.total)}%` }}></div>
+                    </div>
+                  </div>
+
+                  <div className="metric-row">
+                    <div className="metric-top">
+                      <span className="metric-name">Distributive Studies</span>
+                      <span className="metric-value">
+                        {genEdCategoryProgress.distributive.completed}/{genEdCategoryProgress.distributive.total}
+                      </span>
+                    </div>
+                    <div className="metric-bar-wrap">
+                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.distributive.completed, genEdCategoryProgress.distributive.total)}%` }}></div>
+                    </div>
+                  </div>
+
+                  <div className="metric-row">
+                    <div className="metric-top">
+                      <span className="metric-name">I-Series</span>
+                      <span className="metric-value">
+                        {genEdCategoryProgress.iSeries.completed}/{genEdCategoryProgress.iSeries.total}
+                      </span>
+                    </div>
+                    <div className="metric-bar-wrap">
+                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.iSeries.completed, genEdCategoryProgress.iSeries.total)}%` }}></div>
+                    </div>
+                  </div>
+
+                  <div className="metric-row">
+                    <div className="metric-top">
+                      <span className="metric-name">Diversity</span>
+                      <span className="metric-value">
+                        {genEdCategoryProgress.diversity.completed}/{genEdCategoryProgress.diversity.total}
+                      </span>
+                    </div>
+                    <div className="metric-bar-wrap">
+                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.diversity.completed, genEdCategoryProgress.diversity.total)}%` }}></div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section className="card" data-tour-target="dashboard-next-actions">
+                <div className="card-header">
+                  <div>
+                    <div className="card-title">Suggested Next Steps</div>
+                    <div className="card-subtitle">Prioritized actions based on your planning data</div>
+                  </div>
+                </div>
+
+                <div className="nudge-list">
+                  {suggestions.map((suggestion) => {
+                    const visual = toneVisual(suggestion.tone);
+                    return (
+                      <Link key={suggestion.id} to={suggestion.href} className="nudge">
+                        <div className={`nudge-icon-wrap ${visual.iconWrap}`}>
+                          {suggestion.tone === "amber" ? (
+                            <Clock className="h-4 w-4" />
+                          ) : suggestion.tone === "blue" ? (
+                            <Calendar className="h-4 w-4" />
+                          ) : (
+                            <CheckCircle2 className="h-4 w-4" />
+                          )}
+                        </div>
+                        <div className="nudge-body">
+                          <div className="nudge-title">{suggestion.title}</div>
+                          <div className="nudge-desc">{suggestion.subtitle}</div>
+                        </div>
+                        <span className={`nudge-urgency ${visual.urgency}`}></span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

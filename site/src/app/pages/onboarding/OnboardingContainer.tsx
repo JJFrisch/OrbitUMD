@@ -1,190 +1,656 @@
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  Calendar,
+  CalendarDays,
+  ChevronLeft,
+  ChevronRight,
+  FileCheck2,
+  GraduationCap,
+  Upload,
+} from "lucide-react";
+import {
+  addUserDegreeProgramFromCatalogOption,
+  listProgramCatalogOptions,
+  listUserDegreePrograms,
+  type CatalogProgramOption,
+} from "@/lib/repositories/degreeProgramsRepository";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import "./onboarding-layout.css";
-import BasicProfile from "./BasicProfile";
-import GoalSelection from "./GoalSelection";
 
-interface Step {
+type GoalOption = {
+  id: string;
+  title: string;
+  label: string;
+  description: string;
+  route: string;
+  icon: typeof Calendar;
+};
+
+type StepDefinition = {
   id: string;
   label: string;
-  caption?: string;
-  renderComponent: () => React.ReactNode;
+  caption: string;
+};
+
+const STEPS: StepDefinition[] = [
+  { id: "profile", label: "Your Profile", caption: "Name, UID, and year" },
+  { id: "major", label: "Major & Minors", caption: "Your academic path" },
+  { id: "credits", label: "Transfer Credits", caption: "Import prior work" },
+  { id: "goals", label: "Review & Launch", caption: "Choose your next action" },
+];
+
+const MINOR_OPTIONS = [
+  "Mathematics",
+  "Statistics",
+  "Economics",
+  "Business Analytics",
+  "Cybersecurity",
+  "Data Science",
+  "Philosophy",
+  "Psychology",
+];
+
+const GOALS: GoalOption[] = [
+  {
+    id: "generate",
+    title: "Generate Schedule",
+    label: "Quick",
+    description: "Generate class schedule combinations from your chosen courses.",
+    route: "/generate-schedule",
+    icon: Calendar,
+  },
+  {
+    id: "build",
+    title: "Build My Week",
+    label: "Interactive",
+    description: "Drag and drop classes onto a weekly calendar and compare options.",
+    route: "/build-my-week",
+    icon: CalendarDays,
+  },
+  {
+    id: "plan",
+    title: "Four-Year Plan",
+    label: "Guided",
+    description: "Build a full multi-semester plan and track degree progress.",
+    route: "/four-year-plan",
+    icon: GraduationCap,
+  },
+  {
+    id: "audit",
+    title: "Degree Audit",
+    label: "Overview",
+    description: "Review completed requirements and what remains for graduation.",
+    route: "/degree-audit",
+    icon: FileCheck2,
+  },
+];
+
+function splitDisplayName(value: string): { firstName: string; lastName: string } {
+  const parts = value.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) {
+    return { firstName: "", lastName: "" };
+  }
+  if (parts.length === 1) {
+    return { firstName: parts[0], lastName: "" };
+  }
+  return {
+    firstName: parts[0],
+    lastName: parts.slice(1).join(" "),
+  };
+}
+
+function normalizeName(value: string): string {
+  return value.trim().toLowerCase();
 }
 
 export default function OnboardingContainer() {
   const navigate = useNavigate();
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set());
+  const supabase = getSupabaseClient();
 
-  const handleNext = () => {
-    if (currentStepIndex < STEPS.length - 1) {
-      setCompletedSteps((prev) => new Set([...prev, STEPS[currentStepIndex].id]));
-      setCurrentStepIndex(currentStepIndex + 1);
-    } else {
-      // Onboarding complete, go to dashboard
-      navigate("/dashboard", { replace: true });
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [completedStepIds, setCompletedStepIds] = useState<Set<string>>(new Set());
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [uid, setUid] = useState("");
+  const [currentYear, setCurrentYear] = useState("");
+  const [graduation, setGraduation] = useState("");
+  const [college, setCollege] = useState("");
+
+  const [majorOptions, setMajorOptions] = useState<CatalogProgramOption[]>([]);
+  const [selectedMajorKey, setSelectedMajorKey] = useState("");
+  const [selectedMinorSet, setSelectedMinorSet] = useState<Set<string>>(new Set());
+
+  const [creditsMethod, setCreditsMethod] = useState<string | null>(null);
+  const [selectedGoalId, setSelectedGoalId] = useState<string>(GOALS[0].id);
+
+  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [statusError, setStatusError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+
+    const load = async () => {
+      try {
+        const [{ data: authData }, programOptions] = await Promise.all([
+          supabase.auth.getUser(),
+          listProgramCatalogOptions(),
+        ]);
+
+        if (!active) return;
+
+        const majors = programOptions.filter((option) => option.type === "major");
+        setMajorOptions(majors);
+        if (majors[0]) {
+          setSelectedMajorKey(majors[0].key);
+        }
+
+        const authUser = authData.user;
+        if (!authUser) return;
+
+        const [{ data: profileRow }, existingPrograms] = await Promise.all([
+          supabase
+            .from("user_profiles")
+            .select("display_name, email, university_uid")
+            .eq("id", authUser.id)
+            .maybeSingle(),
+          listUserDegreePrograms(),
+        ]);
+
+        if (!active) return;
+
+        const profileName = String(profileRow?.display_name ?? "").trim();
+        if (profileName) {
+          const split = splitDisplayName(profileName);
+          setFirstName(split.firstName);
+          setLastName(split.lastName);
+        }
+
+        setEmail(String(profileRow?.email ?? authUser.email ?? "").trim());
+        setUid(String(profileRow?.university_uid ?? "").trim());
+
+        const existingPrimary = existingPrograms.find((program) => program.isPrimary);
+        if (existingPrimary) {
+          const match = majors.find(
+            (option) => normalizeName(option.name) === normalizeName(existingPrimary.programName),
+          );
+          if (match) {
+            setSelectedMajorKey(match.key);
+          }
+        }
+      } catch {
+        if (!active) return;
+        setStatusError("Unable to preload onboarding details. You can still continue.");
+      }
+    };
+
+    void load();
+    return () => {
+      active = false;
+    };
+  }, [supabase]);
+
+  const selectedMajorOption = useMemo(
+    () => majorOptions.find((option) => option.key === selectedMajorKey) ?? null,
+    [majorOptions, selectedMajorKey],
+  );
+
+  const selectedGoal = useMemo(
+    () => GOALS.find((goal) => goal.id === selectedGoalId) ?? GOALS[0],
+    [selectedGoalId],
+  );
+
+  const progress = ((currentStepIndex + 1) / STEPS.length) * 100;
+
+  const stepStates = useMemo(() => {
+    return STEPS.map((step, index) => ({
+      ...step,
+      state:
+        completedStepIds.has(step.id) || index < currentStepIndex
+          ? "done"
+          : index === currentStepIndex
+            ? "active"
+            : "pending",
+    }));
+  }, [completedStepIds, currentStepIndex]);
+
+  const toggleMinor = (minor: string) => {
+    setSelectedMinorSet((previous) => {
+      const next = new Set(previous);
+      if (next.has(minor)) {
+        next.delete(minor);
+      } else {
+        next.add(minor);
+      }
+      return next;
+    });
+  };
+
+  const persistProfile = async () => {
+    const trimmedEmail = email.trim().toLowerCase();
+    if (!trimmedEmail) {
+      throw new Error("Please enter your UMD email to continue.");
+    }
+
+    const { data: authData } = await supabase.auth.getUser();
+    const authUser = authData.user;
+    if (!authUser) {
+      throw new Error("Your session expired. Please sign in again.");
+    }
+
+    const displayName = `${firstName} ${lastName}`.trim();
+
+    const { error: upsertError } = await supabase
+      .from("user_profiles")
+      .upsert(
+        {
+          id: authUser.id,
+          email: trimmedEmail,
+          display_name: displayName || null,
+          university_uid: uid.trim() || null,
+        },
+        { onConflict: "id" },
+      );
+
+    if (upsertError) {
+      throw new Error(upsertError.message || "Unable to save your onboarding profile.");
+    }
+
+    if (selectedMajorOption) {
+      const existingPrograms = await listUserDegreePrograms();
+      const alreadyLinked = existingPrograms.some(
+        (program) => normalizeName(program.programName) === normalizeName(selectedMajorOption.name),
+      );
+      if (!alreadyLinked) {
+        await addUserDegreeProgramFromCatalogOption(selectedMajorOption);
+      }
     }
   };
 
-  const STEPS: Step[] = [
-    {
-      id: "profile",
-      label: "Profile",
-      caption: "Your info",
-      renderComponent: () => <BasicProfile onNext={handleNext} />,
-    },
-    {
-      id: "goals",
-      label: "Choose goal",
-      caption: "What's next?",
-      renderComponent: () => <GoalSelection />,
-    },
-  ];
+  const handleNext = async () => {
+    setStatusError(null);
+    setStatusMessage(null);
 
-  const currentStep = STEPS[currentStepIndex];
-  const progress = ((currentStepIndex + 1) / STEPS.length) * 100;
+    if (currentStepIndex === 0) {
+      setSaving(true);
+      try {
+        await persistProfile();
+        setCompletedStepIds((previous) => new Set([...previous, STEPS[0].id]));
+        setCurrentStepIndex(1);
+        setStatusMessage("Profile saved.");
+      } catch (error) {
+        setStatusError(error instanceof Error ? error.message : "Unable to continue.");
+      } finally {
+        setSaving(false);
+      }
+      return;
+    }
+
+    if (currentStepIndex >= STEPS.length - 1) {
+      setSaving(true);
+      try {
+        await persistProfile();
+        navigate(selectedGoal.route, { replace: true });
+      } catch (error) {
+        setStatusError(error instanceof Error ? error.message : "Unable to launch your plan.");
+      } finally {
+        setSaving(false);
+      }
+      return;
+    }
+
+    setCompletedStepIds((previous) => new Set([...previous, STEPS[currentStepIndex].id]));
+    setCurrentStepIndex((previous) => Math.min(previous + 1, STEPS.length - 1));
+  };
 
   const handleBack = () => {
-    if (currentStepIndex > 0) {
-      setCurrentStepIndex(currentStepIndex - 1);
-    }
+    setStatusError(null);
+    setStatusMessage(null);
+    if (currentStepIndex === 0) return;
+    setCurrentStepIndex((previous) => Math.max(previous - 1, 0));
   };
 
   const handleSkip = () => {
     navigate("/dashboard", { replace: true });
   };
 
-  const stepStates = useMemo(() => {
-    return STEPS.map((step, index) => ({
-      ...step,
-      state:
-        completedSteps.has(step.id) || index < currentStepIndex
-          ? "done"
-          : index === currentStepIndex
-            ? "active"
-            : "pending",
-    }));
-  }, [currentStepIndex, completedSteps]);
+  const renderStepContent = (stepId: string) => {
+    if (stepId === "profile") {
+      return (
+        <>
+          <div className="onboarding-step-eyebrow">
+            <div className="onboarding-eyebrow-pill">Step 1 of {STEPS.length}</div>
+          </div>
+          <h2 className="onboarding-step-title">Let&apos;s start with you.</h2>
+          <p className="onboarding-step-sub">
+            Tell us about yourself so we can personalize your four-year plan from day one.
+          </p>
+
+          <div className="onboarding-field-row">
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-first-name">First Name</label>
+              <input
+                id="onboarding-first-name"
+                type="text"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                placeholder="Alex"
+              />
+            </div>
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-last-name">Last Name</label>
+              <input
+                id="onboarding-last-name"
+                type="text"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                placeholder="Johnson"
+              />
+            </div>
+          </div>
+
+          <div className="onboarding-field-row single">
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-email">UMD Email</label>
+              <input
+                id="onboarding-email"
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                placeholder="yourid@umd.edu"
+              />
+            </div>
+          </div>
+
+          <div className="onboarding-field-row triple">
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-uid">UID</label>
+              <input
+                id="onboarding-uid"
+                type="text"
+                value={uid}
+                onChange={(event) => setUid(event.target.value)}
+                placeholder="123456789"
+              />
+            </div>
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-year">Current Year</label>
+              <select
+                id="onboarding-year"
+                value={currentYear}
+                onChange={(event) => setCurrentYear(event.target.value)}
+              >
+                <option value="">Select year</option>
+                <option value="Freshman">Freshman (1st)</option>
+                <option value="Sophomore">Sophomore (2nd)</option>
+                <option value="Junior">Junior (3rd)</option>
+                <option value="Senior">Senior (4th)</option>
+                <option value="Fifth">5th Year+</option>
+              </select>
+            </div>
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-grad">Expected Graduation</label>
+              <select
+                id="onboarding-grad"
+                value={graduation}
+                onChange={(event) => setGraduation(event.target.value)}
+              >
+                <option value="">Select term</option>
+                <option value="May 2026">May 2026</option>
+                <option value="December 2026">December 2026</option>
+                <option value="May 2027">May 2027</option>
+                <option value="December 2027">December 2027</option>
+                <option value="May 2028">May 2028</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="onboarding-field-row single">
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-college">College / School</label>
+              <select
+                id="onboarding-college"
+                value={college}
+                onChange={(event) => setCollege(event.target.value)}
+              >
+                <option value="">Select your college</option>
+                <option value="CMNS">College of Computer, Mathematical, and Natural Sciences</option>
+                <option value="Engineering">A. James Clark School of Engineering</option>
+                <option value="Business">Robert H. Smith School of Business</option>
+                <option value="ARHU">College of Arts and Humanities</option>
+                <option value="BSOS">College of Behavioral and Social Sciences</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+        </>
+      );
+    }
+
+    if (stepId === "major") {
+      return (
+        <>
+          <div className="onboarding-step-eyebrow">
+            <div className="onboarding-eyebrow-pill">Step 2 of {STEPS.length}</div>
+          </div>
+          <h2 className="onboarding-step-title">What are you studying?</h2>
+          <p className="onboarding-step-sub">
+            Select your primary major and optional minors. You can adjust these later in Settings.
+          </p>
+
+          <div className="onboarding-field-row single">
+            <div className="onboarding-field">
+              <label htmlFor="onboarding-major">Primary Major</label>
+              <select
+                id="onboarding-major"
+                value={selectedMajorKey}
+                onChange={(event) => setSelectedMajorKey(event.target.value)}
+              >
+                <option value="">Select a major</option>
+                {majorOptions.map((option) => (
+                  <option key={option.key} value={option.key}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="onboarding-step-sub" style={{ marginBottom: 10 }}>
+            Add a minor or certificate (optional)
+          </div>
+          <div className="onboarding-chip-group">
+            {MINOR_OPTIONS.map((minor) => (
+              <button
+                key={minor}
+                className={`onboarding-chip ${selectedMinorSet.has(minor) ? "selected" : ""}`}
+                type="button"
+                onClick={() => toggleMinor(minor)}
+              >
+                {minor}
+              </button>
+            ))}
+          </div>
+        </>
+      );
+    }
+
+    if (stepId === "credits") {
+      return (
+        <>
+          <div className="onboarding-step-eyebrow">
+            <div className="onboarding-eyebrow-pill">Step 3 of {STEPS.length}</div>
+          </div>
+          <h2 className="onboarding-step-title">Any credits to bring in?</h2>
+          <p className="onboarding-step-sub">
+            Import AP, IB, dual enrollment, or transfer credit. OrbitUMD can map these automatically.
+          </p>
+
+          <button
+            className="onboarding-import-zone"
+            type="button"
+            onClick={() => navigate("/credit-import?onboarding=1")}
+          >
+            <div className="onboarding-import-icon">
+              <Upload className="h-5 w-5" />
+            </div>
+            <h4>Upload transcript or prior-credit records</h4>
+            <p>Click to open the credit import flow and return here when done.</p>
+          </button>
+
+          <div className="onboarding-step-sub" style={{ marginBottom: 10 }}>
+            Select how you want to continue
+          </div>
+          <div className="onboarding-chip-group">
+            {["AP Exams", "IB Credits", "Transfer Credits", "Dual Enrollment"].map((method) => (
+              <button
+                key={method}
+                className={`onboarding-chip ${creditsMethod === method ? "selected" : ""}`}
+                type="button"
+                onClick={() => setCreditsMethod(method)}
+              >
+                {method}
+              </button>
+            ))}
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="onboarding-step-eyebrow">
+          <div className="onboarding-eyebrow-pill">Step 4 of {STEPS.length}</div>
+        </div>
+        <h2 className="onboarding-step-title">You&apos;re all set, Terp.</h2>
+        <p className="onboarding-step-sub">
+          Choose what you want to do first. You can switch workflows anytime after launch.
+        </p>
+
+        <div className="onboarding-goal-grid">
+          {GOALS.map((goal) => {
+            const Icon = goal.icon;
+            const isSelected = selectedGoalId === goal.id;
+            return (
+              <button
+                key={goal.id}
+                type="button"
+                className={`onboarding-goal-card ${isSelected ? "selected" : ""}`}
+                onClick={() => setSelectedGoalId(goal.id)}
+              >
+                <div className="onboarding-goal-icon">
+                  <Icon className="h-5 w-5" />
+                </div>
+                <span className="onboarding-goal-badge">{goal.label}</span>
+                <h3 className="onboarding-goal-title">{goal.title}</h3>
+                <p className="onboarding-goal-description">{goal.description}</p>
+              </button>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
 
   return (
     <div className="onboarding-shell">
-      {/* LEFT RAIL */}
-      <div className="onboarding-rail">
-        {/* Logo */}
+      <aside className="onboarding-rail">
         <button
           className="onboarding-logo"
           onClick={() => navigate("/")}
           aria-label="Back to home"
+          type="button"
         >
-          <span className="onboarding-logo-text">
-            Orbit<span>UMD</span>
-          </span>
+          <span className="onboarding-logo-text">Orbit<span>UMD</span></span>
         </button>
 
-        {/* Step Navigation */}
-        <div className="onboarding-step-nav">
-          {stepStates.map((step) => (
+        <nav className="onboarding-step-nav">
+          {stepStates.map((step, index) => (
             <div
               key={step.id}
               className={`onboarding-step-item ${step.state}`}
             >
               <div className="onboarding-step-num">
-                {step.state === "done" ? "✓" : STEPS.findIndex((s) => s.id === step.id) + 1}
+                {step.state === "done" ? "✓" : index + 1}
               </div>
               <div className="onboarding-step-info">
                 <div className="onboarding-step-label">{step.label}</div>
-                {step.caption && (
-                  <div className="onboarding-step-caption">{step.caption}</div>
-                )}
+                <div className="onboarding-step-caption">{step.caption}</div>
               </div>
             </div>
           ))}
-        </div>
+        </nav>
 
-        {/* Rail Footer */}
         <div className="onboarding-rail-footer">
           <p>
-            This onboarding takes 2-3 minutes and helps us personalize your
-            degree plan. You can update everything later.
+            Already have a full profile? You can skip setup and go straight to your dashboard.
           </p>
         </div>
-      </div>
+      </aside>
 
-      {/* MAIN CONTENT */}
       <div className="onboarding-main">
-        {/* Topbar */}
         <div className="onboarding-topbar">
           <div>
             <div className="onboarding-progress-wrap">
-              <div
-                className="onboarding-progress-fill"
-                style={{ width: `${progress}%` }}
-              ></div>
+              <div className="onboarding-progress-fill" style={{ width: `${progress}%` }}></div>
             </div>
-            <div className="onboarding-progress-label">
+            <span className="onboarding-progress-label">
               Step {currentStepIndex + 1} of {STEPS.length}
-            </div>
+            </span>
           </div>
-          <button
-            className="onboarding-topbar-skip"
-            onClick={handleSkip}
-            type="button"
-          >
-            Skip for now
+          <button className="onboarding-topbar-skip" type="button" onClick={handleSkip}>
+            Skip setup →
           </button>
         </div>
 
-        {/* Step Container */}
         <div className="onboarding-steps-container">
           {stepStates.map((step, index) => (
-            <div
+            <section
               key={step.id}
-              className={`onboarding-step-panel ${
-                index === currentStepIndex ? "active" : ""
-              } ${
-                index < currentStepIndex ? "exit" : ""
-              }`}
+              className={`onboarding-step-panel ${index === currentStepIndex ? "active" : ""} ${index < currentStepIndex ? "exit" : ""}`}
             >
-              {step.renderComponent()}
-            </div>
+              {renderStepContent(step.id)}
+            </section>
           ))}
         </div>
 
-        {/* Bottom Nav */}
         <div className="onboarding-bottom-nav">
           <button
             className="onboarding-btn-back"
-            onClick={handleBack}
-            disabled={currentStepIndex === 0}
             type="button"
+            onClick={handleBack}
+            disabled={currentStepIndex === 0 || saving}
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="h-4 w-4" />
             Back
           </button>
           <span className="onboarding-step-counter">
-            {currentStepIndex + 1} of {STEPS.length}
+            Step {currentStepIndex + 1} of {STEPS.length}
           </span>
           <button
-            className={`onboarding-btn-next ${
-              currentStepIndex === STEPS.length - 1 ? "finish" : ""
-            }`}
-            onClick={handleNext}
+            className={`onboarding-btn-next ${currentStepIndex === STEPS.length - 1 ? "finish" : ""}`}
             type="button"
+            onClick={() => void handleNext()}
+            disabled={saving}
           >
-            {currentStepIndex === STEPS.length - 1 ? (
-              <>
-                <span>Let's go</span>
-                <ChevronRight className="w-4 h-4" />
-              </>
-            ) : (
-              <>
-                <span>Next</span>
-                <ChevronRight className="w-4 h-4" />
-              </>
-            )}
+            {currentStepIndex === STEPS.length - 1 ? "Launch my plan" : "Continue"}
+            <ChevronRight className="h-4 w-4" />
           </button>
         </div>
+
+        {(statusMessage || statusError) && (
+          <div style={{ padding: "0 64px 20px", zIndex: 5 }}>
+            {statusMessage && (
+              <p style={{ fontSize: "0.78rem", color: "#2E7D32" }}>{statusMessage}</p>
+            )}
+            {statusError && (
+              <p style={{ fontSize: "0.78rem", color: "#B71C1C" }}>{statusError}</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
