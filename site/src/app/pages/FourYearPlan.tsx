@@ -683,6 +683,21 @@ export default function FourYearPlan() {
   return (
     <div className="fyp-page">
       <div className="fyp-shell">
+        <nav className="fyp-top-nav" aria-label="OrbitUMD Four-Year Plan navigation">
+          <Link className="fyp-brand" to="/">OrbitUMD</Link>
+          <div className="fyp-nav-links">
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/generate-schedule">Generate Schedule</Link>
+            <Link to="/schedules">Schedules</Link>
+            <Link to="/four-year-plan" className="is-active">Four-Year Plan</Link>
+            <Link to="/degree-audit">Degree Audit</Link>
+            <Link to="/gen-eds">Gen Eds</Link>
+            <Link to="/suggestions">Suggestions</Link>
+            <Link to="/settings">Settings</Link>
+            <Link to="/settings">Student Account settings</Link>
+          </div>
+        </nav>
+
         <header className="fyp-header">
           <div>
             <h1 className="fyp-title">Four-Year Plan</h1>
@@ -899,6 +914,7 @@ export default function FourYearPlan() {
                       <div className="fyp-term-title-wrap">
                         <h3 className="fyp-term-title">{term.termLabel}</h3>
                         <p className="fyp-term-meta">Last updated {formatLastUpdated(term.updatedAt)}</p>
+                        <p className="fyp-term-count-line">{countedCredits} counted credits {formatStatusLabel(term.status)}</p>
                       </div>
 
                       <div className="fyp-term-right">
@@ -919,7 +935,7 @@ export default function FourYearPlan() {
                           aria-controls={`term-panel-${term.id}`}
                         >
                           {isExpanded ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
-                          {isExpanded ? "Hide" : "View"}
+                          {isExpanded ? "Hide" : "Open"}
                         </Button>
                         {term.source === "schedule" && (
                           <Button
@@ -965,6 +981,11 @@ export default function FourYearPlan() {
                                     const genEdContributionLabels = genEdLabels(course.tags);
                                     const genEdLabelSet = new Set(genEdContributionLabels);
                                     const contributionLabels = [...requirementLabels, ...genEdContributionLabels];
+                                    const statusSummary = [
+                                      formatStatusLabel(course.status),
+                                      ...contributionLabels,
+                                      isDuplicate ? "Duplicate credit" : null,
+                                    ].filter((value): value is string => Boolean(value));
                                     const rowClass = contributionRowClass(requirementLabels, genEdContributionLabels.length > 0);
                                     return (
                                       <tr
@@ -1013,6 +1034,7 @@ export default function FourYearPlan() {
                                               </Select>
                                             )}
                                           </div>
+                                          <div className="fyp-status-detail-text">{statusSummary.join(" • ")}</div>
                                         </td>
                                       </tr>
                                     );
@@ -1024,6 +1046,7 @@ export default function FourYearPlan() {
 
                           <p className="fyp-term-footnote">
                             Term total: {term.credits} raw credits • Counted toward progress: {countedCredits}
+                            {duplicateCount > 0 ? ` • ${duplicateCount} duplicate ${duplicateCount === 1 ? "course" : "courses"} excluded` : ""}
                           </p>
                         </>
                       )}

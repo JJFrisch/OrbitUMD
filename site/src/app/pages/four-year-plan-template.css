@@ -11,6 +11,54 @@
   gap: 18px;
 }
 
+.fyp-top-nav {
+  background: #ffffff;
+  border: 1px solid rgba(55, 35, 25, 0.1);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.fyp-brand {
+  color: #17120e;
+  font-weight: 800;
+  text-decoration: none;
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.1rem;
+}
+
+.fyp-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fyp-nav-links a {
+  text-decoration: none;
+  color: #7a6358;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 999px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+}
+
+.fyp-nav-links a:hover {
+  color: #17120e;
+  border-color: rgba(55, 35, 25, 0.16);
+  background: #faf7f3;
+}
+
+.fyp-nav-links a.is-active {
+  color: #c62828;
+  border-color: rgba(198, 40, 40, 0.3);
+  background: rgba(198, 40, 40, 0.06);
+}
+
 .fyp-header,
 .fyp-section,
 .fyp-callout {
@@ -278,6 +326,12 @@
   color: #7a6358;
 }
 
+.fyp-term-count-line {
+  font-size: 0.78rem;
+  color: #3d2e26;
+  font-weight: 600;
+}
+
 .fyp-term-right {
   display: flex;
   align-items: center;
@@ -346,6 +400,13 @@
   text-align: right;
   color: #7a6358;
   font-size: 0.78rem;
+}
+
+.fyp-status-detail-text {
+  margin-top: 5px;
+  color: #7a6358;
+  font-size: 0.72rem;
+  line-height: 1.45;
 }
 
 @media (max-width: 840px) {

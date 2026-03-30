@@ -3,349 +3,352 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OrbitUMD — Four-Year Plan Spec</title>
+<title>OrbitUMD — Four-Year Plan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --red: #C62828;
-  --gold: #F9A825;
-  --cream: #FDFAF5;
-  --ink: #17120E;
-  --ink-2: #3D2E26;
-  --ink-muted: #7A6358;
-  --surface: #FFFFFF;
-  --surface-2: #FAF7F3;
-  --border-soft: rgba(55,35,25,0.10);
+  --red: #C62828; --red-mid: #E53935; --red-light: #EF9A9A; --gold: #F9A825;
+  --cream: #FDFAF5; --ink: #17120E; --ink-2: #3D2E26; --ink-muted: #7A6358; --ink-ghost: #B09A8E;
+  --surface: #FFFFFF; --surface-2: #FAF7F3;
+  --border: rgba(198,40,40,0.1); --border-soft: rgba(55,35,25,0.08);
+  --shadow-sm: 0 1px 4px rgba(23,18,14,0.06), 0 4px 16px rgba(23,18,14,0.04);
   --r: 12px;
 }
-html, body {
-  background: var(--cream);
-  color: var(--ink);
-  font-family: "DM Sans", sans-serif;
-}
-body {
-  min-height: 100vh;
-  padding: 28px;
-}
-.doc-shell {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  gap: 18px;
-}
-.doc-header {
+html, body { height: 100%; background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 200; opacity: 0.55; }
+
+.shell { display: grid; grid-template-columns: 240px 1fr; height: 100vh; overflow: hidden; }
+.sidebar { background: var(--ink); display: flex; flex-direction: column; padding: 0; position: relative; overflow: hidden; }
+.sidebar::before { content: ''; position: absolute; bottom: -80px; left: -80px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(198,40,40,0.18) 0%, transparent 65%); pointer-events: none; }
+.sidebar-logo { padding: 28px 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-text { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; color: var(--cream); letter-spacing: -0.02em; }
+.logo-text span { color: #EF9A9A; }
+.nav-section { padding: 20px 12px 8px; flex: 1; overflow-y: auto; }
+.nav-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.28); font-weight: 500; padding: 0 12px; margin-bottom: 6px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; cursor: pointer; color: rgba(255,255,255,0.5); font-size: 0.84rem; font-weight: 400; text-decoration: none; transition: all 0.15s; margin-bottom: 1px; position: relative; }
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+.nav-item.active { color: #fff; background: rgba(198,40,40,0.25); font-weight: 500; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; background: var(--red-mid); border-radius: 0 2px 2px 0; }
+.nav-icon { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+.nav-item.active .nav-icon { opacity: 1; }
+.nav-badge { margin-left: auto; background: var(--red-mid); color: white; font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 100px; }
+.nav-gap { height: 20px; }
+.sidebar-user { padding: 16px 24px 20px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #E53935, #F9A825); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.85rem; color: white; }
+.user-name { font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.88); }
+.user-role { font-size: 0.7rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
+
+.main { display: flex; flex-direction: column; overflow: hidden; }
+.topbar { padding: 16px 28px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-soft); background: var(--cream); flex-shrink: 0; gap: 16px; }
+.topbar-left h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; letter-spacing: -0.025em; }
+.topbar-left p { font-size: 0.78rem; color: var(--ink-muted); margin-top: 2px; font-weight: 300; }
+.topbar-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.topbar-btn { display: flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500; padding: 7px 14px; border-radius: 7px; cursor: pointer; border: 1px solid var(--border-soft); background: var(--surface); color: var(--ink-2); transition: all 0.15s; }
+.topbar-btn:hover { border-color: rgba(198,40,40,0.25); color: var(--red); }
+.topbar-btn.primary { background: var(--red); color: white; border-color: var(--red); }
+.topbar-btn.primary:hover { background: #B71C1C; }
+
+/* Progress Strip */
+.progress-strip { padding: 12px 28px; background: var(--surface); border-bottom: 1px solid var(--border-soft); display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+.ps-item { display: flex; align-items: center; gap: 8px; }
+.ps-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.ps-label { font-size: 0.75rem; color: var(--ink-muted); font-weight: 300; }
+.ps-val { font-size: 0.75rem; font-weight: 600; color: var(--ink-2); }
+.ps-divider { width: 1px; height: 20px; background: var(--border-soft); }
+.grad-badge { margin-left: auto; display: flex; align-items: center; gap: 6px; background: rgba(198,40,40,0.07); border: 1px solid rgba(198,40,40,0.18); border-radius: 6px; padding: 5px 12px; font-size: 0.75rem; color: var(--red); font-weight: 500; }
+
+/* Plan Grid */
+.plan-area { flex: 1; overflow-x: auto; overflow-y: auto; padding: 20px 28px 40px; }
+.plan-area::-webkit-scrollbar { height: 5px; width: 5px; }
+.plan-area::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+.plan-grid { display: grid; grid-template-columns: repeat(9, minmax(190px, 1fr)); gap: 12px; min-width: 1600px; }
+
+/* Year Label Column */
+.year-label { display: flex; flex-direction: column; justify-content: flex-start; padding-top: 44px; gap: 12px; }
+.year-chip { writing-mode: horizontal-tb; background: var(--ink); color: rgba(255,255,255,0.7); font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 10px; border-radius: 6px; text-align: center; margin-bottom: 4px; }
+
+/* Term Column */
+.term-col { display: flex; flex-direction: column; gap: 8px; }
+.term-col-header { padding: 8px 12px; border-radius: 8px; text-align: center; }
+.term-col-header.past { background: rgba(198,40,40,0.06); }
+.term-col-header.current { background: rgba(249,168,37,0.1); border: 1px solid rgba(249,168,37,0.25); }
+.term-col-header.future { background: var(--surface-2); border: 1px solid var(--border-soft); }
+.term-name { font-family: 'Playfair Display', serif; font-size: 0.85rem; font-weight: 700; letter-spacing: -0.01em; }
+.term-name.past { color: var(--red); }
+.term-name.current { color: #9C6E00; }
+.term-name.future { color: var(--ink-muted); }
+.term-credits { font-size: 0.68rem; color: var(--ink-ghost); margin-top: 2px; }
+.term-status { font-size: 0.62rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+.term-status.done { color: var(--red); }
+.term-status.cur { color: #9C6E00; }
+.term-status.plan { color: var(--ink-ghost); }
+
+/* Course Cards in Plan */
+.plan-course {
   background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--r);
-  padding: 24px;
+  border: 1.5px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 9px 11px;
+  cursor: grab;
+  transition: all 0.18s;
+  position: relative;
+  animation: fadeIn 0.3s ease both;
 }
-.doc-title {
-  font-family: "Playfair Display", serif;
-  font-size: 2rem;
-  letter-spacing: -0.02em;
-}
-.doc-subtitle {
-  margin-top: 8px;
-  color: var(--ink-muted);
-  line-height: 1.55;
-  font-size: 0.95rem;
-}
-.badge-row {
-  margin-top: 14px;
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.badge {
-  border-radius: 999px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 5px 10px;
-  border: 1px solid var(--border-soft);
-  background: var(--surface-2);
-}
-.badge.red { border-color: rgba(198,40,40,0.30); color: var(--red); background: rgba(198,40,40,0.06); }
-.badge.gold { border-color: rgba(249,168,37,0.30); color: #8f6200; background: rgba(249,168,37,0.10); }
-.section {
-  background: var(--surface);
-  border: 1px solid var(--border-soft);
-  border-radius: var(--r);
-  padding: 20px;
-  display: grid;
-  gap: 12px;
-}
-.section h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.3rem;
-  letter-spacing: -0.01em;
-}
-.section p {
-  line-height: 1.65;
-  color: var(--ink-2);
-  font-size: 0.92rem;
-}
-.kv-grid {
-  display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-}
-.kv-card {
-  border: 1px solid var(--border-soft);
-  border-radius: 10px;
-  padding: 12px;
-  background: var(--surface-2);
-}
-.kv-card h4 {
-  font-size: 0.8rem;
-  color: var(--ink-muted);
-  margin-bottom: 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.kv-card p {
-  font-size: 0.9rem;
-  color: var(--ink);
-}
-.table {
+.plan-course:hover { border-color: rgba(198,40,40,0.3); box-shadow: 0 2px 10px rgba(198,40,40,0.1); transform: translateY(-1px); }
+.plan-course:active { cursor: grabbing; }
+.plan-course.completed { border-left: 3px solid var(--red); }
+.plan-course.in-progress { border-left: 3px solid var(--gold); }
+.plan-course.planned { border-left: 3px solid #90A4AE; }
+.plan-course.gen-ed::after { content: 'GE'; position: absolute; top: 6px; right: 8px; font-size: 0.55rem; font-weight: 700; color: var(--ink-ghost); letter-spacing: 0.06em; }
+
+.pc-code { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 2px; }
+.pc-code.red { color: var(--red); }
+.pc-code.gold { color: #9C6E00; }
+.pc-code.gray { color: var(--ink-ghost); }
+.pc-name { font-size: 0.76rem; font-weight: 500; color: var(--ink-2); line-height: 1.3; margin-bottom: 4px; }
+.pc-meta { font-size: 0.66rem; color: var(--ink-ghost); font-weight: 300; }
+
+.plan-course-add {
+  border: 1.5px dashed var(--border-soft);
+  border-radius: 8px; padding: 9px 11px;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; transition: all 0.18s;
+  color: var(--ink-ghost); font-size: 0.75rem;
+  background: none; font-family: 'DM Sans', sans-serif;
   width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
 }
-.table th,
-.table td {
-  text-align: left;
-  border-bottom: 1px solid var(--border-soft);
-  padding: 10px 8px;
-  vertical-align: top;
-}
-.table th {
-  color: var(--ink-muted);
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-.callout {
-  border-radius: 10px;
-  padding: 12px 14px;
-  border: 1px solid rgba(198,40,40,0.25);
-  background: rgba(198,40,40,0.05);
-}
-.callout p {
-  font-size: 0.9rem;
-}
-ul {
-  margin-left: 18px;
-  display: grid;
-  gap: 6px;
-}
-li {
-  line-height: 1.55;
-  color: var(--ink-2);
-  font-size: 0.92rem;
-}
-.footer-note {
-  color: var(--ink-muted);
-  font-size: 0.84rem;
-}
-@media (max-width: 700px) {
-  body { padding: 14px; }
-  .doc-header { padding: 18px; }
-  .section { padding: 16px; }
-  .doc-title { font-size: 1.6rem; }
-}
+.plan-course-add:hover { border-color: rgba(198,40,40,0.35); color: var(--red); background: rgba(198,40,40,0.02); }
+
+/* Summer column styling */
+.term-col.summer .term-col-header { background: rgba(249,168,37,0.05); }
+.term-col.summer { opacity: 0.8; }
+
+/* Credit load bar */
+.credit-load-bar { height: 3px; border-radius: 2px; margin-top: 6px; overflow: hidden; background: #EDE7E1; }
+.credit-load-fill { height: 100%; border-radius: 2px; transition: width 1s ease; }
+.fill-done { background: var(--red); }
+.fill-cur { background: var(--gold); }
+.fill-plan { background: #90A4AE; }
+
+/* Warning indicator */
+.term-warning { display: flex; align-items: center; gap: 4px; font-size: 0.64rem; color: #C77F00; padding: 3px 6px; background: rgba(249,168,37,0.1); border-radius: 4px; margin-top: 4px; }
+
+@keyframes fadeIn { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
 </style>
 </head>
 <body>
-<div class="doc-shell">
-  <header class="doc-header">
-    <h1 class="doc-title">OrbitUMD Four-Year Plan</h1>
-    <p class="doc-subtitle">
-      Product explainer and implementation reference for the Four-Year Plan page in OrbitUMD.
-      The page combines MAIN schedules, prior credit imports, requirement tags, and transcript-aware GPA context.
-    </p>
-    <div class="badge-row">
-      <span class="badge red">Source of truth: FourYearPlan.tsx</span>
-      <span class="badge">Audience: students + maintainers</span>
-      <span class="badge gold">Synced for current app behavior</span>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="sidebar-logo" href="#">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
+        <circle cx="16" cy="16" r="9" stroke="#EF5350" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
+        <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
+        <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
+      </svg>
+      <span class="logo-text">Orbit<span>UMD</span></span>
+    </a>
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <a class="nav-item" href="orbitumd-dashboard.html"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>Dashboard</a>
+      <a class="nav-item active" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>My Four-Year Plan</a>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Scheduling</div>
+      <a class="nav-item" href="orbitumd-generate-schedule.html"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Generate Schedule</a>
+      <a class="nav-item" href="orbitumd-schedules.html"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6h12M6 2v12" stroke="currentColor" stroke-width="1.2"/></svg>My Schedules<span class="nav-badge">3</span></a>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Requirements</div>
+      <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Degree Audit</a>
+      <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 13L6 3l4 7 3-4 1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Gen Eds<span class="nav-badge">2</span></a>
+      <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M4 5h8M4 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Suggestions</a>
     </div>
-  </header>
-
-  <section class="section">
-    <h2>Page Purpose</h2>
-    <p>
-      Four-Year Plan gives students a single, term-by-term timeline of completed, in-progress, and planned coursework,
-      with summary metrics for credit progress, class standing, and UMD GPA.
-    </p>
-    <div class="kv-grid">
-      <article class="kv-card">
-        <h4>Completed</h4>
-        <p>Past terms plus prior/transcript credit records that count toward progress.</p>
-      </article>
-      <article class="kv-card">
-        <h4>In Progress</h4>
-        <p>The current term from MAIN schedules.</p>
-      </article>
-      <article class="kv-card">
-        <h4>Planned</h4>
-        <p>Future MAIN schedule terms.</p>
-      </article>
-      <article class="kv-card">
-        <h4>Standing + GPA</h4>
-        <p>Standing from completed credits; GPA from attempted credits and quality points.</p>
-      </article>
+    <div class="sidebar-user">
+      <div class="user-avatar">AJ</div>
+      <div><div class="user-name">Alex Johnson</div><div class="user-role">Junior · CS + Math</div></div>
     </div>
-  </section>
+  </aside>
 
-  <section class="section">
-    <h2>Data Inputs</h2>
-    <ul>
-      <li>Saved MAIN schedules are loaded and transformed into term cards.</li>
-      <li>Prior credits are grouped by awarded term, including a Prior to UMD grouping when no academic term is present.</li>
-      <li>Requirement bundles provide tags such as Major and Minor contribution labels.</li>
-      <li>Course detail lookups power row-click dialogs for prerequisites and descriptions.</li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h2>Credit Summary Rules</h2>
-    <p>
-      Total, Completed, In Progress, and Planned metrics are based on counted credits and intentionally exclude duplicate/repeat credits.
-    </p>
-    <table class="table" aria-label="Credit calculation rules">
-      <thead>
-        <tr>
-          <th>Metric</th>
-          <th>Definition</th>
-          <th>Important behavior</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Total Credits</td>
-          <td>Completed + In Progress + Planned counted credits</td>
-          <td>Duplicate planned/in-progress repeats are excluded.</td>
-        </tr>
-        <tr>
-          <td>Completed</td>
-          <td>Counted credits in completed terms</td>
-          <td>Includes eligible prior/transcript credit imports.</td>
-        </tr>
-        <tr>
-          <td>In Progress</td>
-          <td>Counted credits in current term</td>
-          <td>Repeats of already-earned credit do not increase totals.</td>
-        </tr>
-        <tr>
-          <td>Planned</td>
-          <td>Counted credits in future terms</td>
-          <td>Repeats of already-earned credit do not increase totals.</td>
-        </tr>
-        <tr>
-          <td>Standing</td>
-          <td>Derived from completed-credit thresholds</td>
-          <td>Aligned with app-wide degree-rule interpretation.</td>
-        </tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section class="section">
-    <h2>Duplicate Credit Handling</h2>
-    <div class="callout">
-      <p>
-        When duplicate planned or in-progress courses repeat credit already earned, a top-page notice appears,
-        row-level duplicate badges are shown, and those rows are excluded from counted totals.
-      </p>
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2>Four-Year Plan</h2>
+        <p>Drag courses between terms. Your roadmap to May 2026.</p>
+      </div>
+      <div class="topbar-right">
+        <button class="topbar-btn">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5v10M1.5 6.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          Add summer
+        </button>
+        <button class="topbar-btn">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2 10l3-3 2.5 2.5L11 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Auto-fill gaps
+        </button>
+        <button class="topbar-btn primary">Share plan</button>
+      </div>
     </div>
-    <ul>
-      <li>Top notice summarizes duplicate count.</li>
-      <li>Term headers surface duplicate exclusions for each term.</li>
-      <li>Term cards show raw credits and counted credits for transparency.</li>
-    </ul>
-  </section>
 
-  <section class="section">
-    <h2>UMD GPA Details</h2>
-    <p>
-      The page displays Overall GPA plus a Show/Hide section with Attempted Credits and Quality Points.
-      A top-right GPA Info button explains the GPA formula and grade handling assumptions.
-    </p>
-    <ul>
-      <li>UMD GPA details table columns: Term, Attempted, Quality Points, Semester GPA, Cumulative GPA.</li>
-      <li>Attempted and quality-point values come from transcript/prior imports and completed-term schedule grades.</li>
-      <li>If no graded completed courses exist yet, a clear empty-state message appears instead of an error.</li>
-    </ul>
-  </section>
+    <!-- Progress Strip -->
+    <div class="progress-strip">
+      <div class="ps-item"><div class="ps-dot" style="background:var(--red)"></div><span class="ps-label">Completed</span><span class="ps-val">87 cr</span></div>
+      <div class="ps-divider"></div>
+      <div class="ps-item"><div class="ps-dot" style="background:var(--gold)"></div><span class="ps-label">In Progress</span><span class="ps-val">15 cr</span></div>
+      <div class="ps-divider"></div>
+      <div class="ps-item"><div class="ps-dot" style="background:#90A4AE"></div><span class="ps-label">Planned</span><span class="ps-val">18 cr</span></div>
+      <div class="ps-divider"></div>
+      <div class="ps-item"><div class="ps-dot" style="background:#EDE7E1"></div><span class="ps-label">Remaining</span><span class="ps-val">0 cr</span></div>
+      <div class="ps-divider"></div>
+      <div class="ps-item"><span class="ps-label">Total</span><span class="ps-val">120 cr required</span></div>
+      <div class="grad-badge">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        On track · May 2026
+      </div>
+    </div>
 
-  <section class="section">
-    <h2>Term Layout</h2>
-    <p>
-      Each term card includes status, counted credits, duplicate flags, and disclosure controls to keep large histories manageable.
-    </p>
-    <table class="table" aria-label="Term table fields">
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Meaning</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Course Code</td>
-          <td>Canonical code or prior-credit identifier</td>
-          <td>Row click opens detail dialog.</td>
-        </tr>
-        <tr>
-          <td>Section</td>
-          <td>Schedule section code, Transcript, or Prior Credit</td>
-          <td>Transcript indicates imported transcript-origin credit context.</td>
-        </tr>
-        <tr>
-          <td>Course Full Name</td>
-          <td>Display title</td>
-          <td>May be catalog, schedule, or prior-credit source text.</td>
-        </tr>
-        <tr>
-          <td>Credits</td>
-          <td>Per-course credit value</td>
-          <td>Counted totals may differ from raw totals when duplicates are excluded.</td>
-        </tr>
-        <tr>
-          <td>Status</td>
-          <td>Completed, In Progress, or Planned</td>
-          <td>Displayed with contribution tags (Major, Minor, Gen Ed) and duplicate flags.</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="footer-note">
-      Disclosure defaults open current and future terms and the most recent completed term; older historical sections, including Prior to UMD,
-      remain collapsed until expanded by the user.
-    </p>
-  </section>
-
-  <section class="section">
-    <h2>Accessibility And Resilience</h2>
-    <ul>
-      <li>Term View/Hide controls use button semantics with aria-expanded and aria-controls.</li>
-      <li>Course tables use semantic column headers for assistive technologies.</li>
-      <li>Loading, empty, and missing-data states are explicit for schedules, GPA rows, and course details.</li>
-      <li>The disclosure model keeps large AP/IB/prior-history datasets readable without hiding data permanently.</li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h2>Sync Checklist For Maintainers</h2>
-    <ul>
-      <li>If duplicate-credit logic changes, update both summary metric wording and term-header exclusions.</li>
-      <li>If standing thresholds or policy source changes, update standing copy and info dialogs together.</li>
-      <li>If GPA calculations or exclusions change, update GPA Info dialog text and this reference page.</li>
-      <li>Keep table column labels aligned with the live Four-Year Plan UI.</li>
-    </ul>
-  </section>
+    <!-- Plan Grid -->
+    <div class="plan-area">
+      <div class="plan-grid" id="planGrid">
+        <!-- Built by JS -->
+      </div>
+    </div>
+  </div>
 </div>
+
+<script>
+const terms = [
+  { name: 'Fall 2022', state: 'past', credits: 16, courses: [
+    { code:'CMSC131', name:'Intro to Object-Oriented Programming', cr:4, type:'completed', genEd:false },
+    { code:'MATH140', name:'Calculus I', cr:4, type:'completed', genEd:false },
+    { code:'ENGL101', name:'Academic Writing', cr:3, type:'completed', genEd:true },
+    { code:'COMM107', name:'Oral Communication', cr:3, type:'completed', genEd:true },
+    { code:'HIST200', name:'Western Civ', cr:3, type:'completed', genEd:true },
+  ]},
+  { name: 'Spring 2023', state: 'past', credits: 15, courses: [
+    { code:'CMSC132', name:'Object-Oriented Programming II', cr:4, type:'completed', genEd:false },
+    { code:'MATH141', name:'Calculus II', cr:4, type:'completed', genEd:false },
+    { code:'PHYS161', name:'General Physics', cr:3, type:'completed', genEd:true },
+    { code:'LING311', name:'Language & Culture', cr:3, type:'completed', genEd:true },
+  ]},
+  { name: 'Fall 2023', state: 'past', credits: 16, courses: [
+    { code:'CMSC216', name:'Intro to Computer Systems', cr:4, type:'completed', genEd:false },
+    { code:'CMSC250', name:'Discrete Structures', cr:4, type:'completed', genEd:false },
+    { code:'MATH241', name:'Calculus III', cr:4, type:'completed', genEd:false },
+    { code:'ARTT100', name:'Art and Visual Culture', cr:3, type:'completed', genEd:true },
+  ]},
+  { name: 'Spring 2024', state: 'past', credits: 14, courses: [
+    { code:'CMSC330', name:'Organization of Programming Languages', cr:3, type:'completed', genEd:false },
+    { code:'CMSC351', name:'Algorithms', cr:3, type:'completed', genEd:false },
+    { code:'MATH246', name:'Differential Equations', cr:3, type:'completed', genEd:false },
+    { code:'ENGL393', name:'Technical Writing', cr:3, type:'completed', genEd:false },
+  ]},
+  { name: 'Spring 2025', state: 'current', credits: 15, courses: [
+    { code:'CMSC411', name:'Computer Architecture', cr:3, type:'in-progress', genEd:false },
+    { code:'CMSC421', name:'Intro to AI', cr:3, type:'in-progress', genEd:false },
+    { code:'MATH461', name:'Linear Algebra', cr:3, type:'in-progress', genEd:false },
+    { code:'ENGL394', name:'Business Writing', cr:3, type:'in-progress', genEd:false },
+    { code:'STAT400', name:'Applied Probability', cr:3, type:'in-progress', genEd:false },
+  ]},
+  { name: 'Fall 2025', state: 'future', credits: null, courses: [
+    { code:'CMSC435', name:'Software Engineering', cr:3, type:'planned', genEd:false },
+    { code:'CMSC451', name:'Design & Analysis of Algorithms', cr:3, type:'planned', genEd:false },
+    { code:'MATH401', name:'Applications of Linear Algebra', cr:3, type:'planned', genEd:false },
+  ], warn: 'MATH401 only 4 seats left' },
+  { name: 'Spring 2026', state: 'future', credits: null, courses: [
+    { code:'CMSC498', name:'Senior Capstone', cr:3, type:'planned', genEd:false },
+  ]},
+  { name: 'Summer 2026', state: 'future', credits: null, courses: [], summer: true },
+];
+
+const maxCr = { past:16, current:15, future:18 };
+const stateColor = { 'completed':'red','in-progress':'gold','planned':'gray' };
+const leftColor  = { 'completed':'var(--red)','in-progress':'var(--gold)','planned':'#90A4AE' };
+const fillClass  = { 'past':'fill-done','current':'fill-cur','future':'fill-plan' };
+
+function buildPlan() {
+  const grid = document.getElementById('planGrid');
+  terms.forEach((term, ti) => {
+    const col = document.createElement('div');
+    col.className = 'term-col' + (term.summer?' summer':'');
+    col.dataset.term = ti;
+
+    const hdr = document.createElement('div');
+    hdr.className = `term-col-header ${term.state==='current'?'current':term.state==='past'?'past':'future'}`;
+    const cr = term.credits || '—';
+    const statusText = term.state==='past'?'Done':term.state==='current'?'Now':'Plan';
+    const statusClass = term.state==='past'?'done':term.state==='current'?'cur':'plan';
+    const pct = term.credits ? Math.min(100, (term.credits/(maxCr[term.state]||16))*100) : 30;
+    hdr.innerHTML = `
+      <div class="term-name ${term.state}">${term.name}</div>
+      <div class="term-credits">${cr} credits</div>
+      <div class="credit-load-bar"><div class="credit-load-fill ${fillClass[term.state]}" style="width:${pct}%"></div></div>
+      <div class="term-status ${statusClass}">${statusText}</div>
+      ${term.warn ? `<div class="term-warning"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 1.5l4 7H1z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>${term.warn}</div>` : ''}
+    `;
+    col.appendChild(hdr);
+
+    term.courses.forEach((c, ci) => {
+      const card = document.createElement('div');
+      card.className = `plan-course ${c.type}${c.genEd?' gen-ed':''}`;
+      card.style.animationDelay = (ti * 0.04 + ci * 0.03) + 's';
+      card.draggable = true;
+      card.innerHTML = `
+        <div class="pc-code ${stateColor[c.type]}">${c.code}</div>
+        <div class="pc-name">${c.name}</div>
+        <div class="pc-meta">${c.cr} cr</div>
+      `;
+      card.addEventListener('dragstart', e => {
+        e.dataTransfer.setData('text/plain', JSON.stringify({ code:c.code, name:c.name, cr:c.cr, ti }));
+        card.style.opacity = '0.4';
+      });
+      card.addEventListener('dragend', () => { card.style.opacity = '1'; });
+      col.appendChild(card);
+    });
+
+    // Add button
+    if (term.state !== 'past') {
+      const addBtn = document.createElement('button');
+      addBtn.className = 'plan-course-add';
+      addBtn.innerHTML = `<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Add course`;
+      addBtn.onclick = () => {
+        const code = prompt('Enter course code (e.g. CMSC488):');
+        if (code) {
+          const card = document.createElement('div');
+          card.className = 'plan-course planned';
+          card.draggable = true;
+          card.innerHTML = `<div class="pc-code gray">${code.toUpperCase()}</div><div class="pc-name">Course title</div><div class="pc-meta">3 cr</div>`;
+          col.insertBefore(card, addBtn);
+        }
+      };
+      col.appendChild(addBtn);
+    }
+
+    // Drop target
+    col.addEventListener('dragover', e => { e.preventDefault(); col.style.background = 'rgba(198,40,40,0.04)'; });
+    col.addEventListener('dragleave', () => { col.style.background = ''; });
+    col.addEventListener('drop', e => {
+      e.preventDefault();
+      col.style.background = '';
+      const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+      if (data.ti !== ti) {
+        const card = document.createElement('div');
+        card.className = 'plan-course planned';
+        card.draggable = true;
+        card.style.animation = 'fadeIn 0.25s ease both';
+        card.innerHTML = `<div class="pc-code gray">${data.code}</div><div class="pc-name">${data.name}</div><div class="pc-meta">${data.cr} cr</div>`;
+        const addBtn = col.querySelector('.plan-course-add');
+        col.insertBefore(card, addBtn);
+      }
+    });
+
+    grid.appendChild(col);
+  });
+}
+
+window.addEventListener('load', buildPlan);
+</script>
 </body>
 </html>
