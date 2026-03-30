@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
-import { useNavigate } from "react-router";
 import { ChevronDown, Cloud, CloudOff, GripVertical, GraduationCap, Info, Loader2, Mail, Menu, MessageSquare, Minus, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
@@ -17,7 +16,17 @@ import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
 import { toast } from "sonner";
 import { plannerApi } from "@/lib/api/planner";
-import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
+import {
+  addUserDegreeProgramFromCatalogOption,
+  listProgramCatalogOptions,
+  listUserDegreePrograms,
+  loadCsSpecializationPreference,
+  removeLocalCatalogProgramSelection,
+  removeUserDegreeProgram,
+  saveCsSpecializationPreference,
+  type CatalogProgramOption,
+  type UserDegreeProgram,
+} from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { listUserRequirementSectionEdits, saveUserRequirementSectionEdit } from "@/lib/repositories/userRequirementSectionEditsRepository";
 import { getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
@@ -80,7 +89,10 @@ const WILDCARD_SELECTIONS_KEY = "orbitumd:audit-wildcard-selections:v1";
 const REQUIREMENTS_CATALOG_VERSION_KEY = "orbitumd:requirements-catalog-version";
 const REQUIREMENTS_CATALOG_RESET_KEY = "orbitumd:requirements-catalog-reset-pending";
 const SPECIALIZATION_SELECTIONS_KEY = "orbitumd:specialization-selections:v1";
+const DEGREE_DECLARATION_MODE_KEY = "orbitumd:degree-declaration-mode:v1";
 const CURRENT_REQUIREMENTS_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
+
+type DegreeDeclarationMode = "single" | "dual-major" | "double-degree";
 
 const DEPTH_INDENT_CLASSES = [
   "ml-0",
@@ -103,40 +115,12 @@ function getDepthIndentClass(depth: number): string {
 
 const WILDCARD_TOKEN_PATTERN = /^(?:[A-Z]{4}(?:[:/][A-Z]{4})*)?(?:XXX|[1-8]XX)$/;
 
-function normalizeProgramName(value: string): string {
+function normalizeCatalogProgramName(value: string): string {
   return value
     .toLowerCase()
-    .replace(/\([^)]*\)/g, " ")
-    .replace(/\b(major|minor|program|bachelor|science|arts|bs|ba)\b/g, " ")
+    .replace(/bachelor of science|bachelor of arts|double degree|second major|b\.\s*s\.?|b\.\s*a\.?|bs|ba/gi, "")
     .replace(/[^a-z0-9]+/g, " ")
-    .replace(/\s+/g, " ")
     .trim();
-}
-
-function getCatalogRequirementsUrl(bundle: ProgramRequirementBundle): string | null {
-  if (bundle.source !== "scraped") return null;
-
-  const target = normalizeProgramName(bundle.programName);
-  if (!target) return null;
-
-  const entries = ((requirementsCatalog as any)?.programs ?? []) as Array<{
-    name?: string;
-    type?: string;
-    requirementsUrl?: string;
-    programUrl?: string;
-  }>;
-
-  const targetType = bundle.kind === "minor" ? "minor" : "major";
-  const matched = entries.find((entry) => {
-    const entryName = normalizeProgramName(String(entry.name ?? ""));
-    if (!entryName) return false;
-    const entryTypeText = String(entry.type ?? "").toLowerCase();
-    const entryType = entryTypeText.includes("minor") || entryTypeText.includes("honors") || entryTypeText.includes("scholar") ? "minor" : "major";
-    if (entryType !== targetType) return false;
-    return entryName === target || entryName.includes(target) || target.includes(entryName);
-  });
-
-  return matched?.requirementsUrl ?? matched?.programUrl ?? null;
 }
 
 function createLocalId(prefix: string): string {
@@ -288,20 +272,20 @@ function statusFromPair(left: AuditCourseStatus, right: AuditCourseStatus): Audi
 
 function statusBadge(status: AuditCourseStatus) {
   if (status === "completed") {
-    return <Badge className="bg-green-100 text-green-900 border border-green-300 dark:bg-green-600/20 dark:text-green-300 dark:border-green-600/30">Completed</Badge>;
+    return <Badge className="da2-status-badge done">Completed</Badge>;
   }
   if (status === "in_progress") {
-    return <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30">In Progress</Badge>;
+    return <Badge className="da2-status-badge progress">In Progress</Badge>;
   }
-  return <Badge className="bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-600/30">Planned</Badge>;
+  return <Badge className="da2-status-badge open">Planned</Badge>;
 }
 
 function sectionHeaderClass(sectionEval: { requiredSlots: number; completedSlots: number; inProgressSlots: number }): string {
   if (sectionEval.requiredSlots > 0 && sectionEval.completedSlots >= sectionEval.requiredSlots) {
-    return "text-green-500";
+    return "text-red-700 dark:text-red-400";
   }
   if (sectionEval.completedSlots > 0 || sectionEval.inProgressSlots > 0) {
-    return "text-blue-500";
+    return "text-amber-700 dark:text-amber-300";
   }
   return "text-foreground";
 }
@@ -741,6 +725,8 @@ function RequirementSectionTableCard({
   allCourses,
   courseDetails,
   byCourseCode,
+  expandedSectionIds,
+  setExpandedSectionIds,
   expandedNotesSectionIds,
   setExpandedNotesSectionIds,
   onEdit,
@@ -873,6 +859,8 @@ function RequirementSectionTableCard({
     void run();
     return () => { active = false; };
   }, [detailCode, courseDetails]);
+
+  const sectionIsExpanded = expandedSectionIds.has(section.id);
 
   const wildcardMatchedCoursesByToken = useMemo(() => {
     const map = new Map<string, AuditCourse>();
@@ -1215,9 +1203,9 @@ function RequirementSectionTableCard({
 
   return (
     <>
-      <Card className="bg-input-background border-border p-0 overflow-hidden">
-        <table className="w-full text-sm degree-audit-table">
-          <thead className="bg-muted/40 border-b border-border">
+      <Card className="da2-req-block bg-input-background border-border p-0 overflow-hidden">
+        <table className="w-full text-sm degree-audit-table da2-req-table">
+          <thead className="bg-muted/40 border-b border-border da2-req-head">
             <tr>
               <th className="px-3 py-2 text-left text-xs text-muted-foreground">Section</th>
               <th className="px-3 py-2 text-left text-xs text-muted-foreground">Requirement</th>
@@ -1228,14 +1216,31 @@ function RequirementSectionTableCard({
           </thead>
           <tbody>
             {/* Section header row */}
-            <tr className="border-b border-border bg-card/40 align-top">
+            <tr className="border-b border-border bg-card/40 align-top da2-req-header-row">
               <td className="px-3 py-3" onDoubleClick={() => setEditingTitle(true)}>
                 {editingTitle ? (
                   <Input value={titleDraft} onChange={(e) => setTitleDraft(e.target.value)} onBlur={saveTitle} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); saveTitle(); } }} autoFocus className="h-8" />
                 ) : (
-                  <div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      className="h-6 w-6"
+                      onClick={() => setExpandedSectionIds((prev) => {
+                        const next = new Set(prev);
+                        if (next.has(section.id)) next.delete(section.id);
+                        else next.add(section.id);
+                        return next;
+                      })}
+                      aria-label={sectionIsExpanded ? "Collapse section" : "Expand section"}
+                    >
+                      <ChevronDown className={`h-4 w-4 transition-transform ${sectionIsExpanded ? "rotate-180" : ""}`} />
+                    </Button>
+                    <div>
                     <p className={`font-medium ${sectionHeaderClass(sectionEval)}`}>{section.title}</p>
                     <p className="text-xs text-muted-foreground">Double-click to edit</p>
+                    </div>
                   </div>
                 )}
               </td>
@@ -1281,7 +1286,7 @@ function RequirementSectionTableCard({
             </tr>
 
             {/* Class rows */}
-            {classRows.map((row) => (
+            {sectionIsExpanded && classRows.map((row) => (
               <tr key={`${section.id}-${row.key}`} className="border-b border-border align-top">
                 <td className="px-3 py-2 text-xs text-muted-foreground">{row.label ?? "Course"}</td>
                 <td className="px-3 py-2 text-xs text-foreground/85">
@@ -1317,7 +1322,7 @@ function RequirementSectionTableCard({
             ))}
 
             {/* Add course row */}
-            <tr className="border-b border-border bg-muted/10 align-top">
+            <tr className={`border-b border-border bg-muted/10 align-top ${sectionIsExpanded ? "" : "hidden"}`}>
               <td className="px-3 py-2" colSpan={5}>
                 {addingCourse ? (
                   <div className="flex flex-col gap-2 max-w-lg">
@@ -1351,7 +1356,7 @@ function RequirementSectionTableCard({
             </tr>
 
             {/* Notes row */}
-            {expandedNotesSectionIds.has(section.id) && (
+            {sectionIsExpanded && expandedNotesSectionIds.has(section.id) && (
               <tr className="bg-muted/20">
                 <td className="px-3 py-2 text-xs text-muted-foreground">Notes</td>
                 <td className="px-3 py-2" colSpan={4} onDoubleClick={() => setEditingNotes(true)}>
@@ -1756,7 +1761,6 @@ function RequirementSectionCard({
 }
 
 export default function DegreeAudit() {
-    const navigate = useNavigate();
   const [programs, setPrograms] = useState<UserDegreeProgram[]>([]);
   const [bundles, setBundles] = useState<ProgramRequirementBundle[]>([]);
   const [courses, setCourses] = useState<AuditCourse[]>([]);
@@ -1810,6 +1814,23 @@ export default function DegreeAudit() {
   const editorCardRef = useRef<HTMLDivElement | null>(null);
   const saveRequestIdRef = useRef(0);
   const hasUnsavedEditorDraft = sectionDraft !== null;
+  const [programRefreshNonce, setProgramRefreshNonce] = useState(0);
+  const [showEditProgramsModal, setShowEditProgramsModal] = useState(false);
+  const [programEditBusy, setProgramEditBusy] = useState(false);
+  const [programEditMessage, setProgramEditMessage] = useState<string | null>(null);
+  const [allPrograms, setAllPrograms] = useState<CatalogProgramOption[]>([]);
+  const [selectedProgramToAdd, setSelectedProgramToAdd] = useState("");
+  const [degreeDeclarationMode, setDegreeDeclarationMode] = useState<DegreeDeclarationMode>(() => {
+    try {
+      const stored = localStorage.getItem(DEGREE_DECLARATION_MODE_KEY);
+      if (stored === "dual-major" || stored === "double-degree" || stored === "single") {
+        return stored;
+      }
+    } catch {
+      // noop
+    }
+    return "single";
+  });
 
   const confirmDiscardEditorDraft = useCallback(() => {
     if (!hasUnsavedEditorDraft) return true;
@@ -2035,6 +2056,80 @@ export default function DegreeAudit() {
         }
       });
   };
+
+  const refreshAuditAfterProgramMutation = () => {
+    setProgramRefreshNonce((prev) => prev + 1);
+  };
+
+  const refreshProgramCatalog = async () => {
+    const options = await listProgramCatalogOptions();
+    setAllPrograms(options);
+  };
+
+  const openEditProgramsModal = () => {
+    if (!confirmDiscardEditorDraft()) return;
+    resetDraftEditorForce();
+    setShowEditProgramsModal(true);
+    if (allPrograms.length === 0) {
+      void refreshProgramCatalog();
+    }
+  };
+
+  const closeEditProgramsModal = () => {
+    setShowEditProgramsModal(false);
+    setProgramEditMessage(null);
+  };
+
+  const handleAddProgramFromModal = async () => {
+    if (!selectedProgramToAdd) return;
+
+    try {
+      setProgramEditBusy(true);
+      setProgramEditMessage(null);
+      const option = allPrograms.find((program) => program.key === selectedProgramToAdd);
+      if (!option) {
+        throw new Error("Selected program option could not be resolved.");
+      }
+
+      await addUserDegreeProgramFromCatalogOption(option);
+      setSelectedProgramToAdd("");
+      setProgramEditMessage("Program added.");
+      refreshAuditAfterProgramMutation();
+      void refreshProgramCatalog();
+    } catch (error) {
+      setProgramEditMessage(error instanceof Error ? error.message : "Unable to add program.");
+    } finally {
+      setProgramEditBusy(false);
+    }
+  };
+
+  const handleRemoveProgramFromModal = async (userDegreeProgramId: string) => {
+    try {
+      setProgramEditBusy(true);
+      setProgramEditMessage(null);
+      if (userDegreeProgramId.startsWith("local-link:")) {
+        await removeLocalCatalogProgramSelection(userDegreeProgramId);
+      } else {
+        await removeUserDegreeProgram(userDegreeProgramId);
+      }
+
+      setProgramEditMessage("Program removed.");
+      refreshAuditAfterProgramMutation();
+      void refreshProgramCatalog();
+    } catch (error) {
+      setProgramEditMessage(error instanceof Error ? error.message : "Unable to remove program.");
+    } finally {
+      setProgramEditBusy(false);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(DEGREE_DECLARATION_MODE_KEY, degreeDeclarationMode);
+    } catch {
+      // noop
+    }
+  }, [degreeDeclarationMode]);
 
   const runCourseSearch = async () => {
     if (!courseSearchQuery.trim()) {
@@ -2679,7 +2774,7 @@ export default function DegreeAudit() {
     return () => {
       active = false;
     };
-  }, [customSectionsByProgram, selectedSpecialization]);
+  }, [customSectionsByProgram, selectedSpecialization, programRefreshNonce]);
 
   useEffect(() => {
     if (bundles.length === 0) return;
@@ -2971,6 +3066,11 @@ export default function DegreeAudit() {
 
   const electiveCredits = electiveOverflow.reduce((sum, course) => sum + course.credits, 0);
 
+  const addablePrograms = useMemo(() => {
+    const existingNames = new Set(programs.map((program) => normalizeCatalogProgramName(program.programName)));
+    return allPrograms.filter((program) => !existingNames.has(normalizeCatalogProgramName(program.name)));
+  }, [allPrograms, programs]);
+
   const degreeAuditShareText = useMemo(() => {
     const lines: string[] = [];
     lines.push("OrbitUMD Degree Audit Summary");
@@ -3004,12 +3104,6 @@ export default function DegreeAudit() {
   const handleTextDegreeAudit = () => {
     const body = encodeURIComponent(degreeAuditShareText);
     window.location.href = `sms:?&body=${body}`;
-  };
-
-  const navigateWithDraftGuard = (to: string) => {
-    if (!confirmDiscardEditorDraft()) return;
-    resetDraftEditorForce();
-    navigate(to);
   };
 
   useEffect(() => {
@@ -3060,6 +3154,11 @@ export default function DegreeAudit() {
       .slice(0, 8);
   }, [selectedProgramAudit]);
 
+  const scrollToRequirementSection = (sectionId: string) => {
+    const target = document.getElementById(`audit-section-${selectedProgramIndex}-${sectionId}`);
+    target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const setProgramSpecialization = (programIndex: number, nextSpecId: string | null) => {
     const currentSpecId = selectedSpecialization.get(programIndex) ?? null;
     if (currentSpecId === nextSpecId) return;
@@ -3087,7 +3186,35 @@ export default function DegreeAudit() {
     summary.completedCredits + summary.inProgressCredits + summary.plannedCredits,
   );
   const remainingCredits = Math.max(0, summary.requiredCredits - earnedOrInFlightCredits);
-  const overallProgressPct = Math.min(100, (earnedOrInFlightCredits / Math.max(1, summary.requiredCredits)) * 100);
+  const requiredCreditsSafe = Math.max(1, summary.requiredCredits);
+  const completedForBar = Math.min(summary.completedCredits, summary.requiredCredits);
+  const inProgressForBar = Math.min(summary.inProgressCredits, Math.max(0, summary.requiredCredits - completedForBar));
+  const plannedForBar = Math.min(summary.plannedCredits, Math.max(0, summary.requiredCredits - completedForBar - inProgressForBar));
+  const remainingForBar = Math.max(0, summary.requiredCredits - completedForBar - inProgressForBar - plannedForBar);
+
+  const completedPct = (completedForBar / requiredCreditsSafe) * 100;
+  const inProgressPct = (inProgressForBar / requiredCreditsSafe) * 100;
+  const plannedPct = (plannedForBar / requiredCreditsSafe) * 100;
+  const remainingPct = (remainingForBar / requiredCreditsSafe) * 100;
+
+  useEffect(() => {
+    const fills = Array.from(document.querySelectorAll<HTMLElement>(".da2-page .da2-ps-prog-fill, .da2-page .da2-credit-segment"));
+    if (fills.length === 0) return;
+
+    fills.forEach((el) => {
+      el.style.width = "0%";
+    });
+
+    const timer = window.setTimeout(() => {
+      fills.forEach((el) => {
+        const raw = Number(el.dataset.pct ?? "0");
+        const pct = Number.isFinite(raw) ? Math.max(0, Math.min(100, raw)) : 0;
+        el.style.width = `${pct}%`;
+      });
+    }, 30);
+
+    return () => window.clearTimeout(timer);
+  }, [programAudits, completedPct, inProgressPct, plannedPct, remainingPct]);
 
   return (
     <div className="degree-audit-page da2-page">
@@ -3113,9 +3240,9 @@ export default function DegreeAudit() {
               type="button"
               variant="outline"
               className="da2-topbar-link-btn"
-              onClick={() => navigateWithDraftGuard("/degree-requirements")}
+              onClick={openEditProgramsModal}
             >
-              Review requirement details
+              Edit Programs
             </Button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -3132,13 +3259,6 @@ export default function DegreeAudit() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem onSelect={(event) => {
-                  event.preventDefault();
-                  navigateWithDraftGuard("/settings#academic-information");
-                }}>
-                  <GraduationCap className="w-4 h-4 mr-2" />
-                  Change Major / Minor
-                </DropdownMenuItem>
                 <DropdownMenuItem onSelect={(event) => { event.preventDefault(); handlePrintDegreeAudit(); }}>
                   <Printer className="w-4 h-4 mr-2" />
                   Print / PDF
@@ -3163,59 +3283,6 @@ export default function DegreeAudit() {
 
             {!loading && !errorMessage && (
               <>
-                <Card className="da2-selector-card p-5 bg-card border-border mb-6">
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div>
-                      <p className="da2-select-label">Degree</p>
-                      <select
-                        className="da2-select"
-                        aria-label="Select degree program"
-                        value={programAudits.length > 0 ? String(selectedProgramIndex) : ""}
-                        onChange={(event) => {
-                          const next = Number.parseInt(event.target.value, 10);
-                          if (Number.isFinite(next)) {
-                            changeActiveProgramIndex(next);
-                          }
-                        }}
-                        disabled={programAudits.length === 0}
-                      >
-                        {programAudits.length === 0 && (
-                          <option value="">No selected degree programs</option>
-                        )}
-                        {programAudits.map((programAudit, index) => (
-                          <option key={`degree-select-${programAudit.bundle.programId}-${index}`} value={index}>
-                            {programAudit.bundle.programName} ({programAudit.bundle.kind})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                    <div>
-                      <p className="da2-select-label">Specialization</p>
-                      <select
-                        className="da2-select"
-                        aria-label="Select specialization"
-                        value={selectedSpecializationId ?? ""}
-                        onChange={(event) => {
-                          const nextValue = event.target.value.trim();
-                          setProgramSpecialization(selectedProgramIndex, nextValue.length ? nextValue : null);
-                        }}
-                        disabled={
-                          !selectedProgramAudit?.bundle.specializationOptions
-                          || selectedProgramAudit.bundle.specializationOptions.length === 0
-                        }
-                      >
-                        <option value="">
-                          {selectedProgramAudit?.bundle.source === "cs-specialized"
-                            ? "General Track"
-                            : "Core Requirements Only"}
-                        </option>
-                        {(selectedProgramAudit?.bundle.specializationOptions ?? []).map((spec) => (
-                          <option key={spec.id} value={spec.id}>{spec.name}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </Card>
                 <Card className="da2-summary-card mb-6" data-tour-target="degree-audit-summary">
                   <div className="da2-summary-grid">
                     <div className="da2-summary-item">
@@ -3253,12 +3320,17 @@ export default function DegreeAudit() {
                       {summary.completedCredits} complete · {summary.inProgressCredits} in progress · {summary.plannedCredits} planned · {remainingCredits} remaining
                     </p>
                   </div>
-                  <Progress value={overallProgressPct} className="h-2.5 da2-credit-progress" />
+                  <div className="da2-credit-progress" role="presentation" aria-label="Credit progress">
+                    <div className="da2-credit-segment da2-credit-segment-completed" data-pct={completedPct} />
+                    <div className="da2-credit-segment da2-credit-segment-in-progress" data-pct={inProgressPct} />
+                    <div className="da2-credit-segment da2-credit-segment-planned" data-pct={plannedPct} />
+                    <div className="da2-credit-segment da2-credit-segment-remaining" data-pct={remainingPct} />
+                  </div>
                   <div className="da2-credit-legend">
-                    <span>Completed</span>
-                    <span>In Progress</span>
-                    <span>Planned</span>
-                    <span>Remaining</span>
+                    <span><i className="da2-legend-dot da2-legend-completed" />Completed</span>
+                    <span><i className="da2-legend-dot da2-legend-in-progress" />In Progress</span>
+                    <span><i className="da2-legend-dot da2-legend-planned" />Planned</span>
+                    <span><i className="da2-legend-dot da2-legend-remaining" />Remaining</span>
                   </div>
                 </Card>
 
@@ -3294,97 +3366,21 @@ export default function DegreeAudit() {
                     return (
                     <div key={`${programAudit.bundle.programId}-${index}`} className="degree-audit-program-slide">
                       <Card className={`degree-audit-program-card da2-program-shell bg-card border-border p-5 ${printBreakClass}`}>
-                        <div className="da2-program-header flex items-center justify-between gap-3 mb-3">
-                          <div>
-                            <h2
-                              className={`da2-program-title text-2xl ${
-                                programAudit.requiredSlots > 0 && programAudit.completedSlots >= programAudit.requiredSlots
-                                  ? "text-green-500"
-                                  : (programAudit.completedSlots > 0 || programAudit.inProgressSlots > 0)
-                                    ? "text-blue-500"
-                                    : "text-foreground"
-                              }`}
-                            >
-                              {programAudit.bundle.programName}
-                            </h2>
-                            <p className="da2-program-meta text-sm text-muted-foreground mt-1">
-                              {programAudit.bundle.kind.toUpperCase()} - {programAudit.bundle.source === "db" ? "custom saved rules" : "catalog scraped rules"}
-                              {(() => {
-                                const catalogUrl = getCatalogRequirementsUrl(programAudit.bundle);
-                                if (!catalogUrl) return null;
-                                return (
-                                  <>
-                                    {" "}
-                                    <a
-                                      href={catalogUrl}
-                                      target="_blank"
-                                      rel="noreferrer"
-                                      className="text-red-500 hover:text-red-600 underline"
-                                    >
-                                      If info is not correct, go here and edit it.
-                                    </a>
-                                  </>
-                                );
-                              })()}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {statusBadge(programAudit.status)}
-                          </div>
-                        </div>
-
-                        <div className="da2-program-progress flex items-center gap-4 mb-5">
-                          <Progress value={programAudit.progressPercent} className="flex-1 h-3" />
-                          <span className="text-foreground text-sm">
-                            {Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots)} / {programAudit.requiredSlots} required classes
+                        <div className="da2-program-header da2-ps-header">
+                          <span className={`da2-ps-type ${programAudit.bundle.kind === "minor" ? "minor" : "major"}`}>
+                            {programAudit.bundle.kind}
                           </span>
+                          <h2 className="da2-program-title da2-ps-name text-2xl">{programAudit.bundle.programName}</h2>
+                          <p className="da2-ps-progress">
+                            <strong>{Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots + programAudit.plannedSlots)} / {programAudit.requiredSlots}</strong> required classes
+                          </p>
                         </div>
-
-                        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4 mb-5">
-                          {programAudit.sectionRows.slice(0, 4).map(({ section, eval: sectionEval }) => {
-                            const sectionPercent = sectionEval.requiredSlots === 0
-                              ? 0
-                              : (Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots) / sectionEval.requiredSlots) * 100;
-                            return (
-                              <Card key={`${programAudit.bundle.programId}-summary-${section.id}`} className="da2-mini-section-card p-3 bg-input-background border-border">
-                                <div className="flex items-center justify-between mb-2">
-                                  <h3 className="text-sm text-muted-foreground truncate">{section.title}</h3>
-                                </div>
-                                <p className="text-xl text-foreground mb-2">
-                                  {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots)} / {sectionEval.requiredSlots}
-                                </p>
-                                <Progress value={sectionPercent} className="h-2" />
-                              </Card>
-                            );
-                          })}
+                        <div className="da2-ps-prog-bar mb-5" role="presentation">
+                          <div
+                            className={`da2-ps-prog-fill ${programAudit.bundle.kind === "minor" ? "minor-fill" : ""}`}
+                            data-pct={programAudit.progressPercent}
+                          />
                         </div>
-
-                        {programAudit.bundle.specializationOptions && programAudit.bundle.specializationOptions.length > 0 && (
-                          <div className="mb-5 p-4 bg-input-background border border-border rounded-lg">
-                            <p className="text-sm text-muted-foreground mb-2">Choose a specialization:</p>
-                            <div className="flex flex-wrap gap-2">
-                              <Button
-                                size="sm"
-                                variant={!selectedSpecialization.has(index) ? "default" : "outline"}
-                                className={!selectedSpecialization.has(index) ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"}
-                                onClick={() => setProgramSpecialization(index, null)}
-                              >
-                                {programAudit.bundle.source === "cs-specialized" ? "General Track" : "Core Requirements Only"}
-                              </Button>
-                              {programAudit.bundle.specializationOptions.map((spec) => (
-                                <Button
-                                  key={spec.id}
-                                  size="sm"
-                                  variant={selectedSpecialization.get(index) === spec.id ? "default" : "outline"}
-                                  className={selectedSpecialization.get(index) === spec.id ? "bg-red-600 hover:bg-red-700" : "border-border text-foreground/80"}
-                                  onClick={() => setProgramSpecialization(index, spec.id)}
-                                >
-                                  {spec.name}
-                                </Button>
-                              ))}
-                            </div>
-                          </div>
-                        )}
 
                         <div className="mb-4 flex justify-end">
                           <Button
@@ -3811,29 +3807,30 @@ export default function DegreeAudit() {
                                   }
 
                                   return (
-                                    <RequirementSectionTableCard
-                                      key={section.id}
-                                      section={section}
-                                      sectionEval={sectionEval}
-                                      wildcardSlots={wildcardSlots}
-                                      onSelectWildcardCourse={handleWildcardSelection}
-                                      allCourses={courses}
-                                      courseDetails={courseDetails}
-                                      byCourseCode={byCourseCode}
-                                      expandedSectionIds={expandedSectionIds}
-                                      setExpandedSectionIds={setExpandedSectionIds}
-                                      expandedNotesSectionIds={expandedNotesSectionIds}
-                                      setExpandedNotesSectionIds={setExpandedNotesSectionIds}
-                                      condensedView={condensedAuditView}
-                                      onEdit={() => startEditingSection(index, section)}
-                                      onSaveSection={(nextSection) => {
-                                        const nextSections = programAudit.bundle.sections.map((item) => item.id === section.id ? {
-                                          ...nextSection,
-                                          specializationId: item.specializationId,
-                                        } : item);
-                                        persistProgramSections(programAudit.bundle.programId, nextSections);
-                                      }}
-                                    />
+                                    <div id={`audit-section-${index}-${section.id}`} key={section.id} className="da2-section-anchor">
+                                      <RequirementSectionTableCard
+                                        section={section}
+                                        sectionEval={sectionEval}
+                                        wildcardSlots={wildcardSlots}
+                                        onSelectWildcardCourse={handleWildcardSelection}
+                                        allCourses={courses}
+                                        courseDetails={courseDetails}
+                                        byCourseCode={byCourseCode}
+                                        expandedSectionIds={expandedSectionIds}
+                                        setExpandedSectionIds={setExpandedSectionIds}
+                                        expandedNotesSectionIds={expandedNotesSectionIds}
+                                        setExpandedNotesSectionIds={setExpandedNotesSectionIds}
+                                        condensedView={condensedAuditView}
+                                        onEdit={() => startEditingSection(index, section)}
+                                        onSaveSection={(nextSection) => {
+                                          const nextSections = programAudit.bundle.sections.map((item) => item.id === section.id ? {
+                                            ...nextSection,
+                                            specializationId: item.specializationId,
+                                          } : item);
+                                          persistProgramSections(programAudit.bundle.programId, nextSections);
+                                        }}
+                                      />
+                                    </div>
                                   );
                                 })}
 
@@ -4612,29 +4609,30 @@ export default function DegreeAudit() {
                                         }
 
                                         return (
-                                          <RequirementSectionTableCard
-                                            key={section.id}
-                                            section={section}
-                                            sectionEval={sectionEval}
-                                            wildcardSlots={wildcardSlots}
-                                            onSelectWildcardCourse={handleWildcardSelection}
-                                            allCourses={courses}
-                                            courseDetails={courseDetails}
-                                            byCourseCode={byCourseCode}
-                                            expandedSectionIds={expandedSectionIds}
-                                            setExpandedSectionIds={setExpandedSectionIds}
-                                            expandedNotesSectionIds={expandedNotesSectionIds}
-                                            setExpandedNotesSectionIds={setExpandedNotesSectionIds}
-                                            condensedView={condensedAuditView}
-                                            onEdit={() => startEditingSection(index, section)}
-                                            onSaveSection={(nextSection) => {
-                                              const nextSections = programAudit.bundle.sections.map((item) => item.id === section.id ? {
-                                                ...nextSection,
-                                                specializationId: item.specializationId,
-                                              } : item);
-                                              persistProgramSections(programAudit.bundle.programId, nextSections);
-                                            }}
-                                          />
+                                          <div id={`audit-section-${index}-${section.id}`} key={section.id} className="da2-section-anchor">
+                                            <RequirementSectionTableCard
+                                              section={section}
+                                              sectionEval={sectionEval}
+                                              wildcardSlots={wildcardSlots}
+                                              onSelectWildcardCourse={handleWildcardSelection}
+                                              allCourses={courses}
+                                              courseDetails={courseDetails}
+                                              byCourseCode={byCourseCode}
+                                              expandedSectionIds={expandedSectionIds}
+                                              setExpandedSectionIds={setExpandedSectionIds}
+                                              expandedNotesSectionIds={expandedNotesSectionIds}
+                                              setExpandedNotesSectionIds={setExpandedNotesSectionIds}
+                                              condensedView={condensedAuditView}
+                                              onEdit={() => startEditingSection(index, section)}
+                                              onSaveSection={(nextSection) => {
+                                                const nextSections = programAudit.bundle.sections.map((item) => item.id === section.id ? {
+                                                  ...nextSection,
+                                                  specializationId: item.specializationId,
+                                                } : item);
+                                                persistProgramSections(programAudit.bundle.programId, nextSections);
+                                              }}
+                                            />
+                                          </div>
                                         );
                                       })}
                                     </div>
@@ -4693,10 +4691,6 @@ export default function DegreeAudit() {
                 </p>
               </div>
             </Card>
-
-            <div className="mt-6 flex justify-end">
-              <Button className="bg-red-600 hover:bg-red-700" onClick={() => navigateWithDraftGuard("/degree-requirements")}>Review Requirement Details</Button>
-            </div>
               </>
             )}
           </section>
@@ -4704,6 +4698,81 @@ export default function DegreeAudit() {
           <aside className="da2-right-panel">
             {!loading && !errorMessage && selectedProgramAudit && (
               <>
+                <Card className="da2-sidebar-card da2-selector-card bg-card border-border p-5">
+                  <h3 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Program Settings</h3>
+                  <div className="space-y-3">
+                    <div>
+                      <p className="da2-select-label">Degree</p>
+                      <select
+                        className="da2-select"
+                        aria-label="Select degree program"
+                        value={programAudits.length > 0 ? String(selectedProgramIndex) : ""}
+                        onChange={(event) => {
+                          const next = Number.parseInt(event.target.value, 10);
+                          if (Number.isFinite(next)) {
+                            changeActiveProgramIndex(next);
+                          }
+                        }}
+                        disabled={programAudits.length === 0}
+                      >
+                        {programAudits.length === 0 && (
+                          <option value="">No selected degree programs</option>
+                        )}
+                        {programAudits.map((programAudit, index) => (
+                          <option key={`degree-select-sidebar-${programAudit.bundle.programId}-${index}`} value={index}>
+                            {programAudit.bundle.programName} ({programAudit.bundle.kind})
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <p className="da2-select-label">Specialization</p>
+                      <select
+                        className="da2-select"
+                        aria-label="Select specialization"
+                        value={selectedSpecializationId ?? ""}
+                        onChange={(event) => {
+                          const nextValue = event.target.value.trim();
+                          setProgramSpecialization(selectedProgramIndex, nextValue.length ? nextValue : null);
+                        }}
+                        disabled={
+                          !selectedProgramAudit?.bundle.specializationOptions
+                          || selectedProgramAudit.bundle.specializationOptions.length === 0
+                        }
+                      >
+                        <option value="">
+                          {selectedProgramAudit?.bundle.source === "cs-specialized"
+                            ? "General Track"
+                            : "Core Requirements Only"}
+                        </option>
+                        {(selectedProgramAudit?.bundle.specializationOptions ?? []).map((spec) => (
+                          <option key={spec.id} value={spec.id}>{spec.name}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <p className="da2-select-label">Declaration</p>
+                      <select
+                        className="da2-select"
+                        aria-label="Degree declaration mode"
+                        value={degreeDeclarationMode}
+                        onChange={(event) => {
+                          const next = event.target.value as DegreeDeclarationMode;
+                          if (next === "single" || next === "dual-major" || next === "double-degree") {
+                            setDegreeDeclarationMode(next);
+                          }
+                        }}
+                      >
+                        <option value="single">Single Major</option>
+                        <option value="dual-major">Dual Major</option>
+                        <option value="double-degree">Double Degree</option>
+                      </select>
+                    </div>
+                  </div>
+                </Card>
+
                 <Card className="da2-sidebar-card bg-card border-border p-5">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div>
@@ -4736,10 +4805,15 @@ export default function DegreeAudit() {
                   ) : (
                     <div className="space-y-2">
                       {selectedProgramNeeds.map((need) => (
-                        <div key={need.id} className="da2-need-item rounded-md border border-border bg-input-background px-3 py-2">
+                        <button
+                          key={need.id}
+                          type="button"
+                          className="da2-need-item w-full text-left rounded-md border border-border bg-input-background px-3 py-2"
+                          onClick={() => scrollToRequirementSection(need.id)}
+                        >
                           <p className="text-sm text-foreground">{need.title}</p>
                           <p className="text-xs text-muted-foreground">{need.detail}</p>
-                        </div>
+                        </button>
                       ))}
                     </div>
                   )}
@@ -4760,13 +4834,104 @@ export default function DegreeAudit() {
                       <MessageSquare className="w-4 h-4 mr-2" />
                       Text Audit
                     </Button>
-                    <Button className="w-full bg-red-600 hover:bg-red-700" onClick={() => navigateWithDraftGuard("/degree-requirements")}>Review Requirement Details</Button>
                   </div>
                 </Card>
               </>
             )}
           </aside>
         </div>
+
+        {showEditProgramsModal && (
+          <div className="da2-edit-programs-overlay no-print" onClick={closeEditProgramsModal}>
+            <Card className="da2-edit-programs-modal bg-card border-border p-5" onClick={(event) => event.stopPropagation()}>
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <div>
+                  <h2 className="text-xl text-foreground">Edit Programs</h2>
+                  <p className="text-xs text-muted-foreground mt-1">Add/remove majors or minors and set your declaration mode.</p>
+                </div>
+                <Button type="button" variant="ghost" size="icon" className="h-8 w-8" onClick={closeEditProgramsModal}>
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="da2-select-label">Declaration</p>
+                  <select
+                    className="da2-select"
+                    aria-label="Degree declaration mode"
+                    value={degreeDeclarationMode}
+                    onChange={(event) => {
+                      const next = event.target.value as DegreeDeclarationMode;
+                      if (next === "single" || next === "dual-major" || next === "double-degree") {
+                        setDegreeDeclarationMode(next);
+                      }
+                    }}
+                  >
+                    <option value="single">Single Major</option>
+                    <option value="dual-major">Dual Major</option>
+                    <option value="double-degree">Double Degree</option>
+                  </select>
+                </div>
+
+                <div>
+                  <p className="da2-select-label">Add Program</p>
+                  <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-2">
+                    <select
+                      className="da2-select"
+                      aria-label="Program to add"
+                      value={selectedProgramToAdd}
+                      onChange={(event) => setSelectedProgramToAdd(event.target.value)}
+                      disabled={programEditBusy}
+                    >
+                      <option value="">Select a major/minor program</option>
+                      {addablePrograms.map((program) => (
+                        <option key={program.key} value={program.key}>
+                          {program.name} ({program.type})
+                        </option>
+                      ))}
+                    </select>
+                    <Button type="button" variant="outline" onClick={handleAddProgramFromModal} disabled={programEditBusy || !selectedProgramToAdd}>
+                      <Plus className="h-4 w-4 mr-1" /> Add
+                    </Button>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="da2-select-label">Current Programs</p>
+                  {programs.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">No declared programs yet.</p>
+                  ) : (
+                    <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+                      {programs.map((program) => (
+                        <div key={program.id} className="da2-program-item flex items-center justify-between gap-3 rounded-md border border-border bg-input-background px-3 py-2">
+                          <div>
+                            <p className="text-sm text-foreground">{program.programName}</p>
+                            <p className="text-xs text-muted-foreground">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
+                          </div>
+                          <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            className="border-red-400 text-red-800 hover:bg-red-100 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-600/10"
+                            onClick={() => void handleRemoveProgramFromModal(program.id)}
+                            disabled={programEditBusy}
+                          >
+                            Remove
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {programEditMessage && (
+                  <p className="text-xs text-muted-foreground">{programEditMessage}</p>
+                )}
+              </div>
+            </Card>
+          </div>
+        )}
       </div>
     </div>
   );
