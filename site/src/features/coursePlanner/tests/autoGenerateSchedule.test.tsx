@@ -1,11 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { AutoGenerateSchedulePage } from "../AutoGenerateSchedulePage";
 
-const { searchCoursesWithStrategy, getSectionsForCourse } = vi.hoisted(() => ({
+const { searchCoursesWithStrategy, getSectionsForCourse, fetchTerms, saveScheduleWithSelections } = vi.hoisted(() => ({
   searchCoursesWithStrategy: vi.fn(),
   getSectionsForCourse: vi.fn(),
+  fetchTerms: vi.fn(),
+  saveScheduleWithSelections: vi.fn(),
 }));
 
 vi.mock("../services/courseSearchService", () => ({
@@ -13,404 +15,338 @@ vi.mock("../services/courseSearchService", () => ({
   getSectionsForCourse,
 }));
 
+vi.mock("@/lib/api/umdCourses", () => ({
+  fetchTerms,
+}));
+
+vi.mock("@/lib/repositories/userSchedulesRepository", () => ({
+  saveScheduleWithSelections,
+}));
+
+const COURSE_DATA: Record<string, any> = {
+  CMSC131: {
+    id: "CMSC131-202608",
+    courseCode: "CMSC131",
+    name: "Object-Oriented Programming I",
+    deptId: "CMSC",
+    credits: 4,
+    minCredits: 4,
+    maxCredits: 4,
+    genEds: [],
+    term: "08",
+    year: 2026,
+  },
+  MATH140: {
+    id: "MATH140-202608",
+    courseCode: "MATH140",
+    name: "Calculus I",
+    deptId: "MATH",
+    credits: 4,
+    minCredits: 4,
+    maxCredits: 4,
+    genEds: [],
+    term: "08",
+    year: 2026,
+  },
+  ENGL101: {
+    id: "ENGL101-202608",
+    courseCode: "ENGL101",
+    name: "Academic Writing",
+    deptId: "ENGL",
+    credits: 4,
+    minCredits: 4,
+    maxCredits: 4,
+    genEds: [],
+    term: "08",
+    year: 2026,
+  },
+  CHEM111: {
+    id: "CHEM111-202608",
+    courseCode: "CHEM111",
+    name: "General Chemistry I",
+    deptId: "CHEM",
+    credits: 4,
+    minCredits: 4,
+    maxCredits: 4,
+    genEds: [],
+    term: "08",
+    year: 2026,
+  },
+  PHYS161: {
+    id: "PHYS161-202608",
+    courseCode: "PHYS161",
+    name: "General Physics: Mechanics",
+    deptId: "PHYS",
+    credits: 3,
+    minCredits: 3,
+    maxCredits: 3,
+    genEds: [],
+    term: "08",
+    year: 2026,
+  },
+};
+
+function defaultSearchMock({ normalizedInput }: { normalizedInput: string }) {
+  const needle = String(normalizedInput || "").toUpperCase();
+  if (!needle) {
+    return Promise.resolve([]);
+  }
+
+  const values = Object.values(COURSE_DATA).filter((course) => (
+    course.courseCode.includes(needle) || course.name.toUpperCase().includes(needle)
+  ));
+
+  return Promise.resolve(values);
+}
+
+function defaultSectionsMock(courseCode: string) {
+  if (courseCode === "CMSC131") {
+    return Promise.resolve([
+      {
+        id: "CMSC131-0201",
+        courseCode: "CMSC131",
+        sectionCode: "0201",
+        instructor: "Bob",
+        instructors: ["Bob"],
+        totalSeats: 30,
+        openSeats: 0,
+        meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
+      },
+      {
+        id: "CMSC131-0101",
+        courseCode: "CMSC131",
+        sectionCode: "0101",
+        instructor: "Alice",
+        instructors: ["Alice"],
+        totalSeats: 30,
+        openSeats: 6,
+        meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
+      },
+    ]);
+  }
+
+  if (courseCode === "MATH140") {
+    return Promise.resolve([
+      {
+        id: "MATH140-0101",
+        courseCode: "MATH140",
+        sectionCode: "0101",
+        instructor: "Carol",
+        instructors: ["Carol"],
+        totalSeats: 35,
+        openSeats: 10,
+        meetings: [{ days: "TuTh", startTime: "10:00am", endTime: "11:15am", location: "ESJ 2204" }],
+      },
+    ]);
+  }
+
+  if (courseCode === "ENGL101") {
+    return Promise.resolve([
+      {
+        id: "ENGL101-0101",
+        courseCode: "ENGL101",
+        sectionCode: "0101",
+        instructor: "Dana",
+        instructors: ["Dana"],
+        totalSeats: 20,
+        openSeats: 8,
+        meetings: [{ days: "TuTh", startTime: "12:30pm", endTime: "1:45pm", location: "TWS 1100" }],
+      },
+    ]);
+  }
+
+  if (courseCode === "CHEM111") {
+    return Promise.resolve([
+      {
+        id: "CHEM111-0101",
+        courseCode: "CHEM111",
+        sectionCode: "0101",
+        instructor: "Frank",
+        instructors: ["Frank"],
+        totalSeats: 24,
+        openSeats: 12,
+        meetings: [{ days: "TuTh", startTime: "12:30pm", endTime: "1:45pm", location: "CHM 1202" }],
+      },
+    ]);
+  }
+
+  if (courseCode === "PHYS161") {
+    return Promise.resolve([
+      {
+        id: "PHYS161-0101",
+        courseCode: "PHYS161",
+        sectionCode: "0101",
+        instructor: "Erin",
+        instructors: ["Erin"],
+        totalSeats: 40,
+        openSeats: 20,
+        meetings: [{ days: "MWF", startTime: "9:15am", endTime: "10:05am", location: "PHY 1201" }],
+      },
+    ]);
+  }
+
+  return Promise.resolve([]);
+}
+
+function renderPage() {
+  return render(
+    <MemoryRouter>
+      <AutoGenerateSchedulePage />
+    </MemoryRouter>
+  );
+}
+
+async function openAddCoursePanel() {
+  if (!screen.queryByLabelText("Search courses to add")) {
+    fireEvent.click(screen.getByRole("button", { name: "Add a course" }));
+  }
+
+  await screen.findByLabelText("Search courses to add");
+}
+
+async function addCourse(code: string, kind: "required" | "optional" = "required") {
+  await openAddCoursePanel();
+
+  fireEvent.change(screen.getByLabelText("Add as"), {
+    target: { value: kind },
+  });
+
+  fireEvent.change(screen.getByLabelText("Search courses to add"), {
+    target: { value: code },
+  });
+
+  const option = await screen.findByRole("button", { name: new RegExp(code, "i") });
+  fireEvent.click(option);
+}
+
+function setCreditRange(minValue: string, maxValue: string) {
+  fireEvent.change(screen.getByLabelText("Minimum credits"), { target: { value: minValue } });
+  fireEvent.change(screen.getByLabelText("Maximum credits"), { target: { value: maxValue } });
+}
+
 describe("AutoGenerateSchedulePage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    localStorage.clear();
 
-    searchCoursesWithStrategy.mockImplementation(async ({ normalizedInput }: { normalizedInput: string }) => {
-      const courses: Record<string, unknown> = {
-        CMSC131: {
-          id: "CMSC131-202608",
-          courseCode: "CMSC131",
-          name: "Object-Oriented Programming I",
-          deptId: "CMSC",
-          credits: 4,
-          minCredits: 4,
-          maxCredits: 4,
-          genEds: [],
-          term: "08",
-          year: 2026,
-        },
-        MATH140: {
-          id: "MATH140-202608",
-          courseCode: "MATH140",
-          name: "Calculus I",
-          deptId: "MATH",
-          credits: 4,
-          minCredits: 4,
-          maxCredits: 4,
-          genEds: [],
-          term: "08",
-          year: 2026,
-        },
-        ENGL101: {
-          id: "ENGL101-202608",
-          courseCode: "ENGL101",
-          name: "Academic Writing",
-          deptId: "ENGL",
-          credits: 4,
-          minCredits: 4,
-          maxCredits: 4,
-          genEds: [],
-          term: "08",
-          year: 2026,
-        },
-        CHEM111: {
-          id: "CHEM111-202608",
-          courseCode: "CHEM111",
-          name: "General Chemistry I",
-          deptId: "CHEM",
-          credits: 3,
-          minCredits: 3,
-          maxCredits: 3,
-          genEds: [],
-          term: "08",
-          year: 2026,
-        },
-      };
+    fetchTerms.mockResolvedValue([
+      { code: "202612", season: "winter", year: 2026, label: "Winter 2026" },
+      { code: "202701", season: "spring", year: 2027, label: "Spring 2027" },
+      { code: "202708", season: "fall", year: 2027, label: "Fall 2027" },
+      { code: "202608", season: "fall", year: 2026, label: "Fall 2026" },
+    ]);
 
-      return courses[normalizedInput] ? [courses[normalizedInput]] : [];
-    });
-
-    getSectionsForCourse.mockImplementation(async (courseCode: string) => {
-      if (courseCode === "CMSC131") {
-        return [
-          {
-            id: "CMSC131-0101",
-            courseCode: "CMSC131",
-            sectionCode: "0101",
-            instructor: "Alice",
-            instructors: ["Alice"],
-            totalSeats: 30,
-            openSeats: 6,
-            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
-          },
-          {
-            id: "CMSC131-0201",
-            courseCode: "CMSC131",
-            sectionCode: "0201",
-            instructor: "Bob",
-            instructors: ["Bob"],
-            totalSeats: 30,
-            openSeats: 0,
-            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
-          },
-        ];
-      }
-
-      if (courseCode === "MATH140") {
-        return [
-          {
-            id: "MATH140-0101",
-            courseCode: "MATH140",
-            sectionCode: "0101",
-            instructor: "Carol",
-            instructors: ["Carol"],
-            totalSeats: 30,
-            openSeats: 10,
-            meetings: [{ days: "TuTh", startTime: "10:00am", endTime: "11:15am", location: "ESJ 2204" }],
-          },
-        ];
-      }
-
-      if (courseCode === "ENGL101") {
-        return [
-          {
-            id: "ENGL101-0101",
-            courseCode: "ENGL101",
-            sectionCode: "0101",
-            instructor: "Dana",
-            instructors: ["Dana"],
-            totalSeats: 20,
-            openSeats: 8,
-            meetings: [{ days: "MWF", startTime: "9:30am", endTime: "10:20am", location: "TWS 1100" }],
-          },
-          {
-            id: "ENGL101-0201",
-            courseCode: "ENGL101",
-            sectionCode: "0201",
-            instructor: "Evan",
-            instructors: ["Evan"],
-            totalSeats: 20,
-            openSeats: 7,
-            meetings: [{ days: "TuTh", startTime: "12:00pm", endTime: "12:50pm", location: "TWS 1101" }],
-          },
-        ];
-      }
-
-      if (courseCode === "CHEM111") {
-        return [
-          {
-            id: "CHEM111-0101",
-            courseCode: "CHEM111",
-            sectionCode: "0101",
-            instructor: "Frank",
-            instructors: ["Frank"],
-            totalSeats: 24,
-            openSeats: 12,
-            meetings: [{ days: "MWF", startTime: "9:15am", endTime: "10:05am", location: "CHM 1202" }],
-          },
-        ];
-      }
-
-      return [];
-    });
+    searchCoursesWithStrategy.mockImplementation(defaultSearchMock);
+    getSectionsForCourse.mockImplementation(defaultSectionsMock);
+    saveScheduleWithSelections.mockResolvedValue({ id: "saved-1" });
   });
 
-  function renderPage() {
-    return render(
-      <MemoryRouter>
-        <AutoGenerateSchedulePage />
-      </MemoryRouter>
-    );
-  }
-
-  it("generates schedules maximizing optional inclusion and supports seat display toggle", async () => {
+  it("changes term and generates schedules with rendered cards", async () => {
     renderPage();
 
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131 MATH140" },
-    });
-    fireEvent.change(screen.getByLabelText("Optional Courses"), {
-      target: { value: "ENGL101" },
-    });
-    fireEvent.change(screen.getByLabelText("Min Credits"), {
-      target: { value: "8" },
-    });
+    await addCourse("CMSC131", "required");
+    setCreditRange("4", "8");
+
+    fireEvent.click(screen.getByRole("button", { name: "Spring" }));
+    fireEvent.change(screen.getByLabelText("Academic year"), { target: { value: "2027" } });
 
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
-    expect(await screen.findByText(/Generated Schedules \(1\)/)).toBeInTheDocument();
-    expect(screen.getByText("Max optional fit: 1/1")).toBeInTheDocument();
-    expect(screen.getByText("Option 1 of 1")).toBeInTheDocument();
-    expect(screen.getByText("Classes: 3")).toBeInTheDocument();
-    expect(screen.getByText("Earliest: 9:00 AM")).toBeInTheDocument();
-    expect(screen.getByText("Latest: 12:50 PM")).toBeInTheDocument();
-    expect(screen.getByTestId("generated-schedule-calendar")).toBeInTheDocument();
+    expect(await screen.findByTestId("generated-card-1")).toBeInTheDocument();
+    expect(screen.getByText(/conflict-free options for Spring 2027/i)).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(getSectionsForCourse).toHaveBeenCalledWith("CMSC131", "01", 2027);
+    });
+  });
+
+  it("uses course priority ordering when optional courses conflict", async () => {
+    renderPage();
+
+    await addCourse("CMSC131", "required");
+    await addCourse("ENGL101", "optional");
+    await addCourse("CHEM111", "optional");
+
+    setCreditRange("4", "8");
+
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    const initialCard = await screen.findByTestId("generated-card-1");
+    expect(within(initialCard).getByText("ENGL101")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "Move CHEM111 up" }));
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    await waitFor(() => {
+      const updatedCard = screen.getByTestId("generated-card-1");
+      expect(within(updatedCard).getByText("CHEM111")).toBeInTheDocument();
+      expect(within(updatedCard).queryByText("ENGL101")).not.toBeInTheDocument();
+    });
+  });
+
+  it("applies credit, modality, open-only, and time/day constraints", async () => {
+    renderPage();
+
+    await addCourse("CMSC131", "required");
+
+    setCreditRange("4", "4");
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    await screen.findByTestId("generated-card-1");
     expect(screen.queryAllByTestId("class-block-CMSC131::0101").length).toBeGreaterThan(0);
     expect(screen.queryAllByTestId("class-block-CMSC131::0201").length).toBe(0);
-    expect(screen.queryAllByTestId("class-block-ENGL101::0201").length).toBeGreaterThan(0);
-    expect(screen.queryAllByTestId("class-block-ENGL101::0101").length).toBe(0);
 
-    fireEvent.click(screen.getByLabelText("Show seats (e.g. COMM107 30/50)"));
-    expect(screen.getAllByText("CMSC131 6/30").length).toBeGreaterThan(0);
-  });
-
-  it("falls back to max feasible optional count and shows unfittable optional courses", async () => {
-    getSectionsForCourse.mockImplementation(async (courseCode: string) => {
-      if (courseCode === "CMSC131") {
-        return [
-          {
-            id: "CMSC131-0101",
-            courseCode: "CMSC131",
-            sectionCode: "0101",
-            instructor: "Alice",
-            instructors: ["Alice"],
-            totalSeats: 30,
-            openSeats: 6,
-            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
-          },
-        ];
-      }
-
-      if (courseCode === "MATH140") {
-        return [
-          {
-            id: "MATH140-0101",
-            courseCode: "MATH140",
-            sectionCode: "0101",
-            instructor: "Carol",
-            instructors: ["Carol"],
-            totalSeats: 30,
-            openSeats: 10,
-            meetings: [{ days: "TuTh", startTime: "10:00am", endTime: "11:15am", location: "ESJ 2204" }],
-          },
-        ];
-      }
-
-      if (courseCode === "ENGL101") {
-        return [
-          {
-            id: "ENGL101-0101",
-            courseCode: "ENGL101",
-            sectionCode: "0101",
-            instructor: "Dana",
-            instructors: ["Dana"],
-            totalSeats: 20,
-            openSeats: 8,
-            meetings: [{ days: "MWF", startTime: "9:30am", endTime: "10:20am", location: "TWS 1100" }],
-          },
-        ];
-      }
-
-      return [];
-    });
-
-    renderPage();
-
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131 MATH140" },
-    });
-    fireEvent.change(screen.getByLabelText("Optional Courses"), {
-      target: { value: "ENGL101" },
-    });
-    fireEvent.change(screen.getByLabelText("Min Credits"), {
-      target: { value: "8" },
-    });
-
+    fireEvent.click(screen.getByRole("checkbox", { name: "Open sections only" }));
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
-    expect(await screen.findByText(/Generated Schedules \(1\)/)).toBeInTheDocument();
-    expect(screen.getByText("Max optional fit: 0/1")).toBeInTheDocument();
-    expect(screen.getByText(/Could not fit these optional courses without conflicts: ENGL101/)).toBeInTheDocument();
-    expect(screen.getByText("Classes: 2")).toBeInTheDocument();
-  });
-
-  it("respects time constraints on selected days", async () => {
-    renderPage();
-
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131" },
-    });
-    fireEvent.change(screen.getByLabelText("Start"), {
-      target: { value: "10:00" },
-    });
-    fireEvent.change(screen.getByLabelText("End"), {
-      target: { value: "17:00" },
+    await waitFor(() => {
+      expect(screen.queryAllByTestId("class-block-CMSC131::0201").length).toBeGreaterThan(0);
     });
 
+    fireEvent.click(screen.getByRole("button", { name: "In-person" }));
+    fireEvent.click(screen.getByRole("button", { name: "Blended" }));
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    expect(await screen.findByTestId("generate-error-state")).toHaveTextContent(/No valid sections remain/i);
+
+    fireEvent.click(screen.getByRole("button", { name: "In-person" }));
+    fireEvent.change(screen.getByLabelText("Earliest start"), { target: { value: "10:00" } });
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    expect(await screen.findByTestId("generate-error-state")).toHaveTextContent(/No valid sections remain/i);
+
+    fireEvent.change(screen.getByLabelText("Earliest start"), { target: { value: "08:00" } });
     fireEvent.click(screen.getByRole("button", { name: "M" }));
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
-    await waitFor(() => {
-      expect(screen.getByText(/No valid sections remain for CMSC131 after applying criteria/)).toBeInTheDocument();
-    });
+    expect(await screen.findByTestId("generate-error-state")).toHaveTextContent(/No valid sections remain/i);
   });
 
-  it("shows no schedules when required courses cannot fit together", async () => {
+  it("shows no-results message when required courses cannot fit together", async () => {
     renderPage();
 
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131 CHEM111" },
-    });
-    fireEvent.change(screen.getByLabelText("Min Credits"), {
-      target: { value: "7" },
-    });
+    await addCourse("CMSC131", "required");
+    await addCourse("PHYS161", "required");
+
+    setCreditRange("7", "10");
 
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
-    await waitFor(() => {
-      expect(screen.getByText(/No conflict-free schedules found for required courses under current criteria/)).toBeInTheDocument();
-    });
+    expect(await screen.findByTestId("generate-error-state")).toHaveTextContent(
+      /No conflict-free schedules found for required courses under current criteria/i
+    );
   });
 
-  it("does not switch generated schedule on mostly vertical wheel scroll", async () => {
+  it("shows API failure error state", async () => {
     renderPage();
 
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131" },
-    });
-    fireEvent.change(screen.getByLabelText("Optional Courses"), {
-      target: { value: "ENGL101" },
-    });
-    fireEvent.change(screen.getByLabelText("Min Credits"), {
-      target: { value: "4" },
-    });
+    await addCourse("CMSC131", "required");
+    setCreditRange("4", "8");
+
+    searchCoursesWithStrategy.mockRejectedValueOnce(new Error("Catalog unavailable"));
 
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
-    const generatedLabel = await screen.findByText(/Generated Schedules \(\d+\)/);
-    expect(generatedLabel).toBeInTheDocument();
-
-    const countMatch = generatedLabel.textContent?.match(/Generated Schedules \((\d+)\)/);
-    const generatedCount = Number(countMatch?.[1] ?? 0);
-    if (generatedCount <= 1) {
-      return;
-    }
-
-    const scroller = screen.getByTestId("generated-schedule-calendar").closest(".cp-generate-result-list");
-    expect(scroller).not.toBeNull();
-    if (!scroller) return;
-
-    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
-
-    fireEvent.wheel(scroller, { deltaX: 10, deltaY: 50 });
-
-    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
-  });
-
-  it("switches generated schedule on clearly horizontal wheel scroll", async () => {
-    renderPage();
-
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131" },
-    });
-    fireEvent.change(screen.getByLabelText("Optional Courses"), {
-      target: { value: "ENGL101" },
-    });
-    fireEvent.change(screen.getByLabelText("Min Credits"), {
-      target: { value: "4" },
-    });
-
-    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
-
-    const generatedLabel = await screen.findByText(/Generated Schedules \(\d+\)/);
-    expect(generatedLabel).toBeInTheDocument();
-
-    const countMatch = generatedLabel.textContent?.match(/Generated Schedules \((\d+)\)/);
-    const generatedCount = Number(countMatch?.[1] ?? 0);
-    if (generatedCount <= 1) {
-      return;
-    }
-
-    const scroller = screen.getByTestId("generated-schedule-calendar").closest(".cp-generate-result-list");
-    expect(scroller).not.toBeNull();
-    if (!scroller) return;
-
-    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
-
-    fireEvent.wheel(scroller, { deltaX: 120, deltaY: 20 });
-
-    expect(await screen.findByText(new RegExp(`Option 2 of ${generatedCount}`))).toBeInTheDocument();
-  });
-
-  it("does not switch generated schedule on mostly vertical touch gesture", async () => {
-    renderPage();
-
-    fireEvent.change(screen.getByLabelText("Required Courses"), {
-      target: { value: "CMSC131" },
-    });
-    fireEvent.change(screen.getByLabelText("Optional Courses"), {
-      target: { value: "ENGL101" },
-    });
-    fireEvent.change(screen.getByLabelText("Min Credits"), {
-      target: { value: "4" },
-    });
-
-    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
-
-    const generatedLabel = await screen.findByText(/Generated Schedules \(\d+\)/);
-    expect(generatedLabel).toBeInTheDocument();
-
-    const countMatch = generatedLabel.textContent?.match(/Generated Schedules \((\d+)\)/);
-    const generatedCount = Number(countMatch?.[1] ?? 0);
-    if (generatedCount <= 1) {
-      return;
-    }
-
-    const scroller = screen.getByTestId("generated-schedule-calendar").closest(".cp-generate-result-list");
-    expect(scroller).not.toBeNull();
-    if (!scroller) return;
-
-    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
-
-    fireEvent.touchStart(scroller, {
-      touches: [{ clientX: 200, clientY: 100 }],
-    });
-    fireEvent.touchEnd(scroller, {
-      changedTouches: [{ clientX: 150, clientY: 20 }],
-    });
-
-    expect(screen.getByText(new RegExp(`Option 1 of ${generatedCount}`))).toBeInTheDocument();
+    expect(await screen.findByTestId("generate-error-state")).toHaveTextContent("Catalog unavailable");
   });
 });

@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OrbitUMD — Generate Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --red: #C62828;
+  --red-mid: #E53935;
+  --red-light: #EF9A9A;
+  --red-glow: rgba(198,40,40,0.12);
+  --gold: #F9A825;
+  --cream: #FDFAF5;
+  --ink: #17120E;
+  --ink-2: #3D2E26;
+  --ink-muted: #7A6358;
+  --ink-ghost: #B09A8E;
+  --surface: #FFFFFF;
+  --surface-2: #FAF7F3;
+  --border: rgba(198,40,40,0.1);
+  --border-soft: rgba(55,35,25,0.08);
+  --shadow-sm: 0 1px 4px rgba(23,18,14,0.06), 0 4px 16px rgba(23,18,14,0.04);
+  --shadow-md: 0 2px 8px rgba(23,18,14,0.07), 0 8px 28px rgba(23,18,14,0.07);
+  --r: 12px;
+}
+
+html, body { height: 100%; background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 200; opacity: 0.55;
+}
+
+.shell { display: grid; grid-template-columns: 240px 1fr; height: 100vh; overflow: hidden; }
+
+/* SIDEBAR (reuse from dashboard) */
+.sidebar {
+  background: var(--ink); display: flex; flex-direction: column;
+  padding: 0; position: relative; overflow: hidden;
+}
+.sidebar::before {
+  content: ''; position: absolute; bottom: -80px; left: -80px;
+  width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(198,40,40,0.18) 0%, transparent 65%);
+  pointer-events: none;
+}
+.sidebar-logo {
+  padding: 28px 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+}
+.logo-text { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; color: var(--cream); letter-spacing: -0.02em; }
+.logo-text span { color: #EF9A9A; }
+.nav-section { padding: 20px 12px 8px; flex: 1; overflow-y: auto; }
+.nav-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.28); font-weight: 500; padding: 0 12px; margin-bottom: 6px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; cursor: pointer; color: rgba(255,255,255,0.5); font-size: 0.84rem; font-weight: 400; text-decoration: none; transition: all 0.15s; margin-bottom: 1px; position: relative; }
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+.nav-item.active { color: #fff; background: rgba(198,40,40,0.25); font-weight: 500; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; background: var(--red-mid); border-radius: 0 2px 2px 0; }
+.nav-icon { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+.nav-item.active .nav-icon { opacity: 1; }
+.nav-badge { margin-left: auto; background: var(--red-mid); color: white; font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 100px; }
+.nav-gap { height: 20px; }
+.sidebar-user { padding: 16px 24px 20px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #E53935, #F9A825); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.85rem; color: white; }
+.user-name { font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.88); }
+.user-role { font-size: 0.7rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
+
+/* MAIN */
+.main { display: flex; flex-direction: column; overflow: hidden; }
+.topbar { padding: 18px 36px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-soft); background: var(--cream); flex-shrink: 0; }
+.topbar-left h2 { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.025em; }
+.topbar-left p { font-size: 0.8rem; color: var(--ink-muted); margin-top: 2px; font-weight: 300; }
+.autosave { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--ink-ghost); }
+.autosave-dot { width: 6px; height: 6px; border-radius: 50%; background: #4CAF50; animation: pulse-green 2s ease-in-out infinite; }
+@keyframes pulse-green { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+/* CONTENT LAYOUT */
+.content { flex: 1; overflow-y: auto; display: grid; grid-template-columns: 380px 1fr; gap: 0; }
+.content::-webkit-scrollbar { width: 5px; }
+.content::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+/* LEFT PANEL — Configuration */
+.config-panel { border-right: 1px solid var(--border-soft); padding: 28px 28px 48px; overflow-y: auto; display: flex; flex-direction: column; gap: 24px; }
+.config-panel::-webkit-scrollbar { width: 4px; }
+.config-panel::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+.section-block { display: flex; flex-direction: column; gap: 12px; }
+.section-head { display: flex; align-items: center; justify-content: space-between; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+.section-hint { font-size: 0.72rem; color: var(--ink-ghost); font-weight: 300; }
+
+/* Term Selector */
+.term-tabs { display: flex; gap: 4px; background: var(--surface-2); border: 1px solid var(--border-soft); border-radius: 10px; padding: 4px; }
+.term-tab { flex: 1; padding: 7px 4px; text-align: center; font-size: 0.75rem; font-weight: 500; color: var(--ink-muted); border-radius: 7px; cursor: pointer; transition: all 0.18s; border: none; background: none; font-family: 'DM Sans', sans-serif; }
+.term-tab:hover { color: var(--ink-2); background: rgba(255,255,255,0.6); }
+.term-tab.active { background: var(--surface); color: var(--red); box-shadow: 0 1px 4px rgba(23,18,14,0.1); font-weight: 600; }
+
+.year-select { width: 100%; padding: 10px 14px; background: var(--surface); border: 1.5px solid var(--border-soft); border-radius: 9px; font-family: 'DM Sans', sans-serif; font-size: 0.87rem; color: var(--ink); outline: none; transition: border-color 0.2s; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23B09A8E' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
+.year-select:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(198,40,40,0.09); }
+
+/* Course List */
+.course-list { display: flex; flex-direction: column; gap: 8px; }
+.course-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px;
+  background: var(--surface); border: 1.5px solid var(--border-soft); border-radius: 9px;
+  cursor: pointer; transition: all 0.18s;
+  animation: slideInItem 0.3s ease both;
+}
+.course-item:hover { border-color: rgba(198,40,40,0.25); }
+.course-item.required { border-left: 3px solid var(--red); }
+.course-item.optional { border-left: 3px solid var(--gold); }
+.course-code { font-size: 0.72rem; font-weight: 600; color: var(--red); letter-spacing: 0.04em; min-width: 68px; }
+.course-item.optional .course-code { color: #9C6E00; }
+.course-name { font-size: 0.8rem; font-weight: 500; color: var(--ink-2); flex: 1; }
+.course-type-badge { font-size: 0.62rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+.badge-req { background: rgba(198,40,40,0.09); color: var(--red); }
+.badge-opt { background: rgba(249,168,37,0.12); color: #9C6E00; }
+.course-remove { color: var(--ink-ghost); opacity: 0; transition: opacity 0.15s; cursor: pointer; border: none; background: none; padding: 2px; display: flex; align-items: center; }
+.course-item:hover .course-remove { opacity: 1; }
+.course-remove:hover { color: var(--red); }
+
+.parse-info {
+  display: flex; align-items: center; gap: 8px;
+  padding: 9px 12px; background: rgba(198,40,40,0.05); border: 1px solid rgba(198,40,40,0.15); border-radius: 8px;
+  font-size: 0.75rem; color: var(--ink-muted); font-weight: 400;
+}
+.parse-info strong { color: var(--red); font-weight: 600; }
+
+.add-course-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 14px; border: 1.5px dashed var(--border-soft); border-radius: 9px;
+  background: none; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: var(--ink-ghost);
+  cursor: pointer; transition: all 0.18s; width: 100%;
+}
+.add-course-btn:hover { border-color: rgba(198,40,40,0.35); color: var(--red); background: rgba(198,40,40,0.03); }
+
+/* Toggle */
+.toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; }
+.toggle-label { font-size: 0.82rem; font-weight: 400; color: var(--ink-2); }
+.toggle-sub { font-size: 0.72rem; color: var(--ink-ghost); font-weight: 300; margin-top: 1px; }
+.toggle { position: relative; width: 38px; height: 22px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-track {
+  position: absolute; inset: 0; background: #DDD0C8; border-radius: 11px;
+  cursor: pointer; transition: background 0.25s;
+}
+.toggle input:checked + .toggle-track { background: var(--red); }
+.toggle-thumb {
+  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
+  background: white; border-radius: 50%; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+.toggle input:checked ~ .toggle-thumb { transform: translateX(16px); }
+
+/* Modality Pills */
+.modality-group { display: flex; gap: 6px; flex-wrap: wrap; }
+.modality-pill { padding: 6px 14px; border: 1.5px solid var(--border-soft); background: var(--surface); border-radius: 100px; font-size: 0.78rem; color: var(--ink-muted); cursor: pointer; transition: all 0.18s; font-family: 'DM Sans', sans-serif; font-weight: 400; }
+.modality-pill:hover { border-color: rgba(198,40,40,0.3); color: var(--red); }
+.modality-pill.active { background: rgba(198,40,40,0.08); border-color: var(--red); color: var(--red); font-weight: 500; }
+
+/* Credit Range */
+.credit-range { display: flex; align-items: center; gap: 8px; }
+.credit-input { width: 60px; padding: 8px 10px; border: 1.5px solid var(--border-soft); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.87rem; color: var(--ink); text-align: center; outline: none; transition: border-color 0.2s; }
+.credit-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(198,40,40,0.09); }
+.credit-dash { color: var(--ink-ghost); font-size: 0.85rem; }
+.credit-label { font-size: 0.78rem; color: var(--ink-muted); font-weight: 300; }
+
+/* Time Constraint */
+.time-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.time-field label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--ink-muted); margin-bottom: 5px; letter-spacing: 0.01em; }
+.time-field input[type="time"] { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border-soft); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--ink); outline: none; transition: border-color 0.2s; background: var(--surface); }
+.time-field input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(198,40,40,0.09); }
+
+.day-pills { display: flex; gap: 5px; }
+.day-pill { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid var(--border-soft); background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 600; color: var(--ink-muted); cursor: pointer; transition: all 0.18s; }
+.day-pill:hover { border-color: rgba(198,40,40,0.35); color: var(--red); }
+.day-pill.active { background: rgba(198,40,40,0.1); border-color: var(--red); color: var(--red); }
+.day-hint { font-size: 0.7rem; color: var(--ink-ghost); font-weight: 300; margin-top: 6px; }
+
+/* Generate Button */
+.generate-btn {
+  width: 100%; padding: 15px; background: var(--red); color: white;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+  border: none; border-radius: 10px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(198,40,40,0.3);
+  transition: all 0.2s; letter-spacing: 0.01em;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+}
+.generate-btn::before {
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transition: left 0.4s ease;
+}
+.generate-btn:hover { background: #B71C1C; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(198,40,40,0.4); }
+.generate-btn:hover::before { left: 100%; }
+.generate-btn:active { transform: translateY(0); }
+.generate-btn.loading { pointer-events: none; }
+.spinner { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Divider */
+.divider { height: 1px; background: var(--border-soft); margin: 4px 0; }
+
+/* RIGHT PANEL — Results */
+.results-panel { padding: 28px 36px 48px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+.results-panel::-webkit-scrollbar { width: 5px; }
+.results-panel::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+.results-header { display: flex; align-items: center; justify-content: space-between; }
+.results-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--ink); }
+.results-count { font-size: 0.78rem; color: var(--ink-muted); font-weight: 300; }
+.results-actions { display: flex; gap: 8px; }
+.results-btn { padding: 7px 14px; border: 1px solid var(--border-soft); background: var(--surface); border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: var(--ink-2); cursor: pointer; transition: all 0.15s; }
+.results-btn:hover { border-color: rgba(198,40,40,0.25); color: var(--red); }
+.results-btn.primary { background: var(--red); color: white; border-color: var(--red); }
+.results-btn.primary:hover { background: #B71C1C; }
+
+/* Empty State */
+.empty-state {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 60px 40px; gap: 14px;
+  animation: fadeUp 0.5s ease both;
+}
+.empty-icon { width: 72px; height: 72px; background: rgba(198,40,40,0.06); border: 1px solid rgba(198,40,40,0.15); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: var(--red-light); margin: 0 auto; }
+.empty-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+.empty-sub { font-size: 0.85rem; color: var(--ink-muted); font-weight: 300; line-height: 1.6; max-width: 320px; }
+
+/* Schedule Result Cards */
+.schedule-card {
+  background: var(--surface); border: 1.5px solid var(--border-soft); border-radius: var(--r);
+  overflow: hidden; box-shadow: var(--shadow-sm);
+  transition: all 0.2s; cursor: pointer;
+  animation: slideInCard 0.4s ease both;
+}
+.schedule-card:hover { border-color: rgba(198,40,40,0.25); box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.schedule-card.pinned { border-color: var(--red); }
+
+.schedule-card-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border-soft); }
+.sched-num { width: 28px; height: 28px; border-radius: 8px; background: rgba(198,40,40,0.08); border: 1px solid rgba(198,40,40,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 0.8rem; font-weight: 700; color: var(--red); }
+.sched-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); flex: 1; }
+.sched-credits { font-size: 0.75rem; color: var(--ink-muted); }
+.sched-actions { display: flex; gap: 6px; }
+.sched-action { padding: 5px 10px; border: 1px solid var(--border-soft); border-radius: 6px; font-size: 0.72rem; color: var(--ink-muted); cursor: pointer; transition: all 0.15s; font-family: 'DM Sans', sans-serif; background: none; }
+.sched-action:hover { border-color: rgba(198,40,40,0.3); color: var(--red); }
+.sched-action.main-btn { background: var(--red); color: white; border-color: var(--red); font-weight: 500; }
+.sched-action.main-btn:hover { background: #B71C1C; }
+
+/* Mini Week Grid */
+.week-grid { display: grid; grid-template-columns: 40px repeat(5, 1fr); gap: 0; padding: 12px 16px; }
+.week-header { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-ghost); text-align: center; padding-bottom: 8px; font-weight: 500; }
+.week-time { font-size: 0.6rem; color: var(--ink-ghost); text-align: right; padding-right: 6px; line-height: 1; }
+.week-cell { border-left: 1px solid var(--border-soft); position: relative; min-height: 80px; }
+.week-cell:first-of-type { border-left: none; }
+
+.course-block {
+  position: absolute; left: 2px; right: 2px;
+  border-radius: 5px; padding: 3px 5px;
+  font-size: 0.6rem; font-weight: 600; color: white;
+  overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  transition: opacity 0.15s;
+}
+.course-block:hover { opacity: 0.85; }
+.cb-1 { background: var(--red); }
+.cb-2 { background: #1565C0; }
+.cb-3 { background: #2E7D32; }
+.cb-4 { background: #6A1B9A; }
+.cb-5 { background: #E65100; }
+
+.sched-course-list { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px solid var(--border-soft); background: var(--surface-2); }
+.sched-chip { display: flex; align-items: center; gap: 5px; padding: 4px 10px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 6px; font-size: 0.72rem; }
+.sched-chip-code { font-weight: 600; color: var(--red); }
+.sched-chip-seats { font-size: 0.66rem; color: var(--ink-ghost); }
+.sched-chip-seats.low { color: #E65100; }
+
+@keyframes slideInCard { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideInItem { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a class="sidebar-logo" href="#">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="3.5" fill="#EF5350"/>
+        <circle cx="16" cy="16" r="9" stroke="#EF5350" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <circle cx="16" cy="7" r="2.2" fill="#EF5350"/>
+        <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/>
+        <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/>
+      </svg>
+      <span class="logo-text">Orbit<span>UMD</span></span>
+    </a>
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <a class="nav-item" href="orbitumd-dashboard.html">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        My Four-Year Plan
+      </a>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Scheduling</div>
+      <a class="nav-item active" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Generate Schedule
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6h12M6 2v12" stroke="currentColor" stroke-width="1.2"/></svg>
+        My Schedules
+        <span class="nav-badge">3</span>
+      </a>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Requirements</div>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Degree Audit
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 13L6 3l4 7 3-4 1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Gen Eds
+        <span class="nav-badge">2</span>
+      </a>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M4 5h8M4 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Suggestions
+      </a>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar">AJ</div>
+      <div>
+        <div class="user-name">Alex Johnson</div>
+        <div class="user-role">Junior · CS + Math</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2>Generate Schedule</h2>
+        <p>Configure your criteria, then let OrbitUMD find every conflict-free combination.</p>
+      </div>
+      <div class="autosave">
+        <div class="autosave-dot"></div>
+        Criteria saved · 6:27 PM
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- LEFT: Configuration -->
+      <div class="config-panel">
+
+        <!-- Term -->
+        <div class="section-block">
+          <div class="section-head">
+            <div class="section-title">Term</div>
+          </div>
+          <div class="term-tabs">
+            <button class="term-tab" onclick="setTerm(this)">Spring</button>
+            <button class="term-tab active" onclick="setTerm(this)">Summer</button>
+            <button class="term-tab" onclick="setTerm(this)">Fall</button>
+            <button class="term-tab" onclick="setTerm(this)">Winter</button>
+          </div>
+          <select class="year-select">
+            <option selected>Fall 2025</option>
+            <option>Spring 2026</option>
+            <option>Summer 2026</option>
+            <option>Fall 2026</option>
+          </select>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Courses -->
+        <div class="section-block">
+          <div class="section-head">
+            <div class="section-title">Courses</div>
+            <div class="section-hint">Drag to reorder priority</div>
+          </div>
+          <div class="course-list" id="courseList">
+            <div class="course-item required" style="animation-delay:0.05s">
+              <div class="course-code">CMSC 435</div>
+              <div class="course-name">Software Engineering</div>
+              <div class="course-type-badge badge-req">Required</div>
+              <button class="course-remove" onclick="removeCourse(this)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+            </div>
+            <div class="course-item required" style="animation-delay:0.1s">
+              <div class="course-code">CMSC 451</div>
+              <div class="course-name">Design & Analysis of Algorithms</div>
+              <div class="course-type-badge badge-req">Required</div>
+              <button class="course-remove" onclick="removeCourse(this)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+            </div>
+            <div class="course-item optional" style="animation-delay:0.15s">
+              <div class="course-code">MATH 401</div>
+              <div class="course-name">Applications of Linear Algebra</div>
+              <div class="course-type-badge badge-opt">Optional</div>
+              <button class="course-remove" onclick="removeCourse(this)"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+            </div>
+          </div>
+          <div class="parse-info">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#C62828" stroke-width="1.2"/><path d="M6 4v3M6 8.5v.2" stroke="#C62828" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Parsed: <strong>2 required</strong>, 1 optional &nbsp;·&nbsp; All sections found.
+          </div>
+          <button class="add-course-btn" onclick="addCourse()">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v10M2 7h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Add a course
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Advanced Criteria -->
+        <div class="section-block">
+          <div class="section-head">
+            <div class="section-title">Advanced Criteria</div>
+            <div class="section-hint">Optional</div>
+          </div>
+
+          <div>
+            <div style="font-size:0.75rem;font-weight:500;color:var(--ink-muted);margin-bottom:8px;">Credit range</div>
+            <div class="credit-range">
+              <input class="credit-input" type="number" value="12" min="1" max="20">
+              <span class="credit-dash">–</span>
+              <input class="credit-input" type="number" value="17" min="1" max="20">
+              <span class="credit-label">credits total</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.75rem;font-weight:500;color:var(--ink-muted);margin-bottom:8px;">Modality</div>
+            <div class="modality-group">
+              <button class="modality-pill active" onclick="toggleModality(this)">In-person</button>
+              <button class="modality-pill active" onclick="toggleModality(this)">Blended</button>
+              <button class="modality-pill" onclick="toggleModality(this)">Online</button>
+            </div>
+          </div>
+
+          <div class="toggle-row">
+            <div>
+              <div class="toggle-label">Open sections only</div>
+              <div class="toggle-sub">Hide waitlisted and full sections</div>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" checked id="openSectionsToggle">
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Time Constraints -->
+        <div class="section-block">
+          <div class="section-head">
+            <div class="section-title">Time Constraints</div>
+            <div class="section-hint">Optional</div>
+          </div>
+
+          <div class="time-row">
+            <div class="time-field">
+              <label>Earliest start</label>
+              <input type="time" value="08:00">
+            </div>
+            <div class="time-field">
+              <label>Latest end</label>
+              <input type="time" value="18:00">
+            </div>
+          </div>
+
+          <div>
+            <div style="font-size:0.75rem;font-weight:500;color:var(--ink-muted);margin-bottom:8px;">Exclude days</div>
+            <div class="day-pills" id="dayPills">
+              <div class="day-pill" onclick="toggleDay(this)">M</div>
+              <div class="day-pill" onclick="toggleDay(this)">Tu</div>
+              <div class="day-pill" onclick="toggleDay(this)">W</div>
+              <div class="day-pill" onclick="toggleDay(this)">Th</div>
+              <div class="day-pill active" onclick="toggleDay(this)">F</div>
+            </div>
+            <div class="day-hint">Active = excluded from schedule</div>
+          </div>
+        </div>
+
+        <!-- Generate -->
+        <button class="generate-btn" id="generateBtn" onclick="runGenerate()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          Generate Schedules
+        </button>
+
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div class="results-panel" id="resultsPanel">
+
+        <!-- Empty State (shown by default) -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect x="4" y="4" width="24" height="24" rx="4" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M10 16h12M10 11h12M10 21h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="empty-title">Your schedules will appear here.</div>
+          <div class="empty-sub">Configure your courses and criteria on the left, then hit Generate. OrbitUMD will find every conflict-free combination that fits your life.</div>
+        </div>
+
+        <!-- Generated Results (hidden by default, shown after generate) -->
+        <div id="resultsContent" style="display:none;display:flex;flex-direction:column;gap:16px;">
+
+          <div class="results-header">
+            <div>
+              <div class="results-title">Generated Schedules</div>
+              <div class="results-count" id="resultsCount">6 conflict-free options for Fall 2025</div>
+            </div>
+            <div class="results-actions">
+              <button class="results-btn">Sort by gaps ↕</button>
+              <button class="results-btn primary" onclick="saveAll()">Save all</button>
+            </div>
+          </div>
+
+          <!-- Schedule Card 1 -->
+          <div class="schedule-card pinned" style="animation-delay:0.05s">
+            <div class="schedule-card-header">
+              <div class="sched-num">1</div>
+              <div class="sched-name">Schedule A <span style="font-size:0.7rem;color:var(--gold);font-weight:500;margin-left:6px;">⭐ Best fit</span></div>
+              <div class="sched-credits">15 cr · MWTh</div>
+              <div class="sched-actions">
+                <button class="sched-action">Save</button>
+                <button class="sched-action main-btn">Set as Main</button>
+              </div>
+            </div>
+            <div class="week-grid">
+              <div></div>
+              <div class="week-header">M</div><div class="week-header">Tu</div><div class="week-header">W</div><div class="week-header">Th</div><div class="week-header">F</div>
+              <!-- simplified visual blocks -->
+              <div class="week-time" style="grid-column:1;padding-top:2px;">9am</div>
+              <div class="week-cell" style="grid-column:2;"><div class="course-block cb-1" style="top:0;height:36px;">CMSC435</div></div>
+              <div class="week-cell" style="grid-column:3;"></div>
+              <div class="week-cell" style="grid-column:4;"><div class="course-block cb-1" style="top:0;height:36px;">CMSC435</div></div>
+              <div class="week-cell" style="grid-column:5;"></div>
+              <div class="week-cell" style="grid-column:6;"></div>
+              <div class="week-time" style="grid-column:1;padding-top:2px;">11am</div>
+              <div class="week-cell" style="grid-column:2;"><div class="course-block cb-2" style="top:0;height:40px;">CMSC451</div></div>
+              <div class="week-cell" style="grid-column:3;"></div>
+              <div class="week-cell" style="grid-column:4;"><div class="course-block cb-2" style="top:0;height:40px;">CMSC451</div></div>
+              <div class="week-cell" style="grid-column:5;"></div>
+              <div class="week-cell" style="grid-column:6;"></div>
+              <div class="week-time" style="grid-column:1;padding-top:2px;">2pm</div>
+              <div class="week-cell" style="grid-column:2;"></div>
+              <div class="week-cell" style="grid-column:3;"><div class="course-block cb-3" style="top:0;height:34px;">MATH401</div></div>
+              <div class="week-cell" style="grid-column:4;"></div>
+              <div class="week-cell" style="grid-column:5;"><div class="course-block cb-3" style="top:0;height:34px;">MATH401</div></div>
+              <div class="week-cell" style="grid-column:6;"></div>
+            </div>
+            <div class="sched-course-list">
+              <div class="sched-chip"><span class="sched-chip-code">CMSC435</span> · 9–10am MWF · <span class="sched-chip-seats">31/50</span></div>
+              <div class="sched-chip"><span class="sched-chip-code">CMSC451</span> · 11am–12pm MWF · <span class="sched-chip-seats">18/35</span></div>
+              <div class="sched-chip"><span class="sched-chip-code">MATH401</span> · 2–3pm TTh · <span class="sched-chip-seats low">4/30 ⚠</span></div>
+            </div>
+          </div>
+
+          <!-- Schedule Card 2 -->
+          <div class="schedule-card" style="animation-delay:0.12s">
+            <div class="schedule-card-header">
+              <div class="sched-num">2</div>
+              <div class="sched-name">Schedule B</div>
+              <div class="sched-credits">15 cr · TTh</div>
+              <div class="sched-actions">
+                <button class="sched-action">Save</button>
+                <button class="sched-action">Set as Main</button>
+              </div>
+            </div>
+            <div class="week-grid">
+              <div></div>
+              <div class="week-header">M</div><div class="week-header">Tu</div><div class="week-header">W</div><div class="week-header">Th</div><div class="week-header">F</div>
+              <div class="week-time" style="grid-column:1;padding-top:2px;">8am</div>
+              <div class="week-cell" style="grid-column:2;"></div>
+              <div class="week-cell" style="grid-column:3;"><div class="course-block cb-1" style="top:0;height:50px;">CMSC435</div></div>
+              <div class="week-cell" style="grid-column:4;"></div>
+              <div class="week-cell" style="grid-column:5;"><div class="course-block cb-1" style="top:0;height:50px;">CMSC435</div></div>
+              <div class="week-cell" style="grid-column:6;"></div>
+              <div class="week-time" style="grid-column:1;padding-top:2px;">11am</div>
+              <div class="week-cell" style="grid-column:2;"><div class="course-block cb-2" style="top:0;height:38px;">CMSC451</div></div>
+              <div class="week-cell" style="grid-column:3;"></div>
+              <div class="week-cell" style="grid-column:4;"><div class="course-block cb-2" style="top:0;height:38px;">CMSC451</div></div>
+              <div class="week-cell" style="grid-column:5;"></div>
+              <div class="week-cell" style="grid-column:6;"></div>
+              <div class="week-time" style="grid-column:1;padding-top:2px;">3pm</div>
+              <div class="week-cell" style="grid-column:2;"></div>
+              <div class="week-cell" style="grid-column:3;"><div class="course-block cb-3" style="top:0;height:34px;">MATH401</div></div>
+              <div class="week-cell" style="grid-column:4;"></div>
+              <div class="week-cell" style="grid-column:5;"><div class="course-block cb-3" style="top:0;height:34px;">MATH401</div></div>
+              <div class="week-cell" style="grid-column:6;"></div>
+            </div>
+            <div class="sched-course-list">
+              <div class="sched-chip"><span class="sched-chip-code">CMSC435</span> · 8–9:15am TTh · <span class="sched-chip-seats">22/40</span></div>
+              <div class="sched-chip"><span class="sched-chip-code">CMSC451</span> · 11am–12:15pm MW · <span class="sched-chip-seats">28/35</span></div>
+              <div class="sched-chip"><span class="sched-chip-code">MATH401</span> · 3–4pm TTh · <span class="sched-chip-seats">12/30</span></div>
+            </div>
+          </div>
+
+          <div style="text-align:center;padding:12px 0;font-size:0.8rem;color:var(--ink-ghost);font-weight:300;">
+            Showing 2 of 6 schedules · <a href="#" style="color:var(--red);font-weight:500;text-decoration:none;">Load all →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function setTerm(el) {
+  document.querySelectorAll('.term-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function toggleModality(el) {
+  el.classList.toggle('active');
+}
+
+function toggleDay(el) {
+  el.classList.toggle('active');
+}
+
+function removeCourse(btn) {
+  const item = btn.closest('.course-item');
+  item.style.opacity = '0';
+  item.style.transform = 'translateX(-12px)';
+  item.style.transition = 'all 0.2s ease';
+  setTimeout(() => item.remove(), 200);
+  updateParseInfo();
+}
+
+function addCourse() {
+  const list = document.getElementById('courseList');
+  const codes = ['STAT 400', 'ENGL 394', 'PSYC 355'];
+  const names = ['Applied Probability & Statistics', 'Business Writing', 'Abnormal Psychology'];
+  const i = list.children.length % 3;
+  const div = document.createElement('div');
+  div.className = 'course-item required';
+  div.style.animationDelay = '0s';
+  div.innerHTML = `
+    <div class="course-code">${codes[i]}</div>
+    <div class="course-name">${names[i]}</div>
+    <div class="course-type-badge badge-req">Required</div>
+    <button class="course-remove" onclick="removeCourse(this)">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>`;
+  list.appendChild(div);
+  updateParseInfo();
+}
+
+function updateParseInfo() {
+  const req = document.querySelectorAll('.course-item.required').length;
+  const opt = document.querySelectorAll('.course-item.optional').length;
+  document.querySelector('.parse-info').innerHTML = `
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#C62828" stroke-width="1.2"/><path d="M6 4v3M6 8.5v.2" stroke="#C62828" stroke-width="1.2" stroke-linecap="round"/></svg>
+    Parsed: <strong>${req} required</strong>, ${opt} optional &nbsp;·&nbsp; All sections found.
+  `;
+}
+
+function runGenerate() {
+  const btn = document.getElementById('generateBtn');
+  btn.classList.add('loading');
+  btn.innerHTML = `<svg class="spinner" width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="rgba(255,255,255,0.3)" stroke-width="2"/><path d="M9 2a7 7 0 017 7" stroke="white" stroke-width="2" stroke-linecap="round"/></svg> Finding conflict-free options…`;
+
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('resultsContent').style.display = 'none';
+
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    btn.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg> Regenerate`;
+    document.getElementById('resultsContent').style.display = 'flex';
+
+    // Stagger-animate cards
+    document.querySelectorAll('.schedule-card').forEach((c, i) => {
+      c.style.animationDelay = (i * 0.08) + 's';
+      c.style.animation = 'none';
+      void c.offsetWidth;
+      c.style.animation = '';
+    });
+  }, 1800);
+}
+
+function saveAll() {
+  const btn = event.target;
+  btn.textContent = '✓ Saved';
+  btn.style.background = '#2E7D32';
+  setTimeout(() => { btn.textContent = 'Save all'; btn.style.background = ''; }, 2000);
+}
+</script>
+</body>
+</html>

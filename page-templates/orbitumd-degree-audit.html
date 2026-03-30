@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OrbitUMD — Degree Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red: #C62828; --red-mid: #E53935; --red-light: #EF9A9A; --gold: #F9A825;
+  --cream: #FDFAF5; --ink: #17120E; --ink-2: #3D2E26; --ink-muted: #7A6358; --ink-ghost: #B09A8E;
+  --surface: #FFFFFF; --surface-2: #FAF7F3;
+  --border: rgba(198,40,40,0.1); --border-soft: rgba(55,35,25,0.08);
+  --shadow-sm: 0 1px 4px rgba(23,18,14,0.06), 0 4px 16px rgba(23,18,14,0.04);
+  --r: 12px;
+}
+html, body { height: 100%; background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 200; opacity: 0.55; }
+
+.shell { display: grid; grid-template-columns: 240px 1fr; height: 100vh; overflow: hidden; }
+.sidebar { background: var(--ink); display: flex; flex-direction: column; padding: 0; position: relative; overflow: hidden; }
+.sidebar::before { content: ''; position: absolute; bottom: -80px; left: -80px; width: 320px; height: 320px; background: radial-gradient(circle, rgba(198,40,40,0.18) 0%, transparent 65%); pointer-events: none; }
+.sidebar-logo { padding: 28px 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.logo-text { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.1rem; color: var(--cream); letter-spacing: -0.02em; }
+.logo-text span { color: #EF9A9A; }
+.nav-section { padding: 20px 12px 8px; flex: 1; overflow-y: auto; }
+.nav-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.28); font-weight: 500; padding: 0 12px; margin-bottom: 6px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: 8px; cursor: pointer; color: rgba(255,255,255,0.5); font-size: 0.84rem; font-weight: 400; text-decoration: none; transition: all 0.15s; margin-bottom: 1px; position: relative; }
+.nav-item:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+.nav-item.active { color: #fff; background: rgba(198,40,40,0.25); font-weight: 500; }
+.nav-item.active::before { content: ''; position: absolute; left: 0; top: 20%; bottom: 20%; width: 3px; background: var(--red-mid); border-radius: 0 2px 2px 0; }
+.nav-icon { width: 16px; height: 16px; opacity: 0.7; flex-shrink: 0; }
+.nav-item.active .nav-icon { opacity: 1; }
+.nav-badge { margin-left: auto; background: var(--red-mid); color: white; font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 100px; }
+.nav-gap { height: 20px; }
+.sidebar-user { padding: 16px 24px 20px; border-top: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.user-avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #E53935, #F9A825); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.85rem; color: white; }
+.user-name { font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.88); }
+.user-role { font-size: 0.7rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
+
+.main { display: flex; flex-direction: column; overflow: hidden; }
+.topbar { padding: 18px 36px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border-soft); background: var(--cream); flex-shrink: 0; }
+.topbar-left h2 { font-family: 'Playfair Display', serif; font-size: 1.45rem; font-weight: 700; letter-spacing: -0.025em; }
+.topbar-left p { font-size: 0.8rem; color: var(--ink-muted); margin-top: 2px; font-weight: 300; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+.topbar-btn { display: flex; align-items: center; gap: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; padding: 8px 16px; border-radius: 7px; cursor: pointer; border: 1px solid var(--border-soft); background: var(--surface); color: var(--ink-2); transition: all 0.15s; }
+.topbar-btn:hover { border-color: rgba(198,40,40,0.25); color: var(--red); }
+.sync-indicator { display: flex; align-items: center; gap: 6px; font-size: 0.73rem; color: var(--ink-ghost); }
+.sync-dot { width: 6px; height: 6px; border-radius: 50%; background: #4CAF50; animation: pulse-g 2s infinite; }
+@keyframes pulse-g { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+
+.content { flex: 1; overflow-y: auto; display: grid; grid-template-columns: 1fr 340px; gap: 0; }
+.content::-webkit-scrollbar { width: 5px; }
+.content::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+/* LEFT: Audit Programs */
+.audit-panel { padding: 24px 32px 48px; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+.audit-panel::-webkit-scrollbar { width: 4px; }
+.audit-panel::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+/* Summary Bar */
+.summary-bar {
+  background: linear-gradient(135deg, #1A0A0A, #2C1010);
+  border: 1px solid rgba(198,40,40,0.3);
+  border-radius: var(--r); padding: 18px 24px;
+  display: grid; grid-template-columns: repeat(4, 1fr) auto;
+  gap: 0; position: relative; overflow: hidden;
+  animation: fadeUp 0.4s ease both;
+}
+.summary-bar::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(249,168,37,0.5), transparent); }
+.sb-item { padding: 0 16px; border-right: 1px solid rgba(255,255,255,0.06); }
+.sb-item:first-child { padding-left: 0; }
+.sb-item:last-child { border-right: none; }
+.sb-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.3); font-weight: 500; margin-bottom: 4px; }
+.sb-val { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: white; letter-spacing: -0.03em; line-height: 1; }
+.sb-val.red { color: #EF9A9A; }
+.sb-val.gold { color: var(--gold); }
+.sb-sub { font-size: 0.68rem; color: rgba(255,255,255,0.25); font-weight: 300; margin-top: 2px; }
+
+/* Overall credit bar */
+.credit-overview { animation: fadeUp 0.4s 0.05s ease both; }
+.co-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.co-title { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; }
+.co-detail { font-size: 0.73rem; color: var(--ink-muted); font-weight: 300; }
+.co-track { height: 8px; background: #EDE7E1; border-radius: 4px; overflow: hidden; display: flex; }
+.co-segment { height: 100%; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+.co-legend { display: flex; gap: 14px; margin-top: 8px; }
+.co-legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.7rem; color: var(--ink-muted); font-weight: 300; }
+.co-legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Program Section */
+.program-section { background: var(--surface); border: 1.5px solid var(--border-soft); border-radius: var(--r); overflow: hidden; box-shadow: var(--shadow-sm); animation: fadeUp 0.4s ease both; }
+.ps-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; cursor: pointer; transition: background 0.15s; }
+.ps-header:hover { background: var(--surface-2); }
+.ps-type { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; flex-shrink: 0; }
+.ps-type.major { background: rgba(198,40,40,0.1); color: var(--red); }
+.ps-type.minor { background: rgba(249,168,37,0.1); color: #9C6E00; }
+.ps-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: var(--ink); flex: 1; letter-spacing: -0.01em; }
+.ps-progress { font-size: 0.75rem; color: var(--ink-muted); font-weight: 300; white-space: nowrap; }
+.ps-progress strong { color: var(--ink-2); font-weight: 600; }
+.ps-toggle { color: var(--ink-ghost); transition: transform 0.25s; flex-shrink: 0; }
+.ps-header.open .ps-toggle { transform: rotate(180deg); }
+
+/* Progress bar inside header */
+.ps-prog-bar { height: 3px; background: #EDE7E1; border-radius: 2px; overflow: hidden; margin: 0 20px 14px; }
+.ps-prog-fill { height: 100%; background: var(--red); border-radius: 2px; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+.ps-prog-fill.minor-fill { background: var(--gold); }
+
+/* Requirement Blocks */
+.req-blocks { padding: 4px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+.req-block { border: 1px solid var(--border-soft); border-radius: 9px; overflow: hidden; }
+.rb-header { padding: 10px 14px; display: flex; align-items: center; gap: 10px; background: var(--surface-2); cursor: pointer; transition: background 0.15s; }
+.rb-header:hover { background: rgba(198,40,40,0.04); }
+.rb-name { font-size: 0.82rem; font-weight: 600; color: var(--ink-2); flex: 1; }
+.rb-progress { display: flex; align-items: center; gap: 6px; }
+.rb-prog-text { font-size: 0.72rem; color: var(--ink-muted); font-weight: 300; }
+.rb-prog-text strong { color: var(--ink-2); font-weight: 600; }
+.rb-status { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rb-status.done { background: rgba(198,40,40,0.1); color: var(--red); }
+.rb-status.partial { background: rgba(249,168,37,0.12); color: #C77F00; }
+.rb-status.empty { background: #EDE7E1; color: var(--ink-ghost); }
+
+/* Course rows inside blocks */
+.rb-courses { display: flex; flex-direction: column; gap: 0; }
+.rb-course-row { display: flex; align-items: center; gap: 10px; padding: 9px 14px; border-top: 1px solid var(--border-soft); transition: background 0.12s; }
+.rb-course-row:hover { background: rgba(198,40,40,0.025); }
+.rb-course-check { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.rb-course-check.done { background: rgba(198,40,40,0.1); color: var(--red); }
+.rb-course-check.partial { background: rgba(249,168,37,0.12); color: #C77F00; }
+.rb-course-check.open { background: #EDE7E1; color: var(--ink-ghost); }
+.rb-req-type { font-size: 0.62rem; font-weight: 600; color: var(--ink-ghost); letter-spacing: 0.04em; min-width: 60px; flex-shrink: 0; }
+.rb-course-code { font-size: 0.75rem; font-weight: 600; color: var(--ink-2); min-width: 80px; flex-shrink: 0; }
+.rb-course-name { font-size: 0.78rem; color: var(--ink-muted); flex: 1; font-weight: 300; }
+.rb-course-status { font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+.rb-course-status.done { background: rgba(198,40,40,0.08); color: var(--red); }
+.rb-course-status.progress { background: rgba(249,168,37,0.12); color: #C77F00; }
+.rb-course-status.open { background: #F0EBE5; color: var(--ink-ghost); }
+.rb-course-actions { display: flex; gap: 4px; flex-shrink: 0; }
+.rb-act { font-size: 0.65rem; color: var(--ink-ghost); background: none; border: 1px solid var(--border-soft); border-radius: 4px; padding: 2px 7px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.12s; }
+.rb-act:hover { border-color: rgba(198,40,40,0.3); color: var(--red); }
+
+.rb-add-row { padding: 8px 14px; border-top: 1px solid var(--border-soft); display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: var(--ink-ghost); cursor: pointer; transition: all 0.15s; background: none; border: none; width: 100%; font-family: 'DM Sans', sans-serif; }
+.rb-add-row:hover { color: var(--red); background: rgba(198,40,40,0.03); }
+
+/* Elective Overflow */
+.overflow-section { background: var(--surface); border: 1.5px solid var(--border-soft); border-radius: var(--r); overflow: hidden; animation: fadeUp 0.4s ease both; }
+.overflow-header { padding: 14px 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border-soft); background: var(--surface-2); }
+.overflow-title { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; flex: 1; }
+.overflow-cr { font-size: 0.75rem; color: var(--ink-muted); font-weight: 300; }
+.overflow-cr strong { color: var(--ink-2); }
+.overflow-list { padding: 8px 16px 12px; display: flex; flex-direction: column; gap: 2px; }
+.overflow-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border-soft); }
+.overflow-row:last-child { border-bottom: none; }
+.overflow-code { font-size: 0.75rem; font-weight: 600; color: var(--ink-2); min-width: 90px; }
+.overflow-name { font-size: 0.78rem; color: var(--ink-muted); flex: 1; font-weight: 300; }
+.overflow-cr-badge { font-size: 0.65rem; color: var(--ink-ghost); white-space: nowrap; }
+.overflow-done { font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 4px; background: rgba(198,40,40,0.08); color: var(--red); }
+
+/* RIGHT PANEL: Sticky Sidebar */
+.audit-sidebar { border-left: 1px solid var(--border-soft); padding: 24px 24px 48px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: var(--surface-2); }
+.audit-sidebar::-webkit-scrollbar { width: 4px; }
+.audit-sidebar::-webkit-scrollbar-thumb { background: #DDD0C8; border-radius: 3px; }
+
+.sidebar-card { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 10px; padding: 16px; }
+.sc-title { font-family: 'Playfair Display', serif; font-size: 0.88rem; font-weight: 700; color: var(--ink); margin-bottom: 12px; letter-spacing: -0.01em; }
+.sc-hint { font-size: 0.72rem; color: var(--ink-ghost); font-weight: 300; line-height: 1.5; margin-top: 8px; }
+
+/* Track Selector */
+.track-options { display: flex; flex-direction: column; gap: 6px; }
+.track-option { padding: 9px 12px; border: 1.5px solid var(--border-soft); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.track-option:hover { border-color: rgba(198,40,40,0.25); }
+.track-option.selected { border-color: var(--red); background: rgba(198,40,40,0.04); }
+.to-name { font-size: 0.8rem; font-weight: 500; color: var(--ink-2); }
+.to-desc { font-size: 0.7rem; color: var(--ink-ghost); font-weight: 300; margin-top: 1px; }
+
+/* Mini audit status */
+.audit-program-list { display: flex; flex-direction: column; gap: 8px; }
+.apl-item { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 7px; border: 1px solid var(--border-soft); background: var(--surface); cursor: pointer; transition: all 0.15s; }
+.apl-item:hover { border-color: rgba(198,40,40,0.2); }
+.apl-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.apl-name { font-size: 0.78rem; color: var(--ink-2); flex: 1; font-weight: 400; }
+.apl-progress { font-size: 0.7rem; color: var(--ink-ghost); font-weight: 300; }
+.apl-progress strong { color: var(--ink-2); }
+
+/* What's Left */
+.whats-left { display: flex; flex-direction: column; gap: 7px; }
+.wl-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; border-radius: 7px; background: var(--surface); border: 1px solid var(--border-soft); }
+.wl-icon { width: 20px; height: 20px; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.wl-icon.red { background: rgba(198,40,40,0.1); color: var(--red); }
+.wl-icon.gold { background: rgba(249,168,37,0.12); color: #C77F00; }
+.wl-text { flex: 1; }
+.wl-name { font-size: 0.78rem; font-weight: 500; color: var(--ink-2); }
+.wl-detail { font-size: 0.69rem; color: var(--ink-muted); font-weight: 300; margin-top: 1px; }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="sidebar-logo" href="#">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="3.5" fill="#EF5350"/><circle cx="16" cy="16" r="9" stroke="#EF5350" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="16" cy="7" r="2.2" fill="#EF5350"/><circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7"/><circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5"/></svg>
+      <span class="logo-text">Orbit<span>UMD</span></span>
+    </a>
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <a class="nav-item" href="orbitumd-dashboard.html"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" stroke-width="1.5"/></svg>Dashboard</a>
+      <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>My Four-Year Plan</a>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Scheduling</div>
+      <a class="nav-item" href="orbitumd-generate-schedule.html"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Generate Schedule</a>
+      <a class="nav-item" href="orbitumd-schedules.html"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 6h12M6 2v12" stroke="currentColor" stroke-width="1.2"/></svg>My Schedules<span class="nav-badge">3</span></a>
+      <div class="nav-gap"></div>
+      <div class="nav-label">Requirements</div>
+      <a class="nav-item active" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M5 8l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Degree Audit</a>
+      <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M2 13L6 3l4 7 3-4 1 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Gen Eds<span class="nav-badge">2</span></a>
+      <a class="nav-item" href="#"><svg class="nav-icon" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M4 5h8M4 11h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Suggestions</a>
+    </div>
+    <div class="sidebar-user">
+      <div class="user-avatar">AJ</div>
+      <div><div class="user-name">Alex Johnson</div><div class="user-role">Junior · CS + Math</div></div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h2>Degree Audit</h2>
+        <p>Live audit · powered by your MAIN schedule · past terms = completed, current = in progress, future = planned</p>
+      </div>
+      <div class="topbar-actions">
+        <div class="sync-indicator"><div class="sync-dot"></div>Edits synced</div>
+        <button class="topbar-btn">Review requirement details</button>
+        <button class="topbar-btn">+ Add program</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- LEFT: Audit programs -->
+      <div class="audit-panel">
+
+        <!-- Summary Bar -->
+        <div class="summary-bar">
+          <div class="sb-item">
+            <div class="sb-label">Total Credits</div>
+            <div class="sb-val red" id="crCount">0</div>
+            <div class="sb-sub">of 150 required</div>
+          </div>
+          <div class="sb-item">
+            <div class="sb-label">Completed</div>
+            <div class="sb-val">83</div>
+            <div class="sb-sub">credits</div>
+          </div>
+          <div class="sb-item">
+            <div class="sb-label">In Progress</div>
+            <div class="sb-val gold">15</div>
+            <div class="sb-sub">this term</div>
+          </div>
+          <div class="sb-item">
+            <div class="sb-label">Planned</div>
+            <div class="sb-val" style="color:#90A4AE">18</div>
+            <div class="sb-sub">next 2 terms</div>
+          </div>
+          <div class="sb-item">
+            <div class="sb-label">Overall GPA</div>
+            <div class="sb-val gold">3.844</div>
+            <div class="sb-sub">Dean's List ✓</div>
+          </div>
+        </div>
+
+        <!-- Credit Overview Bar -->
+        <div class="credit-overview">
+          <div class="co-header">
+            <div class="co-title">Credit Progress</div>
+            <div class="co-detail">83 complete · 15 in progress · 18 planned · 34 remaining</div>
+          </div>
+          <div class="co-track">
+            <div class="co-segment" style="background:var(--red);width:0%" id="seg-done"></div>
+            <div class="co-segment" style="background:var(--gold);width:0%" id="seg-prog"></div>
+            <div class="co-segment" style="background:#90A4AE;width:0%" id="seg-plan"></div>
+          </div>
+          <div class="co-legend">
+            <div class="co-legend-item"><div class="co-legend-dot" style="background:var(--red)"></div>Completed</div>
+            <div class="co-legend-item"><div class="co-legend-dot" style="background:var(--gold)"></div>In Progress</div>
+            <div class="co-legend-item"><div class="co-legend-dot" style="background:#90A4AE"></div>Planned</div>
+            <div class="co-legend-item"><div class="co-legend-dot" style="background:#EDE7E1"></div>Remaining</div>
+          </div>
+        </div>
+
+        <!-- CS Major -->
+        <div class="program-section" style="animation-delay:0.1s">
+          <div class="ps-header open" onclick="toggleProgram(this)">
+            <div class="ps-type major">Major</div>
+            <div class="ps-name">Computer Science, B.S.</div>
+            <div class="ps-progress"><strong>5 / 16</strong> required classes</div>
+            <svg class="ps-toggle" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="ps-prog-bar"><div class="ps-prog-fill" style="width:0%" data-pct="31"></div></div>
+          <div class="req-blocks" id="cs-blocks">
+
+            <!-- Block 1 -->
+            <div class="req-block">
+              <div class="rb-header" onclick="toggleBlock(this)">
+                <div class="rb-name">Required Lower-Level Courses</div>
+                <div class="rb-progress">
+                  <span class="rb-prog-text"><strong>4</strong> / 6</span>
+                  <div class="rb-status partial"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+              <div class="rb-courses" style="display:block">
+                <div class="rb-course-row">
+                  <div class="rb-course-check done"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="rb-req-type">Required</div>
+                  <div class="rb-course-code">CMSC131</div>
+                  <div class="rb-course-name">Intro to Object-Oriented Programming I</div>
+                  <div class="rb-course-status done">Completed</div>
+                  <div class="rb-course-actions"><button class="rb-act">Info</button></div>
+                </div>
+                <div class="rb-course-row">
+                  <div class="rb-course-check done"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="rb-req-type">Required</div>
+                  <div class="rb-course-code">CMSC132</div>
+                  <div class="rb-course-name">Object-Oriented Programming II</div>
+                  <div class="rb-course-status done">Completed</div>
+                  <div class="rb-course-actions"><button class="rb-act">Info</button></div>
+                </div>
+                <div class="rb-course-row">
+                  <div class="rb-course-check done"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="rb-req-type">Required</div>
+                  <div class="rb-course-code">CMSC216</div>
+                  <div class="rb-course-name">Intro to Computer Systems</div>
+                  <div class="rb-course-status done">Completed</div>
+                  <div class="rb-course-actions"><button class="rb-act">Info</button></div>
+                </div>
+                <div class="rb-course-row">
+                  <div class="rb-course-check done"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                  <div class="rb-req-type">Required</div>
+                  <div class="rb-course-code">CMSC250</div>
+                  <div class="rb-course-name">Discrete Structures</div>
+                  <div class="rb-course-status done">Completed</div>
+                  <div class="rb-course-actions"><button class="rb-act">Info</button></div>
+                </div>
+                <div class="rb-course-row">
+                  <div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div>
+                  <div class="rb-req-type">Required</div>
+                  <div class="rb-course-code">CMSC330</div>
+                  <div class="rb-course-name">Organization of Programming Languages</div>
+                  <div class="rb-course-status open">Not started</div>
+                  <div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div>
+                </div>
+                <div class="rb-course-row">
+                  <div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div>
+                  <div class="rb-req-type">Required</div>
+                  <div class="rb-course-code">CMSC351</div>
+                  <div class="rb-course-name">Algorithms</div>
+                  <div class="rb-course-status open">Not started</div>
+                  <div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 2 -->
+            <div class="req-block">
+              <div class="rb-header" onclick="toggleBlock(this)">
+                <div class="rb-name">Upper-Level CS Electives</div>
+                <div class="rb-progress">
+                  <span class="rb-prog-text"><strong>1</strong> / 5</span>
+                  <div class="rb-status partial"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+              <div class="rb-courses" style="display:none">
+                <div class="rb-course-row">
+                  <div class="rb-course-check partial"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M2 4h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+                  <div class="rb-req-type">In Progress</div>
+                  <div class="rb-course-code">CMSC411</div>
+                  <div class="rb-course-name">Computer Architecture</div>
+                  <div class="rb-course-status progress">In Progress</div>
+                  <div class="rb-course-actions"><button class="rb-act">Info</button></div>
+                </div>
+                <div class="rb-course-row">
+                  <div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div>
+                  <div class="rb-req-type">Choose 1</div>
+                  <div class="rb-course-code">CMSC421</div>
+                  <div class="rb-course-name">Intro to Artificial Intelligence</div>
+                  <div class="rb-course-status open">Not started</div>
+                  <div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div>
+                </div>
+                <button class="rb-add-row" onclick="addCourseToBlock(this)">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 2v8M2 6h8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                  Add course to section
+                </button>
+              </div>
+            </div>
+
+            <!-- Block 3 -->
+            <div class="req-block">
+              <div class="rb-header" onclick="toggleBlock(this)">
+                <div class="rb-name">Capstone / Senior Project</div>
+                <div class="rb-progress">
+                  <span class="rb-prog-text"><strong>0</strong> / 1</span>
+                  <div class="rb-status empty"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><circle cx="4.5" cy="4.5" r="3" stroke="currentColor" stroke-width="1.2"/></svg></div>
+                </div>
+              </div>
+              <div class="rb-courses" style="display:none">
+                <div class="rb-course-row">
+                  <div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div>
+                  <div class="rb-req-type">Choose 1</div>
+                  <div class="rb-course-code">CMSC435</div>
+                  <div class="rb-course-name">Software Engineering — planned Fall 2025</div>
+                  <div class="rb-course-status progress">Planned</div>
+                  <div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Math Minor -->
+        <div class="program-section" style="animation-delay:0.18s">
+          <div class="ps-header" onclick="toggleProgram(this)">
+            <div class="ps-type minor">Minor</div>
+            <div class="ps-name">Mathematics Minor</div>
+            <div class="ps-progress"><strong>2 / 5</strong> required classes</div>
+            <svg class="ps-toggle" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="ps-prog-bar"><div class="ps-prog-fill minor-fill" style="width:0%" data-pct="40"></div></div>
+          <div class="req-blocks" style="display:none">
+            <div class="req-block">
+              <div class="rb-header">
+                <div class="rb-name">Required Courses</div>
+                <div class="rb-progress"><span class="rb-prog-text"><strong>2</strong> / 5</span><div class="rb-status partial"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M2 4.5h5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div></div>
+              </div>
+              <div class="rb-courses">
+                <div class="rb-course-row"><div class="rb-course-check done"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rb-req-type">Required</div><div class="rb-course-code">MATH241</div><div class="rb-course-name">Calculus III</div><div class="rb-course-status done">Completed</div><div class="rb-course-actions"><button class="rb-act">Info</button></div></div>
+                <div class="rb-course-row"><div class="rb-course-check done"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M1.5 4l2 2 3-3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="rb-req-type">Required</div><div class="rb-course-code">MATH246</div><div class="rb-course-name">Differential Equations</div><div class="rb-course-status done">Completed</div><div class="rb-course-actions"><button class="rb-act">Info</button></div></div>
+                <div class="rb-course-row"><div class="rb-course-check partial"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><path d="M2 4h4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div><div class="rb-req-type">Required</div><div class="rb-course-code">MATH461</div><div class="rb-course-name">Linear Algebra</div><div class="rb-course-status progress">In Progress</div><div class="rb-course-actions"><button class="rb-act">Info</button></div></div>
+                <div class="rb-course-row"><div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div><div class="rb-req-type">Required</div><div class="rb-course-code">MATH401</div><div class="rb-course-name">Applications of Linear Algebra</div><div class="rb-course-status progress">Planned</div><div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div></div>
+                <div class="rb-course-row"><div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div><div class="rb-req-type">Required</div><div class="rb-course-code">MATH415</div><div class="rb-course-name">Tpcs in Linear Algebra</div><div class="rb-course-status open">Not started</div><div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Elective Overflow -->
+        <div class="overflow-section" style="animation-delay:0.26s">
+          <div class="overflow-header">
+            <div class="overflow-title">Elective Overflow</div>
+            <div class="overflow-cr">Courses not mapped to any program · <strong>34 cr</strong></div>
+          </div>
+          <div class="overflow-list">
+            <div class="overflow-row"><div class="overflow-code">ENGL278</div><div class="overflow-name">Literature & Technology</div><div class="overflow-cr-badge">3 cr</div><div class="overflow-done">Done</div></div>
+            <div class="overflow-row"><div class="overflow-code">PHYS174</div><div class="overflow-name">General Physics II</div><div class="overflow-cr-badge">3 cr</div><div class="overflow-done">Done</div></div>
+            <div class="overflow-row"><div class="overflow-code">AP CALC BC</div><div class="overflow-name">Prior Credit → MATH141</div><div class="overflow-cr-badge">4 cr</div><div class="overflow-done">Done</div></div>
+            <div class="overflow-row"><div class="overflow-code">AP CS A</div><div class="overflow-name">Prior Credit → CMSC131</div><div class="overflow-cr-badge">4 cr</div><div class="overflow-done">Done</div></div>
+            <div class="overflow-row"><div class="overflow-code">ARTT100</div><div class="overflow-name">Art and Visual Culture</div><div class="overflow-cr-badge">3 cr</div><div class="overflow-done">Done</div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT: Audit Sidebar -->
+      <div class="audit-sidebar">
+
+        <!-- Programs summary -->
+        <div class="sidebar-card">
+          <div class="sc-title">Programs</div>
+          <div class="audit-program-list">
+            <div class="apl-item"><div class="apl-dot" style="background:var(--red)"></div><div class="apl-name">CS Major</div><div class="apl-progress"><strong>5</strong>/16</div></div>
+            <div class="apl-item"><div class="apl-dot" style="background:var(--gold)"></div><div class="apl-name">Math Minor</div><div class="apl-progress"><strong>2</strong>/5</div></div>
+          </div>
+          <div class="sc-hint">Audit status is driven by your MAIN schedule only.</div>
+        </div>
+
+        <!-- CS Track Selector -->
+        <div class="sidebar-card">
+          <div class="sc-title">CS Specialization Track</div>
+          <div class="track-options">
+            <div class="track-option selected" onclick="selectTrack(this)">
+              <div class="to-name">General</div>
+              <div class="to-desc">No specialization — maximum flexibility</div>
+            </div>
+            <div class="track-option" onclick="selectTrack(this)">
+              <div class="to-name">Cybersecurity</div>
+              <div class="to-desc">CMSC456, 414, 498G</div>
+            </div>
+            <div class="track-option" onclick="selectTrack(this)">
+              <div class="to-name">Data Science</div>
+              <div class="to-desc">CMSC320, 422, STAT410</div>
+            </div>
+            <div class="track-option" onclick="selectTrack(this)">
+              <div class="to-name">Machine Learning</div>
+              <div class="to-desc">CMSC421, 422, 726</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- What's Left -->
+        <div class="sidebar-card">
+          <div class="sc-title">What's still needed?</div>
+          <div class="whats-left">
+            <div class="wl-item">
+              <div class="wl-icon red"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v4M5 7.5v.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+              <div class="wl-text">
+                <div class="wl-name">Capstone not started</div>
+                <div class="wl-detail">CMSC435 planned Fall 2025 — confirm section</div>
+              </div>
+            </div>
+            <div class="wl-item">
+              <div class="wl-icon gold"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v4M5 7.5v.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+              <div class="wl-text">
+                <div class="wl-name">2 upper-level CS electives</div>
+                <div class="wl-detail">400-level or above — see Suggestions</div>
+              </div>
+            </div>
+            <div class="wl-item">
+              <div class="wl-icon gold"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M5 2v4M5 7.5v.3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+              <div class="wl-text">
+                <div class="wl-name">Math Minor: 2 courses left</div>
+                <div class="wl-detail">MATH401 planned · MATH415 needed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// Animate credit counter
+function animCr() {
+  let v = 0; const el = document.getElementById('crCount');
+  const step = 83/60;
+  function tick() { v = Math.min(v+step, 83); el.textContent = Math.round(v); if(v<83) requestAnimationFrame(tick); }
+  requestAnimationFrame(tick);
+}
+
+// Animate credit bars
+function animBars() {
+  setTimeout(() => {
+    document.getElementById('seg-done').style.width = '55%';
+    document.getElementById('seg-prog').style.width = '10%';
+    document.getElementById('seg-plan').style.width = '12%';
+    document.querySelectorAll('.ps-prog-fill').forEach(el => {
+      el.style.width = el.dataset.pct + '%';
+    });
+  }, 200);
+}
+
+function toggleProgram(header) {
+  header.classList.toggle('open');
+  const blocks = header.closest('.program-section').querySelector('.req-blocks');
+  if (blocks) blocks.style.display = blocks.style.display === 'none' ? '' : 'none';
+}
+
+function toggleBlock(header) {
+  const courses = header.nextElementSibling;
+  if (courses) courses.style.display = courses.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectTrack(el) {
+  el.closest('.track-options').querySelectorAll('.track-option').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function addCourseToBlock(btn) {
+  const code = prompt('Enter course code:');
+  if (code) {
+    const row = document.createElement('div');
+    row.className = 'rb-course-row';
+    row.innerHTML = `<div class="rb-course-check open"><svg width="8" height="8" viewBox="0 0 8 8" fill="none"><circle cx="4" cy="4" r="2.5" stroke="currentColor" stroke-width="1.2"/></svg></div><div class="rb-req-type">Choose 1</div><div class="rb-course-code">${code.toUpperCase()}</div><div class="rb-course-name">Course title</div><div class="rb-course-status open">Not started</div><div class="rb-course-actions"><button class="rb-act">Edit</button><button class="rb-act">Info</button></div>`;
+    btn.closest('.rb-courses').insertBefore(row, btn);
+  }
+}
+
+window.addEventListener('load', () => { animCr(); animBars(); });
+</script>
+</body>
+</html>
