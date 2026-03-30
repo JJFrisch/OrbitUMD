@@ -3,7 +3,6 @@ import { ChevronDown, GripVertical, GraduationCap, Info, Mail, Menu, MessageSqua
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
-import { Progress } from "../components/ui/progress";
 import { Input } from "../components/ui/input";
 import { Textarea } from "../components/ui/textarea";
 import {
@@ -3303,40 +3302,24 @@ export default function DegreeAudit() {
     : 0;
   const selectedProgramAudit = programAudits[selectedProgramIndex] ?? null;
   const selectedSpecializationId = selectedSpecialization.get(selectedProgramIndex);
-  const selectedSpecializationOption = selectedProgramAudit?.bundle.specializationOptions?.find(
-    (spec) => spec.id === selectedSpecializationId,
-  ) ?? null;
+  const specializationPreviewById = useMemo(() => {
+    const preview = new Map<string, string>();
+    if (!selectedProgramAudit) return preview;
 
-  const selectedProgramCompletionCount = selectedProgramAudit
-    ? Math.min(
-      selectedProgramAudit.requiredSlots,
-      selectedProgramAudit.completedSlots + selectedProgramAudit.inProgressSlots + selectedProgramAudit.plannedSlots,
-    )
-    : 0;
-  const selectedProgramRemainingCount = selectedProgramAudit
-    ? Math.max(0, selectedProgramAudit.requiredSlots - selectedProgramCompletionCount)
-    : 0;
+    (selectedProgramAudit.bundle.specializationOptions ?? []).forEach((spec) => {
+      const codes = Array.from(new Set(
+        selectedProgramAudit.sectionRows
+          .filter(({ section }) => section.specializationId === spec.id)
+          .flatMap(({ section }) => Array.isArray(section.courseCodes) ? section.courseCodes : [])
+          .map((code) => String(code).toUpperCase())
+          .filter((code) => /^[A-Z]{4}\d{3}[A-Z]?$/.test(code)),
+      )).slice(0, 3);
 
-  const selectedProgramNeeds = useMemo(() => {
-    if (!selectedProgramAudit) return [] as Array<{ id: string; title: string; detail: string }>;
+      preview.set(spec.id, codes.length > 0 ? codes.join(", ") : "Track requirements");
+    });
 
-    return selectedProgramAudit.sectionRows
-      .filter((row) => row.eval.completedSlots + row.eval.inProgressSlots + row.eval.plannedSlots < row.eval.requiredSlots)
-      .map((row) => {
-        const done = row.eval.completedSlots + row.eval.inProgressSlots + row.eval.plannedSlots;
-        return {
-          id: String(row.section.id),
-          title: row.section.title,
-          detail: `${done}/${row.eval.requiredSlots} complete`,
-        };
-      })
-      .slice(0, 8);
+    return preview;
   }, [selectedProgramAudit]);
-
-  const scrollToRequirementSection = (sectionId: string) => {
-    const target = document.getElementById(`audit-section-${selectedProgramIndex}-${sectionId}`);
-    target?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   const setProgramSpecialization = (programIndex: number, nextSpecId: string | null) => {
     const currentSpecId = selectedSpecialization.get(programIndex) ?? null;
@@ -3535,19 +3518,6 @@ export default function DegreeAudit() {
                             className={`da2-ps-prog-fill ${programAudit.bundle.kind === "minor" ? "minor-fill" : ""}`}
                             data-pct={programAudit.progressPercent}
                           />
-                        </div>
-
-                        <div className="mb-4 flex justify-end">
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            className="border-border text-foreground/80"
-                            onClick={() => startAddingSection(index)}
-                          >
-                            <Plus className="h-3.5 w-3.5 mr-1" />
-                            Add Section
-                          </Button>
                         </div>
 
                         <div className="da2-req-blocks">
@@ -4797,6 +4767,19 @@ export default function DegreeAudit() {
                             );
                           })()}
                         </div>
+
+                        <div className="mt-4 flex justify-end">
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="border-border text-foreground/80"
+                            onClick={() => startAddingSection(index)}
+                          >
+                            <Plus className="h-3.5 w-3.5 mr-1" />
+                            Add Section
+                          </Button>
+                        </div>
                       </Card>
                     </div>
                   );
@@ -4852,144 +4835,63 @@ export default function DegreeAudit() {
           <aside className="da2-right-panel">
             {!loading && !errorMessage && selectedProgramAudit && (
               <>
-                <Card className="da2-sidebar-card da2-selector-card bg-card border-border p-5">
-                  <h3 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Program Settings</h3>
-                  <div className="space-y-3">
-                    <div>
-                      <p className="da2-select-label">Degree</p>
-                      <select
-                        className="da2-select"
-                        aria-label="Select degree program"
-                        value={programAudits.length > 0 ? String(selectedProgramIndex) : ""}
-                        onChange={(event) => {
-                          const next = Number.parseInt(event.target.value, 10);
-                          if (Number.isFinite(next)) {
-                            changeActiveProgramIndex(next);
-                          }
-                        }}
-                        disabled={programAudits.length === 0}
-                      >
-                        {programAudits.length === 0 && (
-                          <option value="">No selected degree programs</option>
-                        )}
-                        {programAudits.map((programAudit, index) => (
-                          <option key={`degree-select-sidebar-${programAudit.bundle.programId}-${index}`} value={index}>
-                            {programAudit.bundle.programName} ({programAudit.bundle.kind})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                <Card className="da2-sidebar-card da2-programs-card bg-card border-border p-6">
+                  <h3 className="da2-sidebar-title">Programs</h3>
+                  <div className="da2-sb-program-list">
+                    {programAudits.map((programAudit, index) => {
+                      const completeCount = Math.min(
+                        programAudit.requiredSlots,
+                        programAudit.completedSlots + programAudit.inProgressSlots + programAudit.plannedSlots,
+                      );
 
-                    <div>
-                      <p className="da2-select-label">Specialization</p>
-                      <select
-                        className="da2-select"
-                        aria-label="Select specialization"
-                        value={selectedSpecializationId ?? ""}
-                        onChange={(event) => {
-                          const nextValue = event.target.value.trim();
-                          setProgramSpecialization(selectedProgramIndex, nextValue.length ? nextValue : null);
-                        }}
-                        disabled={
-                          !selectedProgramAudit?.bundle.specializationOptions
-                          || selectedProgramAudit.bundle.specializationOptions.length === 0
-                        }
-                      >
-                        <option value="">
-                          {selectedProgramAudit?.bundle.source === "cs-specialized"
-                            ? "General Track"
-                            : "Core Requirements Only"}
-                        </option>
-                        {(selectedProgramAudit?.bundle.specializationOptions ?? []).map((spec) => (
-                          <option key={spec.id} value={spec.id}>{spec.name}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <p className="da2-select-label">Declaration</p>
-                      <select
-                        className="da2-select"
-                        aria-label="Degree declaration mode"
-                        value={degreeDeclarationMode}
-                        onChange={(event) => {
-                          const next = event.target.value as DegreeDeclarationMode;
-                          if (next === "single" || next === "dual-major" || next === "double-degree") {
-                            setDegreeDeclarationMode(next);
-                          }
-                        }}
-                      >
-                        <option value="single">Single Major</option>
-                        <option value="dual-major">Dual Major</option>
-                        <option value="double-degree">Double Degree</option>
-                      </select>
-                    </div>
-                  </div>
-                </Card>
-
-                <Card className="da2-sidebar-card bg-card border-border p-5">
-                  <div className="flex items-start justify-between gap-3 mb-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-wide text-muted-foreground">Selected Degree</p>
-                      <h2 className="text-xl text-foreground mt-1">{selectedProgramAudit.bundle.programName}</h2>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {selectedProgramAudit.bundle.kind.toUpperCase()}
-                        {selectedSpecializationOption ? ` - ${selectedSpecializationOption.name}` : ""}
-                      </p>
-                    </div>
-                    {statusBadge(selectedProgramAudit.status)}
-                  </div>
-
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Class Slots</span>
-                      <span className="text-foreground">
-                        {selectedProgramCompletionCount}/{selectedProgramAudit.requiredSlots}
-                      </span>
-                    </div>
-                    <Progress value={selectedProgramAudit.progressPercent} className="h-2.5" />
-                    <p className="text-xs text-muted-foreground">{selectedProgramRemainingCount} slots remaining</p>
-                  </div>
-                </Card>
-
-                <Card className="da2-sidebar-card bg-card border-border p-5 mt-4">
-                  <h3 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Remaining Sections</h3>
-                  {selectedProgramNeeds.length === 0 ? (
-                    <p className="text-sm text-emerald-500">All sections complete for this degree.</p>
-                  ) : (
-                    <div className="space-y-2">
-                      {selectedProgramNeeds.map((need) => (
+                      return (
                         <button
-                          key={need.id}
+                          key={`sidebar-program-${programAudit.bundle.programId}-${index}`}
                           type="button"
-                          className="da2-need-item w-full text-left rounded-md border border-border bg-input-background px-3 py-2"
-                          onClick={() => scrollToRequirementSection(need.id)}
+                          className={`da2-sb-program-row ${index === selectedProgramIndex ? "selected" : ""}`}
+                          onClick={() => changeActiveProgramIndex(index)}
                         >
-                          <p className="text-sm text-foreground">{need.title}</p>
-                          <p className="text-xs text-muted-foreground">{need.detail}</p>
+                          <span className={`da2-sb-program-dot ${programAudit.bundle.kind === "minor" ? "minor" : "major"}`} />
+                          <span className="da2-sb-program-name">{programAudit.bundle.programName}</span>
+                          <span className="da2-sb-program-progress">{completeCount}/{programAudit.requiredSlots}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <p className="da2-sb-program-note">Audit status is driven by your MAIN schedule only.</p>
+                </Card>
+
+                {(selectedProgramAudit.bundle.specializationOptions?.length ?? 0) > 0 && (
+                  <Card className="da2-sidebar-card da2-track-card bg-card border-border p-6 mt-4">
+                    <h3 className="da2-sidebar-title">{selectedProgramAudit.bundle.programName.split(",")[0]} Specialization Track</h3>
+                    <div className="da2-sb-track-list">
+                      <button
+                        type="button"
+                        className={`da2-sb-track-option ${!selectedSpecializationId ? "selected" : ""}`}
+                        onClick={() => setProgramSpecialization(selectedProgramIndex, null)}
+                      >
+                        <p className="da2-sb-track-name">General</p>
+                        <p className="da2-sb-track-detail">
+                          {selectedProgramAudit.bundle.source === "cs-specialized"
+                            ? "No specialization - maximum flexibility"
+                            : "Core requirements only"}
+                        </p>
+                      </button>
+
+                      {(selectedProgramAudit.bundle.specializationOptions ?? []).map((spec) => (
+                        <button
+                          key={`sidebar-spec-${spec.id}`}
+                          type="button"
+                          className={`da2-sb-track-option ${selectedSpecializationId === spec.id ? "selected" : ""}`}
+                          onClick={() => setProgramSpecialization(selectedProgramIndex, spec.id)}
+                        >
+                          <p className="da2-sb-track-name">{spec.name}</p>
+                          <p className="da2-sb-track-detail">{specializationPreviewById.get(spec.id) ?? "Track requirements"}</p>
                         </button>
                       ))}
                     </div>
-                  )}
-                </Card>
-
-                <Card className="da2-sidebar-card bg-card border-border p-5 mt-4 no-print">
-                  <h3 className="text-sm uppercase tracking-wide text-muted-foreground mb-3">Actions</h3>
-                  <div className="grid grid-cols-1 gap-2">
-                    <Button variant="outline" className="justify-start border-border" onClick={handlePrintDegreeAudit}>
-                      <Printer className="w-4 h-4 mr-2" />
-                      Print / PDF
-                    </Button>
-                    <Button variant="outline" className="justify-start border-border" onClick={handleEmailDegreeAudit}>
-                      <Mail className="w-4 h-4 mr-2" />
-                      Email Audit
-                    </Button>
-                    <Button variant="outline" className="justify-start border-border" onClick={handleTextDegreeAudit}>
-                      <MessageSquare className="w-4 h-4 mr-2" />
-                      Text Audit
-                    </Button>
-                  </div>
-                </Card>
+                  </Card>
+                )}
               </>
             )}
           </aside>

@@ -354,6 +354,7 @@
   border: 1.5px solid var(--da2-border-soft) !important;
   border-radius: 12px !important;
   box-shadow: var(--da2-shadow);
+  background: var(--da2-surface) !important;
 }
 
 .da2-ps-header {
@@ -754,6 +755,121 @@
 .da2-need-item:hover {
   border-color: rgba(198, 40, 40, 0.22) !important;
   background: rgba(198, 40, 40, 0.03) !important;
+}
+
+.da2-sidebar-card .da2-sidebar-title {
+  margin: 0 0 0.82rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.005em;
+  color: var(--da2-ink);
+}
+
+.da2-sb-program-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.48rem;
+}
+
+.da2-sb-program-row {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--da2-border-soft);
+  background: var(--da2-surface-2);
+  padding: 0.62rem 0.68rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.52rem;
+  text-align: left;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.da2-sb-program-row:hover {
+  border-color: rgba(198, 40, 40, 0.22);
+  background: rgba(198, 40, 40, 0.04);
+}
+
+.da2-sb-program-row.selected {
+  border-color: rgba(198, 40, 40, 0.3);
+  background: rgba(198, 40, 40, 0.08);
+}
+
+.da2-sb-program-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+}
+
+.da2-sb-program-dot.major {
+  background: var(--da2-red-mid);
+}
+
+.da2-sb-program-dot.minor {
+  background: var(--da2-gold);
+}
+
+.da2-sb-program-name {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.84rem;
+  color: var(--da2-ink-2);
+  font-weight: 600;
+}
+
+.da2-sb-program-progress {
+  font-size: 0.73rem;
+  color: var(--da2-ink-muted);
+  font-weight: 600;
+}
+
+.da2-sb-program-note {
+  margin: 0.72rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--da2-ink-muted);
+}
+
+.da2-sb-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.52rem;
+}
+
+.da2-sb-track-option {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--da2-border-soft);
+  background: var(--da2-surface-2);
+  padding: 0.66rem 0.72rem;
+  text-align: left;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.da2-sb-track-option:hover {
+  border-color: rgba(198, 40, 40, 0.22);
+  background: rgba(198, 40, 40, 0.04);
+}
+
+.da2-sb-track-option.selected {
+  border-color: rgba(198, 40, 40, 0.32);
+  background: rgba(198, 40, 40, 0.08);
+}
+
+.da2-sb-track-name {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--da2-ink-2);
+  font-weight: 700;
+}
+
+.da2-sb-track-detail {
+  margin: 0.2rem 0 0;
+  font-size: 0.73rem;
+  line-height: 1.35;
+  color: var(--da2-ink-muted);
 }
 
 .da2-sidebar-card h2 {
