@@ -506,6 +506,40 @@ export default function FourYearPlan() {
   }, [courseMenuTarget]);
 
   useEffect(() => {
+    if (!editingGradeKey) {
+      return;
+    }
+
+    const closeOnOutside = (event: MouseEvent) => {
+      const { target } = event;
+      if (!(target instanceof Element)) {
+        setEditingGradeKey(null);
+        return;
+      }
+
+      if (target.closest(".pc-grade-inline-editor") || target.closest(".pc-grade-select-content")) {
+        return;
+      }
+
+      setEditingGradeKey(null);
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setEditingGradeKey(null);
+      }
+    };
+
+    window.addEventListener("mousedown", closeOnOutside, true);
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      window.removeEventListener("mousedown", closeOnOutside, true);
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [editingGradeKey]);
+
+  useEffect(() => {
     if (!changeSectionTarget || changeSectionTarget.term.source !== "schedule") {
       setAvailableSections([]);
       setSectionLookupPending(false);
@@ -1566,25 +1600,27 @@ export default function FourYearPlan() {
                                   <span>{toSectionDisplay(course.sectionCode)}</span>
                                   <span className="pc-meta-sep">•</span>
                                   {course.status === "completed" && editingGradeKey === course.sectionKey ? (
-                                    <Select
-                                      value={course.grade ?? "__none__"}
-                                      onValueChange={(value) => {
-                                        void handleScheduleGradeChange(sourceTerm, course, value).finally(() => {
-                                          setEditingGradeKey((current) => (current === course.sectionKey ? null : current));
-                                        });
-                                      }}
-                                      disabled={savingGradeKey === course.sectionKey}
-                                    >
-                                      <SelectTrigger className="pc-grade-trigger inline">
-                                        <SelectValue placeholder="Grade" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        <SelectItem value="__none__">No grade</SelectItem>
-                                        {GRADE_OPTIONS.map((grade) => (
-                                          <SelectItem key={grade} value={grade}>{grade}</SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
+                                    <div className="pc-grade-inline-editor">
+                                      <Select
+                                        value={course.grade ?? "__none__"}
+                                        onValueChange={(value) => {
+                                          void handleScheduleGradeChange(sourceTerm, course, value).finally(() => {
+                                            setEditingGradeKey((current) => (current === course.sectionKey ? null : current));
+                                          });
+                                        }}
+                                        disabled={savingGradeKey === course.sectionKey}
+                                      >
+                                        <SelectTrigger className="pc-grade-trigger inline">
+                                          <SelectValue placeholder="Grade" />
+                                        </SelectTrigger>
+                                        <SelectContent className="pc-grade-select-content">
+                                          <SelectItem value="__none__">No grade</SelectItem>
+                                          {GRADE_OPTIONS.map((grade) => (
+                                            <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    </div>
                                   ) : (
                                     <button
                                       type="button"
