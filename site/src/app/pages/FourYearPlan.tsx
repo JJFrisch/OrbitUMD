@@ -300,6 +300,7 @@ export default function FourYearPlan() {
   const [courseTermOverrides, setCourseTermOverrides] = useState<Record<string, string>>({});
   const [draggingCourseKey, setDraggingCourseKey] = useState<string | null>(null);
   const [dragOverTermId, setDragOverTermId] = useState<string | null>(null);
+  const [movingCourseKey, setMovingCourseKey] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -610,6 +611,14 @@ export default function FourYearPlan() {
     return mapping;
   }, [boardTerms]);
 
+  const termById = useMemo(() => {
+    return new Map(boardTerms.map((term) => [term.id, term]));
+  }, [boardTerms]);
+
+  const mainScheduleById = useMemo(() => {
+    return new Map(mainSchedules.map((schedule) => [schedule.id, schedule]));
+  }, [mainSchedules]);
+
   useEffect(() => {
     setCourseTermOverrides((current) => {
       const validCourseKeys = new Set(originalTermByCourseSectionKey.keys());
@@ -653,6 +662,10 @@ export default function FourYearPlan() {
   }, [boardTerms, courseTermOverrides, sortCoursesForDisplay]);
 
   const handleCourseDragStart = (event: DragEvent<HTMLElement>, sectionKey: string) => {
+    if (movingCourseKey) {
+      event.preventDefault();
+      return;
+    }
     event.dataTransfer.effectAllowed = "move";
     event.dataTransfer.setData("text/plain", sectionKey);
     setDraggingCourseKey(sectionKey);
@@ -663,8 +676,8 @@ export default function FourYearPlan() {
     setDragOverTermId(null);
   };
 
-  const handleTermDragOver = (event: DragEvent<HTMLElement>, termId: string) => {
-    if (!draggingCourseKey) {
+  const handleTermDragOver = (event: DragEvent<HTMLElement>, termId: string, canDrop: boolean) => {
+    if (!draggingCourseKey || !canDrop || movingCourseKey) {
       return;
     }
     event.preventDefault();
@@ -672,40 +685,133 @@ export default function FourYearPlan() {
     setDragOverTermId(termId);
   };
 
-  const handleTermDrop = (event: DragEvent<HTMLElement>, targetTermId: string) => {
+  const handleTermDrop = async (event: DragEvent<HTMLElement>, targetTermId: string) => {
     event.preventDefault();
+    if (movingCourseKey) {
+      return;
+    }
+
     const droppedSectionKey = event.dataTransfer.getData("text/plain") || draggingCourseKey;
     if (!droppedSectionKey) {
       return;
     }
 
-    const sourceTerm = originalTermByCourseSectionKey.get(droppedSectionKey);
-    if (!sourceTerm) {
+    const baseSourceTerm = originalTermByCourseSectionKey.get(droppedSectionKey);
+    if (!baseSourceTerm) {
+      setDragOverTermId(null);
+      setDraggingCourseKey(null);
       return;
     }
 
-    setCourseTermOverrides((current) => {
-      if (targetTermId === sourceTerm.id) {
+    const currentSourceTermId = courseTermOverrides[droppedSectionKey] ?? baseSourceTerm.id;
+    if (currentSourceTermId === targetTermId) {
+      setDragOverTermId(null);
+      setDraggingCourseKey(null);
+      return;
+    }
+
+    const sourceTerm = termById.get(currentSourceTermId);
+    const targetTerm = termById.get(targetTermId);
+
+    if (!sourceTerm || !targetTerm || sourceTerm.source !== "schedule" || targetTerm.source !== "schedule") {
+      toast.error("Courses can only be moved between MAIN schedule terms.");
+      setDragOverTermId(null);
+      setDraggingCourseKey(null);
+      return;
+    }
+
+    const sourceSchedule = mainScheduleById.get(sourceTerm.scheduleId);
+    const targetSchedule = mainScheduleById.get(targetTerm.scheduleId);
+    if (!sourceSchedule || !targetSchedule || !sourceSchedule.term_code || !sourceSchedule.term_year || !targetSchedule.term_code || !targetSchedule.term_year) {
+      toast.error("Unable to move this course right now.");
+      setDragOverTermId(null);
+      setDraggingCourseKey(null);
+      return;
+    }
+
+    const sourceSelections = parseSelections(sourceSchedule.selections_json);
+    const targetSelections = parseSelections(targetSchedule.selections_json);
+    const movedSelection = sourceSelections.find((selection) => selection.sectionKey === droppedSectionKey);
+
+    if (!movedSelection) {
+      toast.error("Unable to locate the selected course in its source term.");
+      setDragOverTermId(null);
+      setDraggingCourseKey(null);
+      return;
+    }
+
+    const nextSourceSelections = sourceSelections.filter((selection) => selection.sectionKey !== droppedSectionKey);
+    const nextTargetSelections = [
+      ...targetSelections.filter((selection) => selection.sectionKey !== droppedSectionKey),
+      movedSelection,
+    ];
+
+    const previousSchedules = mainSchedules;
+    const previousOverrides = courseTermOverrides;
+
+    setMovingCourseKey(droppedSectionKey);
+    setCourseTermOverrides((current) => ({ ...current, [droppedSectionKey]: targetTermId }));
+    setMainSchedules((current) => current.map((entry) => {
+      if (entry.id === sourceSchedule.id) {
+        return {
+          ...entry,
+          updated_at: new Date().toISOString(),
+          selections_json: buildSelectionsPayload(nextSourceSelections),
+        };
+      }
+      if (entry.id === targetSchedule.id) {
+        return {
+          ...entry,
+          updated_at: new Date().toISOString(),
+          selections_json: buildSelectionsPayload(nextTargetSelections),
+        };
+      }
+      return entry;
+    }));
+
+    try {
+      const [savedSource, savedTarget] = await Promise.all([
+        plannerApi.saveScheduleWithSelections({
+          id: sourceSchedule.id,
+          name: sourceSchedule.name,
+          termCode: sourceSchedule.term_code,
+          termYear: sourceSchedule.term_year,
+          isPrimary: sourceSchedule.is_primary,
+          selectionsJson: buildSelectionsPayload(nextSourceSelections),
+        }),
+        plannerApi.saveScheduleWithSelections({
+          id: targetSchedule.id,
+          name: targetSchedule.name,
+          termCode: targetSchedule.term_code,
+          termYear: targetSchedule.term_year,
+          isPrimary: targetSchedule.is_primary,
+          selectionsJson: buildSelectionsPayload(nextTargetSelections),
+        }),
+      ]);
+
+      setMainSchedules((current) => current.map((entry) => {
+        if (entry.id === savedSource.id) return savedSource;
+        if (entry.id === savedTarget.id) return savedTarget;
+        return entry;
+      }));
+
+      setCourseTermOverrides((current) => {
         if (!(droppedSectionKey in current)) {
           return current;
         }
         const next = { ...current };
         delete next[droppedSectionKey];
         return next;
-      }
-
-      if (current[droppedSectionKey] === targetTermId) {
-        return current;
-      }
-
-      return {
-        ...current,
-        [droppedSectionKey]: targetTermId,
-      };
-    });
-
-    setDragOverTermId(null);
-    setDraggingCourseKey(null);
+      });
+    } catch (error) {
+      setMainSchedules(previousSchedules);
+      setCourseTermOverrides(previousOverrides);
+      toast.error(error instanceof Error ? error.message : "Unable to move course between terms.");
+    } finally {
+      setMovingCourseKey((current) => (current === droppedSectionKey ? null : current));
+      setDragOverTermId(null);
+      setDraggingCourseKey(null);
+    }
   };
 
   const remainingCredits = Math.max(0, 120 - summary.totalCredits);
@@ -713,85 +819,6 @@ export default function FourYearPlan() {
   return (
     <div className="fyp-page">
       <div className="shell">
-        <aside className="sidebar" aria-label="Four-year plan navigation">
-          <Link className="sidebar-logo" to="/dashboard">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden>
-              <circle cx="16" cy="16" r="3.5" fill="#EF5350" />
-              <circle cx="16" cy="16" r="9" stroke="#EF5350" strokeWidth="1.2" strokeDasharray="3 2" />
-              <circle cx="16" cy="7" r="2.2" fill="#EF5350" />
-              <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7" />
-              <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5" />
-            </svg>
-            <span className="logo-text">Orbit<span>UMD</span></span>
-          </Link>
-
-          <div className="nav-section">
-            <div className="nav-label">Overview</div>
-            <Link className="nav-item" to="/dashboard">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-                <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-                <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-                <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
-              </svg>
-              Dashboard
-            </Link>
-            <Link className="nav-item active" to="/four-year-plan">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              My Four-Year Plan
-            </Link>
-
-            <div className="nav-gap" />
-            <div className="nav-label">Scheduling</div>
-            <Link className="nav-item" to="/generate-schedule">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-              </svg>
-              Generate Schedule
-            </Link>
-            <Link className="nav-item" to="/schedules">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M2 6h12M6 2v12" stroke="currentColor" strokeWidth="1.2" />
-              </svg>
-              My Schedules
-              <span className="nav-badge">{Math.max(mainSchedules.length, 1)}</span>
-            </Link>
-
-            <div className="nav-gap" />
-            <div className="nav-label">Requirements</div>
-            <Link className="nav-item" to="/degree-audit">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
-                <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Degree Audit
-            </Link>
-            <Link className="nav-item" to="/gen-eds">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M2 13L6 3l4 7 3-4 1 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              Gen Eds
-            </Link>
-            <Link className="nav-item" to="/suggestions">
-              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
-                <path d="M4 8h8M4 5h8M4 11h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-              Suggestions
-            </Link>
-          </div>
-
-          <div className="sidebar-user">
-            <div className="user-avatar">AJ</div>
-            <div>
-              <div className="user-name">Alex Johnson</div>
-              <div className="user-role">{officialStanding} · CS + Math</div>
-            </div>
-          </div>
-        </aside>
-
         <div className="main">
           <div className="topbar">
             <div className="topbar-left">
@@ -917,6 +944,7 @@ export default function FourYearPlan() {
               <div className="plan-grid" data-tour-target="four-year-timeline">
                 {boardTerms.map((term) => {
                   const termState = boardTermState(term.status);
+                  const canDropIntoTerm = term.source === "schedule";
                   const statusText = termState === "past" ? "Done" : termState === "current" ? "Now" : "Plan";
                   const statusClass = termState === "past" ? "done" : termState === "current" ? "cur" : "plan";
                   const termCourses = displayedCoursesByTerm.get(term.id) ?? [];
@@ -930,8 +958,8 @@ export default function FourYearPlan() {
                   return (
                     <article
                       key={term.id}
-                      className={`term-col ${term.termCode === "05" ? "summer" : ""} ${dragOverTermId === term.id ? "is-drop-target" : ""}`}
-                      onDragOver={(event) => handleTermDragOver(event, term.id)}
+                      className={`term-col ${term.termCode === "05" ? "summer" : ""} ${canDropIntoTerm && dragOverTermId === term.id ? "is-drop-target" : ""}`}
+                      onDragOver={(event) => handleTermDragOver(event, term.id, canDropIntoTerm)}
                       onDrop={(event) => handleTermDrop(event, term.id)}
                     >
                       <header className={`term-col-header ${termState}`}>
@@ -957,12 +985,19 @@ export default function FourYearPlan() {
                         const genEdLabelSet = new Set(genEdContributionLabels);
                         const contributionLabels = [...requirementLabels, ...genEdContributionLabels].slice(0, 2);
                         const sourceTerm = originalTermByCourseSectionKey.get(course.sectionKey) ?? term;
+                        const isDraggable = sourceTerm.source === "schedule" && movingCourseKey === null;
                         return (
                           <article
                             key={course.sectionKey}
                             className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""} ${draggingCourseKey === course.sectionKey ? "is-dragging" : ""}`}
-                            draggable
-                            onDragStart={(event) => handleCourseDragStart(event, course.sectionKey)}
+                            draggable={isDraggable}
+                            onDragStart={(event) => {
+                              if (!isDraggable) {
+                                event.preventDefault();
+                                return;
+                              }
+                              handleCourseDragStart(event, course.sectionKey);
+                            }}
                             onDragEnd={handleCourseDragEnd}
                           >
                             <button

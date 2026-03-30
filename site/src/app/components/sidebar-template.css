@@ -106,6 +106,10 @@
   margin-bottom: 8px;
 }
 
+.orbit-shell .nav-group + .nav-group {
+  margin-top: 14px;
+}
+
 .orbit-shell .orbit-sidebar.collapsed .nav-label,
 .orbit-shell .orbit-sidebar.collapsed .nav-text,
 .orbit-shell .orbit-sidebar.collapsed .nav-badge,
@@ -185,18 +189,67 @@
 }
 
 .orbit-shell .sidebar-user {
+  width: 100%;
+  border: none;
+  background: transparent;
   padding: 14px 20px 18px;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   display: flex;
   align-items: center;
   gap: 10px;
+  justify-content: flex-start;
+  text-align: left;
   color: rgba(255, 255, 255, 0.86);
   text-decoration: none;
   z-index: 2;
+  cursor: pointer;
 }
 
 .orbit-shell .sidebar-user:hover {
   background: rgba(255, 255, 255, 0.04);
+}
+
+.orbit-shell .sidebar-user-wrap {
+  position: relative;
+  z-index: 3;
+}
+
+.orbit-shell .user-menu-caret {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.58);
+  display: inline-flex;
+  align-items: center;
+}
+
+.orbit-shell .sidebar-user-menu {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 72px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  background: rgba(20, 15, 12, 0.96);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.28);
+  padding: 8px;
+}
+
+.orbit-shell .sidebar-user-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.8rem;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.orbit-shell .sidebar-user-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.orbit-shell .orbit-sidebar.collapsed .user-menu-caret {
+  display: none;
 }
 
 .orbit-shell .user-avatar {
