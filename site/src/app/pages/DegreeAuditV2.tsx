@@ -1201,187 +1201,366 @@ function RequirementSectionTableCard({
     );
   };
 
+  const sectionRequirementLabel = section.requirementType === "choose"
+    ? `Choose ${section.chooseCount ?? 1}`
+    : "All Required";
+  const sectionFulfilledCount = Math.min(
+    sectionEval.requiredSlots,
+    sectionEval.completedSlots + sectionEval.inProgressSlots,
+  );
+  const sectionStatusVisual = sectionEval.status === "completed"
+    ? "done"
+    : sectionEval.status === "not_started"
+      ? "empty"
+      : "partial";
+
+  const sectionCourseRows = useMemo(() => {
+    type SectionCourseRow = {
+      key: string;
+      reqType: string;
+      status: AuditCourseStatus;
+      displayCode: string;
+      displayTitle: string;
+      detailCode: string;
+      editableToken: string;
+      wildcardSlot?: WildcardSlotMeta;
+    };
+
+    const rows: SectionCourseRow[] = [];
+
+    const pushToken = (tokenRaw: string, rowKey: string, codeIndex: number, reqType: string) => {
+      const token = String(tokenRaw).toUpperCase();
+      const renderKey = `${rowKey}-${token}-${codeIndex}`;
+      const wildcardSlot = wildcardSlotByRenderKey.get(renderKey);
+      const wildcardMatchedCourse = wildcardSlot?.effectiveCode
+        ? allCourses.find((course) => course.code.toUpperCase() === String(wildcardSlot.effectiveCode).toUpperCase())
+        : undefined;
+      const course = wildcardMatchedCourse ?? sectionCoursesByCode.get(token);
+      const status: AuditCourseStatus = wildcardMatchedCourse?.status ?? course?.status ?? byCourseCode.get(token) ?? "not_started";
+      const displayCode = wildcardMatchedCourse?.code ?? course?.code ?? token;
+      const displayTitle = wildcardMatchedCourse?.title ?? course?.title ?? token;
+
+      rows.push({
+        key: renderKey,
+        reqType,
+        status,
+        displayCode,
+        displayTitle,
+        detailCode: displayCode,
+        editableToken: token,
+        wildcardSlot,
+      });
+    };
+
+    classRows.forEach((row) => {
+      if (row.type === "OR") {
+        row.choices.forEach((choice, choiceIndex) => {
+          const rowKey = `${row.key}-choice-${choiceIndex}`;
+          const reqType = `Option ${String.fromCharCode(65 + choiceIndex)}`;
+          choice.forEach((token, codeIndex) => pushToken(token, rowKey, codeIndex, reqType));
+        });
+      } else {
+        const reqType = row.type === "SINGLE" ? "Required" : "Required";
+        (row.choices[0] ?? []).forEach((token, codeIndex) => pushToken(token, row.key, codeIndex, reqType));
+      }
+    });
+
+    return rows;
+  }, [allCourses, byCourseCode, classRows, sectionCoursesByCode, wildcardSlotByRenderKey]);
+
+  const toggleSectionExpanded = () => {
+    setExpandedSectionIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(section.id)) next.delete(section.id);
+      else next.add(section.id);
+      return next;
+    });
+  };
+
   return (
     <>
       <Card className="da2-req-block bg-input-background border-border p-0 overflow-hidden">
-        <table className="w-full text-sm degree-audit-table da2-req-table">
-          <thead className="bg-muted/40 border-b border-border da2-req-head">
-            <tr>
-              <th className="px-3 py-2 text-left text-xs text-muted-foreground">Section</th>
-              <th className="px-3 py-2 text-left text-xs text-muted-foreground">Requirement</th>
-              <th className="px-3 py-2 text-left text-xs text-muted-foreground w-[180px] min-w-[180px]">Progress</th>
-              <th className="px-3 py-2 text-left text-xs text-muted-foreground">Classes Needed</th>
-              <th className="px-3 py-2 text-right text-xs text-muted-foreground">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {/* Section header row */}
-            <tr className="border-b border-border bg-card/40 align-top da2-req-header-row">
-              <td className="px-3 py-3" onDoubleClick={() => setEditingTitle(true)}>
-                {editingTitle ? (
-                  <Input value={titleDraft} onChange={(e) => setTitleDraft(e.target.value)} onBlur={saveTitle} onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); saveTitle(); } }} autoFocus className="h-8" />
-                ) : (
-                  <div className="flex items-center gap-2">
+        <div className="da2-rb-header">
+          <div className="da2-rb-title-wrap" onDoubleClick={() => setEditingTitle(true)}>
+            {editingTitle ? (
+              <Input
+                value={titleDraft}
+                onChange={(e) => setTitleDraft(e.target.value)}
+                onBlur={saveTitle}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    saveTitle();
+                  }
+                }}
+                autoFocus
+                className="h-8"
+              />
+            ) : (
+              <>
+                <p className={`da2-rb-name ${sectionHeaderClass(sectionEval)}`}>{section.title}</p>
+                <div className="da2-rb-meta-row" onDoubleClick={() => setEditingRequirement(true)}>
+                  {editingRequirement ? (
+                    <div className="flex items-center gap-2">
+                      <select
+                        className="h-8 rounded-md border border-input bg-input-background px-2 text-xs"
+                        value={requirementDraft}
+                        onChange={(e) => setRequirementDraft(e.target.value === "choose" ? "choose" : "all")}
+                        aria-label="Section requirement type"
+                        title="Section requirement type"
+                      >
+                        <option value="all">All Required</option>
+                        <option value="choose">Choose N</option>
+                      </select>
+                      {requirementDraft === "choose" && (
+                        <Input
+                          type="number"
+                          min={1}
+                          value={chooseCountDraft}
+                          onChange={(e) => setChooseCountDraft(Math.max(1, Number(e.target.value) || 1))}
+                          className="h-8 w-20"
+                        />
+                      )}
+                      <Button type="button" size="sm" variant="outline" onClick={saveRequirement}>Save</Button>
+                    </div>
+                  ) : (
+                    <p className="da2-rb-meta">{sectionRequirementLabel}</p>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+
+          <div className="da2-rb-head-controls">
+            <div className="flex items-center gap-2">
+              <Button type="button" size="sm" variant="outline" className="da2-rb-act" onClick={() => onEdit?.(section)}>
+                Edit
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="outline"
+                className="da2-rb-act"
+                onClick={() => setExpandedNotesSectionIds((prev) => {
+                  const next = new Set(prev);
+                  if (next.has(section.id)) next.delete(section.id);
+                  else next.add(section.id);
+                  return next;
+                })}
+              >
+                {expandedNotesSectionIds.has(section.id) ? "Hide Info" : "Info"}
+              </Button>
+            </div>
+
+            <div className="da2-rb-progress">
+              <span className="da2-rb-prog-text"><strong>{sectionFulfilledCount}</strong> / {sectionEval.requiredSlots}</span>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="da2-rb-toggle"
+                onClick={toggleSectionExpanded}
+                aria-label={sectionIsExpanded ? "Collapse section" : "Expand section"}
+              >
+                <div className={`da2-rb-status ${sectionStatusVisual}`}>
+                  {sectionStatusVisual === "done" ? "\u2713" : sectionStatusVisual === "partial" ? "\u2212" : "\u25CB"}
+                </div>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {sectionIsExpanded && (
+          <div className="da2-rb-courses">
+            {sectionCourseRows.map((row) => {
+              const statusClass = row.status === "completed"
+                ? "done"
+                : row.status === "not_started"
+                  ? "open"
+                  : "progress";
+              const statusLabel = row.status === "completed"
+                ? "Completed"
+                : row.status === "in_progress"
+                  ? "In Progress"
+                  : row.status === "planned"
+                    ? "Planned"
+                    : "Needed";
+
+              return (
+                <div key={row.key} className="da2-rb-course-row">
+                  <div className={`da2-rb-course-check ${statusClass}`}>{statusClass === "done" ? "\u2713" : statusClass === "progress" ? "\u2212" : "\u25CB"}</div>
+                  <div className="da2-rb-req-type">{row.reqType}</div>
+                  <div className="da2-rb-course-code">{row.displayCode}</div>
+                  <div className="da2-rb-course-name">{row.displayTitle}</div>
+                  <div className={`da2-rb-course-status ${statusClass}`}>{statusLabel}</div>
+                  <div className="da2-rb-course-actions">
                     <Button
                       type="button"
-                      size="icon"
-                      variant="ghost"
-                      className="h-6 w-6"
-                      onClick={() => setExpandedSectionIds((prev) => {
-                        const next = new Set(prev);
-                        if (next.has(section.id)) next.delete(section.id);
-                        else next.add(section.id);
-                        return next;
-                      })}
-                      aria-label={sectionIsExpanded ? "Collapse section" : "Expand section"}
+                      size="sm"
+                      variant="outline"
+                      className="da2-rb-act"
+                      onClick={() => setEditingCode({ originalCode: row.editableToken, query: row.displayCode })}
                     >
-                      <ChevronDown className={`h-4 w-4 transition-transform ${sectionIsExpanded ? "rotate-180" : ""}`} />
+                      Edit
                     </Button>
-                    <div>
-                    <p className={`font-medium ${sectionHeaderClass(sectionEval)}`}>{section.title}</p>
-                    <p className="text-xs text-muted-foreground">Double-click to edit</p>
-                    </div>
-                  </div>
-                )}
-              </td>
-              <td className="px-3 py-3" onDoubleClick={() => setEditingRequirement(true)}>
-                {editingRequirement ? (
-                  <div className="flex items-center gap-2">
-                    <select className="h-8 rounded-md border border-input bg-input-background px-2 text-xs" value={requirementDraft} onChange={(e) => setRequirementDraft(e.target.value === "choose" ? "choose" : "all")} aria-label="Section requirement type" title="Section requirement type">
-                      <option value="all">All Required</option>
-                      <option value="choose">Choose N</option>
-                    </select>
-                    {requirementDraft === "choose" && (
-                      <Input type="number" min={1} value={chooseCountDraft} onChange={(e) => setChooseCountDraft(Math.max(1, Number(e.target.value) || 1))} className="h-8 w-20" />
-                    )}
-                    <Button type="button" size="sm" variant="outline" onClick={saveRequirement}>Save</Button>
-                  </div>
-                ) : (
-                  <span className="text-foreground/85">
-                    {section.requirementType === "choose" ? `Choose ${section.chooseCount ?? 1}` : "All Required"}
-                  </span>
-                )}
-              </td>
-              <td className="px-3 py-3 w-[180px] min-w-[180px]">
-                <div className="flex items-center gap-2">
-                  {statusBadge(sectionEval.status)}
-                  <span className="text-xs text-muted-foreground">
-                    {Math.min(sectionEval.requiredSlots, sectionEval.completedSlots + sectionEval.inProgressSlots)} / {sectionEval.requiredSlots}
-                  </span>
-                </div>
-              </td>
-              <td className="px-3 py-3 text-xs text-muted-foreground">
-                Click a course for details · Double-click to edit
-              </td>
-              <td className="px-3 py-3">
-                <div className="flex items-center justify-end gap-2">
-                  <Button type="button" size="sm" variant="outline" className="border-border text-foreground/80" onClick={() => onEdit?.(section)}>
-                    <Pencil className="h-3.5 w-3.5 mr-1" />Edit
-                  </Button>
-                  <Button type="button" size="sm" variant="outline" className="border-border text-foreground/80" onClick={() => setExpandedNotesSectionIds((prev) => { const next = new Set(prev); if (next.has(section.id)) next.delete(section.id); else next.add(section.id); return next; })}>
-                    {expandedNotesSectionIds.has(section.id) ? "Hide Notes" : "Info"}
-                  </Button>
-                </div>
-              </td>
-            </tr>
-
-            {/* Class rows */}
-            {sectionIsExpanded && classRows.map((row) => (
-              <tr key={`${section.id}-${row.key}`} className="border-b border-border align-top">
-                <td className="px-3 py-2 text-xs text-muted-foreground">{row.label ?? "Course"}</td>
-                <td className="px-3 py-2 text-xs text-foreground/85">
-                  {row.type === "OR" ? "Choose 1" : row.type === "SINGLE" ? "Standalone" : "Required"}
-                </td>
-                <td className="px-3 py-2 text-xs text-muted-foreground">
-                  {row.type === "OR"
-                    ? `${row.choices.length} option${row.choices.length === 1 ? "" : "s"}`
-                    : `${(row.choices[0]?.length ?? 0)} course${(row.choices[0]?.length ?? 0) === 1 ? "" : "s"}`}
-                </td>
-                <td className="px-3 py-2">
-                  <div className={`flex flex-wrap items-start gap-2 ${getDepthIndentClass(row.depth)}`}>
-                            {row.type === "OR"
-                      ? row.choices.map((choice, choiceIndex) => (
-                        <div key={`${row.key}-choice-${choiceIndex}`} className="flex flex-col items-start gap-1 rounded-md border border-amber-300/40 bg-amber-500/5 px-2 py-1">
-                          <Badge variant="outline" className="border-amber-300/60 text-[10px] text-amber-700 dark:text-amber-300">
-                            Option {String.fromCharCode(65 + choiceIndex)}
-                          </Badge>
-                          {choice.map((code, codeIndex) => (
-                            <div key={`${row.key}-choice-${choiceIndex}-${code}`} className="w-full">
-                              {renderCourseButton(String(code).toUpperCase(), `${row.key}-choice-${choiceIndex}`, codeIndex, codeIndex === choice.length - 1, "AND")}
-                            </div>
-                          ))}
-                        </div>
-                      ))
-                      : (row.choices[0] ?? []).map((code, codeIndex) =>
-                        renderCourseButton(String(code).toUpperCase(), row.key, codeIndex, codeIndex === (row.choices[0] ?? []).length - 1, row.type)
-                      )}
-                  </div>
-                </td>
-                <td className="px-3 py-2" />
-              </tr>
-            ))}
-
-            {/* Add course row */}
-            <tr className={`border-b border-border bg-muted/10 align-top ${sectionIsExpanded ? "" : "hidden"}`}>
-              <td className="px-3 py-2" colSpan={5}>
-                {addingCourse ? (
-                  <div className="flex flex-col gap-2 max-w-lg">
-                    <div className="flex gap-2">
-                      <Input value={addQuery} onChange={(e) => setAddQuery(e.target.value)} placeholder="Search code or title (e.g. CMSC330 or algorithms)" className="h-8 text-xs" autoFocus />
-                      <Button type="button" size="sm" variant="ghost" onClick={() => { setAddingCourse(false); setAddQuery(""); }}>Cancel</Button>
-                    </div>
-                    {addSearchPending && <p className="text-xs text-muted-foreground">Searching…</p>}
-                    {addSearchResults.length > 0 && (
-                      <div className="max-h-32 overflow-y-auto border border-border rounded-md divide-y divide-border">
-                        {addSearchResults.map((result) => (
-                          <button key={result.code} type="button" className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent flex items-center justify-between gap-2" onClick={() => addCourseDirectly(result.code)}>
-                            <span><span className="font-medium text-foreground">{result.code}</span><span className="text-muted-foreground"> · {result.title}</span></span>
-                            <Plus className="h-3 w-3 text-muted-foreground flex-shrink-0" />
-                          </button>
-                        ))}
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      className="da2-rb-act"
+                      onClick={() => setDetailCode(row.detailCode)}
+                    >
+                      Info
+                    </Button>
+                    {row.wildcardSlot && onSelectWildcardCourse && (
+                      <div className="relative" data-wildcard-slot={row.wildcardSlot.key}>
+                        <Button
+                          type="button"
+                          size="icon"
+                          variant="outline"
+                          className="h-6 w-6 border-border"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            setOpenWildcardSlotKey((current) => (current === row.wildcardSlot?.key ? null : row.wildcardSlot?.key ?? null));
+                          }}
+                          title={`Select course for ${row.wildcardSlot.token}`}
+                          aria-label={`Select course for ${row.wildcardSlot.token}`}
+                        >
+                          {openWildcardSlotKey === row.wildcardSlot.key ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+                        </Button>
+                        {openWildcardSlotKey === row.wildcardSlot.key && (
+                          <div className="absolute right-0 top-8 z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg">
+                            <p className="mb-1 text-[11px] text-muted-foreground">{row.wildcardSlot.token} wildcard</p>
+                            <select
+                              className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+                              value={row.wildcardSlot.selectedCode ?? ""}
+                              onChange={(event) => {
+                                onSelectWildcardCourse(row.wildcardSlot!.key, event.target.value);
+                                setOpenWildcardSlotKey(null);
+                              }}
+                              onClick={(event) => event.stopPropagation()}
+                              aria-label={`Select course for ${row.wildcardSlot.token}`}
+                              title={`Select course for ${row.wildcardSlot.token}`}
+                            >
+                              <option value="">Auto-select best match</option>
+                              {row.wildcardSlot.options.map((option) => (
+                                <option key={`${row.wildcardSlot?.key}-${option.code}`} value={option.code}>
+                                  {option.code} - {option.title}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
                       </div>
                     )}
-                    {addQuery.trim() && !addSearchPending && addSearchResults.length === 0 && (
-                      <button type="button" className="text-xs text-muted-foreground hover:text-foreground text-left" onClick={() => addCourseDirectly(addQuery.trim())}>
-                        Press Enter or click to add "{addQuery.trim().toUpperCase()}" directly
-                      </button>
-                    )}
                   </div>
-                ) : (
-                  <button type="button" className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground" onClick={() => setAddingCourse(true)}>
-                    <Plus className="h-3.5 w-3.5" /> Add course to section
+                </div>
+              );
+            })}
+
+            {addingCourse ? (
+              <div className="da2-rb-add-wrap">
+                <div className="flex gap-2">
+                  <Input
+                    value={addQuery}
+                    onChange={(e) => setAddQuery(e.target.value)}
+                    placeholder="Search code or title (e.g. CMSC330 or algorithms)"
+                    className="h-8 text-xs"
+                    autoFocus
+                  />
+                  <Button type="button" size="sm" variant="ghost" onClick={() => { setAddingCourse(false); setAddQuery(""); }}>
+                    Cancel
+                  </Button>
+                </div>
+                {addSearchPending && <p className="text-xs text-muted-foreground">Searching…</p>}
+                {addSearchResults.length > 0 && (
+                  <div className="max-h-32 overflow-y-auto border border-border rounded-md divide-y divide-border">
+                    {addSearchResults.map((result) => (
+                      <button
+                        key={result.code}
+                        type="button"
+                        className="w-full px-3 py-1.5 text-left text-xs hover:bg-accent flex items-center justify-between gap-2"
+                        onClick={() => addCourseDirectly(result.code)}
+                      >
+                        <span><span className="font-medium text-foreground">{result.code}</span><span className="text-muted-foreground"> · {result.title}</span></span>
+                        <Plus className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {addQuery.trim() && !addSearchPending && addSearchResults.length === 0 && (
+                  <button
+                    type="button"
+                    className="text-xs text-muted-foreground hover:text-foreground text-left"
+                    onClick={() => addCourseDirectly(addQuery.trim())}
+                  >
+                    Press Enter or click to add "{addQuery.trim().toUpperCase()}" directly
                   </button>
                 )}
-              </td>
-            </tr>
-
-            {/* Notes row */}
-            {sectionIsExpanded && expandedNotesSectionIds.has(section.id) && (
-              <tr className="bg-muted/20">
-                <td className="px-3 py-2 text-xs text-muted-foreground">Notes</td>
-                <td className="px-3 py-2" colSpan={4} onDoubleClick={() => setEditingNotes(true)}>
-                  {editingNotes ? (
-                    <div className="space-y-2">
-                      <Textarea value={notesDraft} onChange={(e) => setNotesDraft(e.target.value)} className="min-h-[96px]" />
-                      <div className="flex justify-end gap-2">
-                        <Button type="button" size="sm" variant="outline" onClick={() => setEditingNotes(false)}>Cancel</Button>
-                        <Button type="button" size="sm" onClick={saveNotes}>Save Notes</Button>
-                      </div>
-                    </div>
-                  ) : section.notes.length > 0 ? (
-                    <ul className="space-y-1">
-                      {section.notes.map((note: string, idx: number) => (
-                        <li key={`${section.id}-note-${idx}`} className="text-xs text-foreground/80">• {note}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-xs text-muted-foreground">No notes. Double-click to add notes.</p>
-                  )}
-                </td>
-              </tr>
+              </div>
+            ) : (
+              <button type="button" className="da2-rb-add-row" onClick={() => setAddingCourse(true)}>
+                <Plus className="h-3.5 w-3.5" /> Add course to section
+              </button>
             )}
-          </tbody>
-        </table>
+
+            {editingCode && (
+              <div className="da2-rb-editing">
+                <Input
+                  value={editingCode.query}
+                  onChange={(event) => setEditingCode({ ...editingCode, query: event.target.value })}
+                  placeholder="Search class code/title"
+                  className="h-8 mb-2"
+                  autoFocus
+                />
+                {codeSearchPending ? (
+                  <p className="text-[11px] text-muted-foreground">Searching…</p>
+                ) : (
+                  <div className="max-h-28 overflow-y-auto space-y-1">
+                    {codeSearchResults.map((result) => (
+                      <button
+                        key={`${editingCode.originalCode}-${result.code}`}
+                        type="button"
+                        className="w-full rounded border border-border px-2 py-1 text-left text-xs hover:bg-accent"
+                        onClick={() => saveCodeReplacement(editingCode.originalCode, result.code)}
+                      >
+                        <span className="font-medium text-foreground">{result.code}</span>
+                        <span className="text-muted-foreground"> · {result.title}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+                <div className="mt-2 flex justify-end gap-2">
+                  <Button type="button" size="sm" variant="outline" onClick={() => setEditingCode(null)}>Cancel</Button>
+                  <Button type="button" size="sm" onClick={() => saveCodeReplacement(editingCode.originalCode, editingCode.query)}>Apply</Button>
+                </div>
+              </div>
+            )}
+
+            {expandedNotesSectionIds.has(section.id) && (
+              <div className="da2-rb-notes" onDoubleClick={() => setEditingNotes(true)}>
+                <p className="da2-rb-notes-title">Notes</p>
+                {editingNotes ? (
+                  <div className="space-y-2">
+                    <Textarea value={notesDraft} onChange={(e) => setNotesDraft(e.target.value)} className="min-h-[96px]" />
+                    <div className="flex justify-end gap-2">
+                      <Button type="button" size="sm" variant="outline" onClick={() => setEditingNotes(false)}>Cancel</Button>
+                      <Button type="button" size="sm" onClick={saveNotes}>Save Notes</Button>
+                    </div>
+                  </div>
+                ) : section.notes.length > 0 ? (
+                  <ul className="space-y-1">
+                    {section.notes.map((note: string, idx: number) => (
+                      <li key={`${section.id}-note-${idx}`} className="text-xs text-foreground/80">• {note}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-muted-foreground">No notes. Double-click to add notes.</p>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </Card>
 
       {detailCode && (
@@ -3374,6 +3553,7 @@ export default function DegreeAudit() {
                           <p className="da2-ps-progress">
                             <strong>{Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots + programAudit.plannedSlots)} / {programAudit.requiredSlots}</strong> required classes
                           </p>
+                          <ChevronDown className="da2-ps-toggle h-5 w-5 rotate-180" aria-hidden="true" />
                         </div>
                         <div className="da2-ps-prog-bar mb-5" role="presentation">
                           <div
@@ -3395,7 +3575,7 @@ export default function DegreeAudit() {
                           </Button>
                         </div>
 
-                        <div className="space-y-3">
+                        <div className="da2-req-blocks">
                           {(() => {
                             // Get selected specialization for this program
                             const selectedSpecId = selectedSpecialization.get(index);
@@ -4220,7 +4400,7 @@ export default function DegreeAudit() {
                                     <h3 className="text-lg text-foreground mb-3 font-semibold">
                                       Specialization Requirements: {selectedSpec.name}
                                     </h3>
-                                    <div className="space-y-3">
+                                    <div className="da2-req-blocks">
                                       {specializationSections.map(({ section, eval: sectionEval, wildcardSlots }) => {
                                         const editingThisSection = editingProgramIndex === index && editingSectionId === section.id && sectionDraft;
                                         if (editingThisSection) {
