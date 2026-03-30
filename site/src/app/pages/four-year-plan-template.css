@@ -432,6 +432,16 @@
   gap: 8px;
 }
 
+.term-col.is-drop-target .term-col-header {
+  border-color: rgba(198, 40, 40, 0.45);
+  box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.12);
+}
+
+.term-col.is-drop-target {
+  background: rgba(198, 40, 40, 0.03);
+  border-radius: 10px;
+}
+
 .term-col-header {
   padding: 8px 12px;
   border-radius: 8px;
@@ -506,12 +516,22 @@
   position: relative;
   animation: fadeIn 0.3s ease both;
   box-shadow: 0 1px 2px rgba(23, 18, 14, 0.04);
+  cursor: grab;
 }
 
 .plan-course:hover {
   border-color: rgba(198, 40, 40, 0.3);
   box-shadow: 0 2px 10px rgba(198, 40, 40, 0.1);
   transform: translateY(-1px);
+}
+
+.plan-course:active {
+  cursor: grabbing;
+}
+
+.plan-course.is-dragging {
+  opacity: 0.45;
+  transform: scale(0.98);
 }
 
 .plan-course.completed {

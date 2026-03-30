@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { ChevronDown, ChevronUp, Info, X } from "lucide-react";
 import { toast } from "sonner";
@@ -297,6 +297,9 @@ export default function FourYearPlan() {
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [courseTermOverrides, setCourseTermOverrides] = useState<Record<string, string>>({});
+  const [draggingCourseKey, setDraggingCourseKey] = useState<string | null>(null);
+  const [dragOverTermId, setDragOverTermId] = useState<string | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -597,6 +600,114 @@ export default function FourYearPlan() {
     return [...academicTerms, ...priorToUmd];
   }, [terms]);
 
+  const originalTermByCourseSectionKey = useMemo(() => {
+    const mapping = new Map<string, PlannedTerm>();
+    for (const term of boardTerms) {
+      for (const course of term.courses) {
+        mapping.set(course.sectionKey, term);
+      }
+    }
+    return mapping;
+  }, [boardTerms]);
+
+  useEffect(() => {
+    setCourseTermOverrides((current) => {
+      const validCourseKeys = new Set(originalTermByCourseSectionKey.keys());
+      const validTermIds = new Set(boardTerms.map((term) => term.id));
+      let hasChanges = false;
+      const next: Record<string, string> = {};
+
+      for (const [courseKey, termId] of Object.entries(current)) {
+        if (validCourseKeys.has(courseKey) && validTermIds.has(termId)) {
+          next[courseKey] = termId;
+        } else {
+          hasChanges = true;
+        }
+      }
+
+      return hasChanges ? next : current;
+    });
+  }, [boardTerms, originalTermByCourseSectionKey]);
+
+  const displayedCoursesByTerm = useMemo(() => {
+    const grouped = new Map<string, PlannedCourse[]>();
+    for (const term of boardTerms) {
+      grouped.set(term.id, []);
+    }
+
+    for (const term of boardTerms) {
+      for (const course of term.courses) {
+        const targetTermId = courseTermOverrides[course.sectionKey] ?? term.id;
+        if (!grouped.has(targetTermId)) {
+          continue;
+        }
+        grouped.get(targetTermId)?.push(course);
+      }
+    }
+
+    for (const [termId, courses] of grouped.entries()) {
+      grouped.set(termId, sortCoursesForDisplay(courses));
+    }
+
+    return grouped;
+  }, [boardTerms, courseTermOverrides, sortCoursesForDisplay]);
+
+  const handleCourseDragStart = (event: DragEvent<HTMLElement>, sectionKey: string) => {
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", sectionKey);
+    setDraggingCourseKey(sectionKey);
+  };
+
+  const handleCourseDragEnd = () => {
+    setDraggingCourseKey(null);
+    setDragOverTermId(null);
+  };
+
+  const handleTermDragOver = (event: DragEvent<HTMLElement>, termId: string) => {
+    if (!draggingCourseKey) {
+      return;
+    }
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+    setDragOverTermId(termId);
+  };
+
+  const handleTermDrop = (event: DragEvent<HTMLElement>, targetTermId: string) => {
+    event.preventDefault();
+    const droppedSectionKey = event.dataTransfer.getData("text/plain") || draggingCourseKey;
+    if (!droppedSectionKey) {
+      return;
+    }
+
+    const sourceTerm = originalTermByCourseSectionKey.get(droppedSectionKey);
+    if (!sourceTerm) {
+      return;
+    }
+
+    setCourseTermOverrides((current) => {
+      if (targetTermId === sourceTerm.id) {
+        if (!(droppedSectionKey in current)) {
+          return current;
+        }
+        const next = { ...current };
+        delete next[droppedSectionKey];
+        return next;
+      }
+
+      if (current[droppedSectionKey] === targetTermId) {
+        return current;
+      }
+
+      return {
+        ...current,
+        [droppedSectionKey]: targetTermId,
+      };
+    });
+
+    setDragOverTermId(null);
+    setDraggingCourseKey(null);
+  };
+
   const remainingCredits = Math.max(0, 120 - summary.totalCredits);
 
   return (
@@ -808,7 +919,7 @@ export default function FourYearPlan() {
                   const termState = boardTermState(term.status);
                   const statusText = termState === "past" ? "Done" : termState === "current" ? "Now" : "Plan";
                   const statusClass = termState === "past" ? "done" : termState === "current" ? "cur" : "plan";
-                  const termCourses = sortCoursesForDisplay(term.courses);
+                  const termCourses = displayedCoursesByTerm.get(term.id) ?? [];
                   const duplicateCount = termCourses.filter((course) => duplicateScheduleSectionKeys.has(course.sectionKey)).length;
                   const countedCredits = termCourses
                     .filter((course) => course.countsTowardProgress && !duplicateScheduleSectionKeys.has(course.sectionKey))
@@ -817,7 +928,12 @@ export default function FourYearPlan() {
                   const creditLoadClass = creditLoadWidthClass(pct);
 
                   return (
-                    <article key={term.id} className={`term-col ${term.termCode === "05" ? "summer" : ""}`}>
+                    <article
+                      key={term.id}
+                      className={`term-col ${term.termCode === "05" ? "summer" : ""} ${dragOverTermId === term.id ? "is-drop-target" : ""}`}
+                      onDragOver={(event) => handleTermDragOver(event, term.id)}
+                      onDrop={(event) => handleTermDrop(event, term.id)}
+                    >
                       <header className={`term-col-header ${termState}`}>
                         <div className={`term-name ${termState}`}>{term.termLabel}</div>
                         <div className="term-credits">{countedCredits} counted credits</div>
@@ -840,10 +956,14 @@ export default function FourYearPlan() {
                         const genEdContributionLabels = genEdLabels(course.tags);
                         const genEdLabelSet = new Set(genEdContributionLabels);
                         const contributionLabels = [...requirementLabels, ...genEdContributionLabels].slice(0, 2);
+                        const sourceTerm = originalTermByCourseSectionKey.get(course.sectionKey) ?? term;
                         return (
                           <article
                             key={course.sectionKey}
-                            className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""}`}
+                            className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""} ${draggingCourseKey === course.sectionKey ? "is-dragging" : ""}`}
+                            draggable
+                            onDragStart={(event) => handleCourseDragStart(event, course.sectionKey)}
+                            onDragEnd={handleCourseDragEnd}
                           >
                             <button
                               type="button"
@@ -874,7 +994,7 @@ export default function FourYearPlan() {
                               <div className="pc-grade" onClick={(event) => event.stopPropagation()}>
                                 <Select
                                   value={course.grade ?? "__none__"}
-                                  onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
+                                  onValueChange={(value) => void handleScheduleGradeChange(sourceTerm, course, value)}
                                   disabled={savingGradeKey === course.sectionKey}
                                 >
                                   <SelectTrigger className="pc-grade-trigger">
