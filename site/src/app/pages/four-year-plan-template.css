@@ -448,10 +448,16 @@
   text-align: center;
 }
 
-.term-view-btn {
+.term-header-actions {
   position: absolute;
   top: 8px;
   right: 8px;
+  display: inline-flex;
+  gap: 6px;
+}
+
+.term-view-btn {
+  position: static;
   border: 1px solid var(--border-soft);
   background: var(--surface);
   color: var(--ink-muted);
@@ -467,6 +473,23 @@
 .term-view-btn:hover {
   color: var(--red);
   border-color: rgba(198, 40, 40, 0.35);
+}
+
+.term-add-btn {
+  border: 1px solid rgba(198, 40, 40, 0.35);
+  background: rgba(198, 40, 40, 0.08);
+  color: var(--red);
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  cursor: pointer;
+}
+
+.term-add-btn:hover {
+  background: rgba(198, 40, 40, 0.16);
 }
 
 .term-col-header.past {
@@ -758,6 +781,41 @@
   font-size: 0.72rem;
 }
 
+.pc-context-menu {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  min-width: 156px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  border-radius: 8px;
+  box-shadow: 0 10px 24px rgba(23, 18, 14, 0.16);
+  padding: 4px;
+  z-index: 6;
+  display: grid;
+  gap: 2px;
+}
+
+.pc-context-item {
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  text-align: left;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pc-context-item:hover {
+  background: var(--surface-2);
+}
+
+.pc-context-item.danger {
+  color: #b42318;
+}
+
 .plan-course-add {
   border: 1.5px dashed var(--border-soft);
   border-radius: 8px;
@@ -969,6 +1027,41 @@
   font-size: 0.78rem;
   color: var(--ink-muted);
   margin-top: 2px;
+}
+
+.change-section-list {
+  display: grid;
+  gap: 8px;
+  max-height: 52vh;
+  overflow-y: auto;
+}
+
+.change-section-item {
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--surface-2);
+  padding: 9px 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.change-section-code {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+
+.change-section-meta {
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+  margin-top: 1px;
+}
+
+.add-term-panel {
+  display: grid;
+  gap: 10px;
 }
 
 @keyframes fadeIn {

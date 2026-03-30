@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useState, type DragEvent } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { ChevronDown, ChevronUp, Info, X } from "lucide-react";
 import { toast } from "sonner";
@@ -33,8 +33,8 @@ import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressS
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-import { searchCourses } from "@/lib/api/umdCourses";
-import type { UmdCourseSummary } from "@/lib/types/course";
+import { fetchCourseSections, searchCourses } from "@/lib/api/umdCourses";
+import type { UmdCourseSummary, UmdSection } from "@/lib/types/course";
 import { isUnspecifiedSectionCode } from "@/features/coursePlanner/utils/sectionLabels";
 import "./four-year-plan-template.css";
 
@@ -315,6 +315,35 @@ function toSectionDisplay(sectionCode: string): string {
   return `Section ${sectionCode}`;
 }
 
+function formatMinutesAsClock(totalMinutes: number): string {
+  if (!Number.isFinite(totalMinutes) || totalMinutes < 0) {
+    return "TBA";
+  }
+  const hour24 = Math.floor(totalMinutes / 60);
+  const minute = totalMinutes % 60;
+  const suffix = hour24 >= 12 ? "PM" : "AM";
+  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+  return `${hour12}:${String(minute).padStart(2, "0")}${suffix}`;
+}
+
+function toPlannerSectionFromUmdSection(section: UmdSection, sectionKey: string): ScheduleSelection["section"] {
+  return {
+    id: section.id || sectionKey,
+    courseCode: section.courseId,
+    sectionCode: section.sectionCode,
+    instructor: section.instructor ?? "",
+    instructors: section.instructor ? [section.instructor] : [],
+    totalSeats: Number(section.totalSeats ?? 0),
+    openSeats: Number(section.openSeats ?? 0),
+    meetings: section.meetings.map((meeting) => ({
+      days: meeting.days.length > 0 ? meeting.days.join("") : "TBA",
+      startTime: formatMinutesAsClock(meeting.startMinutes),
+      endTime: formatMinutesAsClock(meeting.endMinutes),
+      location: meeting.location,
+    })),
+  };
+}
+
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
   const COURSE_RE = /([A-Z]{4}\d{3}[A-Z]?)/g;
   const parts: Array<{ type: "text" | "code"; value: string }> = [];
@@ -368,10 +397,20 @@ export default function FourYearPlan() {
   const [addCourseResults, setAddCourseResults] = useState<UmdCourseSummary[]>([]);
   const [addCourseSearchPending, setAddCourseSearchPending] = useState(false);
   const [addCoursePendingCode, setAddCoursePendingCode] = useState<string | null>(null);
+  const [replaceCourseTarget, setReplaceCourseTarget] = useState<{ term: PlannedTerm; course: PlannedCourse } | null>(null);
+  const [showAddTermDialog, setShowAddTermDialog] = useState(false);
+  const [selectedAddTermValue, setSelectedAddTermValue] = useState<string>("");
+  const [addingTerm, setAddingTerm] = useState(false);
+  const [courseMenuTarget, setCourseMenuTarget] = useState<{ term: PlannedTerm; course: PlannedCourse } | null>(null);
+  const [changeSectionTarget, setChangeSectionTarget] = useState<{ term: PlannedTerm; course: PlannedCourse } | null>(null);
+  const [availableSections, setAvailableSections] = useState<UmdSection[]>([]);
+  const [sectionLookupPending, setSectionLookupPending] = useState(false);
+  const [updatingSectionCode, setUpdatingSectionCode] = useState<string | null>(null);
   const [draggingCourseKey, setDraggingCourseKey] = useState<string | null>(null);
   const [dragOverTermId, setDragOverTermId] = useState<string | null>(null);
   const [dragOverInsertIndex, setDragOverInsertIndex] = useState<number | null>(null);
   const [movingCourseKey, setMovingCourseKey] = useState<string | null>(null);
+  const courseMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -428,6 +467,76 @@ export default function FourYearPlan() {
     };
   }, [detailCode]);
 
+  useEffect(() => {
+    if (!courseMenuTarget) {
+      return;
+    }
+
+    const closeOnOutside = (event: MouseEvent) => {
+      if (!courseMenuRef.current) {
+        setCourseMenuTarget(null);
+        return;
+      }
+      if (!courseMenuRef.current.contains(event.target as Node)) {
+        setCourseMenuTarget(null);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setCourseMenuTarget(null);
+      }
+    };
+
+    const closeOnViewportChange = () => {
+      setCourseMenuTarget(null);
+    };
+
+    window.addEventListener("mousedown", closeOnOutside);
+    window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("scroll", closeOnViewportChange, true);
+    window.addEventListener("resize", closeOnViewportChange);
+
+    return () => {
+      window.removeEventListener("mousedown", closeOnOutside);
+      window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("scroll", closeOnViewportChange, true);
+      window.removeEventListener("resize", closeOnViewportChange);
+    };
+  }, [courseMenuTarget]);
+
+  useEffect(() => {
+    if (!changeSectionTarget || changeSectionTarget.term.source !== "schedule") {
+      setAvailableSections([]);
+      setSectionLookupPending(false);
+      return;
+    }
+
+    let active = true;
+    const run = async () => {
+      setSectionLookupPending(true);
+      try {
+        const termCode = `${changeSectionTarget.term.termYear}${changeSectionTarget.term.termCode}`;
+        const sections = await fetchCourseSections(termCode, changeSectionTarget.course.code);
+        if (!active) return;
+        setAvailableSections(sections);
+      } catch (error) {
+        if (!active) return;
+        toast.error(error instanceof Error ? error.message : "Unable to load available sections.");
+        setAvailableSections([]);
+      } finally {
+        if (active) {
+          setSectionLookupPending(false);
+        }
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [changeSectionTarget]);
+
   const academicGpaHistory = useMemo(() => {
     const completedScheduleGrades = mainSchedules.flatMap((schedule) => {
       if (!schedule.term_code || !schedule.term_year) {
@@ -465,8 +574,7 @@ export default function FourYearPlan() {
   const terms = useMemo(() => {
     const transformed = mainSchedules
       .map(toPlannedTerm)
-      .filter((term): term is PlannedTerm => term !== null)
-      .filter((term) => term.courses.length > 0);
+      .filter((term): term is PlannedTerm => term !== null);
 
     const priorTerms = buildPriorCreditTerms(priorCredits);
     const combined = [...transformed, ...priorTerms];
@@ -657,6 +765,45 @@ export default function FourYearPlan() {
   const mainScheduleById = useMemo(() => {
     return new Map(mainSchedules.map((schedule) => [schedule.id, schedule]));
   }, [mainSchedules]);
+
+  const lastScheduleTermId = useMemo(() => {
+    const scheduleTerms = boardTerms.filter((term) => term.source === "schedule");
+    return scheduleTerms[scheduleTerms.length - 1]?.id ?? null;
+  }, [boardTerms]);
+
+  const addableTermOptions = useMemo(() => {
+    const existing = new Set(
+      boardTerms
+        .filter((term) => term.source === "schedule")
+        .map((term) => `${term.termCode}-${term.termYear}`),
+    );
+
+    const currentYear = new Date().getFullYear();
+    const years = boardTerms.filter((term) => term.source === "schedule").map((term) => term.termYear);
+    const minYear = years.length > 0 ? Math.min(...years) : currentYear;
+    const maxYear = years.length > 0 ? Math.max(...years) : currentYear;
+    const options: Array<{ value: string; label: string; termCode: string; termYear: number }> = [];
+
+    for (let year = minYear; year <= maxYear + 4; year += 1) {
+      for (const termCode of ["01", "05", "08", "12"]) {
+        const key = `${termCode}-${year}`;
+        if (existing.has(key)) continue;
+        options.push({
+          value: key,
+          label: formatTermLabel(termCode, year),
+          termCode,
+          termYear: year,
+        });
+      }
+    }
+
+    options.sort((left, right) => compareAcademicTerms(
+      { termCode: left.termCode, termYear: left.termYear },
+      { termCode: right.termCode, termYear: right.termYear },
+    ));
+
+    return options;
+  }, [boardTerms]);
 
   const displayedCoursesByTerm = useMemo(() => {
     const grouped = new Map<string, PlannedCourse[]>();
@@ -923,11 +1070,19 @@ export default function FourYearPlan() {
     }
 
     const currentSelections = parseSelections(schedule.selections_json);
+    const replaceSectionKey = replaceCourseTarget && replaceCourseTarget.term.id === term.id
+      ? replaceCourseTarget.course.sectionKey
+      : null;
+
+    const workingSelections = replaceSectionKey
+      ? currentSelections.filter((selection) => selection.sectionKey !== replaceSectionKey)
+      : currentSelections;
+
     const alreadyInTerm = currentSelections.some((selection) => (
       String(selection?.course?.courseCode ?? "").toUpperCase().replace(/\s+/g, "") === normalizedCode
     ));
 
-    if (alreadyInTerm) {
+    if (alreadyInTerm && !(replaceCourseTarget && replaceCourseTarget.course.code.toUpperCase() === normalizedCode)) {
       toast.message(`${normalizedCode} is already in ${term.termLabel}.`);
       return;
     }
@@ -935,14 +1090,14 @@ export default function FourYearPlan() {
     const sectionCode = "NOT CHOSEN";
     let sectionKey = `${normalizedCode}-${sectionCode}`;
     let keySuffix = 1;
-    while (currentSelections.some((selection) => selection.sectionKey === sectionKey)) {
+    while (workingSelections.some((selection) => selection.sectionKey === sectionKey)) {
       keySuffix += 1;
       sectionKey = `${normalizedCode}-${sectionCode}-${keySuffix}`;
     }
 
     const credits = Number.isFinite(Number(course.credits)) ? Number(course.credits) : 0;
     const nextSelections: ScheduleSelection[] = [
-      ...currentSelections,
+      ...workingSelections,
       {
         sectionKey,
         course: {
@@ -993,12 +1148,158 @@ export default function FourYearPlan() {
         selectionsJson: buildSelectionsPayload(nextSelections),
       });
       setMainSchedules((current) => current.map((entry) => (entry.id === saved.id ? saved : entry)));
-      toast.success(`${normalizedCode} added to ${term.termLabel}.`);
+      if (replaceSectionKey) {
+        toast.success(`${normalizedCode} replaced ${replaceCourseTarget?.course.code ?? "course"} in ${term.termLabel}.`);
+      } else {
+        toast.success(`${normalizedCode} added to ${term.termLabel}.`);
+      }
+      setCourseMenuTarget(null);
+      setReplaceCourseTarget(null);
+      setAddCourseTerm(null);
+      setAddCourseQuery("");
+      setAddCourseResults([]);
     } catch (error) {
       setMainSchedules(previousSchedules);
       toast.error(error instanceof Error ? error.message : "Unable to add course to this term.");
     } finally {
       setAddCoursePendingCode(null);
+    }
+  };
+
+  const handleRemoveCourseFromTerm = async (term: PlannedTerm, course: PlannedCourse) => {
+    if (term.source !== "schedule") return;
+    const schedule = mainSchedules.find((entry) => entry.id === term.scheduleId);
+    if (!schedule || !schedule.term_code || !schedule.term_year) {
+      toast.error("Unable to remove this course right now.");
+      return;
+    }
+
+    const currentSelections = parseSelections(schedule.selections_json);
+    const nextSelections = currentSelections.filter((selection) => selection.sectionKey !== course.sectionKey);
+    if (nextSelections.length === currentSelections.length) {
+      setCourseMenuTarget(null);
+      return;
+    }
+
+    const previousSchedules = mainSchedules;
+    const optimisticSchedule: ScheduleWithSelections = {
+      ...schedule,
+      updated_at: new Date().toISOString(),
+      selections_json: buildSelectionsPayload(nextSelections),
+    };
+
+    setMainSchedules((current) => current.map((entry) => (entry.id === schedule.id ? optimisticSchedule : entry)));
+    setCourseMenuTarget(null);
+
+    try {
+      const saved = await plannerApi.saveScheduleWithSelections({
+        id: schedule.id,
+        name: schedule.name,
+        termCode: schedule.term_code,
+        termYear: schedule.term_year,
+        isPrimary: schedule.is_primary,
+        selectionsJson: buildSelectionsPayload(nextSelections),
+      });
+      setMainSchedules((current) => current.map((entry) => (entry.id === saved.id ? saved : entry)));
+      toast.success(`${course.code} removed from ${term.termLabel}.`);
+    } catch (error) {
+      setMainSchedules(previousSchedules);
+      toast.error(error instanceof Error ? error.message : "Unable to remove course.");
+    }
+  };
+
+  const handleApplySectionChange = async (target: { term: PlannedTerm; course: PlannedCourse }, section: UmdSection) => {
+    if (target.term.source !== "schedule") return;
+    const schedule = mainSchedules.find((entry) => entry.id === target.term.scheduleId);
+    if (!schedule || !schedule.term_code || !schedule.term_year) {
+      toast.error("Unable to change section right now.");
+      return;
+    }
+
+    const currentSelections = parseSelections(schedule.selections_json);
+    const sourceSelection = currentSelections.find((selection) => selection.sectionKey === target.course.sectionKey);
+    if (!sourceSelection) {
+      toast.error("Unable to locate this course in the selected term.");
+      return;
+    }
+
+    let nextSectionKey = `${sourceSelection.course.courseCode}-${section.sectionCode}`;
+    let suffix = 1;
+    while (currentSelections.some((selection) => selection.sectionKey === nextSectionKey && selection.sectionKey !== sourceSelection.sectionKey)) {
+      suffix += 1;
+      nextSectionKey = `${sourceSelection.course.courseCode}-${section.sectionCode}-${suffix}`;
+    }
+
+    const nextSelection: ScheduleSelection = {
+      ...sourceSelection,
+      sectionKey: nextSectionKey,
+      section: toPlannerSectionFromUmdSection(section, nextSectionKey),
+    };
+
+    const nextSelections = currentSelections.map((selection) => (
+      selection.sectionKey === target.course.sectionKey ? nextSelection : selection
+    ));
+
+    const previousSchedules = mainSchedules;
+    setUpdatingSectionCode(section.sectionCode);
+
+    const optimisticSchedule: ScheduleWithSelections = {
+      ...schedule,
+      updated_at: new Date().toISOString(),
+      selections_json: buildSelectionsPayload(nextSelections),
+    };
+
+    setMainSchedules((current) => current.map((entry) => (entry.id === schedule.id ? optimisticSchedule : entry)));
+
+    try {
+      const saved = await plannerApi.saveScheduleWithSelections({
+        id: schedule.id,
+        name: schedule.name,
+        termCode: schedule.term_code,
+        termYear: schedule.term_year,
+        isPrimary: schedule.is_primary,
+        selectionsJson: buildSelectionsPayload(nextSelections),
+      });
+      setMainSchedules((current) => current.map((entry) => (entry.id === saved.id ? saved : entry)));
+      toast.success(`${target.course.code} updated to section ${section.sectionCode}.`);
+      setChangeSectionTarget(null);
+      setAvailableSections([]);
+    } catch (error) {
+      setMainSchedules(previousSchedules);
+      toast.error(error instanceof Error ? error.message : "Unable to change section.");
+    } finally {
+      setUpdatingSectionCode(null);
+    }
+  };
+
+  const handleAddTerm = async () => {
+    const selected = addableTermOptions.find((option) => option.value === selectedAddTermValue);
+    if (!selected) {
+      toast.error("Select a term to add.");
+      return;
+    }
+
+    setAddingTerm(true);
+    try {
+      const saved = await plannerApi.saveScheduleWithSelections({
+        name: `MAIN ${TERM_NAME[selected.termCode] ?? "Term"}${selected.termYear}`,
+        termCode: selected.termCode,
+        termYear: selected.termYear,
+        isPrimary: true,
+        selectionsJson: [],
+      });
+
+      setMainSchedules((current) => {
+        const withoutExisting = current.filter((entry) => entry.id !== saved.id);
+        return [...withoutExisting, saved];
+      });
+      setShowAddTermDialog(false);
+      setSelectedAddTermValue("");
+      toast.success(`${formatTermLabel(selected.termCode, selected.termYear)} added.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to add term.");
+    } finally {
+      setAddingTerm(false);
     }
   };
 
@@ -1120,6 +1421,7 @@ export default function FourYearPlan() {
                 {boardTerms.map((term) => {
                   const termState = boardTermState(term.status);
                   const canDropIntoTerm = term.source === "schedule";
+                  const isLastScheduleTerm = term.id === lastScheduleTermId;
                   const statusText = termState === "past" ? "Done" : termState === "current" ? "Now" : "Plan";
                   const statusClass = termState === "past" ? "done" : termState === "current" ? "cur" : "plan";
                   const termCourses = displayedCoursesByTerm.get(term.id) ?? [];
@@ -1144,13 +1446,27 @@ export default function FourYearPlan() {
                     >
                       <header className={`term-col-header ${termState}`}>
                         {term.source === "schedule" && (
-                          <button
-                            type="button"
-                            className="term-view-btn"
-                            onClick={() => openScheduleInLibrary(term)}
-                          >
-                            View
-                          </button>
+                          <div className="term-header-actions">
+                            <button
+                              type="button"
+                              className="term-view-btn"
+                              onClick={() => openScheduleInLibrary(term)}
+                            >
+                              View
+                            </button>
+                            {isLastScheduleTerm && (
+                              <button
+                                type="button"
+                                className="term-add-btn"
+                                onClick={() => {
+                                  setSelectedAddTermValue(addableTermOptions[0]?.value ?? "");
+                                  setShowAddTermDialog(true);
+                                }}
+                              >
+                                Add Term
+                              </button>
+                            )}
+                          </div>
                         )}
                         <div className={`term-name ${termState}`}>{term.termLabel}</div>
                         <div className="term-credits">{countedCredits} counted credits</div>
@@ -1222,6 +1538,14 @@ export default function FourYearPlan() {
                                 handleCourseDragStart(event, course.sectionKey);
                               }}
                               onDragEnd={handleCourseDragEnd}
+                              onContextMenu={(event) => {
+                                if (sourceTerm.source !== "schedule") {
+                                  return;
+                                }
+                                event.preventDefault();
+                                event.stopPropagation();
+                                setCourseMenuTarget({ term: sourceTerm, course });
+                              }}
                             >
                               <button
                                 type="button"
@@ -1234,33 +1558,13 @@ export default function FourYearPlan() {
                                   }
                                 }}
                               >
-                                <div className="pc-head">
-                                  <div className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</div>
-                                  <div className="pc-badge-row top-right">
-                                    {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
-                                    {presentedTags.map((tag) => (
-                                      <button
-                                        key={`${course.sectionKey}-${tag.originalLabel}`}
-                                        type="button"
-                                        className={`pc-chip pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
-                                        onClick={(event) => {
-                                          event.stopPropagation();
-                                          setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
-                                        }}
-                                      >
-                                        {tag.shortLabel}
-                                      </button>
-                                    ))}
-                                  </div>
-                                </div>
+                                <div className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</div>
                                 <div className="pc-name">{course.title}</div>
                                 <div className="pc-meta" onClick={(event) => event.stopPropagation()}>
                                   <span>{course.credits} credits</span>
-                                  <span className="pc-meta-sep">*</span>
+                                  <span className="pc-meta-sep">•</span>
                                   <span>{toSectionDisplay(course.sectionCode)}</span>
-                                  <span className="pc-meta-sep">*</span>
-                                  <span>{formatStatusLabel(course.status)}</span>
-                                  <span className="pc-meta-sep">*</span>
+                                  <span className="pc-meta-sep">•</span>
                                   {course.status === "completed" && editingGradeKey === course.sectionKey ? (
                                     <Select
                                       value={course.grade ?? "__none__"}
@@ -1297,7 +1601,63 @@ export default function FourYearPlan() {
                                     </button>
                                   )}
                                 </div>
+
+                                <div className="pc-badge-row">
+                                  {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
+                                  {presentedTags.map((tag) => (
+                                    <button
+                                      key={`${course.sectionKey}-${tag.originalLabel}`}
+                                      type="button"
+                                      className={`pc-chip pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
+                                      onClick={(event) => {
+                                        event.stopPropagation();
+                                        setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
+                                      }}
+                                    >
+                                      {tag.shortLabel}
+                                    </button>
+                                  ))}
+                                </div>
                               </button>
+
+                              {courseMenuTarget &&
+                                courseMenuTarget.course.sectionKey === course.sectionKey &&
+                                courseMenuTarget.term.id === sourceTerm.id && (
+                                  <div className="pc-context-menu" ref={courseMenuRef} onClick={(event) => event.stopPropagation()}>
+                                    <button
+                                      type="button"
+                                      className="pc-context-item"
+                                      onClick={() => {
+                                        setReplaceCourseTarget({ term: sourceTerm, course });
+                                        setAddCourseTerm(sourceTerm);
+                                        setAddCourseQuery(course.code);
+                                        setAddCourseResults([]);
+                                        setCourseMenuTarget(null);
+                                      }}
+                                    >
+                                      Change course
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="pc-context-item"
+                                      onClick={() => {
+                                        setChangeSectionTarget({ term: sourceTerm, course });
+                                        setCourseMenuTarget(null);
+                                      }}
+                                    >
+                                      Change section
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="pc-context-item danger"
+                                      onClick={() => {
+                                        void handleRemoveCourseFromTerm(sourceTerm, course);
+                                      }}
+                                    >
+                                      Remove course
+                                    </button>
+                                  </div>
+                                )}
                             </article>
 
                             {canDropIntoTerm && (
@@ -1317,6 +1677,7 @@ export default function FourYearPlan() {
                           type="button"
                           className="plan-course-add"
                           onClick={() => {
+                            setReplaceCourseTarget(null);
                             setAddCourseTerm(term);
                             setAddCourseQuery("");
                             setAddCourseResults([]);
@@ -1436,13 +1797,18 @@ export default function FourYearPlan() {
           setAddCourseQuery("");
           setAddCourseResults([]);
           setAddCourseSearchPending(false);
+          setReplaceCourseTarget(null);
         }
       }}>
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Add Course to {addCourseTerm?.termLabel ?? "Term"}</DialogTitle>
+            <DialogTitle>
+              {replaceCourseTarget ? "Change Course" : "Add Course"} for {addCourseTerm?.termLabel ?? "Term"}
+            </DialogTitle>
             <DialogDescription>
-              Search by course code or title. Added courses will be saved to this MAIN schedule with an undetermined section.
+              {replaceCourseTarget
+                ? `Select a replacement for ${replaceCourseTarget.course.code}. The new course will be saved with an undetermined section.`
+                : "Search by course code or title. Added courses will be saved to this MAIN schedule with an undetermined section."}
             </DialogDescription>
           </DialogHeader>
 
@@ -1507,6 +1873,108 @@ export default function FourYearPlan() {
               )}
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(changeSectionTarget)} onOpenChange={(open) => {
+        if (!open) {
+          setChangeSectionTarget(null);
+          setAvailableSections([]);
+          setSectionLookupPending(false);
+          setUpdatingSectionCode(null);
+        }
+      }}>
+        <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Change Section</DialogTitle>
+            <DialogDescription>
+              {changeSectionTarget
+                ? `Choose a section for ${changeSectionTarget.course.code} in ${changeSectionTarget.term.termLabel}.`
+                : "Choose a section."}
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="change-section-list">
+            {sectionLookupPending ? (
+              <p className="fyp-muted">Loading sections...</p>
+            ) : availableSections.length === 0 ? (
+              <p className="fyp-muted">No sections were found for this course in the selected term.</p>
+            ) : (
+              availableSections.map((section) => {
+                const isCurrent = changeSectionTarget?.course.sectionCode === section.sectionCode;
+                const inFlight = updatingSectionCode === section.sectionCode;
+                return (
+                  <div key={section.id} className="change-section-item">
+                    <div>
+                      <p className="change-section-code">Section {section.sectionCode}</p>
+                      <p className="change-section-meta">
+                        {(section.instructor && section.instructor.length > 0) ? section.instructor : "Instructor TBA"}
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      className={`topbar-btn ${isCurrent ? "" : "primary"}`}
+                      disabled={isCurrent || inFlight || !changeSectionTarget}
+                      onClick={() => {
+                        if (changeSectionTarget) {
+                          void handleApplySectionChange(changeSectionTarget, section);
+                        }
+                      }}
+                    >
+                      {isCurrent ? "Current" : inFlight ? "Saving..." : "Select"}
+                    </button>
+                  </div>
+                );
+              })
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showAddTermDialog} onOpenChange={(open) => {
+        setShowAddTermDialog(open);
+        if (!open) {
+          setSelectedAddTermValue("");
+          setAddingTerm(false);
+        }
+      }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add Term</DialogTitle>
+            <DialogDescription>
+              Add a new term column that is not already in your MAIN schedule timeline.
+            </DialogDescription>
+          </DialogHeader>
+
+          {addableTermOptions.length === 0 ? (
+            <p className="fyp-muted">No additional terms are currently available to add.</p>
+          ) : (
+            <div className="add-term-panel">
+              <Select value={selectedAddTermValue} onValueChange={setSelectedAddTermValue}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select term" />
+                </SelectTrigger>
+                <SelectContent>
+                  {addableTermOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <button
+                type="button"
+                className="topbar-btn primary"
+                disabled={!selectedAddTermValue || addingTerm}
+                onClick={() => {
+                  void handleAddTerm();
+                }}
+              >
+                {addingTerm ? "Adding..." : "Add term"}
+              </button>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 

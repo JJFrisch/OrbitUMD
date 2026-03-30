@@ -88,17 +88,6 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   return (
     <aside className={cn("orbit-sidebar", collapsed && "collapsed")}>
       <div className="sidebar-header">
-        <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard" title={collapsed ? "OrbitUMD" : undefined}>
-          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
-            <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
-            <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
-            <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" stroke-dasharray="3 2" strokeLinejoin="round" />
-            <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" stroke-dasharray="3 2" strokeLinejoin="round" />
-          </svg>
-          <span className="logo-text">Orbit<span>UMD</span></span>
-        </Link>
-
         <button
           type="button"
           aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
@@ -107,6 +96,19 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         >
           {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
         </button>
+
+        <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard" title={collapsed ? "OrbitUMD" : undefined}>
+          <span className="sidebar-logo-mark" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
+              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeDasharray="3 2" strokeLinejoin="round" />
+              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeDasharray="3 2" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="logo-text">Orbit<span>UMD</span></span>
+        </Link>
       </div>
 
       <nav className="nav-section">
