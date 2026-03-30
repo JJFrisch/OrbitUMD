@@ -1510,11 +1510,20 @@ export function AutoGenerateSchedulePage() {
   const navigate = useNavigate();
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const replaceSelections = useCoursePlannerStore((state) => state.replaceSelections);
+  const refreshScheduleList = useCoursePlannerStore((state) => state.refreshScheduleList);
   const storeTerm = useCoursePlannerStore((state) => state.term);
   const storeYear = useCoursePlannerStore((state) => state.year);
 
-  const initialSeason: Season = storeTerm in TERM_LABEL ? (storeTerm as Season) : "08";
-  const initialYear = Number.isFinite(storeYear) ? storeYear : 2026;
+  const initialDefaultsRef = useRef<{ season: Season; year: number } | null>(null);
+  if (!initialDefaultsRef.current) {
+    initialDefaultsRef.current = {
+      season: storeTerm in TERM_LABEL ? (storeTerm as Season) : "08",
+      year: Number.isFinite(storeYear) ? storeYear : 2026,
+    };
+  }
+
+  const initialSeason = initialDefaultsRef.current.season;
+  const initialYear = initialDefaultsRef.current.year;
 
   const [season, setSeason] = useState<Season>(initialSeason);
   const [year, setYear] = useState(initialYear);
@@ -2031,6 +2040,7 @@ export function AutoGenerateSchedulePage() {
       if (isPrimary) {
         setMainScheduleId(schedule.id);
       }
+      await refreshScheduleList();
       setActionNotice(isPrimary ? `Set ${scheduleName} as MAIN for ${activeTermLabel}.` : `Saved ${scheduleName}.`);
     } catch (err) {
       setActionNotice(err instanceof Error ? err.message : "Unable to save generated schedule.");
@@ -2063,6 +2073,7 @@ export function AutoGenerateSchedulePage() {
       }
 
       setSavedScheduleIds(generated.map((schedule) => schedule.id));
+      await refreshScheduleList();
       setActionNotice(`Saved ${generated.length} generated schedules for ${activeTermLabel}.`);
     } catch (err) {
       setActionNotice(err instanceof Error ? err.message : "Unable to save all generated schedules.");

@@ -284,6 +284,41 @@ describe("AutoGenerateSchedulePage", () => {
     });
   });
 
+  it("keeps selected season even when a fall autosave draft exists", async () => {
+    localStorage.setItem(
+      "orbitumd:generate-schedule:draft:v2",
+      JSON.stringify({
+        savedAt: Date.now(),
+        draft: {
+          season: "08",
+          year: 2026,
+          coursePreferences: [],
+          minCredits: 12,
+          maxCredits: 20,
+          onlyOpen: true,
+          allowFaceToFace: true,
+          allowBlended: true,
+          allowOnline: true,
+          constraintStart: "08:00",
+          constraintEnd: "18:00",
+          excludedDays: [],
+        },
+      })
+    );
+
+    renderPage();
+
+    const summerButton = await screen.findByRole("button", { name: "Summer" });
+    fireEvent.click(summerButton);
+
+    await waitFor(() => {
+      expect(summerButton).toHaveClass("is-active");
+    });
+
+    await new Promise((resolve) => setTimeout(resolve, 120));
+    expect(summerButton).toHaveClass("is-active");
+  });
+
   it("uses course priority ordering when optional courses conflict", async () => {
     renderPage();
 

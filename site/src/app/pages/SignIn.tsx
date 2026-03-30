@@ -38,9 +38,12 @@ export default function SignIn() {
   useEffect(() => {
     let active = true;
 
-    const ensureProfile = async () => {
-      const { data: authData } = await supabase.auth.getUser();
-      const authUser = authData.user;
+    const ensureProfile = async (authUserInput?: {
+      id: string;
+      email?: string | null;
+      user_metadata?: Record<string, unknown>;
+    }) => {
+      const authUser = authUserInput ?? (await supabase.auth.getUser()).data.user;
       if (!authUser) return;
 
       const displayName =
@@ -52,6 +55,7 @@ export default function SignIn() {
           {
             id: authUser.id,
             display_name: displayName,
+            email: authUser.email ?? null,
           },
           { onConflict: "id" },
         );
@@ -91,13 +95,17 @@ export default function SignIn() {
       return isExistingUser ? "/dashboard" : "/onboarding";
     };
 
-    const navigateAfterAuth = async (authUser: { id: string }) => {
+    const navigateAfterAuth = async (authUser: {
+      id: string;
+      email?: string | null;
+      user_metadata?: Record<string, unknown>;
+    }) => {
       if (authNavigationStarted.current) return;
       authNavigationStarted.current = true;
       try {
+        await ensureProfile(authUser);
         const destination = await resolvePostAuthPath(authUser, nextPath);
         sessionStorage.removeItem(AUTH_FLOW_KEY);
-        await ensureProfile();
         if (active) {
           navigate(destination, { replace: true });
         }

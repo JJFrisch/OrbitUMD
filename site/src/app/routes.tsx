@@ -108,42 +108,64 @@ function RequireAuth({
     let active = true;
     const supabase = getSupabaseClient();
 
+    const syncOnboardingState = async (userId: string) => {
+      try {
+        const shouldOnboard = await userNeedsOnboardingByEmail(supabase, userId);
+        if (!active) return;
+        setNeedsOnboarding(shouldOnboard);
+      } catch {
+        if (!active) return;
+        setNeedsOnboarding(false);
+      }
+    };
+
     const run = async () => {
       try {
         const { data } = await supabase.auth.getSession();
         if (!active) return;
         const user = data.session?.user;
-        setIsAuthed(Boolean(user));
-        if (user) {
-          const shouldOnboard = await userNeedsOnboardingByEmail(supabase, user.id);
-          if (!active) return;
-          setNeedsOnboarding(shouldOnboard);
-        } else {
+        if (!user) {
+          setIsAuthed(false);
           setNeedsOnboarding(false);
+          setChecking(false);
+          return;
         }
+
+        setIsAuthed(true);
+        setChecking(false);
+        void syncOnboardingState(user.id);
       } catch {
         if (!active) return;
         setIsAuthed(false);
         setNeedsOnboarding(false);
-      } finally {
-        if (active) setChecking(false);
+        setChecking(false);
       }
     };
 
     void run();
 
-    const { data: subscription } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return;
-      const user = session?.user;
-      setIsAuthed(Boolean(user));
-      if (user) {
-        const shouldOnboard = await userNeedsOnboardingByEmail(supabase, user.id);
-        if (!active) return;
-        setNeedsOnboarding(shouldOnboard);
-      } else {
+
+      if (event === "SIGNED_OUT") {
+        setIsAuthed(false);
         setNeedsOnboarding(false);
+        setChecking(false);
+        return;
       }
+
+      const user = session?.user;
+      if (!user) {
+        // Ignore transient null sessions from non-signout events to prevent false logouts.
+        if (event === "INITIAL_SESSION") {
+          setChecking(false);
+        }
+        return;
+      }
+
+      setIsAuthed(true);
       setChecking(false);
+      void syncOnboardingState(user.id);
     });
 
     return () => {
