@@ -245,6 +245,37 @@ function getOfficialStanding(earnedCredits: number): "Freshman" | "Sophomore" | 
   return "Senior";
 }
 
+function formatLastUpdated(value: string): string {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return "Unknown";
+  }
+
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
+function defaultExpandedTermIds(terms: PlannedTerm[]): Set<string> {
+  const defaults = new Set<string>();
+
+  for (const term of terms) {
+    if (term.status !== "completed") {
+      defaults.add(term.id);
+    }
+  }
+
+  const completedRegular = terms.filter((term) => term.status === "completed" && term.termLabel !== "Prior to UMD");
+  const latestCompleted = completedRegular[completedRegular.length - 1];
+  if (latestCompleted) {
+    defaults.add(latestCompleted.id);
+  }
+
+  return defaults;
+}
+
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
   const COURSE_RE = /([A-Z]{4}\d{3}[A-Z]?)/g;
   const parts: Array<{ type: "text" | "code"; value: string }> = [];
@@ -278,6 +309,7 @@ function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick
 export default function FourYearPlan() {
   const navigate = useNavigate();
   const [showGpaDetails, setShowGpaDetails] = useState(false);
+  const [showGpaInfo, setShowGpaInfo] = useState(false);
   const [showStandingInfo, setShowStandingInfo] = useState(false);
   const [hideDuplicateNotice, setHideDuplicateNotice] = useState(false);
   const [hideSubstitutionNotice, setHideSubstitutionNotice] = useState(false);
@@ -290,6 +322,7 @@ export default function FourYearPlan() {
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [expandedTermIds, setExpandedTermIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     let active = true;
@@ -409,6 +442,19 @@ export default function FourYearPlan() {
     const completedRegular = completed.filter((term) => term.termLabel !== "Prior to UMD");
     return [...current, ...future, ...completedRegular, ...priorToUmd];
   }, [terms]);
+
+  useEffect(() => {
+    setExpandedTermIds((current) => {
+      const availableIds = new Set(visibleTerms.map((term) => term.id));
+      const retained = new Set(Array.from(current).filter((id) => availableIds.has(id)));
+
+      if (retained.size > 0) {
+        return retained;
+      }
+
+      return defaultExpandedTermIds(visibleTerms);
+    });
+  }, [visibleTerms]);
 
   const duplicateScheduleSectionKeys = useMemo(() => {
     const earnedCourseCodes = new Set(
@@ -617,6 +663,18 @@ export default function FourYearPlan() {
     navigateToScheduleBuilder(term.scheduleId, term.termCode, term.termYear);
   };
 
+  const toggleTermExpanded = (termId: string) => {
+    setExpandedTermIds((current) => {
+      const next = new Set(current);
+      if (next.has(termId)) {
+        next.delete(termId);
+      } else {
+        next.add(termId);
+      }
+      return next;
+    });
+  };
+
   const navigateToScheduleBuilder = (scheduleId: string, termCode: string, termYear: number) => {
     navigate(`/schedule-builder?scheduleId=${encodeURIComponent(scheduleId)}&term=${termCode}-${termYear}`);
   };
@@ -633,6 +691,16 @@ export default function FourYearPlan() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              className="border-border"
+              onClick={() => setShowGpaInfo(true)}
+              aria-label="Explain how UMD GPA is calculated"
+            >
+              <Info className="w-4 h-4 mr-1" />
+              GPA Info
+            </Button>
             <Link to="/schedules" data-tour-target="four-year-manage-main">
               <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
             </Link>
@@ -694,8 +762,7 @@ export default function FourYearPlan() {
           </Card>
         </div>
 
-        {academicGpaHistory.terms.length > 0 && (
-          <Card className="p-4 bg-card border-border mb-6">
+        <Card className="p-4 bg-card border-border mb-6">
             <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
               <h2 className="text-base text-foreground">UMD GPA Details</h2>
               <div className="flex items-center gap-3">
@@ -722,7 +789,7 @@ export default function FourYearPlan() {
               </div>
             </div>
 
-            {showGpaDetails && (
+            {showGpaDetails && academicGpaHistory.terms.length > 0 && (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
@@ -748,8 +815,12 @@ export default function FourYearPlan() {
                 </table>
               </div>
             )}
-          </Card>
-        )}
+            {showGpaDetails && academicGpaHistory.terms.length === 0 && (
+              <p className="text-sm text-muted-foreground">
+                No graded completed courses are available yet. GPA details will appear after transcript or completed-term grades are present.
+              </p>
+            )}
+        </Card>
 
         {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
           <Card className="p-3 mb-6 bg-amber-100 border-amber-300 dark:bg-amber-500/10 dark:border-amber-500/30">
@@ -818,29 +889,64 @@ export default function FourYearPlan() {
 
         <div className="space-y-5" data-tour-target="four-year-timeline">
           {visibleTerms.map((term) => {
+            const isExpanded = expandedTermIds.has(term.id);
+            const duplicateCount = term.courses.filter((course) => duplicateScheduleSectionKeys.has(course.sectionKey)).length;
+            const countedCredits = term.courses
+              .filter((course) => course.countsTowardProgress && !duplicateScheduleSectionKeys.has(course.sectionKey))
+              .reduce((sum, course) => sum + course.credits, 0);
+
             return (
               <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>
                 <div className="px-5 pt-5 pb-3 border-b border-border/60 flex items-center justify-between gap-3 flex-wrap text-base md:text-lg">
-                  <p className="text-foreground text-xl md:text-2xl">
-                    {term.termLabel}
-                  </p>
+                  <div>
+                    <p className="text-foreground text-xl md:text-2xl">{term.termLabel}</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Last updated {formatLastUpdated(term.updatedAt)}
+                    </p>
+                  </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-foreground/90">{term.credits} credits</span>
+                    <span className="text-foreground/90">{countedCredits} counted credits</span>
+                    {duplicateCount > 0 && (
+                      <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
+                        {duplicateCount} duplicate {duplicateCount === 1 ? "course" : "courses"} excluded
+                      </Badge>
+                    )}
                     <span className={statusTextClass(term.status)}>{formatStatusLabel(term.status)}</span>
                     <Button
                       type="button"
                       size="sm"
                       variant="outline"
                       className="border-border"
-                      onClick={() => openScheduleInBuilder(term)}
-                      disabled={term.source !== "schedule"}
+                      onClick={() => toggleTermExpanded(term.id)}
+                      aria-expanded={isExpanded}
+                      aria-controls={`term-panel-${term.id}`}
                     >
-                      View
+                      {isExpanded ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
+                      {isExpanded ? "Hide" : "View"}
                     </Button>
+                    {term.source === "schedule" && (
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="border-border"
+                        onClick={() => openScheduleInBuilder(term)}
+                      >
+                        Open
+                      </Button>
+                    )}
                   </div>
                 </div>
 
-                <div className="px-5 pb-5">
+                <div id={`term-panel-${term.id}`} className="px-5 pb-5">
+                  {!isExpanded && (
+                    <p className="pt-3 text-sm text-muted-foreground">
+                      {term.courses.length} course{term.courses.length === 1 ? "" : "s"} hidden. Choose View to inspect course-level tags, status, and duplicate flags.
+                    </p>
+                  )}
+
+                  {isExpanded && (
+                    <>
                   {term.courses.length === 0 ? (
                     <p className="text-muted-foreground">No classes in this MAIN schedule.</p>
                   ) : (
@@ -848,11 +954,11 @@ export default function FourYearPlan() {
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="text-left border-b border-border">
-                            <th className="py-2 pr-3 text-muted-foreground font-medium">Course Code</th>
-                            <th className="py-2 pr-3 text-muted-foreground font-medium">Section</th>
-                            <th className="py-2 pr-3 text-muted-foreground font-medium">Course Full Name</th>
-                            <th className="py-2 pr-3 text-muted-foreground font-medium">Credits</th>
-                            <th className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
+                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Course Code</th>
+                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Section</th>
+                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Course Full Name</th>
+                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Credits</th>
+                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -866,7 +972,7 @@ export default function FourYearPlan() {
                             return (
                               <tr
                                 key={course.sectionKey}
-                                className={`border-b border-border/60 hover:bg-popover/60 cursor-pointer ${rowClass}`}
+                                className={`border-b border-border/60 hover:bg-popover/60 cursor-pointer ${rowClass} ${isDuplicate ? "opacity-70" : ""}`}
                                 onClick={() => setDetailCode(course.code)}
                               >
                                 <td className="py-2 pr-3 text-foreground font-medium">{course.code}</td>
@@ -923,9 +1029,11 @@ export default function FourYearPlan() {
 
                   <div className="mt-3 text-right">
                     <span className="text-xs text-muted-foreground">
-                      Last updated {new Date(term.updatedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      Term total: {term.credits} raw credits • Counted toward progress: {countedCredits}
                     </span>
                   </div>
+                    </>
+                  )}
                 </div>
               </Card>
             );
@@ -1001,6 +1109,32 @@ export default function FourYearPlan() {
             </ul>
             <p className="text-muted-foreground">
               CMNS/ELMS may split Seniors into 90-103 and 104+, but this page uses the official university-wide standing brackets.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showGpaInfo} onOpenChange={setShowGpaInfo}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>How UMD GPA Is Calculated Here</DialogTitle>
+            <DialogDescription>
+              OrbitUMD uses UMD-style grade points and transcript-quality points to compute GPA summaries.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 text-sm text-foreground">
+            <p>
+              UMD GPA is calculated as Quality Points divided by Attempted Credits for grade-bearing courses.
+            </p>
+            <p>
+              Attempted Credits and Quality Points shown in this page come from imported prior/transcript credit plus completed-term schedule grades when available.
+            </p>
+            <p>
+              Courses with non-GPA grades (for example P, S, W, I, AUD) are excluded from GPA point calculations under UMD policy.
+            </p>
+            <p className="text-muted-foreground">
+              Use Show in the UMD GPA Details section to inspect term-by-term attempted credits, quality points, semester GPA, and cumulative GPA.
             </p>
           </div>
         </DialogContent>
