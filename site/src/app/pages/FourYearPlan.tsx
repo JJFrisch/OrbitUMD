@@ -35,6 +35,7 @@ import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressS
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
+import "./four-year-plan-template.css";
 
 interface PlannedCourse {
   sectionKey: string;
@@ -106,18 +107,18 @@ function formatTermLabel(termCode: string, termYear: number): string {
 
 function statusBadge(status: AcademicProgressStatus) {
   if (status === "completed") {
-    return <Badge className="bg-green-100 text-green-900 border border-green-300 dark:bg-green-600/20 dark:text-green-300 dark:border-green-600/30">Completed</Badge>;
+    return <span className="fyp-status-pill is-completed">Completed</span>;
   }
   if (status === "in_progress") {
-    return <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30">In Progress</Badge>;
+    return <span className="fyp-status-pill is-in-progress">In Progress</span>;
   }
-  return <Badge variant="outline" className="border-border">Planned</Badge>;
+  return <span className="fyp-status-pill is-planned">Planned</span>;
 }
 
 function termCardAccent(status: AcademicProgressStatus): string {
-  if (status === "completed") return "border-green-600/30 bg-green-500/5";
-  if (status === "in_progress") return "border-blue-600/35 bg-blue-500/5 shadow-lg shadow-blue-900/10";
-  return "border-border bg-amber-500/5";
+  if (status === "completed") return "is-completed";
+  if (status === "in_progress") return "is-in-progress";
+  return "is-planned";
 }
 
 function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
@@ -233,9 +234,9 @@ function formatStatusLabel(status: AcademicProgressStatus): string {
 }
 
 function statusTextClass(status: AcademicProgressStatus): string {
-  if (status === "completed") return "text-green-700 dark:text-green-300";
-  if (status === "in_progress") return "text-blue-700 dark:text-blue-300";
-  return "text-amber-700 dark:text-amber-300";
+  if (status === "completed") return "fyp-status-text is-completed";
+  if (status === "in_progress") return "fyp-status-text is-in-progress";
+  return "fyp-status-text is-planned";
 }
 
 function getOfficialStanding(earnedCredits: number): "Freshman" | "Sophomore" | "Junior" | "Senior" {
@@ -680,17 +681,17 @@ export default function FourYearPlan() {
   };
 
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
+    <div className="fyp-page">
+      <div className="fyp-shell">
+        <header className="fyp-header">
           <div>
-            <h1 className="text-4xl text-foreground mb-2">Four-Year Plan</h1>
-            <p className="text-muted-foreground">
-              Built from your saved MAIN schedules. Past terms count as completed, current term as in progress, and future terms as planned.
+            <h1 className="fyp-title">Four-Year Plan</h1>
+            <p className="fyp-subtitle">
+              Built from your saved MAIN schedules. Past terms are Completed, current term is In Progress, and future terms are Planned.
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="fyp-actions">
             <Button
               type="button"
               variant="outline"
@@ -705,340 +706,334 @@ export default function FourYearPlan() {
               <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
             </Link>
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6" data-tour-target="four-year-summary">
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <GraduationCap className="w-5 h-5 text-red-400" />
-              <h3 className="text-sm text-muted-foreground">Total Credits</h3>
-            </div>
-            <p className="text-3xl text-foreground">{summary.totalCredits}</p>
-          </Card>
+          <div className="fyp-badges">
+            <span className="fyp-badge is-red">Source: MAIN schedules</span>
+            <span className="fyp-badge">Standing: {officialStanding}</span>
+            <span className="fyp-badge">Terms: {visibleTerms.length}</span>
+            <span className="fyp-badge is-gold">Duplicates excluded: {summary.duplicateCourseCount}</span>
+          </div>
+        </header>
 
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle2 className="w-5 h-5 text-green-400" />
-              <h3 className="text-sm text-muted-foreground">Completed</h3>
-            </div>
-            <p className="text-3xl text-foreground">{summary.completedCredits}</p>
-            <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
-              <span>Standing: {officialStanding}</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-5 w-5 text-muted-foreground"
-                onClick={() => setShowStandingInfo(true)}
-                aria-label="Explain class standing thresholds"
-              >
-                <Info className="h-3.5 w-3.5" />
-              </Button>
-            </div>
-          </Card>
+        <section className="fyp-section" data-tour-target="four-year-summary">
+          <div className="fyp-section-head">
+            <h2>Credit Summary</h2>
+            <p>Totals are calculated from counted credits and exclude flagged duplicate-repeat credit.</p>
+          </div>
 
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <Clock3 className="w-5 h-5 text-blue-400" />
-              <h3 className="text-sm text-muted-foreground">In Progress</h3>
+          <div className="fyp-kpi-grid">
+            <div className="fyp-kpi-card">
+              <div className="fyp-kpi-label"><GraduationCap className="w-4 h-4" /> Total Credits</div>
+              <div className="fyp-kpi-value">{summary.totalCredits}</div>
             </div>
-            <p className="text-3xl text-foreground">{summary.inProgressCredits}</p>
-          </Card>
 
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <Calendar className="w-5 h-5 text-muted-foreground" />
-              <h3 className="text-sm text-muted-foreground">Planned</h3>
-            </div>
-            <p className="text-3xl text-foreground">{summary.plannedCredits}</p>
-          </Card>
-
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-              <h3 className="text-sm text-muted-foreground">Overall GPA</h3>
-            </div>
-            <p className="text-3xl text-foreground">{summary.overallGPA?.toFixed(3) ?? "-"}</p>
-          </Card>
-        </div>
-
-        <Card className="p-4 bg-card border-border mb-6">
-            <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
-              <h2 className="text-base text-foreground">UMD GPA Details</h2>
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-muted-foreground">
-                  Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
-                </span>
+            <div className="fyp-kpi-card">
+              <div className="fyp-kpi-label"><CheckCircle2 className="w-4 h-4" /> Completed</div>
+              <div className="fyp-kpi-value">{summary.completedCredits}</div>
+              <div className="fyp-kpi-sub">
+                Standing: {officialStanding}
                 <Button
                   type="button"
-                  size="sm"
-                  variant="outline"
-                  className="border-border"
-                  onClick={() => setShowGpaDetails((current) => !current)}
+                  variant="ghost"
+                  size="icon"
+                  className="h-5 w-5"
+                  onClick={() => setShowStandingInfo(true)}
+                  aria-label="Explain class standing thresholds"
                 >
-                  {showGpaDetails ? (
-                    <>
-                      <ChevronUp className="w-4 h-4 mr-1" /> Hide
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="w-4 h-4 mr-1" /> Show
-                    </>
-                  )}
+                  <Info className="h-3.5 w-3.5" />
                 </Button>
               </div>
             </div>
 
-            {showGpaDetails && academicGpaHistory.terms.length > 0 && (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-left border-b border-border">
-                      <th className="py-2 pr-3 text-muted-foreground font-medium">Term</th>
-                      <th className="py-2 pr-3 text-muted-foreground font-medium">Attempted</th>
-                      <th className="py-2 pr-3 text-muted-foreground font-medium">Quality Points</th>
-                      <th className="py-2 pr-3 text-muted-foreground font-medium">Semester GPA</th>
-                      <th className="py-2 text-muted-foreground font-medium">Cumulative GPA</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {academicGpaHistory.terms.map((term) => (
-                      <tr key={term.termLabel} className="border-b border-border/60 last:border-b-0">
-                        <td className="py-2 pr-3 text-foreground">{term.termLabel}</td>
-                        <td className="py-2 pr-3 text-foreground/90">{term.attemptedCredits.toFixed(2)}</td>
-                        <td className="py-2 pr-3 text-foreground/90">{term.qualityPoints.toFixed(3)}</td>
-                        <td className="py-2 pr-3 text-foreground/90">{term.semesterGPA?.toFixed(3) ?? "-"}</td>
-                        <td className="py-2 text-foreground/90">{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-            {showGpaDetails && academicGpaHistory.terms.length === 0 && (
-              <p className="text-sm text-muted-foreground">
-                No graded completed courses are available yet. GPA details will appear after transcript or completed-term grades are present.
-              </p>
-            )}
-        </Card>
+            <div className="fyp-kpi-card">
+              <div className="fyp-kpi-label"><Clock3 className="w-4 h-4" /> In Progress</div>
+              <div className="fyp-kpi-value">{summary.inProgressCredits}</div>
+            </div>
 
-        {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
-          <Card className="p-3 mb-6 bg-amber-100 border-amber-300 dark:bg-amber-500/10 dark:border-amber-500/30">
-            <div className="flex items-start justify-between gap-3">
-              <p className="text-sm text-amber-900 dark:text-amber-300">
-                Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit you already earned.
-                These repeated scheduled courses are flagged below and excluded from total credits.
-              </p>
+            <div className="fyp-kpi-card">
+              <div className="fyp-kpi-label"><Calendar className="w-4 h-4" /> Planned</div>
+              <div className="fyp-kpi-value">{summary.plannedCredits}</div>
+            </div>
+
+            <div className="fyp-kpi-card">
+              <div className="fyp-kpi-label"><CheckCircle2 className="w-4 h-4" /> Overall GPA</div>
+              <div className="fyp-kpi-value">{summary.overallGPA?.toFixed(3) ?? "-"}</div>
+            </div>
+          </div>
+        </section>
+
+        <section className="fyp-section">
+          <div className="fyp-section-head">
+            <h2>UMD GPA Details</h2>
+            <div className="fyp-inline-actions">
+              <span className="fyp-muted">
+                Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
+              </span>
               <Button
                 type="button"
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 text-amber-900 hover:bg-amber-200/60 dark:text-amber-300 dark:hover:bg-amber-500/20"
-                onClick={() => setHideDuplicateNotice(true)}
-                aria-label="Dismiss duplicate credit notice"
+                size="sm"
+                variant="outline"
+                className="border-border"
+                onClick={() => setShowGpaDetails((current) => !current)}
               >
-                <X className="h-4 w-4" />
+                {showGpaDetails ? (
+                  <>
+                    <ChevronUp className="w-4 h-4 mr-1" /> Hide
+                  </>
+                ) : (
+                  <>
+                    <ChevronDown className="w-4 h-4 mr-1" /> Show
+                  </>
+                )}
               </Button>
             </div>
-          </Card>
+          </div>
+
+          {showGpaDetails && academicGpaHistory.terms.length > 0 && (
+            <div className="fyp-table-wrap">
+              <table className="fyp-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Term</th>
+                    <th scope="col">Attempted</th>
+                    <th scope="col">Quality Points</th>
+                    <th scope="col">Semester GPA</th>
+                    <th scope="col">Cumulative GPA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {academicGpaHistory.terms.map((term) => (
+                    <tr key={term.termLabel}>
+                      <td>{term.termLabel}</td>
+                      <td>{term.attemptedCredits.toFixed(2)}</td>
+                      <td>{term.qualityPoints.toFixed(3)}</td>
+                      <td>{term.semesterGPA?.toFixed(3) ?? "-"}</td>
+                      <td>{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {showGpaDetails && academicGpaHistory.terms.length === 0 && (
+            <p className="fyp-muted">
+              No graded completed courses are available yet. GPA details will appear after transcript or completed-term grades are present.
+            </p>
+          )}
+        </section>
+
+        {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
+          <section className="fyp-callout is-warning">
+            <p>
+              Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit already earned.
+              These repeated scheduled courses are flagged below and excluded from total counted credits.
+            </p>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6"
+              onClick={() => setHideDuplicateNotice(true)}
+              aria-label="Dismiss duplicate credit notice"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </section>
         )}
 
         {!loading && summary.mathSubstitutionActive && !hideSubstitutionNotice && (
-          <Card className="p-3 mb-6 bg-sky-100 border-sky-300 dark:bg-sky-500/10 dark:border-sky-500/30">
-            <div className="flex items-start justify-between gap-3">
-              <p className="text-sm text-sky-900 dark:text-sky-300">
-                Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
-                {summary.mathSubstitutionSuppressedCount > 0
-                  ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from total credits to avoid double counting.`
-                  : " MATH240/241/246 are excluded from total credits when this substitution is active to avoid double counting."}
-              </p>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-6 w-6 text-sky-900 hover:bg-sky-200/60 dark:text-sky-300 dark:hover:bg-sky-500/20"
-                onClick={() => setHideSubstitutionNotice(true)}
-                aria-label="Dismiss substitution notice"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            </div>
-          </Card>
+          <section className="fyp-callout is-info">
+            <p>
+              Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
+              {summary.mathSubstitutionSuppressedCount > 0
+                ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from totals to avoid double counting.`
+                : " MATH240/241/246 are excluded from totals when this substitution is active to avoid double counting."}
+            </p>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="h-6 w-6"
+              onClick={() => setHideSubstitutionNotice(true)}
+              aria-label="Dismiss substitution notice"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </section>
         )}
 
-        {!loading && !errorMessage && visibleTerms.length > 0 && (
-          <p className="mb-4 text-xs text-muted-foreground">
-            Sort priority in each term: Primary major, other majors, minors, Gen Ed, then no tagged requirement.
-          </p>
-        )}
-
-        {loading && <p className="text-muted-foreground">Loading four-year plan...</p>}
-        {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
+        {loading && <section className="fyp-section"><p className="fyp-muted">Loading four-year plan...</p></section>}
+        {!loading && errorMessage && <section className="fyp-section"><p className="fyp-error">{errorMessage}</p></section>}
 
         {!loading && !errorMessage && visibleTerms.length === 0 && (
-          <Card className="p-8 bg-card border-border text-center">
-            <h2 className="text-xl text-foreground mb-2">No MAIN schedules yet</h2>
-            <p className="text-muted-foreground mb-4">
+          <section className="fyp-section fyp-empty">
+            <h2>No MAIN schedules yet</h2>
+            <p className="fyp-muted">
               Set one schedule as MAIN for each term in All Schedules to build your four-year plan automatically.
             </p>
             <Link to="/schedules">
               <Button className="bg-red-600 hover:bg-red-700">Go To All Schedules</Button>
             </Link>
-          </Card>
+          </section>
         )}
 
-        <div className="space-y-5" data-tour-target="four-year-timeline">
-          {visibleTerms.map((term) => {
-            const isExpanded = expandedTermIds.has(term.id);
-            const duplicateCount = term.courses.filter((course) => duplicateScheduleSectionKeys.has(course.sectionKey)).length;
-            const countedCredits = term.courses
-              .filter((course) => course.countsTowardProgress && !duplicateScheduleSectionKeys.has(course.sectionKey))
-              .reduce((sum, course) => sum + course.credits, 0);
+        {!loading && !errorMessage && visibleTerms.length > 0 && (
+          <section className="fyp-section" data-tour-target="four-year-timeline">
+            <div className="fyp-section-head">
+              <h2>Term Timeline</h2>
+              <p>Course rows include status, major/minor/gen-ed tags, and duplicate credit flags.</p>
+            </div>
 
-            return (
-              <Card key={term.id} className={`bg-card ${termCardAccent(term.status)}`}>
-                <div className="px-5 pt-5 pb-3 border-b border-border/60 flex items-center justify-between gap-3 flex-wrap text-base md:text-lg">
-                  <div>
-                    <p className="text-foreground text-xl md:text-2xl">{term.termLabel}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Last updated {formatLastUpdated(term.updatedAt)}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-foreground/90">{countedCredits} counted credits</span>
-                    {duplicateCount > 0 && (
-                      <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
-                        {duplicateCount} duplicate {duplicateCount === 1 ? "course" : "courses"} excluded
-                      </Badge>
-                    )}
-                    <span className={statusTextClass(term.status)}>{formatStatusLabel(term.status)}</span>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      className="border-border"
-                      onClick={() => toggleTermExpanded(term.id)}
-                      aria-expanded={isExpanded}
-                      aria-controls={`term-panel-${term.id}`}
-                    >
-                      {isExpanded ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
-                      {isExpanded ? "Hide" : "View"}
-                    </Button>
-                    {term.source === "schedule" && (
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        className="border-border"
-                        onClick={() => openScheduleInBuilder(term)}
-                      >
-                        Open
-                      </Button>
-                    )}
-                  </div>
-                </div>
+            <div className="fyp-term-list">
+              {visibleTerms.map((term) => {
+                const isExpanded = expandedTermIds.has(term.id);
+                const duplicateCount = term.courses.filter((course) => duplicateScheduleSectionKeys.has(course.sectionKey)).length;
+                const countedCredits = term.courses
+                  .filter((course) => course.countsTowardProgress && !duplicateScheduleSectionKeys.has(course.sectionKey))
+                  .reduce((sum, course) => sum + course.credits, 0);
 
-                <div id={`term-panel-${term.id}`} className="px-5 pb-5">
-                  {!isExpanded && (
-                    <p className="pt-3 text-sm text-muted-foreground">
-                      {term.courses.length} course{term.courses.length === 1 ? "" : "s"} hidden. Choose View to inspect course-level tags, status, and duplicate flags.
-                    </p>
-                  )}
+                return (
+                  <article key={term.id} className={`fyp-term-card ${termCardAccent(term.status)}`}>
+                    <header className="fyp-term-header">
+                      <div className="fyp-term-title-wrap">
+                        <h3 className="fyp-term-title">{term.termLabel}</h3>
+                        <p className="fyp-term-meta">Last updated {formatLastUpdated(term.updatedAt)}</p>
+                      </div>
 
-                  {isExpanded && (
-                    <>
-                  {term.courses.length === 0 ? (
-                    <p className="text-muted-foreground">No classes in this MAIN schedule.</p>
-                  ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="text-left border-b border-border">
-                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Course Code</th>
-                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Section</th>
-                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Course Full Name</th>
-                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Credits</th>
-                            <th scope="col" className="py-2 pr-3 text-muted-foreground font-medium">Status</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {sortCoursesForDisplay(term.courses).map((course) => {
-                            const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
-                            const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
-                            const genEdContributionLabels = genEdLabels(course.tags);
-                            const genEdLabelSet = new Set(genEdContributionLabels);
-                            const contributionLabels = [...requirementLabels, ...genEdContributionLabels];
-                            const rowClass = contributionRowClass(requirementLabels, genEdContributionLabels.length > 0);
-                            return (
-                              <tr
-                                key={course.sectionKey}
-                                className={`border-b border-border/60 hover:bg-popover/60 cursor-pointer ${rowClass} ${isDuplicate ? "opacity-70" : ""}`}
-                                onClick={() => setDetailCode(course.code)}
-                              >
-                                <td className="py-2 pr-3 text-foreground font-medium">{course.code}</td>
-                                <td className="py-2 pr-3 text-foreground/90">{course.sectionCode}</td>
-                                <td className="py-2 pr-3 text-foreground/90">{course.title}</td>
-                                <td className="py-2 pr-3 text-foreground/90">{course.credits}</td>
-                                <td className="py-2 pr-3">
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    {statusBadge(course.status)}
-                                    {isDuplicate && (
-                                      <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
-                                        Duplicate credit
-                                      </Badge>
-                                    )}
-                                    {contributionLabels.slice(0, 2).map((label) => {
-                                      return (
-                                        <Badge
-                                          key={`${course.sectionKey}-${label}`}
-                                          className={`text-[10px] ${contributionBadgeClass(label, genEdLabelSet.has(label))}`}
-                                        >
-                                          {label}
-                                        </Badge>
-                                      );
-                                    })}
-                                    {course.status === "completed" && (
-                                      <Select
-                                        value={course.grade ?? "__none__"}
-                                        onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
-                                        disabled={savingGradeKey === course.sectionKey}
+                      <div className="fyp-term-right">
+                        <span className="fyp-term-credits">{countedCredits} counted credits</span>
+                        {duplicateCount > 0 && (
+                          <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
+                            {duplicateCount} duplicate {duplicateCount === 1 ? "course" : "courses"} excluded
+                          </Badge>
+                        )}
+                        <span className={statusTextClass(term.status)}>{formatStatusLabel(term.status)}</span>
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          className="border-border"
+                          onClick={() => toggleTermExpanded(term.id)}
+                          aria-expanded={isExpanded}
+                          aria-controls={`term-panel-${term.id}`}
+                        >
+                          {isExpanded ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
+                          {isExpanded ? "Hide" : "View"}
+                        </Button>
+                        {term.source === "schedule" && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="border-border"
+                            onClick={() => openScheduleInBuilder(term)}
+                          >
+                            Open
+                          </Button>
+                        )}
+                      </div>
+                    </header>
+
+                    <div id={`term-panel-${term.id}`} className="fyp-term-panel">
+                      {!isExpanded && (
+                        <p className="fyp-muted">
+                          {term.courses.length} course{term.courses.length === 1 ? "" : "s"} hidden. Choose View to inspect course-level tags, status, and duplicate flags.
+                        </p>
+                      )}
+
+                      {isExpanded && (
+                        <>
+                          {term.courses.length === 0 ? (
+                            <p className="fyp-muted">No classes in this MAIN schedule.</p>
+                          ) : (
+                            <div className="fyp-table-wrap">
+                              <table className="fyp-table">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Course Code</th>
+                                    <th scope="col">Section</th>
+                                    <th scope="col">Course Full Name</th>
+                                    <th scope="col">Credits</th>
+                                    <th scope="col">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {sortCoursesForDisplay(term.courses).map((course) => {
+                                    const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
+                                    const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+                                    const genEdContributionLabels = genEdLabels(course.tags);
+                                    const genEdLabelSet = new Set(genEdContributionLabels);
+                                    const contributionLabels = [...requirementLabels, ...genEdContributionLabels];
+                                    const rowClass = contributionRowClass(requirementLabels, genEdContributionLabels.length > 0);
+                                    return (
+                                      <tr
+                                        key={course.sectionKey}
+                                        className={`${rowClass} ${isDuplicate ? "opacity-70" : ""}`}
+                                        onClick={() => setDetailCode(course.code)}
                                       >
-                                        <SelectTrigger
-                                          className="h-7 w-[118px] bg-input-background border-border text-[11px]"
-                                          onClick={(event) => event.stopPropagation()}
-                                        >
-                                          <SelectValue placeholder="Add grade" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                          <SelectItem value="__none__">No grade</SelectItem>
-                                          {GRADE_OPTIONS.map((grade) => (
-                                            <SelectItem key={grade} value={grade}>{grade}</SelectItem>
-                                          ))}
-                                        </SelectContent>
-                                      </Select>
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
-                  )}
+                                        <td className="fyp-code-cell">{course.code}</td>
+                                        <td>{course.sectionCode}</td>
+                                        <td>{course.title}</td>
+                                        <td>{course.credits}</td>
+                                        <td>
+                                          <div className="flex items-center gap-2 flex-wrap">
+                                            {statusBadge(course.status)}
+                                            {isDuplicate && (
+                                              <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
+                                                Duplicate credit
+                                              </Badge>
+                                            )}
+                                            {contributionLabels.slice(0, 2).map((label) => (
+                                              <Badge
+                                                key={`${course.sectionKey}-${label}`}
+                                                className={`text-[10px] ${contributionBadgeClass(label, genEdLabelSet.has(label))}`}
+                                              >
+                                                {label}
+                                              </Badge>
+                                            ))}
+                                            {course.status === "completed" && (
+                                              <Select
+                                                value={course.grade ?? "__none__"}
+                                                onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
+                                                disabled={savingGradeKey === course.sectionKey}
+                                              >
+                                                <SelectTrigger
+                                                  className="h-7 w-[118px] bg-input-background border-border text-[11px]"
+                                                  onClick={(event) => event.stopPropagation()}
+                                                >
+                                                  <SelectValue placeholder="Add grade" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                  <SelectItem value="__none__">No grade</SelectItem>
+                                                  {GRADE_OPTIONS.map((grade) => (
+                                                    <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                                  ))}
+                                                </SelectContent>
+                                              </Select>
+                                            )}
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    );
+                                  })}
+                                </tbody>
+                              </table>
+                            </div>
+                          )}
 
-                  <div className="mt-3 text-right">
-                    <span className="text-xs text-muted-foreground">
-                      Term total: {term.credits} raw credits • Counted toward progress: {countedCredits}
-                    </span>
-                  </div>
-                    </>
-                  )}
-                </div>
-              </Card>
-            );
-          })}
-        </div>
+                          <p className="fyp-term-footnote">
+                            Term total: {term.credits} raw credits • Counted toward progress: {countedCredits}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </div>
 
       <Dialog open={Boolean(detailCode)} onOpenChange={(open) => {

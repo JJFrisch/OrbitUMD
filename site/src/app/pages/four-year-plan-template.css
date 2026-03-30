@@ -1,0 +1,369 @@
+.fyp-page {
+  min-height: 100%;
+  padding: 24px;
+  background: #fdfaf5;
+}
+
+.fyp-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: grid;
+  gap: 18px;
+}
+
+.fyp-header,
+.fyp-section,
+.fyp-callout {
+  background: #ffffff;
+  border: 1px solid rgba(55, 35, 25, 0.1);
+  border-radius: 12px;
+}
+
+.fyp-header {
+  padding: 24px;
+  display: grid;
+  gap: 14px;
+}
+
+.fyp-title {
+  font-size: 2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #17120e;
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.fyp-subtitle {
+  margin-top: 8px;
+  color: #7a6358;
+  line-height: 1.6;
+  max-width: 72ch;
+}
+
+.fyp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fyp-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fyp-badge {
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: #3d2e26;
+  background: #faf7f3;
+  border: 1px solid rgba(55, 35, 25, 0.14);
+}
+
+.fyp-badge.is-red {
+  color: #c62828;
+  border-color: rgba(198, 40, 40, 0.3);
+  background: rgba(198, 40, 40, 0.06);
+}
+
+.fyp-badge.is-gold {
+  color: #8f6200;
+  border-color: rgba(249, 168, 37, 0.3);
+  background: rgba(249, 168, 37, 0.1);
+}
+
+.fyp-section {
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.fyp-section h2 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #17120e;
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.fyp-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.fyp-section-head p {
+  color: #7a6358;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.fyp-kpi-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.fyp-kpi-card {
+  border: 1px solid rgba(55, 35, 25, 0.12);
+  border-radius: 10px;
+  background: #faf7f3;
+  padding: 12px;
+  display: grid;
+  gap: 6px;
+}
+
+.fyp-kpi-label {
+  color: #7a6358;
+  font-size: 0.78rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fyp-kpi-value {
+  font-size: 1.75rem;
+  line-height: 1;
+  font-weight: 700;
+  color: #17120e;
+}
+
+.fyp-kpi-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #7a6358;
+  font-size: 0.8rem;
+}
+
+.fyp-inline-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fyp-muted {
+  color: #7a6358;
+  font-size: 0.9rem;
+}
+
+.fyp-error {
+  color: #c62828;
+  font-size: 0.92rem;
+}
+
+.fyp-table-wrap {
+  overflow-x: auto;
+}
+
+.fyp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.fyp-table th,
+.fyp-table td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(55, 35, 25, 0.1);
+  vertical-align: top;
+}
+
+.fyp-table th {
+  color: #7a6358;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+
+.fyp-table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.fyp-code-cell {
+  font-weight: 700;
+  color: #17120e;
+}
+
+.fyp-callout {
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.fyp-callout p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.fyp-callout.is-warning {
+  border-color: rgba(198, 40, 40, 0.3);
+  background: rgba(198, 40, 40, 0.06);
+  color: #8a1d1d;
+}
+
+.fyp-callout.is-info {
+  border-color: rgba(15, 98, 254, 0.3);
+  background: rgba(15, 98, 254, 0.06);
+  color: #14437a;
+}
+
+.fyp-empty {
+  text-align: center;
+}
+
+.fyp-term-list {
+  display: grid;
+  gap: 12px;
+}
+
+.fyp-term-card {
+  border: 1px solid rgba(55, 35, 25, 0.1);
+  border-radius: 10px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.fyp-term-card.is-completed {
+  border-color: rgba(22, 163, 74, 0.3);
+  background: rgba(22, 163, 74, 0.04);
+}
+
+.fyp-term-card.is-in-progress {
+  border-color: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.04);
+}
+
+.fyp-term-card.is-planned {
+  border-color: rgba(245, 158, 11, 0.3);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.fyp-term-header {
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid rgba(55, 35, 25, 0.1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.fyp-term-title-wrap {
+  display: grid;
+  gap: 4px;
+}
+
+.fyp-term-title {
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: #17120e;
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+.fyp-term-meta {
+  font-size: 0.76rem;
+  color: #7a6358;
+}
+
+.fyp-term-right {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.fyp-term-credits {
+  font-size: 0.82rem;
+  color: #3d2e26;
+  font-weight: 600;
+}
+
+.fyp-status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.fyp-status-pill.is-completed {
+  background: rgba(22, 163, 74, 0.12);
+  color: #14532d;
+}
+
+.fyp-status-pill.is-in-progress {
+  background: rgba(37, 99, 235, 0.12);
+  color: #1d4ed8;
+}
+
+.fyp-status-pill.is-planned {
+  background: rgba(245, 158, 11, 0.14);
+  color: #92400e;
+}
+
+.fyp-status-text {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fyp-status-text.is-completed {
+  color: #166534;
+}
+
+.fyp-status-text.is-in-progress {
+  color: #1d4ed8;
+}
+
+.fyp-status-text.is-planned {
+  color: #92400e;
+}
+
+.fyp-term-panel {
+  padding: 12px 14px 14px;
+}
+
+.fyp-term-footnote {
+  margin-top: 10px;
+  text-align: right;
+  color: #7a6358;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 840px) {
+  .fyp-page {
+    padding: 14px;
+  }
+
+  .fyp-header,
+  .fyp-section,
+  .fyp-callout {
+    padding: 16px;
+  }
+
+  .fyp-title {
+    font-size: 1.6rem;
+  }
+
+  .fyp-term-title {
+    font-size: 1.06rem;
+  }
+}
