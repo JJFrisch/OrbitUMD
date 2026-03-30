@@ -41,7 +41,7 @@ const GenerateSchedule = lazyWithRetry(() => import("./pages/GenerateSchedule"),
 const ScheduleBuilder = lazyWithRetry(() => import("./pages/ScheduleBuilder"), "ScheduleBuilder");
 const ScheduleLibrary = lazyWithRetry(() => import("./pages/ScheduleLibrary"), "ScheduleLibrary");
 const FourYearPlan = lazyWithRetry(() => import("./pages/FourYearPlan"), "FourYearPlan");
-const DegreeAudit = lazyWithRetry(() => import("./pages/DegreeAudit"), "DegreeAudit");
+const DegreeAudit = lazyWithRetry(() => import("./pages/DegreeAuditV2"), "DegreeAudit");
 const ProgramAudit = lazyWithRetry(() => import("./pages/ProgramAudit"), "ProgramAudit");
 const GenEds = lazyWithRetry(() => import("./pages/GenEds"), "GenEds");
 const CreditImport = lazyWithRetry(() => import("./pages/CreditImport"), "CreditImport");
