@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
-import { MemoryRouter } from "react-router";
+import { MemoryRouter, useLocation } from "react-router";
 import { AutoGenerateSchedulePage } from "../AutoGenerateSchedulePage";
+import { useCoursePlannerStore } from "../state/coursePlannerStore";
 
 const { searchCoursesWithStrategy, getSectionsForCourse, fetchTerms, saveScheduleWithSelections } = vi.hoisted(() => ({
   searchCoursesWithStrategy: vi.fn(),
@@ -196,6 +197,20 @@ function renderPage() {
   );
 }
 
+function renderPageWithLocationProbe() {
+  function LocationProbe() {
+    const location = useLocation();
+    return <div data-testid="location-probe">{location.pathname}{location.search}</div>;
+  }
+
+  return render(
+    <MemoryRouter initialEntries={["/"]}>
+      <AutoGenerateSchedulePage />
+      <LocationProbe />
+    </MemoryRouter>
+  );
+}
+
 async function openAddCoursePanel() {
   if (!screen.queryByLabelText("Search courses to add")) {
     fireEvent.click(screen.getByRole("button", { name: "Add a course" }));
@@ -228,6 +243,15 @@ describe("AutoGenerateSchedulePage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.clear();
+    useCoursePlannerStore.setState({
+      term: "08",
+      year: 2026,
+      resolvedTerm: "08",
+      resolvedYear: 2026,
+      selections: {},
+      hoveredSelection: null,
+      selectedInfoKey: null,
+    });
 
     fetchTerms.mockResolvedValue([
       { code: "202612", season: "winter", year: 2026, label: "Winter 2026" },
@@ -355,5 +379,44 @@ describe("AutoGenerateSchedulePage", () => {
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
     expect(await screen.findByTestId("generate-error-state")).toHaveTextContent("Catalog unavailable");
+  });
+
+  it("saves, sets main, and opens generated schedules", async () => {
+    renderPageWithLocationProbe();
+
+    await addCourse("CMSC131", "required");
+    setCreditRange("4", "8");
+
+    fireEvent.click(screen.getByRole("button", { name: "Fall" }));
+    fireEvent.change(screen.getByLabelText("Academic year"), { target: { value: "2026" } });
+
+    fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
+
+    const firstCard = await screen.findByTestId("generated-card-1");
+
+    fireEvent.click(within(firstCard).getByRole("button", { name: "Save" }));
+    await waitFor(() => {
+      expect(saveScheduleWithSelections).toHaveBeenCalledWith(expect.objectContaining({
+        name: "Generated Fall 2026 Option 1",
+        termCode: "08",
+        termYear: 2026,
+        isPrimary: false,
+      }));
+    });
+
+    fireEvent.click(within(firstCard).getByRole("button", { name: "Set as Main" }));
+    await waitFor(() => {
+      expect(saveScheduleWithSelections).toHaveBeenCalledWith(expect.objectContaining({
+        name: "Generated Fall 2026 Option 1",
+        termCode: "08",
+        termYear: 2026,
+        isPrimary: true,
+      }));
+    });
+
+    fireEvent.click(within(firstCard).getByRole("button", { name: "Open" }));
+    await waitFor(() => {
+      expect(screen.getByTestId("location-probe").textContent).toContain("/schedule-builder?term=08-2026&generated=1&generatedIndex=1");
+    });
   });
 });

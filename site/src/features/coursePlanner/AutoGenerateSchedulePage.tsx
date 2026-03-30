@@ -30,7 +30,7 @@ import "./styles/coursePlanner.css";
 type Season = "01" | "05" | "08" | "12";
 type DeliveryMode = "face_to_face" | "blended" | "online";
 type CourseKind = "required" | "optional";
-type ResultsSortMode = "best" | "credits" | "spread";
+type ResultsSortMode = "best" | "credits" | "spread" | "start" | "end";
 
 interface CoursePlan {
   course: Course;
@@ -518,6 +518,33 @@ function buildScheduleSummary(schedule: GeneratedSchedule): ScheduleSummary {
   };
 }
 
+function scheduleTimeBounds(schedule: GeneratedSchedule): { earliest: number; latest: number } {
+  let earliest = Number.POSITIVE_INFINITY;
+  let latest = Number.NEGATIVE_INFINITY;
+
+  for (const selection of schedule.selections) {
+    for (const meeting of selection.section.meetings) {
+      if (!meeting.startTime || !meeting.endTime) {
+        continue;
+      }
+
+      const start = parseTimeToHour(meeting.startTime);
+      const end = parseTimeToHour(meeting.endTime);
+      if (!Number.isFinite(start) || !Number.isFinite(end)) {
+        continue;
+      }
+
+      earliest = Math.min(earliest, start);
+      latest = Math.max(latest, end);
+    }
+  }
+
+  return {
+    earliest,
+    latest,
+  };
+}
+
 function scheduleDayCount(schedule: GeneratedSchedule): number {
   const days = new Set<Exclude<Weekday, "Other">>();
   for (const selection of schedule.selections) {
@@ -886,10 +913,10 @@ function CoursePrioritySection({
         })}
       </div>
 
-      <div className="cp-generate-parse-info">
+      {/* <div className="cp-generate-parse-info">
         <Info size={12} />
         Parsed: <strong>{requiredCount} required</strong>, {optionalCount} optional · {unresolvedCount === 0 ? "All sections found." : `${unresolvedCount} courses need review.`}
-      </div>
+      </div> */}
 
       <button
         type="button"
@@ -1179,10 +1206,23 @@ function ScheduleOptionCard({
     return assignConflictIndexes(raw);
   }, [schedule]);
 
-  const bounds = useMemo(
-    () => computeVisibleHourBounds(meetings.filter((meeting) => meeting.day !== "Other")),
-    [meetings]
-  );
+  const bounds = useMemo(() => {
+    const dayMeetings = meetings.filter((meeting) => meeting.day !== "Other");
+    if (dayMeetings.length === 0) {
+      return computeVisibleHourBounds(dayMeetings);
+    }
+
+    const earliest = Math.min(...dayMeetings.map((meeting) => meeting.startHour));
+    const latest = Math.max(...dayMeetings.map((meeting) => meeting.endHour));
+
+    const startHour = Math.max(0, Math.floor(earliest) - 1);
+    const endHour = Math.min(24, Math.ceil(latest) + 1);
+
+    return {
+      startHour,
+      endHour: Math.max(startHour + 1, endHour),
+    };
+  }, [meetings]);
 
   return (
     <article className={`cp-generate-schedule-card ${pinned ? "is-pinned" : ""}`} data-testid={`generated-card-${rank + 1}`}>
@@ -1305,6 +1345,38 @@ function ResultsPanel({
 
     if (sortMode === "credits") {
       items.sort((left, right) => left.credits - right.credits);
+    } else if (sortMode === "start") {
+      items.sort((left, right) => {
+        const leftBounds = scheduleTimeBounds(left);
+        const rightBounds = scheduleTimeBounds(right);
+
+        const leftStart = Number.isFinite(leftBounds.earliest) ? leftBounds.earliest : Number.POSITIVE_INFINITY;
+        const rightStart = Number.isFinite(rightBounds.earliest) ? rightBounds.earliest : Number.POSITIVE_INFINITY;
+
+        if (leftStart !== rightStart) {
+          return leftStart - rightStart;
+        }
+
+        const leftEnd = Number.isFinite(leftBounds.latest) ? leftBounds.latest : Number.POSITIVE_INFINITY;
+        const rightEnd = Number.isFinite(rightBounds.latest) ? rightBounds.latest : Number.POSITIVE_INFINITY;
+        return leftEnd - rightEnd;
+      });
+    } else if (sortMode === "end") {
+      items.sort((left, right) => {
+        const leftBounds = scheduleTimeBounds(left);
+        const rightBounds = scheduleTimeBounds(right);
+
+        const leftEnd = Number.isFinite(leftBounds.latest) ? leftBounds.latest : Number.POSITIVE_INFINITY;
+        const rightEnd = Number.isFinite(rightBounds.latest) ? rightBounds.latest : Number.POSITIVE_INFINITY;
+
+        if (leftEnd !== rightEnd) {
+          return leftEnd - rightEnd;
+        }
+
+        const leftStart = Number.isFinite(leftBounds.earliest) ? leftBounds.earliest : Number.POSITIVE_INFINITY;
+        const rightStart = Number.isFinite(rightBounds.earliest) ? rightBounds.earliest : Number.POSITIVE_INFINITY;
+        return leftStart - rightStart;
+      });
     } else if (sortMode === "spread") {
       items.sort((left, right) => {
         const dayDiff = scheduleDayCount(left) - scheduleDayCount(right);
@@ -1353,6 +1425,20 @@ function ResultsPanel({
                 onClick={() => onSortModeChange("spread")}
               >
                 Fewer days
+              </button>
+              <button
+                type="button"
+                className={`cp-generate-results-btn ${sortMode === "start" ? "is-active" : ""}`}
+                onClick={() => onSortModeChange("start")}
+              >
+                Earliest start
+              </button>
+              <button
+                type="button"
+                className={`cp-generate-results-btn ${sortMode === "end" ? "is-active" : ""}`}
+                onClick={() => onSortModeChange("end")}
+              >
+                Earliest end
               </button>
               <button
                 type="button"

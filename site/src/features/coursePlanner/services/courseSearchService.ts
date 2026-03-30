@@ -72,14 +72,30 @@ async function resolveSeasonFallbackTerm(term: string, year: number, signal?: Ab
       const url = new URL("courses/semesters", UMD_BASE.endsWith("/") ? UMD_BASE : `${UMD_BASE}/`);
       const semesters = await getJson<Array<string | number>>(url.toString(), signal);
 
-      const candidates = semesters
+      const parsedSemesters = semesters
         .map(parseSemesterCode)
         .filter((entry): entry is { year: number; term: string } => Boolean(entry))
+        .filter((entry) => entry.year <= year);
+
+      const candidates = parsedSemesters
         .filter((entry) => entry.term === normalizedTerm && entry.year <= year)
         .sort((left, right) => right.year - left.year);
 
       if (candidates.length > 0) {
         return candidates[0];
+      }
+
+      // If no exact season exists yet (common for projected terms), use the latest
+      // available semester up to the requested year so users can still search/generate.
+      const latestAvailable = [...parsedSemesters].sort((left, right) => {
+        if (left.year !== right.year) {
+          return right.year - left.year;
+        }
+        return Number(right.term) - Number(left.term);
+      })[0];
+
+      if (latestAvailable) {
+        return latestAvailable;
       }
     } catch {
       // Keep requested term/year when semester discovery fails.
