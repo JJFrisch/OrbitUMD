@@ -88,18 +88,9 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   return (
     <aside className={cn("orbit-sidebar", collapsed && "collapsed")}>
       <div className="sidebar-header">
-        <button
-          type="button"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          onClick={onToggleCollapse}
-          className="sidebar-collapse-btn"
-        >
-          {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
-        </button>
-
         <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard" title={collapsed ? "OrbitUMD" : undefined}>
           <span className="sidebar-logo-mark" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
               <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
               <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
               <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
@@ -109,6 +100,17 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           </span>
           <span className="logo-text">Orbit<span>UMD</span></span>
         </Link>
+
+        <button
+          type="button"
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          onClick={onToggleCollapse}
+          className="sidebar-collapse-btn"
+        >
+          {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+        </button>
+
+
       </div>
 
       <nav className="nav-section">
