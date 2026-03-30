@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type DragEvent } from "react";
+import { Fragment, useEffect, useMemo, useState, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { ChevronDown, ChevronUp, Info, X } from "lucide-react";
 import { toast } from "sonner";
@@ -33,6 +33,9 @@ import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressS
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
+import { searchCourses } from "@/lib/api/umdCourses";
+import type { UmdCourseSummary } from "@/lib/types/course";
+import { isUnspecifiedSectionCode } from "@/features/coursePlanner/utils/sectionLabels";
 import "./four-year-plan-template.css";
 
 interface PlannedCourse {
@@ -268,18 +271,34 @@ function buildTagPresentation(label: string, isGenEd: boolean) {
   }
 
   if (label.startsWith("Major:")) {
-    const majorName = label.replace("Major:", "").trim();
+    const majorName = label.replace("Major:", "").replace(/\bmajor\b/ig, "").trim();
     return {
       shortLabel: acronymFromLabel(majorName),
-      fullLabel: `${majorName} Major Requirement`,
+      fullLabel: `Major (${majorName})`,
     };
   }
 
   if (label.startsWith("Minor:")) {
-    const minorName = label.replace("Minor:", "").trim();
+    const minorName = label.replace("Minor:", "").replace(/\bminor\b/ig, "").trim();
     return {
       shortLabel: acronymFromLabel(minorName),
-      fullLabel: `${minorName} Minor Requirement`,
+      fullLabel: `Minor (${minorName})`,
+    };
+  }
+
+  if (/\bmajor\b/i.test(label)) {
+    const majorName = label.replace(/\bmajor\b/ig, "").trim();
+    return {
+      shortLabel: acronymFromLabel(majorName),
+      fullLabel: `Major (${majorName})`,
+    };
+  }
+
+  if (/\bminor\b/i.test(label)) {
+    const minorName = label.replace(/\bminor\b/ig, "").trim();
+    return {
+      shortLabel: acronymFromLabel(minorName),
+      fullLabel: `Minor (${minorName})`,
     };
   }
 
@@ -287,6 +306,13 @@ function buildTagPresentation(label: string, isGenEd: boolean) {
     shortLabel: acronymFromLabel(label),
     fullLabel: label,
   };
+}
+
+function toSectionDisplay(sectionCode: string): string {
+  if (isUnspecifiedSectionCode(sectionCode)) {
+    return "Section Undetermined";
+  }
+  return `Section ${sectionCode}`;
 }
 
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
@@ -337,9 +363,14 @@ export default function FourYearPlan() {
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
-  const [courseTermOverrides, setCourseTermOverrides] = useState<Record<string, string>>({});
+  const [addCourseTerm, setAddCourseTerm] = useState<PlannedTerm | null>(null);
+  const [addCourseQuery, setAddCourseQuery] = useState("");
+  const [addCourseResults, setAddCourseResults] = useState<UmdCourseSummary[]>([]);
+  const [addCourseSearchPending, setAddCourseSearchPending] = useState(false);
+  const [addCoursePendingCode, setAddCoursePendingCode] = useState<string | null>(null);
   const [draggingCourseKey, setDraggingCourseKey] = useState<string | null>(null);
   const [dragOverTermId, setDragOverTermId] = useState<string | null>(null);
+  const [dragOverInsertIndex, setDragOverInsertIndex] = useState<number | null>(null);
   const [movingCourseKey, setMovingCourseKey] = useState<string | null>(null);
 
   useEffect(() => {
@@ -526,38 +557,6 @@ export default function FourYearPlan() {
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
-  const primaryMajorLabel = useMemo(() => {
-    const primaryMajorBundle = requirementBundles.find((bundle) => bundle.kind === "major");
-    return primaryMajorBundle ? `Major: ${primaryMajorBundle.programName}` : null;
-  }, [requirementBundles]);
-
-  const getContributionCategory = (requirementLabels: string[], hasGenEd: boolean) => {
-    const hasPrimaryMajor = Boolean(primaryMajorLabel && requirementLabels.includes(primaryMajorLabel));
-    if (hasPrimaryMajor) return "primary_major" as const;
-    if (requirementLabels.some((label) => label.startsWith("Major:"))) return "other_major" as const;
-    if (requirementLabels.some((label) => label.startsWith("Minor:"))) return "minor" as const;
-    if (hasGenEd) return "gen_ed" as const;
-    return "none" as const;
-  };
-
-  const getCourseSortRank = (course: PlannedCourse): number => {
-    const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
-    const category = getContributionCategory(requirementLabels, genEdLabels(course.tags).length > 0);
-    if (category === "primary_major") return 0;
-    if (category === "other_major") return 1;
-    if (category === "minor") return 2;
-    if (category === "gen_ed") return 3;
-    return 4;
-  };
-
-  const sortCoursesForDisplay = (courses: PlannedCourse[]): PlannedCourse[] => {
-    return [...courses].sort((a, b) => {
-      const rankDiff = getCourseSortRank(a) - getCourseSortRank(b);
-      if (rankDiff !== 0) return rankDiff;
-      return a.code.localeCompare(b.code);
-    });
-  };
-
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -630,13 +629,9 @@ export default function FourYearPlan() {
     }
   };
 
-  const openScheduleInBuilder = (term: PlannedTerm) => {
+  const openScheduleInLibrary = (term: PlannedTerm) => {
     if (term.source !== "schedule") return;
-    navigateToScheduleBuilder(term.scheduleId, term.termCode, term.termYear);
-  };
-
-  const navigateToScheduleBuilder = (scheduleId: string, termCode: string, termYear: number) => {
-    navigate(`/schedule-builder?scheduleId=${encodeURIComponent(scheduleId)}&term=${termCode}-${termYear}`);
+    navigate(`/schedules?scheduleId=${encodeURIComponent(term.scheduleId)}`);
   };
 
   const boardTerms = useMemo(() => {
@@ -663,25 +658,6 @@ export default function FourYearPlan() {
     return new Map(mainSchedules.map((schedule) => [schedule.id, schedule]));
   }, [mainSchedules]);
 
-  useEffect(() => {
-    setCourseTermOverrides((current) => {
-      const validCourseKeys = new Set(originalTermByCourseSectionKey.keys());
-      const validTermIds = new Set(boardTerms.map((term) => term.id));
-      let hasChanges = false;
-      const next: Record<string, string> = {};
-
-      for (const [courseKey, termId] of Object.entries(current)) {
-        if (validCourseKeys.has(courseKey) && validTermIds.has(termId)) {
-          next[courseKey] = termId;
-        } else {
-          hasChanges = true;
-        }
-      }
-
-      return hasChanges ? next : current;
-    });
-  }, [boardTerms, originalTermByCourseSectionKey]);
-
   const displayedCoursesByTerm = useMemo(() => {
     const grouped = new Map<string, PlannedCourse[]>();
     for (const term of boardTerms) {
@@ -690,20 +666,26 @@ export default function FourYearPlan() {
 
     for (const term of boardTerms) {
       for (const course of term.courses) {
-        const targetTermId = courseTermOverrides[course.sectionKey] ?? term.id;
-        if (!grouped.has(targetTermId)) {
+        if (!grouped.has(term.id)) {
           continue;
         }
-        grouped.get(targetTermId)?.push(course);
+        grouped.get(term.id)?.push(course);
       }
     }
 
-    for (const [termId, courses] of grouped.entries()) {
-      grouped.set(termId, sortCoursesForDisplay(courses));
-    }
-
     return grouped;
-  }, [boardTerms, courseTermOverrides, sortCoursesForDisplay]);
+  }, [boardTerms]);
+
+  const currentCourseLocationBySectionKey = useMemo(() => {
+    const mapping = new Map<string, { termId: string; index: number }>();
+    for (const term of boardTerms) {
+      const courses = displayedCoursesByTerm.get(term.id) ?? [];
+      courses.forEach((course, index) => {
+        mapping.set(course.sectionKey, { termId: term.id, index });
+      });
+    }
+    return mapping;
+  }, [boardTerms, displayedCoursesByTerm]);
 
   const handleCourseDragStart = (event: DragEvent<HTMLElement>, sectionKey: string) => {
     if (movingCourseKey) {
@@ -718,19 +700,23 @@ export default function FourYearPlan() {
   const handleCourseDragEnd = () => {
     setDraggingCourseKey(null);
     setDragOverTermId(null);
+    setDragOverInsertIndex(null);
   };
 
-  const handleTermDragOver = (event: DragEvent<HTMLElement>, termId: string, canDrop: boolean) => {
+  const handleInsertDragOver = (event: DragEvent<HTMLElement>, termId: string, insertIndex: number, canDrop: boolean) => {
     if (!draggingCourseKey || !canDrop || movingCourseKey) {
       return;
     }
     event.preventDefault();
+    event.stopPropagation();
     event.dataTransfer.dropEffect = "move";
     setDragOverTermId(termId);
+    setDragOverInsertIndex(insertIndex);
   };
 
-  const handleTermDrop = async (event: DragEvent<HTMLElement>, targetTermId: string) => {
+  const handleTermDrop = async (event: DragEvent<HTMLElement>, targetTermId: string, requestedTargetIndex?: number) => {
     event.preventDefault();
+    event.stopPropagation();
     if (movingCourseKey) {
       return;
     }
@@ -740,19 +726,15 @@ export default function FourYearPlan() {
       return;
     }
 
-    const baseSourceTerm = originalTermByCourseSectionKey.get(droppedSectionKey);
-    if (!baseSourceTerm) {
+    const sourceLocation = currentCourseLocationBySectionKey.get(droppedSectionKey);
+    if (!sourceLocation) {
       setDragOverTermId(null);
+      setDragOverInsertIndex(null);
       setDraggingCourseKey(null);
       return;
     }
 
-    const currentSourceTermId = courseTermOverrides[droppedSectionKey] ?? baseSourceTerm.id;
-    if (currentSourceTermId === targetTermId) {
-      setDragOverTermId(null);
-      setDraggingCourseKey(null);
-      return;
-    }
+    const currentSourceTermId = sourceLocation.termId;
 
     const sourceTerm = termById.get(currentSourceTermId);
     const targetTerm = termById.get(targetTermId);
@@ -760,6 +742,7 @@ export default function FourYearPlan() {
     if (!sourceTerm || !targetTerm || sourceTerm.source !== "schedule" || targetTerm.source !== "schedule") {
       toast.error("Courses can only be moved between MAIN schedule terms.");
       setDragOverTermId(null);
+      setDragOverInsertIndex(null);
       setDraggingCourseKey(null);
       return;
     }
@@ -769,6 +752,7 @@ export default function FourYearPlan() {
     if (!sourceSchedule || !targetSchedule || !sourceSchedule.term_code || !sourceSchedule.term_year || !targetSchedule.term_code || !targetSchedule.term_year) {
       toast.error("Unable to move this course right now.");
       setDragOverTermId(null);
+      setDragOverInsertIndex(null);
       setDraggingCourseKey(null);
       return;
     }
@@ -780,21 +764,59 @@ export default function FourYearPlan() {
     if (!movedSelection) {
       toast.error("Unable to locate the selected course in its source term.");
       setDragOverTermId(null);
+      setDragOverInsertIndex(null);
       setDraggingCourseKey(null);
       return;
     }
 
-    const nextSourceSelections = sourceSelections.filter((selection) => selection.sectionKey !== droppedSectionKey);
-    const nextTargetSelections = [
-      ...targetSelections.filter((selection) => selection.sectionKey !== droppedSectionKey),
-      movedSelection,
-    ];
+    const targetCourses = displayedCoursesByTerm.get(targetTermId) ?? [];
+    const fallbackTargetIndex = targetCourses.length;
+    const rawTargetIndex = typeof requestedTargetIndex === "number"
+      ? requestedTargetIndex
+      : (dragOverTermId === targetTermId && dragOverInsertIndex !== null ? dragOverInsertIndex : fallbackTargetIndex);
+
+    const sourceIndex = sourceSelections.findIndex((selection) => selection.sectionKey === droppedSectionKey);
+
+    let nextSourceSelections: ScheduleSelection[];
+    let nextTargetSelections: ScheduleSelection[];
+
+    if (sourceSchedule.id === targetSchedule.id) {
+      if (sourceIndex < 0) {
+        setDragOverTermId(null);
+        setDragOverInsertIndex(null);
+        setDraggingCourseKey(null);
+        return;
+      }
+
+      const withoutMoved = sourceSelections.filter((selection) => selection.sectionKey !== droppedSectionKey);
+      const adjustedTargetIndex = rawTargetIndex > sourceIndex ? rawTargetIndex - 1 : rawTargetIndex;
+      const insertIndex = Math.max(0, Math.min(adjustedTargetIndex, withoutMoved.length));
+      withoutMoved.splice(insertIndex, 0, movedSelection);
+
+      const changed = sourceSelections.some((selection, index) => withoutMoved[index]?.sectionKey !== selection.sectionKey);
+      if (!changed) {
+        setDragOverTermId(null);
+        setDragOverInsertIndex(null);
+        setDraggingCourseKey(null);
+        return;
+      }
+
+      nextSourceSelections = withoutMoved;
+      nextTargetSelections = withoutMoved;
+    } else {
+      const sourceWithoutMoved = sourceSelections.filter((selection) => selection.sectionKey !== droppedSectionKey);
+      const targetWithoutMoved = targetSelections.filter((selection) => selection.sectionKey !== droppedSectionKey);
+      const insertIndex = Math.max(0, Math.min(rawTargetIndex, targetWithoutMoved.length));
+      const nextTarget = [...targetWithoutMoved];
+      nextTarget.splice(insertIndex, 0, movedSelection);
+
+      nextSourceSelections = sourceWithoutMoved;
+      nextTargetSelections = nextTarget;
+    }
 
     const previousSchedules = mainSchedules;
-    const previousOverrides = courseTermOverrides;
 
     setMovingCourseKey(droppedSectionKey);
-    setCourseTermOverrides((current) => ({ ...current, [droppedSectionKey]: targetTermId }));
     setMainSchedules((current) => current.map((entry) => {
       if (entry.id === sourceSchedule.id) {
         return {
@@ -814,47 +836,169 @@ export default function FourYearPlan() {
     }));
 
     try {
-      const [savedSource, savedTarget] = await Promise.all([
-        plannerApi.saveScheduleWithSelections({
+      if (sourceSchedule.id === targetSchedule.id) {
+        const saved = await plannerApi.saveScheduleWithSelections({
           id: sourceSchedule.id,
           name: sourceSchedule.name,
           termCode: sourceSchedule.term_code,
           termYear: sourceSchedule.term_year,
           isPrimary: sourceSchedule.is_primary,
           selectionsJson: buildSelectionsPayload(nextSourceSelections),
-        }),
-        plannerApi.saveScheduleWithSelections({
-          id: targetSchedule.id,
-          name: targetSchedule.name,
-          termCode: targetSchedule.term_code,
-          termYear: targetSchedule.term_year,
-          isPrimary: targetSchedule.is_primary,
-          selectionsJson: buildSelectionsPayload(nextTargetSelections),
-        }),
-      ]);
+        });
 
-      setMainSchedules((current) => current.map((entry) => {
-        if (entry.id === savedSource.id) return savedSource;
-        if (entry.id === savedTarget.id) return savedTarget;
-        return entry;
-      }));
+        setMainSchedules((current) => current.map((entry) => (entry.id === saved.id ? saved : entry)));
+      } else {
+        const [savedSource, savedTarget] = await Promise.all([
+          plannerApi.saveScheduleWithSelections({
+            id: sourceSchedule.id,
+            name: sourceSchedule.name,
+            termCode: sourceSchedule.term_code,
+            termYear: sourceSchedule.term_year,
+            isPrimary: sourceSchedule.is_primary,
+            selectionsJson: buildSelectionsPayload(nextSourceSelections),
+          }),
+          plannerApi.saveScheduleWithSelections({
+            id: targetSchedule.id,
+            name: targetSchedule.name,
+            termCode: targetSchedule.term_code,
+            termYear: targetSchedule.term_year,
+            isPrimary: targetSchedule.is_primary,
+            selectionsJson: buildSelectionsPayload(nextTargetSelections),
+          }),
+        ]);
 
-      setCourseTermOverrides((current) => {
-        if (!(droppedSectionKey in current)) {
-          return current;
-        }
-        const next = { ...current };
-        delete next[droppedSectionKey];
-        return next;
-      });
+        setMainSchedules((current) => current.map((entry) => {
+          if (entry.id === savedSource.id) return savedSource;
+          if (entry.id === savedTarget.id) return savedTarget;
+          return entry;
+        }));
+      }
     } catch (error) {
       setMainSchedules(previousSchedules);
-      setCourseTermOverrides(previousOverrides);
       toast.error(error instanceof Error ? error.message : "Unable to move course between terms.");
     } finally {
       setMovingCourseKey((current) => (current === droppedSectionKey ? null : current));
       setDragOverTermId(null);
+      setDragOverInsertIndex(null);
       setDraggingCourseKey(null);
+    }
+  };
+
+  const handleAddCourseLookup = async () => {
+    if (!addCourseTerm || addCourseTerm.source !== "schedule") {
+      return;
+    }
+
+    const query = addCourseQuery.trim();
+    if (!query) {
+      setAddCourseResults([]);
+      return;
+    }
+
+    const termCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+    setAddCourseSearchPending(true);
+    try {
+      const results = await searchCourses({ termCode, query, pageSize: 60 });
+      setAddCourseResults(results.slice(0, 25));
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Unable to search courses right now.");
+      setAddCourseResults([]);
+    } finally {
+      setAddCourseSearchPending(false);
+    }
+  };
+
+  const handleAddCourseToTerm = async (term: PlannedTerm, course: UmdCourseSummary) => {
+    if (term.source !== "schedule") return;
+    const schedule = mainSchedules.find((entry) => entry.id === term.scheduleId);
+    if (!schedule || !schedule.term_code || !schedule.term_year) {
+      toast.error("Unable to add course to this term right now.");
+      return;
+    }
+
+    const normalizedCode = String(course.id ?? "").toUpperCase().replace(/\s+/g, "");
+    if (!normalizedCode) {
+      toast.error("Unable to add this course.");
+      return;
+    }
+
+    const currentSelections = parseSelections(schedule.selections_json);
+    const alreadyInTerm = currentSelections.some((selection) => (
+      String(selection?.course?.courseCode ?? "").toUpperCase().replace(/\s+/g, "") === normalizedCode
+    ));
+
+    if (alreadyInTerm) {
+      toast.message(`${normalizedCode} is already in ${term.termLabel}.`);
+      return;
+    }
+
+    const sectionCode = "NOT CHOSEN";
+    let sectionKey = `${normalizedCode}-${sectionCode}`;
+    let keySuffix = 1;
+    while (currentSelections.some((selection) => selection.sectionKey === sectionKey)) {
+      keySuffix += 1;
+      sectionKey = `${normalizedCode}-${sectionCode}-${keySuffix}`;
+    }
+
+    const credits = Number.isFinite(Number(course.credits)) ? Number(course.credits) : 0;
+    const nextSelections: ScheduleSelection[] = [
+      ...currentSelections,
+      {
+        sectionKey,
+        course: {
+          id: normalizedCode,
+          courseCode: normalizedCode,
+          name: course.title || normalizedCode,
+          deptId: course.deptId || normalizedCode.slice(0, 4),
+          credits,
+          minCredits: credits,
+          maxCredits: credits,
+          description: course.description,
+          genEds: Array.isArray(course.genEdTags) ? course.genEdTags : [],
+          term: term.termCode,
+          year: term.termYear,
+          sections: [],
+        },
+        section: {
+          id: sectionKey,
+          courseCode: normalizedCode,
+          sectionCode,
+          instructor: "",
+          instructors: [],
+          totalSeats: 0,
+          openSeats: 0,
+          meetings: [],
+        },
+      },
+    ];
+
+    const previousSchedules = mainSchedules;
+    setAddCoursePendingCode(normalizedCode);
+
+    const optimisticSchedule: ScheduleWithSelections = {
+      ...schedule,
+      updated_at: new Date().toISOString(),
+      selections_json: buildSelectionsPayload(nextSelections),
+    };
+
+    setMainSchedules((current) => current.map((entry) => (entry.id === schedule.id ? optimisticSchedule : entry)));
+
+    try {
+      const saved = await plannerApi.saveScheduleWithSelections({
+        id: schedule.id,
+        name: schedule.name,
+        termCode: schedule.term_code,
+        termYear: schedule.term_year,
+        isPrimary: schedule.is_primary,
+        selectionsJson: buildSelectionsPayload(nextSelections),
+      });
+      setMainSchedules((current) => current.map((entry) => (entry.id === saved.id ? saved : entry)));
+      toast.success(`${normalizedCode} added to ${term.termLabel}.`);
+    } catch (error) {
+      setMainSchedules(previousSchedules);
+      toast.error(error instanceof Error ? error.message : "Unable to add course to this term.");
+    } finally {
+      setAddCoursePendingCode(null);
     }
   };
 
@@ -990,10 +1134,24 @@ export default function FourYearPlan() {
                     <article
                       key={term.id}
                       className={`term-col ${term.termCode === "05" ? "summer" : ""} ${canDropIntoTerm && dragOverTermId === term.id ? "is-drop-target" : ""}`}
-                      onDragOver={(event) => handleTermDragOver(event, term.id, canDropIntoTerm)}
-                      onDrop={(event) => handleTermDrop(event, term.id)}
+                      onDragOver={(event) => {
+                        if (!canDropIntoTerm || !draggingCourseKey || movingCourseKey) return;
+                        event.preventDefault();
+                        event.dataTransfer.dropEffect = "move";
+                        setDragOverTermId(term.id);
+                      }}
+                      onDrop={(event) => handleTermDrop(event, term.id, termCourses.length)}
                     >
                       <header className={`term-col-header ${termState}`}>
+                        {term.source === "schedule" && (
+                          <button
+                            type="button"
+                            className="term-view-btn"
+                            onClick={() => openScheduleInLibrary(term)}
+                          >
+                            View
+                          </button>
+                        )}
                         <div className={`term-name ${termState}`}>{term.termLabel}</div>
                         <div className="term-credits">{countedCredits} counted credits</div>
                         <div className="credit-load-bar"><div className={`credit-load-fill ${FILL_CLASS[termState]} ${creditLoadClass}`} /></div>
@@ -1026,7 +1184,16 @@ export default function FourYearPlan() {
                         )}
                       </header>
 
-                      {termCourses.map((course) => {
+                      <div className="term-course-list">
+                        {canDropIntoTerm && (
+                          <div
+                            className={`course-insert-slot ${(dragOverTermId === term.id && dragOverInsertIndex === 0) ? "active" : ""} ${termCourses.length === 0 ? "empty" : ""}`}
+                            onDragOver={(event) => handleInsertDragOver(event, term.id, 0, canDropIntoTerm)}
+                            onDrop={(event) => handleTermDrop(event, term.id, 0)}
+                          />
+                        )}
+
+                        {termCourses.map((course, index) => {
                         const courseType = boardCourseType(course.status);
                         const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
                         const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
@@ -1043,96 +1210,122 @@ export default function FourYearPlan() {
                         const sourceTerm = originalTermByCourseSectionKey.get(course.sectionKey) ?? term;
                         const isDraggable = sourceTerm.source === "schedule" && movingCourseKey === null;
                         return (
-                          <article
-                            key={course.sectionKey}
-                            className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""} ${draggingCourseKey === course.sectionKey ? "is-dragging" : ""}`}
-                            draggable={isDraggable}
-                            onDragStart={(event) => {
-                              if (!isDraggable) {
-                                event.preventDefault();
-                                return;
-                              }
-                              handleCourseDragStart(event, course.sectionKey);
-                            }}
-                            onDragEnd={handleCourseDragEnd}
-                          >
-                            <button
-                              type="button"
-                              className="plan-course-button"
-                              onClick={() => setDetailCode(course.code)}
-                              onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
+                          <Fragment key={course.sectionKey}>
+                            <article
+                              className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""} ${draggingCourseKey === course.sectionKey ? "is-dragging" : ""}`}
+                              draggable={isDraggable}
+                              onDragStart={(event) => {
+                                if (!isDraggable) {
                                   event.preventDefault();
-                                  setDetailCode(course.code);
+                                  return;
                                 }
+                                handleCourseDragStart(event, course.sectionKey);
                               }}
+                              onDragEnd={handleCourseDragEnd}
                             >
-                              <div className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</div>
-                              <div className="pc-name">{course.title}</div>
-                              <div className="pc-meta">{course.credits} cr • {course.sectionCode} • {formatStatusLabel(course.status)}</div>
+                              <button
+                                type="button"
+                                className="plan-course-button"
+                                onClick={() => setDetailCode(course.code)}
+                                onKeyDown={(event) => {
+                                  if (event.key === "Enter" || event.key === " ") {
+                                    event.preventDefault();
+                                    setDetailCode(course.code);
+                                  }
+                                }}
+                              >
+                                <div className="pc-head">
+                                  <div className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</div>
+                                  <div className="pc-badge-row top-right">
+                                    {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
+                                    {presentedTags.map((tag) => (
+                                      <button
+                                        key={`${course.sectionKey}-${tag.originalLabel}`}
+                                        type="button"
+                                        className={`pc-chip pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
+                                        onClick={(event) => {
+                                          event.stopPropagation();
+                                          setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
+                                        }}
+                                      >
+                                        {tag.shortLabel}
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                                <div className="pc-name">{course.title}</div>
+                                <div className="pc-meta" onClick={(event) => event.stopPropagation()}>
+                                  <span>{course.credits} credits</span>
+                                  <span className="pc-meta-sep">*</span>
+                                  <span>{toSectionDisplay(course.sectionCode)}</span>
+                                  <span className="pc-meta-sep">*</span>
+                                  <span>{formatStatusLabel(course.status)}</span>
+                                  <span className="pc-meta-sep">*</span>
+                                  {course.status === "completed" && editingGradeKey === course.sectionKey ? (
+                                    <Select
+                                      value={course.grade ?? "__none__"}
+                                      onValueChange={(value) => {
+                                        void handleScheduleGradeChange(sourceTerm, course, value).finally(() => {
+                                          setEditingGradeKey((current) => (current === course.sectionKey ? null : current));
+                                        });
+                                      }}
+                                      disabled={savingGradeKey === course.sectionKey}
+                                    >
+                                      <SelectTrigger className="pc-grade-trigger inline">
+                                        <SelectValue placeholder="Grade" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="__none__">No grade</SelectItem>
+                                        {GRADE_OPTIONS.map((grade) => (
+                                          <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                        ))}
+                                      </SelectContent>
+                                    </Select>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className={`pc-grade-label inline ${course.status === "completed" ? "editable" : ""}`}
+                                      onClick={(event) => {
+                                        event.stopPropagation();
+                                        if (course.status === "completed") {
+                                          setEditingGradeKey(course.sectionKey);
+                                        }
+                                      }}
+                                      disabled={course.status !== "completed" || savingGradeKey === course.sectionKey}
+                                    >
+                                      {course.grade ?? "-"}
+                                    </button>
+                                  )}
+                                </div>
+                              </button>
+                            </article>
 
-                              <div className="pc-badge-row">
-                                {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
-                                {presentedTags.map((tag) => (
-                                  <button
-                                    key={`${course.sectionKey}-${tag.originalLabel}`}
-                                    type="button"
-                                    className={`pc-chip pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
-                                    }}
-                                  >
-                                    {tag.shortLabel}
-                                  </button>
-                                ))}
-                              </div>
-                            </button>
-
-                            {course.status === "completed" && (
-                              <div className="pc-grade" onClick={(event) => event.stopPropagation()}>
-                                {editingGradeKey === course.sectionKey ? (
-                                  <Select
-                                    value={course.grade ?? "__none__"}
-                                    onValueChange={(value) => {
-                                      void handleScheduleGradeChange(sourceTerm, course, value).finally(() => {
-                                        setEditingGradeKey((current) => (current === course.sectionKey ? null : current));
-                                      });
-                                    }}
-                                    disabled={savingGradeKey === course.sectionKey}
-                                  >
-                                    <SelectTrigger className="pc-grade-trigger">
-                                      <SelectValue placeholder="Add grade" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="__none__">No grade</SelectItem>
-                                      {GRADE_OPTIONS.map((grade) => (
-                                        <SelectItem key={grade} value={grade}>{grade}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                ) : (
-                                  <button
-                                    type="button"
-                                    className="pc-grade-label"
-                                    onClick={() => setEditingGradeKey(course.sectionKey)}
-                                    disabled={savingGradeKey === course.sectionKey}
-                                  >
-                                    Completed • Grade: {course.grade ?? "No grade"}
-                                  </button>
-                                )}
-                              </div>
+                            {canDropIntoTerm && (
+                              <div
+                                className={`course-insert-slot ${(dragOverTermId === term.id && dragOverInsertIndex === index + 1) ? "active" : ""}`}
+                                onDragOver={(event) => handleInsertDragOver(event, term.id, index + 1, canDropIntoTerm)}
+                                onDrop={(event) => handleTermDrop(event, term.id, index + 1)}
+                              />
                             )}
-                          </article>
+                          </Fragment>
                         );
                       })}
+                      </div>
 
                       {term.source === "schedule" && (
-                        <button type="button" className="plan-course-add" onClick={() => openScheduleInBuilder(term)}>
+                        <button
+                          type="button"
+                          className="plan-course-add"
+                          onClick={() => {
+                            setAddCourseTerm(term);
+                            setAddCourseQuery("");
+                            setAddCourseResults([]);
+                          }}
+                        >
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
                             <path d="M6 2v8M2 6h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                           </svg>
-                          Open in schedule builder
+                          Add course
                         </button>
                       )}
                     </article>
@@ -1233,6 +1426,86 @@ export default function FourYearPlan() {
             <p className="text-muted-foreground">
               OrbitUMD follows UMD transcript-style GPA rules; non-GPA grades (for example P, S, W, I, AUD) are excluded.
             </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(addCourseTerm)} onOpenChange={(open) => {
+        if (!open) {
+          setAddCourseTerm(null);
+          setAddCourseQuery("");
+          setAddCourseResults([]);
+          setAddCourseSearchPending(false);
+        }
+      }}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Add Course to {addCourseTerm?.termLabel ?? "Term"}</DialogTitle>
+            <DialogDescription>
+              Search by course code or title. Added courses will be saved to this MAIN schedule with an undetermined section.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="add-course-lookup">
+            <div className="add-course-lookup-row">
+              <input
+                type="text"
+                className="add-course-input"
+                placeholder="Search e.g. CMSC131 or data structures"
+                value={addCourseQuery}
+                onChange={(event) => setAddCourseQuery(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    void handleAddCourseLookup();
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className="topbar-btn"
+                onClick={() => {
+                  void handleAddCourseLookup();
+                }}
+                disabled={addCourseSearchPending}
+              >
+                {addCourseSearchPending ? "Searching..." : "Search"}
+              </button>
+            </div>
+
+            <div className="add-course-results">
+              {addCourseResults.length === 0 ? (
+                <p className="fyp-muted">{addCourseSearchPending ? "Searching courses..." : "No courses yet. Start with a lookup above."}</p>
+              ) : (
+                addCourseResults.map((course) => {
+                  const normalizedCode = String(course.id ?? "").toUpperCase().replace(/\s+/g, "");
+                  const inFlight = addCoursePendingCode === normalizedCode;
+                  return (
+                    <div key={`${course.id}-${course.title}`} className="add-course-result-item">
+                      <div>
+                        <p className="add-course-result-code">{course.id}</p>
+                        <p className="add-course-result-title">{course.title}</p>
+                        <p className="add-course-result-meta">
+                          {course.credits} credits{course.genEdTags.length > 0 ? ` • ${course.genEdTags.join(", ")}` : ""}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        className="topbar-btn primary"
+                        onClick={() => {
+                          if (addCourseTerm) {
+                            void handleAddCourseToTerm(addCourseTerm, course);
+                          }
+                        }}
+                        disabled={inFlight}
+                      >
+                        {inFlight ? "Adding..." : "Add"}
+                      </button>
+                    </div>
+                  );
+                })
+              )}
+            </div>
           </div>
         </DialogContent>
       </Dialog>

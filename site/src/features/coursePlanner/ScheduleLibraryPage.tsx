@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Plus, Star, Trash2, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
 import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
@@ -164,6 +164,8 @@ function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
 
 export function ScheduleLibraryPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const requestedScheduleId = searchParams.get("scheduleId");
   const [schedules, setSchedules] = useState<ScheduleWithSelections[]>([]);
   const [sortBy, setSortBy] = useState<SortBy>("lastEdited");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
@@ -187,6 +189,9 @@ export function ScheduleLibraryPage() {
     setSchedules(byRecent);
     setErrorMessage(null);
     setPreviewScheduleId((current) => {
+      if (requestedScheduleId && byRecent.some((schedule) => schedule.id === requestedScheduleId)) {
+        return requestedScheduleId;
+      }
       if (current && byRecent.some((schedule) => schedule.id === current)) {
         return current;
       }
@@ -205,7 +210,11 @@ export function ScheduleLibraryPage() {
         if (!active) return;
         setSchedules(byRecent);
         setErrorMessage(null);
-        setPreviewScheduleId(byRecent[0]?.id ?? "");
+        if (requestedScheduleId && byRecent.some((schedule) => schedule.id === requestedScheduleId)) {
+          setPreviewScheduleId(requestedScheduleId);
+        } else {
+          setPreviewScheduleId(byRecent[0]?.id ?? "");
+        }
       } catch (error) {
         if (!active) return;
         const msg = error instanceof Error ? error.message : "Failed to load schedules.";
@@ -221,7 +230,14 @@ export function ScheduleLibraryPage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [requestedScheduleId]);
+
+  useEffect(() => {
+    if (!requestedScheduleId) return;
+    if (schedules.some((schedule) => schedule.id === requestedScheduleId)) {
+      setPreviewScheduleId(requestedScheduleId);
+    }
+  }, [requestedScheduleId, schedules]);
 
   const toggleSort = (key: SortBy) => {
     if (sortBy === key) {
