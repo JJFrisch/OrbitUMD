@@ -757,7 +757,6 @@ function RequirementSectionTableCard({
   const [codeSearchPending, setCodeSearchPending] = useState(false);
   const [codeSearchResults, setCodeSearchResults] = useState<CourseSearchResult[]>([]);
   const [openWildcardSlotKey, setOpenWildcardSlotKey] = useState<string | null>(null);
-  const [wildcardPopupAnchor, setWildcardPopupAnchor] = useState<{ left: number; top: number } | null>(null);
   // Add-course-directly state
   const [addingCourse, setAddingCourse] = useState(false);
   const [addQuery, setAddQuery] = useState("");
@@ -775,7 +774,6 @@ function RequirementSectionTableCard({
     setChooseCountDraft(Math.max(1, Number(section.chooseCount ?? 1)));
     setNotesDraft((section.notes ?? []).join("\n"));
     setOpenWildcardSlotKey(null);
-    setWildcardPopupAnchor(null);
   }, [section]);
 
   useEffect(() => {
@@ -787,7 +785,6 @@ function RequirementSectionTableCard({
         return;
       }
       setOpenWildcardSlotKey(null);
-      setWildcardPopupAnchor(null);
     };
 
     document.addEventListener("mousedown", handleDocumentPointerDown);
@@ -943,8 +940,7 @@ function RequirementSectionTableCard({
       const childCodes = (Array.isArray(block?.children) ? block.children : []).flatMap((child: any) => {
         if (child?.type === "OR") {
           const childOptions = extractOptions(child);
-          const best = childOptions.sort((a, b) => a.length - b.length)[0] ?? [];
-          return best;
+          return childOptions.sort((a, b) => a.length - b.length)[0] ?? [];
         }
         return collectAndCodes(child);
       });
@@ -1174,16 +1170,8 @@ function RequirementSectionTableCard({
                   className="h-6 w-6 border-border"
                   onClick={(event) => {
                     event.stopPropagation();
-                    const target = event.currentTarget as HTMLButtonElement;
-                    const rect = target.getBoundingClientRect();
                     setOpenWildcardSlotKey((current) => {
-                      const nextIsOpen = current !== wildcardSlot.key;
-                      if (nextIsOpen) {
-                        setWildcardPopupAnchor({ left: rect.left, top: rect.bottom + 6 });
-                        return wildcardSlot.key;
-                      }
-                      setWildcardPopupAnchor(null);
-                      return null;
+                      return current === wildcardSlot.key ? null : wildcardSlot.key;
                     });
                   }}
                   title={`Select course for ${wildcardSlot.token}`}
@@ -1191,6 +1179,29 @@ function RequirementSectionTableCard({
                 >
                   {openWildcardSlotKey === wildcardSlot.key ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
                 </Button>
+                {openWildcardSlotKey === wildcardSlot.key && (
+                  <div className="absolute right-0 top-8 z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg">
+                    <p className="mb-1 text-[11px] text-muted-foreground">{wildcardSlot.token} wildcard</p>
+                    <select
+                      className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+                      value={wildcardSlot.selectedCode ?? ""}
+                      onChange={(event) => {
+                        onSelectWildcardCourse(wildcardSlot.key, event.target.value);
+                        setOpenWildcardSlotKey(null);
+                      }}
+                      onClick={(event) => event.stopPropagation()}
+                      aria-label={`Select course for ${wildcardSlot.token}`}
+                      title={`Select course for ${wildcardSlot.token}`}
+                    >
+                      <option value="">Auto-select best match</option>
+                      {wildcardSlot.options.map((option) => (
+                        <option key={`${wildcardSlot.key}-${option.code}`} value={option.code}>
+                          {option.code} - {option.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
               </div>
             )}
           </>
@@ -1367,41 +1378,6 @@ function RequirementSectionTableCard({
           </tbody>
         </table>
       </Card>
-
-      {/* Course detail panel */}
-      {openWildcardSlotKey && wildcardPopupAnchor && (() => {
-        const openSlot = wildcardSlots.find((slot) => slot.key === openWildcardSlotKey);
-        if (!openSlot || !onSelectWildcardCourse) return null;
-
-        return (
-          <div
-            className="fixed z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg"
-            style={{ left: `${wildcardPopupAnchor.left}px`, top: `${wildcardPopupAnchor.top}px` }}
-            data-wildcard-slot={openSlot.key}
-          >
-            <p className="mb-1 text-[11px] text-muted-foreground">{openSlot.token} wildcard</p>
-            <select
-              className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
-              value={openSlot.selectedCode ?? ""}
-              onChange={(event) => {
-                onSelectWildcardCourse(openSlot.key, event.target.value);
-                setOpenWildcardSlotKey(null);
-                setWildcardPopupAnchor(null);
-              }}
-              onClick={(event) => event.stopPropagation()}
-              aria-label={`Select course for ${openSlot.token}`}
-              title={`Select course for ${openSlot.token}`}
-            >
-              <option value="">Auto-select best match</option>
-              {openSlot.options.map((option) => (
-                <option key={`${openSlot.key}-${option.code}`} value={option.code}>
-                  {option.code} - {option.title}
-                </option>
-              ))}
-            </select>
-          </div>
-        );
-      })()}
 
       {detailCode && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setDetailCode(null)}>
