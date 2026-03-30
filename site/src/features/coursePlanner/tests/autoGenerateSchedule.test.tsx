@@ -247,16 +247,16 @@ describe("AutoGenerateSchedulePage", () => {
     await addCourse("CMSC131", "required");
     setCreditRange("4", "8");
 
-    fireEvent.click(screen.getByRole("button", { name: "Spring" }));
+    fireEvent.click(screen.getByRole("button", { name: "Summer" }));
     fireEvent.change(screen.getByLabelText("Academic year"), { target: { value: "2027" } });
 
     fireEvent.click(screen.getByRole("button", { name: "Generate Schedules" }));
 
     expect(await screen.findByTestId("generated-card-1")).toBeInTheDocument();
-    expect(screen.getByText(/conflict-free options for Spring 2027/i)).toBeInTheDocument();
+    expect(screen.getByText(/conflict-free options for Summer 2027/i)).toBeInTheDocument();
 
     await waitFor(() => {
-      expect(getSectionsForCourse).toHaveBeenCalledWith("CMSC131", "01", 2027);
+      expect(getSectionsForCourse).toHaveBeenCalledWith("CMSC131", "05", 2027);
     });
   });
 
@@ -302,6 +302,13 @@ describe("AutoGenerateSchedulePage", () => {
     await waitFor(() => {
       expect(screen.queryAllByTestId("class-block-CMSC131::0201").length).toBeGreaterThan(0);
     });
+    expect(screen.getByText(/2 conflict-free options/i)).toBeInTheDocument();
+    expect(screen.getByTestId("generated-card-2")).toBeInTheDocument();
+
+    const topCard = screen.getByTestId("generated-card-1");
+    expect(within(topCard).getByText(/Classes: 1/i)).toBeInTheDocument();
+    expect(within(topCard).getByText(/Earliest:/i)).toBeInTheDocument();
+    expect(within(topCard).getByText(/Latest:/i)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "In-person" }));
     fireEvent.click(screen.getByRole("button", { name: "Blended" }));

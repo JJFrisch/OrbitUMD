@@ -566,8 +566,8 @@
 }
 
 .cp-section-row.is-selected {
-  border-color: color-mix(in srgb, var(--cp-accent) 40%, var(--cp-border));
-  background: color-mix(in srgb, var(--cp-accent) 12%, var(--cp-surface));
+  border-color: rgba(226, 24, 51, 0.4);
+  background: rgba(226, 24, 51, 0.08);
 }
 
 .cp-section-row.is-closed {
@@ -692,7 +692,7 @@
 .cp-day-track {
   position: relative;
   height: calc(112px * 12);
-  background-image: linear-gradient(to bottom, color-mix(in srgb, var(--cp-grid-line) 75%, transparent) 1px, transparent 1px);
+  background-image: linear-gradient(to bottom, var(--cp-grid-line) 1px, transparent 1px);
   background-size: 100% 112px;
 }
 
@@ -1078,8 +1078,8 @@
 }
 
 .cp-view-sort-chip.is-active {
-  border-color: color-mix(in srgb, var(--cp-accent) 45%, var(--cp-border));
-  background: color-mix(in srgb, var(--cp-accent) 14%, var(--cp-surface));
+  border-color: rgba(226, 24, 51, 0.45);
+  background: rgba(226, 24, 51, 0.1);
   color: var(--cp-text);
 }
 
@@ -1148,12 +1148,12 @@
 }
 
 .cp-view-card.is-selected {
-  border-color: color-mix(in srgb, var(--cp-accent) 60%, var(--cp-border));
-  background: color-mix(in srgb, var(--cp-accent) 7%, var(--cp-surface));
+  border-color: rgba(226, 24, 51, 0.6);
+  background: rgba(226, 24, 51, 0.06);
 }
 
 .cp-view-card.is-main {
-  border-color: color-mix(in srgb, #d4a017 40%, var(--cp-border));
+  border-color: rgba(212, 160, 23, 0.5);
 }
 
 .cp-view-card-head {
@@ -1218,9 +1218,9 @@
   align-items: center;
   gap: 4px;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, #d4a017 45%, var(--cp-border));
-  background: color-mix(in srgb, #d4a017 17%, transparent);
-  color: color-mix(in srgb, #d4a017 80%, var(--cp-text));
+  border: 1px solid rgba(212, 160, 23, 0.45);
+  background: rgba(212, 160, 23, 0.16);
+  color: #8f6911;
   font-size: 10px;
   padding: 2px 7px;
 }
@@ -1265,9 +1265,9 @@
 
 .cp-view-course-pills span {
   border-radius: 6px;
-  border: 1px solid color-mix(in srgb, var(--cp-accent) 30%, var(--cp-border));
-  background: color-mix(in srgb, var(--cp-accent) 14%, var(--cp-surface));
-  color: color-mix(in srgb, var(--cp-accent) 76%, var(--cp-text));
+  border: 1px solid rgba(226, 24, 51, 0.35);
+  background: rgba(226, 24, 51, 0.1);
+  color: #b42334;
   font-size: 10px;
   padding: 2px 7px;
   display: inline-flex;
@@ -1458,7 +1458,7 @@
   padding: 16px 18px;
   border-radius: 12px;
   border: 1px solid var(--cp-g-border-soft);
-  background: color-mix(in srgb, var(--cp-g-cream) 72%, #fff 28%);
+  background: rgba(255, 255, 255, 0.58);
 }
 
 .cp-generate-topbar-left h1 {
@@ -2219,6 +2219,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.cp-generate-schedule-title-stack {
+  min-width: 0;
+  display: grid;
+  gap: 6px;
 }
 
 .cp-generate-best-fit {

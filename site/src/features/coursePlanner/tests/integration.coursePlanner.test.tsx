@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { CoursePlannerPage } from "../CoursePlannerPage";
 import { useCoursePlannerStore } from "../state/coursePlannerStore";
@@ -19,46 +19,52 @@ vi.mock("../services/courseSearchService", () => ({
   getInstructorMeta: vi.fn((lookup: { byName: Record<string, unknown> }, name: string) =>
     lookup.byName[name.toLowerCase()]
   ),
-  searchCoursesWithStrategy: vi.fn(async () => [
-    {
-      id: "CMSC131-1",
-      courseCode: "CMSC131",
-      name: "Object-Oriented Programming I",
-      deptId: "CMSC",
-      credits: 4,
-      minCredits: 4,
-      maxCredits: 4,
-      genEds: ["FSMA"],
-      term: "08",
-      year: 2026,
-      description: "Intro course",
-      conditions: {
-        prereqs: "MATH140",
+  searchCoursesWithStrategy: vi.fn(async ({ normalizedInput }: { normalizedInput?: string }) => {
+    if (!normalizedInput?.trim()) {
+      return [];
+    }
+
+    return [
+      {
+        id: "CMSC131-1",
+        courseCode: "CMSC131",
+        name: "Object-Oriented Programming I",
+        deptId: "CMSC",
+        credits: 4,
+        minCredits: 4,
+        maxCredits: 4,
+        genEds: ["FSMA"],
+        term: "08",
+        year: 2026,
+        description: "Intro course",
+        conditions: {
+          prereqs: "MATH140",
+        },
+        sections: [
+          {
+            id: "CMSC131-0101",
+            courseCode: "CMSC131",
+            sectionCode: "0101",
+            instructor: "Alice",
+            instructors: ["Alice"],
+            totalSeats: 30,
+            openSeats: 2,
+            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
+          },
+          {
+            id: "CMSC131-0201",
+            courseCode: "CMSC131",
+            sectionCode: "0201",
+            instructor: "Bob",
+            instructors: ["Bob"],
+            totalSeats: 30,
+            openSeats: 0,
+            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
+          },
+        ],
       },
-      sections: [
-        {
-          id: "CMSC131-0101",
-          courseCode: "CMSC131",
-          sectionCode: "0101",
-          instructor: "Alice",
-          instructors: ["Alice"],
-          totalSeats: 30,
-          openSeats: 2,
-          meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
-        },
-        {
-          id: "CMSC131-0201",
-          courseCode: "CMSC131",
-          sectionCode: "0201",
-          instructor: "Bob",
-          instructors: ["Bob"],
-          totalSeats: 30,
-          openSeats: 0,
-          meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
-        },
-      ],
-    },
-  ]),
+    ];
+  }),
   getSectionsForCourse: vi.fn(async () => [
     {
       id: "CMSC131-0101",
@@ -167,36 +173,39 @@ describe("course planner integration", () => {
     fireEvent.click(await screen.findByLabelText("toggle sections"));
     fireEvent.click(await screen.findByLabelText("section 0101"));
 
-    useCoursePlannerStore.setState((state) => ({
-      selections: {
-        ...state.selections,
-        "MATH140::0101": {
-          sectionKey: "MATH140::0101",
-          course: {
-            id: "MATH140",
-            courseCode: "MATH140",
-            name: "Calculus I",
-            deptId: "MATH",
-            credits: 4,
-            minCredits: 4,
-            maxCredits: 4,
-            genEds: [],
-            term: "08",
-            year: 2026,
-          },
-          section: {
-            id: "MATH140-0101",
-            courseCode: "MATH140",
-            sectionCode: "0101",
-            instructor: "Bob",
-            instructors: ["Bob"],
-            totalSeats: 30,
-            openSeats: 10,
-            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am" }],
+    await act(async () => {
+      useCoursePlannerStore.setState((state) => ({
+        selections: {
+          ...state.selections,
+          "MATH140::0101": {
+            sectionKey: "MATH140::0101",
+            course: {
+              id: "MATH140",
+              courseCode: "MATH140",
+              name: "Calculus I",
+              deptId: "MATH",
+              credits: 4,
+              minCredits: 4,
+              maxCredits: 4,
+              genEds: [],
+              term: "08",
+              year: 2026,
+            },
+            section: {
+              id: "MATH140-0101",
+              courseCode: "MATH140",
+              sectionCode: "0101",
+              instructor: "Bob",
+              instructors: ["Bob"],
+              totalSeats: 30,
+              openSeats: 10,
+              meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am" }],
+            },
           },
         },
-      },
-    }));
+      }));
+      await Promise.resolve();
+    });
 
     expect((await screen.findAllByTestId("class-block-CMSC131::0101")).length).toBeGreaterThan(0);
     expect((await screen.findAllByTestId("class-block-MATH140::0101")).length).toBeGreaterThan(0);
@@ -204,7 +213,15 @@ describe("course planner integration", () => {
 
   it("print mode hides search panel", async () => {
     renderPage();
-    fireEvent.click(screen.getByText("Export / Print"));
+
+    // Allow the debounced search effect to settle before toggling print mode.
+    await screen.findByText("No courses found.");
+
+    await act(async () => {
+      fireEvent.click(screen.getByText("Export / Print"));
+      await new Promise((resolve) => window.setTimeout(resolve, 250));
+    });
+
     expect(screen.getByTestId("calendar-view")).toBeInTheDocument();
   });
 

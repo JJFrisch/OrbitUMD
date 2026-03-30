@@ -373,9 +373,6 @@ function generateSchedules(
     }
   >();
 
-  let bestOptionalCount = -1;
-  let bestOptionalScore = -1;
-
   for (const requiredSelection of requiredCombinations) {
     const tryOptional = (
       optIdx: number,
@@ -394,23 +391,9 @@ function generateSchedules(
         }
 
         const optionalCount = includedOptionalCodes.size;
-        const isBetterCount = optionalCount > bestOptionalCount;
-        const isBetterScore = optionalCount === bestOptionalCount && optionalScore > bestOptionalScore;
-
-        if (!isBetterCount && !isBetterScore) {
-          return;
-        }
-
-        if (isBetterCount || isBetterScore) {
-          if (isBetterCount || optionalScore !== bestOptionalScore) {
-            keyedResults.clear();
-          }
-          bestOptionalCount = optionalCount;
-          bestOptionalScore = optionalScore;
-        }
-
         const key = acc.map((selection) => selection.sectionKey).sort().join("|");
-        if (!keyedResults.has(key)) {
+        const existing = keyedResults.get(key);
+        if (!existing || optionalScore > existing.optionalScore) {
           keyedResults.set(key, {
             selections: [...acc],
             credits,
@@ -450,6 +433,9 @@ function generateSchedules(
 
   const schedules = Array.from(keyedResults.values())
     .sort((left, right) => {
+      if (left.optionalCount !== right.optionalCount) {
+        return right.optionalCount - left.optionalCount;
+      }
       if (left.optionalScore !== right.optionalScore) {
         return right.optionalScore - left.optionalScore;
       }
@@ -468,13 +454,21 @@ function generateSchedules(
     return {
       schedules: [],
       missingOptionalCodes: [],
-      bestOptionalCount: Math.max(0, bestOptionalCount),
+      bestOptionalCount: 0,
       totalOptionalCount: orderedOptional.length,
     };
   }
 
+  let bestOptionalCount = 0;
+  for (const entry of keyedResults.values()) {
+    bestOptionalCount = Math.max(bestOptionalCount, entry.optionalCount);
+  }
+
   const optionalSeenInBest = new Set<string>();
   for (const entry of keyedResults.values()) {
+    if (entry.optionalCount !== bestOptionalCount) {
+      continue;
+    }
     for (const optionalCode of entry.includedOptionalCodes) {
       optionalSeenInBest.add(optionalCode);
     }
@@ -487,7 +481,7 @@ function generateSchedules(
   return {
     schedules,
     missingOptionalCodes,
-    bestOptionalCount: Math.max(0, bestOptionalCount),
+    bestOptionalCount,
     totalOptionalCount: orderedOptional.length,
   };
 }
@@ -608,12 +602,45 @@ function moveByStep(items: CoursePreference[], code: string, direction: -1 | 1):
 }
 
 function fallbackTermOptions(currentSeason: Season, currentYear: number): CatalogTermOption[] {
+  const seasons: Season[] = ["01", "05", "08", "12"];
   const years = [currentYear - 1, currentYear, currentYear + 1, currentYear + 2];
-  return years.map((year) => ({
-    season: currentSeason,
+  const options = years.flatMap((year) => seasons.map((season) => ({
+    season,
     year,
-    label: `${TERM_LABEL[currentSeason]} ${year}`,
-  }));
+    label: `${TERM_LABEL[season]} ${year}`,
+  })));
+
+  options.sort((left, right) => compareAcademicTerms(
+    { termCode: left.season, termYear: left.year },
+    { termCode: right.season, termYear: right.year }
+  ));
+
+  if (!options.some((option) => option.season === currentSeason && option.year === currentYear)) {
+    options.push({
+      season: currentSeason,
+      year: currentYear,
+      label: `${TERM_LABEL[currentSeason]} ${currentYear}`,
+    });
+  }
+
+  return options;
+}
+
+function seasonCodeFromTerm(term: { code: string; season?: string }, fallback: Season): Season {
+  const bySeasonName: Record<string, Season> = {
+    spring: "01",
+    summer: "05",
+    fall: "08",
+    winter: "12",
+  };
+
+  const seasonFromName = bySeasonName[String(term.season ?? "").toLowerCase()];
+  if (seasonFromName) {
+    return seasonFromName;
+  }
+
+  const parsedSeason = String(term.code ?? "").slice(-2) as Season;
+  return parsedSeason in TERM_LABEL ? parsedSeason : fallback;
 }
 
 function mapDraftPayload(raw: unknown, fallbackSeason: Season, fallbackYear: number): DraftPayloadV2 | null {
@@ -1161,13 +1188,20 @@ function ScheduleOptionCard({
     <article className={`cp-generate-schedule-card ${pinned ? "is-pinned" : ""}`} data-testid={`generated-card-${rank + 1}`}>
       <header className="cp-generate-schedule-card-header">
         <div className="cp-generate-schedule-number">{rank + 1}</div>
-        <div className="cp-generate-schedule-name">
-          {labelForSchedule(rank)}
-          {pinned && (
-            <span className="cp-generate-best-fit">
-              <Star size={11} /> Best fit
-            </span>
-          )}
+        <div className="cp-generate-schedule-title-stack">
+          <div className="cp-generate-schedule-name">
+            {labelForSchedule(rank)}
+            {pinned && (
+              <span className="cp-generate-best-fit">
+                <Star size={11} /> Best fit
+              </span>
+            )}
+          </div>
+          <div className="cp-generate-schedule-summary-row">
+            <span>Classes: {summary.classCount}</span>
+            <span>Earliest: {summary.earliestLabel}</span>
+            <span>Latest: {summary.latestLabel}</span>
+          </div>
         </div>
         <div className="cp-generate-schedule-credits">{schedule.credits} cr · {dayLabel}</div>
         <div className="cp-generate-schedule-actions">
@@ -1209,12 +1243,6 @@ function ScheduleOptionCard({
           onOpenInfo={() => {}}
           onRemove={() => {}}
         />
-      </div>
-
-      <div className="cp-generate-schedule-summary-row">
-        <span>Classes: {summary.classCount}</span>
-        <span>Earliest: {summary.earliestLabel}</span>
-        <span>Latest: {summary.latestLabel}</span>
       </div>
 
       <div className="cp-generate-schedule-chips">
@@ -1532,21 +1560,39 @@ export function AutoGenerateSchedulePage() {
       .then((terms) => {
         if (!active || terms.length === 0) return;
 
-        const mapped = terms.map((term) => {
-          const parsedSeason = term.code.slice(-2) as Season;
-          return {
-            season: parsedSeason in TERM_LABEL ? parsedSeason : "08",
-            year: term.year,
-            label: `${TERM_LABEL[parsedSeason in TERM_LABEL ? parsedSeason : "08"]} ${term.year}`,
-          } satisfies CatalogTermOption;
-        });
+        const mapped = terms
+          .map((term) => {
+            const parsedSeason = seasonCodeFromTerm(term, initialSeason);
+            return {
+              season: parsedSeason,
+              year: term.year,
+              label: term.label || `${TERM_LABEL[parsedSeason]} ${term.year}`,
+            } satisfies CatalogTermOption;
+          })
+          .filter((option) => Number.isFinite(option.year));
 
-        mapped.sort((left, right) => compareAcademicTerms(
+        const deduped = Array.from(
+          new Map(mapped.map((option) => [`${option.season}-${option.year}`, option])).values()
+        );
+
+        const fallback = fallbackTermOptions(initialSeason, initialYear);
+        const merged = new Map<string, CatalogTermOption>(
+          fallback.map((option) => [`${option.season}-${option.year}`, option])
+        );
+        for (const option of deduped) {
+          merged.set(`${option.season}-${option.year}`, option);
+        }
+
+        const mergedOptions = Array.from(merged.values());
+
+        mergedOptions.sort((left, right) => compareAcademicTerms(
           { termCode: left.season, termYear: left.year },
           { termCode: right.season, termYear: right.year }
         ));
 
-        setTermOptions(mapped);
+        if (mergedOptions.length > 0) {
+          setTermOptions(mergedOptions);
+        }
       })
       .catch(() => {
         // Keep fallback options if term fetch fails.
@@ -1555,7 +1601,7 @@ export function AutoGenerateSchedulePage() {
     return () => {
       active = false;
     };
-  }, []);
+  }, [initialSeason]);
 
   useEffect(() => {
     const raw = localStorage.getItem(GENERATE_SCHEDULE_AUTOSAVE_KEY);
