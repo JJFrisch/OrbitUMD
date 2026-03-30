@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Calendar, CheckCircle2, ChevronDown, ChevronUp, Clock3, GraduationCap, Info, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Info, X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
 import {
   Select,
   SelectContent,
@@ -103,22 +101,6 @@ function normalizeGradeValue(grade: string | undefined): string | undefined {
 
 function formatTermLabel(termCode: string, termYear: number): string {
   return `${TERM_NAME[termCode] ?? "Term"} ${termYear}`;
-}
-
-function statusBadge(status: AcademicProgressStatus) {
-  if (status === "completed") {
-    return <span className="fyp-status-pill is-completed">Completed</span>;
-  }
-  if (status === "in_progress") {
-    return <span className="fyp-status-pill is-in-progress">In Progress</span>;
-  }
-  return <span className="fyp-status-pill is-planned">Planned</span>;
-}
-
-function termCardAccent(status: AcademicProgressStatus): string {
-  if (status === "completed") return "is-completed";
-  if (status === "in_progress") return "is-in-progress";
-  return "is-planned";
 }
 
 function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
@@ -233,12 +215,6 @@ function formatStatusLabel(status: AcademicProgressStatus): string {
   return status === "in_progress" ? "In Progress" : status === "completed" ? "Completed" : "Planned";
 }
 
-function statusTextClass(status: AcademicProgressStatus): string {
-  if (status === "completed") return "fyp-status-text is-completed";
-  if (status === "in_progress") return "fyp-status-text is-in-progress";
-  return "fyp-status-text is-planned";
-}
-
 function getOfficialStanding(earnedCredits: number): "Freshman" | "Sophomore" | "Junior" | "Senior" {
   if (earnedCredits <= 29) return "Freshman";
   if (earnedCredits <= 59) return "Sophomore";
@@ -246,35 +222,33 @@ function getOfficialStanding(earnedCredits: number): "Freshman" | "Sophomore" | 
   return "Senior";
 }
 
-function formatLastUpdated(value: string): string {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return "Unknown";
-  }
+const MAX_CREDITS = { past: 16, current: 15, future: 18 } as const;
+const FILL_CLASS = { past: "fill-done", current: "fill-cur", future: "fill-plan" } as const;
 
-  return date.toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+function boardTermState(status: AcademicProgressStatus): "past" | "current" | "future" {
+  if (status === "completed") return "past";
+  if (status === "in_progress") return "current";
+  return "future";
 }
 
-function defaultExpandedTermIds(terms: PlannedTerm[]): Set<string> {
-  const defaults = new Set<string>();
+function boardCourseType(status: AcademicProgressStatus): "completed" | "in-progress" | "planned" {
+  if (status === "completed") return "completed";
+  if (status === "in_progress") return "in-progress";
+  return "planned";
+}
 
-  for (const term of terms) {
-    if (term.status !== "completed") {
-      defaults.add(term.id);
-    }
-  }
+function boardCourseCodeColor(status: AcademicProgressStatus): "red" | "gold" | "gray" {
+  if (status === "completed") return "red";
+  if (status === "in_progress") return "gold";
+  return "gray";
+}
 
-  const completedRegular = terms.filter((term) => term.status === "completed" && term.termLabel !== "Prior to UMD");
-  const latestCompleted = completedRegular[completedRegular.length - 1];
-  if (latestCompleted) {
-    defaults.add(latestCompleted.id);
-  }
-
-  return defaults;
+function creditLoadWidthClass(pct: number): "load-20" | "load-40" | "load-60" | "load-80" | "load-100" {
+  if (pct >= 95) return "load-100";
+  if (pct >= 75) return "load-80";
+  if (pct >= 55) return "load-60";
+  if (pct >= 35) return "load-40";
+  return "load-20";
 }
 
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
@@ -323,7 +297,6 @@ export default function FourYearPlan() {
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
-  const [expandedTermIds, setExpandedTermIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     let active = true;
@@ -435,28 +408,6 @@ export default function FourYearPlan() {
     });
   }, [academicGpaHistory.terms, mainSchedules, priorCredits]);
 
-  const visibleTerms = useMemo(() => {
-    const current = terms.filter((term) => term.status === "in_progress");
-    const future = terms.filter((term) => term.status === "planned");
-    const completed = terms.filter((term) => term.status === "completed");
-    const priorToUmd = completed.filter((term) => term.termLabel === "Prior to UMD");
-    const completedRegular = completed.filter((term) => term.termLabel !== "Prior to UMD");
-    return [...current, ...future, ...completedRegular, ...priorToUmd];
-  }, [terms]);
-
-  useEffect(() => {
-    setExpandedTermIds((current) => {
-      const availableIds = new Set(visibleTerms.map((term) => term.id));
-      const retained = new Set(Array.from(current).filter((id) => availableIds.has(id)));
-
-      if (retained.size > 0) {
-        return retained;
-      }
-
-      return defaultExpandedTermIds(visibleTerms);
-    });
-  }, [visibleTerms]);
-
   const duplicateScheduleSectionKeys = useMemo(() => {
     const earnedCourseCodes = new Set(
       terms
@@ -539,34 +490,6 @@ export default function FourYearPlan() {
     if (requirementLabels.some((label) => label.startsWith("Minor:"))) return "minor" as const;
     if (hasGenEd) return "gen_ed" as const;
     return "none" as const;
-  };
-
-  const contributionBadgeClass = (label: string, isGenEdLabel = false) => {
-    if (isGenEdLabel) {
-      return "bg-yellow-100 text-yellow-900 dark:bg-yellow-500/20 dark:text-yellow-300";
-    }
-
-    if (label.startsWith("Minor:")) {
-      return "border border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300";
-    }
-
-    if (label.startsWith("Major:")) {
-      if (primaryMajorLabel && label === primaryMajorLabel) {
-        return "border border-sky-500 bg-sky-500/10 text-sky-700 dark:text-sky-300";
-      }
-      return "border border-orange-500 bg-orange-500/10 text-orange-700 dark:text-orange-300";
-    }
-
-    return "border border-rose-500 bg-rose-500/10 text-rose-700 dark:text-rose-300";
-  };
-
-  const contributionRowClass = (requirementLabels: string[], hasGenEd: boolean) => {
-    const category = getContributionCategory(requirementLabels, hasGenEd);
-    if (category === "primary_major") return "bg-sky-500/10 border-l-4 border-sky-500";
-    if (category === "other_major") return "bg-orange-500/10 border-l-4 border-orange-500";
-    if (category === "minor") return "bg-emerald-500/10 border-l-4 border-emerald-500";
-    if (category === "gen_ed") return "bg-yellow-100/60 dark:bg-yellow-500/10 border-l-4 border-slate-400";
-    return "";
   };
 
   const getCourseSortRank = (course: PlannedCourse): number => {
@@ -664,399 +587,327 @@ export default function FourYearPlan() {
     navigateToScheduleBuilder(term.scheduleId, term.termCode, term.termYear);
   };
 
-  const toggleTermExpanded = (termId: string) => {
-    setExpandedTermIds((current) => {
-      const next = new Set(current);
-      if (next.has(termId)) {
-        next.delete(termId);
-      } else {
-        next.add(termId);
-      }
-      return next;
-    });
-  };
-
   const navigateToScheduleBuilder = (scheduleId: string, termCode: string, termYear: number) => {
     navigate(`/schedule-builder?scheduleId=${encodeURIComponent(scheduleId)}&term=${termCode}-${termYear}`);
   };
 
+  const boardTerms = useMemo(() => {
+    const priorToUmd = terms.filter((term) => term.termLabel === "Prior to UMD");
+    const academicTerms = terms.filter((term) => term.termLabel !== "Prior to UMD");
+    return [...academicTerms, ...priorToUmd];
+  }, [terms]);
+
+  const remainingCredits = Math.max(0, 120 - summary.totalCredits);
+
   return (
     <div className="fyp-page">
-      <div className="fyp-shell">
-        <nav className="fyp-top-nav" aria-label="OrbitUMD Four-Year Plan navigation">
-          <Link className="fyp-brand" to="/">OrbitUMD</Link>
-          <div className="fyp-nav-links">
-            <Link to="/dashboard">Dashboard</Link>
-            <Link to="/generate-schedule">Generate Schedule</Link>
-            <Link to="/schedules">Schedules</Link>
-            <Link to="/four-year-plan" className="is-active">Four-Year Plan</Link>
-            <Link to="/degree-audit">Degree Audit</Link>
-            <Link to="/gen-eds">Gen Eds</Link>
-            <Link to="/suggestions">Suggestions</Link>
-            <Link to="/settings">Settings</Link>
-            <Link to="/settings">Student Account settings</Link>
-          </div>
-        </nav>
+      <div className="shell">
+        <aside className="sidebar" aria-label="Four-year plan navigation">
+          <Link className="sidebar-logo" to="/dashboard">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden>
+              <circle cx="16" cy="16" r="3.5" fill="#EF5350" />
+              <circle cx="16" cy="16" r="9" stroke="#EF5350" strokeWidth="1.2" strokeDasharray="3 2" />
+              <circle cx="16" cy="7" r="2.2" fill="#EF5350" />
+              <circle cx="23.6" cy="20.5" r="1.6" fill="#EF9A9A" opacity="0.7" />
+              <circle cx="8.4" cy="20.5" r="1.2" fill="#EF9A9A" opacity="0.5" />
+            </svg>
+            <span className="logo-text">Orbit<span>UMD</span></span>
+          </Link>
 
-        <header className="fyp-header">
-          <div>
-            <h1 className="fyp-title">Four-Year Plan</h1>
-            <p className="fyp-subtitle">
-              Built from your saved MAIN schedules. Past terms are Completed, current term is In Progress, and future terms are Planned.
-            </p>
-          </div>
+          <div className="nav-section">
+            <div className="nav-label">Overview</div>
+            <Link className="nav-item" to="/dashboard">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="9" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.5" />
+              </svg>
+              Dashboard
+            </Link>
+            <Link className="nav-item active" to="/four-year-plan">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M2 4h12M2 8h8M2 12h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              My Four-Year Plan
+            </Link>
 
-          <div className="fyp-actions">
-            <Button
-              type="button"
-              variant="outline"
-              className="border-border"
-              onClick={() => setShowGpaInfo(true)}
-              aria-label="Explain how UMD GPA is calculated"
-            >
-              <Info className="w-4 h-4 mr-1" />
-              GPA Info
-            </Button>
-            <Link to="/schedules" data-tour-target="four-year-manage-main">
-              <Button className="bg-red-600 hover:bg-red-700">Manage MAIN Schedules</Button>
+            <div className="nav-gap" />
+            <div className="nav-label">Scheduling</div>
+            <Link className="nav-item" to="/generate-schedule">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M8 2l1.5 3.5L14 6l-3 3 .7 4.5L8 12l-3.7 1.5L5 9 2 6l4.5-.5z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+              </svg>
+              Generate Schedule
+            </Link>
+            <Link className="nav-item" to="/schedules">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M2 6h12M6 2v12" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
+              My Schedules
+              <span className="nav-badge">{Math.max(mainSchedules.length, 1)}</span>
+            </Link>
+
+            <div className="nav-gap" />
+            <div className="nav-label">Requirements</div>
+            <Link className="nav-item" to="/degree-audit">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.5" />
+                <path d="M5 8l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Degree Audit
+            </Link>
+            <Link className="nav-item" to="/gen-eds">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M2 13L6 3l4 7 3-4 1 7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Gen Eds
+            </Link>
+            <Link className="nav-item" to="/suggestions">
+              <svg className="nav-icon" viewBox="0 0 16 16" fill="none" aria-hidden>
+                <path d="M4 8h8M4 5h8M4 11h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+              Suggestions
             </Link>
           </div>
 
-          <div className="fyp-badges">
-            <span className="fyp-badge is-red">Source: MAIN schedules</span>
-            <span className="fyp-badge">Standing: {officialStanding}</span>
-            <span className="fyp-badge">Terms: {visibleTerms.length}</span>
-            <span className="fyp-badge is-gold">Duplicates excluded: {summary.duplicateCourseCount}</span>
-          </div>
-        </header>
-
-        <section className="fyp-section" data-tour-target="four-year-summary">
-          <div className="fyp-section-head">
-            <h2>Credit Summary</h2>
-            <p>Totals are calculated from counted credits and exclude flagged duplicate-repeat credit.</p>
-          </div>
-
-          <div className="fyp-kpi-grid">
-            <div className="fyp-kpi-card">
-              <div className="fyp-kpi-label"><GraduationCap className="w-4 h-4" /> Total Credits</div>
-              <div className="fyp-kpi-value">{summary.totalCredits}</div>
-            </div>
-
-            <div className="fyp-kpi-card">
-              <div className="fyp-kpi-label"><CheckCircle2 className="w-4 h-4" /> Completed</div>
-              <div className="fyp-kpi-value">{summary.completedCredits}</div>
-              <div className="fyp-kpi-sub">
-                Standing: {officialStanding}
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="icon"
-                  className="h-5 w-5"
-                  onClick={() => setShowStandingInfo(true)}
-                  aria-label="Explain class standing thresholds"
-                >
-                  <Info className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="fyp-kpi-card">
-              <div className="fyp-kpi-label"><Clock3 className="w-4 h-4" /> In Progress</div>
-              <div className="fyp-kpi-value">{summary.inProgressCredits}</div>
-            </div>
-
-            <div className="fyp-kpi-card">
-              <div className="fyp-kpi-label"><Calendar className="w-4 h-4" /> Planned</div>
-              <div className="fyp-kpi-value">{summary.plannedCredits}</div>
-            </div>
-
-            <div className="fyp-kpi-card">
-              <div className="fyp-kpi-label"><CheckCircle2 className="w-4 h-4" /> Overall GPA</div>
-              <div className="fyp-kpi-value">{summary.overallGPA?.toFixed(3) ?? "-"}</div>
+          <div className="sidebar-user">
+            <div className="user-avatar">AJ</div>
+            <div>
+              <div className="user-name">Alex Johnson</div>
+              <div className="user-role">{officialStanding} · CS + Math</div>
             </div>
           </div>
-        </section>
+        </aside>
 
-        <section className="fyp-section">
-          <div className="fyp-section-head">
-            <h2>UMD GPA Details</h2>
-            <div className="fyp-inline-actions">
-              <span className="fyp-muted">
-                Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
-              </span>
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                className="border-border"
-                onClick={() => setShowGpaDetails((current) => !current)}
-              >
-                {showGpaDetails ? (
-                  <>
-                    <ChevronUp className="w-4 h-4 mr-1" /> Hide
-                  </>
+        <div className="main">
+          <div className="topbar">
+            <div className="topbar-left">
+              <h2>Four-Year Plan</h2>
+              <p>Drag-ready board view grouped by term. Courses are listed vertically inside each semester column.</p>
+            </div>
+            <div className="topbar-right">
+              <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
+                <Info size={13} />
+                GPA Info
+              </button>
+              <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
+                {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
+              </button>
+              <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
+                Manage MAIN schedules
+              </Link>
+            </div>
+          </div>
+
+          <div className="progress-strip" data-tour-target="four-year-summary">
+            <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Completed</span><span className="ps-val">{summary.completedCredits} cr</span></div>
+            <div className="ps-divider" />
+            <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">In Progress</span><span className="ps-val">{summary.inProgressCredits} cr</span></div>
+            <div className="ps-divider" />
+            <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span><span className="ps-val">{summary.plannedCredits} cr</span></div>
+            <div className="ps-divider" />
+            <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
+            <div className="ps-divider" />
+            <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
+            <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+              </svg>
+              Standing: {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
+            </button>
+          </div>
+
+          <div className="plan-alerts">
+            {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
+              <section className="fyp-callout is-warning">
+                <p>
+                  Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit already earned.
+                  These repeated scheduled courses are flagged in the board and excluded from counted totals.
+                </p>
+                <button type="button" className="callout-close" onClick={() => setHideDuplicateNotice(true)} aria-label="Dismiss duplicate credit notice">
+                  <X size={16} />
+                </button>
+              </section>
+            )}
+
+            {!loading && summary.mathSubstitutionActive && !hideSubstitutionNotice && (
+              <section className="fyp-callout is-info">
+                <p>
+                  Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
+                  {summary.mathSubstitutionSuppressedCount > 0
+                    ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from totals to avoid double counting.`
+                    : " MATH240/241/246 are excluded from totals when this substitution is active to avoid double counting."}
+                </p>
+                <button type="button" className="callout-close" onClick={() => setHideSubstitutionNotice(true)} aria-label="Dismiss substitution notice">
+                  <X size={16} />
+                </button>
+              </section>
+            )}
+          </div>
+
+          <div className="plan-area">
+            {showGpaDetails && (
+              <section className="fyp-gpa-panel">
+                <div className="fyp-gpa-head">
+                  <h3>UMD GPA Details</h3>
+                  <span className="fyp-muted">
+                    Attempted: {academicGpaHistory.attemptedCredits.toFixed(2)} | Quality Points: {academicGpaHistory.qualityPoints.toFixed(3)}
+                  </span>
+                </div>
+                {academicGpaHistory.terms.length > 0 ? (
+                  <div className="fyp-table-wrap">
+                    <table className="fyp-table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Term</th>
+                          <th scope="col">Attempted</th>
+                          <th scope="col">Quality Points</th>
+                          <th scope="col">Semester GPA</th>
+                          <th scope="col">Cumulative GPA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {academicGpaHistory.terms.map((term) => (
+                          <tr key={term.termLabel}>
+                            <td>{term.termLabel}</td>
+                            <td>{term.attemptedCredits.toFixed(2)}</td>
+                            <td>{term.qualityPoints.toFixed(3)}</td>
+                            <td>{term.semesterGPA?.toFixed(3) ?? "-"}</td>
+                            <td>{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
-                  <>
-                    <ChevronDown className="w-4 h-4 mr-1" /> Show
-                  </>
+                  <p className="fyp-muted">No graded completed courses are available yet. GPA details will appear after transcript or completed-term grades are present.</p>
                 )}
-              </Button>
-            </div>
-          </div>
+              </section>
+            )}
 
-          {showGpaDetails && academicGpaHistory.terms.length > 0 && (
-            <div className="fyp-table-wrap">
-              <table className="fyp-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Term</th>
-                    <th scope="col">Attempted</th>
-                    <th scope="col">Quality Points</th>
-                    <th scope="col">Semester GPA</th>
-                    <th scope="col">Cumulative GPA</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {academicGpaHistory.terms.map((term) => (
-                    <tr key={term.termLabel}>
-                      <td>{term.termLabel}</td>
-                      <td>{term.attemptedCredits.toFixed(2)}</td>
-                      <td>{term.qualityPoints.toFixed(3)}</td>
-                      <td>{term.semesterGPA?.toFixed(3) ?? "-"}</td>
-                      <td>{term.cumulativeGPA?.toFixed(3) ?? "-"}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+            {loading && <div className="board-empty">Loading four-year plan...</div>}
+            {!loading && errorMessage && <div className="board-empty"><p className="fyp-error">{errorMessage}</p></div>}
 
-          {showGpaDetails && academicGpaHistory.terms.length === 0 && (
-            <p className="fyp-muted">
-              No graded completed courses are available yet. GPA details will appear after transcript or completed-term grades are present.
-            </p>
-          )}
-        </section>
+            {!loading && !errorMessage && boardTerms.length === 0 && (
+              <div className="board-empty">
+                <p className="fyp-muted">
+                  No MAIN schedules yet. Set one schedule as MAIN for each term in All Schedules to build your four-year plan automatically.
+                </p>
+                <div className="mt-3">
+                  <Link to="/schedules" className="topbar-btn primary">Go to all schedules</Link>
+                </div>
+              </div>
+            )}
 
-        {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
-          <section className="fyp-callout is-warning">
-            <p>
-              Duplicate credit notice: {summary.duplicateCourseCount} planned or in-progress course{summary.duplicateCourseCount === 1 ? "" : "s"} repeat credit already earned.
-              These repeated scheduled courses are flagged below and excluded from total counted credits.
-            </p>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6"
-              onClick={() => setHideDuplicateNotice(true)}
-              aria-label="Dismiss duplicate credit notice"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </section>
-        )}
+            {!loading && !errorMessage && boardTerms.length > 0 && (
+              <div className="plan-grid" data-tour-target="four-year-timeline">
+                {boardTerms.map((term) => {
+                  const termState = boardTermState(term.status);
+                  const statusText = termState === "past" ? "Done" : termState === "current" ? "Now" : "Plan";
+                  const statusClass = termState === "past" ? "done" : termState === "current" ? "cur" : "plan";
+                  const termCourses = sortCoursesForDisplay(term.courses);
+                  const duplicateCount = termCourses.filter((course) => duplicateScheduleSectionKeys.has(course.sectionKey)).length;
+                  const countedCredits = termCourses
+                    .filter((course) => course.countsTowardProgress && !duplicateScheduleSectionKeys.has(course.sectionKey))
+                    .reduce((sum, course) => sum + course.credits, 0);
+                  const pct = countedCredits > 0 ? Math.min(100, (countedCredits / MAX_CREDITS[termState]) * 100) : 30;
+                  const creditLoadClass = creditLoadWidthClass(pct);
 
-        {!loading && summary.mathSubstitutionActive && !hideSubstitutionNotice && (
-          <section className="fyp-callout is-info">
-            <p>
-              Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
-              {summary.mathSubstitutionSuppressedCount > 0
-                ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from totals to avoid double counting.`
-                : " MATH240/241/246 are excluded from totals when this substitution is active to avoid double counting."}
-            </p>
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6"
-              onClick={() => setHideSubstitutionNotice(true)}
-              aria-label="Dismiss substitution notice"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </section>
-        )}
-
-        {loading && <section className="fyp-section"><p className="fyp-muted">Loading four-year plan...</p></section>}
-        {!loading && errorMessage && <section className="fyp-section"><p className="fyp-error">{errorMessage}</p></section>}
-
-        {!loading && !errorMessage && visibleTerms.length === 0 && (
-          <section className="fyp-section fyp-empty">
-            <h2>No MAIN schedules yet</h2>
-            <p className="fyp-muted">
-              Set one schedule as MAIN for each term in All Schedules to build your four-year plan automatically.
-            </p>
-            <Link to="/schedules">
-              <Button className="bg-red-600 hover:bg-red-700">Go To All Schedules</Button>
-            </Link>
-          </section>
-        )}
-
-        {!loading && !errorMessage && visibleTerms.length > 0 && (
-          <section className="fyp-section" data-tour-target="four-year-timeline">
-            <div className="fyp-section-head">
-              <h2>Term Timeline</h2>
-              <p>Course rows include status, major/minor/gen-ed tags, and duplicate credit flags.</p>
-            </div>
-
-            <div className="fyp-term-list">
-              {visibleTerms.map((term) => {
-                const isExpanded = expandedTermIds.has(term.id);
-                const duplicateCount = term.courses.filter((course) => duplicateScheduleSectionKeys.has(course.sectionKey)).length;
-                const countedCredits = term.courses
-                  .filter((course) => course.countsTowardProgress && !duplicateScheduleSectionKeys.has(course.sectionKey))
-                  .reduce((sum, course) => sum + course.credits, 0);
-
-                return (
-                  <article key={term.id} className={`fyp-term-card ${termCardAccent(term.status)}`}>
-                    <header className="fyp-term-header">
-                      <div className="fyp-term-title-wrap">
-                        <h3 className="fyp-term-title">{term.termLabel}</h3>
-                        <p className="fyp-term-meta">Last updated {formatLastUpdated(term.updatedAt)}</p>
-                        <p className="fyp-term-count-line">{countedCredits} counted credits {formatStatusLabel(term.status)}</p>
-                      </div>
-
-                      <div className="fyp-term-right">
-                        <span className="fyp-term-credits">{countedCredits} counted credits</span>
+                  return (
+                    <article key={term.id} className={`term-col ${term.termCode === "05" ? "summer" : ""}`}>
+                      <header className={`term-col-header ${termState}`}>
+                        <div className={`term-name ${termState}`}>{term.termLabel}</div>
+                        <div className="term-credits">{countedCredits} counted credits</div>
+                        <div className="credit-load-bar"><div className={`credit-load-fill ${FILL_CLASS[termState]} ${creditLoadClass}`} /></div>
+                        <div className={`term-status ${statusClass}`}>{statusText}</div>
                         {duplicateCount > 0 && (
-                          <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
-                            {duplicateCount} duplicate {duplicateCount === 1 ? "course" : "courses"} excluded
-                          </Badge>
+                          <div className="term-warning">
+                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
+                              <path d="M5 1.5l4 7H1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                            </svg>
+                            {duplicateCount} duplicate {duplicateCount === 1 ? "course" : "courses"}
+                          </div>
                         )}
-                        <span className={statusTextClass(term.status)}>{formatStatusLabel(term.status)}</span>
-                        <Button
-                          type="button"
-                          size="sm"
-                          variant="outline"
-                          className="border-border"
-                          onClick={() => toggleTermExpanded(term.id)}
-                          aria-expanded={isExpanded}
-                          aria-controls={`term-panel-${term.id}`}
-                        >
-                          {isExpanded ? <ChevronUp className="w-4 h-4 mr-1" /> : <ChevronDown className="w-4 h-4 mr-1" />}
-                          {isExpanded ? "Hide" : "Open"}
-                        </Button>
-                        {term.source === "schedule" && (
-                          <Button
-                            type="button"
-                            size="sm"
-                            variant="outline"
-                            className="border-border"
-                            onClick={() => openScheduleInBuilder(term)}
+                      </header>
+
+                      {termCourses.map((course) => {
+                        const courseType = boardCourseType(course.status);
+                        const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
+                        const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
+                        const genEdContributionLabels = genEdLabels(course.tags);
+                        const genEdLabelSet = new Set(genEdContributionLabels);
+                        const contributionLabels = [...requirementLabels, ...genEdContributionLabels].slice(0, 2);
+                        return (
+                          <article
+                            key={course.sectionKey}
+                            className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""}`}
                           >
-                            Open
-                          </Button>
-                        )}
-                      </div>
-                    </header>
+                            <button
+                              type="button"
+                              className="plan-course-button"
+                              onClick={() => setDetailCode(course.code)}
+                              onKeyDown={(event) => {
+                                if (event.key === "Enter" || event.key === " ") {
+                                  event.preventDefault();
+                                  setDetailCode(course.code);
+                                }
+                              }}
+                            >
+                              <div className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</div>
+                              <div className="pc-name">{course.title}</div>
+                              <div className="pc-meta">{course.credits} cr • {course.sectionCode} • {formatStatusLabel(course.status)}</div>
 
-                    <div id={`term-panel-${term.id}`} className="fyp-term-panel">
-                      {!isExpanded && (
-                        <p className="fyp-muted">
-                          {term.courses.length} course{term.courses.length === 1 ? "" : "s"} hidden. Choose View to inspect course-level tags, status, and duplicate flags.
-                        </p>
+                              <div className="pc-badge-row">
+                                {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
+                                {contributionLabels.map((label) => (
+                                  <span key={`${course.sectionKey}-${label}`} className={`pc-chip ${genEdLabelSet.has(label) ? "warn" : ""}`}>
+                                    {label}
+                                  </span>
+                                ))}
+                              </div>
+                            </button>
+
+                            {course.status === "completed" && (
+                              <div className="pc-grade" onClick={(event) => event.stopPropagation()}>
+                                <Select
+                                  value={course.grade ?? "__none__"}
+                                  onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
+                                  disabled={savingGradeKey === course.sectionKey}
+                                >
+                                  <SelectTrigger className="pc-grade-trigger">
+                                    <SelectValue placeholder="Add grade" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="__none__">No grade</SelectItem>
+                                    {GRADE_OPTIONS.map((grade) => (
+                                      <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            )}
+                          </article>
+                        );
+                      })}
+
+                      {term.source === "schedule" && (
+                        <button type="button" className="plan-course-add" onClick={() => openScheduleInBuilder(term)}>
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                            <path d="M6 2v8M2 6h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                          </svg>
+                          Open in schedule builder
+                        </button>
                       )}
-
-                      {isExpanded && (
-                        <>
-                          {term.courses.length === 0 ? (
-                            <p className="fyp-muted">No classes in this MAIN schedule.</p>
-                          ) : (
-                            <div className="fyp-table-wrap">
-                              <table className="fyp-table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Course Code</th>
-                                    <th scope="col">Section</th>
-                                    <th scope="col">Course Full Name</th>
-                                    <th scope="col">Credits</th>
-                                    <th scope="col">Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {sortCoursesForDisplay(term.courses).map((course) => {
-                                    const isDuplicate = duplicateScheduleSectionKeys.has(course.sectionKey);
-                                    const requirementLabels = getContributionLabelsForCourseCode(course.code, contributionMap);
-                                    const genEdContributionLabels = genEdLabels(course.tags);
-                                    const genEdLabelSet = new Set(genEdContributionLabels);
-                                    const contributionLabels = [...requirementLabels, ...genEdContributionLabels];
-                                    const statusSummary = [
-                                      formatStatusLabel(course.status),
-                                      ...contributionLabels,
-                                      isDuplicate ? "Duplicate credit" : null,
-                                    ].filter((value): value is string => Boolean(value));
-                                    const rowClass = contributionRowClass(requirementLabels, genEdContributionLabels.length > 0);
-                                    return (
-                                      <tr
-                                        key={course.sectionKey}
-                                        className={`${rowClass} ${isDuplicate ? "opacity-70" : ""}`}
-                                        onClick={() => setDetailCode(course.code)}
-                                      >
-                                        <td className="fyp-code-cell">{course.code}</td>
-                                        <td>{course.sectionCode}</td>
-                                        <td>{course.title}</td>
-                                        <td>{course.credits}</td>
-                                        <td>
-                                          <div className="flex items-center gap-2 flex-wrap">
-                                            {statusBadge(course.status)}
-                                            {isDuplicate && (
-                                              <Badge className="text-[10px] bg-amber-100 text-amber-900 border border-amber-300 dark:bg-amber-600/20 dark:text-amber-300 dark:border-amber-500/40">
-                                                Duplicate credit
-                                              </Badge>
-                                            )}
-                                            {contributionLabels.slice(0, 2).map((label) => (
-                                              <Badge
-                                                key={`${course.sectionKey}-${label}`}
-                                                className={`text-[10px] ${contributionBadgeClass(label, genEdLabelSet.has(label))}`}
-                                              >
-                                                {label}
-                                              </Badge>
-                                            ))}
-                                            {course.status === "completed" && (
-                                              <Select
-                                                value={course.grade ?? "__none__"}
-                                                onValueChange={(value) => void handleScheduleGradeChange(term, course, value)}
-                                                disabled={savingGradeKey === course.sectionKey}
-                                              >
-                                                <SelectTrigger
-                                                  className="h-7 w-[118px] bg-input-background border-border text-[11px]"
-                                                  onClick={(event) => event.stopPropagation()}
-                                                >
-                                                  <SelectValue placeholder="Add grade" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                  <SelectItem value="__none__">No grade</SelectItem>
-                                                  {GRADE_OPTIONS.map((grade) => (
-                                                    <SelectItem key={grade} value={grade}>{grade}</SelectItem>
-                                                  ))}
-                                                </SelectContent>
-                                              </Select>
-                                            )}
-                                          </div>
-                                          <div className="fyp-status-detail-text">{statusSummary.join(" • ")}</div>
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                </tbody>
-                              </table>
-                            </div>
-                          )}
-
-                          <p className="fyp-term-footnote">
-                            Term total: {term.credits} raw credits • Counted toward progress: {countedCredits}
-                            {duplicateCount > 0 ? ` • ${duplicateCount} duplicate ${duplicateCount === 1 ? "course" : "courses"} excluded` : ""}
-                          </p>
-                        </>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </section>
-        )}
+                    </article>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       <Dialog open={Boolean(detailCode)} onOpenChange={(open) => {
