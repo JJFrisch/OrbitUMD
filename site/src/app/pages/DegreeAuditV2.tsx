@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
-import { ChevronDown, Cloud, CloudOff, GripVertical, GraduationCap, Info, Loader2, Mail, Menu, MessageSquare, Minus, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
+import { ChevronDown, GripVertical, GraduationCap, Info, Mail, Menu, MessageSquare, Minus, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -1298,7 +1298,7 @@ function RequirementSectionTableCard({
               />
             ) : (
               <>
-                <p className={`da2-rb-name ${sectionHeaderClass(sectionEval)}`}>{section.title}</p>
+                <p className="da2-rb-name">{section.title}</p>
                 <div className="da2-rb-meta-row" onDoubleClick={() => setEditingRequirement(true)}>
                   {editingRequirement ? (
                     <div className="flex items-center gap-2">
@@ -3406,15 +3406,6 @@ export default function DegreeAudit() {
             </p>
           </div>
           <div className="da2-topbar-actions no-print">
-            <div className="da2-sync-indicator" aria-live="polite">
-              <span className="da2-sync-dot" />
-              <span>
-                {sectionEditSyncState === "saving" && "Saving edits"}
-                {sectionEditSyncState === "synced" && "Edits synced"}
-                {sectionEditSyncState === "local" && "Local edits only"}
-                {sectionEditSyncState === "idle" && "Section edits ready"}
-              </span>
-            </div>
             <Button
               type="button"
               variant="outline"
@@ -3492,7 +3483,7 @@ export default function DegreeAudit() {
                   </div>
                 </Card>
 
-                <Card className="da2-credit-overview mb-6">
+                <div className="da2-credit-overview mb-6">
                   <div className="da2-credit-header">
                     <p className="da2-credit-title">Credit Progress</p>
                     <p className="da2-credit-detail">
@@ -3511,26 +3502,10 @@ export default function DegreeAudit() {
                     <span><i className="da2-legend-dot da2-legend-planned" />Planned</span>
                     <span><i className="da2-legend-dot da2-legend-remaining" />Remaining</span>
                   </div>
-                </Card>
-
-            {programAudits.length > 0 && (
-              <Card className="da2-program-section bg-card border-border mb-6 p-4">
-                <div className="flex items-center justify-between gap-3 mb-3">
-                  <h2 className="da2-section-title text-xl text-foreground">Program Audits</h2>
-                  <div className="flex items-center gap-2 no-print">
-                    <Badge variant="outline" className="border-border text-foreground/80">
-                      {sectionEditSyncState === "saving" && <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />}
-                      {sectionEditSyncState === "synced" && <Cloud className="w-3.5 h-3.5 mr-1" />}
-                      {sectionEditSyncState === "local" && <CloudOff className="w-3.5 h-3.5 mr-1" />}
-                      {sectionEditSyncState === "saving" && "Saving edits..."}
-                      {sectionEditSyncState === "synced" && "Edits synced to cloud"}
-                      {sectionEditSyncState === "local" && "Edits saved locally"}
-                      {sectionEditSyncState === "idle" && "Section edits ready"}
-                    </Badge>
-                  </div>
                 </div>
 
-                <div data-tour-target="degree-audit-programs" className="space-y-3">
+            {programAudits.length > 0 && (
+                <div data-tour-target="degree-audit-programs" className="space-y-3 mb-6">
                   {programAudits
                     .filter((_, index) => index === selectedProgramIndex)
                     .map((programAudit) => {
@@ -4827,7 +4802,6 @@ export default function DegreeAudit() {
                   );
                 })}
                 </div>
-              </Card>
             )}
 
             <Card className="da2-overflow-section bg-card border-border mt-6 p-5">

@@ -251,11 +251,11 @@
 }
 
 .da2-credit-overview {
-  border: 1.5px solid var(--da2-border-soft) !important;
-  border-radius: 12px !important;
-  background: var(--da2-surface) !important;
-  box-shadow: var(--da2-shadow);
-  padding: 15px 19px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none;
+  padding: 0;
 }
 
 .da2-credit-header {
