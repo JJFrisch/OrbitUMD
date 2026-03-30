@@ -88,7 +88,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   return (
     <aside className={cn("orbit-sidebar", collapsed && "collapsed")}>
       <div className="sidebar-header">
-        <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard">
+        <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard" title={collapsed ? "OrbitUMD" : undefined}>
           <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
             <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
@@ -140,7 +140,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         <button
           type="button"
           className="sidebar-user"
-          title={collapsed ? "Account settings" : undefined}
+          title={collapsed ? "Settings" : undefined}
           aria-label="Open account menu"
           onClick={() => setSettingsOpen((prev) => !prev)}
         >

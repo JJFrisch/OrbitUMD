@@ -251,6 +251,44 @@ function creditLoadWidthClass(pct: number): "load-20" | "load-40" | "load-60" | 
   return "load-20";
 }
 
+function acronymFromLabel(label: string): string {
+  const cleaned = label.replace(/[^A-Za-z0-9\s]/g, " ").trim();
+  const parts = cleaned.split(/\s+/).filter((part) => part.length > 0);
+  if (parts.length === 0) return label.slice(0, 3).toUpperCase();
+  if (parts.length === 1) return parts[0].slice(0, 3).toUpperCase();
+  return parts.map((part) => part[0]?.toUpperCase() ?? "").join("").slice(0, 4);
+}
+
+function buildTagPresentation(label: string, isGenEd: boolean) {
+  if (isGenEd) {
+    return {
+      shortLabel: label,
+      fullLabel: `Gen Ed ${label} Requirement`,
+    };
+  }
+
+  if (label.startsWith("Major:")) {
+    const majorName = label.replace("Major:", "").trim();
+    return {
+      shortLabel: acronymFromLabel(majorName),
+      fullLabel: `${majorName} Major Requirement`,
+    };
+  }
+
+  if (label.startsWith("Minor:")) {
+    const minorName = label.replace("Minor:", "").trim();
+    return {
+      shortLabel: acronymFromLabel(minorName),
+      fullLabel: `${minorName} Minor Requirement`,
+    };
+  }
+
+  return {
+    shortLabel: acronymFromLabel(label),
+    fullLabel: label,
+  };
+}
+
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
   const COURSE_RE = /([A-Z]{4}\d{3}[A-Z]?)/g;
   const parts: Array<{ type: "text" | "code"; value: string }> = [];
@@ -287,10 +325,12 @@ export default function FourYearPlan() {
   const [showGpaInfo, setShowGpaInfo] = useState(false);
   const [showStandingInfo, setShowStandingInfo] = useState(false);
   const [hideDuplicateNotice, setHideDuplicateNotice] = useState(false);
-  const [hideSubstitutionNotice, setHideSubstitutionNotice] = useState(false);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [savingGradeKey, setSavingGradeKey] = useState<string | null>(null);
+  const [editingGradeKey, setEditingGradeKey] = useState<string | null>(null);
+  const [tagDetail, setTagDetail] = useState<{ shortLabel: string; fullLabel: string } | null>(null);
+  const [gpaInfoTermLabel, setGpaInfoTermLabel] = useState<string | null>(null);
   const [mainSchedules, setMainSchedules] = useState<ScheduleWithSelections[]>([]);
   const [priorCredits, setPriorCredits] = useState<Awaited<ReturnType<typeof listUserPriorCredits>>>([]);
   const [requirementBundles, setRequirementBundles] = useState<ProgramRequirementBundle[]>([]);
@@ -386,6 +426,10 @@ export default function FourYearPlan() {
 
     return calculateTranscriptGPAHistory([...priorCredits, ...completedScheduleGrades]);
   }, [mainSchedules, priorCredits]);
+
+  const gpaTermBreakdown = useMemo(() => {
+    return new Map(academicGpaHistory.terms.map((term) => [term.termLabel, term]));
+  }, [academicGpaHistory.terms]);
 
   const terms = useMemo(() => {
     const transformed = mainSchedules
@@ -815,6 +859,7 @@ export default function FourYearPlan() {
   };
 
   const remainingCredits = Math.max(0, 120 - summary.totalCredits);
+  const activeGpaTermDetails = gpaInfoTermLabel ? gpaTermBreakdown.get(gpaInfoTermLabel) ?? null : null;
 
   return (
     <div className="fyp-page">
@@ -866,20 +911,6 @@ export default function FourYearPlan() {
                   These repeated scheduled courses are flagged in the board and excluded from counted totals.
                 </p>
                 <button type="button" className="callout-close" onClick={() => setHideDuplicateNotice(true)} aria-label="Dismiss duplicate credit notice">
-                  <X size={16} />
-                </button>
-              </section>
-            )}
-
-            {!loading && summary.mathSubstitutionActive && !hideSubstitutionNotice && (
-              <section className="fyp-callout is-info">
-                <p>
-                  Substitution notice: MATH340 + MATH341 satisfies the MATH240/241/246 sequence.
-                  {summary.mathSubstitutionSuppressedCount > 0
-                    ? ` ${summary.mathSubstitutionSuppressedCount} MATH240/241/246 course${summary.mathSubstitutionSuppressedCount === 1 ? " was" : "s were"} excluded from totals to avoid double counting.`
-                    : " MATH240/241/246 are excluded from totals when this substitution is active to avoid double counting."}
-                </p>
-                <button type="button" className="callout-close" onClick={() => setHideSubstitutionNotice(true)} aria-label="Dismiss substitution notice">
                   <X size={16} />
                 </button>
               </section>
@@ -966,7 +997,25 @@ export default function FourYearPlan() {
                         <div className={`term-name ${termState}`}>{term.termLabel}</div>
                         <div className="term-credits">{countedCredits} counted credits</div>
                         <div className="credit-load-bar"><div className={`credit-load-fill ${FILL_CLASS[termState]} ${creditLoadClass}`} /></div>
-                        <div className={`term-status ${statusClass}`}>{statusText}</div>
+                        <div className={`term-status ${statusClass}`}>
+                          {statusText}
+                          {termState === "past" && typeof term.semesterGPA === "number" && (
+                            <span className="term-gpa-inline">
+                              <span> • GPA {term.semesterGPA.toFixed(3)}</span>
+                              <button
+                                type="button"
+                                className="term-gpa-info-btn"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setGpaInfoTermLabel(term.termLabel);
+                                }}
+                                aria-label={`Explain semester GPA for ${term.termLabel}`}
+                              >
+                                <Info size={12} />
+                              </button>
+                            </span>
+                          )}
+                        </div>
                         {duplicateCount > 0 && (
                           <div className="term-warning">
                             <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden>
@@ -984,6 +1033,13 @@ export default function FourYearPlan() {
                         const genEdContributionLabels = genEdLabels(course.tags);
                         const genEdLabelSet = new Set(genEdContributionLabels);
                         const contributionLabels = [...requirementLabels, ...genEdContributionLabels].slice(0, 2);
+                        const presentedTags = contributionLabels.map((label) => {
+                          return {
+                            originalLabel: label,
+                            isGenEd: genEdLabelSet.has(label),
+                            ...buildTagPresentation(label, genEdLabelSet.has(label)),
+                          };
+                        });
                         const sourceTerm = originalTermByCourseSectionKey.get(course.sectionKey) ?? term;
                         const isDraggable = sourceTerm.source === "schedule" && movingCourseKey === null;
                         return (
@@ -1017,31 +1073,54 @@ export default function FourYearPlan() {
 
                               <div className="pc-badge-row">
                                 {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
-                                {contributionLabels.map((label) => (
-                                  <span key={`${course.sectionKey}-${label}`} className={`pc-chip ${genEdLabelSet.has(label) ? "warn" : ""}`}>
-                                    {label}
-                                  </span>
+                                {presentedTags.map((tag) => (
+                                  <button
+                                    key={`${course.sectionKey}-${tag.originalLabel}`}
+                                    type="button"
+                                    className={`pc-chip pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
+                                    }}
+                                  >
+                                    {tag.shortLabel}
+                                  </button>
                                 ))}
                               </div>
                             </button>
 
                             {course.status === "completed" && (
                               <div className="pc-grade" onClick={(event) => event.stopPropagation()}>
-                                <Select
-                                  value={course.grade ?? "__none__"}
-                                  onValueChange={(value) => void handleScheduleGradeChange(sourceTerm, course, value)}
-                                  disabled={savingGradeKey === course.sectionKey}
-                                >
-                                  <SelectTrigger className="pc-grade-trigger">
-                                    <SelectValue placeholder="Add grade" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="__none__">No grade</SelectItem>
-                                    {GRADE_OPTIONS.map((grade) => (
-                                      <SelectItem key={grade} value={grade}>{grade}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
+                                {editingGradeKey === course.sectionKey ? (
+                                  <Select
+                                    value={course.grade ?? "__none__"}
+                                    onValueChange={(value) => {
+                                      void handleScheduleGradeChange(sourceTerm, course, value).finally(() => {
+                                        setEditingGradeKey((current) => (current === course.sectionKey ? null : current));
+                                      });
+                                    }}
+                                    disabled={savingGradeKey === course.sectionKey}
+                                  >
+                                    <SelectTrigger className="pc-grade-trigger">
+                                      <SelectValue placeholder="Add grade" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      <SelectItem value="__none__">No grade</SelectItem>
+                                      {GRADE_OPTIONS.map((grade) => (
+                                        <SelectItem key={grade} value={grade}>{grade}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    className="pc-grade-label"
+                                    onClick={() => setEditingGradeKey(course.sectionKey)}
+                                    disabled={savingGradeKey === course.sectionKey}
+                                  >
+                                    Completed • Grade: {course.grade ?? "No grade"}
+                                  </button>
+                                )}
                               </div>
                             )}
                           </article>
@@ -1112,6 +1191,49 @@ export default function FourYearPlan() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(tagDetail)} onOpenChange={(open) => {
+        if (!open) setTagDetail(null);
+      }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{tagDetail?.shortLabel ?? "Requirement Tag"}</DialogTitle>
+            <DialogDescription>
+              {tagDetail?.fullLabel ?? "Requirement details"}
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={Boolean(gpaInfoTermLabel)} onOpenChange={(open) => {
+        if (!open) setGpaInfoTermLabel(null);
+      }}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>{gpaInfoTermLabel ?? "Semester GPA"}</DialogTitle>
+            <DialogDescription>
+              Semester GPA is calculated as Quality Points divided by Attempted Credits for grade-bearing classes.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 text-sm text-foreground">
+            <p>
+              Formula: GPA = Quality Points / Attempted Credits
+            </p>
+            <p>
+              Attempted Credits: {activeGpaTermDetails?.attemptedCredits.toFixed(2) ?? "-"}
+            </p>
+            <p>
+              Quality Points: {activeGpaTermDetails?.qualityPoints.toFixed(3) ?? "-"}
+            </p>
+            <p>
+              Semester GPA: {activeGpaTermDetails?.semesterGPA?.toFixed(3) ?? "-"}
+            </p>
+            <p className="text-muted-foreground">
+              OrbitUMD follows UMD transcript-style GPA rules; non-GPA grades (for example P, S, W, I, AUD) are excluded.
+            </p>
+          </div>
         </DialogContent>
       </Dialog>
 

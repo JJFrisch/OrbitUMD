@@ -19,7 +19,7 @@
   background: var(--cream);
   color: var(--ink);
   font-family: "DM Sans", sans-serif;
-  overflow-x: hidden;
+  overflow: auto;
 }
 
 .fyp-page::before {
@@ -36,11 +36,12 @@
   position: relative;
   z-index: 2;
   display: block;
-  height: calc(100vh - 56px);
+  min-height: calc(100vh - 56px);
+  height: auto;
   margin: 28px;
   border: 1px solid var(--border-soft);
   border-radius: 16px;
-  overflow: hidden;
+  overflow: auto;
   background: var(--surface);
   box-shadow: var(--shadow-sm);
 }
@@ -202,7 +203,7 @@
 .main {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .topbar {
@@ -218,16 +219,16 @@
 
 .topbar-left h2 {
   font-family: "Playfair Display", serif;
-  font-size: 1.3rem;
+  font-size: 1.45rem;
   font-weight: 700;
   letter-spacing: -0.025em;
 }
 
 .topbar-left p {
-  font-size: 0.78rem;
+  font-size: 0.9rem;
   color: var(--ink-muted);
   margin-top: 2px;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .topbar-right {
@@ -243,9 +244,9 @@
   justify-content: center;
   gap: 6px;
   font-family: "DM Sans", sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  padding: 7px 14px;
+  padding: 9px 16px;
   border-radius: 7px;
   cursor: pointer;
   border: 1px solid var(--border-soft);
@@ -272,7 +273,7 @@
 }
 
 .progress-strip {
-  padding: 12px 28px;
+  padding: 14px 28px;
   background: var(--surface);
   border-bottom: 1px solid var(--border-soft);
   display: flex;
@@ -313,13 +314,13 @@
 }
 
 .ps-label {
-  font-size: 0.75rem;
+  font-size: 0.86rem;
   color: var(--ink-muted);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .ps-val {
-  font-size: 0.75rem;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--ink-2);
 }
@@ -340,7 +341,7 @@
   border: 1px solid rgba(198, 40, 40, 0.18);
   border-radius: 6px;
   padding: 5px 12px;
-  font-size: 0.75rem;
+  font-size: 0.86rem;
   color: var(--red);
   font-weight: 500;
   white-space: nowrap;
@@ -393,9 +394,8 @@
 
 .plan-area {
   flex: 1;
-  overflow-x: auto;
-  overflow-y: auto;
-  padding: 18px 28px 40px;
+  overflow: auto;
+  padding: 22px 28px 44px;
 }
 
 .plan-area::-webkit-scrollbar {
@@ -420,9 +420,9 @@
 
 .plan-grid {
   display: grid;
-  grid-template-columns: repeat(9, minmax(215px, 1fr));
-  gap: 12px;
-  min-width: 1650px;
+  grid-template-columns: repeat(9, minmax(245px, 1fr));
+  gap: 14px;
+  min-width: 1880px;
 }
 
 .term-col {
@@ -442,7 +442,7 @@
 }
 
 .term-col-header {
-  padding: 8px 12px;
+  padding: 10px 14px;
   border-radius: 8px;
   text-align: center;
 }
@@ -463,7 +463,7 @@
 
 .term-name {
   font-family: "Playfair Display", serif;
-  font-size: 0.85rem;
+  font-size: 0.98rem;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
@@ -481,17 +481,42 @@
 }
 
 .term-credits {
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   color: var(--ink-ghost);
   margin-top: 2px;
 }
 
 .term-status {
-  font-size: 0.62rem;
+  font-size: 0.74rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-top: 3px;
+}
+
+.term-gpa-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.term-gpa-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.term-gpa-info-btn:hover {
+  opacity: 1;
 }
 
 .term-status.done {
@@ -510,7 +535,7 @@
   background: var(--surface);
   border: 1.5px solid var(--border-soft);
   border-radius: 8px;
-  padding: 9px 11px;
+  padding: 12px 13px;
   transition: all 0.18s;
   position: relative;
   animation: fadeIn 0.3s ease both;
@@ -566,10 +591,10 @@
 }
 
 .pc-code {
-  font-size: 0.68rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .pc-code.red {
@@ -585,17 +610,17 @@
 }
 
 .pc-name {
-  font-size: 0.76rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--ink-2);
   line-height: 1.3;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
 
 .pc-meta {
-  font-size: 0.66rem;
+  font-size: 0.78rem;
   color: var(--ink-ghost);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .pc-badge-row {
@@ -610,11 +635,15 @@
   border: 1px solid var(--border-soft);
   background: var(--surface-2);
   color: var(--ink-muted);
-  font-size: 0.58rem;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  padding: 2px 6px;
+  padding: 3px 7px;
+}
+
+.pc-chip-btn {
+  cursor: pointer;
 }
 
 .pc-chip.warn {
@@ -627,10 +656,25 @@
   margin-top: 7px;
 }
 
+.pc-grade-label {
+  border: none;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+}
+
+.pc-grade-label:hover {
+  color: var(--red);
+}
+
 .pc-grade-trigger {
-  width: 118px;
-  height: 26px;
-  font-size: 0.65rem;
+  width: 136px;
+  height: 30px;
+  font-size: 0.76rem;
   border-color: var(--border-soft);
 }
 
@@ -645,7 +689,7 @@
   cursor: pointer;
   transition: all 0.18s;
   color: var(--ink-ghost);
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   background: none;
   font-family: "DM Sans", sans-serif;
   width: 100%;
@@ -716,7 +760,7 @@
   align-items: center;
   justify-content: center;
   gap: 4px;
-  font-size: 0.64rem;
+  font-size: 0.74rem;
   color: #c77f00;
   padding: 3px 6px;
   background: rgba(249, 168, 37, 0.1);
@@ -743,13 +787,13 @@
 
 .fyp-gpa-head h3 {
   font-family: "Playfair Display", serif;
-  font-size: 1rem;
+  font-size: 1.1rem;
   letter-spacing: -0.01em;
 }
 
 .fyp-muted {
   color: var(--ink-muted);
-  font-size: 0.78rem;
+  font-size: 0.88rem;
 }
 
 .fyp-error {
@@ -764,7 +808,7 @@
 .fyp-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.78rem;
+  font-size: 0.9rem;
 }
 
 .fyp-table th,
@@ -777,7 +821,7 @@
 
 .fyp-table th {
   color: var(--ink-muted);
-  font-size: 0.66rem;
+  font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 600;
