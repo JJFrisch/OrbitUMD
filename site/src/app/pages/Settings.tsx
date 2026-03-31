@@ -80,6 +80,7 @@ interface SettingsAccountBackup {
 }
 
 type SettingsSectionId = "account" | "academic" | "scheduling" | "notifications" | "privacy" | "integrations";
+type ToggleSyncState = "idle" | "saving" | "synced" | "error";
 
 const SETTINGS_SECTIONS: Array<{ id: SettingsSectionId; label: string }> = [
   { id: "account", label: "Account" },
@@ -171,6 +172,9 @@ export default function Settings() {
   const [googleCalendarConnected, setGoogleCalendarConnected] = useState(false);
   const [outlookConnected, setOutlookConnected] = useState(false);
   const [canvasConnected, setCanvasConnected] = useState(false);
+  const [togglePrefsHydrated, setTogglePrefsHydrated] = useState(false);
+  const [toggleSyncState, setToggleSyncState] = useState<ToggleSyncState>("idle");
+  const [toggleSyncError, setToggleSyncError] = useState<string | null>(null);
 
   const readAccountBackup = (authUser: any): SettingsAccountBackup => {
     const candidate = authUser?.user_metadata?.[SETTINGS_BACKUP_KEY];
@@ -226,6 +230,9 @@ export default function Settings() {
         if (!authUser) {
           if (!active) return;
           setIsAuthenticated(false);
+          setTogglePrefsHydrated(false);
+          setToggleSyncState("idle");
+          setToggleSyncError(null);
           setUserId(null);
           setFullName("");
           setEmail("");
@@ -297,6 +304,9 @@ export default function Settings() {
         setGoogleCalendarConnected(readBooleanSetting(metadataBackup.googleCalendarConnected, false));
         setOutlookConnected(readBooleanSetting(metadataBackup.outlookConnected, false));
         setCanvasConnected(readBooleanSetting(metadataBackup.canvasConnected, false));
+        setTogglePrefsHydrated(true);
+        setToggleSyncState("synced");
+        setToggleSyncError(null);
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -313,7 +323,10 @@ export default function Settings() {
   }, [setTheme]);
 
   useEffect(() => {
-    if (!isAuthenticated) return;
+    if (!isAuthenticated || !togglePrefsHydrated) return;
+
+    setToggleSyncState("saving");
+    setToggleSyncError(null);
 
     const timeout = window.setTimeout(() => {
       void persistAccountBackup({
@@ -330,8 +343,11 @@ export default function Settings() {
         googleCalendarConnected,
         outlookConnected,
         canvasConnected,
+      }).then(() => {
+        setToggleSyncState("synced");
       }).catch((error) => {
-        setSaveMessage(error instanceof Error ? error.message : "Unable to save settings preferences.");
+        setToggleSyncState("error");
+        setToggleSyncError(error instanceof Error ? error.message : "Unable to sync toggle settings.");
       });
     }, 250);
 
@@ -351,6 +367,7 @@ export default function Settings() {
     outlookConnected,
     shareAnonymousUsage,
     storeScheduleHistory,
+    togglePrefsHydrated,
   ]);
 
   useEffect(() => {
@@ -796,6 +813,21 @@ export default function Settings() {
     return <Link2 size={14} />;
   };
 
+  const toggleSyncLabel = useMemo(() => {
+    if (!isAuthenticated) return "Sign in to sync toggle settings";
+    if (!togglePrefsHydrated) return "Loading toggle settings...";
+    if (toggleSyncState === "saving") return "Syncing settings...";
+    if (toggleSyncState === "error") return toggleSyncError ?? "Sync failed";
+    return "Settings synced";
+  }, [isAuthenticated, togglePrefsHydrated, toggleSyncError, toggleSyncState]);
+
+  const toggleSyncTone = useMemo(() => {
+    if (!isAuthenticated) return "muted";
+    if (toggleSyncState === "saving") return "saving";
+    if (toggleSyncState === "error") return "error";
+    return "synced";
+  }, [isAuthenticated, toggleSyncState]);
+
   return (
     <div className="ou-settings-page">
       <div className="ou-settings-header">
@@ -1147,6 +1179,10 @@ export default function Settings() {
             <section className={`ou-settings-section ${activeSection === "notifications" ? "active" : ""}`}>
               <h2 className="ou-section-title">Notifications</h2>
               <p className="ou-section-subtitle">Choose what OrbitUMD notifies you about and how.</p>
+              <div className={`ou-sync-indicator ${toggleSyncTone}`}>
+                <span className="ou-sync-dot" aria-hidden="true" />
+                {toggleSyncLabel}
+              </div>
 
               <div className="ou-card">
                 <div className="ou-card-title">Registration Alerts</div>
@@ -1178,6 +1214,10 @@ export default function Settings() {
             <section className={`ou-settings-section ${activeSection === "privacy" ? "active" : ""}`}>
               <h2 className="ou-section-title">Privacy</h2>
               <p className="ou-section-subtitle">Control how your account data is stored and used in OrbitUMD.</p>
+              <div className={`ou-sync-indicator ${toggleSyncTone}`}>
+                <span className="ou-sync-dot" aria-hidden="true" />
+                {toggleSyncLabel}
+              </div>
 
               <div className="ou-card">
                 <div className="ou-card-title">Data & Storage</div>
@@ -1197,6 +1237,10 @@ export default function Settings() {
             <section className={`ou-settings-section ${activeSection === "integrations" ? "active" : ""}`}>
               <h2 className="ou-section-title">Integrations</h2>
               <p className="ou-section-subtitle">Connect OrbitUMD to your scheduling and school tools.</p>
+              <div className={`ou-sync-indicator ${toggleSyncTone}`}>
+                <span className="ou-sync-dot" aria-hidden="true" />
+                {toggleSyncLabel}
+              </div>
 
               <div className="ou-card">
                 <div className="ou-card-title">Connected Apps</div>

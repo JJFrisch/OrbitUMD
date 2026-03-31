@@ -135,6 +135,45 @@
   font-size: 0.85rem;
 }
 
+.ou-sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: -10px 0 14px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  border: 1px solid var(--ou-border);
+  color: var(--ou-muted);
+  background: var(--ou-surface-2);
+}
+
+.ou-sync-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.ou-sync-indicator.synced {
+  color: #2e7d32;
+  border-color: rgba(46, 125, 50, 0.26);
+  background: rgba(46, 125, 50, 0.08);
+}
+
+.ou-sync-indicator.saving {
+  color: #8d6e05;
+  border-color: rgba(141, 110, 5, 0.26);
+  background: rgba(249, 168, 37, 0.15);
+}
+
+.ou-sync-indicator.error {
+  color: #991b1b;
+  border-color: rgba(153, 27, 27, 0.28);
+  background: rgba(183, 28, 28, 0.1);
+}
+
 .ou-card {
   border: 1px solid var(--ou-border);
   border-radius: 10px;
