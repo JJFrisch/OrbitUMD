@@ -1,20 +1,22 @@
 import { useEffect, useMemo, useState } from "react";
-import { Card } from "../components/ui/card";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
-import { Textarea } from "../components/ui/textarea";
-import { Badge } from "../components/ui/badge";
-import { Switch } from "../components/ui/switch";
-import { User, Mail, GraduationCap, Settings2, Moon, Sun, Edit, Plus, Trash2, Star, LogOut, LogIn } from "lucide-react";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../components/ui/select";
-import { Separator } from "../components/ui/separator";
+  Bell,
+  CalendarDays,
+  Edit,
+  GraduationCap,
+  Link2,
+  LogIn,
+  LogOut,
+  Mail,
+  Moon,
+  Plus,
+  Settings2,
+  Shield,
+  Star,
+  Sun,
+  Trash2,
+  User,
+} from "lucide-react";
 import { useTheme } from "../contexts/ThemeContext";
 import { Link, useLocation, useNavigate } from "react-router";
 import {
@@ -39,6 +41,7 @@ import {
 } from "@/lib/repositories/programRequirementTemplatesRepository";
 import { GlobalSearchPanel } from "../components/GlobalSearchPanel";
 import { resetAllPageTours } from "../components/PageOnboardingTour";
+import "./settings-template.css";
 
 interface TermOption {
   id: string;
@@ -61,6 +64,25 @@ interface SettingsAccountBackup {
   expectedGraduationSeason?: string | null;
   expectedGraduationYear?: string | null;
   updatedAt?: string;
+}
+
+type SettingsSectionId = "account" | "academic" | "scheduling" | "notifications" | "privacy" | "integrations";
+
+const SETTINGS_SECTIONS: Array<{ id: SettingsSectionId; label: string }> = [
+  { id: "account", label: "Account" },
+  { id: "academic", label: "Academic" },
+  { id: "scheduling", label: "Scheduling" },
+  { id: "notifications", label: "Notifications" },
+  { id: "privacy", label: "Privacy" },
+  { id: "integrations", label: "Integrations" },
+];
+
+function sectionFromHash(hash: string): SettingsSectionId | null {
+  const cleaned = hash.replace(/^#/, "").trim().toLowerCase();
+  if (!cleaned) return null;
+  return SETTINGS_SECTIONS.some((section) => section.id === cleaned as SettingsSectionId)
+    ? (cleaned as SettingsSectionId)
+    : null;
 }
 
 function normalizeProgramName(value: string): string {
@@ -115,6 +137,23 @@ export default function Settings() {
   const [adminProgramId, setAdminProgramId] = useState("");
   const [adminTemplateJson, setAdminTemplateJson] = useState("[]");
   const [adminTemplateMessage, setAdminTemplateMessage] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<SettingsSectionId>(sectionFromHash(location.hash) ?? "account");
+
+  const [notifyRegistrationWindow, setNotifyRegistrationWindow] = useState(true);
+  const [notifySeatAvailability, setNotifySeatAvailability] = useState(true);
+  const [notifyWaitlistMovement, setNotifyWaitlistMovement] = useState(true);
+  const [notifyGraduationGaps, setNotifyGraduationGaps] = useState(true);
+  const [notifyDropDeadlines, setNotifyDropDeadlines] = useState(true);
+  const [notifyFeatureAnnouncements, setNotifyFeatureAnnouncements] = useState(false);
+  const [notifyEmail, setNotifyEmail] = useState(true);
+  const [notifyPush, setNotifyPush] = useState(false);
+
+  const [shareAnonymousUsage, setShareAnonymousUsage] = useState(true);
+  const [storeScheduleHistory, setStoreScheduleHistory] = useState(true);
+
+  const [googleCalendarConnected, setGoogleCalendarConnected] = useState(false);
+  const [outlookConnected, setOutlookConnected] = useState(false);
+  const [canvasConnected, setCanvasConnected] = useState(false);
 
   const readAccountBackup = (authUser: any): SettingsAccountBackup => {
     const candidate = authUser?.user_metadata?.[SETTINGS_BACKUP_KEY];
@@ -244,17 +283,11 @@ export default function Settings() {
   }, [setTheme]);
 
   useEffect(() => {
-    if (loading) return;
-    if (!location.hash) return;
-
-    const targetId = location.hash.replace(/^#/, "");
-    const target = document.getElementById(targetId);
-    if (!target) return;
-
-    window.setTimeout(() => {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 120);
-  }, [loading, location.hash]);
+    const fromHash = sectionFromHash(location.hash);
+    if (fromHash) {
+      setActiveSection(fromHash);
+    }
+  }, [location.hash]);
 
   useEffect(() => {
     if (adminProgramId) {
@@ -669,437 +702,484 @@ export default function Settings() {
     }
   };
 
+  const handleSelectSection = (sectionId: SettingsSectionId) => {
+    setActiveSection(sectionId);
+    window.history.replaceState(null, "", `#${sectionId}`);
+  };
+
+  const connectIntegration = (
+    integration: "google" | "outlook" | "canvas",
+  ) => {
+    if (integration === "google") setGoogleCalendarConnected(true);
+    if (integration === "outlook") setOutlookConnected(true);
+    if (integration === "canvas") setCanvasConnected(true);
+    setSaveMessage("Integration connected.");
+  };
+
+  const sectionIcon = (sectionId: SettingsSectionId) => {
+    if (sectionId === "account") return <User size={14} />;
+    if (sectionId === "academic") return <GraduationCap size={14} />;
+    if (sectionId === "scheduling") return <CalendarDays size={14} />;
+    if (sectionId === "notifications") return <Bell size={14} />;
+    if (sectionId === "privacy") return <Shield size={14} />;
+    return <Link2 size={14} />;
+  };
+
   return (
-    <div className="p-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-8 items-start">
-        <div>
-          <div className="mb-6">
-            <h1 className="text-4xl mb-2">Settings</h1>
-            <p className="text-muted-foreground">Manage your profile, programs, and planning preferences</p>
-          </div>
+    <div className="ou-settings-page">
+      <div className="ou-settings-header">
+        <h1 className="ou-settings-page-title">Settings</h1>
+        <p className="ou-settings-page-subtitle">Manage your profile, programs, and planning preferences.</p>
+      </div>
 
-          {loading && <p className="text-muted-foreground">Loading settings...</p>}
-          {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
-          {!loading && !errorMessage && (
-            <div className="space-y-6">
-              {saveMessage && (
-                <Card className="p-4 bg-card border-border">
-                  <p className="text-sm text-foreground/80">{saveMessage}</p>
-                </Card>
-              )}
+      {loading && <p className="ou-status-text">Loading settings...</p>}
+      {!loading && errorMessage && <p className="ou-status-text ou-status-error">{errorMessage}</p>}
 
-              <Card className="p-6 bg-card border-border" data-tour-target="settings-profile">
-                <div className="flex items-center gap-2 mb-6">
-                  {theme === "dark" ? <Moon className="w-5 h-5 text-purple-400" /> : <Sun className="w-5 h-5 text-amber-500" />}
-                  <h2 className="text-2xl">Appearance</h2>
-                </div>
+      {!loading && !errorMessage && (
+        <div className="ou-settings-shell">
+          <aside className="ou-settings-nav">
+            <div className="ou-settings-nav-header">Settings</div>
+            {SETTINGS_SECTIONS.map((section) => (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => handleSelectSection(section.id)}
+                className={`ou-settings-nav-item ${activeSection === section.id ? "active" : ""}`}
+              >
+                <span className="ou-settings-nav-icon">{sectionIcon(section.id)}</span>
+                <span>{section.label}</span>
+              </button>
+            ))}
+          </aside>
 
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="theme-toggle">Dark Mode</Label>
-                    <p className="text-xs text-muted-foreground mt-1">Toggle between light and dark theme.</p>
-                  </div>
-                  <Switch id="theme-toggle" checked={theme === "dark"} onCheckedChange={handleToggleAppearance} />
-                </div>
-              </Card>
+          <div className="ou-settings-content">
+            {saveMessage && (
+              <div className="ou-toast-message">{saveMessage}</div>
+            )}
 
-              <Card id="academic-information" className="p-6 bg-card border-border" data-tour-target="settings-academic">
-                <div className="flex items-center gap-2 mb-6">
-                  <User className="w-5 h-5 text-red-400" />
-                  <h2 className="text-2xl">Profile Information</h2>
-                </div>
+            <section className={`ou-settings-section ${activeSection === "account" ? "active" : ""}`}>
+              <h2 className="ou-section-title">Account</h2>
+              <p className="ou-section-subtitle">Manage your profile, sign-in, and appearance preferences.</p>
 
+              <div className="ou-card" data-tour-target="settings-profile">
+                <div className="ou-card-title">Profile</div>
                 <form
-                  className="space-y-4"
+                  className="ou-card-body"
                   onSubmit={(event) => {
                     event.preventDefault();
                     void handleSaveProfile();
                   }}
                 >
-                  <div>
-                    <Label htmlFor="name">Full Name</Label>
-                    <Input id="name" value={fullName} onChange={(event) => setFullName(event.target.value)} className="bg-input-background border-border" />
+                  <div className="ou-row">
+                    <div className="ou-row-label">Full Name</div>
+                    <input className="ou-input" value={fullName} onChange={(event) => setFullName(event.target.value)} />
                   </div>
-
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="bg-input-background border-border" />
+                  <div className="ou-row">
+                    <div className="ou-row-label">Email</div>
+                    <input className="ou-input" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
                   </div>
-
-                  <div>
-                    <Label htmlFor="uid">UMD UID</Label>
-                    <Input id="uid" value={uid} onChange={(event) => setUid(event.target.value)} className="bg-input-background border-border" />
+                  <div className="ou-row">
+                    <div className="ou-row-label">UMD UID</div>
+                    <input className="ou-input" value={uid} onChange={(event) => setUid(event.target.value)} />
                   </div>
-
-                  <Button type="submit" className="bg-primary hover:bg-primary/90">
-                    Save Profile Changes
-                  </Button>
+                  <div className="ou-card-footer">
+                    <button type="submit" className="ou-btn ou-btn-primary">Save Profile</button>
+                  </div>
                 </form>
-              </Card>
+              </div>
 
-              <Card className="p-6 bg-card border-border" data-tour-target="settings-preferences">
-                <div className="flex items-center gap-2 mb-6">
-                  <GraduationCap className="w-5 h-5 text-blue-400" />
-                  <h2 className="text-2xl">Academic Information</h2>
+              <div className="ou-card">
+                <div className="ou-card-title">
+                  <span className="ou-inline-title">Appearance</span>
+                  {theme === "dark" ? <Moon size={14} /> : <Sun size={14} />}
                 </div>
-
-                <div className="mb-5 grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="rounded-lg border border-border bg-input-background p-3">
-                    <p className="text-xs text-muted-foreground">Prior Credit Total</p>
-                    <p className="text-xl text-foreground">{priorCreditSummary.totalCredits}</p>
-                  </div>
-                  <div className="rounded-lg border border-border bg-input-background p-3">
-                    <p className="text-xs text-muted-foreground">AP Credits</p>
-                    <p className="text-xl text-foreground">{priorCreditSummary.apCredits}</p>
-                  </div>
-                  <div className="rounded-lg border border-border bg-input-background p-3">
-                    <p className="text-xs text-muted-foreground">AP Records</p>
-                    <p className="text-xl text-foreground">{priorCreditSummary.apRecords}</p>
+                <div className="ou-card-body">
+                  <div className="ou-row">
+                    <div className="ou-row-text">
+                      <div className="ou-row-label">Dark Mode</div>
+                      <div className="ou-row-desc">Toggle between light and dark theme.</div>
+                    </div>
+                    <label className="ou-toggle">
+                      <input type="checkbox" checked={theme === "dark"} onChange={handleToggleAppearance} />
+                      <span className="ou-toggle-track" />
+                      <span className="ou-toggle-thumb" />
+                    </label>
                   </div>
                 </div>
+              </div>
 
-                <div className="space-y-4">
-                  <div>
-                    <Label className="mb-2 block">Declared Programs</Label>
-                    <p className="text-xs text-muted-foreground mb-2">Drag and drop to reorder your majors/minors.</p>
-                    {userPrograms.length === 0 ? (
-                      <p className="text-sm text-muted-foreground">No declared programs yet.</p>
-                    ) : (
-                      <div className="space-y-2">
-                        {userPrograms.map((program) => (
-                          <div
-                            key={program.id}
-                            draggable
-                            onDragStart={() => setDraggingProgramId(program.id)}
-                            onDragOver={(event) => event.preventDefault()}
-                            onDrop={() => void handleDropProgram(program.id)}
-                            className="flex items-center justify-between rounded-lg border border-border bg-input-background p-3 gap-3 cursor-grab active:cursor-grabbing"
-                          >
-                            <div>
-                              <p className="text-sm text-foreground">{program.programName}</p>
-                              <p className="text-xs text-muted-foreground">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              {program.isPrimary ? (
-                                <Badge className="bg-blue-100 text-blue-900 border border-blue-300 dark:bg-blue-600/20 dark:text-blue-300 dark:border-blue-600/30"><Star className="w-3 h-3 mr-1" />Primary</Badge>
-                              ) : (
-                                <Button variant="outline" size="sm" className="border-border" onClick={() => handleSetPrimaryProgram(program.id)}>
-                                  Set Primary
-                                </Button>
-                              )}
-                              <Button variant="outline" size="sm" className="border-red-400 text-red-800 hover:bg-red-100 dark:border-red-700 dark:text-red-400 dark:hover:bg-red-600/10" onClick={() => handleRemoveProgram(program.id)}>
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          </div>
-                        ))}
+              <div className="ou-card">
+                <div className="ou-card-title">Session</div>
+                <div className="ou-card-body">
+                  <div className="ou-row">
+                    <div className="ou-row-text">
+                      <div className="ou-row-label">Account Sync</div>
+                      <div className="ou-row-desc">
+                        {isAuthenticated
+                          ? "You are logged in. Your preferences can sync with your account."
+                          : "Log in to save your work and access it across devices."}
                       </div>
+                    </div>
+                    {isAuthenticated ? (
+                      <button className="ou-btn ou-btn-danger" type="button" onClick={() => void handleLogout()} disabled={signingOut}>
+                        <LogOut size={14} /> {signingOut ? "Logging out..." : "Log out"}
+                      </button>
+                    ) : (
+                      <button className="ou-btn ou-btn-outline" type="button" onClick={handleLogin}>
+                        <LogIn size={14} /> Log in
+                      </button>
                     )}
                   </div>
+                </div>
+              </div>
+            </section>
 
-                  <div>
-                    <Label>Add Program</Label>
-                    <div className="flex gap-2 mt-2">
-                      <Select value={selectedProgramToAdd} onValueChange={setSelectedProgramToAdd}>
-                        <SelectTrigger className="bg-input-background border-border flex-1">
-                          <SelectValue placeholder="Select a major/minor program" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {addablePrograms.map((program) => (
-                            <SelectItem key={program.key} value={program.key}>{program.name} ({program.type})</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Button variant="outline" className="border-border" onClick={handleAddProgram} disabled={!selectedProgramToAdd}>
-                        <Plus className="w-4 h-4 mr-2" />
-                        Add
-                      </Button>
+            <section className={`ou-settings-section ${activeSection === "academic" ? "active" : ""}`}>
+              <h2 className="ou-section-title">Academic</h2>
+              <p className="ou-section-subtitle">Set degree programs, graduation term, and requirements.</p>
+
+              <div className="ou-kpi-grid">
+                <div className="ou-kpi-card">
+                  <div className="ou-kpi-label">Prior Credit Total</div>
+                  <div className="ou-kpi-value">{priorCreditSummary.totalCredits}</div>
+                </div>
+                <div className="ou-kpi-card">
+                  <div className="ou-kpi-label">AP Credits</div>
+                  <div className="ou-kpi-value">{priorCreditSummary.apCredits}</div>
+                </div>
+                <div className="ou-kpi-card">
+                  <div className="ou-kpi-label">AP Records</div>
+                  <div className="ou-kpi-value">{priorCreditSummary.apRecords}</div>
+                </div>
+              </div>
+
+              <div className="ou-card" data-tour-target="settings-academic">
+                <div className="ou-card-title">Declared Programs</div>
+                <div className="ou-card-body">
+                  {userPrograms.length === 0 ? (
+                    <p className="ou-empty-text">No declared programs yet.</p>
+                  ) : (
+                    <div className="ou-program-list">
+                      {userPrograms.map((program) => (
+                        <div
+                          key={program.id}
+                          draggable
+                          onDragStart={() => setDraggingProgramId(program.id)}
+                          onDragOver={(event) => event.preventDefault()}
+                          onDrop={() => void handleDropProgram(program.id)}
+                          className="ou-program-row"
+                        >
+                          <div>
+                            <p className="ou-program-name">{program.programName}</p>
+                            <p className="ou-program-meta">{program.programCode} {program.degreeType ? `- ${program.degreeType}` : ""}</p>
+                          </div>
+                          <div className="ou-program-actions">
+                            {program.isPrimary ? (
+                              <span className="ou-pill"><Star size={12} /> Primary</span>
+                            ) : (
+                              <button type="button" className="ou-btn ou-btn-outline ou-btn-sm" onClick={() => void handleSetPrimaryProgram(program.id)}>
+                                Set Primary
+                              </button>
+                            )}
+                            <button type="button" className="ou-btn ou-btn-danger ou-btn-sm" onClick={() => void handleRemoveProgram(program.id)}>
+                              <Trash2 size={12} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
                     </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Add Program</div>
+                <div className="ou-card-body">
+                  <div className="ou-inline-row">
+                    <select className="ou-select" value={selectedProgramToAdd} onChange={(event) => setSelectedProgramToAdd(event.target.value)}>
+                      <option value="">Select a major/minor program</option>
+                      {addablePrograms.map((program) => (
+                        <option key={program.key} value={program.key}>{program.name} ({program.type})</option>
+                      ))}
+                    </select>
+                    <button type="button" className="ou-btn ou-btn-outline" onClick={() => void handleAddProgram()} disabled={!selectedProgramToAdd}>
+                      <Plus size={14} /> Add
+                    </button>
                   </div>
+                </div>
+              </div>
 
-                  <Separator className="bg-border" />
+              <div className="ou-card" data-tour-target="settings-preferences">
+                <div className="ou-card-title">Expected Graduation</div>
+                <div className="ou-card-body">
+                  <div className="ou-inline-row">
+                    <select className="ou-select" value={expectedGraduationSeason} onChange={(event) => setExpectedGraduationSeason(event.target.value)}>
+                      <option value="none">Not set</option>
+                      {GRADUATION_SEASONS.map((season) => (
+                        <option key={season} value={season}>{season.charAt(0).toUpperCase() + season.slice(1)}</option>
+                      ))}
+                    </select>
 
-                  <div>
-                    <Label>Expected Graduation (Primary Program)</Label>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
-                      <Select value={expectedGraduationSeason} onValueChange={setExpectedGraduationSeason}>
-                        <SelectTrigger className="bg-input-background border-border">
-                          <SelectValue placeholder="Season" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">Not set</SelectItem>
-                          {GRADUATION_SEASONS.map((season) => (
-                            <SelectItem key={season} value={season}>{season.charAt(0).toUpperCase() + season.slice(1)}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                    <select className="ou-select" value={expectedGraduationYear} onChange={(event) => setExpectedGraduationYear(event.target.value)}>
+                      <option value="none">Not set</option>
+                      {graduationYearOptions.map((year) => (
+                        <option key={`grad-year-${year}`} value={String(year)}>{String(year)}</option>
+                      ))}
+                    </select>
 
-                      <Select value={expectedGraduationYear} onValueChange={setExpectedGraduationYear}>
-                        <SelectTrigger className="bg-input-background border-border">
-                          <SelectValue placeholder="Year" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">Not set</SelectItem>
-                          {graduationYearOptions.map((year) => (
-                            <SelectItem key={`grad-year-${year}`} value={String(year)}>{String(year)}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-
-                      <Button variant="outline" className="border-border" onClick={handleSaveGraduationTerm} disabled={!primaryProgram}>
-                        Save
-                      </Button>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {selectedGraduationTerm
-                        ? `Matching term: ${selectedGraduationTerm.label}`
-                        : expectedGraduationSeason !== "none" && expectedGraduationYear !== "none"
-                          ? "That season/year is not currently available in the term catalog."
-                          : "Set a season and year, or leave both as Not set."}
-                    </p>
-                    {!primaryProgram && <p className="text-xs text-muted-foreground mt-1">Set a primary program first to save graduation term.</p>}
+                    <button type="button" className="ou-btn ou-btn-primary" onClick={() => void handleSaveGraduationTerm()} disabled={!primaryProgram}>
+                      Save
+                    </button>
                   </div>
+                  <p className="ou-row-desc">
+                    {selectedGraduationTerm
+                      ? `Matching term: ${selectedGraduationTerm.label}`
+                      : expectedGraduationSeason !== "none" && expectedGraduationYear !== "none"
+                        ? "That season/year is not currently available in the term catalog."
+                        : "Set a season and year, or leave both as Not set."}
+                  </p>
+                </div>
+              </div>
 
-                  <Separator className="bg-border" />
-
-                  <div>
-                    <Label className="mb-2 block">Degree Requirements</Label>
-                    <p className="text-xs text-muted-foreground mb-3">
-                      Requirement sections are loaded from your saved rule sets or scraped catalog bundles.
-                    </p>
-                    <Link to="/degree-requirements">
-                      <Button variant="outline" size="sm" className="border-border hover:bg-accent">
-                        <Edit className="w-4 h-4 mr-2" />
-                        Open Degree Requirements
-                      </Button>
+              <div className="ou-card">
+                <div className="ou-card-title">Degree Requirements</div>
+                <div className="ou-card-body">
+                  <div className="ou-inline-row">
+                    <Link className="ou-btn ou-btn-outline" to="/degree-requirements">
+                      <Edit size={14} /> Open Degree Requirements
                     </Link>
                   </div>
                 </div>
-              </Card>
+              </div>
 
-              <Card className="p-6 bg-card border-border">
-                <div className="flex items-center gap-2 mb-6">
-                  <Settings2 className="w-5 h-5 text-purple-400" />
-                  <h2 className="text-2xl">Preferences</h2>
+              <div className="ou-card">
+                <div className="ou-card-title">
+                  <span>Admin</span>
+                  <span className={`ou-pill ${isAdmin ? "ok" : ""}`}>{isAdmin ? "ADMIN" : "USER"}</span>
                 </div>
+                <div className="ou-card-body">
+                  {!isAdmin && (
+                    <form
+                      className="ou-inline-row"
+                      onSubmit={(event) => {
+                        event.preventDefault();
+                        void handleUnlockAdmin();
+                      }}
+                    >
+                      <input
+                        type="password"
+                        className="ou-input"
+                        value={adminPassword}
+                        onChange={(event) => setAdminPassword(event.target.value)}
+                        placeholder="Enter admin password"
+                      />
+                      <button type="submit" className="ou-btn ou-btn-outline">Become Admin</button>
+                    </form>
+                  )}
 
+                  {isAdmin && (
+                    <>
+                      <div className="ou-row">
+                        <div className="ou-row-label">Program Template Target</div>
+                        <select className="ou-select" value={adminProgramId} onChange={(event) => setAdminProgramId(event.target.value)}>
+                          <option value="">Select one of your declared programs</option>
+                          {userPrograms.map((program) => (
+                            <option key={program.id} value={program.id}>{program.programName} ({program.degreeType ?? "program"})</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="ou-inline-row">
+                        <button type="button" className="ou-btn ou-btn-primary" onClick={() => void handleSetCurrentDegreeToTemplate()} disabled={!adminProgramId}>
+                          Set Current Degree To Template
+                        </button>
+                        <button type="button" className="ou-btn ou-btn-outline" onClick={() => void handleLoadTemplateDraft()} disabled={!adminProgramId}>
+                          Load Current Template Draft
+                        </button>
+                        <button type="button" className="ou-btn ou-btn-primary" onClick={() => void handleSaveOfficialTemplate()} disabled={!adminProgramId}>
+                          Save Official Template JSON
+                        </button>
+                      </div>
+
+                      <textarea
+                        className="ou-textarea"
+                        value={adminTemplateJson}
+                        onChange={(event) => setAdminTemplateJson(event.target.value)}
+                      />
+                    </>
+                  )}
+
+                  {adminTemplateMessage && <p className="ou-row-desc">{adminTemplateMessage}</p>}
+                </div>
+              </div>
+            </section>
+
+            <section className={`ou-settings-section ${activeSection === "scheduling" ? "active" : ""}`}>
+              <h2 className="ou-section-title">Scheduling</h2>
+              <p className="ou-section-subtitle">Set default planner behavior and schedule views.</p>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Preferences</div>
                 <form
-                  className="space-y-4"
+                  className="ou-card-body"
                   onSubmit={(event) => {
                     event.preventDefault();
                     handleSavePreferences();
                   }}
                 >
-                  <div>
-                    <Label>Default Term</Label>
-                    <Select value={defaultTerm} onValueChange={setDefaultTerm}>
-                      <SelectTrigger className="bg-input-background border-border">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="none">Auto (current term)</SelectItem>
-                        {termOptions.map((term) => (
-                          <SelectItem key={term.id} value={term.id}>{term.label}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <p className="text-xs text-muted-foreground mt-1">Used by scheduler screens on this device.</p>
+                  <div className="ou-row">
+                    <div className="ou-row-text">
+                      <div className="ou-row-label">Default Term</div>
+                      <div className="ou-row-desc">Used by scheduler screens on this device.</div>
+                    </div>
+                    <select className="ou-select" value={defaultTerm} onChange={(event) => setDefaultTerm(event.target.value)}>
+                      <option value="none">Auto (current term)</option>
+                      {termOptions.map((term) => (
+                        <option key={term.id} value={term.id}>{term.label}</option>
+                      ))}
+                    </select>
                   </div>
 
-                  <div>
-                    <Label>Schedule View Preference</Label>
-                    <Select value={scheduleView} onValueChange={setScheduleView}>
-                      <SelectTrigger className="bg-input-background border-border">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="weekly">Weekly Calendar</SelectItem>
-                        <SelectItem value="list">List View</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="ou-row">
+                    <div className="ou-row-label">Schedule View Preference</div>
+                    <select className="ou-select" value={scheduleView} onChange={(event) => setScheduleView(event.target.value)}>
+                      <option value="weekly">Weekly Calendar</option>
+                      <option value="list">List View</option>
+                    </select>
                   </div>
 
-                  <Button type="submit" className="bg-primary hover:bg-primary/90">
-                    Save Preferences
-                  </Button>
+                  <div className="ou-card-footer">
+                    <button type="submit" className="ou-btn ou-btn-primary">Save Preferences</button>
+                  </div>
                 </form>
-              </Card>
-
-              <Card className="p-6 bg-card border-border">
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <div>
-                    <h2 className="text-2xl">Admin</h2>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      Admins can save official requirement template JSON for majors/minors.
-                    </p>
-                  </div>
-                  {isAdmin ? (
-                    <Badge className="bg-emerald-100 text-emerald-900 border border-emerald-300 dark:bg-emerald-600/20 dark:text-emerald-300 dark:border-emerald-600/30">
-                      ADMIN
-                    </Badge>
-                  ) : (
-                    <Badge variant="outline" className="border-border text-foreground/70">USER</Badge>
-                  )}
-                </div>
-
-                {!isAdmin && (
-                  <form
-                    className="space-y-3"
-                    onSubmit={(event) => {
-                      event.preventDefault();
-                      void handleUnlockAdmin();
-                    }}
-                  >
-                    <Label htmlFor="admin-password">Admin Password</Label>
-                    <div className="flex gap-2">
-                      <Input
-                        id="admin-password"
-                        type="password"
-                        value={adminPassword}
-                        onChange={(event) => setAdminPassword(event.target.value)}
-                        className="bg-input-background border-border"
-                        placeholder="Enter admin password"
-                      />
-                      <Button type="submit" variant="outline" className="border-border">
-                        Become Admin
-                      </Button>
-                    </div>
-                  </form>
-                )}
-
-                {isAdmin && (
-                  <div className="space-y-4">
-                    <div>
-                      <Label>Program Template Target</Label>
-                      <Select value={adminProgramId} onValueChange={setAdminProgramId}>
-                        <SelectTrigger className="bg-input-background border-border mt-2">
-                          <SelectValue placeholder="Select one of your declared programs" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {userPrograms.map((program) => (
-                            <SelectItem key={program.id} value={program.id}>
-                              {program.programName} ({program.degreeType ?? "program"})
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        The selected program's key determines which default template future users will receive.
-                      </p>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2">
-                      <Button
-                        className="bg-primary hover:bg-primary/90"
-                        onClick={() => void handleSetCurrentDegreeToTemplate()}
-                        disabled={!adminProgramId}
-                      >
-                        Set Current Degree To Template
-                      </Button>
-                      <Button variant="outline" className="border-border" onClick={() => void handleLoadTemplateDraft()} disabled={!adminProgramId}>
-                        Load Current Template Draft
-                      </Button>
-                      <Button className="bg-primary hover:bg-primary/90" onClick={() => void handleSaveOfficialTemplate()} disabled={!adminProgramId}>
-                        Save Official Template JSON
-                      </Button>
-                    </div>
-
-                    <div>
-                      <Label htmlFor="admin-template-json">Official Requirement Template JSON</Label>
-                      <Textarea
-                        id="admin-template-json"
-                        value={adminTemplateJson}
-                        onChange={(event) => setAdminTemplateJson(event.target.value)}
-                        className="mt-2 min-h-[280px] font-mono text-xs"
-                      />
-                    </div>
-                  </div>
-                )}
-
-                {adminTemplateMessage && <p className="text-sm text-foreground/80 mt-4">{adminTemplateMessage}</p>}
-              </Card>
-
-              <Card className="p-6 bg-card border-border">
-                <div className="flex items-center gap-2 mb-6">
-                  <Mail className="w-5 h-5 text-amber-400" />
-                  <h2 className="text-2xl">Data Management</h2>
-                </div>
-
-                <div className="space-y-3">
-                  <Link to="/credit-import">
-                    <Button variant="outline" className="w-full border-border hover:bg-accent">
-                      Open Credit Import
-                    </Button>
-                  </Link>
-                  <Link to="/schedules">
-                    <Button variant="outline" className="w-full border-border hover:bg-accent">
-                      Manage Saved Schedules
-                    </Button>
-                  </Link>
-                  <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>
-                    Open Testudo
-                  </Button>
-                  {isAuthenticated ? (
-                    <Button
-                      variant="outline"
-                      className="w-full border-red-500/40 text-red-300 hover:bg-red-600/10"
-                      onClick={() => void handleLogout()}
-                      disabled={signingOut}
-                    >
-                      <LogOut className="w-4 h-4 mr-2" />
-                      {signingOut ? "Logging out..." : "Log out"}
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      className="w-full border-blue-500/40 text-blue-300 hover:bg-blue-600/10"
-                      onClick={handleLogin}
-                    >
-                      <LogIn className="w-4 h-4 mr-2" />
-                      Log in
-                    </Button>
-                  )}
-                </div>
-              </Card>
-            </div>
-          )}
-        </div>
-
-        <aside className="xl:sticky xl:top-8 space-y-4">
-          <Card className="p-4 bg-card border-border">
-            <p className="text-xs uppercase tracking-wide text-muted-foreground">Suggested Next Steps</p>
-            <h2 className="text-lg font-semibold mt-1 mb-2">Keep Your Work Saved</h2>
-            {isAuthenticated ? (
-              <p className="text-xs text-muted-foreground">You are logged in. Your work and preferences can sync with your account.</p>
-            ) : (
-              <>
-                <p className="text-xs text-muted-foreground mb-3">Log in to save your work and access it across devices.</p>
-                <Button variant="outline" className="w-full border-blue-500/40 text-blue-300 hover:bg-blue-600/10" onClick={handleLogin}>
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Log in to save work
-                </Button>
-              </>
-            )}
-          </Card>
-
-          <Card className="p-4 bg-card border-border">
-            <div className="flex items-center justify-between gap-3 mb-3">
-              <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Onboarding</p>
-                <h2 className="text-lg font-semibold">Need A Refresher?</h2>
               </div>
-            </div>
-            <p className="text-xs text-muted-foreground mb-3">
-              Replay first-time page walkthrough guides (without restarting profile/degree setup onboarding).
-            </p>
-            <Button variant="outline" className="w-full border-border hover:bg-accent" onClick={handleReplayPageGuides}>
-              Replay Page Guides
-            </Button>
-          </Card>
 
-          <GlobalSearchPanel />
-        </aside>
-      </div>
+              <div className="ou-card">
+                <div className="ou-card-title">Data Management</div>
+                <div className="ou-card-body">
+                  <div className="ou-btn-grid">
+                    <Link className="ou-btn ou-btn-outline" to="/credit-import">Open Credit Import</Link>
+                    <Link className="ou-btn ou-btn-outline" to="/schedules">Manage Saved Schedules</Link>
+                    <button className="ou-btn ou-btn-outline" type="button" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>Open Testudo</button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Onboarding Guides</div>
+                <div className="ou-card-body">
+                  <button className="ou-btn ou-btn-outline" type="button" onClick={handleReplayPageGuides}>Replay Page Guides</button>
+                </div>
+              </div>
+            </section>
+
+            <section className={`ou-settings-section ${activeSection === "notifications" ? "active" : ""}`}>
+              <h2 className="ou-section-title">Notifications</h2>
+              <p className="ou-section-subtitle">Choose what OrbitUMD notifies you about and how.</p>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Registration Alerts</div>
+                <div className="ou-card-body">
+                  <div className="ou-row"><div className="ou-row-label">Registration window opening</div><label className="ou-toggle"><input type="checkbox" checked={notifyRegistrationWindow} onChange={(event) => setNotifyRegistrationWindow(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                  <div className="ou-row"><div className="ou-row-label">Seat availability</div><label className="ou-toggle"><input type="checkbox" checked={notifySeatAvailability} onChange={(event) => setNotifySeatAvailability(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                  <div className="ou-row"><div className="ou-row-label">Waitlist movement</div><label className="ou-toggle"><input type="checkbox" checked={notifyWaitlistMovement} onChange={(event) => setNotifyWaitlistMovement(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                </div>
+              </div>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Academic Reminders</div>
+                <div className="ou-card-body">
+                  <div className="ou-row"><div className="ou-row-label">Graduation requirement gaps</div><label className="ou-toggle"><input type="checkbox" checked={notifyGraduationGaps} onChange={(event) => setNotifyGraduationGaps(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                  <div className="ou-row"><div className="ou-row-label">Drop deadline warnings</div><label className="ou-toggle"><input type="checkbox" checked={notifyDropDeadlines} onChange={(event) => setNotifyDropDeadlines(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                  <div className="ou-row"><div className="ou-row-label">Feature announcements</div><label className="ou-toggle"><input type="checkbox" checked={notifyFeatureAnnouncements} onChange={(event) => setNotifyFeatureAnnouncements(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                </div>
+              </div>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Delivery Method</div>
+                <div className="ou-card-body">
+                  <div className="ou-row"><div className="ou-row-label">Email notifications</div><label className="ou-toggle"><input type="checkbox" checked={notifyEmail} onChange={(event) => setNotifyEmail(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                  <div className="ou-row"><div className="ou-row-label">Push notifications</div><label className="ou-toggle"><input type="checkbox" checked={notifyPush} onChange={(event) => setNotifyPush(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                </div>
+              </div>
+            </section>
+
+            <section className={`ou-settings-section ${activeSection === "privacy" ? "active" : ""}`}>
+              <h2 className="ou-section-title">Privacy</h2>
+              <p className="ou-section-subtitle">Control how your account data is stored and used in OrbitUMD.</p>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Data & Storage</div>
+                <div className="ou-card-body">
+                  <div className="ou-row"><div className="ou-row-label">Share anonymous usage data</div><label className="ou-toggle"><input type="checkbox" checked={shareAnonymousUsage} onChange={(event) => setShareAnonymousUsage(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                  <div className="ou-row"><div className="ou-row-label">Store schedule history</div><label className="ou-toggle"><input type="checkbox" checked={storeScheduleHistory} onChange={(event) => setStoreScheduleHistory(event.target.checked)} /><span className="ou-toggle-track" /><span className="ou-toggle-thumb" /></label></div>
+                </div>
+              </div>
+
+              <div className="ou-danger-card">
+                <div className="ou-danger-title">Danger Zone</div>
+                <p className="ou-danger-desc">Deleting your account is permanent and removes plans, schedules, and saved data.</p>
+                <button type="button" className="ou-btn ou-btn-danger" onClick={handleLogin}>Manage Account Authentication</button>
+              </div>
+            </section>
+
+            <section className={`ou-settings-section ${activeSection === "integrations" ? "active" : ""}`}>
+              <h2 className="ou-section-title">Integrations</h2>
+              <p className="ou-section-subtitle">Connect OrbitUMD to your scheduling and school tools.</p>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Connected Apps</div>
+                <div className="ou-card-body">
+                  <div className="ou-app-row">
+                    <div>
+                      <p className="ou-app-title">Google Calendar</p>
+                      <p className="ou-row-desc">Sync schedules directly to Google Calendar.</p>
+                    </div>
+                    <button type="button" className={`ou-btn ${googleCalendarConnected ? "ou-btn-success" : "ou-btn-outline"}`} onClick={() => connectIntegration("google")}>
+                      {googleCalendarConnected ? "Connected" : "Connect"}
+                    </button>
+                  </div>
+
+                  <div className="ou-app-row">
+                    <div>
+                      <p className="ou-app-title">Outlook / Office 365</p>
+                      <p className="ou-row-desc">Export your schedule to Outlook calendars.</p>
+                    </div>
+                    <button type="button" className={`ou-btn ${outlookConnected ? "ou-btn-success" : "ou-btn-outline"}`} onClick={() => connectIntegration("outlook")}>
+                      {outlookConnected ? "Connected" : "Connect"}
+                    </button>
+                  </div>
+
+                  <div className="ou-app-row">
+                    <div>
+                      <p className="ou-app-title">Testudo (UMD)</p>
+                      <p className="ou-row-desc">Import transcript and prior credits from Testudo exports.</p>
+                    </div>
+                    <button type="button" className="ou-btn ou-btn-success" onClick={() => window.open("https://app.testudo.umd.edu", "_blank")}>Connected</button>
+                  </div>
+
+                  <div className="ou-app-row">
+                    <div>
+                      <p className="ou-app-title">Canvas LMS</p>
+                      <p className="ou-row-desc">Link assignment due dates to your planning workflow.</p>
+                    </div>
+                    <button type="button" className={`ou-btn ${canvasConnected ? "ou-btn-success" : "ou-btn-outline"}`} onClick={() => connectIntegration("canvas")}>
+                      {canvasConnected ? "Connected" : "Connect"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ou-card">
+                <div className="ou-card-title">Quick Tools</div>
+                <div className="ou-card-body">
+                  <GlobalSearchPanel />
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
