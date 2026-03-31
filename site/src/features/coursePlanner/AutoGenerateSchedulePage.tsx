@@ -66,6 +66,7 @@ interface GenerationOutcome {
   missingOptionalCodes: string[];
   bestOptionalCount: number;
   totalOptionalCount: number;
+  truncatedReason?: string;
 }
 
 interface ScheduleSummary {
@@ -115,6 +116,10 @@ const TERM_LABEL: Record<Season, string> = {
 const COURSE_CODE_PATTERN = /^[A-Z]{4}[0-9]{3}[A-Z]{0,2}$/;
 const WEEKDAYS: Array<Exclude<Weekday, "Other">> = ["M", "Tu", "W", "Th", "F"];
 const GENERATE_SCHEDULE_AUTOSAVE_KEY = "orbitumd:generate-schedule:draft:v2";
+const MAX_SECTIONS_PER_COURSE = 14;
+const MAX_REQUIRED_COMBINATIONS = 4000;
+const MAX_OPTIONAL_BRANCH_STATES = 250000;
+const MAX_GENERATED_SCHEDULES = 120;
 
 function formatHourLabel(hour: number): string {
   const normalized = ((hour % 24) + 24) % 24;
@@ -306,6 +311,31 @@ function totalCredits(selections: ScheduleSelection[]): number {
   return selections.reduce((sum, selection) => sum + (selection.course.maxCredits || selection.course.credits || 0), 0);
 }
 
+function rankSectionsForGeneration(sections: Section[]): Section[] {
+  return [...sections].sort((left, right) => {
+    const leftOpen = Number(left.openSeats ?? 0);
+    const rightOpen = Number(right.openSeats ?? 0);
+    if (leftOpen !== rightOpen) {
+      return rightOpen - leftOpen;
+    }
+
+    const leftMeetings = Array.isArray(left.meetings) ? left.meetings.length : 0;
+    const rightMeetings = Array.isArray(right.meetings) ? right.meetings.length : 0;
+    if (leftMeetings !== rightMeetings) {
+      return leftMeetings - rightMeetings;
+    }
+
+    return String(left.sectionCode ?? "").localeCompare(String(right.sectionCode ?? ""));
+  });
+}
+
+function constrainPlanSections(plan: CoursePlan): CoursePlan {
+  return {
+    ...plan,
+    sections: rankSectionsForGeneration(plan.sections).slice(0, MAX_SECTIONS_PER_COURSE),
+  };
+}
+
 function buildOptionalWeights(optionalCodes: string[]): Map<string, number> {
   const total = optionalCodes.length;
   return new Map(optionalCodes.map((code, index) => [code, total - index]));
@@ -318,8 +348,11 @@ function generateSchedules(
   maxCredits: number,
   optionalWeights: Map<string, number>
 ): GenerationOutcome {
-  const orderedRequired = [...requiredPlans].sort((a, b) => a.sections.length - b.sections.length);
-  const orderedOptional = [...optionalPlans].sort((a, b) => {
+  const constrainedRequired = requiredPlans.map(constrainPlanSections);
+  const constrainedOptional = optionalPlans.map(constrainPlanSections);
+
+  const orderedRequired = [...constrainedRequired].sort((a, b) => a.sections.length - b.sections.length);
+  const orderedOptional = [...constrainedOptional].sort((a, b) => {
     const leftCode = normalizeCourseCode(a.course.courseCode);
     const rightCode = normalizeCourseCode(b.course.courseCode);
     const leftWeight = optionalWeights.get(leftCode) ?? 0;
@@ -333,9 +366,28 @@ function generateSchedules(
   const optionalCodeSet = new Set(orderedOptional.map((plan) => normalizeCourseCode(plan.course.courseCode)));
 
   const requiredCombinations: ScheduleSelection[][] = [];
+  let optionalStateCount = 0;
+  let truncatedReason: string | undefined;
+
+  const shouldStop = () => {
+    if (truncatedReason) return true;
+    if (requiredCombinations.length >= MAX_REQUIRED_COMBINATIONS) {
+      truncatedReason = `Generation capped after ${MAX_REQUIRED_COMBINATIONS} required-course combinations to keep the app responsive. Reduce courses or tighten criteria for more exhaustive results.`;
+      return true;
+    }
+    return false;
+  };
 
   const buildRequiredCombinations = (idx: number, chosen: ScheduleSelection[]) => {
+    if (shouldStop()) {
+      return;
+    }
+
     if (idx >= orderedRequired.length) {
+      if (requiredCombinations.length >= MAX_REQUIRED_COMBINATIONS) {
+        truncatedReason = `Generation capped after ${MAX_REQUIRED_COMBINATIONS} required-course combinations to keep the app responsive. Reduce courses or tighten criteria for more exhaustive results.`;
+        return;
+      }
       requiredCombinations.push([...chosen]);
       return;
     }
@@ -359,6 +411,7 @@ function generateSchedules(
       missingOptionalCodes: [],
       bestOptionalCount: 0,
       totalOptionalCount: orderedOptional.length,
+      truncatedReason,
     };
   }
 
@@ -374,12 +427,26 @@ function generateSchedules(
   >();
 
   for (const requiredSelection of requiredCombinations) {
+    if (truncatedReason) {
+      break;
+    }
+
     const tryOptional = (
       optIdx: number,
       acc: ScheduleSelection[],
       includedOptionalCodes: Set<string>,
       optionalScore: number
     ) => {
+      if (truncatedReason) {
+        return;
+      }
+
+      optionalStateCount += 1;
+      if (optionalStateCount > MAX_OPTIONAL_BRANCH_STATES) {
+        truncatedReason = `Generation capped after exploring ${MAX_OPTIONAL_BRANCH_STATES.toLocaleString()} combinations to prevent browser freezes. Narrow your criteria for full coverage.`;
+        return;
+      }
+
       const credits = totalCredits(acc);
       if (credits > maxCredits) {
         return;
@@ -401,6 +468,10 @@ function generateSchedules(
             optionalScore,
             includedOptionalCodes: new Set(includedOptionalCodes),
           });
+
+          if (keyedResults.size >= MAX_GENERATED_SCHEDULES) {
+            truncatedReason = `Showing the top ${MAX_GENERATED_SCHEDULES} schedules to keep results fast.`;
+          }
         }
         return;
       }
@@ -456,6 +527,7 @@ function generateSchedules(
       missingOptionalCodes: [],
       bestOptionalCount: 0,
       totalOptionalCount: orderedOptional.length,
+      truncatedReason,
     };
   }
 
@@ -483,6 +555,7 @@ function generateSchedules(
     missingOptionalCodes,
     bestOptionalCount,
     totalOptionalCount: orderedOptional.length,
+    truncatedReason,
   };
 }
 
@@ -2009,9 +2082,14 @@ export function AutoGenerateSchedulePage() {
 
       setGenerated(outcome.schedules);
       setOptionalFitStats({ best: outcome.bestOptionalCount, total: outcome.totalOptionalCount });
+      const notices: string[] = [];
       if (outcome.missingOptionalCodes.length > 0) {
-        setFitNotice(`Could not fit these optional courses without conflicts: ${outcome.missingOptionalCodes.join(", ")}.`);
+        notices.push(`Could not fit these optional courses without conflicts: ${outcome.missingOptionalCodes.join(", ")}.`);
       }
+      if (outcome.truncatedReason) {
+        notices.push(outcome.truncatedReason);
+      }
+      setFitNotice(notices.length > 0 ? notices.join(" ") : null);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unable to generate schedules.");
     } finally {

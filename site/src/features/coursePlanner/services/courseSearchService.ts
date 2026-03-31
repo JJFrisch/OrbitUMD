@@ -403,7 +403,20 @@ function preferTimestampedSeatValue(jupiter: Section, umd: Section): { openSeats
     }
   }
 
-  const jHasSeats = jupiter.totalSeats > 0 || jupiter.openSeats >= 0;
+  const jHasSeats = jupiter.totalSeats > 0 || jupiter.openSeats > 0;
+  const uHasSeats = umd.totalSeats > 0 || umd.openSeats > 0;
+
+  // Prefer UMD when both sources have seat data but no reliable timestamps.
+  if (uHasSeats && jHasSeats) {
+    return {
+      openSeats: umd.openSeats,
+      totalSeats: umd.totalSeats,
+      waitlist: umd.waitlist,
+      holdfile: umd.holdfile,
+      chosen: "umd",
+    };
+  }
+
   if (jHasSeats) {
     return {
       openSeats: jupiter.openSeats,
@@ -936,33 +949,38 @@ export async function getSectionsForCourse(
 ): Promise<Section[]> {
   const baseKey = `${year}${term}:${courseCode}`;
 
-  // 1) Database-backed catalog path.
-  const catalogSections = await settledSource(async () => {
-    const termCode = `${year}${term}`;
-    const rows = await fetchPlannerSectionsFallback(termCode, courseCode);
-    return rows.map(toPlannerSectionFromFallback);
+  return mergedSectionCache.getOrSet(`merged-sections:${baseKey}`, async () => {
+    const uKey = `umd-sections:${baseKey}`;
+    const jKey = `jupiter-sections:${baseKey}`;
+
+    const [umdSections, jupiterSections] = await Promise.all([
+      settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal))),
+      settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal))),
+    ]);
+
+    const umd = umdSections.data ?? [];
+    const jupiter = jupiterSections.data ?? [];
+    if (umd.length > 0 || jupiter.length > 0) {
+      if (umd.length > 0 && jupiter.length > 0) {
+        return mergeSections(courseCode, jupiter, umd);
+      }
+      return (umd.length > 0 ? umd : jupiter).sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+    }
+
+    // Fall back to catalog snapshots only when live section sources are unavailable.
+    const catalogSections = await settledSource(async () => {
+      const termCode = `${year}${term}`;
+      const rows = await fetchPlannerSectionsFallback(termCode, courseCode);
+      return rows.map(toPlannerSectionFromFallback);
+    });
+    if (catalogSections.data && catalogSections.data.length > 0) {
+      return catalogSections.data;
+    }
+
+    if (catalogSections.error || umdSections.error || jupiterSections.error) {
+      throw new Error(catalogSections.error ?? umdSections.error ?? jupiterSections.error ?? "All section sources failed");
+    }
+
+    return [];
   });
-  if (catalogSections.data && catalogSections.data.length > 0) {
-    return catalogSections.data;
-  }
-
-  // 2) Direct UMD path.
-  const uKey = `umd-sections:${baseKey}`;
-  const umdSections = await settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal)));
-  if (umdSections.data && umdSections.data.length > 0) {
-    return umdSections.data;
-  }
-
-  // 3) Jupiter fallback path.
-  const jKey = `jupiter-sections:${baseKey}`;
-  const jupiterSections = await settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal)));
-  if (jupiterSections.data && jupiterSections.data.length > 0) {
-    return jupiterSections.data;
-  }
-
-  if (catalogSections.error || umdSections.error || jupiterSections.error) {
-    throw new Error(catalogSections.error ?? umdSections.error ?? jupiterSections.error ?? "All section sources failed");
-  }
-
-  return [];
 }
