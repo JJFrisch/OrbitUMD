@@ -7,7 +7,6 @@ import {
   ChevronRight,
   FileCheck2,
   GraduationCap,
-  Upload,
 } from "lucide-react";
 import {
   addUserDegreeProgramFromCatalogOption,
@@ -15,7 +14,11 @@ import {
   listUserDegreePrograms,
   type CatalogProgramOption,
 } from "@/lib/repositories/degreeProgramsRepository";
+import { replacePriorCreditsByImportOrigin } from "@/lib/repositories/priorCreditsRepository";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import TranscriptUploadPanel from "@/app/components/TranscriptUploadPanel";
+import { buildTranscriptPriorCreditImport } from "@/lib/transcripts/transcriptCreditImport";
+import type { TranscriptParseResult } from "@/lib/transcripts/unofficialTranscriptParser";
 import "./onboarding-layout.css";
 
 type GoalOption = {
@@ -38,17 +41,6 @@ const STEPS: StepDefinition[] = [
   { id: "major", label: "Major & Minors", caption: "Your academic path" },
   { id: "credits", label: "Transfer Credits", caption: "Import prior work" },
   { id: "goals", label: "Review & Launch", caption: "Choose your next action" },
-];
-
-const MINOR_OPTIONS = [
-  "Mathematics",
-  "Statistics",
-  "Economics",
-  "Business Analytics",
-  "Cybersecurity",
-  "Data Science",
-  "Philosophy",
-  "Psychology",
 ];
 
 const GOALS: GoalOption[] = [
@@ -104,6 +96,51 @@ function normalizeName(value: string): string {
   return value.trim().toLowerCase();
 }
 
+async function loadAllUmdMajors(programOptions: CatalogProgramOption[]): Promise<CatalogProgramOption[]> {
+  const byName = new Map<string, CatalogProgramOption>();
+
+  for (const option of programOptions) {
+    if (option.type !== "major") continue;
+    byName.set(normalizeName(option.name), option);
+  }
+
+  try {
+    const response = await fetch("https://api.umd.io/v1/majors/list");
+    if (response.ok) {
+      const payload = (await response.json()) as Array<{ major?: string }>;
+      for (const row of payload) {
+        const name = String(row.major ?? "").trim();
+        if (!name) continue;
+        const normalized = normalizeName(name);
+        if (!byName.has(normalized)) {
+          byName.set(normalized, {
+            key: `api:${name}`,
+            name,
+            type: "major",
+            programCode: name.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+            source: "api",
+          });
+        }
+      }
+    }
+  } catch {
+    // Keep catalog-derived majors if the API is unavailable.
+  }
+
+  return Array.from(byName.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
+function buildGraduationOptions(): string[] {
+  const startYear = Math.max(new Date().getFullYear() - 1, 2025);
+  const endYear = startYear + 14;
+  const options: string[] = [];
+  for (let year = startYear; year <= endYear; year += 1) {
+    options.push(`May ${year}`);
+    options.push(`December ${year}`);
+  }
+  return options;
+}
+
 export default function OnboardingContainer() {
   const navigate = useNavigate();
   const supabase = getSupabaseClient();
@@ -120,6 +157,7 @@ export default function OnboardingContainer() {
   const [college, setCollege] = useState("");
 
   const [majorOptions, setMajorOptions] = useState<CatalogProgramOption[]>([]);
+  const [minorOptions, setMinorOptions] = useState<CatalogProgramOption[]>([]);
   const [selectedMajorKey, setSelectedMajorKey] = useState("");
   const [selectedMinorSet, setSelectedMinorSet] = useState<Set<string>>(new Set());
 
@@ -129,6 +167,8 @@ export default function OnboardingContainer() {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
   const [statusError, setStatusError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  const graduationOptions = useMemo(() => buildGraduationOptions(), []);
 
   useEffect(() => {
     let active = true;
@@ -142,8 +182,13 @@ export default function OnboardingContainer() {
 
         if (!active) return;
 
-        const majors = programOptions.filter((option) => option.type === "major");
+        const majors = await loadAllUmdMajors(programOptions);
+        const minors = programOptions
+          .filter((option) => option.type === "minor")
+          .sort((a, b) => a.name.localeCompare(b.name));
+
         setMajorOptions(majors);
+        setMinorOptions(minors);
         if (majors[0]) {
           setSelectedMajorKey(majors[0].key);
         }
@@ -181,6 +226,13 @@ export default function OnboardingContainer() {
             setSelectedMajorKey(match.key);
           }
         }
+
+        const matchedMinorKeys = minors
+          .filter((minorOption) => existingPrograms.some(
+            (program) => normalizeName(program.programName) === normalizeName(minorOption.name),
+          ))
+          .map((minorOption) => minorOption.key);
+        setSelectedMinorSet(new Set(matchedMinorKeys));
       } catch {
         if (!active) return;
         setStatusError("Unable to preload onboarding details. You can still continue.");
@@ -217,16 +269,29 @@ export default function OnboardingContainer() {
     }));
   }, [completedStepIds, currentStepIndex]);
 
-  const toggleMinor = (minor: string) => {
+  const toggleMinor = (minorKey: string) => {
     setSelectedMinorSet((previous) => {
       const next = new Set(previous);
-      if (next.has(minor)) {
-        next.delete(minor);
+      if (next.has(minorKey)) {
+        next.delete(minorKey);
       } else {
-        next.add(minor);
+        next.add(minorKey);
       }
       return next;
     });
+  };
+
+  const applyTranscriptCreditImport = async (result: TranscriptParseResult) => {
+    setStatusError(null);
+    setStatusMessage(null);
+    try {
+      const transcriptImport = await buildTranscriptPriorCreditImport(result);
+      await replacePriorCreditsByImportOrigin("testudo_transcript", transcriptImport.records);
+      setCreditsMethod("Unofficial Transcript");
+      setStatusMessage(`Imported ${transcriptImport.summary.importedRecords} prior-credit records from your transcript.`);
+    } catch (error) {
+      setStatusError(error instanceof Error ? error.message : "Unable to import transcript credits.");
+    }
   };
 
   const persistProfile = async () => {
@@ -266,6 +331,16 @@ export default function OnboardingContainer() {
       );
       if (!alreadyLinked) {
         await addUserDegreeProgramFromCatalogOption(selectedMajorOption);
+      }
+
+      const selectedMinorOptions = minorOptions.filter((option) => selectedMinorSet.has(option.key));
+      for (const minor of selectedMinorOptions) {
+        const minorLinked = existingPrograms.some(
+          (program) => normalizeName(program.programName) === normalizeName(minor.name),
+        );
+        if (!minorLinked) {
+          await addUserDegreeProgramFromCatalogOption(minor);
+        }
       }
     }
   };
@@ -399,11 +474,9 @@ export default function OnboardingContainer() {
                 onChange={(event) => setGraduation(event.target.value)}
               >
                 <option value="">Select term</option>
-                <option value="May 2026">May 2026</option>
-                <option value="December 2026">December 2026</option>
-                <option value="May 2027">May 2027</option>
-                <option value="December 2027">December 2027</option>
-                <option value="May 2028">May 2028</option>
+                {graduationOptions.map((termOption) => (
+                  <option key={termOption} value={termOption}>{termOption}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -463,14 +536,14 @@ export default function OnboardingContainer() {
             Add a minor or certificate (optional)
           </div>
           <div className="onboarding-chip-group">
-            {MINOR_OPTIONS.map((minor) => (
+            {minorOptions.map((minor) => (
               <button
-                key={minor}
-                className={`onboarding-chip ${selectedMinorSet.has(minor) ? "selected" : ""}`}
+                key={minor.key}
+                className={`onboarding-chip ${selectedMinorSet.has(minor.key) ? "selected" : ""}`}
                 type="button"
-                onClick={() => toggleMinor(minor)}
+                onClick={() => toggleMinor(minor.key)}
               >
-                {minor}
+                {minor.name}
               </button>
             ))}
           </div>
@@ -489,23 +562,30 @@ export default function OnboardingContainer() {
             Import AP, IB, dual enrollment, or transfer credit. OrbitUMD can map these automatically.
           </p>
 
+          <TranscriptUploadPanel
+            className="onboarding-import-zone-wrap"
+            instructions={[
+              "Go to testudo.umd.edu and open your unofficial transcript in Testudo.",
+              "Use your browser Print action and save the transcript as a PDF.",
+              "Upload that PDF here and OrbitUMD will parse and import your prior credits.",
+            ]}
+            onParsed={applyTranscriptCreditImport}
+          />
+
           <button
             className="onboarding-import-zone"
             type="button"
             onClick={() => navigate("/credit-import?onboarding=1")}
           >
-            <div className="onboarding-import-icon">
-              <Upload className="h-5 w-5" />
-            </div>
-            <h4>Upload transcript or prior-credit records</h4>
-            <p>Click to open the credit import flow and return here when done.</p>
+            <h4>Need AP/IB/transfer manual edits?</h4>
+            <p>Open the full credit import page to review or add records manually.</p>
           </button>
 
           <div className="onboarding-step-sub" style={{ marginBottom: 10 }}>
             Select how you want to continue
           </div>
           <div className="onboarding-chip-group">
-            {["AP Exams", "IB Credits", "Transfer Credits", "Dual Enrollment"].map((method) => (
+            {["Unofficial Transcript", "AP Exams", "IB Credits", "Transfer Credits", "Dual Enrollment"].map((method) => (
               <button
                 key={method}
                 className={`onboarding-chip ${creditsMethod === method ? "selected" : ""}`}
