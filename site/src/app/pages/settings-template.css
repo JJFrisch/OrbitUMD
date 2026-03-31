@@ -13,10 +13,20 @@
 }
 
 .ou-settings-page {
+  --ou-page-scale: 1.1;
   min-height: 100vh;
   background: var(--ou-cream);
   color: var(--ou-ink);
   padding: 28px;
+  zoom: var(--ou-page-scale);
+}
+
+@supports not (zoom: 1) {
+  .ou-settings-page {
+    transform: scale(var(--ou-page-scale));
+    transform-origin: top left;
+    width: calc(100% / var(--ou-page-scale));
+  }
 }
 
 .ou-settings-header {
