@@ -1,0 +1,1 @@
+const e=new Set(["UNCHOOSEN","UNSPECIFIED","PLANNED","NOT CHOSEN","NOT_CHOSEN","NOT-CHOSEN"]);function r(t){const n=String(t??"").trim().toUpperCase();return n?e.has(n):!0}function i(t){return r(t)?"Not Chosen":`Section ${String(t??"").trim()}`}export{i as f,r as i};
