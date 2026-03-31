@@ -109,9 +109,9 @@ function RequireAuth({
     let active = true;
     const supabase = getSupabaseClient();
 
-    const syncOnboardingState = async (userId: string) => {
+    const syncOnboardingState = async (userId: string, fallbackEmail?: string | null) => {
       try {
-        const shouldOnboard = await userNeedsOnboardingByEmail(supabase, userId);
+        const shouldOnboard = await userNeedsOnboardingByEmail(supabase, userId, fallbackEmail);
         if (!active) return;
         setNeedsOnboarding(shouldOnboard);
       } catch {
@@ -138,7 +138,7 @@ function RequireAuth({
 
         setIsAuthed(true);
         setOnboardingChecked(false);
-        await syncOnboardingState(user.id);
+        await syncOnboardingState(user.id, user.email ?? null);
         if (!active) return;
         setChecking(false);
       } catch {
@@ -175,10 +175,8 @@ function RequireAuth({
       }
 
       setIsAuthed(true);
-      // Refresh onboarding state in the background without re-entering a blocking check.
-      // Keep existing onboardingChecked value to avoid flashing "Checking session..."
-      // after the protected page has already rendered.
-      void syncOnboardingState(user.id);
+      // Refresh onboarding state in the background using auth email fallback.
+      void syncOnboardingState(user.id, user.email ?? null);
     });
 
     return () => {
@@ -187,7 +185,7 @@ function RequireAuth({
     };
   }, []);
 
-  if (checking && !isAuthed) {
+  if (checking || (isAuthed && !allowMissingProfileEmail && !onboardingChecked)) {
     return <div className="p-6 text-sm text-muted-foreground">Checking session...</div>;
   }
 

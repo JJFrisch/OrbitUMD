@@ -39,7 +39,34 @@ export async function getProfileEmailSnapshot(
 export async function userNeedsOnboardingByEmail(
   supabase: SupabaseClient,
   userId: string,
+  fallbackEmail?: string | null,
 ): Promise<boolean> {
   const snapshot = await getProfileEmailSnapshot(supabase, userId);
-  return !snapshot.hasProfileEmail;
+  if (snapshot.hasProfileEmail) {
+    return false;
+  }
+
+  const normalizedFallback = normalize(fallbackEmail);
+  if (normalizedFallback.length === 0) {
+    return true;
+  }
+
+  // Backfill user_profiles.email when it's missing so future checks are stable.
+  // Ignore write failures and treat authenticated email as sufficient for gating.
+  try {
+    if (snapshot.hasProfileRow) {
+      await supabase
+        .from("user_profiles")
+        .update({ email: normalizedFallback })
+        .eq("id", userId);
+    } else {
+      await supabase
+        .from("user_profiles")
+        .upsert({ id: userId, email: normalizedFallback }, { onConflict: "id" });
+    }
+  } catch {
+    // noop
+  }
+
+  return false;
 }
