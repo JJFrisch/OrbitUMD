@@ -183,7 +183,7 @@ export default function Suggestions() {
   return (
     <div className="ou-suggestions-page">
       <div className="ou-suggestions-topbar">
-        <h1>Suggestions &amp; <em style={{ color: "red" }}>Help</em> </h1>
+        <h1>Suggestions &amp; <em style={{ color: "#c62828" }}>Help</em> </h1>
         <p>Course recommendations tailored to your plan, plus a direct line to the OrbitUMD team.</p>
       </div>
 
