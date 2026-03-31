@@ -139,10 +139,17 @@
 
   html {
     font-size: var(--font-size);
+    overflow-x: hidden;
+  }
+
+  body {
+    overflow-x: hidden;
   }
 
   #root {
     zoom: var(--orbit-ui-scale);
+    width: calc(100% / var(--orbit-ui-scale));
+    min-height: calc(100dvh / var(--orbit-ui-scale));
   }
 
   @supports not (zoom: 1) {
@@ -150,6 +157,7 @@
       transform: scale(var(--orbit-ui-scale));
       transform-origin: top left;
       width: calc(100% / var(--orbit-ui-scale));
+      min-height: calc(100dvh / var(--orbit-ui-scale));
     }
   }
 
@@ -158,6 +166,7 @@
       zoom: 1;
       transform: none;
       width: 100%;
+      min-height: auto;
     }
   }
 

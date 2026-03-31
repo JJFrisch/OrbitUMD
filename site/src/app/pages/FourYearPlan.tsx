@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { ChevronDown, ChevronUp, Info, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Info, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import {
@@ -411,6 +411,7 @@ export default function FourYearPlan() {
   const [dragOverInsertIndex, setDragOverInsertIndex] = useState<number | null>(null);
   const [movingCourseKey, setMovingCourseKey] = useState<string | null>(null);
   const courseMenuRef = useRef<HTMLDivElement | null>(null);
+  const addCourseLookupRequestIdRef = useRef(0);
 
   useEffect(() => {
     let active = true;
@@ -570,6 +571,51 @@ export default function FourYearPlan() {
       active = false;
     };
   }, [changeSectionTarget]);
+
+  useEffect(() => {
+    if (!addCourseTerm || addCourseTerm.source !== "schedule") {
+      setAddCourseResults([]);
+      setAddCourseSearchPending(false);
+      return;
+    }
+
+    const query = addCourseQuery.trim();
+    if (query.length < 2) {
+      setAddCourseResults([]);
+      setAddCourseSearchPending(false);
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      const requestId = addCourseLookupRequestIdRef.current + 1;
+      addCourseLookupRequestIdRef.current = requestId;
+      const termCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+      setAddCourseSearchPending(true);
+
+      void searchCourses({ termCode, query, pageSize: 60 })
+        .then((results) => {
+          if (addCourseLookupRequestIdRef.current !== requestId) {
+            return;
+          }
+          setAddCourseResults(results.slice(0, 25));
+        })
+        .catch(() => {
+          if (addCourseLookupRequestIdRef.current !== requestId) {
+            return;
+          }
+          setAddCourseResults([]);
+        })
+        .finally(() => {
+          if (addCourseLookupRequestIdRef.current === requestId) {
+            setAddCourseSearchPending(false);
+          }
+        });
+    }, 220);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [addCourseQuery, addCourseTerm]);
 
   const academicGpaHistory = useMemo(() => {
     const completedScheduleGrades = mainSchedules.flatMap((schedule) => {
@@ -839,6 +885,8 @@ export default function FourYearPlan() {
     return options;
   }, [boardTerms]);
 
+  const quickAddableTermOptions = useMemo(() => addableTermOptions.slice(0, 8), [addableTermOptions]);
+
   const displayedCoursesByTerm = useMemo(() => {
     const grouped = new Map<string, PlannedCourse[]>();
     for (const term of boardTerms) {
@@ -1065,7 +1113,7 @@ export default function FourYearPlan() {
     }
   };
 
-  const handleAddCourseLookup = async () => {
+  const handleAddCourseLookup = async (showErrorToast = true) => {
     if (!addCourseTerm || addCourseTerm.source !== "schedule") {
       return;
     }
@@ -1076,16 +1124,25 @@ export default function FourYearPlan() {
       return;
     }
 
+    const requestId = addCourseLookupRequestIdRef.current + 1;
+    addCourseLookupRequestIdRef.current = requestId;
     const termCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
     setAddCourseSearchPending(true);
     try {
       const results = await searchCourses({ termCode, query, pageSize: 60 });
+      if (addCourseLookupRequestIdRef.current !== requestId) {
+        return;
+      }
       setAddCourseResults(results.slice(0, 25));
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Unable to search courses right now.");
+      if (showErrorToast) {
+        toast.error(error instanceof Error ? error.message : "Unable to search courses right now.");
+      }
       setAddCourseResults([]);
     } finally {
-      setAddCourseSearchPending(false);
+      if (addCourseLookupRequestIdRef.current === requestId) {
+        setAddCourseSearchPending(false);
+      }
     }
   };
 
@@ -1451,7 +1508,8 @@ export default function FourYearPlan() {
             )}
 
             {!loading && !errorMessage && boardTerms.length > 0 && (
-              <div className="plan-grid" data-tour-target="four-year-timeline">
+              <div className="plan-grid-scroll" data-tour-target="four-year-timeline">
+                <div className="plan-grid">
                 {boardTerms.map((term) => {
                   const termState = boardTermState(term.status);
                   const canDropIntoTerm = term.source === "schedule";
@@ -1728,6 +1786,7 @@ export default function FourYearPlan() {
                     </article>
                   );
                 })}
+                </div>
               </div>
             )}
           </div>
@@ -1850,34 +1909,52 @@ export default function FourYearPlan() {
 
           <div className="add-course-lookup">
             <div className="add-course-lookup-row">
-              <input
-                type="text"
-                className="add-course-input"
-                placeholder="Search e.g. CMSC131 or data structures"
-                value={addCourseQuery}
-                onChange={(event) => setAddCourseQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                    event.preventDefault();
-                    void handleAddCourseLookup();
-                  }
-                }}
-              />
+              <label className="add-course-input-wrap" htmlFor="add-course-query-input">
+                <Search size={15} className="add-course-input-icon" />
+                <input
+                  id="add-course-query-input"
+                  type="text"
+                  className="add-course-input"
+                  placeholder="Start typing course code or title"
+                  value={addCourseQuery}
+                  onChange={(event) => setAddCourseQuery(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter") {
+                      event.preventDefault();
+                      void handleAddCourseLookup();
+                    }
+                  }}
+                />
+                {addCourseSearchPending ? <span className="add-course-search-status">Searching...</span> : null}
+              </label>
               <button
                 type="button"
-                className="topbar-btn"
+                className="topbar-btn add-course-refresh"
                 onClick={() => {
                   void handleAddCourseLookup();
                 }}
                 disabled={addCourseSearchPending}
               >
-                {addCourseSearchPending ? "Searching..." : "Search"}
+                Refresh
               </button>
+            </div>
+
+            <div className="add-course-hint-row">
+              <span className="add-course-hint">Instant search is enabled. Type at least 2 characters.</span>
+              {addCourseQuery.trim().length >= 2 && !addCourseSearchPending ? (
+                <span className="add-course-result-count">{addCourseResults.length} results</span>
+              ) : null}
             </div>
 
             <div className="add-course-results">
               {addCourseResults.length === 0 ? (
-                <p className="fyp-muted">{addCourseSearchPending ? "Searching courses..." : "No courses yet. Start with a lookup above."}</p>
+                <p className="fyp-muted">
+                  {addCourseSearchPending
+                    ? "Searching courses..."
+                    : addCourseQuery.trim().length < 2
+                      ? "Type at least 2 characters to search courses."
+                      : "No matching courses found for this query."}
+                </p>
               ) : (
                 addCourseResults.map((course) => {
                   const normalizedCode = String(course.id ?? "").toUpperCase().replace(/\s+/g, "");
@@ -1901,7 +1978,7 @@ export default function FourYearPlan() {
                         }}
                         disabled={inFlight}
                       >
-                        {inFlight ? "Adding..." : "Add"}
+                        {inFlight ? "Adding..." : replaceCourseTarget ? "Replace" : "Add to term"}
                       </button>
                     </div>
                   );
@@ -1986,29 +2063,50 @@ export default function FourYearPlan() {
             <p className="fyp-muted">No additional terms are currently available to add.</p>
           ) : (
             <div className="add-term-panel">
-              <Select value={selectedAddTermValue} onValueChange={setSelectedAddTermValue}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select term" />
-                </SelectTrigger>
-                <SelectContent>
-                  {addableTermOptions.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
+              <div className="add-term-quick-panel">
+                <div className="add-term-quick-header">
+                  <Sparkles size={14} />
+                  <span>Suggested next semesters</span>
+                </div>
+                <div className="add-term-chip-row">
+                  {quickAddableTermOptions.map((option) => (
+                    <button
+                      key={`quick-term-${option.value}`}
+                      type="button"
+                      className={`add-term-chip ${selectedAddTermValue === option.value ? "active" : ""}`}
+                      onClick={() => setSelectedAddTermValue(option.value)}
+                    >
                       {option.label}
-                    </SelectItem>
+                    </button>
                   ))}
-                </SelectContent>
-              </Select>
+                </div>
+              </div>
 
-              <button
-                type="button"
-                className="topbar-btn primary"
-                disabled={!selectedAddTermValue || addingTerm}
-                onClick={() => {
-                  void handleAddTerm();
-                }}
-              >
-                {addingTerm ? "Adding..." : "Add term"}
-              </button>
+              <div className="add-term-select-row">
+                <Select value={selectedAddTermValue} onValueChange={setSelectedAddTermValue}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Or browse all available terms" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {addableTermOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                <button
+                  type="button"
+                  className="topbar-btn primary add-term-confirm-btn"
+                  disabled={!selectedAddTermValue || addingTerm}
+                  onClick={() => {
+                    void handleAddTerm();
+                  }}
+                >
+                  {addingTerm ? "Adding..." : "Add semester"}
+                </button>
+              </div>
             </div>
           )}
         </DialogContent>

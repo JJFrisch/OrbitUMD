@@ -426,11 +426,28 @@
   margin-bottom: 12px;
 }
 
+.plan-grid-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  padding-bottom: 6px;
+}
+
+.plan-grid-scroll::-webkit-scrollbar {
+  height: 7px;
+}
+
+.plan-grid-scroll::-webkit-scrollbar-thumb {
+  background: #d9c8bf;
+  border-radius: 999px;
+}
+
 .plan-grid {
   display: grid;
-  grid-template-columns: repeat(9, minmax(245px, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(252px, 252px);
   gap: 14px;
-  min-width: 1880px;
+  width: max-content;
+  min-width: 100%;
 }
 
 .term-col {
@@ -991,20 +1008,69 @@
   gap: 8px;
 }
 
-.add-course-input {
+.add-course-input-wrap {
   flex: 1;
   border: 1px solid var(--border-soft);
   border-radius: 8px;
-  height: 36px;
-  padding: 0 12px;
+  height: 38px;
+  padding: 0 10px;
   background: var(--surface);
   color: var(--ink-2);
-  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-course-input-wrap:focus-within {
+  outline: 2px solid rgba(198, 40, 40, 0.25);
+  border-color: rgba(198, 40, 40, 0.5);
+}
+
+.add-course-input-icon {
+  color: var(--ink-ghost);
+  flex-shrink: 0;
+}
+
+.add-course-input {
+  flex: 1;
+  border: none;
+  height: 100%;
+  padding: 0;
+  background: transparent;
+  color: var(--ink-2);
+  font-size: 0.88rem;
 }
 
 .add-course-input:focus {
-  outline: 2px solid rgba(198, 40, 40, 0.25);
-  border-color: rgba(198, 40, 40, 0.5);
+  outline: none;
+}
+
+.add-course-search-status {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.add-course-refresh {
+  min-width: 90px;
+}
+
+.add-course-hint-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.add-course-hint {
+  font-size: 0.76rem;
+  color: var(--ink-muted);
+}
+
+.add-course-result-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--red);
 }
 
 .add-course-results {
@@ -1078,6 +1144,62 @@
 .add-term-panel {
   display: grid;
   gap: 10px;
+}
+
+.add-term-quick-panel {
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--surface-2);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.add-term-quick-header {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.add-term-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.add-term-chip {
+  border: 1px solid rgba(198, 40, 40, 0.22);
+  background: var(--surface);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.add-term-chip:hover {
+  border-color: rgba(198, 40, 40, 0.45);
+  color: var(--red);
+}
+
+.add-term-chip.active {
+  border-color: var(--red);
+  background: rgba(198, 40, 40, 0.08);
+  color: var(--red);
+}
+
+.add-term-select-row {
+  display: grid;
+  gap: 10px;
+}
+
+.add-term-confirm-btn {
+  justify-content: center;
 }
 
 @keyframes fadeIn {
