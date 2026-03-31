@@ -120,4 +120,22 @@ describe("schedule layout", () => {
 
     expect(blocks[0].day).toBe("Other");
   });
+
+  it("dedupes repeated meeting slots for a section", () => {
+    const blocks = buildCalendarMeetings({
+      sectionKey: "S",
+      courseCode: "BSCI222",
+      sectionCode: "2211",
+      title: "BSCI222",
+      instructor: "Staff",
+      meetings: [
+        { days: "TuTh", startTime: "8:00am", endTime: "9:50am", location: "HJP 3233" },
+        { days: "TuTh", startTime: "8:00am", endTime: "9:50am", location: "" },
+      ],
+    });
+
+    expect(blocks.filter((block) => block.day === "Tu")).toHaveLength(1);
+    expect(blocks.filter((block) => block.day === "Th")).toHaveLength(1);
+    expect(blocks).toHaveLength(2);
+  });
 });

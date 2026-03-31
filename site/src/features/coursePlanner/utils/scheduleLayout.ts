@@ -25,19 +25,30 @@ export function parseTimeToHour(time: string): number {
 export function parseMeetingDays(rawDays: string): Weekday[] {
   if (!rawDays || rawDays === "TBA") return ["Other"];
   const days: Weekday[] = [];
+  const seen = new Set<Weekday>();
   let i = 0;
 
   while (i < rawDays.length) {
     const two = rawDays.slice(i, i + 2);
     if (DAY_MAP[two]) {
-      days.push(...DAY_MAP[two]);
+      for (const day of DAY_MAP[two]) {
+        if (!seen.has(day)) {
+          seen.add(day);
+          days.push(day);
+        }
+      }
       i += 2;
       continue;
     }
 
     const one = rawDays.slice(i, i + 1);
     if (DAY_MAP[one]) {
-      days.push(...DAY_MAP[one]);
+      for (const day of DAY_MAP[one]) {
+        if (!seen.has(day)) {
+          seen.add(day);
+          days.push(day);
+        }
+      }
     }
     i += 1;
   }
@@ -183,6 +194,8 @@ export function buildCalendarMeetings(params: {
   isHoverPreview?: boolean;
 }): CalendarMeeting[] {
   const built: CalendarMeeting[] = [];
+  const seenTimedSlots = new Set<string>();
+  const seenOtherSlots = new Set<string>();
 
   if (!Array.isArray(params.meetings) || params.meetings.length === 0) {
     built.push({
@@ -210,6 +223,12 @@ export function buildCalendarMeetings(params: {
     const days = parseMeetingDays(meeting.days);
 
     if (!Number.isFinite(startHour) || !Number.isFinite(endHour) || days.includes("Other")) {
+      const otherKey = `${String(meeting.days ?? "").trim().toLowerCase()}|${String(meeting.startTime ?? "").trim().toLowerCase()}|${String(meeting.endTime ?? "").trim().toLowerCase()}`;
+      if (seenOtherSlots.has(otherKey)) {
+        continue;
+      }
+      seenOtherSlots.add(otherKey);
+
       built.push({
         id: `${params.sectionKey}-other-${built.length}`,
         sectionKey: params.sectionKey,
@@ -230,6 +249,12 @@ export function buildCalendarMeetings(params: {
     }
 
     for (const day of days) {
+      const timedSlotKey = `${day}|${startHour.toFixed(2)}|${endHour.toFixed(2)}`;
+      if (seenTimedSlots.has(timedSlotKey)) {
+        continue;
+      }
+      seenTimedSlots.add(timedSlotKey);
+
       built.push({
         id: `${params.sectionKey}-${day}-${built.length}`,
         sectionKey: params.sectionKey,
