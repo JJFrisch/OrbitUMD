@@ -155,6 +155,11 @@ function RequireAuth({
     const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
       if (!active) return;
 
+      // Initial session is already handled by getSession() above.
+      if (event === "INITIAL_SESSION" || event === "TOKEN_REFRESHED") {
+        return;
+      }
+
       if (event === "SIGNED_OUT") {
         setIsAuthed(false);
         setNeedsOnboarding(false);
@@ -166,20 +171,12 @@ function RequireAuth({
       const user = session?.user;
       if (!user) {
         // Ignore transient null sessions from non-signout events to prevent false logouts.
-        if (event === "INITIAL_SESSION") {
-          setOnboardingChecked(true);
-          setChecking(false);
-        }
         return;
       }
 
       setIsAuthed(true);
-      setOnboardingChecked(false);
-      setChecking(true);
-      void syncOnboardingState(user.id).finally(() => {
-        if (!active) return;
-        setChecking(false);
-      });
+      // Refresh onboarding state in the background without re-entering a blocking check.
+      void syncOnboardingState(user.id);
     });
 
     return () => {
