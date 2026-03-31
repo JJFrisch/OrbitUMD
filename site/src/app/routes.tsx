@@ -102,6 +102,7 @@ function RequireAuth({
   const [checking, setChecking] = useState(true);
   const [isAuthed, setIsAuthed] = useState(false);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -116,6 +117,9 @@ function RequireAuth({
       } catch {
         if (!active) return;
         setNeedsOnboarding(false);
+      } finally {
+        if (!active) return;
+        setOnboardingChecked(true);
       }
     };
 
@@ -127,17 +131,21 @@ function RequireAuth({
         if (!user) {
           setIsAuthed(false);
           setNeedsOnboarding(false);
+          setOnboardingChecked(true);
           setChecking(false);
           return;
         }
 
         setIsAuthed(true);
+        setOnboardingChecked(false);
+        await syncOnboardingState(user.id);
+        if (!active) return;
         setChecking(false);
-        void syncOnboardingState(user.id);
       } catch {
         if (!active) return;
         setIsAuthed(false);
         setNeedsOnboarding(false);
+        setOnboardingChecked(true);
         setChecking(false);
       }
     };
@@ -150,6 +158,7 @@ function RequireAuth({
       if (event === "SIGNED_OUT") {
         setIsAuthed(false);
         setNeedsOnboarding(false);
+        setOnboardingChecked(true);
         setChecking(false);
         return;
       }
@@ -158,14 +167,19 @@ function RequireAuth({
       if (!user) {
         // Ignore transient null sessions from non-signout events to prevent false logouts.
         if (event === "INITIAL_SESSION") {
+          setOnboardingChecked(true);
           setChecking(false);
         }
         return;
       }
 
       setIsAuthed(true);
-      setChecking(false);
-      void syncOnboardingState(user.id);
+      setOnboardingChecked(false);
+      setChecking(true);
+      void syncOnboardingState(user.id).finally(() => {
+        if (!active) return;
+        setChecking(false);
+      });
     });
 
     return () => {
@@ -174,7 +188,7 @@ function RequireAuth({
     };
   }, []);
 
-  if (checking) {
+  if (checking || (isAuthed && !onboardingChecked)) {
     return <div className="p-6 text-sm text-muted-foreground">Checking session...</div>;
   }
 
