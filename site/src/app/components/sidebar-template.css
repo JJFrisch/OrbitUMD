@@ -15,7 +15,7 @@
   width: 240px;
   min-width: 240px;
   max-width: 240px;
-  height: 100vh;
+  height: calc(100vh / var(--orbit-ui-scale, 1));
   position: sticky;
   top: 0;
   overflow: hidden;
