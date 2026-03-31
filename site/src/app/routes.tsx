@@ -176,6 +176,8 @@ function RequireAuth({
 
       setIsAuthed(true);
       // Refresh onboarding state in the background without re-entering a blocking check.
+      // Keep existing onboardingChecked value to avoid flashing "Checking session..."
+      // after the protected page has already rendered.
       void syncOnboardingState(user.id);
     });
 
@@ -185,7 +187,7 @@ function RequireAuth({
     };
   }, []);
 
-  if (checking || (isAuthed && !onboardingChecked)) {
+  if (checking && !isAuthed) {
     return <div className="p-6 text-sm text-muted-foreground">Checking session...</div>;
   }
 
@@ -194,7 +196,7 @@ function RequireAuth({
     return <Navigate to={`/sign-in?next=${encodeURIComponent(next)}`} replace />;
   }
 
-  if (!allowMissingProfileEmail && needsOnboarding) {
+  if (!allowMissingProfileEmail && onboardingChecked && needsOnboarding) {
     return <Navigate to="/onboarding" replace />;
   }
 
