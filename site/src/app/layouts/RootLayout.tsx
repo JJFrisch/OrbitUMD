@@ -40,7 +40,10 @@ export default function RootLayout() {
   }
 
   return (
-    <div className="orbit-shell h-screen bg-background flex overflow-hidden">
+    <div
+      className="orbit-shell bg-background flex overflow-hidden"
+      style={{ height: "calc(100vh / var(--orbit-ui-scale, 1))" }}
+    >
       <Sidebar
         collapsed={sidebarCollapsed}
         onToggleCollapse={() => setSidebarCollapsed((prev) => {

@@ -148,8 +148,8 @@
 
   #root {
     zoom: var(--orbit-ui-scale);
-    width: calc(100% / var(--orbit-ui-scale));
-    min-height: calc(100dvh / var(--orbit-ui-scale));
+    width: 100%;
+    min-height: 100%;
   }
 
   @supports not (zoom: 1) {
