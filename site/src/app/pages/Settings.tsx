@@ -63,6 +63,19 @@ interface SettingsAccountBackup {
   expectedGraduationTermId?: string | null;
   expectedGraduationSeason?: string | null;
   expectedGraduationYear?: string | null;
+  notifyRegistrationWindow?: boolean;
+  notifySeatAvailability?: boolean;
+  notifyWaitlistMovement?: boolean;
+  notifyGraduationGaps?: boolean;
+  notifyDropDeadlines?: boolean;
+  notifyFeatureAnnouncements?: boolean;
+  notifyEmail?: boolean;
+  notifyPush?: boolean;
+  shareAnonymousUsage?: boolean;
+  storeScheduleHistory?: boolean;
+  googleCalendarConnected?: boolean;
+  outlookConnected?: boolean;
+  canvasConnected?: boolean;
   updatedAt?: string;
 }
 
@@ -100,6 +113,10 @@ function summarizePriorCredits(priorCredits: Array<{ sourceType: string; credits
     apCredits: apOnly.reduce((sum, record) => sum + (Number(record.credits ?? 0) || 0), 0),
     apRecords: apOnly.length,
   };
+}
+
+function readBooleanSetting(value: unknown, fallback: boolean): boolean {
+  return typeof value === "boolean" ? value : fallback;
 }
 
 export default function Settings() {
@@ -267,6 +284,19 @@ export default function Settings() {
           year: Number(row.year),
         })));
         setPriorCreditSummary(summarizePriorCredits(priorCredits));
+        setNotifyRegistrationWindow(readBooleanSetting(metadataBackup.notifyRegistrationWindow, true));
+        setNotifySeatAvailability(readBooleanSetting(metadataBackup.notifySeatAvailability, true));
+        setNotifyWaitlistMovement(readBooleanSetting(metadataBackup.notifyWaitlistMovement, true));
+        setNotifyGraduationGaps(readBooleanSetting(metadataBackup.notifyGraduationGaps, true));
+        setNotifyDropDeadlines(readBooleanSetting(metadataBackup.notifyDropDeadlines, true));
+        setNotifyFeatureAnnouncements(readBooleanSetting(metadataBackup.notifyFeatureAnnouncements, false));
+        setNotifyEmail(readBooleanSetting(metadataBackup.notifyEmail, true));
+        setNotifyPush(readBooleanSetting(metadataBackup.notifyPush, false));
+        setShareAnonymousUsage(readBooleanSetting(metadataBackup.shareAnonymousUsage, true));
+        setStoreScheduleHistory(readBooleanSetting(metadataBackup.storeScheduleHistory, true));
+        setGoogleCalendarConnected(readBooleanSetting(metadataBackup.googleCalendarConnected, false));
+        setOutlookConnected(readBooleanSetting(metadataBackup.outlookConnected, false));
+        setCanvasConnected(readBooleanSetting(metadataBackup.canvasConnected, false));
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -281,6 +311,47 @@ export default function Settings() {
       active = false;
     };
   }, [setTheme]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const timeout = window.setTimeout(() => {
+      void persistAccountBackup({
+        notifyRegistrationWindow,
+        notifySeatAvailability,
+        notifyWaitlistMovement,
+        notifyGraduationGaps,
+        notifyDropDeadlines,
+        notifyFeatureAnnouncements,
+        notifyEmail,
+        notifyPush,
+        shareAnonymousUsage,
+        storeScheduleHistory,
+        googleCalendarConnected,
+        outlookConnected,
+        canvasConnected,
+      }).catch((error) => {
+        setSaveMessage(error instanceof Error ? error.message : "Unable to save settings preferences.");
+      });
+    }, 250);
+
+    return () => window.clearTimeout(timeout);
+  }, [
+    canvasConnected,
+    googleCalendarConnected,
+    isAuthenticated,
+    notifyDropDeadlines,
+    notifyEmail,
+    notifyFeatureAnnouncements,
+    notifyGraduationGaps,
+    notifyPush,
+    notifyRegistrationWindow,
+    notifySeatAvailability,
+    notifyWaitlistMovement,
+    outlookConnected,
+    shareAnonymousUsage,
+    storeScheduleHistory,
+  ]);
 
   useEffect(() => {
     const fromHash = sectionFromHash(location.hash);
