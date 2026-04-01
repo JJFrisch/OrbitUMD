@@ -263,7 +263,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
   padding: 22px 28px 44px;
 }
 
@@ -289,7 +289,7 @@
 
 .plan-grid-scroll {
   width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: visible;
   padding-bottom: 6px;
 }

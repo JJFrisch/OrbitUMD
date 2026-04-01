@@ -257,12 +257,39 @@ export function PageOnboardingTour() {
       return;
     }
 
-    const timeout = window.setTimeout(() => {
-      setActiveTourKey(match.key);
-      setStepIndex(0);
-    }, 350);
+    let cancelled = false;
+    let timeoutId: number | null = null;
+    let attempts = 0;
+    const maxAttempts = 12;
 
-    return () => window.clearTimeout(timeout);
+    const tryActivateTour = () => {
+      if (cancelled) return;
+
+      const firstSelector = match.steps[0]?.targetSelector;
+      const firstTargetReady = !firstSelector || Boolean(document.querySelector(firstSelector));
+
+      if (firstTargetReady) {
+        setActiveTourKey(match.key);
+        setStepIndex(0);
+        return;
+      }
+
+      if (attempts >= maxAttempts) {
+        return;
+      }
+
+      attempts += 1;
+      timeoutId = window.setTimeout(tryActivateTour, 150);
+    };
+
+    timeoutId = window.setTimeout(tryActivateTour, 350);
+
+    return () => {
+      cancelled = true;
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+    };
   }, [location.pathname]);
 
   useEffect(() => {
@@ -315,12 +342,12 @@ export function PageOnboardingTour() {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-50">
-      <div className="absolute inset-0 bg-black/35" />
+      <div className="pointer-events-none absolute inset-0 bg-black/35" />
 
       {highlightRect && (
         <div
           ref={highlightRef}
-          className="absolute top-[var(--tour-highlight-top)] left-[var(--tour-highlight-left)] w-[var(--tour-highlight-width)] h-[var(--tour-highlight-height)] rounded-lg border-2 border-red-400 shadow-[0_0_0_9999px_rgba(0,0,0,0.28)]"
+          className="pointer-events-none absolute top-[var(--tour-highlight-top)] left-[var(--tour-highlight-left)] w-[var(--tour-highlight-width)] h-[var(--tour-highlight-height)] rounded-lg border-2 border-red-400 shadow-[0_0_0_9999px_rgba(0,0,0,0.28)]"
         />
       )}
 
