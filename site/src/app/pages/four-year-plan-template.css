@@ -1,8 +1,3 @@
-/* TEMP: override column width to force horizontal overflow for testing */
-:root {
-  --term-column-width: 500px;
-}
-
 .fyp-page,
 .fyp-page *,
 .fyp-page *::before,
@@ -23,10 +18,12 @@
   --border: rgba(198, 40, 40, 0.1);
   --border-soft: rgba(55, 35, 25, 0.08);
   --shadow-sm: 0 1px 4px rgba(23, 18, 14, 0.06), 0 4px 16px rgba(23, 18, 14, 0.04);
-  --term-column-width: 500px;
+  --term-column-width: 378px;
   min-height: 100%;
   height: 100%;
+  min-width: 0;
   width: 100%;
+  max-width: 100vw;
   display: flex;
   background: var(--cream);
   color: var(--ink);
