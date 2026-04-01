@@ -309,6 +309,10 @@ function buildTagPresentation(label: string, isGenEd: boolean) {
 }
 
 function toSectionDisplay(sectionCode: string): string {
+  const normalized = String(sectionCode ?? "").trim().toUpperCase();
+  if (normalized === "TRANSCRIPT") {
+    return "Transcript";
+  }
   if (isUnspecifiedSectionCode(sectionCode)) {
     return "Section Undetermined";
   }
@@ -1454,28 +1458,6 @@ export default function FourYearPlan() {
           </div>
 
           <div className="plan-area">
-            <div className="fyp-quick-actions" aria-label="Four year plan quick actions">
-              <button
-                type="button"
-                className="topbar-btn"
-                onClick={() => setShowStandingInfo(true)}
-              >
-                Standing &amp; GPA
-              </button>
-              <button
-                type="button"
-                className="topbar-btn"
-                onClick={() => setShowGpaInfo(true)}
-                aria-label="Explain how UMD GPA is calculated"
-              >
-                <Info size={13} />
-                GPA Info
-              </button>
-              <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
-                Manage MAIN schedules
-              </Link>
-            </div>
-
             {showGpaDetails && (
               <section className="fyp-gpa-panel">
                 <div className="fyp-gpa-head">
@@ -1718,22 +1700,24 @@ export default function FourYearPlan() {
                                       {course.grade ?? "-"}
                                     </button>
                                   )}
-                                </div>
-
-                                <div className="pc-badge-row">
-                                  {isDuplicate && <span className="pc-chip warn">Duplicate</span>}
+                                  {isDuplicate && <>
+                                    <span className="pc-meta-sep">•</span>
+                                    <span className="pc-chip pc-chip-inline warn">Duplicate</span>
+                                  </>}
                                   {presentedTags.map((tag) => (
-                                    <button
-                                      key={`${course.sectionKey}-${tag.originalLabel}`}
-                                      type="button"
-                                      className={`pc-chip pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
-                                      onClick={(event) => {
-                                        event.stopPropagation();
-                                        setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
-                                      }}
-                                    >
-                                      {tag.shortLabel}
-                                    </button>
+                                    <Fragment key={`${course.sectionKey}-${tag.originalLabel}`}>
+                                      <span className="pc-meta-sep">•</span>
+                                      <button
+                                        type="button"
+                                        className={`pc-chip pc-chip-inline pc-chip-btn ${tag.isGenEd ? "warn" : ""}`}
+                                        onClick={(event) => {
+                                          event.stopPropagation();
+                                          setTagDetail({ shortLabel: tag.shortLabel, fullLabel: tag.fullLabel });
+                                        }}
+                                      >
+                                        {tag.shortLabel}
+                                      </button>
+                                    </Fragment>
                                   ))}
                                 </div>
                               </button>

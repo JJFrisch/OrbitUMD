@@ -263,21 +263,8 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   padding: 22px 28px 44px;
-}
-
-.fyp-quick-actions {
-  position: sticky;
-  top: 0;
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 8px 0 10px;
-  margin: -6px 0 12px;
-  background: linear-gradient(to bottom, var(--surface) 78%, rgba(255, 255, 255, 0));
 }
 
 .plan-area::-webkit-scrollbar {
@@ -302,7 +289,7 @@
 
 .plan-grid-scroll {
   width: 100%;
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: visible;
   padding-bottom: 6px;
 }
@@ -322,7 +309,7 @@
   grid-auto-columns: minmax(var(--term-column-width), var(--term-column-width));
   gap: 14px;
   width: max-content;
-  min-width: 100%;
+  min-width: max-content;
 }
 
 @media (min-width: 900px) {
@@ -651,6 +638,11 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 3px 7px;
+}
+
+.pc-chip-inline {
+  padding: 1px 7px;
+  line-height: 1.2;
 }
 
 .pc-chip-btn {
