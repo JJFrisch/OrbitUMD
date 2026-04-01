@@ -58,6 +58,7 @@ export function CoursePlannerPage() {
   const setFilters = useCoursePlannerStore((state) => state.setFilters);
   const executeSearch = useCoursePlannerStore((state) => state.executeSearch);
   const addPlannedCourseByCode = useCoursePlannerStore((state) => state.addPlannedCourseByCode);
+  const setSearchInput = useCoursePlannerStore((state) => state.setSearchInput);
 
   const activeScheduleId = useCoursePlannerStore((state) => state.activeScheduleId);
   const savePending = useCoursePlannerStore((state) => state.savePending);
@@ -206,6 +207,13 @@ export function CoursePlannerPage() {
     }));
     void executeSearch();
   }, [executeSearch, searchParams, setFilters]);
+
+  useEffect(() => {
+    const searchQuery = searchParams.get("search");
+    if (!searchQuery) return;
+    setSearchInput(searchQuery.trim());
+    void executeSearch();
+  }, [executeSearch, searchParams, setSearchInput]);
 
   // Support deep-linking from the Schedule Library, e.g.
   // /schedule-builder?scheduleId=<id>&term=08-2026
