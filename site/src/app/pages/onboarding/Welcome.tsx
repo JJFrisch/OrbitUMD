@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import "./welcome-landing.css";
 
 export default function Welcome() {
@@ -7,6 +8,7 @@ export default function Welcome() {
   const ring1Ref = useRef<HTMLDivElement | null>(null);
   const ring2Ref = useRef<HTMLDivElement | null>(null);
   const ring3Ref = useRef<HTMLDivElement | null>(null);
+  const [stats, setStats] = useState({ schedulesMapped: "0", majorsAndMinors: "0" });
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -38,6 +40,40 @@ export default function Welcome() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  useEffect(() => {
+    let active = true;
+
+    const loadPublicMetrics = async () => {
+      try {
+        const supabase = getSupabaseClient();
+        const { data, error } = await supabase.rpc("get_orbit_public_metrics");
+        if (error || !active) return;
+
+        const row = Array.isArray(data) ? data[0] : null;
+        if (!row) return;
+
+        const scheduleCount = Number(row.total_schedules_mapped ?? 0);
+        const programCount = Number(row.total_majors_and_minors ?? 0);
+        const numberFormatter = new Intl.NumberFormat("en-US");
+
+        if (active) {
+          setStats({
+            schedulesMapped: numberFormatter.format(Number.isFinite(scheduleCount) ? scheduleCount : 0),
+            majorsAndMinors: numberFormatter.format(Number.isFinite(programCount) ? programCount : 0),
+          });
+        }
+      } catch {
+        // Keep fallback values if metrics cannot be loaded.
+      }
+    };
+
+    void loadPublicMetrics();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   return (
     <div className="welcome-landing-page">
       <div className="welcome-bg-shape welcome-bg-shape-1" />
@@ -47,12 +83,12 @@ export default function Welcome() {
       <div className="welcome-wrapper">
         <header className="welcome-header">
           <button className="welcome-logo" type="button" onClick={() => navigate("/")}>
-            <svg className="welcome-logo-icon" viewBox="0 0 36 36" fill="none">
-              <circle cx="18" cy="18" r="4" fill="#D32F2F" />
-              <circle cx="18" cy="18" r="10" stroke="#D32F2F" strokeWidth="1.5" strokeDasharray="3 2" />
-              <circle cx="18" cy="8" r="2.5" fill="#D32F2F" />
-              <circle cx="26.66" cy="23" r="1.8" fill="#EF5350" opacity="0.7" />
-              <circle cx="9.34" cy="23" r="1.4" fill="#EF5350" opacity="0.5" />
+            <svg className="welcome-logo-icon" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
+              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeDasharray="3 2" strokeLinejoin="round" />
+              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeDasharray="3 2" strokeLinejoin="round" />
             </svg>
             <span className="welcome-logo-text">
               Orbit<span>UMD</span>
@@ -102,11 +138,11 @@ export default function Welcome() {
 
             <div className="welcome-stats">
               <div className="welcome-stat">
-                <div className="welcome-stat-num">8</div>
-                <div className="welcome-stat-label">Semesters mapped</div>
+                <div className="welcome-stat-num">{stats.schedulesMapped}</div>
+                <div className="welcome-stat-label">Schedules mapped</div>
               </div>
               <div className="welcome-stat">
-                <div className="welcome-stat-num">100+</div>
+                <div className="welcome-stat-num">{stats.majorsAndMinors}</div>
                 <div className="welcome-stat-label">Majors & minors</div>
               </div>
               <div className="welcome-stat">
