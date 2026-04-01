@@ -76,7 +76,7 @@
 }
 
 .fyp-page .topbar-left {
-  flex: 1 1 420px;
+  flex: 1 1 200px;
   min-width: 0;
 }
 
@@ -101,7 +101,7 @@
   justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
-  flex: 1 1 300px;
+  flex: 0 0 auto;
 }
 
 .topbar-btn {
@@ -263,7 +263,7 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   padding: 22px 28px 44px;
 }
 
