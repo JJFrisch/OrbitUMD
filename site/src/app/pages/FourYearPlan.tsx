@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { ChevronDown, ChevronUp, Info, Search, Sparkles, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Info, MoreHorizontal, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import {
@@ -12,6 +12,7 @@ import {
 } from "../components/ui/select";
 import {
   buildCourseContributionMap,
+  evaluateRequirementSection,
   getContributionLabelsForCourseCode,
   loadProgramRequirementBundles,
   type ProgramRequirementBundle,
