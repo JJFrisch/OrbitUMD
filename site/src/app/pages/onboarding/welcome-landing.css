@@ -6,7 +6,7 @@
 }
 
 .welcome-landing-page {
-  --welcome-page-scale: min(1, calc(100dvh / 980));
+  --welcome-page-scale: min(1, calc(100dvh / 1100));
   --red: #d32f2f;
   --red-light: #ef5350;
   --red-dark: #b71c1c;
@@ -72,7 +72,7 @@
 .welcome-wrapper {
   position: relative;
   z-index: 1;
-  min-height: calc(100dvh / var(--welcome-page-scale));
+  height: calc(100dvh / var(--welcome-page-scale));
   width: calc(100% / var(--welcome-page-scale));
   transform: scale(var(--welcome-page-scale));
   transform-origin: top center;
@@ -546,6 +546,7 @@
 
   .welcome-wrapper {
     min-height: 100dvh;
+    height: auto;
     width: 100%;
     transform: none;
   }
