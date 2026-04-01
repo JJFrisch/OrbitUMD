@@ -8,7 +8,7 @@
 }
 
 .signin-template {
-  --signin-page-scale: min(1, calc(100dvh / 980));
+  --signin-page-scale: min(1, calc(100dvh / 1100));
   --red: #C62828;
   --red-mid: #E53935;
   --red-light: #EF9A9A;
@@ -43,7 +43,7 @@
 .signin-template .shell {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: calc(100dvh / var(--signin-page-scale));
+  height: calc(100dvh / var(--signin-page-scale));
   width: calc(100% / var(--signin-page-scale));
   transform: scale(var(--signin-page-scale));
   transform-origin: top center;
