@@ -8,7 +8,7 @@
 }
 
 .signin-template {
-  --signin-page-scale: 0.9;
+  --signin-page-scale: min(1, calc(100dvh / 980));
   --red: #C62828;
   --red-mid: #E53935;
   --red-light: #EF9A9A;
@@ -22,7 +22,8 @@
   --border-soft: rgba(55, 35, 25, 0.09);
 
   position: relative;
-  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
   background: var(--cream);
   color: var(--ink);
   font-family: "DM Sans", sans-serif;
@@ -42,7 +43,7 @@
 .signin-template .shell {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: calc(100vh / var(--signin-page-scale));
+  min-height: calc(100dvh / var(--signin-page-scale));
   width: calc(100% / var(--signin-page-scale));
   transform: scale(var(--signin-page-scale));
   transform-origin: top center;
@@ -735,11 +736,15 @@
 
 @media (max-width: 800px) {
   .signin-template {
+    height: auto;
+    min-height: 100dvh;
     overflow: auto;
   }
 
   .signin-template .shell {
     grid-template-columns: 1fr;
+    width: 100%;
+    transform: none;
     min-height: 0;
   }
 
