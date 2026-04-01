@@ -23,6 +23,7 @@
   height: 100%;
   min-width: 0;
   width: 100%;
+  max-width: 100vw;
   display: flex;
   background: var(--cream);
   color: var(--ink);
@@ -79,7 +80,7 @@
 }
 
 .fyp-page .topbar-left {
-  flex: 1 1 420px;
+  flex: 0 1 auto;
   min-width: 0;
 }
 
@@ -105,7 +106,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-left: auto;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
 }
 
 .topbar-btn {
