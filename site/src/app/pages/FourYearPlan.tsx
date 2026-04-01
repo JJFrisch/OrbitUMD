@@ -1426,21 +1426,27 @@ export default function FourYearPlan() {
           </div>
 
           <div className="progress-strip" data-tour-target="four-year-summary">
-            <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Completed</span><span className="ps-val">{summary.completedCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">In Progress</span><span className="ps-val">{summary.inProgressCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span><span className="ps-val">{summary.plannedCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
-            <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-              </svg>
-              Standing: {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
-            </button>
+            {loading ? (
+              <span className="ps-label" style={{ opacity: 0.5 }}>Loading plan data…</span>
+            ) : (
+              <>
+                <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Completed</span><span className="ps-val">{summary.completedCredits} cr</span></div>
+                <div className="ps-divider" />
+                <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">In Progress</span><span className="ps-val">{summary.inProgressCredits} cr</span></div>
+                <div className="ps-divider" />
+                <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span><span className="ps-val">{summary.plannedCredits} cr</span></div>
+                <div className="ps-divider" />
+                <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
+                <div className="ps-divider" />
+                <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
+                <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                    <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                  </svg>
+                  Standing: {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
+                </button>
+              </>
+            )}
           </div>
 
           <div className="plan-alerts">
