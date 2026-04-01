@@ -267,6 +267,19 @@
   padding: 22px 28px 44px;
 }
 
+.fyp-quick-actions {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px 0 10px;
+  margin: -6px 0 12px;
+  background: linear-gradient(to bottom, var(--surface) 78%, rgba(255, 255, 255, 0));
+}
+
 .plan-area::-webkit-scrollbar {
   height: 5px;
   width: 5px;
@@ -556,7 +569,8 @@
   font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  margin-bottom: 4px;
+  margin-bottom: 0;
+  white-space: nowrap;
 }
 
 .pc-code.red {
@@ -580,6 +594,25 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.pc-title-line {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  min-width: 0;
+  margin-bottom: 6px;
+}
+
+.pc-name-inline {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--ink-2);
+  line-height: 1.3;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .pc-meta {

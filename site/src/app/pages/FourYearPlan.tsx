@@ -1454,6 +1454,28 @@ export default function FourYearPlan() {
           </div>
 
           <div className="plan-area">
+            <div className="fyp-quick-actions" aria-label="Four year plan quick actions">
+              <button
+                type="button"
+                className="topbar-btn"
+                onClick={() => setShowStandingInfo(true)}
+              >
+                Standing &amp; GPA
+              </button>
+              <button
+                type="button"
+                className="topbar-btn"
+                onClick={() => setShowGpaInfo(true)}
+                aria-label="Explain how UMD GPA is calculated"
+              >
+                <Info size={13} />
+                GPA Info
+              </button>
+              <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
+                Manage MAIN schedules
+              </Link>
+            </div>
+
             {showGpaDetails && (
               <section className="fyp-gpa-panel">
                 <div className="fyp-gpa-head">
@@ -1650,8 +1672,10 @@ export default function FourYearPlan() {
                                   }
                                 }}
                               >
-                                <div className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</div>
-                                <div className="pc-name">{course.title}</div>
+                                <div className="pc-title-line">
+                                  <span className={`pc-code ${boardCourseCodeColor(course.status)}`}>{course.code}</span>
+                                  <span className="pc-name-inline">{course.title}</span>
+                                </div>
                                 <div className="pc-meta" onClick={(event) => event.stopPropagation()}>
                                   <span>{course.credits} credits</span>
                                   <span className="pc-meta-sep">•</span>
