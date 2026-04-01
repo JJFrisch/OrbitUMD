@@ -46,6 +46,7 @@
   height: calc(100dvh / var(--signin-page-scale));
   width: calc(100% / var(--signin-page-scale));
   transform: scale(var(--signin-page-scale));
+  height: 100%;
   transform-origin: top center;
   overflow: hidden;
   position: relative;
