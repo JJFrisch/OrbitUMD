@@ -287,6 +287,10 @@
   margin-bottom: 12px;
 }
 
+.board-empty-action {
+  margin-top: 12px;
+}
+
 .plan-grid-scroll {
   width: 100%;
   overflow-x: auto;
