@@ -1,6 +1,6 @@
-import { Fragment, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, type CSSProperties, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
-import { ChevronDown, ChevronUp, Info, Search, Sparkles, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Info, MoreHorizontal, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../components/ui/card";
 import {
@@ -12,8 +12,10 @@ import {
 } from "../components/ui/select";
 import {
   buildCourseContributionMap,
+  evaluateRequirementSection,
   getContributionLabelsForCourseCode,
   loadProgramRequirementBundles,
+  type AuditCourseStatus,
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
 import { canonicalCourseCode } from "@/lib/requirements/courseCodeEquivalency";
@@ -346,6 +348,31 @@ function toPlannerSectionFromUmdSection(section: UmdSection, sectionKey: string)
       location: meeting.location,
     })),
   };
+}
+
+function ProgressBar({ done, cur, plan, total }: { done: number; cur: number; plan: number; total: number }) {
+  const pctDone = Math.min(100, (done / total) * 100);
+  const pctCur = Math.min(100 - pctDone, (cur / total) * 100);
+  const pctPlan = Math.min(100 - pctDone - pctCur, (plan / total) * 100);
+  return (
+    <div
+      className="ps-credit-bar"
+      // CSS custom properties are not static styles — dynamic percentage widths
+      // for a progress bar cannot be expressed as static CSS classes.
+      // eslint-disable-next-line react/forbid-component-props
+      style={
+        {
+          "--fill-done": `${pctDone.toFixed(1)}%`,
+          "--fill-cur": `${pctCur.toFixed(1)}%`,
+          "--fill-plan": `${pctPlan.toFixed(1)}%`,
+        } as CSSProperties
+      }
+    >
+      <div className="ps-credit-fill ps-credit-completed" />
+      <div className="ps-credit-fill ps-credit-progress" />
+      <div className="ps-credit-fill ps-credit-planned" />
+    </div>
+  );
 }
 
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
@@ -749,6 +776,44 @@ export default function FourYearPlan() {
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
+  const requirementProgress = useMemo(() => {
+    if (requirementBundles.length === 0) return null;
+
+    const statusRankLocal = (s: AuditCourseStatus) =>
+      s === "completed" ? 3 : s === "in_progress" ? 2 : s === "planned" ? 1 : 0;
+    const byCourseCode = new Map<string, AuditCourseStatus>();
+    for (const term of terms) {
+      for (const course of term.courses) {
+        if (!course.countsTowardProgress) continue;
+        const existing = byCourseCode.get(course.code.toUpperCase());
+        const next: AuditCourseStatus = course.status === "completed" ? "completed"
+          : course.status === "in_progress" ? "in_progress"
+          : "planned";
+        if (!existing || statusRankLocal(next) > statusRankLocal(existing)) {
+          byCourseCode.set(course.code.toUpperCase(), next);
+        }
+      }
+    }
+
+    let totalSections = 0;
+    let completedSections = 0;
+    let inProgressSections = 0;
+    let plannedSections = 0;
+
+    for (const bundle of requirementBundles) {
+      for (const section of bundle.sections) {
+        if (section.special) continue;
+        const audit = evaluateRequirementSection(section, byCourseCode);
+        totalSections += 1;
+        if (audit.status === "completed") completedSections += 1;
+        else if (audit.status === "in_progress") inProgressSections += 1;
+        else if (audit.status === "planned") plannedSections += 1;
+      }
+    }
+
+    return { totalSections, completedSections, inProgressSections, plannedSections };
+  }, [requirementBundles, terms]);
+
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -831,6 +896,10 @@ export default function FourYearPlan() {
     const academicTerms = terms.filter((term) => term.termLabel !== "Prior to UMD");
     return [...academicTerms, ...priorToUmd];
   }, [terms]);
+
+  const plannedTermsCount = useMemo(() => {
+    return boardTerms.filter((term) => term.status === "planned" && term.source === "schedule").length;
+  }, [boardTerms]);
 
   const originalTermByCourseSectionKey = useMemo(() => {
     const mapping = new Map<string, PlannedTerm>();
@@ -1511,7 +1580,7 @@ export default function FourYearPlan() {
                 <p className="fyp-muted">
                   No MAIN schedules yet. Set one schedule as MAIN for each term in All Schedules to build your four-year plan automatically.
                 </p>
-                <div className="mt-3">
+                <div className="board-empty-action">
                   <Link to="/schedules" className="topbar-btn primary">Go to all schedules</Link>
                 </div>
               </div>
@@ -1727,6 +1796,24 @@ export default function FourYearPlan() {
                                   ))}
                                 </div>
                               </button>
+
+                              {sourceTerm.source === "schedule" && (
+                                <button
+                                  type="button"
+                                  className="pc-action-btn"
+                                  aria-label={`Actions for ${course.code}`}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    setCourseMenuTarget(
+                                      courseMenuTarget?.course.sectionKey === course.sectionKey && courseMenuTarget.term.id === sourceTerm.id
+                                        ? null
+                                        : { term: sourceTerm, course }
+                                    );
+                                  }}
+                                >
+                                  <MoreHorizontal size={14} />
+                                </button>
+                              )}
 
                               {courseMenuTarget &&
                                 courseMenuTarget.course.sectionKey === course.sectionKey &&
@@ -2031,12 +2118,38 @@ export default function FourYearPlan() {
                 const isCurrent = changeSectionTarget?.course.sectionCode === section.sectionCode;
                 const inFlight = updatingSectionCode === section.sectionCode;
                 return (
-                  <div key={section.id} className="change-section-item">
+                  <div key={section.id} className={`change-section-item${isCurrent ? " is-current" : ""}`}>
                     <div>
-                      <p className="change-section-code">Section {section.sectionCode}</p>
+                      <p className="change-section-code">
+                        Section {section.sectionCode}
+                        {isCurrent && <span className="change-section-current-badge">current</span>}
+                      </p>
                       <p className="change-section-meta">
                         {(section.instructor && section.instructor.length > 0) ? section.instructor : "Instructor TBA"}
                       </p>
+                      {section.meetings.length > 0 && (
+                        <div className="change-section-meetings">
+                          {section.meetings.map((meeting, mi) => {
+                            const days = meeting.days.length > 0 ? meeting.days.join("") : "TBA";
+                            const timeStr = Number.isFinite(meeting.startMinutes) && Number.isFinite(meeting.endMinutes)
+                              ? `${formatMinutesAsClock(meeting.startMinutes)} – ${formatMinutesAsClock(meeting.endMinutes)}`
+                              : "Time TBA";
+                            const loc = meeting.location ?? "";
+                            return (
+                              <span key={mi} className="change-section-meeting-row">
+                                <span className="change-section-days">{days || "TBA"}</span>
+                                <span className="change-section-time">{timeStr}</span>
+                                {loc && <span className="change-section-loc">{loc}</span>}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+                      <div className="change-section-seats">
+                        {section.openSeats > 0
+                          ? <span className="change-section-open">{section.openSeats} / {section.totalSeats} seats open</span>
+                          : <span className="change-section-closed">Closed ({section.totalSeats} seats)</span>}
+                      </div>
                     </div>
                     <button
                       type="button"

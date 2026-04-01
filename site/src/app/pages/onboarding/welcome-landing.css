@@ -6,6 +6,7 @@
 }
 
 .welcome-landing-page {
+  --welcome-page-scale: min(1, calc(100dvh / 980));
   --red: #d32f2f;
   --red-light: #ef5350;
   --red-dark: #b71c1c;
@@ -15,11 +16,12 @@
   --ink-muted: #6b5e54;
   --border: rgba(211, 47, 47, 0.12);
 
-  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
   background: var(--cream);
   color: var(--ink);
   font-family: "DM Sans", sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
 }
 
@@ -70,7 +72,10 @@
 .welcome-wrapper {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
+  min-height: calc(100dvh / var(--welcome-page-scale));
+  width: calc(100% / var(--welcome-page-scale));
+  transform: scale(var(--welcome-page-scale));
+  transform-origin: top center;
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
@@ -532,6 +537,19 @@
 }
 
 @media (max-width: 768px) {
+  .welcome-landing-page {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .welcome-wrapper {
+    min-height: 100dvh;
+    width: 100%;
+    transform: none;
+  }
+
   .welcome-header {
     padding: 20px 24px;
   }
