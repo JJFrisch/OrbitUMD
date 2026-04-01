@@ -18,6 +18,7 @@
   --border: rgba(198, 40, 40, 0.1);
   --border-soft: rgba(55, 35, 25, 0.08);
   --shadow-sm: 0 1px 4px rgba(23, 18, 14, 0.06), 0 4px 16px rgba(23, 18, 14, 0.04);
+  --term-column-width: 378px;
   min-height: 100%;
   height: 100%;
   width: 100%;
@@ -65,12 +66,18 @@
 .fyp-page .topbar {
   padding: 16px 28px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
   border-bottom: 1px solid var(--border-soft);
   background: var(--cream);
   flex-shrink: 0;
-  gap: 16px;
+  gap: 12px 16px;
+}
+
+.fyp-page .topbar-left {
+  flex: 1 1 420px;
+  min-width: 0;
 }
 
 .fyp-page .topbar-left h2 {
@@ -85,13 +92,16 @@
   color: var(--ink-muted);
   margin-top: 2px;
   font-weight: 400;
+  max-width: 74ch;
 }
 
 .fyp-page .topbar-right {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
   gap: 10px;
-  flex-shrink: 0;
+  flex: 1 1 300px;
 }
 
 .topbar-btn {
@@ -134,9 +144,10 @@
   border-bottom: 1px solid var(--border-soft);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 20px;
   flex-shrink: 0;
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 .ps-item {
@@ -189,7 +200,7 @@
 }
 
 .grad-badge {
-  margin-left: auto;
+  margin-left: 0;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -295,10 +306,16 @@
 .plan-grid {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(252px, 252px);
+  grid-auto-columns: minmax(var(--term-column-width), var(--term-column-width));
   gap: 14px;
   width: max-content;
   min-width: 100%;
+}
+
+@media (min-width: 900px) {
+  .grad-badge {
+    margin-left: auto;
+  }
 }
 
 .term-col {
