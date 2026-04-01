@@ -383,8 +383,9 @@
 }
 
 .plan-grid {
-  display: flex;
-  flex-wrap: nowrap;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(var(--term-column-width), var(--term-column-width));
   gap: 14px;
   width: max-content;
   min-width: max-content;
@@ -397,10 +398,10 @@
 }
 
 .term-col {
-  flex: 0 0 var(--term-column-width);
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 0 0 auto;
 }
 
 .term-col.is-drop-target .term-col-header {
