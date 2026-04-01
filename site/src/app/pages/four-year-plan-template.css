@@ -102,10 +102,11 @@
 .fyp-page .topbar-right {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   flex-wrap: wrap;
   gap: 10px;
-  flex: 1 1 300px;
+  margin-left: auto;
+  flex: 0 1 auto;
 }
 
 .topbar-btn {
@@ -222,8 +223,10 @@
   margin-left: auto;
   display: inline-flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 10px;
   flex-wrap: wrap;
+  flex: 0 1 auto;
 }
 
 .ps-credit-block,
@@ -349,7 +352,7 @@
   min-width: 0;
   overflow-y: auto;
   overflow-x: auto;
-  padding: 22px 0 44px 28px;
+  padding: 22px 28px 44px;
 }
 
 .plan-area::-webkit-scrollbar {
@@ -381,7 +384,7 @@
   min-width: max-content;
   max-width: none;
   overflow: visible;
-  padding: 0 28px 6px 0;
+  padding: 0 0 6px 0;
 }
 
 .plan-grid-scroll::-webkit-scrollbar {
