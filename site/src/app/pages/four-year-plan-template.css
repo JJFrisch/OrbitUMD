@@ -266,6 +266,11 @@
   text-decoration: underline;
 }
 
+.ps-detail-row {
+  border-top: none;
+  padding-top: 0;
+}
+
 .ps-right-group {
   display: flex;
   align-items: center;
