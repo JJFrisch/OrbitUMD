@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState, type CSSProperties, type DragEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { ChevronDown, ChevronUp, Info, MoreHorizontal, Search, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
@@ -15,6 +15,7 @@ import {
   evaluateRequirementSection,
   getContributionLabelsForCourseCode,
   loadProgramRequirementBundles,
+  type AuditCourseStatus,
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
 import { canonicalCourseCode } from "@/lib/requirements/courseCodeEquivalency";
@@ -364,7 +365,7 @@ function ProgressBar({ done, cur, plan, total }: { done: number; cur: number; pl
           "--fill-done": `${pctDone.toFixed(1)}%`,
           "--fill-cur": `${pctCur.toFixed(1)}%`,
           "--fill-plan": `${pctPlan.toFixed(1)}%`,
-        } as React.CSSProperties
+        } as CSSProperties
       }
     >
       <div className="ps-credit-fill ps-credit-completed" />
@@ -778,17 +779,17 @@ export default function FourYearPlan() {
   const requirementProgress = useMemo(() => {
     if (requirementBundles.length === 0) return null;
 
-    const byCourseCode = new Map<string, import("@/lib/requirements/audit").AuditCourseStatus>();
+    const statusRankLocal = (s: AuditCourseStatus) =>
+      s === "completed" ? 3 : s === "in_progress" ? 2 : s === "planned" ? 1 : 0;
+    const byCourseCode = new Map<string, AuditCourseStatus>();
     for (const term of terms) {
       for (const course of term.courses) {
         if (!course.countsTowardProgress) continue;
         const existing = byCourseCode.get(course.code.toUpperCase());
-        const rank = (s: import("@/lib/requirements/audit").AuditCourseStatus) =>
-          s === "completed" ? 3 : s === "in_progress" ? 2 : s === "planned" ? 1 : 0;
-        const next = course.status === "completed" ? "completed"
+        const next: AuditCourseStatus = course.status === "completed" ? "completed"
           : course.status === "in_progress" ? "in_progress"
           : "planned";
-        if (!existing || rank(next) > rank(existing)) {
+        if (!existing || statusRankLocal(next) > statusRankLocal(existing)) {
           byCourseCode.set(course.code.toUpperCase(), next);
         }
       }
@@ -2154,7 +2155,7 @@ export default function FourYearPlan() {
                       {section.meetings.length > 0 && (
                         <div className="change-section-meetings">
                           {section.meetings.map((meeting, mi) => {
-                            const days = typeof meeting.days === "string" ? meeting.days : (Array.isArray(meeting.days) ? (meeting.days as string[]).join("") : "TBA");
+                            const days = meeting.days.length > 0 ? meeting.days.join("") : "TBA";
                             const timeStr = Number.isFinite(meeting.startMinutes) && Number.isFinite(meeting.endMinutes)
                               ? `${formatMinutesAsClock(meeting.startMinutes)} – ${formatMinutesAsClock(meeting.endMinutes)}`
                               : "Time TBA";
