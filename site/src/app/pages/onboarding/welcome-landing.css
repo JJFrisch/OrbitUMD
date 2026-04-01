@@ -6,7 +6,7 @@
 }
 
 .welcome-landing-page {
-  --welcome-page-scale: min(1, calc(100dvh / 1100));
+  --welcome-page-scale: min(1, calc(100dvh / 1220));
   --red: #d32f2f;
   --red-light: #ef5350;
   --red-dark: #b71c1c;
