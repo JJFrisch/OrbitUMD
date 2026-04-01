@@ -102,7 +102,7 @@
 .fyp-page .topbar-right {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 10px;
   flex: 1 1 300px;
@@ -216,6 +216,14 @@
   color: var(--red);
   font-weight: 500;
   white-space: nowrap;
+}
+
+.summary-actions {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .ps-credit-block,
@@ -341,7 +349,7 @@
   min-width: 0;
   overflow-y: auto;
   overflow-x: auto;
-  padding: 22px 28px 44px;
+  padding: 22px 0 44px 28px;
 }
 
 .plan-area::-webkit-scrollbar {
@@ -369,10 +377,11 @@
 }
 
 .plan-grid-scroll {
-  width: 100%;
-  max-width: 100%;
+  width: max-content;
+  min-width: max-content;
+  max-width: none;
   overflow: visible;
-  padding-bottom: 6px;
+  padding: 0 28px 6px 0;
 }
 
 .plan-grid-scroll::-webkit-scrollbar {
@@ -394,7 +403,7 @@
 }
 
 @media (min-width: 900px) {
-  .grad-badge {
+  .summary-actions {
     margin-left: auto;
   }
 }
