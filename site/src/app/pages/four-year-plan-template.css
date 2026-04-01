@@ -778,6 +778,33 @@
   align-items: center;
 }
 
+.pc-action-btn {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: none;
+  background: transparent;
+  color: var(--ink-ghost);
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+}
+
+.plan-course:hover .pc-action-btn {
+  opacity: 1;
+}
+
+.pc-action-btn:hover {
+  background: var(--surface-2);
+  color: var(--ink-2);
+}
+
 .pc-context-menu {
   position: absolute;
   right: 8px;
