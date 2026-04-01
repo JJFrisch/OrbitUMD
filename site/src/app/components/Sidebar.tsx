@@ -18,7 +18,19 @@ import { cn } from "./ui/utils";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import "./sidebar-template.css";
 
-const navigationSections = [
+interface NavigationItem {
+  name: string;
+  href: string;
+  icon: React.ForwardRefExoticComponent<any>;
+  badge?: string | number;
+}
+
+interface NavigationSection {
+  label: string;
+  items: NavigationItem[];
+}
+
+const navigationSections: NavigationSection[] = [
   {
     label: "Overview",
     items: [
