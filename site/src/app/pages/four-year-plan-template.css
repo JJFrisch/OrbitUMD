@@ -268,13 +268,13 @@
 }
 
 .plan-area::-webkit-scrollbar {
-  height: 5px;
-  width: 5px;
+  height: 7px;
+  width: 7px;
 }
 
 .plan-area::-webkit-scrollbar-thumb {
-  background: #ddd0c8;
-  border-radius: 3px;
+  background: #d9c8bf;
+  border-radius: 999px;
 }
 
 .board-empty {
@@ -769,8 +769,8 @@
   background: rgba(249, 168, 37, 0.05);
 }
 
-.term-col.summer {
-  opacity: 0.85;
+.term-col.summer .term-col-header {
+  border-left: 2px solid rgba(249, 168, 37, 0.35);
 }
 
 .credit-load-bar {

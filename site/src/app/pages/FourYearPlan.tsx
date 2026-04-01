@@ -1505,7 +1505,7 @@ export default function FourYearPlan() {
                 <p className="fyp-muted">
                   No MAIN schedules yet. Set one schedule as MAIN for each term in All Schedules to build your four-year plan automatically.
                 </p>
-                <div className="mt-3">
+                <div style={{ marginTop: "12px" }}>
                   <Link to="/schedules" className="topbar-btn primary">Go to all schedules</Link>
                 </div>
               </div>
