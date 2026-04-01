@@ -1477,21 +1477,23 @@ export default function FourYearPlan() {
           <div className="topbar">
             <div className="topbar-left">
               <h2>Four-Year Plan</h2>
-              <p>Drag-ready board view grouped by term. Courses are listed vertically inside each semester column.</p>
+              <p>Board view of your academic plan grouped by term. Drag courses between semesters to reorganize.</p>
             </div>
-            <div className="topbar-right">
-              <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
-                <Info size={13} />
-                GPA Info
-              </button>
-              <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
-                {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-                {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
-              </button>
-              <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
-                Manage MAIN schedules
-              </Link>
-            </div>
+            {!loading && (
+              <div className="topbar-right">
+                <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
+                  <Info size={13} />
+                  GPA Info
+                </button>
+                <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
+                  {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                  {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
+                </button>
+                <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
+                  Manage MAIN schedules
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className="progress-strip" data-tour-target="four-year-summary">
@@ -1517,6 +1519,59 @@ export default function FourYearPlan() {
               </>
             )}
           </div>
+
+          {!loading && (
+            <div className="progress-strip ps-detail-row">
+              <div className="ps-credit-block">
+                <div className="ps-credit-labels">
+                  <span className="ps-label">Credit Progress</span>
+                  <span className="ps-val">{summary.totalCredits} / 120</span>
+                </div>
+                <ProgressBar
+                  done={summary.completedCredits}
+                  cur={summary.inProgressCredits}
+                  plan={summary.plannedCredits}
+                  total={120}
+                />
+                <div className="ps-credit-legend">
+                  <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Done</span></div>
+                  <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">Current</span></div>
+                  <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span></div>
+                </div>
+              </div>
+              {requirementProgress && (
+                <>
+                  <div className="ps-divider" />
+                  <div className="ps-req-block">
+                    <div className="ps-credit-labels">
+                      <span className="ps-label">Requirement Sections</span>
+                      <span className="ps-val">{requirementProgress.completedSections + requirementProgress.inProgressSections + requirementProgress.plannedSections} / {requirementProgress.totalSections}</span>
+                    </div>
+                    <ProgressBar
+                      done={requirementProgress.completedSections}
+                      cur={requirementProgress.inProgressSections}
+                      plan={requirementProgress.plannedSections}
+                      total={requirementProgress.totalSections}
+                    />
+                    <div className="ps-credit-legend">
+                      <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">{requirementProgress.completedSections} done</span></div>
+                      <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">{requirementProgress.inProgressSections} in progress</span></div>
+                      <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">{requirementProgress.plannedSections} planned</span></div>
+                    </div>
+                    <Link to="/degree-audit" className="ps-req-link">View full degree audit →</Link>
+                  </div>
+                </>
+              )}
+              <div className="ps-right-group">
+                <div className="ps-feasibility">
+                  <span className="ps-label">Avg credits/remaining term</span>
+                  <span className="ps-val">
+                    {plannedTermsCount > 0 ? (remainingCredits / plannedTermsCount).toFixed(1) : remainingCredits > 0 ? "Add terms" : "0"} cr
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="plan-alerts">
             {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
