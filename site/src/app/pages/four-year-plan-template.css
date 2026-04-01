@@ -214,6 +214,73 @@
   white-space: nowrap;
 }
 
+.ps-credit-block,
+.ps-req-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 180px;
+  flex: 1 1 180px;
+}
+
+.ps-credit-labels {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ps-credit-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: #ede7e1;
+  overflow: hidden;
+  display: flex;
+}
+
+.ps-credit-fill {
+  height: 100%;
+  transition: width 0.6s ease;
+}
+
+.ps-credit-completed { background: var(--red); width: var(--fill-done, 0%); }
+.ps-credit-progress  { background: var(--gold); width: var(--fill-cur, 0%); }
+.ps-credit-planned   { background: #90a4ae; width: var(--fill-plan, 0%); }
+
+.ps-credit-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.ps-req-link {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--red);
+  text-decoration: none;
+}
+
+.ps-req-link:hover {
+  text-decoration: underline;
+}
+
+.ps-right-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.ps-feasibility {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
+  white-space: nowrap;
+}
+
 .plan-alerts {
   display: grid;
   gap: 8px;
@@ -1021,21 +1088,84 @@
   background: var(--surface-2);
   padding: 9px 11px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
+  transition: border-color 0.15s;
+}
+
+.change-section-item.is-current {
+  border-color: rgba(198, 40, 40, 0.3);
+  background: rgba(198, 40, 40, 0.03);
 }
 
 .change-section-code {
   font-size: 0.82rem;
   font-weight: 700;
   color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.change-section-current-badge {
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--red);
+  border: 1px solid rgba(198, 40, 40, 0.3);
+  border-radius: 999px;
+  padding: 1px 6px;
 }
 
 .change-section-meta {
   font-size: 0.76rem;
   color: var(--ink-muted);
   margin-top: 1px;
+}
+
+.change-section-meetings {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.change-section-meeting-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+}
+
+.change-section-days {
+  font-weight: 600;
+  color: var(--ink-2);
+  min-width: 28px;
+}
+
+.change-section-time {
+  color: var(--ink-muted);
+}
+
+.change-section-loc {
+  color: var(--ink-ghost);
+  font-size: 0.72rem;
+}
+
+.change-section-seats {
+  margin-top: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.change-section-open {
+  color: #2e7d32;
+}
+
+.change-section-closed {
+  color: var(--ink-ghost);
 }
 
 .add-term-panel {

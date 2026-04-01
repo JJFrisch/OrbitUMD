@@ -349,6 +349,31 @@ function toPlannerSectionFromUmdSection(section: UmdSection, sectionKey: string)
   };
 }
 
+function ProgressBar({ done, cur, plan, total }: { done: number; cur: number; plan: number; total: number }) {
+  const pctDone = Math.min(100, (done / total) * 100);
+  const pctCur = Math.min(100 - pctDone, (cur / total) * 100);
+  const pctPlan = Math.min(100 - pctDone - pctCur, (plan / total) * 100);
+  return (
+    <div
+      className="ps-credit-bar"
+      // CSS custom properties are not static styles — dynamic percentage widths
+      // for a progress bar cannot be expressed as static CSS classes.
+      // eslint-disable-next-line react/forbid-component-props
+      style={
+        {
+          "--fill-done": `${pctDone.toFixed(1)}%`,
+          "--fill-cur": `${pctCur.toFixed(1)}%`,
+          "--fill-plan": `${pctPlan.toFixed(1)}%`,
+        } as React.CSSProperties
+      }
+    >
+      <div className="ps-credit-fill ps-credit-completed" />
+      <div className="ps-credit-fill ps-credit-progress" />
+      <div className="ps-credit-fill ps-credit-planned" />
+    </div>
+  );
+}
+
 function LinkedCourseText({ text, onCourseClick }: { text: string; onCourseClick: (code: string) => void }) {
   const COURSE_RE = /([A-Z]{4}\d{3}[A-Z]?)/g;
   const parts: Array<{ type: "text" | "code"; value: string }> = [];
@@ -750,6 +775,44 @@ export default function FourYearPlan() {
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
+  const requirementProgress = useMemo(() => {
+    if (requirementBundles.length === 0) return null;
+
+    const byCourseCode = new Map<string, import("@/lib/requirements/audit").AuditCourseStatus>();
+    for (const term of terms) {
+      for (const course of term.courses) {
+        if (!course.countsTowardProgress) continue;
+        const existing = byCourseCode.get(course.code.toUpperCase());
+        const rank = (s: import("@/lib/requirements/audit").AuditCourseStatus) =>
+          s === "completed" ? 3 : s === "in_progress" ? 2 : s === "planned" ? 1 : 0;
+        const next = course.status === "completed" ? "completed"
+          : course.status === "in_progress" ? "in_progress"
+          : "planned";
+        if (!existing || rank(next) > rank(existing)) {
+          byCourseCode.set(course.code.toUpperCase(), next);
+        }
+      }
+    }
+
+    let totalSections = 0;
+    let completedSections = 0;
+    let inProgressSections = 0;
+    let plannedSections = 0;
+
+    for (const bundle of requirementBundles) {
+      for (const section of bundle.sections) {
+        if (section.special) continue;
+        const audit = evaluateRequirementSection(section, byCourseCode);
+        totalSections += 1;
+        if (audit.status === "completed") completedSections += 1;
+        else if (audit.status === "in_progress") inProgressSections += 1;
+        else if (audit.status === "planned") plannedSections += 1;
+      }
+    }
+
+    return { totalSections, completedSections, inProgressSections, plannedSections };
+  }, [requirementBundles, terms]);
+
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -832,6 +895,10 @@ export default function FourYearPlan() {
     const academicTerms = terms.filter((term) => term.termLabel !== "Prior to UMD");
     return [...academicTerms, ...priorToUmd];
   }, [terms]);
+
+  const plannedTermsCount = useMemo(() => {
+    return boardTerms.filter((term) => term.status === "planned" && term.source === "schedule").length;
+  }, [boardTerms]);
 
   const originalTermByCourseSectionKey = useMemo(() => {
     const mapping = new Map<string, PlannedTerm>();
@@ -1427,21 +1494,52 @@ export default function FourYearPlan() {
           </div>
 
           <div className="progress-strip" data-tour-target="four-year-summary">
-            <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Completed</span><span className="ps-val">{summary.completedCredits} cr</span></div>
+            <div className="ps-credit-block">
+              <div className="ps-credit-labels">
+                <span className="ps-label">Credits toward 120</span>
+                <span className="ps-val">{summary.totalCredits} / 120</span>
+              </div>
+              <ProgressBar done={summary.completedCredits} cur={summary.inProgressCredits} plan={summary.plannedCredits} total={120} />
+              <div className="ps-credit-legend">
+                <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">{summary.completedCredits} done</span></div>
+                <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">{summary.inProgressCredits} now</span></div>
+                <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">{summary.plannedCredits} planned</span></div>
+                {remainingCredits > 0 && <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">{remainingCredits} left</span></div>}
+              </div>
+            </div>
+
             <div className="ps-divider" />
-            <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">In Progress</span><span className="ps-val">{summary.inProgressCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span><span className="ps-val">{summary.plannedCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
-            <div className="ps-divider" />
-            <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
-            <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-              </svg>
-              Standing: {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
-            </button>
+
+            {requirementProgress && requirementProgress.totalSections > 0 && (
+              <>
+                <div className="ps-req-block">
+                  <div className="ps-credit-labels">
+                    <span className="ps-label">Degree requirements</span>
+                    <span className="ps-val">{requirementProgress.completedSections} / {requirementProgress.totalSections} sections</span>
+                  </div>
+                  <ProgressBar done={requirementProgress.completedSections} cur={requirementProgress.inProgressSections} plan={requirementProgress.plannedSections} total={requirementProgress.totalSections} />
+                  <div className="ps-credit-legend">
+                    <Link to="/degree-audit" className="ps-req-link">View degree audit →</Link>
+                  </div>
+                </div>
+                <div className="ps-divider" />
+              </>
+            )}
+
+            <div className="ps-right-group">
+              {plannedTermsCount > 0 && remainingCredits > 0 && (
+                <div className="ps-feasibility">
+                  <span className="ps-label">~{plannedTermsCount} term{plannedTermsCount !== 1 ? "s" : ""} planned</span>
+                  <span className="ps-val">{remainingCredits > 0 ? `${remainingCredits} cr left` : "On track"}</span>
+                </div>
+              )}
+              <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                  <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                </svg>
+                {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
+              </button>
+            </div>
           </div>
 
           <div className="plan-alerts">
@@ -1722,6 +1820,24 @@ export default function FourYearPlan() {
                                   ))}
                                 </div>
                               </button>
+
+                              {sourceTerm.source === "schedule" && (
+                                <button
+                                  type="button"
+                                  className="pc-action-btn"
+                                  aria-label={`Actions for ${course.code}`}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    setCourseMenuTarget(
+                                      courseMenuTarget?.course.sectionKey === course.sectionKey && courseMenuTarget.term.id === sourceTerm.id
+                                        ? null
+                                        : { term: sourceTerm, course }
+                                    );
+                                  }}
+                                >
+                                  <MoreHorizontal size={14} />
+                                </button>
+                              )}
 
                               {courseMenuTarget &&
                                 courseMenuTarget.course.sectionKey === course.sectionKey &&
@@ -2026,12 +2142,38 @@ export default function FourYearPlan() {
                 const isCurrent = changeSectionTarget?.course.sectionCode === section.sectionCode;
                 const inFlight = updatingSectionCode === section.sectionCode;
                 return (
-                  <div key={section.id} className="change-section-item">
+                  <div key={section.id} className={`change-section-item${isCurrent ? " is-current" : ""}`}>
                     <div>
-                      <p className="change-section-code">Section {section.sectionCode}</p>
+                      <p className="change-section-code">
+                        Section {section.sectionCode}
+                        {isCurrent && <span className="change-section-current-badge">current</span>}
+                      </p>
                       <p className="change-section-meta">
                         {(section.instructor && section.instructor.length > 0) ? section.instructor : "Instructor TBA"}
                       </p>
+                      {section.meetings.length > 0 && (
+                        <div className="change-section-meetings">
+                          {section.meetings.map((meeting, mi) => {
+                            const days = typeof meeting.days === "string" ? meeting.days : (Array.isArray(meeting.days) ? (meeting.days as string[]).join("") : "TBA");
+                            const timeStr = Number.isFinite(meeting.startMinutes) && Number.isFinite(meeting.endMinutes)
+                              ? `${formatMinutesAsClock(meeting.startMinutes)} – ${formatMinutesAsClock(meeting.endMinutes)}`
+                              : "Time TBA";
+                            const loc = meeting.location ?? "";
+                            return (
+                              <span key={mi} className="change-section-meeting-row">
+                                <span className="change-section-days">{days || "TBA"}</span>
+                                <span className="change-section-time">{timeStr}</span>
+                                {loc && <span className="change-section-loc">{loc}</span>}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      )}
+                      <div className="change-section-seats">
+                        {section.openSeats > 0
+                          ? <span className="change-section-open">{section.openSeats} / {section.totalSeats} seats open</span>
+                          : <span className="change-section-closed">Closed ({section.totalSeats} seats)</span>}
+                      </div>
                     </div>
                     <button
                       type="button"
