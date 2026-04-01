@@ -2,7 +2,7 @@
 
 :root {
   --font-size: 16px;
-  --orbit-ui-scale: 0.9;
+  --orbit-ui-scale: 1;
   /* Light theme - UMD inspired colors */
   --background: #ffffff;
   --foreground: #1a1a1a;
