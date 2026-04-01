@@ -8,6 +8,7 @@
 }
 
 .signin-template {
+  --signin-page-scale: min(1, calc(100dvh / 900));
   --red: #C62828;
   --red-mid: #E53935;
   --red-light: #EF9A9A;
