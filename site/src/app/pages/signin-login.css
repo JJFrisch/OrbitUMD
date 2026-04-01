@@ -22,8 +22,8 @@
   --border-soft: rgba(55, 35, 25, 0.09);
 
   position: relative;
-  min-height: 100dvh;
-  height: 100dvh;
+  height: 100vh;
+  min-height: 600px;
   background: var(--cream);
   color: var(--ink);
   font-family: "DM Sans", sans-serif;
@@ -43,10 +43,7 @@
 .signin-template .shell {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(100dvh / var(--signin-page-scale));
-  width: calc(100% / var(--signin-page-scale));
-  transform: scale(var(--signin-page-scale));
-  transform-origin: top center;
+  height: 100%;
   overflow: hidden;
   position: relative;
   z-index: 2;
@@ -737,15 +734,14 @@
 @media (max-width: 800px) {
   .signin-template {
     height: auto;
-    min-height: 100dvh;
+    min-height: 100vh;
     overflow: auto;
   }
 
   .signin-template .shell {
     grid-template-columns: 1fr;
-    width: 100%;
-    transform: none;
-    min-height: 0;
+    height: auto;
+    min-height: 100vh;
   }
 
   .signin-template .left {
