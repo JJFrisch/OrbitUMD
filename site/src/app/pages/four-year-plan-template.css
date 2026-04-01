@@ -60,6 +60,7 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  min-width: 0;
   overflow: hidden;
 }
 
@@ -329,8 +330,9 @@
 .plan-area {
   flex: 1;
   min-height: 0;
+  min-width: 0;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   padding: 22px 28px 44px;
 }
 
@@ -360,6 +362,7 @@
 
 .plan-grid-scroll {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
   overflow-y: visible;
   padding-bottom: 6px;

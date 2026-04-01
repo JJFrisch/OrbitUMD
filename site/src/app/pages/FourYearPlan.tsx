@@ -1477,21 +1477,23 @@ export default function FourYearPlan() {
           <div className="topbar">
             <div className="topbar-left">
               <h2>Four-Year Plan</h2>
-              <p>Drag-ready board view grouped by term. Courses are listed vertically inside each semester column.</p>
+              <p>Board view of your academic plan grouped by term. Drag courses between semesters to reorganize.</p>
             </div>
-            <div className="topbar-right">
-              <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
-                <Info size={13} />
-                GPA Info
-              </button>
-              <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
-                {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-                {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
-              </button>
-              <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
-                Manage MAIN schedules
-              </Link>
-            </div>
+            {!loading && (
+              <div className="topbar-right">
+                <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
+                  <Info size={13} />
+                  GPA Info
+                </button>
+                <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
+                  {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+                  {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
+                </button>
+                <Link to="/schedules" className="topbar-btn primary" data-tour-target="four-year-manage-main">
+                  Manage MAIN schedules
+                </Link>
+              </div>
+            )}
           </div>
 
           <div className="progress-strip" data-tour-target="four-year-summary">
