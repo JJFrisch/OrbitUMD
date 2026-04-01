@@ -6,6 +6,7 @@
 }
 
 .welcome-landing-page {
+  --welcome-page-scale: 0.9;
   --red: #d32f2f;
   --red-light: #ef5350;
   --red-dark: #b71c1c;
@@ -70,7 +71,10 @@
 .welcome-wrapper {
   position: relative;
   z-index: 1;
-  min-height: 100vh;
+  min-height: calc(100vh / var(--welcome-page-scale));
+  width: calc(100% / var(--welcome-page-scale));
+  transform: scale(var(--welcome-page-scale));
+  transform-origin: top center;
   display: grid;
   grid-template-rows: auto 1fr auto;
 }
