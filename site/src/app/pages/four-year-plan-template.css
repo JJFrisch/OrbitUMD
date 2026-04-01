@@ -337,7 +337,7 @@
   min-height: 0;
   min-width: 0;
   overflow-y: auto;
-  overflow-x: auto;
+  overflow-x: hidden;
   padding: 22px 28px 44px;
 }
 
