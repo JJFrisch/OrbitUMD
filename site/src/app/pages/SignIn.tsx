@@ -300,8 +300,8 @@ export default function SignIn() {
 
           <div className="left-bottom">
             <h2 className="left-headline">
-              Your degree,<br />
-              finally <em>under<br />control.</em>
+              Take control,<br />
+              of <em>your<br />education.</em>
             </h2>
             <p className="left-sub">
               OrbitUMD maps every credit, requirement, and semester so nothing slips through the cracks before graduation.
