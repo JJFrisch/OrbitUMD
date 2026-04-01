@@ -1,3 +1,8 @@
+/* TEMP: override column width to force horizontal overflow for testing */
+:root {
+  --term-column-width: 500px;
+}
+
 .fyp-page,
 .fyp-page *,
 .fyp-page *::before,
