@@ -50,7 +50,7 @@ interface TermOption {
   year: number;
 }
 
-const ADMIN_UNLOCK_PASSWORD = "qim*fu2";
+const ADMIN_UNLOCK_PASSWORD = import.meta.env.VITE_ADMIN_UNLOCK_PASSWORD ?? "";
 const GRADUATION_SEASONS = ["spring", "summer", "fall", "winter"] as const;
 const SETTINGS_BACKUP_KEY = "orbitumd_settings_backup_v1";
 
