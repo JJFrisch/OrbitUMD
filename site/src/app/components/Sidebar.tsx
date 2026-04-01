@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
-import { 
-  LayoutDashboard, 
-  Calendar, 
-  CalendarDays, 
-  GraduationCap, 
-  FileCheck2, 
-  BookOpen, 
+import {
+  LayoutDashboard,
+  Calendar,
+  CalendarDays,
+  GraduationCap,
+  FileCheck2,
+  BookOpen,
   Settings,
   Lightbulb,
   ChevronDown,
@@ -15,6 +15,7 @@ import {
   PanelLeftOpen
 } from "lucide-react";
 import { cn } from "./ui/utils";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import "./sidebar-template.css";
 
 const navigationSections = [
@@ -29,7 +30,7 @@ const navigationSections = [
     label: "Scheduling",
     items: [
       { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
-      { name: "My Schedules", href: "/schedules", icon: CalendarDays, badge: "8" },
+      { name: "My Schedules", href: "/schedules", icon: CalendarDays },
     ],
   },
   {
@@ -50,8 +51,54 @@ interface SidebarProps {
 export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [userDisplay, setUserDisplay] = useState("Student");
   const settingsMenuRef = useRef<HTMLDivElement | null>(null);
-  const userDisplay = "Student";
+
+  useEffect(() => {
+    let active = true;
+    const supabase = getSupabaseClient();
+
+    const loadUser = async () => {
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user || !active) return;
+
+        const { data: profile } = await supabase
+          .from("user_profiles")
+          .select("display_name")
+          .eq("id", user.id)
+          .maybeSingle();
+
+        const name =
+          String(profile?.display_name ?? "").trim()
+          || (user.user_metadata?.full_name as string | undefined)
+          || (user.user_metadata?.name as string | undefined)
+          || user.email
+          || "Student";
+
+        if (active) setUserDisplay(name);
+      } catch {
+        // keep default "Student"
+      }
+    };
+
+    void loadUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!active) return;
+      if (event === "SIGNED_OUT") {
+        setUserDisplay("Student");
+      } else if (session?.user) {
+        void loadUser();
+      }
+    });
+
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const userInitials = userDisplay
     .split(/\s+/)
     .filter(Boolean)

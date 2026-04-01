@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Bug, Check, ExternalLink, Lightbulb, Loader2, Mail, MessageSquare, Send } from "lucide-react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { createUserFeedbackSubmission, listUserFeedbackSubmissions, type FeedbackType, type UserFeedbackSubmission } from "@/lib/repositories/userFeedbackRepository";
 import "./suggestions-template.css";
@@ -103,6 +103,7 @@ function feedbackStatusMeta(status: UserFeedbackSubmission["status"]): {
 
 export default function Suggestions() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<SuggestionsTab>("courses");
   const [activeFilter, setActiveFilter] = useState<CourseFilter>("all");
   const [type, setType] = useState<FeedbackType>("feature");
@@ -177,7 +178,8 @@ export default function Suggestions() {
       if (prev.includes(code)) return prev;
       return [...prev, code];
     });
-    toast.success(`${code} marked for your plan.`);
+    toast.success(`Opening ${code} in the Schedule Builder…`);
+    navigate(`/schedule-builder?search=${encodeURIComponent(code)}`);
   };
 
   return (
@@ -285,7 +287,7 @@ export default function Suggestions() {
                       <button
                         type="button"
                         className="ou-course-btn"
-                        onClick={() => toast.message(`${course.code} details are available in the scheduler.`)}
+                        onClick={() => navigate(`/schedule-builder?search=${encodeURIComponent(course.code)}`)}
                       >
                         Details
                       </button>
