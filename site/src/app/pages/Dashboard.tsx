@@ -426,7 +426,7 @@ export default function Dashboard() {
       </div>
 
       <div className="content">
-        {completedTermsMissingGrades.length > 0 && (
+        {!loading && completedTermsMissingGrades.length > 0 && (
           <Link to="/four-year-plan" className="deadline-banner">
             <span className="deadline-icon">📅</span>
             <div className="deadline-text">
@@ -438,7 +438,7 @@ export default function Dashboard() {
           </Link>
         )}
 
-        {primarySuggestion && (
+        {!loading && primarySuggestion && (
           <Link to={primarySuggestion.href} className="action-prompt">
             <div className="prompt-icon">
               <AlertCircle className="h-4 w-4" />
