@@ -520,6 +520,10 @@ export function ScheduleLibraryPage({
   };
 
   const openInBuilder = (schedule: ScheduleWithSelections) => {
+    // Keep parent/preview state in sync before navigation so edit mode honors this schedule.
+    setPreviewScheduleId(schedule.id);
+    onSelectedScheduleChange?.(schedule.id);
+
     const term = parseTermFromSchedule(schedule);
     const termParam = term ? `${term.termCode}-${term.termYear}` : "";
     if (hideHeader) {

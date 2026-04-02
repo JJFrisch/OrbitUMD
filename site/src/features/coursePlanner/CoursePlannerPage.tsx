@@ -226,7 +226,6 @@ export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean
     if (lastProcessedDeepLink.current === key) {
       return;
     }
-    lastProcessedDeepLink.current = key;
 
     if (shouldStartNew) {
       if (!confirmLeaveWithoutSaving()) {
@@ -236,6 +235,7 @@ export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean
       const nextName = generatedScheduleName ?? DEFAULT_SCHEDULE_NAME;
       setScheduleName(nextName);
       setLastSavedFingerprint(buildScheduleFingerprint(null, nextName, {}));
+      lastProcessedDeepLink.current = key;
       return;
     }
 
@@ -260,6 +260,7 @@ export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean
         if (!record) return;
         setScheduleName(record.name);
         setLastSavedFingerprint(buildScheduleFingerprint(scheduleId, record.name, state.selections));
+        lastProcessedDeepLink.current = key;
       });
       return;
     }
@@ -271,8 +272,12 @@ export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean
       startNewSchedule();
       setScheduleName(generatedScheduleName);
       setLastSavedFingerprint(buildScheduleFingerprint(null, generatedScheduleName, {}));
+      lastProcessedDeepLink.current = key;
       return;
     }
+
+    // Handle term-only deep links.
+    lastProcessedDeepLink.current = key;
   }, [confirmLeaveWithoutSaving, generatedScheduleName, loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
 
   const handleSaveClick = useCallback(() => {

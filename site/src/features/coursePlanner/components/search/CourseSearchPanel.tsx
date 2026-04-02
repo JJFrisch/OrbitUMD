@@ -1,4 +1,4 @@
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, ChevronDown } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { CourseCard } from "./CourseCard";
 import { CourseFilters } from "./CourseFilters";
@@ -83,7 +83,8 @@ export function CourseSearchPanel() {
         aria-label={filtersExpanded ? "Collapse filters" : "Expand filters"}
         aria-expanded={filtersExpanded}
       >
-        {filtersExpanded ? "Hide Filters" : "Show Filters"}
+        <span>Filters</span>
+        <ChevronDown size={14} className={`cp-filters-toggle-chevron${filtersExpanded ? " is-open" : ""}`} />
       </button>
 
       {filtersExpanded && <CourseFilters />}
