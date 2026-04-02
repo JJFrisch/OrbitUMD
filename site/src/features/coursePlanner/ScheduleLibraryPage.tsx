@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Plus, Star, Trash2, X } from "lucide-react";
+import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Info, Plus, Star, Trash2, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
 import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { fetchTerms } from "@/lib/api/umdCourses";
 import { assignConflictIndexes, buildCalendarMeetings, computeVisibleHourBounds } from "./utils/scheduleLayout";
+import { getCourseColor } from "./utils/colorPalette";
 import { Timeline } from "./components/schedule/Timeline";
 import { ScheduleGrid } from "./components/schedule/ScheduleGrid";
 import { ProjectedTimesPopover } from "./components/schedule/ProjectedTimesPopover";
@@ -62,7 +63,6 @@ function getEarliestLatest(schedule: ScheduleWithSelections): { earliest: string
     if (!raw) return Number.NaN;
     const normalized = raw.trim().toLowerCase().replace(/\s+/g, "");
 
-    // Supports: 10:00am, 10:00 am, 10:00AM, and 24-hour 14:30
     const ampmMatch = normalized.match(/^(\d{1,2}):(\d{2})(am|pm)$/);
     if (ampmMatch) {
       const [, hourRaw, minuteRaw, suffix] = ampmMatch;
@@ -162,14 +162,14 @@ function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
   );
 }
 
-export function ScheduleLibraryPage({ hideHeader = false }: { hideHeader?: boolean } = {}) {
+export function ScheduleLibraryPage({ hideHeader = false, termFilter: externalTermFilter }: { hideHeader?: boolean; termFilter?: string } = {}) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const requestedScheduleId = searchParams.get("scheduleId");
   const [schedules, setSchedules] = useState<ScheduleWithSelections[]>([]);
   const [sortBy, setSortBy] = useState<SortBy>("lastEdited");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
-  const [termFilter, setTermFilter] = useState("all");
+  const [internalTermFilter, setInternalTermFilter] = useState("all");
   const [searchInput, setSearchInput] = useState("");
   const [previewScheduleId, setPreviewScheduleId] = useState<string>("");
   const [renameScheduleId, setRenameScheduleId] = useState<string | null>(null);
@@ -180,6 +180,8 @@ export function ScheduleLibraryPage({ hideHeader = false }: { hideHeader?: boole
   const [showProjectedInfo, setShowProjectedInfo] = useState(false);
   const projectedInfoRef = useRef<HTMLButtonElement | null>(null);
   const [latestCatalogTerm, setLatestCatalogTerm] = useState<{ termCode: string; termYear: number } | null>(null);
+
+  const termFilter = externalTermFilter ?? internalTermFilter;
 
   const refreshSchedules = async () => {
     const results = await plannerApi.listAllSchedulesWithSelections();
@@ -505,6 +507,10 @@ export function ScheduleLibraryPage({ hideHeader = false }: { hideHeader?: boole
     }
   };
 
+  const previewSelections = previewSchedule ? parseSelections(previewSchedule.selections_json) : [];
+  const previewCredits = previewSchedule ? totalCreditsForSchedule(previewSchedule) : 0;
+  const previewStats = previewSchedule ? getEarliestLatest(previewSchedule) : null;
+
   return (
     <div className="course-planner-root cp-view-root">
       {!hideHeader && (
@@ -543,252 +549,249 @@ export function ScheduleLibraryPage({ hideHeader = false }: { hideHeader?: boole
         </div>
       )}
 
+      {/* Subheader strip like HTML template */}
+      <div className="cp-view-subheader">
+        <div className="cp-view-subheader-left">
+          <span className="cp-view-sh-title">My Schedules</span>
+          <span className="cp-view-sh-count">{filteredAndSorted.length} saved</span>
+        </div>
+        <div className="cp-view-subheader-right">
+          Click to preview · double-click to edit
+        </div>
+      </div>
+
+      {/* Two-column layout */}
       <div className="cp-view-layout">
-        <section className="cp-view-list-panel">
-          <div className="cp-view-toolbar">
-            <div className="cp-view-sort-row">
-              <ArrowUpDown size={13} />
-              <span>Sort:</span>
-              {([
-                { key: "lastEdited", label: "Recent" },
-                { key: "name", label: "Name" },
-                { key: "credits", label: "Credits" },
-                { key: "courses", label: "Courses" },
-              ] as const).map((entry) => (
-                <button
-                  key={entry.key}
-                  type="button"
-                  className={`cp-view-sort-chip ${sortBy === entry.key ? "is-active" : ""}`}
-                  onClick={() => toggleSort(entry.key)}
-                >
-                  {entry.label}
-                  {sortBy === entry.key ? <span>{sortOrder === "asc" ? "\u2191" : "\u2193"}</span> : null}
-                </button>
-              ))}
-
-              <span className="cp-view-total-pill">{filteredAndSorted.length} shown</span>
-            </div>
-
-            <div className="cp-library-controls">
-              <input
-                value={searchInput}
-                onChange={(event) => setSearchInput(event.target.value)}
-                placeholder="Search schedule name or class..."
-              />
-              <select value={termFilter} onChange={(event) => setTermFilter(event.target.value)} aria-label="Filter schedules by term" title="Filter schedules by term">
-                <option value="all">All Terms</option>
-                {termOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {loading && <p className="cp-muted-text">Loading schedules...</p>}
-          {!loading && errorMessage && <p className="cp-error-text">{errorMessage}</p>}
-          {!loading && !errorMessage && groupedByTerm.length === 0 && (
-            <div className="cp-view-empty-state">
+        {/* Left: schedule list */}
+        <div className="cp-view-list-panel">
+          {loading && <p className="cp-muted-text cp-view-list-msg">Loading schedules...</p>}
+          {!loading && errorMessage && <p className="cp-error-text cp-view-list-msg">{errorMessage}</p>}
+          {!loading && !errorMessage && filteredAndSorted.length === 0 && (
+            <div className="cp-view-empty-state cp-view-empty-state--compact">
               <Calendar size={34} />
               <p>No schedules yet.</p>
             </div>
           )}
 
-          <div className="cp-view-term-groups">
-            {groupedByTerm.map((group) => {
-              const mainSchedule = group.schedules.find((schedule) => schedule.is_primary);
+          {filteredAndSorted.map((schedule) => {
+            const selections = parseSelections(schedule.selections_json);
+            const totalCredits = totalCreditsForSchedule(schedule);
+            const stats = getEarliestLatest(schedule);
+            const selected = schedule.id === previewScheduleId;
+            const busy = actionPendingId === schedule.id;
+            const renaming = renameScheduleId === schedule.id;
 
-              return (
-                <article key={group.term} className="cp-view-term-group">
-                  <div className="cp-view-term-header">
-                    <div className="cp-view-term-dot" />
-                    <h2>{group.term}</h2>
-                    <div className="cp-view-term-divider" />
-                    <span>{group.schedules.length} schedules</span>
+            return (
+              <div
+                key={schedule.id}
+                className={`cp-view-card${selected ? " is-selected" : ""}${schedule.is_primary ? " is-main" : ""}`}
+                onClick={() => setPreviewScheduleId(schedule.id)}
+                onDoubleClick={() => openInBuilder(schedule)}
+              >
+                <div className="cp-view-card-head">
+                  <div className="cp-view-card-info">
+                    <div className="cp-view-card-badges">
+                      {schedule.is_primary && (
+                        <span className="cp-view-card-badge badge-main">Main</span>
+                      )}
+                      {!schedule.is_primary && (
+                        <span className="cp-view-card-badge badge-draft">Draft</span>
+                      )}
+                    </div>
+                    {renaming ? (
+                      <div className="cp-view-rename-row" onClick={(event) => event.stopPropagation()}>
+                        <input
+                          value={renameDraft}
+                          onChange={(event) => setRenameDraft(event.target.value)}
+                          onKeyDown={(event) => {
+                            if (event.key === "Enter") {
+                              event.preventDefault();
+                              void handleSubmitRename(schedule);
+                            }
+                            if (event.key === "Escape") {
+                              event.preventDefault();
+                              handleCancelRename();
+                            }
+                          }}
+                          autoFocus
+                          aria-label="Rename schedule"
+                        />
+                        <button
+                          type="button"
+                          className="cp-inline-link"
+                          disabled={busy}
+                          onClick={() => void handleSubmitRename(schedule)}
+                          aria-label="Save schedule name"
+                        >
+                          <Check size={13} />
+                        </button>
+                        <button
+                          type="button"
+                          className="cp-inline-link"
+                          disabled={busy}
+                          onClick={handleCancelRename}
+                          aria-label="Cancel rename"
+                        >
+                          <X size={13} />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="cp-view-card-title-row">
+                        <button
+                          type="button"
+                          className="cp-view-title-btn"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            handleStartRename(schedule);
+                          }}
+                          aria-label={`Rename ${schedule.name}`}
+                        >
+                          <h3>{schedule.name}</h3>
+                        </button>
+                      </div>
+                    )}
+                    <div className="cp-view-card-meta">
+                      {totalCredits} cr · {selections.length} courses · {stats.earliest}–{stats.latest} · edited {new Date(schedule.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                    </div>
                   </div>
 
-                  <div className="cp-view-cards">
-                    {group.schedules.map((schedule) => {
-                      const selections = parseSelections(schedule.selections_json);
-                      const stats = getEarliestLatest(schedule);
-                      const totalCredits = totalCreditsForSchedule(schedule);
-                      const selected = schedule.id === previewScheduleId;
-                      const busy = actionPendingId === schedule.id;
-                      const renaming = renameScheduleId === schedule.id;
+                  <div className="cp-view-card-actions" onClick={(event) => event.stopPropagation()}>
+                    {!schedule.is_primary && (
+                      <button
+                        type="button"
+                        className="cp-view-card-action-btn"
+                        disabled={busy}
+                        onClick={() => void handleSetMain(schedule)}
+                        title="Set as MAIN"
+                      >
+                        <Star size={11} />
+                      </button>
+                    )}
 
+                    <button
+                      type="button"
+                      className="cp-view-card-action-btn"
+                      disabled={busy}
+                      onClick={() => void handleDelete(schedule.id)}
+                      title="Delete"
+                    >
+                      <Trash2 size={11} />
+                    </button>
+
+                    <button
+                      type="button"
+                      className="cp-view-card-action-btn is-edit"
+                      onClick={() => openInBuilder(schedule)}
+                      title="Edit this schedule"
+                    >
+                      <Edit2 size={11} />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Course chips strip */}
+                <div className="cp-view-card-chips">
+                  {selections.map((selection) => (
+                    <div key={selection.sectionKey} className="cp-view-card-chip">
+                      <div
+                        className="cp-view-chip-dot"
+                        style={{ background: getCourseColor(selection.course.courseCode) }}
+                      />
+                      <span className="cp-view-chip-code">{selection.course.courseCode}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <span className="cp-view-card-dbl-hint">double-click to open editor</span>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Right: preview panel */}
+        <section className="cp-view-preview-panel">
+          {!previewSchedule ? (
+            <div className="cp-view-empty-state">
+              <div className="cp-view-empty-icon">
+                <Calendar size={32} />
+              </div>
+              <div className="cp-view-empty-title">Select a schedule to preview</div>
+              <div className="cp-view-empty-sub">
+                Click any schedule on the left to see its full week calendar here. Double-click to open the editor.
+              </div>
+              <div className="cp-view-empty-hint">
+                <Info size={12} />
+                Your main schedule drives your Degree Audit
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="cp-view-preview-head">
+                <div className="cp-view-preview-title">
+                  <h3>{previewSchedule.name}</h3>
+                  <span className="cp-view-term-pill">{formatTermLabel(previewSchedule.term_code, previewSchedule.term_year)}</span>
+                  {previewSchedule.is_primary && <span className="cp-view-main-pill"><Star size={11} /> MAIN</span>}
+                </div>
+                <div className="cp-view-preview-actions">
+                  {!previewSchedule.is_primary && (
+                    <button
+                      type="button"
+                      className="cp-view-preview-ghost-btn"
+                      onClick={() => void handleSetMain(previewSchedule)}
+                    >
+                      Set as Main
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    className="cp-view-preview-edit-btn"
+                    onClick={() => openInBuilder(previewSchedule)}
+                  >
+                    <Edit2 size={12} /> Edit Schedule
+                  </button>
+                </div>
+              </div>
+
+              {/* Credits bar */}
+              {previewSelections.length > 0 && (
+                <div className="cp-view-credits-bar">
+                  <span className="cp-view-cr-label"><strong>{previewCredits}</strong> / 18 credits</span>
+                  <div className="cp-view-cr-track">
+                    <div className="cp-view-cr-fill" style={{ width: `${Math.min(100, (previewCredits / 18) * 100)}%` }} />
+                  </div>
+                  <div className="cp-view-cr-chips">
+                    {previewSelections.map((sel) => {
+                      const color = getCourseColor(sel.course.courseCode);
                       return (
-                        <div
-                          key={schedule.id}
-                          className={`cp-view-card ${selected ? "is-selected" : ""} ${schedule.is_primary ? "is-main" : ""}`}
-                          onClick={() => setPreviewScheduleId(schedule.id)}
-                          onDoubleClick={() => openInBuilder(schedule)}
+                        <span
+                          key={sel.sectionKey}
+                          className="cp-view-cr-chip"
+                          style={{
+                            background: `${color}18`,
+                            color,
+                            borderColor: `${color}40`,
+                          }}
                         >
-                          <div className="cp-view-card-head">
-                            <div className="cp-view-card-title-row">
-                              {renaming ? (
-                                <div className="cp-view-rename-row" onClick={(event) => event.stopPropagation()}>
-                                  <input
-                                    value={renameDraft}
-                                    onChange={(event) => setRenameDraft(event.target.value)}
-                                    onKeyDown={(event) => {
-                                      if (event.key === "Enter") {
-                                        event.preventDefault();
-                                        void handleSubmitRename(schedule);
-                                      }
-                                      if (event.key === "Escape") {
-                                        event.preventDefault();
-                                        handleCancelRename();
-                                      }
-                                    }}
-                                    autoFocus
-                                    aria-label="Rename schedule"
-                                  />
-                                  <button
-                                    type="button"
-                                    className="cp-inline-link"
-                                    disabled={busy}
-                                    onClick={() => void handleSubmitRename(schedule)}
-                                    aria-label="Save schedule name"
-                                  >
-                                    <Check size={13} />
-                                  </button>
-                                  <button
-                                    type="button"
-                                    className="cp-inline-link"
-                                    disabled={busy}
-                                    onClick={handleCancelRename}
-                                    aria-label="Cancel rename"
-                                  >
-                                    <X size={13} />
-                                  </button>
-                                </div>
-                              ) : (
-                                <button
-                                  type="button"
-                                  className="cp-view-title-btn"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    handleStartRename(schedule);
-                                  }}
-                                  aria-label={`Rename ${schedule.name}`}
-                                >
-                                  <h3>{schedule.name}</h3>
-                                </button>
-                              )}
-                              {schedule.is_primary ? (
-                                <span className="cp-view-main-pill"><Star size={11} /> MAIN</span>
-                              ) : null}
-                            </div>
-
-                            <div className="cp-view-card-actions" onClick={(event) => event.stopPropagation()}>
-                              {!schedule.is_primary && (
-                                <button
-                                  type="button"
-                                  className="cp-inline-link"
-                                  disabled={busy}
-                                  onClick={() => void handleSetMain(schedule)}
-                                  aria-label="Set as MAIN"
-                                >
-                                  <Star size={13} />
-                                </button>
-                              )}
-
-                              <button
-                                type="button"
-                                className="cp-inline-link"
-                                disabled={busy}
-                                onClick={() => openInBuilder(schedule)}
-                                aria-label="Edit schedule"
-                              >
-                                <Edit2 size={13} />
-                              </button>
-
-                              <button
-                                type="button"
-                                className="cp-inline-link"
-                                disabled={busy}
-                                onClick={() => void handleDelete(schedule.id)}
-                                aria-label="Delete schedule"
-                              >
-                                <Trash2 size={13} />
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className="cp-view-stat-grid">
-                            <div><small>Courses</small><strong>{selections.length}</strong></div>
-                            <div><small>Credits</small><strong>{totalCredits}</strong></div>
-                            <div><small>Earliest</small><strong>{stats.earliest}</strong></div>
-                            <div><small>Latest</small><strong>{stats.latest}</strong></div>
-                          </div>
-
-                          <div className="cp-view-course-pills">
-                            {selections.map((selection) => (
-                              <span key={selection.sectionKey}>{selection.course.courseCode}</span>
-                            ))}
-                          </div>
-
-                          <p className="cp-view-edited-line">
-                            Edited {new Date(schedule.updated_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                          </p>
-                        </div>
+                          {sel.course.courseCode}
+                        </span>
                       );
                     })}
                   </div>
+                </div>
+              )}
 
-                  <p className="cp-view-main-line">
-                    {mainSchedule ? (
-                      <>
-                        <Star size={11} /> {mainSchedule.name} feeds your Four-Year Plan.
-                      </>
-                    ) : (
-                      <>No MAIN set for this term.</>
-                    )}
-                  </p>
-                </article>
-              );
-            })}
-          </div>
-        </section>
-
-        <section className="cp-view-preview-panel">
-          <div className="cp-view-preview-head">
-            <div className="cp-view-preview-title">
-              <Clock size={16} />
-              <h3>{previewSchedule ? previewSchedule.name : "Schedule Preview"}</h3>
-              {previewSchedule ? (
-                <span className="cp-view-term-pill">{formatTermLabel(previewSchedule.term_code, previewSchedule.term_year)}</span>
-              ) : null}
-              {previewSchedule?.is_primary ? <span className="cp-view-main-pill"><Star size={11} /> MAIN</span> : null}
-            </div>
-
-            {previewSchedule ? (
-              <button
-                type="button"
-                className="cp-builder-action-btn"
-                onClick={() => openInBuilder(previewSchedule)}
-              >
-                <Edit2 size={13} /> Edit Schedule
-              </button>
-            ) : null}
-          </div>
-
-          <div className="cp-view-preview-body">
-            {!previewSchedule ? (
-              <div className="cp-view-empty-state">
-                <BookOpen size={36} />
-                <p>Select a schedule from the left to preview.</p>
+              <div className="cp-view-preview-body">
+                {previewSelections.length === 0 ? (
+                  <div className="cp-view-empty-state cp-view-empty-state--compact">
+                    <Calendar size={36} />
+                    <p>This schedule has no courses.</p>
+                  </div>
+                ) : (
+                  <ScheduleSnapshot selections={previewSelections} />
+                )}
               </div>
-            ) : parseSelections(previewSchedule.selections_json).length === 0 ? (
-              <div className="cp-view-empty-state">
-                <Calendar size={36} />
-                <p>This schedule has no courses.</p>
-              </div>
-            ) : (
-              <ScheduleSnapshot selections={parseSelections(previewSchedule.selections_json)} />
-            )}
-          </div>
+            </>
+          )}
         </section>
       </div>
     </div>
