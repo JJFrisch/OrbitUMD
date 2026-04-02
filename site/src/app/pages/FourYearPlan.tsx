@@ -1426,7 +1426,7 @@ export default function FourYearPlan() {
       <div className="shell">
         <div className="main">
           <div className="topbar">
-            <div className="topbar-left">
+            <div className="topbar-left"> 
               <h2>Four-Year Plan</h2>
               <p>Board view of your academic plan grouped by term. Drag courses between semesters to reorganize.</p>
             </div>
