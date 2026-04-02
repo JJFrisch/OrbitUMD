@@ -1432,10 +1432,10 @@ export default function FourYearPlan() {
             </div>
             {!loading && (
               <div className="topbar-right">
-                <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
+                {/* <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
                   <Info size={13} />
                   GPA Info
-                </button>
+                </button> */}
                 <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
                   {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                   {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
@@ -1461,6 +1461,12 @@ export default function FourYearPlan() {
                 <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
                 <div className="ps-divider" />
                 <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
+                <ProgressBar
+                  done={summary.completedCredits}
+                  cur={summary.inProgressCredits}
+                  plan={summary.plannedCredits}
+                  total={120}
+                />
                 <div className="summary-actions">
                   <button
                     type="button"
@@ -1472,23 +1478,34 @@ export default function FourYearPlan() {
                   >
                     Add Term
                   </button>
-                  <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                      <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-                    </svg>
-                    Standing: {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
-                  </button>
+                  <div className="grad-badge" role="group" aria-label="Academic standing and GPA quick actions">
+                    <button type="button" className="grad-badge-segment" onClick={() => setShowStandingInfo(true)}>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                        <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                      </svg>
+                      Standing: {officialStanding}
+                    </button>
+                    <span className="grad-badge-separator" aria-hidden>·</span>
+                    <button
+                      type="button"
+                      className="grad-badge-segment"
+                      onClick={() => setShowGpaInfo(true)}
+                      aria-label="Open GPA information"
+                    >
+                      GPA {summary.overallGPA?.toFixed(3) ?? "-"}
+                    </button>
+                  </div>
                 </div>
               </>
             )}
           </div>
 
-          {!loading && (
+          {/* {!loading && (
             <div className="progress-strip ps-detail-row">
               <div className="ps-credit-block">
                 <div className="ps-credit-labels">
-                  {/* <span className="ps-label">Credit Progress</span> */}
-                  {/* <span className="ps-val">{summary.totalCredits} / 120</span> */}
+                  <span className="ps-label">Credit Progress</span> 
+                  <span className="ps-val">{summary.totalCredits} / 120</span>
                 </div>
                 <ProgressBar
                   done={summary.completedCredits}
@@ -1496,14 +1513,14 @@ export default function FourYearPlan() {
                   plan={summary.plannedCredits}
                   total={120}
                 />
-                {/* <div className="ps-credit-legend">
+                 <div className="ps-credit-legend">
                   <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Done</span></div>
                   <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">Current</span></div>
                   <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span></div>
-                </div> */}
+                </div>
               </div>
             </div>
-          )}
+          )} */}
 
           <div className="plan-alerts">
             {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (

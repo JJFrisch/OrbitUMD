@@ -205,17 +205,46 @@
 
 .grad-badge {
   margin-left: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 0;
   background: rgba(198, 40, 40, 0.07);
   border: 1px solid rgba(198, 40, 40, 0.18);
   border-radius: 6px;
-  padding: 5px 12px;
   font-size: 0.86rem;
   color: var(--red);
   font-weight: 500;
   white-space: nowrap;
+  overflow: hidden;
+}
+
+.grad-badge-segment {
+  border: none;
+  background: transparent;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  font: inherit;
+  cursor: pointer;
+}
+
+.grad-badge-segment:hover {
+  background: rgba(198, 40, 40, 0.12);
+}
+
+.grad-badge-segment:focus-visible {
+  outline: 2px solid rgba(198, 40, 40, 0.45);
+  outline-offset: -2px;
+}
+
+.grad-badge-separator {
+  opacity: 0.75;
+  padding: 0 2px;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
 }
 
 .summary-actions {
