@@ -42,7 +42,7 @@ const navigationSections: NavigationSection[] = [
   { 
     label: "Scheduling",
     items: [ 
-      { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
+      // { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
       { name: "Schedules", href: "/schedules", icon: CalendarDays },
     ],
   },
