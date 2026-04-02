@@ -78,13 +78,15 @@ export default function Welcome() {
       <div className="welcome-wrapper">
         <header className="welcome-header">
           <button className="welcome-logo" type="button" onClick={() => navigate("/")}>
-            <svg className="welcome-logo-icon" viewBox="0 0 36 36" fill="none">
-              <circle cx="18" cy="18" r="4" fill="#D32F2F" />
-              <circle cx="18" cy="18" r="10" stroke="#D32F2F" strokeWidth="1.5" strokeDasharray="3 2" />
-              <circle cx="18" cy="8" r="2.5" fill="#D32F2F" />
-              <circle cx="26.66" cy="23" r="1.8" fill="#EF5350" opacity="0.7" />
-              <circle cx="9.34" cy="23" r="1.4" fill="#EF5350" opacity="0.5" />
+            <span className="sidebar-logo-mark" aria-hidden="true">
+            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+              <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
+              <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
+              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeDasharray="3 2" strokeLinejoin="round" />
+              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeDasharray="3 2" strokeLinejoin="round" />
             </svg>
+          </span>
             <span className="welcome-logo-text">
               Orbit<span>UMD</span>
             </span>
