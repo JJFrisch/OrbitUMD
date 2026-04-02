@@ -981,7 +981,8 @@ export async function getSectionsForCourse(
   signal?: AbortSignal
 ): Promise<Section[]> {
   if (isDemoMode()) {
-    return fetchPlannerSectionsFallback(`${year}${term}`, courseCode);
+    const rows = await fetchPlannerSectionsFallback(`${year}${term}`, courseCode);
+    return rows.map(toPlannerSectionFromFallback);
   }
 
   const baseKey = `${year}${term}:${courseCode}`;
