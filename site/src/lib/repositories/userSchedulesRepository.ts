@@ -659,3 +659,18 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
   const refreshedCleaned = await stripAutoSeededFirstSchedules(refreshedData ?? []);
   return refreshedCleaned.map(mapScheduleRowWithDerivedTerm);
 }
+
+export async function countAllSchedulesGlobally(): Promise<number> {
+  const supabase = getSupabaseClient();
+
+  const { count, error } = await supabase
+    .from("user_schedules")
+    .select("id", { count: "exact", head: true });
+
+  if (error) {
+    // If there's an error (e.g., RLS policy), return 0 instead of throwing
+    return 0;
+  }
+
+  return count ?? 0;
+}

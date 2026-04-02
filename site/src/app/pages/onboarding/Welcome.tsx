@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { listDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
-import { listAllSchedulesWithSelections } from "@/lib/repositories/userSchedulesRepository";
+import { countAllSchedulesGlobally } from "@/lib/repositories/userSchedulesRepository";
 import "./welcome-landing.css";
 
 export default function Welcome() {
@@ -67,23 +67,14 @@ export default function Welcome() {
   // Load user's scheduled semesters (only if authenticated)
   useEffect(() => {
     let active = true;
-    void listAllSchedulesWithSelections()
-      .then((schedules) => {
+    void countAllSchedulesGlobally()
+      .then((count) => {
         if (active) {
-          // Count unique semesters from MAIN schedules
-          const uniqueTerms = new Set<string>();
-          schedules
-            .filter((s) => s.is_primary)
-            .forEach((schedule) => {
-              if (schedule.term_code && typeof schedule.term_year === "number") {
-                uniqueTerms.add(`${schedule.term_code}-${schedule.term_year}`);
-              }
-            });
-          setSemestersMapped(uniqueTerms.size);
+          setSemestersMapped(count);
         }
       })
       .catch(() => {
-        // User not authenticated or error loading schedules
+        // Error loading schedules
         if (active) {
           setSemestersMapped(0);
         }
@@ -158,8 +149,8 @@ export default function Welcome() {
 
             <div className="welcome-stats">
               <div className="welcome-stat">
-                <div className="welcome-stat-num">{semestersMapped}</div>
-                <div className="welcome-stat-label">Semesters mapped</div>
+                <div className="welcome-stat-num">{semestersMapped.toLocaleString()}</div>
+                <div className="welcome-stat-label">Schedules mapped</div>
               </div>
               <div className="welcome-stat">
                 <div className="welcome-stat-num">{majorMinorCount > 0 ? majorMinorCount.toLocaleString() : "100+"}</div>
