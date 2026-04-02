@@ -191,7 +191,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
                 >
                   <item.icon className="nav-icon" />
                   <span className="nav-text">{item.name}</span>
-                  {item.badge ? <span className="nav-badge">{item.badge}</span> : null}
+                  {item.badge != null ? <span className="nav-badge">{item.badge}</span> : null}
                 </Link>
               );
             })}
