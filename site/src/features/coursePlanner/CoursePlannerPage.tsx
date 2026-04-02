@@ -26,6 +26,12 @@ const DEFAULT_SCHEDULE_NAME = "Default Schedule";
 const SCHEDULE_BUILDER_AUTOSAVE_KEY = "orbitumd:schedule-builder:draft:v1";
 type SaveStatus = "idle" | "saving" | "saved" | "autosaved" | "error";
 
+interface SaveStatusSnapshot {
+  text: string | null;
+  tone: SaveStatus;
+  timestamp: number | null;
+}
+
 function buildScheduleFingerprint(
   activeScheduleId: string | null,
   scheduleName: string,
@@ -40,7 +46,13 @@ function buildScheduleFingerprint(
   return `${scheduleKey}::${normalizedName}::${selectionKeys}`;
 }
 
-export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean } = {}) {
+export function CoursePlannerPage({
+  hideHeader = false,
+  onSaveStatusChange,
+}: {
+  hideHeader?: boolean;
+  onSaveStatusChange?: (snapshot: SaveStatusSnapshot) => void;
+} = {}) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const lastProcessedDeepLink = useRef<string>("");
@@ -353,6 +365,14 @@ export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean
         : saveStatus === "error"
           ? "error"
           : "autosaved";
+
+  useEffect(() => {
+    onSaveStatusChange?.({
+      text: saveStatusText,
+      tone: saveStatus,
+      timestamp: lastAutosavedAt,
+    });
+  }, [lastAutosavedAt, onSaveStatusChange, saveStatus, saveStatusText]);
 
   useEffect(() => {
     let active = true;

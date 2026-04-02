@@ -167,11 +167,13 @@ export function ScheduleLibraryPage({
   termFilter: externalTermFilter,
   selectedScheduleId,
   onSelectedScheduleChange,
+  externalRefreshToken,
 }: {
   hideHeader?: boolean;
   termFilter?: string;
   selectedScheduleId?: string | null;
   onSelectedScheduleChange?: (scheduleId: string | null) => void;
+  externalRefreshToken?: number;
 } = {}) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -256,6 +258,11 @@ export function ScheduleLibraryPage({
     if (!schedules.some((schedule) => schedule.id === selectedScheduleId)) return;
     setPreviewScheduleId(selectedScheduleId);
   }, [selectedScheduleId, schedules]);
+
+  useEffect(() => {
+    if (typeof externalRefreshToken !== "number") return;
+    void refreshSchedules();
+  }, [externalRefreshToken]);
 
   const toggleSort = (key: SortBy) => {
     if (sortBy === key) {

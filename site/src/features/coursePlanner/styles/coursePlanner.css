@@ -225,6 +225,25 @@
   white-space: nowrap;
 }
 
+.cp-edit-meta-save {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.cp-edit-meta-save-idle,
+.cp-edit-meta-save-autosaved,
+.cp-edit-meta-save-saved {
+  color: var(--cp-muted);
+}
+
+.cp-edit-meta-save-saving {
+  color: #305d2f;
+}
+
+.cp-edit-meta-save-error {
+  color: var(--cp-link);
+}
+
 .cp-builder-save-status {
   display: inline-flex;
   align-items: center;

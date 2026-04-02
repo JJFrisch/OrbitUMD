@@ -94,6 +94,9 @@ export function SchedulesPage() {
   const [newScheduleTerm, setNewScheduleTerm] = useState("01");
   const [creatingSchedule, setCreatingSchedule] = useState(false);
   const [newScheduleError, setNewScheduleError] = useState<string | null>(null);
+  const [scheduleLibraryRefreshToken, setScheduleLibraryRefreshToken] = useState(0);
+  const [editSaveStatusText, setEditSaveStatusText] = useState<string | null>(null);
+  const [editSaveStatusTone, setEditSaveStatusTone] = useState<"idle" | "saving" | "saved" | "autosaved" | "error">("idle");
 
   useEffect(() => {
     plannerApi.listAllSchedulesWithSelections().then(setSchedules).catch(() => {});
@@ -267,6 +270,7 @@ export function SchedulesPage() {
 
       const refreshed = await plannerApi.listAllSchedulesWithSelections();
       setSchedules(refreshed);
+      setScheduleLibraryRefreshToken((current) => current + 1);
 
       setActiveScheduleId(created.id);
       setSelectedSchedulesByTerm((current) => ({
@@ -336,6 +340,12 @@ export function SchedulesPage() {
             <span className="cp-edit-meta-name">{editSchedule.name}</span>
             <span className="cp-edit-meta-separator">•</span>
             <span className="cp-edit-meta-term">{editTermLabel}</span>
+            {editSaveStatusText && (
+              <>
+                <span className="cp-edit-meta-separator">•</span>
+                <span className={`cp-edit-meta-save cp-edit-meta-save-${editSaveStatusTone}`}>{editSaveStatusText}</span>
+              </>
+            )}
           </div>
         )}
 
@@ -387,9 +397,18 @@ export function SchedulesPage() {
             termFilter={termFilter}
             selectedScheduleId={activeScheduleId}
             onSelectedScheduleChange={handleSelectedScheduleChange}
+            externalRefreshToken={scheduleLibraryRefreshToken}
           />
         )}
-        {tab === "edit" && <CoursePlannerPage hideHeader />}
+        {tab === "edit" && (
+          <CoursePlannerPage
+            hideHeader
+            onSaveStatusChange={(snapshot) => {
+              setEditSaveStatusText(snapshot.text);
+              setEditSaveStatusTone(snapshot.tone);
+            }}
+          />
+        )}
         {tab === "generate" && <AutoGenerateSchedulePage hideHeader defaultTerm={termFilter} />}
       </div>
 
