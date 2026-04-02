@@ -93,9 +93,9 @@ export default function Welcome() {
           </button>
 
           <nav className="welcome-nav">
-            {/* <button type="button" onClick={() => navigate("/degree-requirements")}>Majors & Minors</button>
-            <button type="button" onClick={() => navigate("/gen-eds")}>Gen Eds</button>
-            <button type="button" onClick={() => navigate("/schedules")}>Schedules</button> */}
+            <button type="button" onClick={() => navigate("/degree-requirements")}>Majors & Minors</button>
+            {/* <button type="button" onClick={() => navigate("/gen-eds")}>Gen Eds</button> */}
+            <button type="button" onClick={() => navigate("/schedules")}>Schedules</button>
             <button
               type="button"
               className="welcome-nav-demo"
