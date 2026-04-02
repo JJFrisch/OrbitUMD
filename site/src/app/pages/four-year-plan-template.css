@@ -190,6 +190,10 @@
   font-weight: 400;
 }
 
+.ps-label-dimmed {
+  opacity: 0.5;
+}
+
 .ps-val {
   font-size: 0.86rem;
   font-weight: 600;
@@ -257,23 +261,22 @@
   flex: 0 1 auto;
 }
 
-.ps-credit-block,
-.ps-req-block {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  min-width: 180px;
-  flex: 1 1 180px;
-}
-
-.ps-credit-labels {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
 .ps-credit-bar {
+  width: 100%;
+  height: 8px;
+  display: block;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #ede7e1;
+}
+
+.ps-credit-fill {
+  shape-rendering: geometricPrecision;
+}
+
+.ps-credit-completed { fill: var(--red); }
+.ps-credit-progress  { fill: var(--gold); }
+.ps-credit-planned   { fill: #90a4ae; }
   height: 6px;
   border-radius: 999px;
   background: #ede7e1;

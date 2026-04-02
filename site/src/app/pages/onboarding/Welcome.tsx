@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { getSupabaseClient } from "@/lib/supabase/client";
-import { enableDemoMode } from "@/lib/demo/demoMode";
+import { buildAppUrl, enableDemoMode } from "@/lib/demo/demoMode";
 import "./welcome-landing.css";
 
 export default function Welcome() {
@@ -99,7 +99,10 @@ export default function Welcome() {
             <button
               type="button"
               className="welcome-nav-demo"
-              onClick={() => { enableDemoMode(); window.location.href = "/dashboard"; }}
+              onClick={() => {
+                enableDemoMode();
+                window.location.assign(buildAppUrl("/dashboard"));
+              }}
             >
               Try Demo
             </button>

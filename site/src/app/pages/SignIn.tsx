@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { getProfileEmailSnapshot } from "@/lib/supabase/profileEmailGate";
+import { disableDemoMode } from "@/lib/demo/demoMode";
 import "./signin-login.css";
 
 const AUTH_FLOW_KEY = "orbitumd:auth:flow";
@@ -103,6 +104,7 @@ export default function SignIn() {
       if (authNavigationStarted.current) return;
       authNavigationStarted.current = true;
       try {
+        disableDemoMode();
         await ensureProfile(authUser);
         const destination = await resolvePostAuthPath(authUser, nextPath);
         sessionStorage.removeItem(AUTH_FLOW_KEY);
@@ -186,6 +188,7 @@ export default function SignIn() {
       const { data } = await supabase.auth.getSession();
       if (!active) return;
       if (data.session?.user) {
+        disableDemoMode();
         await navigateAfterAuth(data.session.user);
       }
     };

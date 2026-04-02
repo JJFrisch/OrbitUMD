@@ -6,7 +6,7 @@
  */
 
 import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
-import { isDemoMode, enableDemoMode, disableDemoMode } from "@/lib/demo/demoMode";
+import { buildAppUrl, isDemoMode, enableDemoMode, disableDemoMode } from "@/lib/demo/demoMode";
 
 interface DemoModeValue {
   isDemo: boolean;
@@ -26,12 +26,12 @@ export function DemoModeProvider({ children }: { children: ReactNode }) {
       if (prev) {
         disableDemoMode();
         // Reload to clear any cached demo state from repositories
-        window.location.href = "/";
+        window.location.assign(buildAppUrl("/"));
         return false;
       }
       enableDemoMode();
       // Reload to enter demo mode cleanly — RequireAuth will let us through
-      window.location.href = "/dashboard";
+      window.location.assign(buildAppUrl("/dashboard"));
       return true;
     });
   }, []);

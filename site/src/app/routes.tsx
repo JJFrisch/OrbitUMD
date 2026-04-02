@@ -3,7 +3,7 @@ import { isRouteErrorResponse, Link, Navigate, createBrowserRouter, useLocation,
 import RootLayout from "./layouts/RootLayout";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { userNeedsOnboardingByEmail } from "@/lib/supabase/profileEmailGate";
-import { isDemoMode } from "@/lib/demo/demoMode";
+import { disableDemoMode, isDemoMode } from "@/lib/demo/demoMode";
 
 function lazyWithRetry<T extends ComponentType<any>>(
   loader: () => Promise<{ default: T }>,
@@ -147,6 +147,7 @@ function RequireAuth({
           return;
         }
 
+        disableDemoMode();
         setIsAuthed(true);
         setOnboardingChecked(false);
         await syncOnboardingState(user.id, user.email ?? null);
@@ -185,6 +186,7 @@ function RequireAuth({
         return;
       }
 
+      disableDemoMode();
       setIsAuthed(true);
       // Refresh onboarding state in the background using auth email fallback.
       void syncOnboardingState(user.id, user.email ?? null);

@@ -353,23 +353,11 @@ function ProgressBar({ done, cur, plan, total }: { done: number; cur: number; pl
   const pctCur = Math.min(100 - pctDone, (cur / total) * 100);
   const pctPlan = Math.min(100 - pctDone - pctCur, (plan / total) * 100);
   return (
-    <div
-      className="ps-credit-bar"
-      // CSS custom properties are not static styles — dynamic percentage widths
-      // for a progress bar cannot be expressed as static CSS classes.
-      // eslint-disable-next-line react/forbid-component-props
-      style={
-        {
-          "--fill-done": `${pctDone.toFixed(1)}%`,
-          "--fill-cur": `${pctCur.toFixed(1)}%`,
-          "--fill-plan": `${pctPlan.toFixed(1)}%`,
-        } as CSSProperties
-      }
-    >
-      <div className="ps-credit-fill ps-credit-completed" />
-      <div className="ps-credit-fill ps-credit-progress" />
-      <div className="ps-credit-fill ps-credit-planned" />
-    </div>
+    <svg className="ps-credit-bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true">
+      <rect x="0" y="0" width={pctDone} height="8" className="ps-credit-fill ps-credit-completed" />
+      <rect x={pctDone} y="0" width={pctCur} height="8" className="ps-credit-fill ps-credit-progress" />
+      <rect x={pctDone + pctCur} y="0" width={pctPlan} height="8" className="ps-credit-fill ps-credit-planned" />
+    </svg>
   );
 }
 
@@ -1449,7 +1437,7 @@ export default function FourYearPlan() {
 
           <div className="progress-strip" data-tour-target="four-year-summary">
             {loading ? (
-              <span className="ps-label" style={{ opacity: 0.5 }}>Loading plan data…</span>
+              <span className="ps-label ps-label-dimmed">Loading plan data…</span>
             ) : (
               <>
                 <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Completed</span><span className="ps-val">{summary.completedCredits} cr</span></div>
@@ -2118,7 +2106,7 @@ export default function FourYearPlan() {
                       <p className="change-section-meta">
                         {(section.instructor && section.instructor.length > 0) ? section.instructor : "Instructor TBA"}
                       </p>
-                      {section.meetings.length > 0 && (
+                      {Array.isArray(section.meetings) && section.meetings.length > 0 && (
                         <div className="change-section-meetings">
                           {section.meetings.map((meeting, mi) => {
                             const days = meeting.days.length > 0 ? meeting.days.join("") : "TBA";
