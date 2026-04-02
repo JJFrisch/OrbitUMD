@@ -288,7 +288,7 @@
   font-size: 0.62rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.38);
+  color: rgba(255, 255, 255, 0.93);
   font-weight: 500;
   margin-bottom: 4px;
 }
@@ -316,7 +316,7 @@
 .da2-summary-sub {
   margin-top: 2px;
   font-size: 0.73rem;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.93);
   font-weight: 300;
 }
 
