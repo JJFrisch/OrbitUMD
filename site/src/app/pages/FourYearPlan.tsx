@@ -1461,12 +1461,6 @@ export default function FourYearPlan() {
                 <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
                 <div className="ps-divider" />
                 <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
-                <ProgressBar
-                  done={summary.completedCredits}
-                  cur={summary.inProgressCredits}
-                  plan={summary.plannedCredits}
-                  total={120}
-                />
                 <div className="summary-actions">
                   <button
                     type="button"
@@ -1498,6 +1492,12 @@ export default function FourYearPlan() {
                 </div>
               </>
             )}
+            <ProgressBar
+                  done={summary.completedCredits}
+                  cur={summary.inProgressCredits}
+                  plan={summary.plannedCredits}
+                  total={120}
+                />
           </div>
 
           {/* {!loading && (
