@@ -122,8 +122,6 @@ scoped_terms as (
   where p.requested_term_code is not null
     and ct.term_code = p.requested_term_code
     and ct.active = true
-  order by year desc, term_code desc
-  limit 1
 ),
 scoped_courses as (
   select

@@ -50,7 +50,6 @@ const INDEX_META_KEY = "search-index-version";
 const INDEX_TIMESTAMP_KEY = "search-index-updated-at";
 
 let dbPromise: Promise<IDBDatabase> | null = null;
-let versionPromise: Promise<string | null> | null = null;
 let seedPromise: Promise<CatalogSearchSeedRow[]> | null = null;
 
 function isBrowserStorageAvailable(): boolean {
@@ -63,6 +62,10 @@ function normalizeQuery(value: string): string {
 
 function tokenize(value: string): string[] {
   return normalizeQuery(value).split(/\s+/).filter(Boolean);
+}
+
+function normalizeCode(value: string): string {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, "");
 }
 
 function makeQueryKey(query: string, filters: SearchCacheFilters): string {
@@ -79,7 +82,9 @@ function makeVersionedCacheKey(version: string, queryKey: string): string {
 }
 
 function scoreRow(queryTokens: string[], row: CatalogSearchSeedRow): number {
+  const compactQuery = normalizeCode(queryTokens.join(" "));
   const normalizedCode = row.course_code.toLowerCase();
+  const compactCode = normalizeCode(row.course_code);
   const normalizedName = row.name.toLowerCase();
   const normalizedDept = row.dept_id.toLowerCase();
   const normalizedSearch = row.search_text.toLowerCase();
@@ -91,14 +96,14 @@ function scoreRow(queryTokens: string[], row: CatalogSearchSeedRow): number {
 
   let score = 0;
 
-  if (normalizedCode === normalizedQuery) score += 1000;
-  if (normalizedCode.startsWith(normalizedQuery)) score += 700;
+  if (compactCode === compactQuery) score += 1000;
+  if (compactCode.startsWith(compactQuery)) score += 700;
   if (normalizedDept === normalizedQuery) score += 220;
   if (normalizedName.includes(normalizedQuery)) score += 120;
   if (normalizedSearch.includes(normalizedQuery)) score += 40;
 
   for (const token of queryTokens) {
-    if (normalizedCode.includes(token)) score += 8;
+    if (normalizedCode.includes(token) || compactCode.includes(normalizeCode(token))) score += 8;
     if (normalizedName.includes(token)) score += 6;
     if (normalizedDept.includes(token)) score += 4;
     if (normalizedSearch.includes(token)) score += 2;
