@@ -13,13 +13,16 @@ async function runWarmup() {
     import("@/lib/api/planner"),
     import("@/lib/repositories/degreeProgramsRepository"),
     import("@/lib/repositories/priorCreditsRepository"),
+    import("@/lib/search/courseSearchCache"),
   ]);
+  const searchCacheModule = (await import("@/lib/search/courseSearchCache"));
 
   const dataWarmup = [
     plannerModule.plannerApi.listAllSchedulesWithSelections(),
     plannerModule.plannerApi.listFourYearPlans(),
     degreeProgramsModule.listUserDegreePrograms(),
     priorCreditsModule.listUserPriorCredits(),
+    searchCacheModule.prefetchCatalogSearchIndex(),
     supabase
       .from("terms")
       .select("id, year, season, umd_term_code")

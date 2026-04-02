@@ -61,6 +61,32 @@ create index if not exists idx_courses_lookup on orbit.courses(term_code, year, 
 create index if not exists idx_courses_name_gin on orbit.courses using gin (to_tsvector('english', coalesce(name, '')));
 create index if not exists idx_courses_geneds_gin on orbit.courses using gin (geneds);
 
+create extension if not exists pg_trgm;
+
+create table if not exists orbit.course_search_index (
+  course_code text not null,
+  term_code text not null,
+  year integer not null,
+  dept_id text not null,
+  name text not null,
+  credits numeric(4,2),
+  min_credits numeric(4,2),
+  max_credits numeric(4,2),
+  geneds text[] not null default '{}',
+  description text,
+  search_text text not null,
+  search_vector tsvector generated always as (to_tsvector('english', search_text)) stored,
+  source_fingerprint text not null,
+  updated_at timestamptz not null default now(),
+  primary key (course_code, term_code, year)
+);
+
+create index if not exists idx_course_search_index_term on orbit.course_search_index(term_code, year, dept_id, course_code);
+create index if not exists idx_course_search_index_vector on orbit.course_search_index using gin (search_vector);
+create index if not exists idx_course_search_index_geneds on orbit.course_search_index using gin (geneds);
+create index if not exists idx_course_search_index_code_trgm on orbit.course_search_index using gin (course_code gin_trgm_ops);
+create index if not exists idx_course_search_index_name_trgm on orbit.course_search_index using gin (name gin_trgm_ops);
+
 create table if not exists orbit.sections (
   section_key text primary key,
   course_code text not null,

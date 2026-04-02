@@ -1,5 +1,6 @@
 import type { UmdCourseSummary } from "../types/course";
 import { fetchTerms, searchCourses } from "./umdCourses";
+import { searchLatestCatalogCourses } from "@/lib/search/courseSearchCache";
 import {
   deleteFourYearPlan,
   listFourYearPlans,
@@ -54,32 +55,9 @@ export const plannerApi = {
     query: string,
     genEdTag?: string,
   ): Promise<UmdCourseSummary[]> {
-    const terms = await fetchTerms();
-    const newestFirst = [...terms].sort((a, b) => b.code.localeCompare(a.code));
-    const latestBySeason = new Map<string, { code: string }>();
-    for (const term of newestFirst) {
-      if (!latestBySeason.has(term.season)) {
-        latestBySeason.set(term.season, { code: term.code });
-      }
-    }
-    const selectedTerms = Array.from(latestBySeason.values());
-
-    const perTermResults = await Promise.all(
-      selectedTerms.map((term) =>
-        searchCourses({ termCode: term.code, query, genEdTag, page: 1, pageSize: 30 })
-          .catch(() => [] as UmdCourseSummary[]),
-      ),
-    );
-
-    const deduped = new Map<string, UmdCourseSummary>();
-    for (const termRows of perTermResults) {
-      for (const course of termRows) {
-        const key = String(course.id ?? "").toUpperCase();
-        if (!key || deduped.has(key)) continue;
-        deduped.set(key, course);
-      }
-    }
-
-    return Array.from(deduped.values());
+    return searchLatestCatalogCourses(query, {
+      genEdTag,
+      limitCount: 30,
+    });
   },
 };

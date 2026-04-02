@@ -57,6 +57,20 @@ function sanitizeString(value) {
   return text.length > 0 ? text : null;
 }
 
+function buildSearchText(courseCode, name, deptId, credits, geneds, description) {
+  return [
+    sanitizeString(courseCode),
+    sanitizeString(name),
+    sanitizeString(deptId),
+    Number.isFinite(credits) ? String(credits) : null,
+    Array.isArray(geneds) ? geneds.join(" ") : null,
+    sanitizeString(description),
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+}
+
 function dedupeStrings(values) {
   const seen = new Set();
   const output = [];
@@ -219,19 +233,23 @@ function normalizeCourseRow(raw, termCode, year) {
   const minCredits = Number(raw.minCredits ?? raw.min_credits);
   const maxCredits = Number(raw.maxCredits ?? raw.max_credits);
   const geneds = dedupeStrings(Array.isArray(raw.genEds) ? raw.genEds : Array.isArray(raw.gen_ed) ? raw.gen_ed.flat() : []);
+  const deptId = String(raw.deptId ?? raw.dept_id ?? courseCode.slice(0, 4) ?? "").trim() || null;
+  const description = raw.description ?? null;
+  const credits = Number.isFinite(maxCredits) ? maxCredits : parsedCredits.value;
 
   return {
     course_code: courseCode,
     term_code: termCode,
     year,
     name,
-    dept_id: String(raw.deptId ?? raw.dept_id ?? courseCode.slice(0, 4) ?? "").trim() || null,
+    dept_id: deptId,
     min_credits: Number.isFinite(minCredits) ? minCredits : parsedCredits.min,
     max_credits: Number.isFinite(maxCredits) ? maxCredits : parsedCredits.max,
-    credits: Number.isFinite(maxCredits) ? maxCredits : parsedCredits.value,
-    description: raw.description ?? null,
+    credits,
+    description,
     geneds,
     conditions: raw.conditions ?? null,
+    search_text: buildSearchText(courseCode, name, deptId, credits, geneds, description),
     source_fingerprint: sha(JSON.stringify(raw)),
   };
 }
@@ -506,6 +524,44 @@ async function upsertCatalogRows(rows, sectionsByCourse, professors, syncMeta, o
           course.geneds,
           course.conditions,
           course.canonical_source ?? "jupiter",
+          course.source_fingerprint,
+        ]
+      );
+
+      await client.query(
+        `insert into orbit.course_search_index(
+          course_code, term_code, year, dept_id, name,
+          credits, min_credits, max_credits, geneds, description,
+          search_text, source_fingerprint, updated_at
+        ) values (
+          $1, $2, $3, $4, $5,
+          $6, $7, $8, $9, $10,
+          $11, $12, now()
+        )
+        on conflict (course_code, term_code, year)
+        do update set
+          dept_id = excluded.dept_id,
+          name = excluded.name,
+          credits = excluded.credits,
+          min_credits = excluded.min_credits,
+          max_credits = excluded.max_credits,
+          geneds = excluded.geneds,
+          description = excluded.description,
+          search_text = excluded.search_text,
+          source_fingerprint = excluded.source_fingerprint,
+          updated_at = now()`,
+        [
+          course.course_code,
+          course.term_code,
+          course.year,
+          course.dept_id,
+          course.name,
+          course.credits,
+          course.min_credits,
+          course.max_credits,
+          course.geneds,
+          course.description,
+          course.search_text,
           course.source_fingerprint,
         ]
       );

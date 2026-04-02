@@ -64,6 +64,45 @@ type CatalogCourseRow = {
   description: string | null;
 };
 
+type CatalogSearchRow = {
+  course_code: string;
+  term_code: string;
+  year: number;
+  name: string;
+  dept_id: string;
+  credits: number | null;
+  min_credits: number | null;
+  max_credits: number | null;
+  geneds: string[] | null;
+  description: string | null;
+  rank: number | null;
+};
+
+type CatalogSearchSeedRow = {
+  course_code: string;
+  term_code: string;
+  year: number;
+  name: string;
+  dept_id: string;
+  credits: number | null;
+  min_credits: number | null;
+  max_credits: number | null;
+  geneds: string[] | null;
+  description: string | null;
+  search_text: string;
+  source_fingerprint: string;
+  updated_at: string;
+};
+
+type CatalogSyncStateRow = {
+  sync_run_id: number;
+  catalog_version: string;
+  status: string;
+  started_at: string;
+  completed_at: string | null;
+  summary: Record<string, unknown> | null;
+};
+
 type CatalogSectionRow = {
   section_key: string;
   course_code: string;
@@ -274,6 +313,88 @@ async function resolveCatalogTermWithFallback(termCodeInput: string): Promise<{ 
   return resolved;
 }
 
+function mapCatalogSearchRow(row: CatalogSearchRow): UmdCourseSummary {
+  const [deptId, number = ""] = row.course_code.split(/(?=\d)/);
+
+  return {
+    id: row.course_code,
+    deptId: row.dept_id ?? deptId ?? "",
+    number,
+    title: row.name,
+    credits: Number(row.credits ?? row.max_credits ?? 0),
+    genEdTags: row.geneds ?? [],
+    description: row.description ?? undefined,
+  };
+}
+
+export async function getCatalogSearchVersion(): Promise<string | null> {
+  if (!hasSupabaseCatalogConfig()) {
+    return null;
+  }
+
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase.from("catalog_sync_state_v").select("catalog_version").limit(1);
+    if (error) {
+      throw error;
+    }
+
+    const row = (data ?? [])[0] as Pick<CatalogSyncStateRow, "catalog_version"> | undefined;
+    return row?.catalog_version ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export async function loadCatalogSearchSeed(limitCount = 5000): Promise<CatalogSearchSeedRow[]> {
+  if (!hasSupabaseCatalogConfig()) {
+    return [];
+  }
+
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase.rpc("get_catalog_search_seed", { limit_count: limitCount });
+    if (error) {
+      throw error;
+    }
+
+    return (data ?? []) as CatalogSearchSeedRow[];
+  } catch {
+    return [];
+  }
+}
+
+export async function searchCatalogCoursesFromRpc(params: {
+  query?: string;
+  termCode?: string | null;
+  deptId?: string;
+  genEdTag?: string;
+  limitCount?: number;
+}): Promise<UmdCourseSummary[]> {
+  if (!hasSupabaseCatalogConfig()) {
+    return [];
+  }
+
+  try {
+    const supabase = getSupabaseClient();
+    const { data, error } = await supabase.rpc("search_catalog_courses", {
+      query: params.query ?? null,
+      term_code: params.termCode ?? null,
+      dept_id: params.deptId ?? null,
+      gen_ed_tag: params.genEdTag ?? null,
+      limit_count: params.limitCount ?? 20,
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    return ((data ?? []) as CatalogSearchRow[]).map(mapCatalogSearchRow);
+  } catch {
+    return [];
+  }
+}
+
 async function searchCoursesFromCatalog(params: CourseSearchParams): Promise<UmdCourseSummary[]> {
   const supabase = getSupabaseClient();
   const page = params.page ?? 1;
@@ -284,6 +405,20 @@ async function searchCoursesFromCatalog(params: CourseSearchParams): Promise<Umd
   const deptFromQuery = params.query?.trim().toUpperCase().match(/^([A-Z]{2,4})\s*\d*/)?.[1];
   const deptFilter = params.deptId ?? deptFromQuery;
   const { year, termCode } = await resolveCatalogTermWithFallback(params.termCode);
+
+  if (hasSupabaseCatalogConfig()) {
+    const indexedRows = await searchCatalogCoursesFromRpc({
+      query: params.query,
+      termCode: `${year}${termCode}`,
+      deptId: deptFilter,
+      genEdTag: params.genEdTag,
+      limitCount: pageSize,
+    });
+
+    if (indexedRows.length > 0) {
+      return indexedRows;
+    }
+  }
 
   let query = supabase
     .from(CATALOG_COURSES_VIEW)
