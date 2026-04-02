@@ -3431,6 +3431,10 @@ export default function DegreeAudit() {
                   <Printer className="w-4 h-4 mr-2" />
                   Print / PDF
                 </DropdownMenuItem>
+                <DropdownMenuItem onSelect={(event) => { event.preventDefault(); toggleSidebarVisibility(); }}>
+                  <Menu className="w-4 h-4 mr-2" />
+                  {sidebarVisible ? "Hide right sidebar" : "Show right sidebar"}
+                </DropdownMenuItem>
                 <DropdownMenuItem onSelect={(event) => { event.preventDefault(); handleEmailDegreeAudit(); }}>
                   <Mail className="w-4 h-4 mr-2" />
                   Email
