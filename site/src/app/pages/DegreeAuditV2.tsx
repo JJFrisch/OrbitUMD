@@ -1866,29 +1866,36 @@ function RequirementSectionCard({
 
       {expandedSectionIds.has(section.id) ? (
         <>
-          {section.logicBlocks?.length > 0 ? (
-            <div className="mt-3 mb-3 space-y-2">
-              {section.logicBlocks.map((block: any, idx: number) => (
-                <div key={`${section.id}-logic-${idx}`}>{renderLogicBlock(block, 0)}</div>
-              ))}
-            </div>
-          ) : sectionCourses.length > 0 ? (
-            // Show individual course rows
-            <div className={`mt-3 border border-border/30 rounded-md overflow-hidden ${condensedView ? "max-h-64 overflow-y-auto" : ""}`}>
-              {sectionCourses.map((course) => (
-                <CourseRowDisplay
-                  key={course.code}
-                  courseCode={course.code}
-                  courseTitle={course.title}
-                  credits={course.credits}
-                  genEds={course.genEds}
-                  status={course.status}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-muted-foreground mt-3">No courses in this section.</p>
-          )}
+          {(() => {
+            // Use logicBlocks if available, otherwise convert optionGroups to logic block format
+            const blocksToRender = section.logicBlocks?.length > 0
+              ? section.logicBlocks
+              : section.optionGroups?.map((codes: string[]) => ({ type: "OR", codes })) ?? [];
+            
+            return blocksToRender.length > 0 ? (
+              <div className="mt-3 mb-3 space-y-2">
+                {blocksToRender.map((block: any, idx: number) => (
+                  <div key={`${section.id}-logic-${idx}`}>{renderLogicBlock(block, 0)}</div>
+                ))}
+              </div>
+            ) : sectionCourses.length > 0 ? (
+              // Show individual course rows
+              <div className={`mt-3 border border-border/30 rounded-md overflow-hidden ${condensedView ? "max-h-64 overflow-y-auto" : ""}`}>
+                {sectionCourses.map((course) => (
+                  <CourseRowDisplay
+                    key={course.code}
+                    courseCode={course.code}
+                    courseTitle={course.title}
+                    credits={course.credits}
+                    genEds={course.genEds}
+                    status={course.status}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground mt-3">No courses in this section.</p>
+            );
+          })()}
 
           {section.notes.length > 0 && (
             <div className="mt-3 pt-3 border-t border-border/30">
