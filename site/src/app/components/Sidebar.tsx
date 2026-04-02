@@ -33,21 +33,21 @@ interface NavigationSection {
 
 const navigationSections: NavigationSection[] = [
   {
-    label: "",
+    label: "Overview",
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
       { name: "My Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
     ], 
   },
   { 
-    label: "",
+    label: "Scheduling",
     items: [ 
-      // { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
+      { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
       { name: "Schedules", href: "/schedules", icon: CalendarDays },
     ],
   },
   {
-    label: "",
+    label: "Requirements",
     items: [
       { name: "Degree Audit", href: "/degree-audit", icon: FileCheck2 },
       { name: "Gen Eds", href: "/gen-eds", icon: BookOpen },
