@@ -604,6 +604,10 @@
   cursor: grab;
 }
 
+.plan-course.has-context-menu {
+  z-index: 20;
+}
+
 .plan-course:hover {
   border-color: rgba(198, 40, 40, 0.3);
   box-shadow: 0 2px 10px rgba(198, 40, 40, 0.1);
@@ -867,7 +871,7 @@
   border-radius: 8px;
   box-shadow: 0 10px 24px rgba(23, 18, 14, 0.16);
   padding: 4px;
-  z-index: 6;
+  z-index: 1000;
   display: grid;
   gap: 2px;
 }

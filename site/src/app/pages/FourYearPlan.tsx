@@ -1690,7 +1690,7 @@ export default function FourYearPlan() {
                         return (
                           <Fragment key={course.sectionKey}>
                             <article
-                              className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""} ${draggingCourseKey === course.sectionKey ? "is-dragging" : ""}`}
+                              className={`plan-course ${courseType}${genEdContributionLabels.length > 0 ? " gen-ed" : ""} ${draggingCourseKey === course.sectionKey ? "is-dragging" : ""} ${courseMenuTarget?.course.sectionKey === course.sectionKey && courseMenuTarget.term.id === sourceTerm.id ? "has-context-menu" : ""}`}
                               draggable={isDraggable}
                               onDragStart={(event) => {
                                 if (!isDraggable) {
