@@ -290,12 +290,14 @@ export function ScheduleLibraryPage({
     });
 
     const copy = [...filtered];
-    copy.sort((a, b) => {      // Primary sort: main schedule is always at top
+    copy.sort((a, b) => {
+      // Primary sort: main schedule is always at top
       if (a.is_primary !== b.is_primary) {
         return b.is_primary ? 1 : -1; // main schedule (b.is_primary=true) comes first
       }
 
-      // Secondary sort: apply user's selected sort order      let cmp = 0;
+      // Secondary sort: apply user's selected sort order
+      let cmp = 0;
       if (sortBy === "name") {
         cmp = a.name.localeCompare(b.name);
       } else if (sortBy === "lastEdited") {

@@ -321,7 +321,7 @@ export function SchedulesPage() {
             onSelectedScheduleChange={handleSelectedScheduleChange}
           />
         )}
-        {tab === "edit" && <CoursePlannerPage hideHeader />}
+        {tab === "edit" && <CoursePlannerPage />}
         {tab === "generate" && <AutoGenerateSchedulePage hideHeader defaultTerm={termFilter} />}
       </div>
 

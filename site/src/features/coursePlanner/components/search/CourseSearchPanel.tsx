@@ -38,7 +38,7 @@ export function CourseSearchPanel() {
   }, [searchInput, filters, term, year]);
 
   return (
-    <aside className="cp-search-panel">
+    <aside className={`cp-search-panel ${filtersExpanded ? "is-filters-expanded" : "is-filters-collapsed"}`}>
       <div className="cp-search-box">
         <Search size={14} />
         <input
