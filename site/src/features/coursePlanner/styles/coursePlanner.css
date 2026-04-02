@@ -601,6 +601,20 @@
   transition: transform 0.2s ease;
 }
 
+.cp-filters-toggle-label {
+  display: inline-block;
+  padding-left: 2px;
+  padding-right: 2px;
+  transform: translateX(-1px);
+  transition: padding-left 0.2s ease, padding-right 0.2s ease, transform 0.2s ease;
+}
+
+.cp-filters-toggle-label.is-open {
+  padding-left: 6px;
+  padding-right: 0;
+  transform: translateX(1px);
+}
+
 .cp-filters-toggle-chevron.is-open {
   transform: rotate(180deg);
 }

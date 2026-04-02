@@ -83,7 +83,7 @@ export function CourseSearchPanel() {
         aria-label={filtersExpanded ? "Collapse filters" : "Expand filters"}
         aria-expanded={filtersExpanded}
       >
-        <span>Filters</span>
+        <span className={`cp-filters-toggle-label${filtersExpanded ? " is-open" : ""}`}>Filters</span>
         <ChevronDown size={14} className={`cp-filters-toggle-chevron${filtersExpanded ? " is-open" : ""}`} />
       </button>
 
