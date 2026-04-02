@@ -152,7 +152,7 @@ async function openDatabase(): Promise<IDBDatabase> {
       }
 
       if (!db.objectStoreNames.contains(RESULTS_STORE)) {
-        db.createObjectStore(RESULTS_STORE, { keyPath: "queryKey" });
+        db.createObjectStore(RESULTS_STORE, { keyPath: "cacheKey" });
       }
 
       if (!db.objectStoreNames.contains(META_STORE)) {
@@ -344,12 +344,6 @@ export async function prefetchCatalogSearchIndex(): Promise<void> {
   const { version, rows } = await ensureLatestIndex();
   if (!version || rows.length === 0) {
     return;
-  }
-
-  const queryKey = makeQueryKey("", { limitCount: 20 });
-  const existing = await getCachedResults(version, queryKey);
-  if (!existing) {
-    await putCachedResults(version, queryKey, searchRowsLocally(rows, "", { limitCount: 20 }));
   }
 }
 

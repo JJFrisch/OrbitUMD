@@ -146,7 +146,7 @@ export default function Welcome() {
                 <div className="welcome-stat-label">Schedules mapped</div>
               </div>
               <div className="welcome-stat">
-                <div className="welcome-stat-num">"247"</div>
+                <div className="welcome-stat-num">247</div>
                 <div className="welcome-stat-label">Majors & minors</div>
               </div>
               <div className="welcome-stat">

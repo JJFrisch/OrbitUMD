@@ -9,13 +9,12 @@ async function runWarmup() {
     return;
   }
 
-  const [plannerModule, degreeProgramsModule, priorCreditsModule] = await Promise.all([
+  const [plannerModule, degreeProgramsModule, priorCreditsModule, searchCacheModule] = await Promise.all([
     import("@/lib/api/planner"),
     import("@/lib/repositories/degreeProgramsRepository"),
     import("@/lib/repositories/priorCreditsRepository"),
     import("@/lib/search/courseSearchCache"),
   ]);
-  const searchCacheModule = (await import("@/lib/search/courseSearchCache"));
 
   const dataWarmup = [
     plannerModule.plannerApi.listAllSchedulesWithSelections(),
