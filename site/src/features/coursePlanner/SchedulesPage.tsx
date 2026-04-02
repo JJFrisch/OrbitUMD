@@ -80,6 +80,7 @@ export function SchedulesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab: Tab = isTab(searchParams.get("tab")) ? (searchParams.get("tab") as Tab) : "view";
   const termFilter = searchParams.get("termFilter") ?? "";
+  const requestedScheduleId = searchParams.get("scheduleId");
 
   const [schedules, setSchedules] = useState<ScheduleWithSelections[]>([]);
   const [selectedSchedulesByTerm, setSelectedSchedulesByTerm] = useState<Record<string, string>>(readSelectedSchedulesByTerm);
@@ -167,6 +168,19 @@ export function SchedulesPage() {
     if (!activeScheduleId) return null;
     return schedules.find((schedule) => schedule.id === activeScheduleId) ?? null;
   }, [activeScheduleId, schedules]);
+
+  const editSchedule = useMemo(() => {
+    if (requestedScheduleId) {
+      const match = schedules.find((schedule) => schedule.id === requestedScheduleId);
+      if (match) return match;
+    }
+    return activeSchedule;
+  }, [requestedScheduleId, schedules, activeSchedule]);
+
+  const editTermLabel = useMemo(() => {
+    if (!editSchedule) return "Unknown";
+    return formatTermLabel(editSchedule.term_code, editSchedule.term_year);
+  }, [editSchedule]);
 
   const activeTermLabel = useMemo(() => {
     if (!termFilter) return "Unknown";
@@ -271,6 +285,14 @@ export function SchedulesPage() {
           ))}
         </div>
 
+        {tab === "edit" && editSchedule && (
+          <div className="cp-edit-meta">
+            <span className="cp-edit-meta-name">{editSchedule.name}</span>
+            <span className="cp-edit-meta-separator">•</span>
+            <span className="cp-edit-meta-term">{editTermLabel}</span>
+          </div>
+        )}
+
         <div className="cp-schedules-topbar-right">
           {tab === "view" && (
             <>
@@ -321,7 +343,7 @@ export function SchedulesPage() {
             onSelectedScheduleChange={handleSelectedScheduleChange}
           />
         )}
-        {tab === "edit" && <CoursePlannerPage />}
+        {tab === "edit" && <CoursePlannerPage hideHeader />}
         {tab === "generate" && <AutoGenerateSchedulePage hideHeader defaultTerm={termFilter} />}
       </div>
 
