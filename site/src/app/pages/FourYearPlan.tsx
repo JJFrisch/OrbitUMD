@@ -1487,8 +1487,8 @@ export default function FourYearPlan() {
             <div className="progress-strip ps-detail-row">
               <div className="ps-credit-block">
                 <div className="ps-credit-labels">
-                  <span className="ps-label">Credit Progress</span>
-                  <span className="ps-val">{summary.totalCredits} / 120</span>
+                  {/* <span className="ps-label">Credit Progress</span> */}
+                  {/* <span className="ps-val">{summary.totalCredits} / 120</span> */}
                 </div>
                 <ProgressBar
                   done={summary.completedCredits}
@@ -1496,11 +1496,11 @@ export default function FourYearPlan() {
                   plan={summary.plannedCredits}
                   total={120}
                 />
-                <div className="ps-credit-legend">
+                {/* <div className="ps-credit-legend">
                   <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Done</span></div>
                   <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">Current</span></div>
                   <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span></div>
-                </div>
+                </div> */}
               </div>
             </div>
           )}
