@@ -434,28 +434,6 @@
   margin-bottom: 0;
 }
 
-.da2-logic-group::before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  top: 4px;
-  bottom: 4px;
-  width: 2px;
-  border-radius: 999px;
-  background: var(--da2-logic-line, var(--da2-ink-ghost, #b09a8e));
-  z-index: 0;
-}
-
-.da2-logic-group[data-logic="or"] {
-  --da2-logic-line: repeating-linear-gradient(
-    to bottom,
-    var(--da2-gold, #f9a825) 0px,
-    var(--da2-gold, #f9a825) 4px,
-    transparent 4px,
-    transparent 8px
-  );
-}
-
 .da2-logic-bracket {
   position: relative;
   width: 22px;
@@ -465,6 +443,32 @@
   justify-content: center;
   padding-top: 4px;
   z-index: 1;
+}
+
+.da2-logic-bracket::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  z-index: 0;
+}
+
+.da2-logic-group[data-logic="and"] .da2-logic-bracket::before {
+  background: var(--da2-ink-ghost, #b09a8e);
+}
+
+.da2-logic-group[data-logic="or"] .da2-logic-bracket::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--da2-gold, #f9a825) 0px,
+    var(--da2-gold, #f9a825) 4px,
+    transparent 4px,
+    transparent 8px
+  );
 }
 
 /* Bracket label pill */
@@ -528,12 +532,11 @@
 
 /* ── Responsive ── */
 @media (max-width: 480px) {
-  .da2-logic-group::before {
-    left: 7px;
-  }
-
   .da2-logic-bracket {
     width: 16px;
+  }
+  .da2-logic-bracket::before {
+    width: 2px;
   }
   .da2-logic-label {
     font-size: 0.5rem;
