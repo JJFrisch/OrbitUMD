@@ -368,6 +368,18 @@
   min-height: calc(100vh - 260px);
 }
 
+.cp-layout-column {
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+}
+
+.cp-layout-search > .cp-search-panel,
+.cp-layout-calendar > .cp-calendar {
+  flex: 1;
+  min-height: 0;
+}
+
 .cp-search-panel {
   background: var(--cp-panel);
   border: 1px solid var(--cp-border);
@@ -552,9 +564,9 @@
 
 .cp-filters-toggle {
   width: 100%;
-  border: 1px solid #284172;
-  background: linear-gradient(180deg, #15264a 0%, #111f3d 100%);
-  color: #dbe9ff;
+  border: 1px solid #d7c4a2;
+  background: linear-gradient(180deg, #f8f1e4 0%, #efe3cc 100%);
+  color: #4b3a24;
   border-radius: 8px;
   padding: 9px 10px;
   display: inline-flex;
@@ -569,9 +581,9 @@
 }
 
 .cp-filters-toggle:hover {
-  background: linear-gradient(180deg, #1a2f5b 0%, #16305e 100%);
-  border-color: #3d61a3;
-  color: #ffffff;
+  background: linear-gradient(180deg, #fdf7ec 0%, #f4e7ce 100%);
+  border-color: #cdb08a;
+  color: #3f301e;
 }
 
 .cp-filters-toggle-chevron {
@@ -3184,6 +3196,14 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-schedules-content > .course-planner-root .course-planner-layout {
+  flex: 1;
+  min-height: 0;
+  height: 100%;
 }
 
 .cp-schedules-content > .cp-view-root {

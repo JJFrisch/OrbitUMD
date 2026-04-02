@@ -92,6 +92,8 @@ export function SchedulesPage() {
   const [newScheduleNotes, setNewScheduleNotes] = useState("");
   const [newScheduleYear, setNewScheduleYear] = useState(new Date().getFullYear());
   const [newScheduleTerm, setNewScheduleTerm] = useState("01");
+  const [creatingSchedule, setCreatingSchedule] = useState(false);
+  const [newScheduleError, setNewScheduleError] = useState<string | null>(null);
 
   useEffect(() => {
     plannerApi.listAllSchedulesWithSelections().then(setSchedules).catch(() => {});
@@ -243,21 +245,65 @@ export function SchedulesPage() {
     setSelectedSchedulesByTerm((current) => ({ ...current, [termFilter]: scheduleId }));
   }, [termFilter]);
 
-  const handleCreateNewSchedule = useCallback(() => {
-    const params = new URLSearchParams();
-    params.set("tab", "edit");
-    params.set("new", "1");
-    params.set("scheduled_name", newScheduleName.trim() || generateNextDraftName(schedules));
-    params.set("scheduled_year", String(newScheduleYear));
-    params.set("scheduled_term", newScheduleTerm);
-    if (newScheduleNotes.trim()) {
-      params.set("scheduled_notes", newScheduleNotes.trim());
+  const handleCreateNewSchedule = useCallback(async () => {
+    if (creatingSchedule) return;
+
+    const scheduleName = newScheduleName.trim() || generateNextDraftName(schedules);
+    const scheduleTermCode = newScheduleTerm;
+    const scheduleTermYear = newScheduleYear;
+    const scheduleTermValue = `${scheduleTermCode}-${scheduleTermYear}`;
+
+    setCreatingSchedule(true);
+    setNewScheduleError(null);
+
+    try {
+      const created = await plannerApi.saveScheduleWithSelections({
+        name: scheduleName,
+        termCode: scheduleTermCode,
+        termYear: scheduleTermYear,
+        isPrimary: false,
+        selectionsJson: { selections: [] },
+      });
+
+      const refreshed = await plannerApi.listAllSchedulesWithSelections();
+      setSchedules(refreshed);
+
+      setActiveScheduleId(created.id);
+      setSelectedSchedulesByTerm((current) => ({
+        ...current,
+        [scheduleTermValue]: created.id,
+      }));
+
+      const params = new URLSearchParams(searchParams);
+      if (tab === "edit") {
+        params.set("tab", "edit");
+        params.set("scheduleId", created.id);
+        params.set("term", scheduleTermValue);
+      } else {
+        params.set("tab", "view");
+        params.set("termFilter", scheduleTermValue);
+      }
+      params.delete("new");
+      params.delete("generated");
+      params.delete("generatedIndex");
+      params.delete("scheduled_name");
+      params.delete("scheduled_year");
+      params.delete("scheduled_term");
+      params.delete("scheduled_notes");
+      setSearchParams(params, { replace: true });
+
+      setShowNewScheduleDialog(false);
+      setNewScheduleName("");
+      setNewScheduleNotes("");
+    } catch (error) {
+      const message = error instanceof Error && error.message
+        ? error.message
+        : "Unable to create schedule. Please try again.";
+      setNewScheduleError(message);
+    } finally {
+      setCreatingSchedule(false);
     }
-    setShowNewScheduleDialog(false);
-    setNewScheduleName("");
-    setNewScheduleNotes("");
-    setSearchParams(params, { replace: true });
-  }, [newScheduleName, newScheduleNotes, newScheduleYear, newScheduleTerm, schedules, setSearchParams]);
+  }, [creatingSchedule, newScheduleName, newScheduleTerm, newScheduleYear, schedules, searchParams, setSearchParams, tab]);
 
   const yearOptions = useMemo(() => {
     const currentYear = new Date().getFullYear();
@@ -357,6 +403,10 @@ export function SchedulesPage() {
           </DialogHeader>
 
           <div className="space-y-4">
+            {newScheduleError && (
+              <p className="text-sm text-destructive">{newScheduleError}</p>
+            )}
+
             <div>
               <label htmlFor="schedule-name" className="block text-sm font-medium mb-1">
                 Schedule Name
@@ -426,6 +476,7 @@ export function SchedulesPage() {
                 type="button"
                 className="px-4 py-2 text-sm border border-border rounded-md hover:bg-secondary"
                 onClick={() => setShowNewScheduleDialog(false)}
+                disabled={creatingSchedule}
               >
                 Cancel
               </button>
@@ -433,8 +484,9 @@ export function SchedulesPage() {
                 type="button"
                 className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
                 onClick={handleCreateNewSchedule}
+                disabled={creatingSchedule}
               >
-                Create Schedule
+                {creatingSchedule ? "Creating..." : "Create Schedule"}
               </button>
             </div>
           </div>

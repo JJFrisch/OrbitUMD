@@ -548,10 +548,10 @@ export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean
           });
         }}
       >
-        <div data-tour-target="schedule-search-panel">
+        <div className="cp-layout-column cp-layout-search" data-tour-target="schedule-search-panel">
           <CourseSearchPanel />
         </div>
-        <div data-tour-target="schedule-calendar">
+        <div className="cp-layout-column cp-layout-calendar" data-tour-target="schedule-calendar">
           <CalendarView />
         </div>
       </div>
