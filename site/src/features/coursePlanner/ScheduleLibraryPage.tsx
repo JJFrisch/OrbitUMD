@@ -162,7 +162,17 @@ function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
   );
 }
 
-export function ScheduleLibraryPage({ hideHeader = false, termFilter: externalTermFilter }: { hideHeader?: boolean; termFilter?: string } = {}) {
+export function ScheduleLibraryPage({
+  hideHeader = false,
+  termFilter: externalTermFilter,
+  selectedScheduleId,
+  onSelectedScheduleChange,
+}: {
+  hideHeader?: boolean;
+  termFilter?: string;
+  selectedScheduleId?: string | null;
+  onSelectedScheduleChange?: (scheduleId: string | null) => void;
+} = {}) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const requestedScheduleId = searchParams.get("scheduleId");
@@ -240,6 +250,12 @@ export function ScheduleLibraryPage({ hideHeader = false, termFilter: externalTe
       setPreviewScheduleId(requestedScheduleId);
     }
   }, [requestedScheduleId, schedules]);
+
+  useEffect(() => {
+    if (!selectedScheduleId) return;
+    if (!schedules.some((schedule) => schedule.id === selectedScheduleId)) return;
+    setPreviewScheduleId(selectedScheduleId);
+  }, [selectedScheduleId, schedules]);
 
   const toggleSort = (key: SortBy) => {
     if (sortBy === key) {
@@ -585,7 +601,10 @@ export function ScheduleLibraryPage({ hideHeader = false, termFilter: externalTe
               <div
                 key={schedule.id}
                 className={`cp-view-card${selected ? " is-selected" : ""}${schedule.is_primary ? " is-main" : ""}`}
-                onClick={() => setPreviewScheduleId(schedule.id)}
+                onClick={() => {
+                  setPreviewScheduleId(schedule.id);
+                  onSelectedScheduleChange?.(schedule.id);
+                }}
                 onDoubleClick={() => openInBuilder(schedule)}
               >
                 <div className="cp-view-card-head">
