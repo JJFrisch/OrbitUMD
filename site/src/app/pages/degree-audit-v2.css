@@ -151,6 +151,12 @@
   pointer-events: none;
 }
 
+.da2-right-panel.is-hidden .da2-sidebar-toggle {
+  pointer-events: auto;
+  opacity: 1;
+  transform: none;
+}
+
 .da2-right-panel.is-visible {
   transform: translateX(0);
   opacity: 1;
@@ -177,6 +183,16 @@
 .da2-sidebar-toggle:hover {
   background: var(--da2-surface-2);
   color: var(--da2-text);
+}
+
+.da2-right-panel.is-hidden .da2-sidebar-toggle {
+  transform: scaleX(-1);
+  position: fixed;
+  right: 20px;
+  top: 90px;
+  background: var(--da2-surface);
+  border-color: var(--da2-border-soft);
+  box-shadow: var(--da2-shadow);
 }
 
 .da2-content.sidebar-hidden {
