@@ -79,7 +79,7 @@ export default function Welcome() {
         <header className="welcome-header">
           <button className="welcome-logo" type="button" onClick={() => navigate("/")}>
             <span className="sidebar-logo-mark" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
+            <svg width="30" height="30" viewBox="0 -4 30 30" fill="none">
               <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
               <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
               <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
