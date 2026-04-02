@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
-import { Grid2X2, Pencil, Plus, Sparkles } from "lucide-react";
+import { Grid2X2, Pencil, Plus, Sparkles, X } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
 import { compareAcademicTerms } from "@/lib/scheduling/termProgress";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/app/components/ui/dialog";
 import { ScheduleLibraryPage } from "./ScheduleLibraryPage";
 import { CoursePlannerPage } from "./CoursePlannerPage";
 import { AutoGenerateSchedulePage } from "./AutoGenerateSchedulePage";
@@ -58,6 +65,17 @@ function readSelectedSchedulesByTerm(): Record<string, string> {
   }
 }
 
+function generateNextDraftName(existingSchedules: ScheduleWithSelections[]): string {
+  let draftCount = 0;
+  for (const schedule of existingSchedules) {
+    if (schedule.name.match(/^Draft\s+[A-Z]$/)) {
+      draftCount++;
+    }
+  }
+  const nextLetter = String.fromCharCode("A".charCodeAt(0) + draftCount);
+  return `Draft ${nextLetter}`;
+}
+
 export function SchedulesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab: Tab = isTab(searchParams.get("tab")) ? (searchParams.get("tab") as Tab) : "view";
@@ -66,6 +84,13 @@ export function SchedulesPage() {
   const [schedules, setSchedules] = useState<ScheduleWithSelections[]>([]);
   const [selectedSchedulesByTerm, setSelectedSchedulesByTerm] = useState<Record<string, string>>(readSelectedSchedulesByTerm);
   const [activeScheduleId, setActiveScheduleId] = useState<string | null>(null);
+  
+  // New Schedule Dialog state
+  const [showNewScheduleDialog, setShowNewScheduleDialog] = useState(false);
+  const [newScheduleName, setNewScheduleName] = useState("");
+  const [newScheduleNotes, setNewScheduleNotes] = useState("");
+  const [newScheduleYear, setNewScheduleYear] = useState(new Date().getFullYear());
+  const [newScheduleTerm, setNewScheduleTerm] = useState("01");
 
   useEffect(() => {
     plannerApi.listAllSchedulesWithSelections().then(setSchedules).catch(() => {});
@@ -156,6 +181,14 @@ export function SchedulesPage() {
     const params = new URLSearchParams(searchParams);
     params.set("tab", next);
 
+    // When switching to generate tab, preserve current term
+    if (next === "generate") {
+      if (termFilter) {
+        params.set("termFilter", termFilter);
+      }
+    }
+
+    // When switching to edit tab, set schedule and term from active selection
     if (next === "edit" && activeSchedule) {
       const term = `${activeSchedule.term_code}-${activeSchedule.term_year}`;
       params.set("scheduleId", activeSchedule.id);
@@ -163,6 +196,9 @@ export function SchedulesPage() {
       params.delete("new");
       params.delete("generated");
       params.delete("generatedIndex");
+    } else if (next === "edit") {
+      // If no active schedule, don't switch to edit without a selection
+      return;
     }
 
     if (next !== "edit") {
@@ -192,6 +228,31 @@ export function SchedulesPage() {
     if (!scheduleId || !termFilter) return;
     setSelectedSchedulesByTerm((current) => ({ ...current, [termFilter]: scheduleId }));
   }, [termFilter]);
+
+  const handleCreateNewSchedule = useCallback(() => {
+    const params = new URLSearchParams();
+    params.set("tab", "edit");
+    params.set("new", "1");
+    params.set("scheduled_name", newScheduleName.trim() || generateNextDraftName(schedules));
+    params.set("scheduled_year", String(newScheduleYear));
+    params.set("scheduled_term", newScheduleTerm);
+    if (newScheduleNotes.trim()) {
+      params.set("scheduled_notes", newScheduleNotes.trim());
+    }
+    setShowNewScheduleDialog(false);
+    setNewScheduleName("");
+    setNewScheduleNotes("");
+    setSearchParams(params, { replace: true });
+  }, [newScheduleName, newScheduleNotes, newScheduleYear, newScheduleTerm, schedules, setSearchParams]);
+
+  const yearOptions = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+    const years = [];
+    for (let i = currentYear - 2; i <= currentYear + 4; i++) {
+      years.push(i);
+    }
+    return years;
+  }, []);
 
   return (
     <div className="course-planner-root cp-schedules-unified">
@@ -238,10 +299,11 @@ export function SchedulesPage() {
             type="button"
             className="cp-topbar-new-btn"
             onClick={() => {
-              const params = new URLSearchParams();
-              params.set("tab", "edit");
-              params.set("new", "1");
-              setSearchParams(params, { replace: true });
+              setNewScheduleName(generateNextDraftName(schedules));
+              setNewScheduleNotes("");
+              setNewScheduleYear(new Date().getFullYear());
+              setNewScheduleTerm("01");
+              setShowNewScheduleDialog(true);
             }}
           >
             <Plus size={12} />
@@ -260,8 +322,102 @@ export function SchedulesPage() {
           />
         )}
         {tab === "edit" && <CoursePlannerPage hideHeader />}
-        {tab === "generate" && <AutoGenerateSchedulePage hideHeader />}
+        {tab === "generate" && <AutoGenerateSchedulePage hideHeader defaultTerm={termFilter} />}
       </div>
+
+      <Dialog open={showNewScheduleDialog} onOpenChange={setShowNewScheduleDialog}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create New Schedule</DialogTitle>
+            <DialogDescription>
+              Set up a new schedule by providing a name, optional notes, and selecting the term.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="schedule-name" className="block text-sm font-medium mb-1">
+                Schedule Name
+              </label>
+              <input
+                id="schedule-name"
+                type="text"
+                className="w-full px-3 py-2 border border-border rounded-md bg-input-background text-foreground"
+                placeholder="e.g., Draft A"
+                value={newScheduleName}
+                onChange={(e) => setNewScheduleName(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="schedule-notes" className="block text-sm font-medium mb-1">
+                Notes <span className="text-muted-foreground">(optional)</span>
+              </label>
+              <textarea
+                id="schedule-notes"
+                className="w-full px-3 py-2 border border-border rounded-md bg-input-background text-foreground min-h-[80px]"
+                placeholder="Add any notes about this schedule"
+                value={newScheduleNotes}
+                onChange={(e) => setNewScheduleNotes(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label htmlFor="schedule-year" className="block text-sm font-medium mb-1">
+                  Year
+                </label>
+                <select
+                  id="schedule-year"
+                  className="w-full px-3 py-2 border border-border rounded-md bg-input-background text-foreground"
+                  value={newScheduleYear}
+                  onChange={(e) => setNewScheduleYear(Number(e.target.value))}
+                >
+                  {yearOptions.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label htmlFor="schedule-term" className="block text-sm font-medium mb-1">
+                  Term
+                </label>
+                <select
+                  id="schedule-term"
+                  className="w-full px-3 py-2 border border-border rounded-md bg-input-background text-foreground"
+                  value={newScheduleTerm}
+                  onChange={(e) => setNewScheduleTerm(e.target.value)}
+                >
+                  <option value="01">Spring</option>
+                  <option value="05">Summer</option>
+                  <option value="08">Fall</option>
+                  <option value="12">Winter</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex gap-2 justify-end pt-2">
+              <button
+                type="button"
+                className="px-4 py-2 text-sm border border-border rounded-md hover:bg-secondary"
+                onClick={() => setShowNewScheduleDialog(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                onClick={handleCreateNewSchedule}
+              >
+                Create Schedule
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

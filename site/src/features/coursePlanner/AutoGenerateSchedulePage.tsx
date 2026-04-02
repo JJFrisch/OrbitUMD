@@ -1579,7 +1579,7 @@ function ResultsPanel({
   );
 }
 
-export function AutoGenerateSchedulePage({ hideHeader = false }: { hideHeader?: boolean } = {}) {
+export function AutoGenerateSchedulePage({ hideHeader = false, defaultTerm = "" }: { hideHeader?: boolean; defaultTerm?: string } = {}) {
   const navigate = useNavigate();
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const replaceSelections = useCoursePlannerStore((state) => state.replaceSelections);
@@ -1589,9 +1589,30 @@ export function AutoGenerateSchedulePage({ hideHeader = false }: { hideHeader?: 
 
   const initialDefaultsRef = useRef<{ season: Season; year: number } | null>(null);
   if (!initialDefaultsRef.current) {
+    let initialSeason: Season = "08";
+    let initialYear = 2026;
+
+    // Parse defaultTerm if provided (format: "01-2026")
+    if (defaultTerm) {
+      const [termCode, yearStr] = defaultTerm.split("-");
+      if (termCode && yearStr) {
+        const parsed = Number(yearStr);
+        if (Number.isFinite(parsed)) {
+          initialYear = parsed;
+        }
+        if ((termCode === "01" || termCode === "05" || termCode === "08" || termCode === "12") && termCode in TERM_LABEL) {
+          initialSeason = termCode as Season;
+        }
+      }
+    } else {
+      // Fall back to store values
+      initialSeason = storeTerm in TERM_LABEL ? (storeTerm as Season) : "08";
+      initialYear = Number.isFinite(storeYear) ? storeYear : 2026;
+    }
+
     initialDefaultsRef.current = {
-      season: storeTerm in TERM_LABEL ? (storeTerm as Season) : "08",
-      year: Number.isFinite(storeYear) ? storeYear : 2026,
+      season: initialSeason,
+      year: initialYear,
     };
   }
 
