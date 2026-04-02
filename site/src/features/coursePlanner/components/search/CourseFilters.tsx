@@ -85,6 +85,7 @@ export function CourseFilters() {
           <input
             type="checkbox"
             checked={filters.onlyOpen}
+            aria-label="Only open sections"
             onChange={(event) =>
               setFilters((current) => ({
                 ...current,
