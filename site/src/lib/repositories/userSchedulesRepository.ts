@@ -663,14 +663,17 @@ export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSele
 export async function countAllSchedulesGlobally(): Promise<number> {
   const supabase = getSupabaseClient();
 
-  const { count, error } = await supabase
-    .from("user_schedules")
-    .select("id", { count: "exact", head: true });
+  // Use public RPC function to get metrics (includes schedule count and major/minor count)
+  const { data, error } = await supabase.rpc("get_orbit_public_metrics");
 
   if (error) {
-    // If there's an error (e.g., RLS policy), return 0 instead of throwing
+    console.warn("Failed to fetch orbit metrics:", error.message);
     return 0;
   }
 
-  return count ?? 0;
+  if (!data || data.length === 0) {
+    return 0;
+  }
+
+  return Number(data[0]?.total_schedules_mapped ?? 0);
 }

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { listDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
-import { countAllSchedulesGlobally } from "@/lib/repositories/userSchedulesRepository";
+import { getSupabaseClient } from "@/lib/supabase/client";
 import "./welcome-landing.css";
 
 export default function Welcome() {
@@ -44,39 +43,23 @@ export default function Welcome() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Load available majors & minors
+  // Load available majors & minors and schedule count from public metrics RPC
   useEffect(() => {
     let active = true;
-    void listDegreePrograms()
-      .then((programs) => {
-        if (active) {
-          setMajorMinorCount(programs.length);
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setMajorMinorCount(0);
-        }
-      });
+    const supabase = getSupabaseClient();
 
-    return () => {
-      active = false;
-    };
-  }, []);
-
-  // Load user's scheduled semesters (only if authenticated)
-  useEffect(() => {
-    let active = true;
-    void countAllSchedulesGlobally()
-      .then((count) => {
-        if (active) {
-          setSemestersMapped(count);
+    supabase
+      .rpc("get_orbit_public_metrics")
+      .then((result) => {
+        if (!active) return;
+        if (result.error) {
+          console.warn("Failed to load metrics:", result.error);
+          return;
         }
-      })
-      .catch(() => {
-        // Error loading schedules
-        if (active) {
-          setSemestersMapped(0);
+        if (result.data && result.data.length > 0) {
+          const metrics = result.data[0];
+          setSemestersMapped(Number(metrics.total_schedules_mapped ?? 0));
+          setMajorMinorCount(Number(metrics.total_majors_and_minors ?? 0));
         }
       });
 
@@ -153,7 +136,7 @@ export default function Welcome() {
                 <div className="welcome-stat-label">Schedules mapped</div>
               </div>
               <div className="welcome-stat">
-                <div className="welcome-stat-num">{majorMinorCount > 0 ? majorMinorCount.toLocaleString() : "100+"}</div>
+                <div className="welcome-stat-num">{majorMinorCount.toLocaleString()}</div>
                 <div className="welcome-stat-label">Majors & minors</div>
               </div>
               <div className="welcome-stat">
