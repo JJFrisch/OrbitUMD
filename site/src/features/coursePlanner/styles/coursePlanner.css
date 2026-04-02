@@ -2572,3 +2572,115 @@
     font-size: 9px;
   }
 }
+
+/* ── UNIFIED SCHEDULES PAGE ── */
+
+.cp-schedules-unified {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: 100%;
+}
+
+.cp-schedules-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 28px;
+  height: 54px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--cp-divider);
+  background: var(--cp-surface);
+}
+
+.cp-seg-toggle {
+  display: flex;
+  background: var(--cp-surface-muted);
+  border: 1px solid var(--cp-divider);
+  border-radius: 9px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.cp-seg-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  border-radius: 7px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--cp-muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.cp-seg-btn:hover {
+  color: var(--cp-text);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.cp-seg-btn.is-active {
+  background: var(--cp-surface);
+  color: var(--cp-accent);
+  box-shadow: 0 1px 4px rgba(23, 18, 14, 0.1);
+}
+
+.cp-seg-btn svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.cp-seg-btn.is-active svg {
+  opacity: 1;
+}
+
+.cp-schedules-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cp-schedules-content {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cp-schedules-content > .course-planner-root {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.cp-schedules-content > .cp-view-root {
+  overflow: auto;
+}
+
+/* Dark mode overrides for unified schedules */
+.dark .cp-schedules-topbar {
+  background: var(--cp-surface);
+  border-bottom-color: var(--cp-divider);
+}
+
+.dark .cp-seg-toggle {
+  background: var(--cp-surface-muted);
+  border-color: var(--cp-divider);
+}
+
+.dark .cp-seg-btn:hover {
+  color: var(--cp-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.dark .cp-seg-btn.is-active {
+  background: var(--cp-surface-subtle);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}

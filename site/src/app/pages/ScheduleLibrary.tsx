@@ -1,5 +1,5 @@
-import { ScheduleLibraryPage } from "@/features/coursePlanner/ScheduleLibraryPage";
+import { SchedulesPage } from "@/features/coursePlanner/SchedulesPage";
 
 export default function ScheduleLibrary() {
-  return <ScheduleLibraryPage />;
+  return <SchedulesPage />;
 }

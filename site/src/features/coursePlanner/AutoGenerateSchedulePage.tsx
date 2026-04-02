@@ -1579,7 +1579,7 @@ function ResultsPanel({
   );
 }
 
-export function AutoGenerateSchedulePage() {
+export function AutoGenerateSchedulePage({ hideHeader = false }: { hideHeader?: boolean } = {}) {
   const navigate = useNavigate();
   const setCatalogTerm = useCoursePlannerStore((state) => state.setCatalogTerm);
   const replaceSelections = useCoursePlannerStore((state) => state.replaceSelections);
@@ -2163,43 +2163,49 @@ export function AutoGenerateSchedulePage() {
   const openScheduleInBuilder = (schedule: GeneratedSchedule, index: number) => {
     setCatalogTerm(season, year);
     replaceSelections(schedule.selections);
-    navigate(`/schedule-builder?term=${termId(season, year)}&generated=1&generatedIndex=${index + 1}`);
+    if (hideHeader) {
+      navigate(`/schedules?tab=edit&term=${termId(season, year)}&generated=1&generatedIndex=${index + 1}`);
+    } else {
+      navigate(`/schedule-builder?term=${termId(season, year)}&generated=1&generatedIndex=${index + 1}`);
+    }
   };
 
   return (
     <div className="course-planner-root cp-generate-root">
-      <header className="cp-generate-topbar">
-        <div className="cp-generate-topbar-left">
-          <h1>
-            Generate Schedule
-            {showProjectedTimesNote && (
-              <span className="cp-projected-times-note cp-projected-times-note-inline">
-                Projected Times
-                <button
-                  ref={projectedInfoRef}
-                  type="button"
-                  className="cp-projected-times-info"
-                  aria-label="What projected times means"
-                  onClick={() => setShowProjectedInfo((current) => !current)}
-                >
-                  i
-                </button>
-                <ProjectedTimesPopover
-                  anchorRef={projectedInfoRef}
-                  visible={showProjectedInfo}
-                  onClose={() => setShowProjectedInfo(false)}
-                />
-              </span>
-            )}
-          </h1>
-          <p>Configure your criteria, then let OrbitUMD find every conflict-free combination.</p>
-        </div>
-        <div className="cp-generate-autosave">
-          <div className="cp-generate-autosave-dot" />
-          {hasUnsavedCriteria ? "Unsaved criteria changes" : "Criteria saved"}
-          {lastAutosavedAt ? ` · ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}` : ""}
-        </div>
-      </header>
+      {!hideHeader && (
+        <header className="cp-generate-topbar">
+          <div className="cp-generate-topbar-left">
+            <h1>
+              Generate Schedule
+              {showProjectedTimesNote && (
+                <span className="cp-projected-times-note cp-projected-times-note-inline">
+                  Projected Times
+                  <button
+                    ref={projectedInfoRef}
+                    type="button"
+                    className="cp-projected-times-info"
+                    aria-label="What projected times means"
+                    onClick={() => setShowProjectedInfo((current) => !current)}
+                  >
+                    i
+                  </button>
+                  <ProjectedTimesPopover
+                    anchorRef={projectedInfoRef}
+                    visible={showProjectedInfo}
+                    onClose={() => setShowProjectedInfo(false)}
+                  />
+                </span>
+              )}
+            </h1>
+            <p>Configure your criteria, then let OrbitUMD find every conflict-free combination.</p>
+          </div>
+          <div className="cp-generate-autosave">
+            <div className="cp-generate-autosave-dot" />
+            {hasUnsavedCriteria ? "Unsaved criteria changes" : "Criteria saved"}
+            {lastAutosavedAt ? ` · ${new Date(lastAutosavedAt).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}` : ""}
+          </div>
+        </header>
+      )}
 
       <div className="cp-generate-content">
         <form

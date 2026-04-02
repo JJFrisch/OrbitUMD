@@ -40,7 +40,7 @@ function buildScheduleFingerprint(
   return `${scheduleKey}::${normalizedName}::${selectionKeys}`;
 }
 
-export function CoursePlannerPage() {
+export function CoursePlannerPage({ hideHeader = false }: { hideHeader?: boolean } = {}) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const lastProcessedDeepLink = useRef<string>("");
@@ -480,44 +480,46 @@ export function CoursePlannerPage() {
 
   return (
     <div className="course-planner-root">
-      <div data-tour-target="schedule-save-controls">
-        <ScheduleBuilderHeader
-        scheduleName={scheduleName}
-        onScheduleNameChange={setScheduleName}
-        courseCount={stats.courseCount}
-        credits={stats.credits}
-        termLabel={termLabel}
-        termOptions={termOptions}
-        selectedTermId={selectedTermId}
-        onSelectedTermChange={(termId) => {
-          const [termCode, yearText] = termId.split("-");
-          const parsedYear = Number(yearText);
-          if (!termCode || !Number.isFinite(parsedYear)) return;
-          setCatalogTerm(termCode, parsedYear);
-        }}
-        onExportPrint={() => {
-          setPrintMode(true);
-          requestAnimationFrame(() => {
-            window.print();
-            setTimeout(() => setPrintMode(false), 200);
-          });
-        }}
-        onViewAllSchedules={() => {
-          if (!confirmLeaveWithoutSaving()) return;
-          navigate("/schedules");
-        }}
-        onSave={handleSaveClick}
-        onSaveShortcut={handleSaveClick}
-        savePending={savePending}
-        saveMessage={saveMessage}
-        extraControlActionLabel="What's Needed"
-        extraControlActionIcon={<BarChart3 size={14} />}
-        onExtraControlActionClick={() => setShowNeededPanel(true)}
-        saveStatusText={saveStatusText ?? undefined}
-        saveStatusTone={saveStatusTone}
-        showProjectedTimesNote={showProjectedTimesNote}
-        />
-      </div>
+      {!hideHeader && (
+        <div data-tour-target="schedule-save-controls">
+          <ScheduleBuilderHeader
+          scheduleName={scheduleName}
+          onScheduleNameChange={setScheduleName}
+          courseCount={stats.courseCount}
+          credits={stats.credits}
+          termLabel={termLabel}
+          termOptions={termOptions}
+          selectedTermId={selectedTermId}
+          onSelectedTermChange={(termId) => {
+            const [termCode, yearText] = termId.split("-");
+            const parsedYear = Number(yearText);
+            if (!termCode || !Number.isFinite(parsedYear)) return;
+            setCatalogTerm(termCode, parsedYear);
+          }}
+          onExportPrint={() => {
+            setPrintMode(true);
+            requestAnimationFrame(() => {
+              window.print();
+              setTimeout(() => setPrintMode(false), 200);
+            });
+          }}
+          onViewAllSchedules={() => {
+            if (!confirmLeaveWithoutSaving()) return;
+            navigate("/schedules");
+          }}
+          onSave={handleSaveClick}
+          onSaveShortcut={handleSaveClick}
+          savePending={savePending}
+          saveMessage={saveMessage}
+          extraControlActionLabel="What's Needed"
+          extraControlActionIcon={<BarChart3 size={14} />}
+          onExtraControlActionClick={() => setShowNeededPanel(true)}
+          saveStatusText={saveStatusText ?? undefined}
+          saveStatusTone={saveStatusTone}
+          showProjectedTimesNote={showProjectedTimesNote}
+          />
+        </div>
+      )}
 
       {saveError && <p className="cp-error-text">{saveError}</p>}
 

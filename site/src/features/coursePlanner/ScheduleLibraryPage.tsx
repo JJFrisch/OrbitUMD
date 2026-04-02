@@ -162,7 +162,7 @@ function ScheduleSnapshot({ selections }: { selections: ScheduleSelection[] }) {
   );
 }
 
-export function ScheduleLibraryPage() {
+export function ScheduleLibraryPage({ hideHeader = false }: { hideHeader?: boolean } = {}) {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const requestedScheduleId = searchParams.get("scheduleId");
@@ -498,44 +498,50 @@ export function ScheduleLibraryPage() {
   const openInBuilder = (schedule: ScheduleWithSelections) => {
     const term = parseTermFromSchedule(schedule);
     const termParam = term ? `${term.termCode}-${term.termYear}` : "";
-    navigate(`/schedule-builder?scheduleId=${schedule.id}&term=${termParam}`);
+    if (hideHeader) {
+      navigate(`/schedules?tab=edit&scheduleId=${schedule.id}&term=${termParam}`);
+    } else {
+      navigate(`/schedule-builder?scheduleId=${schedule.id}&term=${termParam}`);
+    }
   };
 
   return (
     <div className="course-planner-root cp-view-root">
-      <div className="cp-view-header">
-        <div>
-          <h1>
-            All Schedules
-            {previewUsesProjectedTimes && (
-              <span className="cp-projected-times-note cp-projected-times-note-inline">
-                Projected Times
-                <button
-                  ref={projectedInfoRef}
-                  type="button"
-                  className="cp-projected-times-info"
-                  aria-label="What projected times means"
-                  onClick={() => setShowProjectedInfo((current) => !current)}
-                >
-                  i
-                </button>
-                <ProjectedTimesPopover
-                  anchorRef={projectedInfoRef}
-                  visible={showProjectedInfo}
-                  onClose={() => setShowProjectedInfo(false)}
-                />
-              </span>
-            )}
-          </h1>
-          <p>Compare and edit schedules.</p>
-        </div>
+      {!hideHeader && (
+        <div className="cp-view-header">
+          <div>
+            <h1>
+              All Schedules
+              {previewUsesProjectedTimes && (
+                <span className="cp-projected-times-note cp-projected-times-note-inline">
+                  Projected Times
+                  <button
+                    ref={projectedInfoRef}
+                    type="button"
+                    className="cp-projected-times-info"
+                    aria-label="What projected times means"
+                    onClick={() => setShowProjectedInfo((current) => !current)}
+                  >
+                    i
+                  </button>
+                  <ProjectedTimesPopover
+                    anchorRef={projectedInfoRef}
+                    visible={showProjectedInfo}
+                    onClose={() => setShowProjectedInfo(false)}
+                  />
+                </span>
+              )}
+            </h1>
+            <p>Compare and edit schedules.</p>
+          </div>
 
-        <div className="cp-view-actions">
-          <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>
-            <Plus size={13} /> New Schedule
-          </button>
+          <div className="cp-view-actions">
+            <button type="button" className="cp-builder-action-btn" onClick={() => navigate("/schedule-builder?new=1")}>
+              <Plus size={13} /> New Schedule
+            </button>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="cp-view-layout">
         <section className="cp-view-list-panel">

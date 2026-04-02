@@ -14,6 +14,7 @@ import {
   PanelLeftClose,
   PanelLeftOpen
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { cn } from "./ui/utils";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import "./sidebar-template.css";
@@ -21,8 +22,8 @@ import "./sidebar-template.css";
 interface NavigationItem {
   name: string;
   href: string;
-  icon: React.ForwardRefExoticComponent<any>;
-  badge?: string | number;
+  icon: LucideIcon;
+  badge?: string;
 }
 
 interface NavigationSection {
@@ -36,13 +37,13 @@ const navigationSections: NavigationSection[] = [
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
       { name: "My Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
-    ],
-  },
-  {
-    label: "Scheduling",
-    items: [
-      { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
-      { name: "My Schedules", href: "/schedules", icon: CalendarDays },
+  //   ], 
+  // },
+  // { maybe later
+  //   label: "Scheduling",
+  //   items: [ 
+  //     { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
+      { name: "Schedules", href: "/schedules", icon: CalendarDays },
     ],
   },
   {
