@@ -1,4 +1,5 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "@/lib/supabase/client";
+import { isDemoMode } from "@/lib/demo/demoMode";
 import type { PriorCreditImportOrigin, PriorCreditSource, UserPriorCreditRecord } from "@/lib/types/requirements";
 
 type PriorCreditRow = {
@@ -36,6 +37,11 @@ function mapPriorCreditRow(row: PriorCreditRow): UserPriorCreditRecord {
 }
 
 export async function listUserPriorCredits(): Promise<UserPriorCreditRecord[]> {
+  if (isDemoMode()) {
+    const { DEMO_PRIOR_CREDITS } = await import("@/lib/demo/demoData");
+    return DEMO_PRIOR_CREDITS;
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 

@@ -1,4 +1,5 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
+import { isDemoMode } from "../demo/demoMode";
 import { listUserDegreePrograms } from "./degreeProgramsRepository";
 import { compareAcademicTerms, getCurrentAcademicTerm } from "../scheduling/termProgress";
 
@@ -631,6 +632,11 @@ export async function loadScheduleById(scheduleId: string): Promise<ScheduleWith
 }
 
 export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSelections[]> {
+  if (isDemoMode()) {
+    const { DEMO_SCHEDULES } = await import("../demo/demoData");
+    return DEMO_SCHEDULES;
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 

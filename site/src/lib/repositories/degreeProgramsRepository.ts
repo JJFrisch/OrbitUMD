@@ -1,4 +1,5 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
+import { isDemoMode } from "../demo/demoMode";
 
 const LOCAL_SELECTED_PROGRAMS_KEY = "orbitumd-local-selected-programs";
 const LOCAL_PROGRAMS_GUEST_SCOPE = "__guest__";
@@ -161,6 +162,11 @@ export interface DegreeProgram {
  * List all programs the current user has declared (with joined program details).
  */
 export async function listUserDegreePrograms(): Promise<UserDegreeProgram[]> {
+  if (isDemoMode()) {
+    const { DEMO_PROGRAMS } = await import("../demo/demoData");
+    return DEMO_PROGRAMS;
+  }
+
   const localScopeUserId = await getLocalProgramsScopeUserId();
   const localPrograms = (await readScopedLocalSelectedPrograms(localScopeUserId)).map(toUserDegreeProgramFromLocal);
 

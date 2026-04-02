@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { enableDemoMode } from "@/lib/demo/demoMode";
 import "./welcome-landing.css";
 
 export default function Welcome() {
@@ -93,6 +94,13 @@ export default function Welcome() {
             <button type="button" onClick={() => navigate("/degree-requirements")}>Majors & Minors</button>
             <button type="button" onClick={() => navigate("/gen-eds")}>Gen Eds</button>
             <button type="button" onClick={() => navigate("/schedules")}>Schedules</button>
+            <button
+              type="button"
+              className="welcome-nav-demo"
+              onClick={() => { enableDemoMode(); window.location.href = "/dashboard"; }}
+            >
+              Try Demo
+            </button>
             <button
               type="button"
               className="welcome-nav-cta"

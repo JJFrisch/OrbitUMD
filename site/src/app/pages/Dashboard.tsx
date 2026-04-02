@@ -7,6 +7,7 @@ import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsReposit
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
 import { getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { isDemoMode } from "@/lib/demo/demoMode";
 import "./dashboard-template.css";
 
 interface CourseSnapshot {
@@ -122,28 +123,36 @@ export default function Dashboard() {
 
     const run = async () => {
       try {
+        const demo = isDemoMode();
         const supabase = getSupabaseClient();
-        const [{ data: authUser }, schedules, programs, priorCredits] = await Promise.all([
-          supabase.auth.getUser(),
+        const [authResult, schedules, programs, priorCredits] = await Promise.all([
+          demo ? Promise.resolve({ data: { user: null } }) : supabase.auth.getUser(),
           plannerApi.listAllSchedulesWithSelections(),
           listUserDegreePrograms(),
           listUserPriorCredits(),
         ]);
+        const authUser = authResult.data;
 
-        const { data: profileRow } = authUser.user
-          ? await supabase
-            .from("user_profiles")
-            .select("display_name")
-            .eq("id", authUser.user.id)
-            .maybeSingle()
-          : { data: null as { display_name?: string } | null };
+        let profileName: string;
+        if (demo) {
+          const { DEMO_PROFILE } = await import("@/lib/demo/demoData");
+          profileName = DEMO_PROFILE.display_name;
+        } else {
+          const { data: profileRow } = authUser.user
+            ? await supabase
+              .from("user_profiles")
+              .select("display_name")
+              .eq("id", authUser.user.id)
+              .maybeSingle()
+            : { data: null as { display_name?: string } | null };
 
-        const profileName =
-          String(profileRow?.display_name ?? "").trim()
-          || (authUser.user?.user_metadata?.full_name as string | undefined)
-          || (authUser.user?.user_metadata?.name as string | undefined)
-          || authUser.user?.email
-          || "Student";
+          profileName =
+            String(profileRow?.display_name ?? "").trim()
+            || (authUser.user?.user_metadata?.full_name as string | undefined)
+            || (authUser.user?.user_metadata?.name as string | undefined)
+            || authUser.user?.email
+            || "Student";
+        }
 
         const mainSchedules = schedules.filter((schedule) => schedule.is_primary && schedule.term_code && schedule.term_year);
         const missingGradeTerms = mainSchedules

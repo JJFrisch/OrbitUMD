@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { isDemoMode, DEMO_USER_ID } from "@/lib/demo/demoMode";
 
 let cachedClient: SupabaseClient | null = null;
 
@@ -26,6 +27,9 @@ export function getSupabaseClient(): SupabaseClient {
 }
 
 export async function getAuthenticatedUserId(): Promise<string> {
+  // In demo mode, return a synthetic user ID without touching Supabase
+  if (isDemoMode()) return DEMO_USER_ID;
+
   const supabase = getSupabaseClient();
   const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
   if (sessionError) {

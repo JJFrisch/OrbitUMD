@@ -3,6 +3,7 @@ import { isRouteErrorResponse, Link, Navigate, createBrowserRouter, useLocation,
 import RootLayout from "./layouts/RootLayout";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { userNeedsOnboardingByEmail } from "@/lib/supabase/profileEmailGate";
+import { isDemoMode } from "@/lib/demo/demoMode";
 
 function lazyWithRetry<T extends ComponentType<any>>(
   loader: () => Promise<{ default: T }>,
@@ -92,6 +93,12 @@ function AppRouteErrorBoundary() {
   );
 }
 
+/** Wrapper that skips Supabase auth entirely in demo mode. */
+function RequireAuthDemoBypass({ children }: { children: ReactNode }) {
+  if (isDemoMode()) return <>{children}</>;
+  return null; // unreachable — only rendered when isDemoMode() is true
+}
+
 function RequireAuth({
   children,
   allowMissingProfileEmail = false,
@@ -99,13 +106,17 @@ function RequireAuth({
   children: ReactNode;
   allowMissingProfileEmail?: boolean;
 }) {
-  const [checking, setChecking] = useState(true);
-  const [isAuthed, setIsAuthed] = useState(false);
+  const demo = isDemoMode();
+  const [checking, setChecking] = useState(!demo);
+  const [isAuthed, setIsAuthed] = useState(demo);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
-  const [onboardingChecked, setOnboardingChecked] = useState(false);
+  const [onboardingChecked, setOnboardingChecked] = useState(demo);
   const location = useLocation();
 
   useEffect(() => {
+    // Skip all Supabase auth in demo mode
+    if (demo) return;
+
     let active = true;
     const supabase = getSupabaseClient();
 
@@ -183,7 +194,7 @@ function RequireAuth({
       active = false;
       subscription.subscription.unsubscribe();
     };
-  }, []);
+  }, [demo]);
 
   if (checking || (isAuthed && !allowMissingProfileEmail && !onboardingChecked)) {
     return <div className="p-6 text-sm text-muted-foreground">Checking session...</div>;
