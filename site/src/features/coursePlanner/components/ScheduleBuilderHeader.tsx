@@ -59,7 +59,33 @@ export function ScheduleBuilderHeader({
     <header className="cp-builder-header">
       <div className="cp-builder-top-row">
         <div className="cp-builder-top-title-wrap">
-          <h1>Edit Schedule</h1>
+          <div className="cp-builder-title-editable">
+            <input
+              className="cp-builder-title-input"
+              value={scheduleName}
+              onChange={(event) => onScheduleNameChange(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key !== "Enter") return;
+                event.preventDefault();
+                (onSaveShortcut ?? onSave)();
+              }}
+              placeholder="Schedule name..."
+              aria-label="Schedule name"
+            />
+            <span className="cp-builder-title-separator">•</span>
+            <select
+              className="cp-builder-term-select"
+              aria-label="Catalog term"
+              value={selectedTermId}
+              onChange={(event) => onSelectedTermChange(event.target.value)}
+            >
+              {termOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
           {showProjectedTimesNote && (
             <span className="cp-projected-times-note">
               Projected Times
@@ -92,34 +118,7 @@ export function ScheduleBuilderHeader({
       </div>
 
       <div className="cp-builder-controls">
-        <input
-          value={scheduleName}
-          onChange={(event) => onScheduleNameChange(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key !== "Enter") return;
-            event.preventDefault();
-            (onSaveShortcut ?? onSave)();
-          }}
-          placeholder="Schedule name..."
-        />
-
-        <label>
-          Term:
-          <select
-            aria-label="Catalog term"
-            value={selectedTermId}
-            onChange={(event) => onSelectedTermChange(event.target.value)}
-          >
-            {termOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </label>
-
         <div className="cp-builder-stats">
-          <span>{termLabel}</span>
           <span>{courseCount} courses</span>
           <span>{credits} credits</span>
         </div>

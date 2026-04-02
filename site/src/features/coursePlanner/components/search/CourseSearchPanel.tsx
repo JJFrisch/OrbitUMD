@@ -21,6 +21,7 @@ export function CourseSearchPanel() {
   const highlightSuggestion = useCoursePlannerStore((state) => state.highlightSuggestion);
   const applyHighlightedSuggestion = useCoursePlannerStore((state) => state.applyHighlightedSuggestion);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [filtersExpanded, setFiltersExpanded] = useState(false);
 
   const visibleResults = useMemo(() => results.slice(0, visibleCount), [results, visibleCount]);
 
@@ -75,7 +76,17 @@ export function CourseSearchPanel() {
         </div>
       )}
 
-      <CourseFilters />
+      <button
+        type="button"
+        className="cp-filters-toggle"
+        onClick={() => setFiltersExpanded(!filtersExpanded)}
+        aria-label={filtersExpanded ? "Collapse filters" : "Expand filters"}
+        aria-expanded={filtersExpanded}
+      >
+        {filtersExpanded ? "Hide Filters" : "Show Filters"}
+      </button>
+
+      {filtersExpanded && <CourseFilters />}
 
       {pending && (
         <div className="cp-inline-loading"><Loader2 size={14} className="spin" /> Searching...</div>
