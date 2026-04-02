@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
-import { ChevronDown, GripVertical, GraduationCap, Info, Mail, Menu, MessageSquare, Minus, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
+import { ChevronDown, ChevronLeft, GripVertical, GraduationCap, Info, Mail, Menu, MessageSquare, Minus, Pencil, Plus, Printer, Save, X, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Card } from "../components/ui/card";
@@ -89,6 +89,8 @@ const REQUIREMENTS_CATALOG_VERSION_KEY = "orbitumd:requirements-catalog-version"
 const REQUIREMENTS_CATALOG_RESET_KEY = "orbitumd:requirements-catalog-reset-pending";
 const SPECIALIZATION_SELECTIONS_KEY = "orbitumd:specialization-selections:v1";
 const DEGREE_DECLARATION_MODE_KEY = "orbitumd:degree-declaration-mode:v1";
+const ACTIVE_PROGRAM_INDEX_KEY = "orbitumd:degree-audit-active-program-index";
+const SIDEBAR_VISIBLE_KEY = "orbitumd:degree-audit-sidebar-visible";
 const CURRENT_REQUIREMENTS_CATALOG_VERSION = String((requirementsCatalog as any)?.meta?.generatedAt ?? "unknown");
 
 type DegreeDeclarationMode = "single" | "dual-major" | "double-degree";
@@ -1946,7 +1948,23 @@ export default function DegreeAudit() {
   const [courseDetails, setCourseDetails] = useState<Map<string, CourseDetails>>(new Map());
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [activeProgramIndex, setActiveProgramIndex] = useState(0);
+  const [activeProgramIndex, setActiveProgramIndex] = useState(() => {
+    try {
+      const stored = localStorage.getItem(ACTIVE_PROGRAM_INDEX_KEY);
+      const parsed = Number(stored);
+      return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+    } catch {
+      return 0;
+    }
+  });
+  const [sidebarVisible, setSidebarVisible] = useState(() => {
+    try {
+      const stored = localStorage.getItem(SIDEBAR_VISIBLE_KEY);
+      return stored === "false" ? false : true;
+    } catch {
+      return true;
+    }
+  });
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
   const [expandedNotesSectionIds, setExpandedNotesSectionIds] = useState<Set<string>>(new Set());
   const condensedAuditView = false;
@@ -2202,6 +2220,19 @@ export default function DegreeAudit() {
     if (!confirmDiscardEditorDraft()) return;
     resetDraftEditorForce();
     setActiveProgramIndex(nextIndex);
+    try {
+      localStorage.setItem(ACTIVE_PROGRAM_INDEX_KEY, String(nextIndex));
+    } catch { /* noop */ }
+  };
+
+  const toggleSidebarVisibility = () => {
+    setSidebarVisible((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(SIDEBAR_VISIBLE_KEY, String(next));
+      } catch { /* noop */ }
+      return next;
+    });
   };
 
   const persistProgramSections = (programId: string, sections: any[]) => {
@@ -3429,7 +3460,7 @@ export default function DegreeAudit() {
           </div>
         </div>
 
-        <div className="da2-content">
+        <div className={`da2-content${!sidebarVisible ? " sidebar-hidden" : ""}`}>
           <section className="da2-left-panel">
             {loading && <p className="text-muted-foreground">Running degree audit...</p>}
             {!loading && errorMessage && <p className="text-red-400">{errorMessage}</p>}
@@ -4832,7 +4863,17 @@ export default function DegreeAudit() {
             )}
           </section>
 
-          <aside className="da2-right-panel">
+          <aside className={`da2-right-panel${sidebarVisible ? " is-visible" : " is-hidden"}`}>
+            <button
+              type="button"
+              className="da2-sidebar-toggle"
+              onClick={toggleSidebarVisibility}
+              aria-label={sidebarVisible ? "Collapse sidebar" : "Expand sidebar"}
+              title={sidebarVisible ? "Collapse sidebar" : "Expand sidebar"}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+
             {!loading && !errorMessage && selectedProgramAudit && (
               <>
                 <Card className="da2-sidebar-card da2-programs-card bg-card border-border p-6">

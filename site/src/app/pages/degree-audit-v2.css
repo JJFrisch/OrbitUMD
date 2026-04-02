@@ -141,6 +141,57 @@
   border-left: 1px solid var(--da2-border-soft);
   padding: 26px 26px 52px;
   background: var(--da2-surface-2);
+  position: relative;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.da2-right-panel.is-hidden {
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.da2-right-panel.is-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.da2-sidebar-toggle {
+  position: absolute;
+  top: 20px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--da2-border-soft);
+  background: var(--da2-surface);
+  color: var(--da2-text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.da2-sidebar-toggle:hover {
+  background: var(--da2-surface-2);
+  color: var(--da2-text);
+}
+
+.da2-content.sidebar-hidden {
+  grid-template-columns: 1fr;
+}
+
+.da2-content.sidebar-hidden .da2-right-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 367px;
+  border-left: 1px solid var(--da2-border-soft);
+  border-radius: 0;
+  z-index: 99;
 }
 
 .da2-left-panel::-webkit-scrollbar,
