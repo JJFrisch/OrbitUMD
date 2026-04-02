@@ -1975,7 +1975,7 @@ export default function FourYearPlan() {
           setReplaceCourseTarget(null);
         }
       }}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="fyp-plan-dialog max-w-2xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {replaceCourseTarget ? "Change Course" : "Add Course"} for {addCourseTerm?.termLabel ?? "Term"}
@@ -2157,7 +2157,7 @@ export default function FourYearPlan() {
           setAddingTerm(false);
         }
       }}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="fyp-plan-dialog max-w-md">
           <DialogHeader>
             <DialogTitle>Add Term</DialogTitle>
             <DialogDescription>
