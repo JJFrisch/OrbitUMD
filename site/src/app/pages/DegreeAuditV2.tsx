@@ -1728,85 +1728,69 @@ function RequirementSectionCard({
   }, [sectionCourses]);
 
   const renderLogicBlock = (block: any, depth: number = 0) => {
-    const blockCodes = Array.isArray(block?.codes) ? block.codes : [];
-    const blockCourses = blockCodes.map((code: string) => {
-      const normalized = String(code ?? "").toUpperCase();
-      const wildcardMatchedCourse = wildcardMatchedCoursesByToken.get(normalized);
-      if (wildcardMatchedCourse) {
-        return wildcardMatchedCourse;
-      }
+  const blockCodes = Array.isArray(block?.codes) ? block.codes : [];
+  const logicType = block?.type === "OR" ? "or" : "and";
+  const blockCourses = blockCodes.map((code: string) => {
+    const normalized = String(code ?? "").toUpperCase();
+    const wildcardMatchedCourse = wildcardMatchedCoursesByToken.get(normalized);
+    if (wildcardMatchedCourse) return wildcardMatchedCourse;
+    const existing = coursesByCode.get(normalized);
+    if (existing) return existing;
+    return {
+      code: normalized,
+      title: normalized,
+      credits: 0,
+      genEds: [],
+      status: byCourseCode.get(normalized) ?? "not_started",
+    } as AuditCourse;
+  });
 
-      const existing = coursesByCode.get(normalized);
-      if (existing) return existing;
-      return {
-        code: normalized,
-        title: normalized,
-        credits: 0,
-        genEds: [],
-        status: byCourseCode.get(normalized) ?? "not_started",
-      } as AuditCourse;
-    });
+  const ariaLabel = logicType === "or"
+    ? `Choose one of the following ${blockCourses.length} courses`
+    : `All ${blockCourses.length} of the following courses are required`;
 
-    return (
-      <div
-        key={`${section.id}-${depth}-${String(block?.title ?? "")}-${blockCodes.join("|")}`}
-        className={`rounded-md border p-2 ${
-          block?.type === "OR"
-            ? "border-amber-300 bg-amber-50 dark:border-amber-600/40 dark:bg-amber-600/10"
-            : "border-sky-300 bg-sky-50 dark:border-sky-600/40 dark:bg-sky-600/10"
-        } ${getDepthIndentClass(depth)}`}
-      >
-        <div className="flex items-center justify-between gap-2 mb-2">
-          <Badge variant="outline" className="text-xs border-border">
-            {block?.type === "OR" ? "OR" : "All Required"}
-          </Badge>
-          {block?.title ? <span className="text-xs text-foreground/80">{block.title}</span> : null}
-        </div>
-
-        {blockCourses.length > 0 && block?.type === "OR" && condensedView ? (
-          <div className="mb-2 flex flex-wrap items-center gap-2">
-            {blockCourses.map((course, index) => (
-              <div key={`${section.id}-${depth}-${course.code}`} className="flex items-center gap-2">
-                <Badge variant="outline" className="border-border text-xs text-foreground/80">
-                  {course.code}
-                </Badge>
-                {index < blockCourses.length - 1 && (
-                  <span className="text-[10px] font-medium tracking-wide text-amber-700 dark:text-amber-300">OR</span>
-                )}
-              </div>
+  return (
+    <div
+      className={`da2-logic-group da2-logic-group--depth-${Math.min(depth, 4)}`}
+      data-logic={logicType}
+      role="group"
+      aria-label={ariaLabel}
+    >
+      <div className="da2-logic-bracket" aria-hidden="true">
+        <span className="da2-logic-label">
+          {logicType === "or" ? "OR" : "ALL"}
+        </span>
+      </div>
+      <div className="da2-logic-items">
+        {block?.title && (
+          <div className="da2-logic-title">{block.title}</div>
+        )}
+        {blockCourses.length > 0 && (
+          <div className="da2-logic-courses">
+            {blockCourses.map((course) => (
+              <CourseRowDisplay
+                key={course.code}
+                courseCode={course.code}
+                courseTitle={course.title}
+                credits={course.credits}
+                genEds={course.genEds}
+                status={course.status}
+              />
             ))}
           </div>
-        ) : blockCourses.length > 0 ? (
-          <div className="border border-border/30 rounded-md overflow-hidden mb-2">
-            {blockCourses.map((course, index) => (
-              <div key={`${section.id}-${depth}-${course.code}`}>
-                <CourseRowDisplay
-                  courseCode={course.code}
-                  courseTitle={course.title}
-                  credits={course.credits}
-                  genEds={course.genEds}
-                  status={course.status}
-                />
-                {block?.type === "OR" && index < blockCourses.length - 1 && !condensedView && (
-                  <div className="border-b border-border/30 bg-amber-100/40 py-1 text-center text-[10px] font-medium tracking-wide text-amber-800 dark:bg-amber-700/10 dark:text-amber-300">
-                    OR
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ) : null}
-
+        )}
         {Array.isArray(block?.children) && block.children.length > 0 && (
-          <div className="space-y-2">
+          <div className="da2-logic-children">
             {block.children.map((child: any, idx: number) => (
-              <div key={`${section.id}-${depth}-child-${idx}`}>{renderLogicBlock(child, depth + 1)}</div>
+              <div key={idx}>{renderLogicBlock(child, depth + 1)}</div>
             ))}
           </div>
         )}
       </div>
-    );
-  };
+    </div>
+  );
+};
+
 
   return (
     <Card className="bg-input-background border-border p-4">

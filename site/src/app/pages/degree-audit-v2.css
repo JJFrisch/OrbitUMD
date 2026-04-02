@@ -401,6 +401,127 @@
   border: 1px solid #d9cec5;
 }
 
+/* ── Logic Group Brackets ── */
+
+.da2-logic-group {
+  position: relative;
+  display: flex;
+  gap: 0;
+  margin-bottom: 6px;
+}
+.da2-logic-group:last-child {
+  margin-bottom: 0;
+}
+
+.da2-logic-bracket {
+  position: relative;
+  width: 22px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 4px;
+}
+
+/* Vertical bracket line */
+.da2-logic-bracket::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+}
+
+/* AND: solid muted line */
+.da2-logic-group[data-logic="and"] .da2-logic-bracket::before {
+  background: var(--da2-ink-ghost, #b09a8e);
+}
+
+/* OR: dashed gold line */
+.da2-logic-group[data-logic="or"] .da2-logic-bracket::before {
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--da2-gold, #f9a825) 0px,
+    var(--da2-gold, #f9a825) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* Bracket label pill */
+.da2-logic-label {
+  position: relative;
+  z-index: 1;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 1px 3px;
+  border-radius: 3px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.da2-logic-group[data-logic="and"] .da2-logic-label {
+  background: var(--da2-surface-2, #faf7f3);
+  color: var(--da2-ink-ghost, #b09a8e);
+  border: 1px solid var(--da2-border-soft, rgba(55, 35, 25, 0.08));
+}
+
+.da2-logic-group[data-logic="or"] .da2-logic-label {
+  background: #fef9e7;
+  color: #9a7209;
+  border: 1px solid rgba(249, 168, 37, 0.35);
+}
+
+/* Content area */
+.da2-logic-items {
+  flex: 1;
+  min-width: 0;
+}
+
+.da2-logic-title {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--da2-ink-2, #3d2e26);
+  padding: 4px 8px 2px;
+}
+
+.da2-logic-courses {
+  border: 1px solid var(--da2-border-soft, rgba(55, 35, 25, 0.08));
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.da2-logic-children {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+/* Nested depth: subtle left-padding increase */
+.da2-logic-group .da2-logic-group {
+  margin-left: 2px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .da2-logic-bracket {
+    width: 16px;
+  }
+  .da2-logic-bracket::before {
+    left: 6px;
+  }
+  .da2-logic-label {
+    font-size: 0.5rem;
+    padding: 0px 2px;
+  }
+}
+
+
 .da2-program-shell {
   border: 1.5px solid var(--da2-border-soft) !important;
   border-radius: 12px !important;
