@@ -12,10 +12,8 @@ import {
 } from "../components/ui/select";
 import {
   buildCourseContributionMap,
-  evaluateRequirementSection,
   getContributionLabelsForCourseCode,
   loadProgramRequirementBundles,
-  type AuditCourseStatus,
   type ProgramRequirementBundle,
 } from "@/lib/requirements/audit";
 import { canonicalCourseCode } from "@/lib/requirements/courseCodeEquivalency";
@@ -776,44 +774,6 @@ export default function FourYearPlan() {
 
   const contributionMap = useMemo(() => buildCourseContributionMap(requirementBundles), [requirementBundles]);
 
-  const requirementProgress = useMemo(() => {
-    if (requirementBundles.length === 0) return null;
-
-    const statusRankLocal = (s: AuditCourseStatus) =>
-      s === "completed" ? 3 : s === "in_progress" ? 2 : s === "planned" ? 1 : 0;
-    const byCourseCode = new Map<string, AuditCourseStatus>();
-    for (const term of terms) {
-      for (const course of term.courses) {
-        if (!course.countsTowardProgress) continue;
-        const existing = byCourseCode.get(course.code.toUpperCase());
-        const next: AuditCourseStatus = course.status === "completed" ? "completed"
-          : course.status === "in_progress" ? "in_progress"
-          : "planned";
-        if (!existing || statusRankLocal(next) > statusRankLocal(existing)) {
-          byCourseCode.set(course.code.toUpperCase(), next);
-        }
-      }
-    }
-
-    let totalSections = 0;
-    let completedSections = 0;
-    let inProgressSections = 0;
-    let plannedSections = 0;
-
-    for (const bundle of requirementBundles) {
-      for (const section of bundle.sections) {
-        if (section.special) continue;
-        const audit = evaluateRequirementSection(section, byCourseCode);
-        totalSections += 1;
-        if (audit.status === "completed") completedSections += 1;
-        else if (audit.status === "in_progress") inProgressSections += 1;
-        else if (audit.status === "planned") plannedSections += 1;
-      }
-    }
-
-    return { totalSections, completedSections, inProgressSections, plannedSections };
-  }, [requirementBundles, terms]);
-
   const handleScheduleGradeChange = async (term: PlannedTerm, course: PlannedCourse, nextGradeValue: string) => {
     if (term.status !== "completed") {
       return;
@@ -897,10 +857,6 @@ export default function FourYearPlan() {
     return [...academicTerms, ...priorToUmd];
   }, [terms]);
 
-  const plannedTermsCount = useMemo(() => {
-    return boardTerms.filter((term) => term.status === "planned" && term.source === "schedule").length;
-  }, [boardTerms]);
-
   const originalTermByCourseSectionKey = useMemo(() => {
     const mapping = new Map<string, PlannedTerm>();
     for (const term of boardTerms) {
@@ -918,11 +874,6 @@ export default function FourYearPlan() {
   const mainScheduleById = useMemo(() => {
     return new Map(mainSchedules.map((schedule) => [schedule.id, schedule]));
   }, [mainSchedules]);
-
-  const lastScheduleTermId = useMemo(() => {
-    const scheduleTerms = boardTerms.filter((term) => term.source === "schedule");
-    return scheduleTerms[scheduleTerms.length - 1]?.id ?? null;
-  }, [boardTerms]);
 
   const addableTermOptions = useMemo(() => {
     const existing = new Set(
@@ -1475,16 +1426,16 @@ export default function FourYearPlan() {
       <div className="shell">
         <div className="main">
           <div className="topbar">
-            <div className="topbar-left">
+            <div className="topbar-left"> 
               <h2>Four-Year Plan</h2>
               <p>Board view of your academic plan grouped by term. Drag courses between semesters to reorganize.</p>
             </div>
             {!loading && (
               <div className="topbar-right">
-                <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
+                {/* <button type="button" className="topbar-btn" onClick={() => setShowGpaInfo(true)} aria-label="Explain how UMD GPA is calculated">
                   <Info size={13} />
                   GPA Info
-                </button>
+                </button> */}
                 <button type="button" className="topbar-btn" onClick={() => setShowGpaDetails((current) => !current)}>
                   {showGpaDetails ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
                   {showGpaDetails ? "Hide GPA details" : "Show GPA details"}
@@ -1510,21 +1461,50 @@ export default function FourYearPlan() {
                 <div className="ps-item"><div className="ps-dot is-remaining" /><span className="ps-label">Remaining</span><span className="ps-val">{remainingCredits} cr</span></div>
                 <div className="ps-divider" />
                 <div className="ps-item"><span className="ps-label">Total</span><span className="ps-val">{summary.totalCredits} / 120 cr</span></div>
-                <button type="button" className="grad-badge" onClick={() => setShowStandingInfo(true)}>
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
-                    <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-                  </svg>
-                  Standing: {officialStanding} · GPA {summary.overallGPA?.toFixed(3) ?? "-"}
-                </button>
+                <div className="summary-actions">
+                  <button
+                    type="button"
+                    className="topbar-btn"
+                    onClick={() => {
+                      setSelectedAddTermValue(addableTermOptions[0]?.value ?? "");
+                      setShowAddTermDialog(true);
+                    }}
+                  >
+                    Add Term
+                  </button>
+                  <div className="grad-badge" role="group" aria-label="Academic standing and GPA quick actions">
+                    <button type="button" className="grad-badge-segment" onClick={() => setShowStandingInfo(true)}>
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                        <path d="M6 1l1.5 3L11 4.5l-2.5 2.5.6 3.5L6 9l-3.1 1.5.6-3.5L1 4.5 4.5 4z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                      </svg>
+                      Standing: {officialStanding}
+                    </button>
+                    <span className="grad-badge-separator" aria-hidden>·</span>
+                    <button
+                      type="button"
+                      className="grad-badge-segment"
+                      onClick={() => setShowGpaInfo(true)}
+                      aria-label="Open GPA information"
+                    >
+                      GPA {summary.overallGPA?.toFixed(3) ?? "-"}
+                    </button>
+                  </div>
+                </div>
               </>
             )}
+            <ProgressBar
+                  done={summary.completedCredits}
+                  cur={summary.inProgressCredits}
+                  plan={summary.plannedCredits}
+                  total={120}
+                />
           </div>
 
-          {!loading && (
+          {/* {!loading && (
             <div className="progress-strip ps-detail-row">
               <div className="ps-credit-block">
                 <div className="ps-credit-labels">
-                  <span className="ps-label">Credit Progress</span>
+                  <span className="ps-label">Credit Progress</span> 
                   <span className="ps-val">{summary.totalCredits} / 120</span>
                 </div>
                 <ProgressBar
@@ -1533,45 +1513,14 @@ export default function FourYearPlan() {
                   plan={summary.plannedCredits}
                   total={120}
                 />
-                <div className="ps-credit-legend">
+                 <div className="ps-credit-legend">
                   <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">Done</span></div>
                   <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">Current</span></div>
                   <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">Planned</span></div>
                 </div>
               </div>
-              {requirementProgress && (
-                <>
-                  <div className="ps-divider" />
-                  <div className="ps-req-block">
-                    <div className="ps-credit-labels">
-                      <span className="ps-label">Requirement Sections</span>
-                      <span className="ps-val">{requirementProgress.completedSections + requirementProgress.inProgressSections + requirementProgress.plannedSections} / {requirementProgress.totalSections}</span>
-                    </div>
-                    <ProgressBar
-                      done={requirementProgress.completedSections}
-                      cur={requirementProgress.inProgressSections}
-                      plan={requirementProgress.plannedSections}
-                      total={requirementProgress.totalSections}
-                    />
-                    <div className="ps-credit-legend">
-                      <div className="ps-item"><div className="ps-dot is-completed" /><span className="ps-label">{requirementProgress.completedSections} done</span></div>
-                      <div className="ps-item"><div className="ps-dot is-progress" /><span className="ps-label">{requirementProgress.inProgressSections} in progress</span></div>
-                      <div className="ps-item"><div className="ps-dot is-planned" /><span className="ps-label">{requirementProgress.plannedSections} planned</span></div>
-                    </div>
-                    <Link to="/degree-audit" className="ps-req-link">View full degree audit →</Link>
-                  </div>
-                </>
-              )}
-              <div className="ps-right-group">
-                <div className="ps-feasibility">
-                  <span className="ps-label">Avg credits/remaining term</span>
-                  <span className="ps-val">
-                    {plannedTermsCount > 0 ? (remainingCredits / plannedTermsCount).toFixed(1) : remainingCredits > 0 ? "Add terms" : "0"} cr
-                  </span>
-                </div>
-              </div>
             </div>
-          )}
+          )} */}
 
           <div className="plan-alerts">
             {!loading && summary.duplicateCourseCount > 0 && !hideDuplicateNotice && (
@@ -1647,7 +1596,6 @@ export default function FourYearPlan() {
                 {boardTerms.map((term) => {
                   const termState = boardTermState(term.status);
                   const canDropIntoTerm = term.source === "schedule";
-                  const isLastScheduleTerm = term.id === lastScheduleTermId;
                   const statusText = termState === "past" ? "Done" : termState === "current" ? "Now" : "Plan";
                   const statusClass = termState === "past" ? "done" : termState === "current" ? "cur" : "plan";
                   const termCourses = displayedCoursesByTerm.get(term.id) ?? [];
@@ -1680,18 +1628,6 @@ export default function FourYearPlan() {
                             >
                               View
                             </button>
-                            {isLastScheduleTerm && (
-                              <button
-                                type="button"
-                                className="term-add-btn"
-                                onClick={() => {
-                                  setSelectedAddTermValue(addableTermOptions[0]?.value ?? "");
-                                  setShowAddTermDialog(true);
-                                }}
-                              >
-                                Add Term
-                              </button>
-                            )}
                           </div>
                         )}
                         <div className={`term-name ${termState}`}>{term.termLabel}</div>
