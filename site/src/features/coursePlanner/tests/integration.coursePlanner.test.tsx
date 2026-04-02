@@ -163,6 +163,7 @@ describe("course planner integration", () => {
     fireEvent.change(screen.getByPlaceholderText("Search courses"), { target: { value: "cmsc131" } });
     fireEvent.click(await screen.findByLabelText("toggle sections"));
 
+    fireEvent.click(screen.getByLabelText("Expand filters"));
     fireEvent.click(screen.getByLabelText("Only open sections"));
     expect(screen.queryByLabelText("section 0201")).not.toBeInTheDocument();
   });
