@@ -1,5 +1,7 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { listDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
+import { listAllSchedulesWithSelections } from "@/lib/repositories/userSchedulesRepository";
 import "./welcome-landing.css";
 
 export default function Welcome() {
@@ -7,6 +9,10 @@ export default function Welcome() {
   const ring1Ref = useRef<HTMLDivElement | null>(null);
   const ring2Ref = useRef<HTMLDivElement | null>(null);
   const ring3Ref = useRef<HTMLDivElement | null>(null);
+
+  // Statistics state
+  const [semestersMapped, setSemestersMapped] = useState(0);
+  const [majorMinorCount, setMajorMinorCount] = useState(0);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -36,6 +42,56 @@ export default function Welcome() {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
+  // Load available majors & minors
+  useEffect(() => {
+    let active = true;
+    void listDegreePrograms()
+      .then((programs) => {
+        if (active) {
+          setMajorMinorCount(programs.length);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setMajorMinorCount(0);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Load user's scheduled semesters (only if authenticated)
+  useEffect(() => {
+    let active = true;
+    void listAllSchedulesWithSelections()
+      .then((schedules) => {
+        if (active) {
+          // Count unique semesters from MAIN schedules
+          const uniqueTerms = new Set<string>();
+          schedules
+            .filter((s) => s.is_primary)
+            .forEach((schedule) => {
+              if (schedule.term_code && typeof schedule.term_year === "number") {
+                uniqueTerms.add(`${schedule.term_code}-${schedule.term_year}`);
+              }
+            });
+          setSemestersMapped(uniqueTerms.size);
+        }
+      })
+      .catch(() => {
+        // User not authenticated or error loading schedules
+        if (active) {
+          setSemestersMapped(0);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   return (
@@ -102,11 +158,11 @@ export default function Welcome() {
 
             <div className="welcome-stats">
               <div className="welcome-stat">
-                <div className="welcome-stat-num">8</div>
+                <div className="welcome-stat-num">{semestersMapped}</div>
                 <div className="welcome-stat-label">Semesters mapped</div>
               </div>
               <div className="welcome-stat">
-                <div className="welcome-stat-num">100+</div>
+                <div className="welcome-stat-num">{majorMinorCount > 0 ? majorMinorCount.toLocaleString() : "100+"}</div>
                 <div className="welcome-stat-label">Majors & minors</div>
               </div>
               <div className="welcome-stat">
