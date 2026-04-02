@@ -6,6 +6,7 @@ import type {
   UmdSectionMeeting,
   UmdTerm,
 } from "../types/course";
+import { isDemoMode } from "../demo/demoMode";
 import { getSupabaseClient } from "../supabase/client";
 
 const API_BASE = import.meta.env.VITE_UMD_API_BASE_URL ?? "https://api.umd.io/v1";
@@ -121,6 +122,137 @@ type CatalogMeetingRow = {
   room: string | null;
   location: string | null;
 };
+
+type DemoSelection = {
+  course?: {
+    id?: string;
+    courseCode?: string;
+    name?: string;
+    deptId?: string;
+    credits?: number;
+    minCredits?: number;
+    maxCredits?: number;
+    description?: string;
+    genEds?: string[];
+    term?: string;
+    year?: number;
+    sections?: Array<{
+      id?: string;
+      courseCode?: string;
+      sectionCode?: string;
+      instructor?: string;
+      instructors?: string[];
+      totalSeats?: number;
+      openSeats?: number;
+      meetings?: Array<{
+        days?: string;
+        startTime?: string;
+        endTime?: string;
+        location?: string;
+      }>;
+    }>;
+  };
+  section?: {
+    id?: string;
+    sectionCode?: string;
+    instructor?: string;
+    instructors?: string[];
+    totalSeats?: number;
+    openSeats?: number;
+    meetings?: Array<{
+      days?: string;
+      startTime?: string;
+      endTime?: string;
+      location?: string;
+    }>;
+  };
+};
+
+type DemoSchedule = {
+  term_code?: string;
+  term_year?: number;
+  selections_json?: DemoSelection[];
+};
+
+async function loadDemoSchedules(): Promise<DemoSchedule[]> {
+  const { DEMO_SCHEDULES } = await import("../demo/demoData");
+  return DEMO_SCHEDULES as unknown as DemoSchedule[];
+}
+
+function demoTermToUmdTerm(termCode: string, termYear: number): UmdTerm {
+  return parseTermCode(`${termYear}${termCode}`);
+}
+
+function mapDemoCourseSelection(selection: DemoSelection, schedule: DemoSchedule): UmdCourseSummary | null {
+  const course = selection.course;
+  if (!course?.courseCode) return null;
+
+  return {
+    id: course.courseCode,
+    deptId: course.deptId ?? course.courseCode.slice(0, 4),
+    number: course.courseCode.replace(/^[A-Z]+/, ""),
+    title: course.name ?? course.courseCode,
+    credits: Number(course.credits ?? course.maxCredits ?? course.minCredits ?? 0),
+    genEdTags: Array.isArray(course.genEds) ? course.genEds : [],
+    description: course.description,
+  };
+}
+
+function mapDemoSectionToUmdSection(selection: DemoSelection, courseId: string, termCode: string): UmdSection | null {
+  const section = selection.section;
+  if (!section) return null;
+
+  return {
+    id: section.id ?? `${courseId}-${section.sectionCode ?? "TBA"}`,
+    courseId,
+    sectionCode: section.sectionCode ?? "TBA",
+    termCode,
+    instructor: section.instructor ?? section.instructors?.join(", ") ?? undefined,
+    openSeats: section.openSeats ?? undefined,
+    totalSeats: section.totalSeats ?? undefined,
+    meetings: (section.meetings ?? []).map((meeting, index) => ({
+      id: `${section.id ?? courseId}-${index}`,
+      sectionId: section.id ?? `${courseId}-${section.sectionCode ?? "TBA"}`,
+      days: parseDays(meeting.days ?? ""),
+      startMinutes: parseTimeToMinutes(meeting.startTime ?? ""),
+      endMinutes: parseTimeToMinutes(meeting.endTime ?? ""),
+      location: meeting.location,
+      instructor: section.instructor ?? undefined,
+    })),
+  };
+}
+
+function normalizeDemoQuery(value: string | undefined): string {
+  return String(value ?? "").trim().toLowerCase();
+}
+
+function matchesDemoCourse(course: NonNullable<DemoSelection["course"]>, params: CourseSearchParams): boolean {
+  const query = normalizeDemoQuery(params.query);
+  const deptFilter = params.deptId?.trim().toUpperCase();
+  const genEdTag = params.genEdTag?.trim().toUpperCase();
+  const courseCode = String(course.courseCode ?? "").toUpperCase();
+  const title = normalizeDemoQuery(course.name);
+  const deptId = String(course.deptId ?? courseCode.slice(0, 4)).toUpperCase();
+  const genEds = Array.isArray(course.genEds) ? course.genEds.map((tag) => String(tag).toUpperCase()) : [];
+
+  if (deptFilter && deptId !== deptFilter) {
+    return false;
+  }
+
+  if (genEdTag && !genEds.includes(genEdTag)) {
+    return false;
+  }
+
+  if (!query) {
+    return true;
+  }
+
+  return (
+    courseCode.toLowerCase().includes(query) ||
+    title.includes(query) ||
+    deptId.toLowerCase().includes(query)
+  );
+}
 
 async function getJson<T>(path: string, query?: Record<string, string | number | undefined>): Promise<T> {
   const url = new URL(path, API_BASE.endsWith("/") ? API_BASE : `${API_BASE}/`);
@@ -275,6 +407,19 @@ async function fetchTermsFromCatalog(): Promise<UmdTerm[]> {
     ...parseTermCode(`${row.year}${row.term_code}`),
     label: row.label,
   }));
+}
+
+async function fetchDemoTerms(): Promise<UmdTerm[]> {
+  const schedules = await loadDemoSchedules();
+  const byCode = new Map<string, UmdTerm>();
+
+  for (const schedule of schedules) {
+    if (!schedule.term_code || typeof schedule.term_year !== "number") continue;
+    const term = demoTermToUmdTerm(schedule.term_code, schedule.term_year);
+    byCode.set(term.code, term);
+  }
+
+  return Array.from(byCode.values()).sort((a, b) => a.code.localeCompare(b.code));
 }
 
 async function resolveCatalogTermWithFallback(termCodeInput: string): Promise<{ year: number; termCode: string }> {
@@ -543,6 +688,10 @@ async function fetchCourseSectionsFromCatalog(termCode: string, courseId: string
 }
 
 export async function fetchTerms(): Promise<UmdTerm[]> {
+  if (isDemoMode()) {
+    return fetchDemoTerms();
+  }
+
   if (hasSupabaseCatalogConfig()) {
     try {
       const terms = await fetchTermsFromCatalog();
@@ -559,6 +708,34 @@ export async function fetchTerms(): Promise<UmdTerm[]> {
 }
 
 export async function searchCourses(params: CourseSearchParams): Promise<UmdCourseSummary[]> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    const selectedTermCode = String(params.termCode ?? "");
+    const [selectedYearText, selectedSeasonCode = ""] = selectedTermCode.match(/^(\d{4})(\d{2})$/)?.slice(1) ?? [];
+    const selectedYear = Number(selectedYearText);
+    const selectedTerm = Number.isFinite(selectedYear) ? { termCode: selectedSeasonCode, termYear: selectedYear } : null;
+    const results = new Map<string, UmdCourseSummary>();
+
+    for (const schedule of schedules) {
+      if (!schedule.term_code || typeof schedule.term_year !== "number") continue;
+      if (selectedTerm && (schedule.term_code !== selectedTerm.termCode || schedule.term_year !== selectedTerm.termYear)) {
+        continue;
+      }
+
+      const selections = Array.isArray(schedule.selections_json) ? schedule.selections_json : [];
+      for (const selection of selections) {
+        const summary = mapDemoCourseSelection(selection, schedule);
+        if (!summary || !matchesDemoCourse(selection.course ?? {}, params)) continue;
+        results.set(summary.id.toUpperCase(), summary);
+      }
+    }
+
+    const rows = Array.from(results.values()).sort((a, b) => a.id.localeCompare(b.id));
+    const pageSize = params.pageSize ?? 100;
+    const from = ((params.page ?? 1) - 1) * pageSize;
+    return rows.slice(from, from + pageSize);
+  }
+
   if (hasSupabaseCatalogConfig()) {
     try {
       const rows = await searchCoursesFromCatalog(params);
@@ -636,6 +813,28 @@ export async function searchCourses(params: CourseSearchParams): Promise<UmdCour
 }
 
 export async function fetchCourseSections(termCode: string, courseId: string): Promise<UmdSection[]> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    const byKey = new Map<string, UmdSection>();
+
+    for (const schedule of schedules) {
+      if (!schedule.term_code || typeof schedule.term_year !== "number") continue;
+      if (`${schedule.term_year}${schedule.term_code}` !== termCode) continue;
+
+      const selections = Array.isArray(schedule.selections_json) ? schedule.selections_json : [];
+      for (const selection of selections) {
+        const course = selection.course;
+        if (!course?.courseCode || course.courseCode !== courseId) continue;
+        const section = mapDemoSectionToUmdSection(selection, courseId, termCode);
+        if (section) {
+          byKey.set(section.sectionCode, section);
+        }
+      }
+    }
+
+    return Array.from(byKey.values()).sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+  }
+
   if (hasSupabaseCatalogConfig()) {
     try {
       const rows = await fetchCourseSectionsFromCatalog(termCode, courseId);

@@ -1,9 +1,10 @@
 import { getAuthenticatedUserId, getSupabaseClient } from "../supabase/client";
-import { isDemoMode } from "../demo/demoMode";
+import { DEMO_USER_ID, isDemoMode } from "../demo/demoMode";
 import { listUserDegreePrograms } from "./degreeProgramsRepository";
 import { compareAcademicTerms, getCurrentAcademicTerm } from "../scheduling/termProgress";
 
 let termCodeColumnsSupported: boolean | null = null;
+const DEMO_SCHEDULE_STORAGE_KEY = "orbitumd-demo-schedules-v1";
 
 const TERM_CODE_TO_SEASON: Record<string, string> = {
   "01": "spring",
@@ -85,6 +86,67 @@ function mapScheduleRowWithDerivedTerm(row: any): ScheduleWithSelections {
     term_year: row?.term_year ?? derivedTermYear,
     selections_json: row?.selections_json ?? [],
   };
+}
+
+function readDemoSchedules(): ScheduleWithSelections[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const raw = window.localStorage.getItem(DEMO_SCHEDULE_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? (parsed as ScheduleWithSelections[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+async function loadDemoSchedules(): Promise<ScheduleWithSelections[]> {
+  const { DEMO_SCHEDULES } = await import("../demo/demoData");
+  const stored = readDemoSchedules();
+  if (stored.length === 0) return DEMO_SCHEDULES;
+
+  const byId = new Map<string, ScheduleWithSelections>();
+  for (const schedule of DEMO_SCHEDULES) {
+    byId.set(schedule.id, schedule);
+  }
+  for (const schedule of stored) {
+    byId.set(schedule.id, schedule);
+  }
+  return Array.from(byId.values());
+}
+
+function writeDemoSchedules(schedules: ScheduleWithSelections[]): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(DEMO_SCHEDULE_STORAGE_KEY, JSON.stringify(schedules));
+}
+
+function toDemoUserScheduleRecord(schedule: ScheduleWithSelections): UserScheduleRecord {
+  return {
+    id: schedule.id,
+    user_id: DEMO_USER_ID,
+    term_id: schedule.term_id,
+    name: schedule.name,
+    is_primary: Boolean(schedule.is_primary),
+    created_at: schedule.created_at,
+    updated_at: schedule.updated_at,
+  };
+}
+
+function getScheduleTermKey(schedule: ScheduleWithSelections): string {
+  return `${schedule.term_code ?? ""}-${schedule.term_year ?? 0}`;
+}
+
+function buildDemoSelectionsFromIds(existingSelections: unknown, sectionIds: string[]): unknown {
+  const selections = extractSelectionsArray(existingSelections);
+  if (sectionIds.length === 0) return [];
+
+  const matching = selections.filter((selection: any) => {
+    const sectionKey = String(selection?.sectionKey ?? selection?.section?.id ?? "");
+    return sectionIds.includes(sectionKey);
+  });
+
+  return matching.length > 0 ? matching : selections;
 }
 
 function toPlanningTermFromSeasonYear(seasonRaw: unknown, yearRaw: unknown): PlanningTerm | null {
@@ -373,6 +435,11 @@ export interface UpsertUserScheduleInput {
 }
 
 export async function listUserSchedules(): Promise<UserScheduleRecord[]> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    return schedules.map(toDemoUserScheduleRecord);
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -390,6 +457,29 @@ export async function listUserSchedules(): Promise<UserScheduleRecord[]> {
 }
 
 export async function upsertUserSchedule(input: UpsertUserScheduleInput): Promise<UserScheduleRecord> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    const existing = input.id ? schedules.find((schedule) => schedule.id === input.id) : schedules.find((schedule) => schedule.term_id === input.termId && schedule.name === input.name);
+    const next: ScheduleWithSelections = {
+      ...(existing ?? {
+        id: input.id ?? `demo-sched-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "untitled"}`,
+        created_at: new Date().toISOString(),
+        selections_json: [],
+      }),
+      id: existing?.id ?? input.id ?? `demo-sched-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "untitled"}`,
+      user_id: DEMO_USER_ID,
+      term_id: input.termId,
+      name: input.name,
+      is_primary: typeof input.isPrimary === "boolean" ? input.isPrimary : existing?.is_primary ?? false,
+      updated_at: new Date().toISOString(),
+    } as ScheduleWithSelections;
+
+    const filtered = schedules.filter((schedule) => schedule.id !== next.id);
+    filtered.unshift(next);
+    writeDemoSchedules(filtered);
+    return toDemoUserScheduleRecord(next);
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -422,6 +512,12 @@ export async function upsertUserSchedule(input: UpsertUserScheduleInput): Promis
 }
 
 export async function deleteUserSchedule(scheduleId: string): Promise<void> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    writeDemoSchedules(schedules.filter((schedule) => schedule.id !== scheduleId));
+    return;
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -437,6 +533,19 @@ export async function deleteUserSchedule(scheduleId: string): Promise<void> {
 }
 
 export async function listSectionsForSchedule(scheduleId: string): Promise<ScheduleSectionRecord[]> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    const schedule = schedules.find((item) => item.id === scheduleId);
+    if (!schedule) return [];
+
+    return extractSelectionsArray(schedule.selections_json).map((selection: any) => ({
+      schedule_id: schedule.id,
+      section_id: String(selection?.sectionKey ?? selection?.section?.id ?? ""),
+      pinned: false,
+      created_at: schedule.created_at,
+    })).filter((row) => row.section_id.length > 0);
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -459,6 +568,20 @@ export async function listSectionsForSchedule(scheduleId: string): Promise<Sched
 }
 
 export async function replaceScheduleSections(scheduleId: string, sectionIds: string[]): Promise<void> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    const next = schedules.map((schedule) => {
+      if (schedule.id !== scheduleId) return schedule;
+      return {
+        ...schedule,
+        updated_at: new Date().toISOString(),
+        selections_json: buildDemoSelectionsFromIds(schedule.selections_json, sectionIds),
+      };
+    });
+    writeDemoSchedules(next);
+    return;
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -519,6 +642,41 @@ export interface ScheduleWithSelections extends UserScheduleRecord {
 }
 
 export async function saveScheduleWithSelections(input: SaveScheduleInput): Promise<ScheduleWithSelections> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    const existing = input.id ? schedules.find((schedule) => schedule.id === input.id) : schedules.find((schedule) => schedule.term_code === input.termCode && schedule.term_year === input.termYear && schedule.name === input.name);
+    const scheduleId = existing?.id ?? input.id ?? `demo-sched-${input.termCode}${input.termYear}-${input.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") || "untitled"}`;
+    const next: ScheduleWithSelections = {
+      ...(existing ?? {
+        id: scheduleId,
+        user_id: DEMO_USER_ID,
+        term_id: `demo-term-${input.termCode}-${input.termYear}`,
+        created_at: new Date().toISOString(),
+      }),
+      id: scheduleId,
+      user_id: DEMO_USER_ID,
+      term_id: `demo-term-${input.termCode}-${input.termYear}`,
+      name: input.name,
+      is_primary: typeof input.isPrimary === "boolean" ? input.isPrimary : existing?.is_primary ?? false,
+      term_code: input.termCode,
+      term_year: input.termYear,
+      selections_json: input.selectionsJson,
+      updated_at: new Date().toISOString(),
+    } as ScheduleWithSelections;
+
+    const filtered = schedules.filter((schedule) => schedule.id !== scheduleId);
+    if (next.is_primary) {
+      for (const schedule of filtered) {
+        if (getScheduleTermKey(schedule) === getScheduleTermKey(next)) {
+          schedule.is_primary = false;
+        }
+      }
+    }
+    filtered.unshift(next);
+    writeDemoSchedules(filtered);
+    return next;
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -600,6 +758,11 @@ export async function listSchedulesForTerm(
   termCode: string,
   termYear: number,
 ): Promise<ScheduleWithSelections[]> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    return schedules.filter((schedule) => schedule.term_code === termCode && schedule.term_year === termYear);
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
   const umdTermCode = `${termYear}${termCode}`;
@@ -617,6 +780,11 @@ export async function listSchedulesForTerm(
 }
 
 export async function loadScheduleById(scheduleId: string): Promise<ScheduleWithSelections | null> {
+  if (isDemoMode()) {
+    const schedules = await loadDemoSchedules();
+    return schedules.find((schedule) => schedule.id === scheduleId) ?? null;
+  }
+
   const userId = await getAuthenticatedUserId();
   const supabase = getSupabaseClient();
 
@@ -633,8 +801,7 @@ export async function loadScheduleById(scheduleId: string): Promise<ScheduleWith
 
 export async function listAllSchedulesWithSelections(): Promise<ScheduleWithSelections[]> {
   if (isDemoMode()) {
-    const { DEMO_SCHEDULES } = await import("../demo/demoData");
-    return DEMO_SCHEDULES;
+    return loadDemoSchedules();
   }
 
   const userId = await getAuthenticatedUserId();

@@ -6,6 +6,7 @@ import {
   fallbackTextMatch,
 } from "../utils/formatting";
 import { sanitizeNullableText } from "../utils/courseDetails";
+import { isDemoMode } from "@/lib/demo/demoMode";
 import type {
   Course,
   CourseConditions,
@@ -904,6 +905,38 @@ export async function searchCoursesWithStrategy(
   params: CourseSearchParams,
   signal?: AbortSignal
 ): Promise<Course[]> {
+  if (isDemoMode()) {
+    const summaries = await searchCatalogCourses({
+      termCode: `${params.year}${params.term}`,
+      query: params.normalizedInput,
+      genEdTag: params.filters.genEds[0],
+      page: 1,
+      pageSize: 300,
+    });
+
+    return summaries
+      .map((summary) => {
+        const dept = summary.deptId || summary.id.slice(0, 4);
+        return {
+          id: `${summary.id}-${params.year}${params.term}`,
+          courseCode: summary.id,
+          name: summary.title,
+          deptId: dept,
+          credits: summary.credits,
+          minCredits: summary.credits,
+          maxCredits: summary.credits,
+          description: summary.description,
+          genEds: summary.genEdTags,
+          term: params.term,
+          year: params.year,
+          sections: [],
+          sources: ["umd"],
+          mergeConflicts: [],
+        } as Course;
+      })
+      .filter((course) => applyClientFilters([course], params).length > 0);
+  }
+
   const baseKey = JSON.stringify({
     q: params.normalizedInput,
     term: params.term,
@@ -947,6 +980,10 @@ export async function getSectionsForCourse(
   year: number,
   signal?: AbortSignal
 ): Promise<Section[]> {
+  if (isDemoMode()) {
+    return fetchPlannerSectionsFallback(`${year}${term}`, courseCode);
+  }
+
   const baseKey = `${year}${term}:${courseCode}`;
 
   return mergedSectionCache.getOrSet(`merged-sections:${baseKey}`, async () => {
