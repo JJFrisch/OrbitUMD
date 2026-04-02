@@ -108,7 +108,7 @@
   flex: 0 0 auto;
 }
 
-.topbar-btn {
+.fyp-page .topbar-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -127,44 +127,59 @@
   text-decoration: none;
 }
 
-.topbar-btn:hover {
+.fyp-page .topbar-btn:hover {
   border-color: rgba(198, 40, 40, 0.25);
   color: var(--red);
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(198, 40, 40, 0.14);
 }
 
-.topbar-btn:active {
+.fyp-page .topbar-btn:active {
   transform: translateY(0);
   box-shadow: 0 2px 6px rgba(23, 18, 14, 0.08);
 }
 
-.topbar-btn:focus-visible {
+.fyp-page .topbar-btn:focus-visible {
   outline: 2px solid rgba(198, 40, 40, 0.32);
   outline-offset: 2px;
 }
 
-.topbar-btn.primary {
+.fyp-page .topbar-btn.primary,
+.fyp-page .add-course-result-item .topbar-btn.primary,
+.fyp-page .add-course-refresh,
+.fyp-page .add-term-confirm-btn {
   background: var(--red);
   color: #ffffff;
   border-color: var(--red);
   box-shadow: 0 3px 12px rgba(198, 40, 40, 0.24);
 }
 
-.topbar-btn.primary:hover {
+.fyp-page .topbar-btn.primary:hover,
+.fyp-page .add-course-result-item .topbar-btn.primary:hover,
+.fyp-page .add-course-refresh:hover,
+.fyp-page .add-term-confirm-btn:hover {
   background: #b71c1c;
   color: #ffffff;
   box-shadow: 0 8px 20px rgba(198, 40, 40, 0.3);
 }
 
-.topbar-btn.primary:active {
+.fyp-page .topbar-btn.primary:active,
+.fyp-page .add-course-result-item .topbar-btn.primary:active,
+.fyp-page .add-course-refresh:active,
+.fyp-page .add-term-confirm-btn:active {
   background: #a61b1b;
   box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
 }
 
-.topbar-btn:disabled,
-.topbar-btn:disabled:hover,
-.topbar-btn:disabled:active {
+.fyp-page .topbar-btn:disabled,
+.fyp-page .topbar-btn:disabled:hover,
+.fyp-page .topbar-btn:disabled:active,
+.fyp-page .add-course-refresh:disabled,
+.fyp-page .add-course-refresh:disabled:hover,
+.fyp-page .add-course-refresh:disabled:active,
+.fyp-page .add-term-confirm-btn:disabled,
+.fyp-page .add-term-confirm-btn:disabled:hover,
+.fyp-page .add-term-confirm-btn:disabled:active {
   cursor: not-allowed;
   opacity: 0.6;
   transform: none;
@@ -1119,28 +1134,48 @@
   min-width: 90px;
 }
 
-.add-course-result-item .topbar-btn.primary,
-.add-course-refresh,
-.add-term-confirm-btn {
+.fyp-page .topbar-btn,
+.fyp-page .add-course-refresh,
+.fyp-page .add-term-confirm-btn,
+.fyp-page .term-view-btn,
+.fyp-page .term-add-btn,
+.fyp-page .plan-course-add,
+.fyp-page .add-term-chip,
+.fyp-page .add-course-result-item .topbar-btn.primary {
   position: relative;
   overflow: hidden;
 }
 
-.add-course-result-item .topbar-btn.primary:hover,
-.add-course-refresh:hover,
-.add-term-confirm-btn:hover {
+.fyp-page .topbar-btn:hover,
+.fyp-page .add-course-refresh:hover,
+.fyp-page .add-term-confirm-btn:hover,
+.fyp-page .term-view-btn:hover,
+.fyp-page .term-add-btn:hover,
+.fyp-page .plan-course-add:hover,
+.fyp-page .add-term-chip:hover,
+.fyp-page .add-course-result-item .topbar-btn.primary:hover {
   transform: translateY(-2px) scale(1.01);
 }
 
-.add-course-result-item .topbar-btn.primary:active,
-.add-course-refresh:active,
-.add-term-confirm-btn:active {
+.fyp-page .topbar-btn:active,
+.fyp-page .add-course-refresh:active,
+.fyp-page .add-term-confirm-btn:active,
+.fyp-page .term-view-btn:active,
+.fyp-page .term-add-btn:active,
+.fyp-page .plan-course-add:active,
+.fyp-page .add-term-chip:active,
+.fyp-page .add-course-result-item .topbar-btn.primary:active {
   transform: translateY(1px) scale(0.98);
 }
 
-.add-course-result-item .topbar-btn.primary::after,
-.add-course-refresh::after,
-.add-term-confirm-btn::after {
+.fyp-page .topbar-btn::after,
+.fyp-page .add-course-refresh::after,
+.fyp-page .add-term-confirm-btn::after,
+.fyp-page .term-view-btn::after,
+.fyp-page .term-add-btn::after,
+.fyp-page .plan-course-add::after,
+.fyp-page .add-term-chip::after,
+.fyp-page .add-course-result-item .topbar-btn.primary::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -1150,9 +1185,14 @@
   pointer-events: none;
 }
 
-.add-course-result-item .topbar-btn.primary:hover::after,
-.add-course-refresh:hover::after,
-.add-term-confirm-btn:hover::after {
+.fyp-page .topbar-btn:hover::after,
+.fyp-page .add-course-refresh:hover::after,
+.fyp-page .add-term-confirm-btn:hover::after,
+.fyp-page .term-view-btn:hover::after,
+.fyp-page .term-add-btn:hover::after,
+.fyp-page .plan-course-add:hover::after,
+.fyp-page .add-term-chip:hover::after,
+.fyp-page .add-course-result-item .topbar-btn.primary:hover::after {
   opacity: 1;
 }
 
