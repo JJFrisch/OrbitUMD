@@ -18,6 +18,7 @@ type AddToScheduleDropdownProps = {
   genEds?: string[];
   buttonLabel?: string;
   compact?: boolean;
+  iconOnly?: boolean;
   onMessage?: (message: string) => void;
 };
 
@@ -53,6 +54,7 @@ export function AddToScheduleDropdown({
   genEds,
   buttonLabel = "Add to schedule",
   compact = false,
+  iconOnly = false,
   onMessage,
 }: AddToScheduleDropdownProps) {
   const [open, setOpen] = useState(false);
@@ -121,14 +123,14 @@ export function AddToScheduleDropdown({
           type="button"
           size={compact ? "sm" : "default"}
           variant="outline"
-          className="border-border"
+          className={iconOnly ? "h-7 w-7 px-0 border-border" : "border-border"}
           disabled={isBusy}
           aria-label={buttonLabel}
           title={buttonLabel}
         >
           <Plus className="h-3.5 w-3.5" />
-          <span>{buttonLabel}</span>
-          <ChevronDown className="h-3.5 w-3.5" />
+          {!iconOnly && <span>{buttonLabel}</span>}
+          {!iconOnly && <ChevronDown className="h-3.5 w-3.5" />}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-72">

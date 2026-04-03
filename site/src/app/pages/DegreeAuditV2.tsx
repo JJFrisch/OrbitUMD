@@ -124,6 +124,16 @@ function normalizeCatalogProgramName(value: string): string {
     .trim();
 }
 
+function getProgramCatalogUrl(programName: string): string {
+  const base = String(programName ?? "").trim();
+  const query = base
+    .replace(/\b(major|minor|program)\b/gi, "")
+    .replace(/\s+at\s+shady\s+grove/gi, "")
+    .trim();
+  const effective = query || base;
+  return `https://academiccatalog.umd.edu/search/?search=${encodeURIComponent(effective)}`;
+}
+
 function createLocalId(prefix: string): string {
   if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
     return `${prefix}-${crypto.randomUUID()}`;
@@ -1224,6 +1234,8 @@ function RequirementSectionTableCard({
       displayTitle: string;
       detailCode: string;
       editableToken: string;
+      addCredits: number;
+      addGenEds: string[];
       wildcardSlot?: WildcardSlotMeta;
     };
 
@@ -1240,6 +1252,7 @@ function RequirementSectionTableCard({
       const status: AuditCourseStatus = wildcardMatchedCourse?.status ?? course?.status ?? byCourseCode.get(token) ?? "not_started";
       const displayCode = wildcardMatchedCourse?.code ?? course?.code ?? token;
       const displayTitle = wildcardMatchedCourse?.title ?? course?.title ?? token;
+      const detail = courseDetails.get(displayCode.toUpperCase());
 
       rows.push({
         key: renderKey,
@@ -1249,6 +1262,8 @@ function RequirementSectionTableCard({
         displayTitle,
         detailCode: displayCode,
         editableToken: token,
+        addCredits: Number(detail?.credits ?? course?.credits ?? 0) || 0,
+        addGenEds: detail?.genEds ?? course?.genEds ?? [],
         wildcardSlot,
       });
     };
@@ -1268,7 +1283,7 @@ function RequirementSectionTableCard({
     });
 
     return rows;
-  }, [allCourses, byCourseCode, classRows, sectionCoursesByCode, wildcardSlotByRenderKey]);
+  }, [allCourses, byCourseCode, classRows, courseDetails, sectionCoursesByCode, wildcardSlotByRenderKey]);
 
   const toggleSectionExpanded = () => {
     setExpandedSectionIds((prev) => {
@@ -1422,31 +1437,47 @@ function RequirementSectionTableCard({
                       : "Needed";
 
                 return (
-                  <div key={row.key} className="da2-rb-course-row">
+                  <div
+                    key={row.key}
+                    className="da2-rb-course-row"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => setDetailCode(row.detailCode)}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") {
+                        event.preventDefault();
+                        setDetailCode(row.detailCode);
+                      }
+                    }}
+                  >
                     <div className={`da2-rb-course-check ${statusClass}`}>{statusClass === "done" ? "\u2713" : statusClass === "progress" ? "\u2212" : "\u25CB"}</div>
                     <div className="da2-rb-req-type">{showReqType ?? ""}</div>
                     <div className="da2-rb-course-code">{row.displayCode}</div>
                     <div className="da2-rb-course-name">{row.displayTitle}</div>
                     <div className={`da2-rb-course-status ${statusClass}`}>{statusLabel}</div>
-                    <div className="da2-rb-course-actions">
+                    <div className="da2-rb-course-actions" onClick={(event) => event.stopPropagation()}>
                       <Button
                         type="button"
                         size="sm"
                         variant="outline"
                         className="da2-rb-act"
-                        onClick={() => setEditingCode({ originalCode: row.editableToken, query: row.displayCode })}
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          setEditingCode({ originalCode: row.editableToken, query: row.displayCode });
+                        }}
                       >
                         Edit
                       </Button>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        className="da2-rb-act"
-                        onClick={() => setDetailCode(row.detailCode)}
-                      >
-                        Info
-                      </Button>
+                      <AddToScheduleDropdown
+                        courseCode={row.displayCode}
+                        courseTitle={row.displayTitle}
+                        credits={row.addCredits}
+                        genEds={row.addGenEds}
+                        onMessage={setAddScheduleMessage}
+                        buttonLabel="Add to schedule"
+                        compact
+                        iconOnly
+                      />
                       {row.wildcardSlot && onSelectWildcardCourse && (
                         <div className="relative" data-wildcard-slot={row.wildcardSlot.key}>
                           <Button
@@ -3598,11 +3629,25 @@ export default function DegreeAudit() {
                     return (
                     <div key={`${programAudit.bundle.programId}-${index}`} className="degree-audit-program-slide">
                       <Card className={`degree-audit-program-card da2-program-shell bg-card border-border p-5 ${printBreakClass}`}>
+                        {(() => {
+                          const catalogUrl = getProgramCatalogUrl(programAudit.bundle.programName);
+                          return (
                         <div className="da2-program-header da2-ps-header">
                           <span className={`da2-ps-type ${programAudit.bundle.kind === "minor" ? "minor" : "major"}`}>
                             {programAudit.bundle.kind}
                           </span>
-                          <h2 className="da2-program-title da2-ps-name text-2xl">{programAudit.bundle.programName}</h2>
+                          <h2 className="da2-program-title da2-ps-name text-2xl">
+                            <a
+                              href={catalogUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="da2-program-link"
+                              aria-label={`Open ${programAudit.bundle.programName} in the UMD catalog`}
+                              title={`Open ${programAudit.bundle.programName} in the UMD catalog`}
+                            >
+                              {programAudit.bundle.programName}
+                            </a>
+                          </h2>
                           <p className="da2-ps-progress">
                             <strong>{Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots + programAudit.plannedSlots)} / {programAudit.requiredSlots}</strong> required classes
                           </p>
@@ -3627,6 +3672,8 @@ export default function DegreeAudit() {
                             <ChevronDown className={`h-5 w-5 transition-transform ${isCollapsed ? "" : "rotate-180"}`} aria-hidden="true" />
                           </Button>
                         </div>
+                          );
+                        })()}
                         <div className="da2-ps-prog-bar mb-5" role="presentation">
                           <div
                             className={`da2-ps-prog-fill ${programAudit.bundle.kind === "minor" ? "minor-fill" : ""}`}
