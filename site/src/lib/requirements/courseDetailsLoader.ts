@@ -21,8 +21,8 @@ export async function getCurrentTermCode(): Promise<string> {
   try {
     const terms = await fetchTerms();
     if (terms.length > 0) {
-      // Return the first (most recent/current) term
-      return terms[0].code;
+      // Defensively pick the newest code in case upstream term arrays are unsorted.
+      return [...terms].map((term) => term.code).sort((a, b) => b.localeCompare(a))[0];
     }
   } catch {
     // Fall back to default if API not available
@@ -60,9 +60,10 @@ export async function lookupCourseDetails(courseCodes: string[]): Promise<Map<st
   try {
     const termCode = await getCurrentTermCode();
     const allTerms = await fetchTerms().catch(() => []);
+    const sortedTerms = [...allTerms].sort((a, b) => String(b.code).localeCompare(String(a.code)));
     const termCandidates = [
       termCode,
-      ...allTerms.map((term) => term.code).filter((code) => code !== termCode),
+      ...sortedTerms.map((term) => term.code).filter((code) => code !== termCode),
     ].slice(0, 8);
 
     // Search for each course

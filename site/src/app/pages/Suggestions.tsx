@@ -560,9 +560,9 @@ export default function Suggestions() {
                 ? "Recommendations are driven by your declared programs. Head to Settings to add a major or minor, then come back here."
                 : "Ranked by prerequisite readiness, requirement urgency, plan fit, and your interests — updated live from your transcript and schedules."}
             </p>
-            <p style={{ fontSize: "0.7rem", color: "var(--ink-ghost)", marginTop: "8px" }}>
+            {/* <p style={{ fontSize: "0.7rem", color: "var(--ink-ghost)", marginTop: "8px" }}>
               This feature is not yet live — recommendations are in beta.
-            </p>
+            </p> */}
           </div>
 
           {preferences && (
