@@ -34,7 +34,7 @@ import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
 import { fetchCourseSections, searchCourses } from "@/lib/api/umdCourses";
-import type { UmdCourseSummary, UmdSection } from "@/lib/types/course";
+import type { UmdCourseSummary, UmdSection, UmdSectionMeeting } from "@/lib/types/course";
 import { isUnspecifiedSectionCode } from "@/features/coursePlanner/utils/sectionLabels";
 import "./four-year-plan-template.css";
 
@@ -104,6 +104,28 @@ function normalizeGradeValue(grade: string | undefined): string | undefined {
 
 function formatTermLabel(termCode: string, termYear: number): string {
   return `${TERM_NAME[termCode] ?? "Term"} ${termYear}`;
+}
+
+function dedupeSectionMeetings(meetings: UmdSectionMeeting[]): UmdSectionMeeting[] {
+  const seen = new Set<string>();
+
+  return meetings.filter((meeting) => {
+    const key = [
+      meeting.sectionId,
+      meeting.days.join(""),
+      meeting.startMinutes,
+      meeting.endMinutes,
+      meeting.location ?? "",
+      meeting.instructor ?? "",
+    ].join("|");
+
+    if (seen.has(key)) {
+      return false;
+    }
+
+    seen.add(key);
+    return true;
+  });
 }
 
 function toPlannedTerm(schedule: ScheduleWithSelections): PlannedTerm | null {
@@ -2108,7 +2130,7 @@ export default function FourYearPlan() {
                       </p>
                       {Array.isArray(section.meetings) && section.meetings.length > 0 && (
                         <div className="change-section-meetings">
-                          {section.meetings.map((meeting, mi) => {
+                          {dedupeSectionMeetings(section.meetings).map((meeting, mi) => {
                             const days = meeting.days.length > 0 ? meeting.days.join("") : "TBA";
                             const timeStr = Number.isFinite(meeting.startMinutes) && Number.isFinite(meeting.endMinutes)
                               ? `${formatMinutesAsClock(meeting.startMinutes)} – ${formatMinutesAsClock(meeting.endMinutes)}`
