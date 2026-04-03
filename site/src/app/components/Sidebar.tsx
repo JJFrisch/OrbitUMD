@@ -122,12 +122,43 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       <div className="sidebar-header">
         <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard" title={collapsed ? "OrbitUMD" : undefined}>
           <span className="sidebar-logo-mark" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 -4 30 30" fill="none">
-              <circle cx="12" cy="12" r="3" stroke="#EF5350" strokeWidth="2" />
-              <circle cx="19" cy="5" r="2" stroke="#EF5350" strokeWidth="2" />
-              <circle cx="5" cy="19" r="2" stroke="#EF5350" strokeWidth="2" />
-              <path d="M10.4 21.9a10 10 0 0 0 9.941-15.416" stroke="#EF5350" strokeWidth="2" strokeLinejoin="round" />
-              <path d="M13.5 2.1a10 10 0 0 0-9.841 15.416" stroke="#EF5350" strokeWidth="2" strokeLinejoin="round" />
+            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" className="orbit-logo-svg">
+              {/* Outer orbit ring */}
+              <ellipse className="orbit-ring orbit-ring-1" cx="50" cy="50" rx="42" ry="16" stroke="rgba(239,83,80,0.25)" strokeWidth="1.5" />
+              {/* Inner orbit ring (tilted via transform) */}
+              <ellipse className="orbit-ring orbit-ring-2" cx="50" cy="50" rx="42" ry="16" stroke="rgba(239,83,80,0.2)" strokeWidth="1.5" transform="rotate(60 50 50)" />
+              {/* Third orbit ring */}
+              <ellipse className="orbit-ring orbit-ring-3" cx="50" cy="50" rx="42" ry="16" stroke="rgba(239,83,80,0.15)" strokeWidth="1.5" transform="rotate(120 50 50)" />
+              {/* Core body — glowing center */}
+              <circle cx="50" cy="50" r="8" fill="#EF5350" className="orbit-core" />
+              <circle cx="50" cy="50" r="8" fill="url(#coreGlow)" className="orbit-core-glow" />
+              {/* Orbiting satellites */}
+              <circle className="orbit-sat orbit-sat-1" r="3.5" fill="#FFC107">
+                <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+                  <mpath href="#orbit-path-1" />
+                </animateMotion>
+              </circle>
+              <circle className="orbit-sat orbit-sat-2" r="2.5" fill="#EF5350">
+                <animateMotion dur="8s" repeatCount="indefinite" rotate="auto" begin="-3s">
+                  <mpath href="#orbit-path-2" />
+                </animateMotion>
+              </circle>
+              <circle className="orbit-sat orbit-sat-3" r="2" fill="rgba(255,255,255,0.7)">
+                <animateMotion dur="10s" repeatCount="indefinite" rotate="auto" begin="-5s">
+                  <mpath href="#orbit-path-3" />
+                </animateMotion>
+              </circle>
+              {/* Hidden motion paths for satellites */}
+              <defs>
+                <ellipse id="orbit-path-1" cx="50" cy="50" rx="42" ry="16" />
+                <ellipse id="orbit-path-2" cx="50" cy="50" rx="42" ry="16" transform="rotate(60 50 50)" />
+                <ellipse id="orbit-path-3" cx="50" cy="50" rx="42" ry="16" transform="rotate(120 50 50)" />
+                <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#FFCDD2" stopOpacity="0.8" />
+                  <stop offset="60%" stopColor="#EF5350" stopOpacity="0.6" />
+                  <stop offset="100%" stopColor="#C62828" stopOpacity="0" />
+                </radialGradient>
+              </defs>
             </svg>
           </span>
           <span className="logo-text">Orbit<span>UMD</span></span>
