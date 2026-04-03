@@ -215,11 +215,56 @@
   max-width: 260px;
 }
 
+.cp-edit-meta-name-button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cp-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  cursor: text;
+}
+
+.cp-edit-meta-name-button:hover,
+.cp-edit-meta-name-button:focus-visible {
+  color: var(--cp-link);
+  outline: none;
+}
+
+.cp-edit-meta-name-input {
+  width: min(260px, 52vw);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--cp-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 5px 8px;
+}
+
+.cp-edit-meta-name-input:focus {
+  border-color: rgba(59, 130, 246, 0.7);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+
 .cp-edit-meta-separator {
   color: var(--cp-muted);
 }
 
 .cp-edit-meta-term {
+  font-size: 12px;
+  color: var(--cp-muted);
+  white-space: nowrap;
+}
+
+.cp-edit-meta-credits {
   font-size: 12px;
   color: var(--cp-muted);
   white-space: nowrap;

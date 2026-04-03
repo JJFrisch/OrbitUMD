@@ -432,7 +432,8 @@ describe("AutoGenerateSchedulePage", () => {
     fireEvent.click(within(firstCard).getByRole("button", { name: "Save" }));
     await waitFor(() => {
       expect(saveScheduleWithSelections).toHaveBeenCalledWith(expect.objectContaining({
-        name: "Generated Fall 2026 Option 1",
+        id: "auto-1",
+        name: "Default",
         termCode: "08",
         termYear: 2026,
         isPrimary: false,
@@ -442,7 +443,8 @@ describe("AutoGenerateSchedulePage", () => {
     fireEvent.click(within(firstCard).getByRole("button", { name: "Set as Main" }));
     await waitFor(() => {
       expect(saveScheduleWithSelections).toHaveBeenCalledWith(expect.objectContaining({
-        name: "Generated Fall 2026 Option 1",
+        id: "auto-1",
+        name: "Default",
         termCode: "08",
         termYear: 2026,
         isPrimary: true,

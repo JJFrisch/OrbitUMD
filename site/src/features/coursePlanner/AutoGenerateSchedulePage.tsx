@@ -116,6 +116,7 @@ const TERM_LABEL: Record<Season, string> = {
 const COURSE_CODE_PATTERN = /^[A-Z]{4}[0-9]{3}[A-Z]{0,2}$/;
 const WEEKDAYS: Array<Exclude<Weekday, "Other">> = ["M", "Tu", "W", "Th", "F"];
 const GENERATE_SCHEDULE_AUTOSAVE_KEY = "orbitumd:generate-schedule:draft:v2";
+const DEFAULT_GENERATED_SCHEDULE_NAME = "Default";
 const MAX_SECTIONS_PER_COURSE = 14;
 const MAX_REQUIRED_COMBINATIONS = 4000;
 const MAX_OPTIONAL_BRANCH_STATES = 250000;
@@ -2123,8 +2124,9 @@ export function AutoGenerateSchedulePage({ hideHeader = false, defaultTerm = "" 
     setScheduleActionBusyKey(actionKey);
 
     try {
-      const scheduleName = `Generated ${TERM_LABEL[season]} ${year} Option ${index + 1}`;
+      const scheduleName = DEFAULT_GENERATED_SCHEDULE_NAME;
       await saveScheduleWithSelections({
+        id: schedule.id,
         name: scheduleName,
         termCode: season,
         termYear: year,
@@ -2158,9 +2160,10 @@ export function AutoGenerateSchedulePage({ hideHeader = false, defaultTerm = "" 
     try {
       for (let index = 0; index < generated.length; index += 1) {
         const schedule = generated[index];
-        const scheduleName = `Generated ${TERM_LABEL[season]} ${year} Option ${index + 1}`;
+        const scheduleName = DEFAULT_GENERATED_SCHEDULE_NAME;
 
         await saveScheduleWithSelections({
+          id: schedule.id,
           name: scheduleName,
           termCode: season,
           termYear: year,

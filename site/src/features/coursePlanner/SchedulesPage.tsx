@@ -76,6 +76,26 @@ function generateNextDraftName(existingSchedules: ScheduleWithSelections[]): str
   return `Draft ${nextLetter}`;
 }
 
+function parseSelectionsJson(selectionsJson: unknown): Array<{ course?: { maxCredits?: number | null; credits?: number | null } }> {
+  if (!Array.isArray(selectionsJson)) {
+    if (!selectionsJson || typeof selectionsJson !== "object") {
+      return [];
+    }
+
+    const record = selectionsJson as { selections?: unknown };
+    return Array.isArray(record.selections) ? record.selections as Array<{ course?: { maxCredits?: number | null; credits?: number | null } }> : [];
+  }
+
+  return selectionsJson as Array<{ course?: { maxCredits?: number | null; credits?: number | null } }>;
+}
+
+function getScheduleCredits(schedule: ScheduleWithSelections): number {
+  return parseSelectionsJson(schedule.selections_json).reduce((sum, selection) => {
+    const credits = Number(selection?.course?.maxCredits ?? selection?.course?.credits ?? 0);
+    return sum + (Number.isFinite(credits) ? credits : 0);
+  }, 0);
+}
+
 export function SchedulesPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tab: Tab = isTab(searchParams.get("tab")) ? (searchParams.get("tab") as Tab) : "view";
@@ -97,6 +117,8 @@ export function SchedulesPage() {
   const [scheduleLibraryRefreshToken, setScheduleLibraryRefreshToken] = useState(0);
   const [editSaveStatusText, setEditSaveStatusText] = useState<string | null>(null);
   const [editSaveStatusTone, setEditSaveStatusTone] = useState<"idle" | "saving" | "saved" | "autosaved" | "error">("idle");
+  const [isEditingScheduleName, setIsEditingScheduleName] = useState(false);
+  const [scheduleNameDraft, setScheduleNameDraft] = useState("");
 
   useEffect(() => {
     plannerApi.listAllSchedulesWithSelections().then(setSchedules).catch(() => {});
@@ -186,6 +208,56 @@ export function SchedulesPage() {
     if (!editSchedule) return "Unknown";
     return formatTermLabel(editSchedule.term_code, editSchedule.term_year);
   }, [editSchedule]);
+
+  const editScheduleCredits = useMemo(() => {
+    if (!editSchedule) return 0;
+    return getScheduleCredits(editSchedule);
+  }, [editSchedule]);
+
+  useEffect(() => {
+    setIsEditingScheduleName(false);
+    setScheduleNameDraft(editSchedule?.name ?? "");
+  }, [editSchedule?.id]);
+
+  useEffect(() => {
+    if (isEditingScheduleName) {
+      return;
+    }
+
+    setScheduleNameDraft(editSchedule?.name ?? "");
+  }, [editSchedule?.name, isEditingScheduleName]);
+
+  const commitScheduleName = useCallback(() => {
+    if (!editSchedule) {
+      setIsEditingScheduleName(false);
+      return;
+    }
+
+    const nextName = scheduleNameDraft.trim();
+    if (!nextName) {
+      setScheduleNameDraft(editSchedule.name);
+      setIsEditingScheduleName(false);
+      return;
+    }
+
+    if (nextName !== editSchedule.name) {
+      setSchedules((current) => current.map((schedule) => (
+        schedule.id === editSchedule.id ? { ...schedule, name: nextName } : schedule
+      )));
+      setScheduleNameDraft(nextName);
+
+      const params = new URLSearchParams(searchParams);
+      params.set("scheduleName", nextName);
+      setSearchParams(params, { replace: true });
+    }
+
+    setIsEditingScheduleName(false);
+  }, [editSchedule, scheduleNameDraft, searchParams, setSearchParams]);
+
+  const cancelScheduleNameEdit = useCallback(() => {
+    setScheduleNameDraft(editSchedule?.name ?? "");
+    setIsEditingScheduleName(false);
+  }, [editSchedule?.name]);
 
   const activeTermLabel = useMemo(() => {
     if (!termFilter) return "Unknown";
@@ -337,9 +409,38 @@ export function SchedulesPage() {
 
         {tab === "edit" && editSchedule && (
           <div className="cp-edit-meta">
-            <span className="cp-edit-meta-name">{editSchedule.name}</span>
+            {isEditingScheduleName ? (
+              <input
+                autoFocus
+                className="cp-edit-meta-name-input"
+                value={scheduleNameDraft}
+                onChange={(event) => setScheduleNameDraft(event.target.value)}
+                onBlur={commitScheduleName}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    commitScheduleName();
+                  } else if (event.key === "Escape") {
+                    event.preventDefault();
+                    cancelScheduleNameEdit();
+                  }
+                }}
+                aria-label="Edit schedule title"
+              />
+            ) : (
+              <button
+                type="button"
+                className="cp-edit-meta-name-button"
+                onClick={() => setIsEditingScheduleName(true)}
+                title="Click to edit schedule title"
+              >
+                {editSchedule.name}
+              </button>
+            )}
             <span className="cp-edit-meta-separator">•</span>
             <span className="cp-edit-meta-term">{editTermLabel}</span>
+            <span className="cp-edit-meta-separator">•</span>
+            <span className="cp-edit-meta-credits">{editScheduleCredits} credits</span>
             {editSaveStatusText && (
               <>
                 <span className="cp-edit-meta-separator">•</span>

@@ -122,58 +122,31 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       <div className="sidebar-header">
         <Link to="/dashboard" className="sidebar-logo" aria-label="OrbitUMD dashboard" title={collapsed ? "OrbitUMD" : undefined}>
           <span className="sidebar-logo-mark" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 100 100" fill="none" className="orbit-logo-svg">
-              <circle cx="50" cy="50" r="30" fill="url(#orbitHalo)" className="orbit-halo" />
-              <g className="orbit-rings-cluster">
-                {/* Outer orbit ring */}
-                <ellipse className="orbit-ring orbit-ring-1" cx="50" cy="50" rx="42" ry="16" stroke="rgba(239,83,80,0.25)" strokeWidth="1.5" />
-                {/* Inner orbit ring (tilted via transform) */}
-                <ellipse className="orbit-ring orbit-ring-2" cx="50" cy="50" rx="42" ry="16" stroke="rgba(239,83,80,0.2)" strokeWidth="1.5" transform="rotate(60 50 50)" />
-                {/* Third orbit ring */}
-                <ellipse className="orbit-ring orbit-ring-3" cx="50" cy="50" rx="42" ry="16" stroke="rgba(239,83,80,0.15)" strokeWidth="1.5" transform="rotate(120 50 50)" />
-              </g>
-              {/* Core body with layered glow */}
-              <circle cx="50" cy="50" r="8" fill="#EF5350" className="orbit-core" />
-              <circle cx="50" cy="50" r="13" fill="url(#coreGlow)" className="orbit-core-glow" />
-              <circle cx="50" cy="50" r="3" fill="#FFF3E0" className="orbit-core-highlight" />
-              <g className="orbit-dust" aria-hidden="true">
-                <circle className="orbit-dust orbit-dust-1" cx="24" cy="36" r="1.4" fill="rgba(255,255,255,0.46)" />
-                <circle className="orbit-dust orbit-dust-2" cx="36" cy="74" r="1.2" fill="rgba(255,255,255,0.34)" />
-                <circle className="orbit-dust orbit-dust-3" cx="72" cy="32" r="1.1" fill="rgba(255,255,255,0.42)" />
-                <circle className="orbit-dust orbit-dust-4" cx="78" cy="64" r="1.5" fill="rgba(255,255,255,0.3)" />
-              </g>
-              {/* Orbiting satellites */}
-              <circle className="orbit-sat orbit-sat-1" r="3.5" fill="#FFC107">
-                <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
-                  <mpath href="#orbit-path-1" />
+            <svg width="34" height="34" viewBox="0 0 100 100" fill="none" className="orbit-logo-svg">
+              {/* Core planet */}
+              <circle className="orbit-core" cx="50" cy="50" r="14" fill="url(#logoCore)" />
+              <circle cx="50" cy="50" r="14" fill="url(#coreSheen)" />
+              {/* Single orbit path — tilted ellipse */}
+              <ellipse className="orbit-ring" cx="50" cy="50" rx="44" ry="18" transform="rotate(-30 50 50)" />
+              {/* Satellite — follows the ring */}
+              <circle className="orbit-sat" r="5" fill="url(#logoSat)">
+                <animateMotion dur="4s" repeatCount="indefinite">
+                  <mpath href="#logoOrbitPath" />
                 </animateMotion>
               </circle>
-              <circle className="orbit-sat orbit-sat-2" r="2.5" fill="#EF5350">
-                <animateMotion dur="8s" repeatCount="indefinite" rotate="auto" begin="-3s">
-                  <mpath href="#orbit-path-2" />
-                </animateMotion>
-              </circle>
-              <circle className="orbit-sat orbit-sat-3" r="2" fill="rgba(255,255,255,0.7)">
-                <animateMotion dur="10s" repeatCount="indefinite" rotate="auto" begin="-5s">
-                  <mpath href="#orbit-path-3" />
-                </animateMotion>
-              </circle>
-              <circle className="orbit-status-ping" cx="78" cy="24" r="6" fill="rgba(120, 255, 191, 0.25)" />
-              <circle className="orbit-status-dot" cx="78" cy="24" r="3" fill="#7FFFBF" />
-              {/* Hidden motion paths for satellites */}
               <defs>
-                <ellipse id="orbit-path-1" cx="50" cy="50" rx="42" ry="16" />
-                <ellipse id="orbit-path-2" cx="50" cy="50" rx="42" ry="16" transform="rotate(60 50 50)" />
-                <ellipse id="orbit-path-3" cx="50" cy="50" rx="42" ry="16" transform="rotate(120 50 50)" />
-                <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#FFCDD2" stopOpacity="0.8" />
-                  <stop offset="60%" stopColor="#EF5350" stopOpacity="0.6" />
-                  <stop offset="100%" stopColor="#C62828" stopOpacity="0" />
+                <path id="logoOrbitPath" d="M94,50 A44,18 -30 1,1 93.99,49.99 Z" transform="rotate(-30 50 50)" />
+                <radialGradient id="logoCore" cx="38%" cy="36%">
+                  <stop offset="0%" stopColor="#FF8A80" />
+                  <stop offset="100%" stopColor="#C62828" />
                 </radialGradient>
-                <radialGradient id="orbitHalo" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#EF5350" stopOpacity="0.22" />
-                  <stop offset="72%" stopColor="#EF5350" stopOpacity="0.08" />
-                  <stop offset="100%" stopColor="#EF5350" stopOpacity="0" />
+                <radialGradient id="coreSheen" cx="34%" cy="30%">
+                  <stop offset="0%" stopColor="rgba(255,255,255,0.35)" />
+                  <stop offset="50%" stopColor="rgba(255,255,255,0)" />
+                </radialGradient>
+                <radialGradient id="logoSat" cx="36%" cy="34%">
+                  <stop offset="0%" stopColor="#FFE082" />
+                  <stop offset="100%" stopColor="#FFA000" />
                 </radialGradient>
               </defs>
             </svg>

@@ -150,6 +150,8 @@ export function CoursePlannerPage({
     const termName = termCodeToLabel[baseTerm] ?? "Term";
     return `Generated Schedule - ${termName} ${baseYear} ${safeIndex}`;
   }, [baseTerm, baseYear, searchParams, termCodeToLabel]);
+  const scheduleNameParam = searchParams.get("scheduleName") ?? "";
+  const scheduleIdParam = searchParams.get("scheduleId") ?? "";
 
   const stats = useMemo(() => {
     const activeSelections = Object.values(selections);
@@ -291,6 +293,18 @@ export function CoursePlannerPage({
     // Handle term-only deep links.
     lastProcessedDeepLink.current = key;
   }, [confirmLeaveWithoutSaving, generatedScheduleName, loadSchedule, searchParams, setCatalogTerm, startNewSchedule]);
+
+  useEffect(() => {
+    if (!scheduleNameParam.trim()) {
+      return;
+    }
+
+    if (scheduleIdParam && activeScheduleId && scheduleIdParam !== activeScheduleId) {
+      return;
+    }
+
+    setScheduleName(scheduleNameParam);
+  }, [activeScheduleId, scheduleIdParam, scheduleNameParam]);
 
   const handleSaveClick = useCallback(() => {
     if (!activeScheduleId && scheduleName.trim().toLowerCase() === DEFAULT_SCHEDULE_NAME.toLowerCase()) {
