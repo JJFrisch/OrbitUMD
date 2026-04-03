@@ -57,7 +57,7 @@ describe("course detail utilities", () => {
 
   it("dedupes identical meetings before rendering", () => {
     const meetings = dedupeMeetings([
-      { days: "Tu", startTime: "9:00am", endTime: "11:50am", location: "PHY 3310" },
+      { days: "Tu", startTime: "9:00am", endTime: "11:50am", building: "PHY", room: "3310" },
       { days: "Tu", startTime: "9:00am", endTime: "11:50am", location: "PHY 3310" },
       { days: "Tu", startTime: "9:00am", endTime: "11:50am", location: "phy 3310 " },
     ]);

@@ -43,14 +43,19 @@ export function formatClassDayTime(classtime: Pick<Meeting, "days" | "startTime"
 }
 
 export function getMeetingIdentityKey(meeting: Pick<Meeting, "days" | "startTime" | "endTime" | "building" | "room" | "location" | "classtype">): string {
+  const days = (sanitizeNullableText(meeting.days) ?? "TBA").replace(/\s+/g, " ").trim().toLowerCase();
+  const startTime = sanitizeNullableText(meeting.startTime)?.toLowerCase() ?? "";
+  const endTime = sanitizeNullableText(meeting.endTime)?.toLowerCase() ?? "";
+
+  const locationText = sanitizeNullableText(meeting.building) && sanitizeNullableText(meeting.room)
+    ? `${sanitizeNullableText(meeting.building)} ${sanitizeNullableText(meeting.room)}`
+    : sanitizeNullableText(meeting.location) ?? sanitizeNullableText(meeting.classtype) ?? "";
+
   return [
-    sanitizeNullableText(meeting.days)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.startTime)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.endTime)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.building)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.room)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.location)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.classtype)?.toLowerCase() ?? "",
+    days,
+    startTime,
+    endTime,
+    locationText.toLowerCase(),
   ].join("|");
 }
 
