@@ -3695,6 +3695,7 @@ export default function DegreeAudit() {
                         {isCollapsed ? (
                           <p className="text-xs text-muted-foreground">Collapsed. Tap the arrow to expand major requirements.</p>
                         ) : (
+                          <>
                         <div className="da2-req-blocks">
                           {(() => {
                             // Get selected specialization for this program
@@ -4955,6 +4956,7 @@ export default function DegreeAudit() {
                             Add Section
                           </Button>
                         </div>
+                          </>
                         )}
                       </Card>
                     </div>
