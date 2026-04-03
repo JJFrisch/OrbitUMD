@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import {
   LayoutDashboard,
@@ -63,9 +63,7 @@ interface SidebarProps {
 
 export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const [userDisplay, setUserDisplay] = useState("Student");
-  const settingsMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -118,32 +116,6 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
     .slice(0, 2)
     .map((token) => token[0]?.toUpperCase() ?? "")
     .join("") || "ST";
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (!settingsMenuRef.current) return;
-      if (!settingsMenuRef.current.contains(event.target as Node)) {
-        setSettingsOpen(false);
-      }
-    };
-
-    const handleEsc = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSettingsOpen(false);
-      }
-    };
-
-    window.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("keydown", handleEsc);
-    return () => {
-      window.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, []);
-
-  useEffect(() => {
-    setSettingsOpen(false);
-  }, [location.pathname]);
 
   return (
     <aside className={cn("orbit-sidebar", collapsed && "collapsed")}>
@@ -200,13 +172,12 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         ))}
       </nav>
 
-      <div className="sidebar-user-wrap" ref={settingsMenuRef}>
-        <button
-          type="button"
+      <div className="sidebar-user-wrap">
+        <Link
           className="sidebar-user"
           title={collapsed ? "Settings" : undefined}
-          aria-label="Open account menu"
-          onClick={() => setSettingsOpen((prev) => !prev)}
+          aria-label="Open settings"
+          to="/settings"
         >
           <div className="user-avatar">{userInitials}</div>
           <div className="user-info">
@@ -214,18 +185,9 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
             <div className="user-role">Profile menu</div>
           </div>
           <span className="user-menu-caret" aria-hidden>
-            {settingsOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            <ChevronDown className="w-4 h-4" />
           </span>
-        </button>
-
-        {settingsOpen && (
-          <div className="sidebar-user-menu" aria-label="Account menu">
-            <Link to="/settings" className="sidebar-user-menu-item">
-              <Settings className="w-4 h-4" />
-              <span>Settings</span>
-            </Link>
-          </div>
-        )}
+        </Link>
       </div>
     </aside>
   );
