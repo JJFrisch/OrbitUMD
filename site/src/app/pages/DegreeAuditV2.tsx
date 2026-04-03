@@ -3703,7 +3703,7 @@ export default function DegreeAudit() {
                                       <Card key={section.id} ref={editorCardRef} className="bg-card border-2 border-border p-5 shadow-xl shadow-black/10 ring-1 ring-red-500/20">
                                         <div className="flex items-center justify-between gap-2 mb-3">
                                           <h4 className="text-foreground">Edit Section</h4>
-                                          <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
+                                          <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditorForce}>
                                             <X className="h-4 w-4" />
                                           </Button>
                                         </div>
@@ -4053,7 +4053,7 @@ export default function DegreeAudit() {
                                         )}
 
                                         <div className="flex gap-2 justify-end">
-                                          <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
+                                          <Button type="button" variant="outline" onClick={resetDraftEditorForce}>Cancel</Button>
                                           <Button
                                             type="button"
                                             variant="outline"
@@ -4120,7 +4120,7 @@ export default function DegreeAudit() {
                                   <Card ref={editorCardRef} className="bg-card border-2 border-border p-5 shadow-xl shadow-black/10 ring-1 ring-red-500/20">
                                     <div className="flex items-center justify-between gap-2 mb-3">
                                       <h4 className="text-foreground">Add Section</h4>
-                                      <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
+                                      <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditorForce}>
                                         <X className="h-4 w-4" />
                                       </Button>
                                     </div>
@@ -4468,7 +4468,7 @@ export default function DegreeAudit() {
                                     )}
 
                                     <div className="flex gap-2 justify-end">
-                                      <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
+                                      <Button type="button" variant="outline" onClick={resetDraftEditorForce}>Cancel</Button>
                                       <Button
                                         type="button"
                                         className="bg-red-600 hover:bg-red-700"
@@ -4510,7 +4510,7 @@ export default function DegreeAudit() {
                                             <Card key={section.id} ref={editorCardRef} className="bg-input-background border-border p-4">
                                               <div className="flex items-center justify-between gap-2 mb-3">
                                                 <h4 className="text-foreground">Edit Section</h4>
-                                                <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditor}>
+                                                <Button type="button" size="sm" variant="ghost" onClick={resetDraftEditorForce}>
                                                   <X className="h-4 w-4" />
                                                 </Button>
                                               </div>
@@ -4856,7 +4856,7 @@ export default function DegreeAudit() {
                                               )}
 
                                               <div className="flex gap-2 justify-end">
-                                                <Button type="button" variant="outline" onClick={resetDraftEditor}>Cancel</Button>
+                                                <Button type="button" variant="outline" onClick={resetDraftEditorForce}>Cancel</Button>
                                                 <Button
                                                   type="button"
                                                   variant="outline"
