@@ -37,11 +37,11 @@ const navigationSections: NavigationSection[] = [
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
       { name: "My Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
-    ], 
-  },
-  { 
-    label: "Scheduling",
-    items: [ 
+  //   ], 
+  // },
+  // { 
+  //   label: "Scheduling",
+  //   items: [ 
       // { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
       { name: "Schedules", href: "/schedules", icon: CalendarDays },
     ],
