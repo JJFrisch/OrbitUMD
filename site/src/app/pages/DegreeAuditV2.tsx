@@ -1257,7 +1257,8 @@ function RequirementSectionTableCard({
       if (row.type === "OR") {
         row.choices.forEach((choice, choiceIndex) => {
           const rowKey = `${row.key}-choice-${choiceIndex}`;
-          const reqType = `Option ${String.fromCharCode(65 + choiceIndex)}`;
+          // Tag each choice group with a unique OR block key + choice index
+          const reqType = `OR_BLOCK::${row.key}::${choiceIndex}`;
           choice.forEach((token, codeIndex) => pushToken(token, rowKey, codeIndex, reqType));
         });
       } else {
@@ -1374,213 +1375,154 @@ function RequirementSectionTableCard({
         {sectionIsExpanded && (
           <div className="da2-rb-courses">
             {(() => {
-              // Group rows by reqType
-              const grouped: { reqType: string; rows: typeof sectionCourseRows }[] = [];
-              let currentGroup: { reqType: string; rows: typeof sectionCourseRows } | null = null;
+              // Group rows: collect consecutive OR choices from the same block together,
+              // and keep required rows as standalone entries.
+              type RowGroup =
+                | { kind: "required"; row: (typeof sectionCourseRows)[0] }
+                | { kind: "or-block"; blockKey: string; choices: { choiceIndex: number; rows: (typeof sectionCourseRows) }[] };
+
+              const groups: RowGroup[] = [];
+              let currentOrBlock: Extract<RowGroup, { kind: "or-block" }> | null = null;
 
               sectionCourseRows.forEach((row) => {
-                if (!currentGroup || currentGroup.reqType !== row.reqType) {
-                  currentGroup = { reqType: row.reqType, rows: [] };
-                  grouped.push(currentGroup);
+                if (row.reqType.startsWith("OR_BLOCK::")) {
+                  const parts = row.reqType.split("::");
+                  const blockKey = parts[1] ?? "";
+                  const choiceIndex = Number(parts[2] ?? "0");
+
+                  if (!currentOrBlock || currentOrBlock.blockKey !== blockKey) {
+                    currentOrBlock = { kind: "or-block", blockKey, choices: [] };
+                    groups.push(currentOrBlock);
+                  }
+
+                  let choiceGroup = currentOrBlock.choices.find((c) => c.choiceIndex === choiceIndex);
+                  if (!choiceGroup) {
+                    choiceGroup = { choiceIndex, rows: [] };
+                    currentOrBlock.choices.push(choiceGroup);
+                  }
+                  choiceGroup.rows.push(row);
+                } else {
+                  currentOrBlock = null;
+                  groups.push({ kind: "required", row });
                 }
-                currentGroup.rows.push(row);
               });
 
-              return grouped.flatMap(({ reqType, rows }) => {
-                const isOptionGroup = reqType.startsWith("Option ");
-                const groupKey = `${reqType}-${rows[0]?.key || ""}`;
+              const renderCourseRow = (row: (typeof sectionCourseRows)[0], showReqType?: string) => {
+                const statusClass = row.status === "completed"
+                  ? "done"
+                  : row.status === "not_started"
+                    ? "open"
+                    : "progress";
+                const statusLabel = row.status === "completed"
+                  ? "Completed"
+                  : row.status === "in_progress"
+                    ? "In Progress"
+                    : row.status === "planned"
+                      ? "Planned"
+                      : "Needed";
 
-                if (isOptionGroup) {
-                  return [
-                    <div
-                      key={groupKey}
-                      className="da2-logic-group"
-                      data-logic="or"
-                      role="group"
-                      aria-label={`${reqType} group - choose one`}
-                    >
-                      <div className="da2-logic-bracket" aria-hidden="true">
-                        <span className="da2-logic-label">OR</span>
-                      </div>
-                      <div className="da2-logic-items w-full">
-                        <div className="da2-logic-title">{reqType}</div>
-                        <div className="space-y-0">
-                          {rows.map((row) => {
-                            const statusClass = row.status === "completed"
-                              ? "done"
-                              : row.status === "not_started"
-                                ? "open"
-                                : "progress";
-                            const statusLabel = row.status === "completed"
-                              ? "Completed"
-                              : row.status === "in_progress"
-                                ? "In Progress"
-                                : row.status === "planned"
-                                  ? "Planned"
-                                  : "Needed";
-
-                            return (
-                              <div key={row.key} className="da2-rb-course-row">
-                                <div className={`da2-rb-course-check ${statusClass}`}>{statusClass === "done" ? "\u2713" : statusClass === "progress" ? "\u2212" : "\u25CB"}</div>
-                                <div className="da2-rb-req-type"></div>
-                                <div className="da2-rb-course-code">{row.displayCode}</div>
-                                <div className="da2-rb-course-name">{row.displayTitle}</div>
-                                <div className={`da2-rb-course-status ${statusClass}`}>{statusLabel}</div>
-                                <div className="da2-rb-course-actions">
-                                  <Button
-                                    type="button"
-                                    size="sm"
-                                    variant="outline"
-                                    className="da2-rb-act"
-                                    onClick={() => setEditingCode({ originalCode: row.editableToken, query: row.displayCode })}
-                                  >
-                                    Edit
-                                  </Button>
-                                  <Button
-                                    type="button"
-                                    size="sm"
-                                    variant="outline"
-                                    className="da2-rb-act"
-                                    onClick={() => setDetailCode(row.detailCode)}
-                                  >
-                                    Info
-                                  </Button>
-                                  {row.wildcardSlot && onSelectWildcardCourse && (
-                                    <div className="relative" data-wildcard-slot={row.wildcardSlot.key}>
-                                      <Button
-                                        type="button"
-                                        size="icon"
-                                        variant="outline"
-                                        className="h-6 w-6 border-border"
-                                        onClick={(event) => {
-                                          event.stopPropagation();
-                                          setOpenWildcardSlotKey((current) => (current === row.wildcardSlot?.key ? null : row.wildcardSlot?.key ?? null));
-                                        }}
-                                        title={`Select course for ${row.wildcardSlot.token}`}
-                                        aria-label={`Select course for ${row.wildcardSlot.token}`}
-                                      >
-                                        {openWildcardSlotKey === row.wildcardSlot.key ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
-                                      </Button>
-                                      {openWildcardSlotKey === row.wildcardSlot.key && (
-                                        <div className="absolute right-0 top-8 z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg">
-                                          <p className="mb-1 text-[11px] text-muted-foreground">{row.wildcardSlot.token} wildcard</p>
-                                          <select
-                                            className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
-                                            value={row.wildcardSlot.selectedCode ?? ""}
-                                            onChange={(event) => {
-                                              onSelectWildcardCourse(row.wildcardSlot!.key, event.target.value);
-                                              setOpenWildcardSlotKey(null);
-                                            }}
-                                            onClick={(event) => event.stopPropagation()}
-                                            aria-label={`Select course for ${row.wildcardSlot.token}`}
-                                            title={`Select course for ${row.wildcardSlot.token}`}
-                                          >
-                                            <option value="">Auto-select best match</option>
-                                            {row.wildcardSlot.options.map((option) => (
-                                              <option key={`${row.wildcardSlot?.key}-${option.code}`} value={option.code}>
-                                                {option.code} - {option.title}
-                                              </option>
-                                            ))}
-                                          </select>
-                                        </div>
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          })}
+                return (
+                  <div key={row.key} className="da2-rb-course-row">
+                    <div className={`da2-rb-course-check ${statusClass}`}>{statusClass === "done" ? "\u2713" : statusClass === "progress" ? "\u2212" : "\u25CB"}</div>
+                    <div className="da2-rb-req-type">{showReqType ?? ""}</div>
+                    <div className="da2-rb-course-code">{row.displayCode}</div>
+                    <div className="da2-rb-course-name">{row.displayTitle}</div>
+                    <div className={`da2-rb-course-status ${statusClass}`}>{statusLabel}</div>
+                    <div className="da2-rb-course-actions">
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="da2-rb-act"
+                        onClick={() => setEditingCode({ originalCode: row.editableToken, query: row.displayCode })}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="outline"
+                        className="da2-rb-act"
+                        onClick={() => setDetailCode(row.detailCode)}
+                      >
+                        Info
+                      </Button>
+                      {row.wildcardSlot && onSelectWildcardCourse && (
+                        <div className="relative" data-wildcard-slot={row.wildcardSlot.key}>
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="outline"
+                            className="h-6 w-6 border-border"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setOpenWildcardSlotKey((current) => (current === row.wildcardSlot?.key ? null : row.wildcardSlot?.key ?? null));
+                            }}
+                            title={`Select course for ${row.wildcardSlot.token}`}
+                            aria-label={`Select course for ${row.wildcardSlot.token}`}
+                          >
+                            {openWildcardSlotKey === row.wildcardSlot.key ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
+                          </Button>
+                          {openWildcardSlotKey === row.wildcardSlot.key && (
+                            <div className="absolute right-0 top-8 z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg">
+                              <p className="mb-1 text-[11px] text-muted-foreground">{row.wildcardSlot.token} wildcard</p>
+                              <select
+                                className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
+                                value={row.wildcardSlot.selectedCode ?? ""}
+                                onChange={(event) => {
+                                  onSelectWildcardCourse(row.wildcardSlot!.key, event.target.value);
+                                  setOpenWildcardSlotKey(null);
+                                }}
+                                onClick={(event) => event.stopPropagation()}
+                                aria-label={`Select course for ${row.wildcardSlot.token}`}
+                                title={`Select course for ${row.wildcardSlot.token}`}
+                              >
+                                <option value="">Auto-select best match</option>
+                                {row.wildcardSlot.options.map((option) => (
+                                  <option key={`${row.wildcardSlot?.key}-${option.code}`} value={option.code}>
+                                    {option.code} - {option.title}
+                                  </option>
+                                ))}
+                              </select>
+                            </div>
+                          )}
                         </div>
-                      </div>
+                      )}
                     </div>
-                  ];
-                } else {
-                  return rows.map((row) => {
-                    const statusClass = row.status === "completed"
-                      ? "done"
-                      : row.status === "not_started"
-                        ? "open"
-                        : "progress";
-                    const statusLabel = row.status === "completed"
-                      ? "Completed"
-                      : row.status === "in_progress"
-                        ? "In Progress"
-                        : row.status === "planned"
-                          ? "Planned"
-                          : "Needed";
-
-                    return (
-                      <div key={row.key} className="da2-rb-course-row">
-                        <div className={`da2-rb-course-check ${statusClass}`}>{statusClass === "done" ? "\u2713" : statusClass === "progress" ? "\u2212" : "\u25CB"}</div>
-                        <div className="da2-rb-req-type">{row.reqType}</div>
-                  <div className="da2-rb-course-code">{row.displayCode}</div>
-                  <div className="da2-rb-course-name">{row.displayTitle}</div>
-                  <div className={`da2-rb-course-status ${statusClass}`}>{statusLabel}</div>
-                  <div className="da2-rb-course-actions">
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      className="da2-rb-act"
-                      onClick={() => setEditingCode({ originalCode: row.editableToken, query: row.displayCode })}
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      type="button"
-                      size="sm"
-                      variant="outline"
-                      className="da2-rb-act"
-                      onClick={() => setDetailCode(row.detailCode)}
-                    >
-                      Info
-                    </Button>
-                    {row.wildcardSlot && onSelectWildcardCourse && (
-                      <div className="relative" data-wildcard-slot={row.wildcardSlot.key}>
-                        <Button
-                          type="button"
-                          size="icon"
-                          variant="outline"
-                          className="h-6 w-6 border-border"
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            setOpenWildcardSlotKey((current) => (current === row.wildcardSlot?.key ? null : row.wildcardSlot?.key ?? null));
-                          }}
-                          title={`Select course for ${row.wildcardSlot.token}`}
-                          aria-label={`Select course for ${row.wildcardSlot.token}`}
-                        >
-                          {openWildcardSlotKey === row.wildcardSlot.key ? <Minus className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
-                        </Button>
-                        {openWildcardSlotKey === row.wildcardSlot.key && (
-                          <div className="absolute right-0 top-8 z-[120] w-80 rounded-md border border-border bg-card p-2 shadow-lg">
-                            <p className="mb-1 text-[11px] text-muted-foreground">{row.wildcardSlot.token} wildcard</p>
-                            <select
-                              className="h-8 w-full rounded-md border border-input bg-input-background px-2 text-xs text-foreground"
-                              value={row.wildcardSlot.selectedCode ?? ""}
-                              onChange={(event) => {
-                                onSelectWildcardCourse(row.wildcardSlot!.key, event.target.value);
-                                setOpenWildcardSlotKey(null);
-                              }}
-                              onClick={(event) => event.stopPropagation()}
-                              aria-label={`Select course for ${row.wildcardSlot.token}`}
-                              title={`Select course for ${row.wildcardSlot.token}`}
-                            >
-                              <option value="">Auto-select best match</option>
-                              {row.wildcardSlot.options.map((option) => (
-                                <option key={`${row.wildcardSlot?.key}-${option.code}`} value={option.code}>
-                                  {option.code} - {option.title}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        )}
-                      </div>
-                    )}
                   </div>
-                </div>
-              );
-                  });
+                );
+              };
+
+              return groups.map((group, groupIndex) => {
+                if (group.kind === "required") {
+                  return renderCourseRow(group.row, "Required");
                 }
+
+                // OR block: render all choices with "— or —" dividers between them
+                return (
+                  <div
+                    key={`or-block-${group.blockKey}-${groupIndex}`}
+                    className="da2-or-block"
+                    role="group"
+                    aria-label="Choose one option"
+                  >
+                    <div className="da2-or-bracket" aria-hidden="true" />
+                    <div className="da2-or-choices">
+                      {group.choices.map((choice, choiceIdx) => (
+                        <div key={`choice-${choiceIdx}`} className="da2-or-choice-group">
+                          {choiceIdx > 0 && (
+                            <div className="da2-or-divider" aria-hidden="true">
+                              <span className="da2-or-divider-line" />
+                              <span className="da2-or-divider-label">or</span>
+                              <span className="da2-or-divider-line" />
+                            </div>
+                          )}
+                          {choice.rows.map((row) => renderCourseRow(row))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
               });
             })()}
 

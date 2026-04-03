@@ -805,6 +805,81 @@
   background: rgba(198, 40, 40, 0.025);
 }
 
+/* ── OR Block: groups choices with a bracket and "or" dividers ── */
+
+.da2-or-block {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--da2-border-soft);
+  position: relative;
+}
+
+.da2-or-block + .da2-or-block {
+  margin-top: 2px;
+  border-top: 2px solid var(--da2-border-soft);
+}
+
+.da2-or-bracket {
+  width: 4px;
+  flex-shrink: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--da2-gold, #f9a825) 0px,
+    var(--da2-gold, #f9a825) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  background-size: 4px 8px;
+  border-radius: 2px 0 0 2px;
+  margin: 4px 0 4px 4px;
+}
+
+.da2-or-choices {
+  flex: 1;
+  min-width: 0;
+}
+
+.da2-or-choice-group .da2-rb-course-row {
+  border-top: none;
+}
+
+.da2-or-choice-group .da2-rb-course-row:not(:first-child) {
+  border-top: 1px solid var(--da2-border-soft);
+}
+
+.da2-or-divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 14px;
+  margin: 0;
+}
+
+.da2-or-divider-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(249, 168, 37, 0.4),
+    transparent
+  );
+}
+
+.da2-or-divider-label {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: #9a7209;
+  background: #fef9e7;
+  border: 1px solid rgba(249, 168, 37, 0.35);
+  padding: 1px 8px;
+  border-radius: 100px;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
 .da2-rb-course-check {
   width: 16px;
   height: 16px;

@@ -1,4 +1,9 @@
-import { fetchCourseRelationshipsFromUmdApi, searchCourses, fetchTerms } from "@/lib/api/umdCourses";
+import {
+  fetchCourseRelationshipsFromUmdApi,
+  searchCatalogCoursesFromRpc,
+  searchCourses,
+  fetchTerms,
+} from "@/lib/api/umdCourses";
 
 export interface CourseDetails {
   code: string;
@@ -87,6 +92,19 @@ export async function lookupCourseDetails(courseCodes: string[]): Promise<Map<st
             matchedCourse = courses.find((item) => item.id.toUpperCase() === code) ?? courses[0];
             matchedTerm = candidateTerm;
             break;
+          }
+        }
+
+        // Some advanced/irregular courses may not appear in recent-term slices.
+        // Fall back to the catalog search index across all terms when available.
+        if (!matchedCourse) {
+          const catalogMatches = await searchCatalogCoursesFromRpc({
+            query: code,
+            deptId,
+            limitCount: 10,
+          }).catch(() => []);
+          if (catalogMatches.length > 0) {
+            matchedCourse = catalogMatches.find((item) => item.id.toUpperCase() === code) ?? catalogMatches[0];
           }
         }
 
