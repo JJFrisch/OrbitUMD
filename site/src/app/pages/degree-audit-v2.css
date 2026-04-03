@@ -811,10 +811,15 @@
   padding: 9px 14px;
   border-top: 1px solid var(--da2-border-soft);
   transition: background 0.12s ease;
+  cursor: pointer;
 }
 
 .da2-rb-course-row:hover {
-  background: rgba(198, 40, 40, 0.025);
+  background: rgba(198, 40, 40, 0.05);
+}
+
+.da2-rb-course-row:focus-within {
+  background: rgba(198, 40, 40, 0.05);
 }
 
 /* ── OR Block: groups choices with a bracket and "or" dividers ── */
