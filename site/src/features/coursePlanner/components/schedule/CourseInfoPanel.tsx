@@ -8,6 +8,7 @@ import {
   formatClassDayTime,
   formatCredits,
   formatLocation,
+  dedupeMeetings,
   isMappableBuildingCode,
   sanitizeNullableText,
 } from "../../utils/courseDetails";
@@ -23,6 +24,7 @@ export function CourseInfoPanel() {
     if (!selectedInfoKey) return null;
     return selections[selectedInfoKey] ?? null;
   }, [selectedInfoKey, selections]);
+  const meetings = useMemo(() => (selection ? dedupeMeetings(selection.section.meetings) : []), [selection]);
 
   if (!selection || visibilityMode === "off") {
     return null;
@@ -63,7 +65,7 @@ export function CourseInfoPanel() {
       </div>
 
       <ul className="cp-info-lines">
-        {selection.section.meetings.map((meeting, idx) => (
+        {meetings.map((meeting, idx) => (
           <li key={`${selection.section.sectionCode}-${idx}`}>
             {formatClassDayTime(meeting)} in {" "}
             {isMappableBuildingCode(meeting.building) ? (

@@ -7,6 +7,7 @@ import {
   formatClassDayTime,
   formatLocation,
   isMappableBuildingCode,
+  dedupeMeetings,
 } from "../../utils/courseDetails";
 import { getSectionIdentityKey } from "../../utils/formatting";
 import { useCoursePlannerStore } from "../../state/coursePlannerStore";
@@ -24,6 +25,7 @@ export function SectionRow({ course, section }: SectionRowProps) {
   const readOnly = useCoursePlannerStore((state) => state.readOnly);
 
   const key = useMemo(() => getSectionIdentityKey(course.courseCode, section.sectionCode), [course.courseCode, section.sectionCode]);
+  const meetings = useMemo(() => dedupeMeetings(section.meetings), [section.meetings]);
   const isSelected = Boolean(selections[key]);
   const isOpen = section.openSeats > 0;
 
@@ -69,7 +71,7 @@ export function SectionRow({ course, section }: SectionRowProps) {
           );
         })}
 
-        {section.meetings.map((meeting, index) => {
+        {meetings.map((meeting, index) => {
           const locationText = formatLocation(meeting);
           const line = `${formatClassDayTime(meeting)} in`;
           const canMap = isMappableBuildingCode(meeting.building);
@@ -100,7 +102,7 @@ export function SectionRow({ course, section }: SectionRowProps) {
         )}
       </div>
       <div>
-        <span>{section.meetings[0]?.days || "Other"}</span>
+        <span>{meetings[0]?.days || "Other"}</span>
       </div>
     </div>
   );

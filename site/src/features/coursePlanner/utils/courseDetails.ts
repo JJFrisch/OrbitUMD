@@ -42,6 +42,32 @@ export function formatClassDayTime(classtime: Pick<Meeting, "days" | "startTime"
   return days;
 }
 
+export function getMeetingIdentityKey(meeting: Pick<Meeting, "days" | "startTime" | "endTime" | "building" | "room" | "location" | "classtype">): string {
+  return [
+    sanitizeNullableText(meeting.days)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.startTime)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.endTime)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.building)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.room)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.location)?.toLowerCase() ?? "",
+    sanitizeNullableText(meeting.classtype)?.toLowerCase() ?? "",
+  ].join("|");
+}
+
+export function dedupeMeetings(meetings: Meeting[]): Meeting[] {
+  const seen = new Set<string>();
+  const out: Meeting[] = [];
+
+  for (const meeting of meetings) {
+    const key = getMeetingIdentityKey(meeting);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(meeting);
+  }
+
+  return out;
+}
+
 function normalizeLocationText(value: string): string {
   const lowered = value.toLowerCase();
   if (lowered.includes("online") && lowered.includes("async")) return "Online Async";

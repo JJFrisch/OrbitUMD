@@ -10,6 +10,7 @@ import {
   formatClassDayTime,
   formatCredits,
   formatLocation,
+  dedupeMeetings,
   isMappableBuildingCode,
   sanitizeNullableText,
 } from "../../utils/courseDetails";
@@ -28,6 +29,7 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
     if (!selectedSectionKey) return null;
     return selections[selectedSectionKey] ?? null;
   }, [selectedSectionKey, selections]);
+  const meetings = useMemo(() => (selection ? dedupeMeetings(selection.section.meetings) : []), [selection]);
 
   if (!selection) return null;
 
@@ -69,7 +71,7 @@ export function ScheduleDetailsOverlay({ selectedSectionKey, onClose }: Schedule
           );
         })}
 
-        {selection.section.meetings.map((meeting, idx) => (
+        {meetings.map((meeting, idx) => (
           <p key={`${selection.section.sectionCode}-meeting-${idx}`}>
             {formatClassDayTime(meeting)} in {" "}
             {isMappableBuildingCode(meeting.building) ? (

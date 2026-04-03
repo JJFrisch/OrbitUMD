@@ -9,6 +9,7 @@ import {
   buildPlanetTerpProfessorLink,
   buildTestudoCourseLink,
   buildUmdMapLink,
+  dedupeMeetings,
   convertRatingToPercent,
   formatClassDayTime,
   formatCredits,
@@ -52,6 +53,17 @@ describe("course detail utilities", () => {
   it("formats class day/time and location", () => {
     expect(formatClassDayTime({ days: "M", startTime: "2:00pm", endTime: "2:50pm" })).toBe("M 2:00pm - 2:50pm");
     expect(formatLocation({ building: "PHY", room: "1402" })).toBe("PHY 1402");
+  });
+
+  it("dedupes identical meetings before rendering", () => {
+    const meetings = dedupeMeetings([
+      { days: "Tu", startTime: "9:00am", endTime: "11:50am", location: "PHY 3310" },
+      { days: "Tu", startTime: "9:00am", endTime: "11:50am", location: "PHY 3310" },
+      { days: "Tu", startTime: "9:00am", endTime: "11:50am", location: "phy 3310 " },
+    ]);
+
+    expect(meetings).toHaveLength(1);
+    expect(meetings[0]).toMatchObject({ days: "Tu", startTime: "9:00am", endTime: "11:50am" });
   });
 
   it("builds deterministic outbound links", () => {

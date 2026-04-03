@@ -5,7 +5,7 @@ import {
   extractDeptPrefix,
   fallbackTextMatch,
 } from "../utils/formatting";
-import { sanitizeNullableText } from "../utils/courseDetails";
+import { dedupeMeetings, getMeetingIdentityKey, sanitizeNullableText } from "../utils/courseDetails";
 import { isDemoMode } from "@/lib/demo/demoMode";
 import type {
   Course,
@@ -141,32 +141,6 @@ function dedupeStrings(values: Array<string | null | undefined>): string[] {
     if (seen.has(key)) continue;
     seen.add(key);
     out.push(clean);
-  }
-
-  return out;
-}
-
-function canonicalMeetingKey(meeting: Meeting): string {
-  return [
-    sanitizeNullableText(meeting.days)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.startTime)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.endTime)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.building)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.room)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.location)?.toLowerCase() ?? "",
-    sanitizeNullableText(meeting.classtype)?.toLowerCase() ?? "",
-  ].join("|");
-}
-
-function dedupeMeetings(meetings: Meeting[]): Meeting[] {
-  const seen = new Set<string>();
-  const out: Meeting[] = [];
-
-  for (const meeting of meetings) {
-    const key = canonicalMeetingKey(meeting);
-    if (seen.has(key)) continue;
-    seen.add(key);
-    out.push(meeting);
   }
 
   return out;
@@ -481,8 +455,8 @@ function mergeSections(courseCode: string, jSections: Section[], uSections: Sect
       const seatChoice = preferTimestampedSeatValue(pair.j, pair.u);
       const mergedMeetings = dedupeMeetings([...(pair.j.meetings ?? []), ...(pair.u.meetings ?? [])]);
 
-      if (canonicalMeetingKey({ days: pair.j.meetings[0]?.days ?? "", location: pair.j.meetings[0]?.location } as Meeting) !==
-          canonicalMeetingKey({ days: pair.u.meetings[0]?.days ?? "", location: pair.u.meetings[0]?.location } as Meeting) &&
+      if (getMeetingIdentityKey({ days: pair.j.meetings[0]?.days ?? "", location: pair.j.meetings[0]?.location } as Meeting) !==
+          getMeetingIdentityKey({ days: pair.u.meetings[0]?.days ?? "", location: pair.u.meetings[0]?.location } as Meeting) &&
           pair.j.meetings.length > 0 && pair.u.meetings.length > 0) {
         addConflict(conflicts, {
           field: "meetings",
