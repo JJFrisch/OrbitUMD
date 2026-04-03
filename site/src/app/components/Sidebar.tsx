@@ -135,7 +135,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
                 </animateMotion>
               </circle>
               <defs>
-                <path id="logoOrbitPath" d="M94,50 A44,18 -30 1,1 93.99,49.99 Z" transform="rotate(-30 50 50)" />
+                <path id="logoOrbitPath" d="M94,45 A44,18 -30 1,1 93.99,40.99 Z" transform="rotate(-30 50 50)" />
                 <radialGradient id="logoCore" cx="38%" cy="36%">
                   <stop offset="0%" stopColor="#FF8A80" />
                   <stop offset="100%" stopColor="#C62828" />
