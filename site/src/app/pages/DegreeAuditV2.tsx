@@ -2083,6 +2083,7 @@ export default function DegreeAudit() {
   });
   const [expandedSectionIds, setExpandedSectionIds] = useState<Set<string>>(new Set());
   const [expandedNotesSectionIds, setExpandedNotesSectionIds] = useState<Set<string>>(new Set());
+  const [collapsedProgramIds, setCollapsedProgramIds] = useState<Set<string>>(new Set());
   const condensedAuditView = false;
   const [selectedSpecialization, setSelectedSpecialization] = useState<Map<number, string>>(() => {
     try {
@@ -3650,6 +3651,7 @@ export default function DegreeAudit() {
                     const printBreakClass = programAudit.bundle.kind === "major" && hasPriorMajor
                       ? "print-break-before"
                       : "";
+                    const isCollapsed = collapsedProgramIds.has(programAudit.bundle.programId);
 
                     return (
                     <div key={`${programAudit.bundle.programId}-${index}`} className="degree-audit-program-slide">
@@ -3662,7 +3664,26 @@ export default function DegreeAudit() {
                           <p className="da2-ps-progress">
                             <strong>{Math.min(programAudit.requiredSlots, programAudit.completedSlots + programAudit.inProgressSlots + programAudit.plannedSlots)} / {programAudit.requiredSlots}</strong> required classes
                           </p>
-                          <ChevronDown className="da2-ps-toggle h-5 w-5 rotate-180" aria-hidden="true" />
+                          <Button
+                            type="button"
+                            size="icon"
+                            variant="ghost"
+                            className="da2-ps-toggle h-8 w-8"
+                            aria-label={isCollapsed ? `Expand ${programAudit.bundle.programName} requirements` : `Collapse ${programAudit.bundle.programName} requirements`}
+                            onClick={() => {
+                              setCollapsedProgramIds((prev) => {
+                                const next = new Set(prev);
+                                if (next.has(programAudit.bundle.programId)) {
+                                  next.delete(programAudit.bundle.programId);
+                                } else {
+                                  next.add(programAudit.bundle.programId);
+                                }
+                                return next;
+                              });
+                            }}
+                          >
+                            <ChevronDown className={`h-5 w-5 transition-transform ${isCollapsed ? "" : "rotate-180"}`} aria-hidden="true" />
+                          </Button>
                         </div>
                         <div className="da2-ps-prog-bar mb-5" role="presentation">
                           <div
@@ -3671,6 +3692,9 @@ export default function DegreeAudit() {
                           />
                         </div>
 
+                        {isCollapsed ? (
+                          <p className="text-xs text-muted-foreground">Collapsed. Tap the arrow to expand major requirements.</p>
+                        ) : (
                         <div className="da2-req-blocks">
                           {(() => {
                             // Get selected specialization for this program
@@ -4931,6 +4955,7 @@ export default function DegreeAudit() {
                             Add Section
                           </Button>
                         </div>
+                        )}
                       </Card>
                     </div>
                   );
