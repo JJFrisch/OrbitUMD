@@ -1,8 +1,16 @@
 import { useEffect, useMemo, useState } from "react";
-import { Bug, Check, ExternalLink, Lightbulb, Loader2, Mail, MessageSquare, Send } from "lucide-react";
+import { Bug, Check, ChevronDown, ChevronUp, ExternalLink, Lightbulb, Loader2, Mail, MessageSquare, Send, Settings2, X } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 import { createUserFeedbackSubmission, listUserFeedbackSubmissions, type FeedbackType, type UserFeedbackSubmission } from "@/lib/repositories/userFeedbackRepository";
+import {
+  loadStudentPreferences,
+  saveStudentPreferences,
+  INTEREST_AREA_OPTIONS,
+  COURSE_FORMAT_OPTIONS,
+  type StudentPreferences,
+  type WorkloadTolerance,
+} from "@/lib/repositories/studentPreferencesRepository";
 import { plannerApi } from "@/lib/api/planner";
 import { buildNeededClassItems, type NeededClassItem } from "@/lib/requirements/neededClassesAdvisor";
 import { loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/requirements/audit";
@@ -29,6 +37,12 @@ const FEEDBACK_TYPE_OPTIONS: Array<{ value: FeedbackType; label: string; icon: t
   { value: "other", label: "Contact", icon: Mail },
 ];
 
+const WORKLOAD_OPTIONS: Array<{ value: WorkloadTolerance; label: string; desc: string }> = [
+  { value: "light", label: "Light", desc: "Prefer easier course load" },
+  { value: "moderate", label: "Moderate", desc: "Balanced workload" },
+  { value: "heavy", label: "Heavy", desc: "Comfortable with heavy load" },
+];
+
 function feedbackStatusMeta(status: UserFeedbackSubmission["status"]): {
   dotClass: "open" | "review" | "done";
   badgeClass: "open" | "review" | "done";
@@ -47,6 +61,18 @@ function categoryTag(item: NeededClassItem) {
   if (label.startsWith("MAJOR:")) return { label: "Major", cls: "major" };
   if (label.startsWith("MINOR:")) return { label: "Minor", cls: "minor" };
   return { label: "Requirement", cls: "major" };
+}
+
+function ScoreBar({ score }: { score: number }) {
+  const clamped = Math.max(0, Math.min(110, score));
+  const pct = Math.round((clamped / 110) * 100);
+  const color = clamped >= 85 ? "#2e7d32" : clamped >= 60 ? "#e6a700" : "#c62828";
+  return (
+    <div className="ou-score-bar" title={`Score: ${Math.round(clamped)} / 110`}>
+      <div className="ou-score-bar-fill" style={{ width: `${pct}%`, background: color }} />
+      <span className="ou-score-bar-label">{Math.round(clamped)}</span>
+    </div>
+  );
 }
 
 function SuggestionCard({
@@ -103,15 +129,21 @@ function SuggestionCard({
 
         <div className="ou-course-why">{why}</div>
 
+        {item.rationale.length > 1 && (
+          <div className="ou-course-extra-rationale">
+            {item.rationale.slice(1).map((line, idx) => (
+              <div key={idx} className="ou-course-rationale-line">{line}</div>
+            ))}
+          </div>
+        )}
+
         {subline && (
           <div className="ou-course-seats">{subline}</div>
         )}
       </div>
 
       <div className="ou-course-card-bottom">
-        <span className="ou-course-meeting" style={{ color: "var(--ink-ghost)", fontSize: "0.68rem" }}>
-          Score: {Math.max(0, Math.round(item.recommendationScore))} / 100
-        </span>
+        <ScoreBar score={item.recommendationScore} />
         <div className="ou-course-actions">
           <button
             type="button"
@@ -169,6 +201,124 @@ function SkeletonCard({ index }: { index: number }) {
   );
 }
 
+// ── Preferences Panel ──
+
+function PreferencesPanel({
+  preferences,
+  onSave,
+}: {
+  preferences: StudentPreferences;
+  onSave: (prefs: StudentPreferences) => void;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [interests, setInterests] = useState<string[]>(preferences.interestAreas);
+  const [workload, setWorkload] = useState<WorkloadTolerance>(preferences.workloadTolerance);
+  const [formats, setFormats] = useState<string[]>(preferences.preferredCourseFormats);
+  const [dirty, setDirty] = useState(false);
+
+  const toggleInterest = (area: string) => {
+    setInterests((prev) => prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]);
+    setDirty(true);
+  };
+
+  const toggleFormat = (fmt: string) => {
+    setFormats((prev) => prev.includes(fmt) ? prev.filter((f) => f !== fmt) : [...prev, fmt]);
+    setDirty(true);
+  };
+
+  const handleSave = () => {
+    onSave({
+      ...preferences,
+      interestAreas: interests,
+      workloadTolerance: workload,
+      preferredCourseFormats: formats,
+    });
+    setDirty(false);
+    toast.success("Preferences saved — recommendations will update.");
+  };
+
+  return (
+    <div className="ou-prefs-panel">
+      <button
+        type="button"
+        className="ou-prefs-toggle"
+        onClick={() => setExpanded((prev) => !prev)}
+      >
+        <Settings2 size={15} />
+        <span>Personalization preferences</span>
+        {interests.length > 0 && (
+          <span className="ou-prefs-badge">{interests.length} interest{interests.length !== 1 ? "s" : ""}</span>
+        )}
+        {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+      </button>
+
+      {expanded && (
+        <div className="ou-prefs-body">
+          <div className="ou-prefs-section">
+            <div className="ou-prefs-section-label">Interest areas</div>
+            <p className="ou-prefs-section-desc">Select topics you're interested in to improve elective and course recommendations.</p>
+            <div className="ou-prefs-chips">
+              {INTEREST_AREA_OPTIONS.map((area) => (
+                <button
+                  key={area}
+                  type="button"
+                  className={`ou-prefs-chip ${interests.includes(area) ? "active" : ""}`}
+                  onClick={() => toggleInterest(area)}
+                >
+                  {area}
+                  {interests.includes(area) && <X size={11} />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="ou-prefs-section">
+            <div className="ou-prefs-section-label">Workload tolerance</div>
+            <div className="ou-prefs-workload-row">
+              {WORKLOAD_OPTIONS.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`ou-prefs-workload-btn ${workload === opt.value ? "active" : ""}`}
+                  onClick={() => { setWorkload(opt.value); setDirty(true); }}
+                >
+                  <strong>{opt.label}</strong>
+                  <span>{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="ou-prefs-section">
+            <div className="ou-prefs-section-label">Preferred formats</div>
+            <div className="ou-prefs-chips">
+              {COURSE_FORMAT_OPTIONS.map((fmt) => (
+                <button
+                  key={fmt}
+                  type="button"
+                  className={`ou-prefs-chip ${formats.includes(fmt) ? "active" : ""}`}
+                  onClick={() => toggleFormat(fmt)}
+                >
+                  {fmt}
+                  {formats.includes(fmt) && <X size={11} />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {dirty && (
+            <button type="button" className="ou-prefs-save-btn" onClick={handleSave}>
+              Save preferences
+            </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Main Page ──
+
 export default function Suggestions() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -182,6 +332,10 @@ export default function Suggestions() {
   const [hasPrograms, setHasPrograms] = useState(true);
   const [addedCodes, setAddedCodes] = useState<Set<string>>(new Set());
 
+  // Student preferences
+  const [preferences, setPreferences] = useState<StudentPreferences | null>(null);
+  const [prefsVersion, setPrefsVersion] = useState(0);
+
   // Feedback form state
   const [type, setType] = useState<FeedbackType>("feature");
   const [title, setTitle] = useState("");
@@ -190,6 +344,17 @@ export default function Suggestions() {
   const [submitting, setSubmitting] = useState(false);
   const [history, setHistory] = useState<UserFeedbackSubmission[]>([]);
   const [loadingHistory, setLoadingHistory] = useState(true);
+
+  // Load preferences
+  useEffect(() => {
+    void loadStudentPreferences().then(setPreferences);
+  }, [prefsVersion]);
+
+  const handleSavePreferences = (prefs: StudentPreferences) => {
+    setPreferences(prefs);
+    void saveStudentPreferences(prefs);
+    setPrefsVersion((v) => v + 1);
+  };
 
   // Load live suggestions from the neededClassesAdvisor engine
   useEffect(() => {
@@ -243,7 +408,25 @@ export default function Suggestions() {
         const courseDetails = neededCodes.length > 0 ? await lookupCourseDetails(neededCodes) : new Map();
         if (!active) return;
 
-        const items = buildNeededClassItems({ bundles, byCourseCode, byCourseTags, courseDetails });
+        // Estimate terms until graduation
+        const primaryProgram = programs.find((p) => p.isPrimary) ?? programs[0];
+        let termsUntilGraduation = 6;
+        if (primaryProgram?.expectedGraduationTermId) {
+          // Rough estimate based on number of future schedules
+          const futureSchedules = schedules.filter(
+            (s) => s.is_primary && getAcademicProgressStatus({ termCode: s.term_code!, termYear: s.term_year! }) === "planned",
+          ).length;
+          termsUntilGraduation = Math.max(1, futureSchedules || 6);
+        }
+
+        const items = buildNeededClassItems({
+          bundles,
+          byCourseCode,
+          byCourseTags,
+          courseDetails,
+          preferences,
+          termsUntilGraduation,
+        });
         const sorted = [...items]
           .filter((item) => item.status !== "completed")
           .sort((a, b) => b.recommendationScore - a.recommendationScore)
@@ -259,7 +442,7 @@ export default function Suggestions() {
 
     void run();
     return () => { active = false; };
-  }, []);
+  }, [preferences]);
 
   // Load feedback history
   useEffect(() => {
@@ -375,12 +558,16 @@ export default function Suggestions() {
             <p>
               {!hasPrograms
                 ? "Recommendations are driven by your declared programs. Head to Settings to add a major or minor, then come back here."
-                : "Ranked by prerequisite readiness, requirement urgency, and your current plan — updated live from your transcript and schedules."}
+                : "Ranked by prerequisite readiness, requirement urgency, plan fit, and your interests — updated live from your transcript and schedules."}
             </p>
             <p style={{ fontSize: "0.7rem", color: "var(--ink-ghost)", marginTop: "8px" }}>
-              This feature is not yet live —recommendations are in beta.
+              This feature is not yet live — recommendations are in beta.
             </p>
           </div>
+
+          {preferences && (
+            <PreferencesPanel preferences={preferences} onSave={handleSavePreferences} />
+          )}
 
           {!hasPrograms && !loadingCourses && (
             <div style={{ textAlign: "center", padding: "32px 0" }}>
@@ -435,7 +622,7 @@ export default function Suggestions() {
 
               {!loadingCourses && suggestions.length > 0 && (
                 <p style={{ fontSize: "0.7rem", color: "var(--ink-ghost)", textAlign: "center" }}>
-                  Showing top {filteredSuggestions.length} of {filterCounts[activeFilter === "all" ? "all" : activeFilter]} recommendations · Scores reflect prerequisite readiness and requirement priority
+                  Showing top {filteredSuggestions.length} of {filterCounts[activeFilter === "all" ? "all" : activeFilter]} recommendations · Scored 0–110 across prerequisite readiness, urgency, plan fit, and interest alignment
                 </p>
               )}
             </>
@@ -543,7 +730,7 @@ export default function Suggestions() {
               <section className="ou-feedback-sidebar-card">
                 <div className="ou-feedback-sidebar-header">Other ways to reach us</div>
                 <div className="ou-contact-card">
-                  <a className="ou-contact-link" href="https://github.com/JJFrisch/OrbitUMD/issues/new/choose" target="_blank" rel="noreferrer">
+                  <a className="ou-contact-link" href="https://github.com/JJFrisch/OrbitUMD/issues/new/choose" target="_blank" rel="noreferrer noopener">
                     <ExternalLink size={14} /> GitHub Issues
                   </a>
                   <p className="ou-contact-link-desc">Open an issue for bugs or feature requests.</p>
@@ -553,7 +740,7 @@ export default function Suggestions() {
                   </a>
                   <p className="ou-contact-link-desc">orbitumd@umd.edu - typical response within 48 hours.</p>
 
-                  <a className="ou-contact-link" href="https://github.com/JJFrisch/OrbitUMD/discussions" target="_blank" rel="noreferrer">
+                  <a className="ou-contact-link" href="https://github.com/JJFrisch/OrbitUMD/discussions" target="_blank" rel="noreferrer noopener">
                     <MessageSquare size={14} /> Community discussions
                   </a>
                   <p className="ou-contact-link-desc">Join conversations with other students and contributors.</p>
