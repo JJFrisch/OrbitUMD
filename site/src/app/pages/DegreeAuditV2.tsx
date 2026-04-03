@@ -1440,15 +1440,7 @@ function RequirementSectionTableCard({
                   <div
                     key={row.key}
                     className="da2-rb-course-row"
-                    role="button"
-                    tabIndex={0}
                     onClick={() => setDetailCode(row.detailCode)}
-                    onKeyDown={(event) => {
-                      if (event.key === "Enter" || event.key === " ") {
-                        event.preventDefault();
-                        setDetailCode(row.detailCode);
-                      }
-                    }}
                   >
                     <div className={`da2-rb-course-check ${statusClass}`}>{statusClass === "done" ? "\u2713" : statusClass === "progress" ? "\u2212" : "\u25CB"}</div>
                     <div className="da2-rb-req-type">{showReqType ?? ""}</div>

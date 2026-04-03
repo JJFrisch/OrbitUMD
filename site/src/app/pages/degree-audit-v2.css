@@ -584,6 +584,18 @@
   letter-spacing: -0.02em;
 }
 
+.da2-program-link {
+  color: var(--da2-ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+}
+
+.da2-program-link:hover,
+.da2-program-link:focus-visible {
+  color: var(--da2-ink);
+}
+
 .da2-ps-name {
   font-size: 1.04rem !important;
   font-weight: 700;
