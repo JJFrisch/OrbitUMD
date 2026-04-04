@@ -2287,9 +2287,35 @@ export default function FourYearPlan() {
               ) : (
                 addCourseResults.map((course) => {
                   const normalizedCode = String(course.id ?? "").toUpperCase().replace(/\s+/g, "");
+                  const detailCodeToOpen = String(course.id ?? "").trim().toUpperCase();
                   const inFlight = addCoursePendingCode === normalizedCode;
+                  const openCourseDetailFromResult = () => {
+                    if (!detailCodeToOpen) {
+                      return;
+                    }
+                    setDetailCourse(null);
+                    setDetailTerm(null);
+                    setDetailCode(detailCodeToOpen);
+                  };
                   return (
-                    <div key={`${course.id}-${course.title}`} className="add-course-result-item">
+                    <div
+                      key={`${course.id}-${course.title}`}
+                      className="add-course-result-item add-course-result-item-clickable"
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => {
+                        openCourseDetailFromResult();
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.target !== event.currentTarget) {
+                          return;
+                        }
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          openCourseDetailFromResult();
+                        }
+                      }}
+                    >
                       <div>
                         <p className="add-course-result-code">{course.id}</p>
                         <p className="add-course-result-title">{course.title}</p>
@@ -2300,7 +2326,8 @@ export default function FourYearPlan() {
                       <button
                         type="button"
                         className="topbar-btn primary"
-                        onClick={() => {
+                        onClick={(event) => {
+                          event.stopPropagation();
                           if (addCourseTerm) {
                             void handleAddCourseToTerm(addCourseTerm, course);
                           }

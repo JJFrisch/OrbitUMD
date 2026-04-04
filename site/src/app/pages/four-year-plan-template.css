@@ -1394,6 +1394,22 @@
   background: var(--surface-2);
 }
 
+.add-course-result-item-clickable {
+  cursor: pointer;
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.add-course-result-item-clickable:hover {
+  border-color: rgba(198, 40, 40, 0.32);
+  box-shadow: 0 6px 18px rgba(23, 18, 14, 0.1);
+  transform: translateY(-1px);
+}
+
+.add-course-result-item-clickable:focus-visible {
+  outline: 2px solid rgba(198, 40, 40, 0.34);
+  outline-offset: 2px;
+}
+
 .add-course-result-code {
   font-size: 0.78rem;
   letter-spacing: 0.04em;
