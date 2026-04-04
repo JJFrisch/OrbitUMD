@@ -431,6 +431,8 @@ export default function FourYearPlan() {
   const [detailCode, setDetailCode] = useState<string | null>(null);
   const [detailData, setDetailData] = useState<CourseDetails | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
+  const [detailCourse, setDetailCourse] = useState<PlannedCourse | null>(null);
+  const [detailTerm, setDetailTerm] = useState<PlannedTerm | null>(null);
   const [addCourseTerm, setAddCourseTerm] = useState<PlannedTerm | null>(null);
   const [addCourseQuery, setAddCourseQuery] = useState("");
   const [addCourseResults, setAddCourseResults] = useState<UmdCourseSummary[]>([]);
@@ -1722,10 +1724,16 @@ export default function FourYearPlan() {
                               <button
                                 type="button"
                                 className="plan-course-button"
-                                onClick={() => setDetailCode(course.code)}
+                                onClick={() => {
+                                  setDetailCourse(course);
+                                  setDetailTerm(sourceTerm);
+                                  setDetailCode(course.code);
+                                }}
                                 onKeyDown={(event) => {
                                   if (event.key === "Enter" || event.key === " ") {
                                     event.preventDefault();
+                                    setDetailCourse(course);
+                                    setDetailTerm(sourceTerm);
                                     setDetailCode(course.code);
                                   }
                                 }}
@@ -1896,52 +1904,127 @@ export default function FourYearPlan() {
       </div>
 
       <Dialog open={Boolean(detailCode)} onOpenChange={(open) => {
-        if (!open) setDetailCode(null);
+        if (!open) {
+          setDetailCode(null);
+          setDetailCourse(null);
+          setDetailTerm(null);
+        }
       }}>
-        <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
+        <DialogContent className="cd-dialog">
+          <DialogHeader className="sr-only">
             <DialogTitle>{detailData?.code ?? detailCode ?? "Course Details"}</DialogTitle>
             <DialogDescription>{detailData?.title ?? "Loading course details..."}</DialogDescription>
           </DialogHeader>
 
           {detailLoading ? (
-            <p className="text-sm text-muted-foreground">Loading details...</p>
-          ) : !detailData ? (
-            <p className="text-sm text-muted-foreground">No detailed data found for this course.</p>
-          ) : (
-            <div className="space-y-4 text-sm">
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <Card className="p-3 bg-input-background border-border">
-                  <p className="text-xs text-muted-foreground mb-1">Credits</p>
-                  <p className="text-foreground">{detailData.credits || "-"}</p>
-                </Card>
-                <Card className="p-3 bg-input-background border-border sm:col-span-2">
-                  <p className="text-xs text-muted-foreground mb-1">Gen Eds</p>
-                  <p className="text-foreground">{detailData.genEds.length > 0 ? detailData.genEds.join(", ") : "None listed"}</p>
-                </Card>
-              </div>
-
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Description</p>
-                <p className="text-foreground whitespace-pre-wrap">
-                  <LinkedCourseText
-                    text={detailData.description || "No description available."}
-                    onCourseClick={(code) => setDetailCode(code.toUpperCase())}
-                  />
-                </p>
-              </div>
-
-              <div>
-                <p className="text-xs text-muted-foreground mb-1">Prerequisites</p>
-                <p className="text-foreground whitespace-pre-wrap">
-                  <LinkedCourseText
-                    text={detailData.prereqs || "None listed."}
-                    onCourseClick={(code) => setDetailCode(code.toUpperCase())}
-                  />
-                </p>
-              </div>
+            <div className="cd-loading">
+              <div className="cd-loading-spinner" />
+              <p>Loading course details...</p>
             </div>
-          )}
+          ) : !detailData ? (
+            <div className="cd-loading">
+              <p>No detailed data found for this course.</p>
+            </div>
+          ) : (() => {
+            const courseStatus = detailCourse?.status;
+            const statusLabel = courseStatus === "completed" ? "Completed" : courseStatus === "in_progress" ? "In Progress" : courseStatus === "planned" ? "Planned" : null;
+            const statusClass = courseStatus === "completed" ? "cd-status-completed" : courseStatus === "in_progress" ? "cd-status-progress" : "cd-status-planned";
+            const courseGenEds = detailData.genEds.length > 0 ? detailData.genEds : [];
+            const courseReqLabels = getContributionLabelsForCourseCode(detailData.code, contributionMap);
+
+            return (
+              <div className="cd-content">
+                <div className="cd-header">
+                  <div className="cd-header-top">
+                    <span className={`cd-course-code ${statusClass}`}>{detailData.code}</span>
+                    {statusLabel && (
+                      <span className={`cd-badge ${statusClass}`}>{statusLabel}</span>
+                    )}
+                  </div>
+                  <h3 className="cd-course-title">{detailData.title}</h3>
+                  {detailTerm && (
+                    <p className="cd-term-label">{detailTerm.termLabel}</p>
+                  )}
+                </div>
+
+                <div className="cd-stats-row">
+                  <div className="cd-stat">
+                    <span className="cd-stat-value">{detailData.credits || "-"}</span>
+                    <span className="cd-stat-label">Credits</span>
+                  </div>
+                  {detailCourse?.sectionCode && (
+                    <div className="cd-stat">
+                      <span className="cd-stat-value">{toSectionDisplay(detailCourse.sectionCode)}</span>
+                      <span className="cd-stat-label">Section</span>
+                    </div>
+                  )}
+                  {detailCourse?.grade && (
+                    <div className="cd-stat">
+                      <span className="cd-stat-value">{detailCourse.grade}</span>
+                      <span className="cd-stat-label">Grade</span>
+                    </div>
+                  )}
+                </div>
+
+                {(courseGenEds.length > 0 || courseReqLabels.length > 0) && (
+                  <div className="cd-section">
+                    <h4 className="cd-section-title">Fulfills</h4>
+                    <div className="cd-tags">
+                      {courseGenEds.map((ge) => (
+                        <span key={ge} className="cd-tag cd-tag-gened">{ge}</span>
+                      ))}
+                      {courseReqLabels.map((label) => {
+                        const presentation = buildTagPresentation(label, false);
+                        return (
+                          <span key={label} className="cd-tag cd-tag-req" title={presentation.fullLabel}>
+                            {presentation.fullLabel}
+                          </span>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {detailData.description && (
+                  <div className="cd-section">
+                    <h4 className="cd-section-title">Description</h4>
+                    <p className="cd-body-text">
+                      <LinkedCourseText
+                        text={detailData.description}
+                        onCourseClick={(code) => {
+                          setDetailCourse(null);
+                          setDetailTerm(null);
+                          setDetailCode(code.toUpperCase());
+                        }}
+                      />
+                    </p>
+                  </div>
+                )}
+
+                {detailData.prereqs && (
+                  <div className="cd-section">
+                    <h4 className="cd-section-title">Prerequisites</h4>
+                    <p className="cd-body-text">
+                      <LinkedCourseText
+                        text={detailData.prereqs}
+                        onCourseClick={(code) => {
+                          setDetailCourse(null);
+                          setDetailTerm(null);
+                          setDetailCode(code.toUpperCase());
+                        }}
+                      />
+                    </p>
+                  </div>
+                )}
+
+                {!detailData.description && !detailData.prereqs && courseGenEds.length === 0 && courseReqLabels.length === 0 && (
+                  <div className="cd-section">
+                    <p className="cd-empty-text">No additional details available for this course.</p>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </DialogContent>
       </Dialog>
 

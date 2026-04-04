@@ -1483,3 +1483,245 @@
     flex-wrap: wrap;
   }
 }
+
+/* ─── Course Detail Dialog ─── */
+
+.cd-dialog {
+  max-width: 520px !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid rgba(55, 35, 25, 0.1) !important;
+  box-shadow:
+    0 8px 40px rgba(23, 18, 14, 0.12),
+    0 2px 12px rgba(23, 18, 14, 0.06) !important;
+  font-family: "DM Sans", sans-serif;
+}
+
+.cd-dialog .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.cd-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 48px 24px;
+  color: #7a6358;
+  font-size: 0.88rem;
+}
+
+.cd-loading-spinner {
+  width: 28px;
+  height: 28px;
+  border: 2.5px solid rgba(198, 40, 40, 0.15);
+  border-top-color: #c62828;
+  border-radius: 50%;
+  animation: cd-spin 0.7s linear infinite;
+}
+
+@keyframes cd-spin {
+  to { transform: rotate(360deg); }
+}
+
+.cd-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.cd-header {
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid rgba(55, 35, 25, 0.08);
+  background: #fdfaf5;
+}
+
+.cd-header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.cd-course-code {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cd-course-code.cd-status-completed { color: #c62828; }
+.cd-course-code.cd-status-progress  { color: #9c6e00; }
+.cd-course-code.cd-status-planned   { color: #90a4ae; }
+
+.cd-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+}
+
+.cd-badge.cd-status-completed {
+  background: rgba(198, 40, 40, 0.08);
+  color: #c62828;
+}
+
+.cd-badge.cd-status-progress {
+  background: rgba(249, 168, 37, 0.12);
+  color: #9c6e00;
+}
+
+.cd-badge.cd-status-planned {
+  background: rgba(144, 164, 174, 0.12);
+  color: #607d8b;
+}
+
+.cd-course-title {
+  font-family: "Playfair Display", serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #17120e;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.cd-term-label {
+  font-size: 0.82rem;
+  color: #7a6358;
+  margin-top: 4px;
+  font-weight: 400;
+}
+
+.cd-stats-row {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(55, 35, 25, 0.08);
+}
+
+.cd-stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 12px;
+  gap: 2px;
+  position: relative;
+}
+
+.cd-stat + .cd-stat::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: rgba(55, 35, 25, 0.08);
+}
+
+.cd-stat-value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #17120e;
+}
+
+.cd-stat-label {
+  font-size: 0.72rem;
+  color: #b09a8e;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cd-section {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(55, 35, 25, 0.06);
+}
+
+.cd-section:last-child {
+  border-bottom: none;
+  padding-bottom: 24px;
+}
+
+.cd-section-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #b09a8e;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 0 0 8px;
+}
+
+.cd-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cd-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.cd-tag-gened {
+  background: rgba(249, 168, 37, 0.1);
+  color: #9c6e00;
+  border: 1px solid rgba(249, 168, 37, 0.2);
+}
+
+.cd-tag-req {
+  background: rgba(198, 40, 40, 0.06);
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.12);
+}
+
+.cd-body-text {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: #3d2e26;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.cd-body-text button {
+  color: #c62828;
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: none;
+  border-bottom: 1px dashed rgba(198, 40, 40, 0.35);
+  transition: border-color 0.15s;
+}
+
+.cd-body-text button:hover {
+  border-bottom-color: #c62828;
+}
+
+.cd-empty-text {
+  font-size: 0.88rem;
+  color: #b09a8e;
+  text-align: center;
+  padding: 8px 0;
+  margin: 0;
+}
