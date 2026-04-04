@@ -328,10 +328,11 @@ export const useCoursePlannerStore = create<CoursePlannerState>((set, get) => ({
       set((state) => ({
         searchResults: results.map((result) => {
           const existing = state.searchResults.find((course) => course.courseCode === result.courseCode);
+          const sameTerm = existing?.term === result.term && existing?.year === result.year;
           if ((result.sections?.length ?? 0) > 0) {
             return result;
           }
-          if ((existing?.sections?.length ?? 0) > 0) {
+          if (sameTerm && (existing?.sections?.length ?? 0) > 0) {
             return {
               ...result,
               sections: existing.sections,

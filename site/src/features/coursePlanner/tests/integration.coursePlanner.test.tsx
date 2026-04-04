@@ -3,6 +3,7 @@ import { act, fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { CoursePlannerPage } from "../CoursePlannerPage";
 import { useCoursePlannerStore } from "../state/coursePlannerStore";
+import { searchCoursesWithStrategy } from "../services/courseSearchService";
 
 vi.mock("../services/courseSearchService", () => ({
   getDepartments: vi.fn(async () => [
@@ -210,6 +211,85 @@ describe("course planner integration", () => {
 
     expect((await screen.findAllByTestId("class-block-CMSC131::0101")).length).toBeGreaterThan(0);
     expect((await screen.findAllByTestId("class-block-MATH140::0101")).length).toBeGreaterThan(0);
+  });
+
+  it("does not carry section rows between different terms for the same course", async () => {
+    const mockedSearch = vi.mocked(searchCoursesWithStrategy);
+
+    mockedSearch.mockResolvedValueOnce([
+      {
+        id: "CMSC330-202608",
+        courseCode: "CMSC330",
+        name: "Algorithms",
+        deptId: "CMSC",
+        credits: 3,
+        minCredits: 3,
+        maxCredits: 3,
+        genEds: [],
+        term: "08",
+        year: 2026,
+        sections: [
+          {
+            id: "CMSC330-0101",
+            courseCode: "CMSC330",
+            sectionCode: "0101",
+            instructor: "Fall Instructor",
+            instructors: ["Fall Instructor"],
+            totalSeats: 40,
+            openSeats: 10,
+            meetings: [{ days: "MWF", startTime: "9:00am", endTime: "9:50am", location: "IRB 0324" }],
+          },
+        ],
+      },
+    ] as never[]);
+
+    mockedSearch.mockResolvedValueOnce([
+      {
+        id: "CMSC330-202701",
+        courseCode: "CMSC330",
+        name: "Algorithms",
+        deptId: "CMSC",
+        credits: 3,
+        minCredits: 3,
+        maxCredits: 3,
+        genEds: [],
+        term: "01",
+        year: 2027,
+        sections: [],
+      },
+    ] as never[]);
+
+    useCoursePlannerStore.setState((state) => ({
+      ...state,
+      searchInput: "cmsc330",
+      normalizedInput: "CMSC330",
+      searchResults: [],
+      searchPending: false,
+      searchError: undefined,
+      term: "08",
+      year: 2026,
+      resolvedTerm: "08",
+      resolvedYear: 2026,
+      filters: {
+        ...state.filters,
+        searchTerm: "",
+      },
+    }));
+
+    await act(async () => {
+      await useCoursePlannerStore.getState().executeSearch();
+    });
+
+    expect(useCoursePlannerStore.getState().searchResults[0]?.sections).toHaveLength(1);
+
+    await act(async () => {
+      useCoursePlannerStore.getState().setCatalogTerm("01", 2027);
+      await useCoursePlannerStore.getState().executeSearch();
+    });
+
+    expect(useCoursePlannerStore.getState().searchResults[0]?.term).toBe("01");
+    expect(useCoursePlannerStore.getState().searchResults[0]?.year).toBe(2027);
+    expect(useCoursePlannerStore.getState().searchResults[0]?.sections).toHaveLength(0);
   });
 
   it("print mode hides search panel", async () => {
