@@ -7,6 +7,7 @@ import {
   type NotificationRecord,
 } from "@/lib/repositories/notificationsRepository";
 import { loadNotificationPreferences } from "@/lib/repositories/notificationPreferencesRepository";
+import { toast } from "sonner";
 
 const PREF_KEY_BY_TYPE: Record<NotificationType, keyof NotificationPreferences> = {
   registration_window: "notifyRegistrationWindow",
@@ -24,6 +25,7 @@ export interface NotificationEventInput {
   metadata?: Record<string, unknown>;
   dedupeScope?: string;
   dedupeKey?: string;
+  emitToast?: boolean;
 }
 
 export type NotificationEventStatus = "created" | "duplicate" | "skipped";
@@ -58,6 +60,20 @@ function buildDedupeKey(input: NotificationEventInput): string {
   return [input.type, scope, input.title.trim(), input.message?.trim() ?? "", metadataKey].join("::");
 }
 
+function emitToastForNotification(type: NotificationType, title: string, message?: string): void {
+  if (type === "drop_deadlines" || type === "registration_window") {
+    toast.warning(title, { description: message });
+    return;
+  }
+
+  if (type === "graduation_gaps" || type === "seat_availability" || type === "waitlist_movement") {
+    toast.info(title, { description: message });
+    return;
+  }
+
+  toast.success(title, { description: message });
+}
+
 export async function ingestNotificationEvent(input: NotificationEventInput): Promise<NotificationEventResult> {
   const dedupeKey = buildDedupeKey(input);
 
@@ -90,6 +106,10 @@ export async function ingestNotificationEvent(input: NotificationEventInput): Pr
     metadata: input.metadata,
     dedupeKey,
   });
+
+  if (created.created && input.emitToast !== false) {
+    emitToastForNotification(input.type, input.title, input.message);
+  }
 
   return {
     status: created.created ? "created" : "duplicate",

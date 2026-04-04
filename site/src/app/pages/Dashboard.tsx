@@ -28,6 +28,11 @@ interface TermSummary {
   credits: number;
 }
 
+interface TermCalendarWindow {
+  startsOn: string | null;
+  endsOn: string | null;
+}
+
 interface RequirementItem {
   name: string;
   detail: string;
@@ -92,6 +97,17 @@ function statusRank(status: AuditCourseStatus): number {
 
 function formatTermLabel(termCode: string, termYear: number): string {
   return `${TERM_NAME[termCode] ?? "Term"} ${termYear}`;
+}
+
+function buildUmdTermCode(term: Pick<TermSummary, "code" | "year">): string {
+  return `${term.year}${term.code}`;
+}
+
+function daysUntilDate(dateValue: string, now: Date = new Date()): number {
+  const target = new Date(dateValue);
+  if (Number.isNaN(target.valueOf())) return Number.POSITIVE_INFINITY;
+  const millisPerDay = 24 * 60 * 60 * 1000;
+  return Math.ceil((target.getTime() - now.getTime()) / millisPerDay);
 }
 
 function getPercent(completed: number, total: number): number {
@@ -315,6 +331,78 @@ export default function Dashboard() {
         }
 
         termRows.sort((a, b) => (a.year * 10 + Number(a.code)) - (b.year * 10 + Number(b.code)));
+
+        const termCodes = Array.from(new Set(termRows.map((term) => buildUmdTermCode(term))));
+        const termCalendarByCode = new Map<string, TermCalendarWindow>();
+        if (!demo && termCodes.length > 0) {
+          const { data: termCalendarRows } = await supabase
+            .from("terms")
+            .select("umd_term_code, starts_on, ends_on")
+            .in("umd_term_code", termCodes);
+
+          for (const row of termCalendarRows ?? []) {
+            const key = String(row.umd_term_code ?? "");
+            if (!key) continue;
+            termCalendarByCode.set(key, {
+              startsOn: row.starts_on ? String(row.starts_on) : null,
+              endsOn: row.ends_on ? String(row.ends_on) : null,
+            });
+          }
+        }
+
+        const upcomingRegistrationCandidate = termRows
+          .filter((term) => term.status === "planned")
+          .map((term) => {
+            const key = buildUmdTermCode(term);
+            const window = termCalendarByCode.get(key);
+            const daysUntilStart = window?.startsOn ? daysUntilDate(window.startsOn) : Number.POSITIVE_INFINITY;
+            return { term, key, startsOn: window?.startsOn ?? null, daysUntilStart };
+          })
+          .filter((candidate) => candidate.startsOn && candidate.daysUntilStart >= 0 && candidate.daysUntilStart <= 14)
+          .sort((left, right) => left.daysUntilStart - right.daysUntilStart)[0];
+
+        if (upcomingRegistrationCandidate) {
+          const { term, key, startsOn, daysUntilStart } = upcomingRegistrationCandidate;
+          const dueLabel = daysUntilStart === 0 ? "today" : `in ${daysUntilStart} day${daysUntilStart === 1 ? "" : "s"}`;
+          void ingestNotificationEvent({
+            type: "registration_window",
+            title: `Registration window opens ${dueLabel}`,
+            message: `${term.label} begins on ${new Date(startsOn!).toLocaleDateString()}. Finalize your schedule before registration starts.`,
+            dedupeScope: `registration-window-${key}`,
+            metadata: {
+              termCode: key,
+              startsOn,
+              daysUntilStart,
+            },
+          });
+        }
+
+        const dropDeadlineCandidate = termRows
+          .filter((term) => term.status === "in_progress")
+          .map((term) => {
+            const key = buildUmdTermCode(term);
+            const window = termCalendarByCode.get(key);
+            const daysUntilEnd = window?.endsOn ? daysUntilDate(window.endsOn) : Number.POSITIVE_INFINITY;
+            return { term, key, endsOn: window?.endsOn ?? null, daysUntilEnd };
+          })
+          .filter((candidate) => candidate.endsOn && candidate.daysUntilEnd >= 0 && candidate.daysUntilEnd <= 21)
+          .sort((left, right) => left.daysUntilEnd - right.daysUntilEnd)[0];
+
+        if (dropDeadlineCandidate) {
+          const { term, key, endsOn, daysUntilEnd } = dropDeadlineCandidate;
+          const dueLabel = daysUntilEnd === 0 ? "today" : `in ${daysUntilEnd} day${daysUntilEnd === 1 ? "" : "s"}`;
+          void ingestNotificationEvent({
+            type: "drop_deadlines",
+            title: `Drop/withdraw deadline window is ${dueLabel}`,
+            message: `${term.label} ends on ${new Date(endsOn!).toLocaleDateString()}. Review course load and deadlines now.`,
+            dedupeScope: `drop-deadline-${key}`,
+            metadata: {
+              termCode: key,
+              endsOn,
+              daysUntilEnd,
+            },
+          });
+        }
 
         const bundles = await loadProgramRequirementBundles(programs);
         const byCourseStatus = new Map<string, AuditCourseStatus>();
