@@ -161,15 +161,6 @@
     }
   }
 
-  @media print {
-    #root {
-      zoom: 1;
-      transform: none;
-      width: 100%;
-      min-height: auto;
-    }
-  }
-
   h1 {
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);

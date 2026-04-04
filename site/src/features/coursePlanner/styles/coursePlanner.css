@@ -1118,37 +1118,6 @@
   }
 }
 
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  .cp-calendar,
-  .cp-calendar * {
-    visibility: visible;
-  }
-
-  .cp-search-panel,
-  .cp-builder-header,
-  .topbar,
-  nav,
-  aside,
-  .sidebar,
-  .cp-class-remove {
-    display: none !important;
-  }
-
-  .course-planner-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .cp-calendar {
-    border: 0;
-    width: 100%;
-    page-break-inside: avoid;
-  }
-}
-
 .cp-library-root {
   display: grid;
   gap: 12px;

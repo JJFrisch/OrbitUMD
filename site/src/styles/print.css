@@ -1,0 +1,462 @@
+/* ═══════════════════════════════════════════════════════════════
+   OrbitUMD – Print / PDF Stylesheet
+   Clean, branded output for degree audits and schedules.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Global Print Reset ── */
+
+@media print {
+  @page {
+    size: letter;
+    margin: 0.6in 0.5in 0.8in;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
+    font-size: 11px !important;
+    line-height: 1.45 !important;
+    color: #1a1a1a !important;
+    background: #fff !important;
+  }
+
+  #root {
+    zoom: 1 !important;
+    transform: none !important;
+    width: 100% !important;
+    min-height: auto !important;
+  }
+
+  /* ── Hide app chrome ── */
+
+  .orbit-sidebar,
+  .orbit-shell > .orbit-sidebar,
+  .no-print,
+  .sidebar-collapse-btn,
+  [data-slot="sidebar"],
+  [data-slot="sidebar-wrapper"] > [data-slot="sidebar"] {
+    display: none !important;
+  }
+
+  .orbit-shell {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .orbit-shell > *:not(.orbit-sidebar) {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .orbit-shell main {
+    overflow: visible !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  /* ── OrbitUMD Print Header (injected via JS) ── */
+
+  .orbit-print-header {
+    display: flex !important;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #C62828;
+  }
+
+  .orbit-print-header svg {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+
+  .orbit-print-header-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .orbit-print-header-title {
+    font-family: "Playfair Display", serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #C62828;
+    letter-spacing: -0.01em;
+  }
+
+  .orbit-print-header-title span {
+    color: #1a1a1a;
+  }
+
+  .orbit-print-header-sub {
+    font-size: 9px;
+    color: #888;
+    margin-top: 1px;
+  }
+
+  /* ── OrbitUMD Print Footer ── */
+
+  .orbit-print-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 0;
+    border-top: 1px solid #ddd;
+    font-size: 8px;
+    color: #999;
+    text-align: center;
+  }
+
+  /* ── Page-break utilities ── */
+
+  .print-break-before {
+    break-before: page !important;
+    page-break-before: always !important;
+  }
+
+  .print-break-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* ── Degree Audit V2 Print ── */
+
+  .da2-page {
+    padding: 0 !important;
+    background: #fff !important;
+    font-size: 11px !important;
+    height: auto !important;
+    min-height: auto !important;
+  }
+
+  .da2-page::before {
+    display: none !important;
+  }
+
+  .da2-main {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .da2-topbar {
+    display: none !important;
+  }
+
+  .da2-content {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .da2-left-panel {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .da2-right-panel {
+    display: none !important;
+  }
+
+  /* Summary card */
+  .da2-summary-card {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    background: #fafafa !important;
+    box-shadow: none !important;
+    margin-bottom: 16px !important;
+    break-inside: avoid !important;
+  }
+
+  .da2-summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)) !important;
+  }
+
+  .da2-summary-item {
+    border-color: #eee !important;
+  }
+
+  .da2-summary-label {
+    color: #666 !important;
+  }
+
+  .da2-summary-value {
+    color: #1a1a1a !important;
+  }
+
+  .da2-summary-value-red {
+    color: #C62828 !important;
+  }
+
+  /* Credit overview */
+  .da2-credit-overview {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    break-inside: avoid !important;
+    margin-bottom: 12px !important;
+  }
+
+  .da2-credit-progress {
+    background: #f0f0f0 !important;
+    height: 10px !important;
+    border-radius: 5px !important;
+  }
+
+  .da2-credit-segment-completed {
+    background: #4caf50 !important;
+  }
+
+  .da2-credit-segment-in-progress {
+    background: #ff9800 !important;
+  }
+
+  .da2-credit-segment-planned {
+    background: #2196f3 !important;
+  }
+
+  /* Program shells */
+  .da2-program-shell {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    break-inside: avoid !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid !important;
+  }
+
+  .da2-ps-header {
+    border-bottom: 1px solid #eee !important;
+  }
+
+  .da2-ps-type {
+    font-size: 9px !important;
+  }
+
+  .da2-ps-prog-bar {
+    background: #f0f0f0 !important;
+  }
+
+  /* Requirement sections */
+  .da2-logic-group {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  .da2-logic-bracket::before {
+    color: #999 !important;
+  }
+
+  .da2-selector-card,
+  .da2-program-section,
+  .da2-overflow-section,
+  .da2-sidebar-card,
+  .da2-sidebar-note {
+    border-color: #ddd !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  /* ── Degree Audit V1 Print (legacy) ── */
+
+  .degree-audit-page {
+    padding: 0 !important;
+  }
+
+  .degree-audit-page .max-w-7xl {
+    max-width: none !important;
+    width: 100% !important;
+  }
+
+  .degree-audit-page,
+  .degree-audit-page * {
+    text-shadow: none !important;
+  }
+
+  .degree-audit-page .degree-audit-table {
+    table-layout: fixed;
+    width: 100% !important;
+    font-size: 10px !important;
+  }
+
+  .degree-audit-page .degree-audit-table th,
+  .degree-audit-page .degree-audit-table td {
+    white-space: normal !important;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    vertical-align: top;
+  }
+
+  .degree-audit-page .degree-audit-table th:last-child,
+  .degree-audit-page .degree-audit-table td:last-child {
+    display: none;
+  }
+
+  .degree-audit-page .degree-audit-table button {
+    border-color: #999 !important;
+    background: transparent !important;
+  }
+
+  .degree-audit-page .degree-audit-program-slider {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .degree-audit-page .degree-audit-program-slide {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  .degree-audit-page .degree-audit-program-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 16px;
+  }
+
+  .degree-audit-page .degree-audit-program-card.print-break-before {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .degree-audit-page .degree-audit-chip-button {
+    display: none !important;
+  }
+
+  .degree-audit-page .degree-audit-chip-print {
+    display: inline !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .degree-audit-page .bg-card,
+  .degree-audit-page .bg-input-background,
+  .degree-audit-page .bg-muted,
+  .degree-audit-page [class*="bg-"] {
+    background: #fff !important;
+  }
+
+  /* ── Schedule Print ── */
+
+  .course-planner-root,
+  .cp-view-root {
+    height: auto !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+
+  .cp-view-header,
+  .cp-view-subheader,
+  .cp-view-list-panel,
+  .cp-view-preview-actions,
+  .cp-view-card-action-btn,
+  .cp-view-card-actions,
+  .cp-view-card-dbl-hint,
+  .cp-view-preview-edit-btn,
+  .cp-view-preview-ghost-btn,
+  .cp-builder-header,
+  .cp-search-panel,
+  .cp-class-remove,
+  .topbar {
+    display: none !important;
+  }
+
+  .cp-view-layout {
+    display: block !important;
+  }
+
+  .cp-view-preview-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .cp-view-preview-head {
+    margin-bottom: 8px;
+    break-inside: avoid;
+  }
+
+  .cp-view-preview-head .cp-view-preview-actions {
+    display: none !important;
+  }
+
+  .cp-view-preview-title h3 {
+    font-size: 14px !important;
+    color: #1a1a1a !important;
+  }
+
+  .cp-view-credits-bar {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    background: #fafafa !important;
+    box-shadow: none !important;
+    margin-bottom: 12px !important;
+    break-inside: avoid !important;
+  }
+
+  .cp-view-cr-track {
+    background: #f0f0f0 !important;
+  }
+
+  .course-planner-layout {
+    grid-template-columns: 1fr !important;
+  }
+
+  .cp-calendar {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    width: 100% !important;
+    page-break-inside: avoid !important;
+  }
+
+  .cp-calendar-preview {
+    border: 1px solid #ddd !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+  }
+
+  .cp-view-preview-body {
+    overflow: visible !important;
+  }
+
+  /* Schedule course blocks – keep colors */
+  .cp-block {
+    border: 1px solid rgba(0, 0, 0, 0.15) !important;
+    box-shadow: none !important;
+  }
+
+  /* ── Hide on screen, show in print ── */
+
+  .orbit-print-header,
+  .orbit-print-footer {
+    display: none;
+  }
+
+  /* ── General cleanup ── */
+
+  a[href]::after {
+    content: none !important;
+  }
+
+  button:not(.orbit-print-trigger) {
+    box-shadow: none !important;
+  }
+
+  /* Scrollbar removal */
+  *::-webkit-scrollbar {
+    display: none !important;
+  }
+}

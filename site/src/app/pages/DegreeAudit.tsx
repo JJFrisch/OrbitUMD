@@ -16,6 +16,7 @@ import {
 import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
 import { toast } from "sonner";
+import { printPage } from "@/lib/printPage";
 import { plannerApi } from "@/lib/api/planner";
 import { listUserDegreePrograms, loadCsSpecializationPreference, saveCsSpecializationPreference, type UserDegreeProgram } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
@@ -3022,7 +3023,7 @@ export default function DegreeAudit() {
   }, [programAudits, summary]);
 
   const handlePrintDegreeAudit = () => {
-    window.print();
+    printPage("Degree Audit");
   };
 
   const handleEmailDegreeAudit = () => {

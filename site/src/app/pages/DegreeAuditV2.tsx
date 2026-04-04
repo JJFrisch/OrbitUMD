@@ -15,6 +15,7 @@ import { CourseRowDisplay } from "../components/CourseRowDisplay";
 import { CourseDetailsPopup } from "../components/CourseDetailsPopup";
 import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
 import { toast } from "sonner";
+import { printPage } from "@/lib/printPage";
 import { plannerApi } from "@/lib/api/planner";
 import {
   addUserDegreeProgramFromCatalogOption,
@@ -3308,7 +3309,7 @@ export default function DegreeAudit() {
   }, [programAudits, summary]);
 
   const handlePrintDegreeAudit = () => {
-    window.print();
+    printPage("Degree Audit");
   };
 
   const handleEmailDegreeAudit = () => {
