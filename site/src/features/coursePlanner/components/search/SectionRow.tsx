@@ -23,25 +23,11 @@ export function SectionRow({ course, section }: SectionRowProps) {
   const setHoveredSection = useCoursePlannerStore((state) => state.setHoveredSection);
   const instructorLookup = useCoursePlannerStore((state) => state.instructorLookup);
   const readOnly = useCoursePlannerStore((state) => state.readOnly);
-  const resolvedTerm = useCoursePlannerStore((state) => state.resolvedTerm);
-  const resolvedYear = useCoursePlannerStore((state) => state.resolvedYear);
 
   const key = useMemo(() => getSectionIdentityKey(course.courseCode, section.sectionCode), [course.courseCode, section.sectionCode]);
   const meetings = useMemo(() => dedupeMeetings(section.meetings), [section.meetings]);
   const isSelected = Boolean(selections[key]);
   const isOpen = section.openSeats > 0;
-  const termLabel = resolvedTerm === "01"
-    ? "Spring"
-    : resolvedTerm === "05"
-      ? "Summer"
-      : resolvedTerm === "08"
-        ? "Fall"
-        : resolvedTerm === "12"
-          ? "Winter"
-          : "Term";
-  const sourceLabel = (section.sources && section.sources.length > 0)
-    ? section.sources.join("+").toUpperCase()
-    : "UNKNOWN";
 
   return (
     <div
@@ -107,9 +93,6 @@ export function SectionRow({ course, section }: SectionRowProps) {
       </div>
       <div>
         <span>{meetings[0]?.days || "Other"}</span>
-        <span className="cp-debug-source-badge" title="Debug source and term marker">
-          {sourceLabel} - {termLabel} {resolvedYear}
-        </span>
       </div>
     </div>
   );
