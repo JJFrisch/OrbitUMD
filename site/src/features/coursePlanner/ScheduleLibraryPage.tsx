@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
-import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Info, Plus, Star, Trash2, X } from "lucide-react";
+import { ArrowUpDown, BookOpen, Calendar, Check, Clock, Edit2, Info, Plus, Printer, Star, Trash2, X } from "lucide-react";
+import { printPage } from "@/lib/printPage";
 import { plannerApi } from "@/lib/api/planner";
 import { compareAcademicTerms, getAcademicProgressStatus } from "@/lib/scheduling/termProgress";
 import { fetchTerms } from "@/lib/api/umdCourses";
@@ -778,6 +779,13 @@ export function ScheduleLibraryPage({
                       Set as Main
                     </button>
                   )}
+                  <button
+                    type="button"
+                    className="cp-view-preview-ghost-btn no-print"
+                    onClick={() => printPage(`Schedule — ${previewSchedule.name}`)}
+                  >
+                    <Printer size={12} /> Print / PDF
+                  </button>
                   <button
                     type="button"
                     className="cp-view-preview-edit-btn"
