@@ -1,14 +1,14 @@
 # OrbitUMD
 
-OrbitUMD is an academic planning platform for University of Maryland students that unifies schedule building, long‑term degree planning, and requirement tracking into a single, integrated tool.
+OrbitUMD is an academic planning platform for University of Maryland students that unifies schedule building, long-term degree planning, course timings, and requirement tracking into a single tool. Orbit aims to make academic planning more accessible and engaging, and to help students feel excited about choosing their educational journey.
 
 Unlike the current fragmented ecosystem:
 
-- Jupiterp (single-term visualization)
+- Jupiterp (single schedule term visualization)
 - Venus (schedule generation)
 - Testudo’s unofficial degree audit (UAchieve)
 
-OrbitUMD is designed for **multi-year**, exploratory planning across majors and minors, with dynamic requirement tracking and rich data pipelines behind the scenes.
+OrbitUMD is designed for **multi-year**, exploratory planning across majors and minors, with dynamic requirement tracking and rich data pipelines to connect everything and make students' lives easier.
 
 You can try the current version here:  
 [https://jjfrisch.github.io/OrbitUMD/](https://jjfrisch.github.io/OrbitUMD/)
@@ -29,8 +29,9 @@ OrbitUMD aims to:
 
 - Centralize academic planning across multiple years.
 - Make degree paths and tradeoffs transparent.
-- Support students who are undecided between majors/minors.
+- Support students who are undecided between majors/minors, or looking to switch.
 - Encourage proactive, engaged planning rather than one‑off schedule building.
+- 
 
 ---
 
