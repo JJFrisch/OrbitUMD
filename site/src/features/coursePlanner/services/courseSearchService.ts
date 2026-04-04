@@ -86,18 +86,8 @@ async function resolveSeasonFallbackTerm(term: string, year: number, signal?: Ab
         return candidates[0];
       }
 
-      // If no exact season exists yet (common for projected terms), use the latest
-      // available semester up to the requested year so users can still search/generate.
-      const latestAvailable = [...parsedSemesters].sort((left, right) => {
-        if (left.year !== right.year) {
-          return right.year - left.year;
-        }
-        return Number(right.term) - Number(left.term);
-      })[0];
-
-      if (latestAvailable) {
-        return latestAvailable;
-      }
+      // Only reuse data from the same season. Crossing spring/fall here causes
+      // course search and section lookup to blend incompatible semesters.
     } catch {
       // Keep requested term/year when semester discovery fails.
     }
