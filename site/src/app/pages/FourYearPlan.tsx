@@ -33,7 +33,7 @@ import { getAcademicProgressStatus, compareAcademicTerms, type AcademicProgressS
 import { calculateTranscriptGPAHistory } from "@/lib/transcripts/gpa";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { resolvePriorCreditCourseCodes } from "@/lib/requirements/priorCreditLabels";
-import { fetchCourseSections, searchCourses } from "@/lib/api/umdCourses";
+import { fetchCourseSections, fetchTerms, searchCourses } from "@/lib/api/umdCourses";
 import type { UmdCourseSummary, UmdSection, UmdSectionMeeting } from "@/lib/types/course";
 import { isUnspecifiedSectionCode } from "@/features/coursePlanner/utils/sectionLabels";
 import "./four-year-plan-template.css";
@@ -104,6 +104,78 @@ function normalizeGradeValue(grade: string | undefined): string | undefined {
 
 function formatTermLabel(termCode: string, termYear: number): string {
   return `${TERM_NAME[termCode] ?? "Term"} ${termYear}`;
+}
+
+function parseAcademicTermCode(termCodeInput: string): { termCode: string; termYear: number } | null {
+  const match = String(termCodeInput).match(/^(20\d{2})(\d{2})$/);
+  if (!match) {
+    return null;
+  }
+
+  return {
+    termYear: Number(match[1]),
+    termCode: match[2],
+  };
+}
+
+type LookupTermResolution = {
+  requestedTermCode: string;
+  resolvedTermCode: string;
+  requestedLabel: string;
+  resolvedLabel: string;
+  isPredicted: boolean;
+};
+
+function resolveLookupTermCode(
+  requestedTermCode: string,
+  availableTermCodes: readonly string[],
+): LookupTermResolution {
+  const parsedRequested = parseAcademicTermCode(requestedTermCode);
+  if (!parsedRequested) {
+    return {
+      requestedTermCode,
+      resolvedTermCode: requestedTermCode,
+      requestedLabel: requestedTermCode,
+      resolvedLabel: requestedTermCode,
+      isPredicted: false,
+    };
+  }
+
+  if (availableTermCodes.includes(requestedTermCode)) {
+    return {
+      requestedTermCode,
+      resolvedTermCode: requestedTermCode,
+      requestedLabel: formatTermLabel(parsedRequested.termCode, parsedRequested.termYear),
+      resolvedLabel: formatTermLabel(parsedRequested.termCode, parsedRequested.termYear),
+      isPredicted: false,
+    };
+  }
+
+  const sameSeasonMatches = availableTermCodes
+    .map((code) => parseAcademicTermCode(code))
+    .filter((term): term is { termCode: string; termYear: number } => Boolean(term))
+    .filter((term) => term.termCode === parsedRequested.termCode && term.termYear <= parsedRequested.termYear)
+    .sort((left, right) => right.termYear - left.termYear);
+
+  const bestMatch = sameSeasonMatches[0];
+  if (!bestMatch) {
+    return {
+      requestedTermCode,
+      resolvedTermCode: requestedTermCode,
+      requestedLabel: formatTermLabel(parsedRequested.termCode, parsedRequested.termYear),
+      resolvedLabel: formatTermLabel(parsedRequested.termCode, parsedRequested.termYear),
+      isPredicted: false,
+    };
+  }
+
+  const resolvedTermCode = `${bestMatch.termYear}${bestMatch.termCode}`;
+  return {
+    requestedTermCode,
+    resolvedTermCode,
+    requestedLabel: formatTermLabel(parsedRequested.termCode, parsedRequested.termYear),
+    resolvedLabel: formatTermLabel(bestMatch.termCode, bestMatch.termYear),
+    isPredicted: resolvedTermCode !== requestedTermCode,
+  };
 }
 
 function dedupeSectionMeetings(meetings: UmdSectionMeeting[]): UmdSectionMeeting[] {
@@ -451,6 +523,9 @@ export default function FourYearPlan() {
   const [dragOverTermId, setDragOverTermId] = useState<string | null>(null);
   const [dragOverInsertIndex, setDragOverInsertIndex] = useState<number | null>(null);
   const [movingCourseKey, setMovingCourseKey] = useState<string | null>(null);
+  const [availableLookupTermCodes, setAvailableLookupTermCodes] = useState<string[]>([]);
+  const [showPredictionInfo, setShowPredictionInfo] = useState(false);
+  const [changeSectionLookupResolution, setChangeSectionLookupResolution] = useState<LookupTermResolution | null>(null);
   const courseMenuRef = useRef<HTMLDivElement | null>(null);
   const addCourseLookupRequestIdRef = useRef(0);
 
@@ -508,6 +583,31 @@ export default function FourYearPlan() {
       active = false;
     };
   }, [detailCode]);
+
+  useEffect(() => {
+    let active = true;
+
+    const run = async () => {
+      try {
+        const terms = await fetchTerms();
+        if (!active) {
+          return;
+        }
+
+        const codes = Array.from(new Set(terms.map((term) => term.code)));
+        setAvailableLookupTermCodes(codes);
+      } catch {
+        if (active) {
+          setAvailableLookupTermCodes([]);
+        }
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (!courseMenuTarget) {
@@ -585,6 +685,7 @@ export default function FourYearPlan() {
     if (!changeSectionTarget || changeSectionTarget.term.source !== "schedule") {
       setAvailableSections([]);
       setSectionLookupPending(false);
+      setChangeSectionLookupResolution(null);
       return;
     }
 
@@ -592,8 +693,13 @@ export default function FourYearPlan() {
     const run = async () => {
       setSectionLookupPending(true);
       try {
-        const termCode = `${changeSectionTarget.term.termYear}${changeSectionTarget.term.termCode}`;
-        const sections = await fetchCourseSections(termCode, changeSectionTarget.course.code);
+        const requestedTermCode = `${changeSectionTarget.term.termYear}${changeSectionTarget.term.termCode}`;
+        const lookupResolution = resolveLookupTermCode(requestedTermCode, availableLookupTermCodes);
+        if (active) {
+          setChangeSectionLookupResolution(lookupResolution);
+        }
+
+        const sections = await fetchCourseSections(lookupResolution.resolvedTermCode, changeSectionTarget.course.code);
         if (!active) return;
         setAvailableSections(sections);
       } catch (error) {
@@ -630,10 +736,11 @@ export default function FourYearPlan() {
     const timeout = window.setTimeout(() => {
       const requestId = addCourseLookupRequestIdRef.current + 1;
       addCourseLookupRequestIdRef.current = requestId;
-      const termCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+      const requestedTermCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+      const lookupResolution = resolveLookupTermCode(requestedTermCode, availableLookupTermCodes);
       setAddCourseSearchPending(true);
 
-      void searchCourses({ termCode, query, pageSize: 60 })
+      void searchCourses({ termCode: lookupResolution.resolvedTermCode, query, pageSize: 60 })
         .then((results) => {
           if (addCourseLookupRequestIdRef.current !== requestId) {
             return;
@@ -656,7 +763,15 @@ export default function FourYearPlan() {
     return () => {
       window.clearTimeout(timeout);
     };
-  }, [addCourseQuery, addCourseTerm]);
+  }, [addCourseQuery, addCourseTerm, availableLookupTermCodes]);
+
+  const addCourseLookupResolution = useMemo(() => {
+    if (!addCourseTerm || addCourseTerm.source !== "schedule") {
+      return null;
+    }
+    const requestedTermCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+    return resolveLookupTermCode(requestedTermCode, availableLookupTermCodes);
+  }, [addCourseTerm, availableLookupTermCodes]);
 
   const academicGpaHistory = useMemo(() => {
     const completedScheduleGrades = mainSchedules.flatMap((schedule) => {
@@ -1162,10 +1277,11 @@ export default function FourYearPlan() {
 
     const requestId = addCourseLookupRequestIdRef.current + 1;
     addCourseLookupRequestIdRef.current = requestId;
-    const termCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+    const requestedTermCode = `${addCourseTerm.termYear}${addCourseTerm.termCode}`;
+    const lookupResolution = resolveLookupTermCode(requestedTermCode, availableLookupTermCodes);
     setAddCourseSearchPending(true);
     try {
-      const results = await searchCourses({ termCode, query, pageSize: 60 });
+      const results = await searchCourses({ termCode: lookupResolution.resolvedTermCode, query, pageSize: 60 });
       if (addCourseLookupRequestIdRef.current !== requestId) {
         return;
       }
@@ -2078,6 +2194,7 @@ export default function FourYearPlan() {
           setAddCourseResults([]);
           setAddCourseSearchPending(false);
           setReplaceCourseTarget(null);
+          setShowPredictionInfo(false);
         }
       }}>
         <DialogContent className="fyp-plan-dialog max-w-2xl max-h-[85vh] overflow-y-auto">
@@ -2091,6 +2208,26 @@ export default function FourYearPlan() {
                 : "Search by course code or title. Added courses will be saved to this MAIN schedule with an undetermined section."}
             </DialogDescription>
           </DialogHeader>
+
+          {addCourseTerm && (
+            <section className="add-course-hero" aria-label="Course search term details">
+              <div className="add-course-hero-top">
+                <p className="add-course-hero-label">Searching catalog for</p>
+                <span className="add-course-term-pill">{addCourseTerm.termLabel}</span>
+              </div>
+              <p className="add-course-hero-copy">
+                Course matches are saved into your MAIN plan for this term. You can change sections later after adding a course.
+              </p>
+              {addCourseLookupResolution?.isPredicted && (
+                <div className="add-course-disclaimer" role="note">
+                  <Info size={14} />
+                  <p>
+                    Results are <button type="button" className="add-course-disclaimer-link" onClick={() => setShowPredictionInfo(true)}>predicted</button> using {addCourseLookupResolution.resolvedLabel} because official {addCourseLookupResolution.requestedLabel} offerings are not published yet.
+                  </p>
+                </div>
+              )}
+            </section>
+          )}
 
           <div className="add-course-lookup">
             <div className="add-course-lookup-row">
@@ -2120,7 +2257,7 @@ export default function FourYearPlan() {
                 }}
                 disabled={addCourseSearchPending}
               >
-                Refresh
+                {addCourseSearchPending ? "Searching..." : "Refresh"}
               </button>
             </div>
 
@@ -2138,7 +2275,9 @@ export default function FourYearPlan() {
                     ? "Searching courses..."
                     : addCourseQuery.trim().length < 2
                       ? "Type at least 2 characters to search courses."
-                      : "No matching courses found for this query."}
+                      : addCourseLookupResolution?.isPredicted
+                        ? `No matching courses found in predicted ${addCourseLookupResolution.resolvedLabel} offerings.`
+                        : "No matching courses found for this query."}
                 </p>
               ) : (
                 addCourseResults.map((course) => {
@@ -2180,6 +2319,7 @@ export default function FourYearPlan() {
           setAvailableSections([]);
           setSectionLookupPending(false);
           setUpdatingSectionCode(null);
+          setChangeSectionLookupResolution(null);
         }
       }}>
         <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
@@ -2191,6 +2331,15 @@ export default function FourYearPlan() {
                 : "Choose a section."}
             </DialogDescription>
           </DialogHeader>
+
+          {changeSectionLookupResolution?.isPredicted && (
+            <div className="add-course-disclaimer" role="note">
+              <Info size={14} />
+              <p>
+                Section data is <button type="button" className="add-course-disclaimer-link" onClick={() => setShowPredictionInfo(true)}>predicted</button> using {changeSectionLookupResolution.resolvedLabel}. Instructor assignments, meeting times, and section availability can change when {changeSectionLookupResolution.requestedLabel} is officially released.
+              </p>
+            </div>
+          )}
 
           <div className="change-section-list">
             {sectionLookupPending ? (
@@ -2367,6 +2516,29 @@ export default function FourYearPlan() {
             </p>
             <p className="text-muted-foreground">
               Use Show in the UMD GPA Details section to inspect term-by-term attempted credits, quality points, semester GPA, and cumulative GPA.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showPredictionInfo} onOpenChange={setShowPredictionInfo}>
+        <DialogContent className="max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Why predicted term data is shown</DialogTitle>
+            <DialogDescription>
+              Future-term Testudo data is often unpublished. OrbitUMD estimates future availability from the latest released matching semester.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 text-sm text-foreground">
+            <p>
+              For a future Spring term, OrbitUMD uses the most recent published Spring offering. For a future Fall term, it uses the most recent published Fall offering.
+            </p>
+            <p>
+              These predictions help with early planning, but they are not official registration data.
+            </p>
+            <p>
+              Instructor assignments, meeting times, section counts, and seat availability may differ once the university publishes the official term.
             </p>
           </div>
         </DialogContent>
