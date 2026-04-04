@@ -2,16 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router";
 import {
   LayoutDashboard,
-  Calendar,
   CalendarDays,
   GraduationCap,
   FileCheck2,
   BookOpen,
   Bell,
-  Settings,
   Lightbulb,
   ChevronDown,
-  ChevronUp,
   PanelLeftClose,
   PanelLeftOpen
 } from "lucide-react";
@@ -39,12 +36,6 @@ const navigationSections: NavigationSection[] = [
     items: [
       { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
       { name: "My Four-Year Plan", href: "/four-year-plan", icon: GraduationCap },
-  //   ], 
-  // },
-  // { 
-  //   label: "Scheduling",
-  //   items: [ 
-      // { name: "Generate Schedule", href: "/generate-schedule", icon: Calendar },
       { name: "Schedules", href: "/schedules", icon: CalendarDays },
     ],
   },
@@ -208,7 +199,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
 
       </div>
 
-      <nav className="nav-section">
+      <nav className="nav-section" aria-label="Primary">
         {navSections.map((section) => (
           <div key={section.label} className="nav-group">
             <div className="nav-label">{section.label}</div>
@@ -224,6 +215,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
                   to={item.href}
                   className={cn("nav-item", isActive && "active")}
                   title={collapsed ? item.name : undefined}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   <item.icon className="nav-icon" />
                   <span className="nav-text">{item.name}</span>
@@ -245,7 +237,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           <div className="user-avatar">{userInitials}</div>
           <div className="user-info">
             <div className="user-name">{userDisplay}</div>
-            <div className="user-role">Profile menu</div>
+            <div className="user-role">Account settings</div>
           </div>
           <span className="user-menu-caret" aria-hidden>
             <ChevronDown className="w-4 h-4" />

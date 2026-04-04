@@ -4,16 +4,23 @@
   --orb-red: #C62828;
   --orb-red-mid: #E53935;
   --orb-red-light: #EF9A9A;
-  --orb-cream: #FDFAF5;
   --orb-ink: #111111;
-  --orb-ink-2: #1A1A1A;
+  --orb-ink-2: #171717;
+  --orb-panel: #1D1D1D;
+  --orb-text: rgba(255, 255, 255, 0.9);
+  --orb-text-muted: rgba(255, 255, 255, 0.55);
+  --orb-text-dim: rgba(255, 255, 255, 0.38);
   --orb-border-soft: rgba(255, 255, 255, 0.06);
+  --orb-hover: rgba(255, 255, 255, 0.08);
+  --orb-active: rgba(198, 40, 40, 0.2);
 }
 
 /* ── Sidebar Container ── */
 
 .orbit-shell .orbit-sidebar {
-  background: var(--orb-ink);
+  background:
+    radial-gradient(circle at 18% -8%, rgba(239, 83, 80, 0.2), rgba(239, 83, 80, 0) 44%),
+    linear-gradient(180deg, var(--orb-ink-2) 0%, var(--orb-ink) 60%);
   display: flex;
   flex-direction: column;
   width: 252px;
@@ -23,9 +30,19 @@
   position: sticky;
   top: 0;
   overflow: hidden;
+  border-right: 1px solid var(--orb-border-soft);
+  box-shadow: 8px 0 24px rgba(0, 0, 0, 0.25);
   transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
               min-width 0.25s cubic-bezier(0.4, 0, 0.2, 1),
               max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.orbit-shell .orbit-sidebar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0));
+  pointer-events: none;
 }
 
 .orbit-shell .orbit-sidebar.collapsed {
@@ -37,7 +54,7 @@
 /* ── Header ── */
 
 .orbit-shell .sidebar-header {
-  padding: 20px 16px 16px;
+  padding: 18px 14px 14px;
   border-bottom: 1px solid var(--orb-border-soft);
   display: flex;
   align-items: center;
@@ -47,9 +64,9 @@
 }
 
 .orbit-shell .orbit-sidebar.collapsed .sidebar-header {
-  padding: 16px 12px;
+  padding: 14px 10px;
   justify-content: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 /* ── Logo ── */
@@ -60,17 +77,28 @@
   gap: 10px;
   text-decoration: none;
   min-width: 0;
-  border-radius: 10px;
-  padding: 6px 10px 6px 6px;
+  border-radius: 12px;
+  padding: 7px 10px 7px 7px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
-  transition: background 0.2s ease, border-color 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .orbit-shell .sidebar-logo:hover,
 .orbit-shell .sidebar-logo:focus-visible {
-  background: rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.09);
   border-color: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.orbit-shell .sidebar-logo:focus-visible,
+.orbit-shell .sidebar-collapse-btn:focus-visible,
+.orbit-shell .nav-item:focus-visible,
+.orbit-shell .sidebar-user:focus-visible,
+.orbit-shell .sidebar-user-menu-item:focus-visible {
+  outline: 2px solid rgba(239, 154, 154, 0.95);
+  outline-offset: 2px;
 }
 
 .orbit-shell .sidebar-logo-mark {
@@ -148,9 +176,9 @@
 .orbit-shell .logo-text {
   font-family: "Playfair Display", serif;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   color: #FFFFFF;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.005em;
   white-space: nowrap;
 }
 
@@ -162,11 +190,11 @@
 
 .orbit-shell .sidebar-collapse-btn {
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.02);
   color: rgba(255, 255, 255, 0.5);
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -176,7 +204,7 @@
 }
 
 .orbit-shell .sidebar-collapse-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.16);
   color: rgba(255, 255, 255, 0.85);
 }
@@ -184,24 +212,38 @@
 /* ── Navigation ── */
 
 .orbit-shell .nav-section {
-  padding: 12px 10px;
+  padding: 12px 10px 14px;
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   z-index: 2;
 }
 
+.orbit-shell .nav-section::-webkit-scrollbar {
+  width: 7px;
+}
+
+.orbit-shell .nav-section::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+}
+
+.orbit-shell .nav-section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .orbit-shell .nav-label {
-  font-size: 0.65rem;
+  font-size: 0.64rem;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.4);
-  font-weight: 600;
-  padding: 0 10px;
-  margin-bottom: 4px;
+  letter-spacing: 0.1em;
+  color: var(--orb-text-dim);
+  font-weight: 700;
+  padding: 0 10px 0 11px;
+  margin-bottom: 6px;
 }
 
 .orbit-shell .nav-group + .nav-group {
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .orbit-shell .orbit-sidebar.collapsed .nav-label,
@@ -218,15 +260,16 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 9px 10px;
+  border-radius: 10px;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--orb-text-muted);
   font-size: 0.84rem;
-  font-weight: 450;
+  font-weight: 500;
   text-decoration: none;
-  transition: color 0.15s ease, background 0.15s ease;
-  margin-bottom: 1px;
+  transition: color 0.18s ease, background 0.18s ease, transform 0.18s ease, border-color 0.18s ease;
+  border: 1px solid transparent;
+  margin-bottom: 2px;
   position: relative;
 }
 
@@ -236,22 +279,26 @@
 }
 
 .orbit-shell .nav-item:hover {
-  color: rgba(255, 255, 255, 0.9);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--orb-text);
+  background: var(--orb-hover);
+  border-color: rgba(255, 255, 255, 0.08);
+  transform: translateX(2px);
 }
 
 .orbit-shell .nav-item.active {
   color: #FFFFFF;
-  background: rgba(198, 40, 40, 0.18);
-  font-weight: 500;
+  background: linear-gradient(90deg, var(--orb-active), rgba(198, 40, 40, 0.1));
+  border-color: rgba(239, 83, 80, 0.35);
+  font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(255, 107, 107, 0.08);
 }
 
 .orbit-shell .nav-item.active::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 6px;
-  bottom: 6px;
+  top: 8px;
+  bottom: 8px;
   width: 3px;
   background: var(--orb-red-mid);
   border-radius: 0 3px 3px 0;
@@ -260,15 +307,16 @@
 /* ── Nav Icons & Badges ── */
 
 .orbit-shell .nav-icon {
-  width: 18px;
-  height: 18px;
-  opacity: 0.6;
+  width: 17px;
+  height: 17px;
+  opacity: 0.68;
   flex-shrink: 0;
   stroke-width: 1.75;
+  transition: opacity 0.18s ease;
 }
 
 .orbit-shell .nav-item:hover .nav-icon {
-  opacity: 0.85;
+  opacity: 0.95;
 }
 
 .orbit-shell .nav-item.active .nav-icon {
@@ -281,15 +329,16 @@
 
 .orbit-shell .nav-badge {
   margin-left: auto;
-  background: var(--orb-red-mid);
+  background: linear-gradient(135deg, #F25E5E, var(--orb-red-mid));
   color: #FFF;
-  font-size: 0.6rem;
-  font-weight: 600;
-  padding: 1px 6px;
+  font-size: 0.61rem;
+  font-weight: 700;
+  padding: 1px 7px;
   border-radius: 999px;
-  min-width: 18px;
+  min-width: 19px;
   text-align: center;
   line-height: 1.4;
+  box-shadow: 0 1px 6px rgba(198, 40, 40, 0.35);
 }
 
 /* ── User Section ── */
@@ -298,22 +347,23 @@
   width: 100%;
   border: none;
   background: transparent;
-  padding: 12px 16px 16px;
+  padding: 12px 12px 14px;
   border-top: 1px solid var(--orb-border-soft);
   display: flex;
   align-items: center;
   gap: 10px;
   justify-content: flex-start;
   text-align: left;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   z-index: 2;
   cursor: pointer;
-  transition: background 0.15s ease;
+  border-radius: 0;
+  transition: background 0.16s ease;
 }
 
 .orbit-shell .sidebar-user:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .orbit-shell .sidebar-user-wrap {
@@ -323,7 +373,7 @@
 
 .orbit-shell .user-menu-caret {
   margin-left: auto;
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(255, 255, 255, 0.42);
   display: inline-flex;
   align-items: center;
 }
@@ -336,6 +386,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   background: rgba(17, 17, 17, 0.98);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   padding: 6px;
@@ -364,9 +415,9 @@
 /* ── User Avatar ── */
 
 .orbit-shell .user-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   background: linear-gradient(135deg, var(--orb-red), var(--orb-red-mid));
   display: flex;
   align-items: center;
@@ -376,6 +427,7 @@
   font-size: 0.78rem;
   color: #FFF;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(198, 40, 40, 0.35);
 }
 
 .orbit-shell .user-info {
@@ -383,8 +435,8 @@
 }
 
 .orbit-shell .user-name {
-  font-size: 0.82rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   white-space: nowrap;
   overflow: hidden;
@@ -392,7 +444,25 @@
 }
 
 .orbit-shell .user-role {
-  font-size: 0.68rem;
-  color: rgba(255, 255, 255, 0.35);
-  margin-top: 1px;
+  font-size: 0.67rem;
+  color: rgba(255, 255, 255, 0.42);
+  margin-top: 2px;
+}
+
+@media (max-width: 960px) {
+  .orbit-shell .orbit-sidebar {
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-shell .orbit-sidebar,
+  .orbit-shell .sidebar-logo,
+  .orbit-shell .sidebar-collapse-btn,
+  .orbit-shell .nav-item,
+  .orbit-shell .nav-icon,
+  .orbit-shell .sidebar-user,
+  .orbit-shell .sidebar-user-menu-item {
+    transition: none !important;
+  }
 }
