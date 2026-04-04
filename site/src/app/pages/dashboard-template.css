@@ -72,34 +72,55 @@
 .dashboard-template .topbar-btn {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
+  font-family: "DM Sans", sans-serif;
   font-size: 0.82rem;
   font-weight: 500;
-  padding: 8px 16px;
+  padding: 9px 16px;
   border-radius: 7px;
   cursor: pointer;
-  transition: all 0.15s;
   border: 1px solid var(--border-soft);
   background: var(--surface);
   color: var(--ink-2);
+  box-shadow: 0 1px 2px rgba(23, 18, 14, 0.06);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
   text-decoration: none;
 }
 
 .dashboard-template .topbar-btn:hover {
   border-color: rgba(198, 40, 40, 0.25);
   color: var(--red);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(198, 40, 40, 0.14);
+}
+
+.dashboard-template .topbar-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(23, 18, 14, 0.08);
+}
+
+.dashboard-template .topbar-btn:focus-visible {
+  outline: 2px solid rgba(198, 40, 40, 0.32);
+  outline-offset: 2px;
 }
 
 .dashboard-template .topbar-btn.primary {
   background: var(--red);
   color: #FFF;
   border-color: var(--red);
-  box-shadow: 0 2px 10px rgba(198, 40, 40, 0.3);
+  box-shadow: 0 3px 12px rgba(198, 40, 40, 0.24);
 }
 
 .dashboard-template .topbar-btn.primary:hover {
-  background: #B71C1C;
+  background: #b71c1c;
   color: #FFF;
+  box-shadow: 0 8px 20px rgba(198, 40, 40, 0.3);
+}
+
+.dashboard-template .topbar-btn.primary:active {
+  background: #a61b1b;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.2);
 }
 
 .dashboard-template .content {

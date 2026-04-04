@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight, ExternalLink, GraduationCap, Info } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../components/ui/dialog";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
@@ -17,18 +17,18 @@ interface CourseDetailsPopupProps {
   status: AuditCourseStatus;
 }
 
-function statusColor(status: AuditCourseStatus): string {
-  if (status === "completed") return "bg-green-600/20 text-green-400 border border-green-600/30";
-  if (status === "in_progress") return "bg-blue-600/20 text-blue-400 border border-blue-600/30";
-  if (status === "planned") return "bg-amber-600/20 text-amber-300 border border-amber-600/30";
-  return "bg-slate-600/20 text-slate-400 border border-slate-600/30";
+function statusStyle(status: AuditCourseStatus): { bg: string; text: string; label: string } {
+  if (status === "completed") return { bg: "bg-emerald-50 dark:bg-emerald-950/40", text: "text-emerald-700 dark:text-emerald-400", label: "Completed" };
+  if (status === "in_progress") return { bg: "bg-amber-50 dark:bg-amber-950/40", text: "text-amber-700 dark:text-amber-400", label: "In Progress" };
+  if (status === "planned") return { bg: "bg-blue-50 dark:bg-blue-950/40", text: "text-blue-700 dark:text-blue-400", label: "Planned" };
+  return { bg: "bg-slate-100 dark:bg-slate-800/40", text: "text-slate-500 dark:text-slate-400", label: "Not Started" };
 }
 
-function statusLabel(status: AuditCourseStatus): string {
-  if (status === "completed") return "Completed";
-  if (status === "in_progress") return "In Progress";
-  if (status === "planned") return "Planned";
-  return "Not Started";
+function statusDot(status: AuditCourseStatus): string {
+  if (status === "completed") return "bg-emerald-500";
+  if (status === "in_progress") return "bg-amber-500";
+  if (status === "planned") return "bg-blue-500";
+  return "bg-slate-400";
 }
 
 function splitDescriptionAndPrerequisites(raw?: string): { description?: string; prerequisites?: string } {
@@ -53,6 +53,12 @@ function normalizeCourseCode(value: string): string {
   return value.replace(/\s+/g, "").toUpperCase();
 }
 
+function formatCourseCodeForDisplay(code: string): string {
+  const match = code.match(/^([A-Z]+)(\d.*)$/);
+  if (!match) return code;
+  return `${match[1]} ${match[2]}`;
+}
+
 function renderLinkedText(
   text: string,
   onSelectCourse: (courseCode: string) => void,
@@ -74,8 +80,8 @@ function renderLinkedText(
       <button
         key={`${normalized}-${start}`}
         type="button"
-        className="text-red-500 hover:text-red-600 underline underline-offset-2"
-        title="Open linked course details"
+        className="font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 underline underline-offset-2 decoration-red-300/50 hover:decoration-red-400 transition-colors"
+        title={`View ${matched}`}
         onClick={() => onSelectCourse(normalized)}
       >
         {matched}
@@ -91,6 +97,22 @@ function renderLinkedText(
 
   return parts;
 }
+
+const GEN_ED_NAMES: Record<string, string> = {
+  FSAR: "Analytic Reasoning",
+  FSAW: "Academic Writing",
+  FSMA: "Math",
+  FSOC: "Oral Communication",
+  FSPW: "Professional Writing",
+  DSHS: "History & Social Sciences",
+  DSHU: "Humanities",
+  DSNL: "Natural Sciences (Lab)",
+  DSNS: "Natural Sciences",
+  DSSP: "Scholarship in Practice",
+  SCIS: "I-Series",
+  DVUP: "Understanding Plural Societies",
+  DVCC: "Cultural Competence",
+};
 
 export function CourseDetailsPopup({
   isOpen,
@@ -166,16 +188,23 @@ export function CourseDetailsPopup({
     };
   }, [activeCourseCode, isOpen]);
 
-  const shownTitle = activeDetails?.title ?? (activeCourseCode === courseCode ? courseTitle : `${activeCourseCode} (Course details unavailable)`);
+  const shownTitle = activeDetails?.title ?? (activeCourseCode === courseCode ? courseTitle : activeCourseCode);
   const shownCredits = activeDetails?.credits ?? (activeCourseCode === courseCode ? credits : 0);
   const shownGenEds = activeDetails?.genEds ?? (activeCourseCode === courseCode ? genEds : []);
   const isOriginalCourse = activeCourseCode === courseCode;
+  const shownStatus = isOriginalCourse ? status : "not_started";
+  const st = statusStyle(shownStatus);
+  const displayCode = formatCourseCodeForDisplay(activeCourseCode);
 
   const splitDetails = useMemo(
     () => splitDescriptionAndPrerequisites(activeDetails?.description),
     [activeDetails?.description],
   );
   const prerequisitesText = activeDetails?.prereqs?.trim() || splitDetails.prerequisites;
+
+  const dept = activeCourseCode.match(/^[A-Z]+/)?.[0] ?? "";
+  const courseNum = activeCourseCode.match(/\d+/)?.[0] ?? "";
+  const level = courseNum ? `${courseNum[0]}00-level` : "";
 
   return (
     <Dialog
@@ -184,86 +213,127 @@ export function CourseDetailsPopup({
         if (!nextOpen) onClose();
       }}
     >
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <div className="flex items-center justify-between gap-3">
-            <DialogTitle className="text-2xl">{activeCourseCode} {shownTitle} ({shownCredits} Credits)</DialogTitle>
-            <div className="flex items-center gap-1">
-              <Button type="button" size="icon" variant="outline" onClick={goBack} disabled={historyIndex <= 0}>
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button type="button" size="icon" variant="outline" onClick={goForward} disabled={historyIndex >= history.length - 1}>
-                <ChevronRight className="h-4 w-4" />
-              </Button>
+      <DialogContent className="max-w-2xl p-0 gap-0 overflow-hidden">
+        {/* Header */}
+        <div className={`${st.bg} px-6 pt-5 pb-4`}>
+          <DialogHeader className="space-y-1">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold tracking-wider uppercase text-muted-foreground/70">{dept}</span>
+                  {level && <span className="text-xs text-muted-foreground/50">·</span>}
+                  {level && <span className="text-xs text-muted-foreground/50">{level}</span>}
+                </div>
+                <DialogTitle className="text-xl font-bold leading-tight">
+                  {displayCode}
+                </DialogTitle>
+                <DialogDescription className="text-sm mt-1 text-foreground/70 font-medium">
+                  {shownTitle}
+                </DialogDescription>
+              </div>
+              <div className="flex items-center gap-1 flex-shrink-0 pt-1">
+                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={goBack} disabled={historyIndex <= 0} title="Go back">
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={goForward} disabled={historyIndex >= history.length - 1} title="Go forward">
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          </div>
-          <DialogDescription className="text-sm text-muted-foreground mt-2">
-            Click any course code in the description or prerequisites to open it here.
-          </DialogDescription>
-          <div className="mt-1 inline-flex items-center gap-2 text-[11px] text-muted-foreground">
-            <span className="rounded border border-border/70 bg-input-background px-1.5 py-0.5">Linked course</span>
-            <span className="text-red-500 underline underline-offset-2">Any underlined course code</span>
-          </div>
-        </DialogHeader>
 
-        <div className="space-y-4 py-4">
-          {/* Credits */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-muted-foreground">Credits:</span>
-            <span className="text-foreground font-semibold">{shownCredits}</span>
-          </div>
+            {/* Quick stats row */}
+            <div className="flex items-center gap-2 pt-2 flex-wrap">
+              <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${st.bg} ${st.text} ring-1 ring-inset ring-current/15`}>
+                <span className={`w-1.5 h-1.5 rounded-full ${statusDot(shownStatus)}`} />
+                {st.label}
+              </span>
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground bg-background/60 px-2.5 py-1 rounded-full ring-1 ring-inset ring-border/50">
+                <BookOpen className="h-3 w-3" />
+                {shownCredits} credit{shownCredits !== 1 ? "s" : ""}
+              </span>
+              {shownGenEds.map((ge) => (
+                <span
+                  key={ge}
+                  className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground bg-background/60 px-2.5 py-1 rounded-full ring-1 ring-inset ring-border/50"
+                  title={GEN_ED_NAMES[ge] ?? ge}
+                >
+                  <GraduationCap className="h-3 w-3" />
+                  {ge}
+                </span>
+              ))}
+            </div>
+          </DialogHeader>
+        </div>
 
-          {/* Status */}
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-muted-foreground">Status:</span>
-            {isOriginalCourse ? (
-              <Badge className={statusColor(status)}>{statusLabel(status)}</Badge>
+        {/* Body */}
+        <div className="px-6 py-5 space-y-5 max-h-[60vh] overflow-y-auto">
+          {/* Description */}
+          <div>
+            <div className="flex items-center gap-1.5 mb-2">
+              <Info className="h-3.5 w-3.5 text-muted-foreground/60" />
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">Description</h3>
+            </div>
+            {loading ? (
+              <div className="flex items-center gap-2 py-3">
+                <div className="h-4 w-4 rounded-full border-2 border-muted-foreground/20 border-t-muted-foreground/60 animate-spin" />
+                <span className="text-sm text-muted-foreground">Loading course details...</span>
+              </div>
+            ) : splitDetails.description ? (
+              <p className="text-sm leading-relaxed text-foreground/85">
+                {renderLinkedText(splitDetails.description, selectCourse)}
+              </p>
             ) : (
-              <Badge variant="outline" className="border-border text-muted-foreground">Not in current audit selection</Badge>
+              <p className="text-sm text-muted-foreground italic">No description available for this course.</p>
             )}
           </div>
 
-          {/* Gen Eds */}
+          {/* Prerequisites */}
+          {(loading || prerequisitesText) && (
+            <div>
+              <div className="flex items-center gap-1.5 mb-2">
+                <svg className="h-3.5 w-3.5 text-muted-foreground/60" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                  <path d="M3 8h10M10 5l3 3-3 3" />
+                </svg>
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">Prerequisites</h3>
+              </div>
+              {loading ? (
+                <p className="text-sm text-muted-foreground">Loading...</p>
+              ) : prerequisitesText ? (
+                <div className="text-sm leading-relaxed text-foreground/85 bg-muted/30 rounded-lg p-3 border border-border/50">
+                  {renderLinkedText(prerequisitesText, selectCourse)}
+                </div>
+              ) : null}
+            </div>
+          )}
+
+          {!loading && !prerequisitesText && !splitDetails.description && (
+            <p className="text-sm text-muted-foreground italic py-2">
+              No additional details available. This course may not be in the current catalog.
+            </p>
+          )}
+
+          {/* Gen Ed details (expanded) */}
           {shownGenEds.length > 0 && (
             <div>
-              <span className="text-sm font-medium text-muted-foreground block mb-2">General Education:</span>
-              <div className="flex flex-wrap gap-2">
-                {shownGenEds.map((genEd) => (
-                  <Badge key={genEd} variant="outline" className="border-border">
-                    {genEd}
-                  </Badge>
+              <div className="flex items-center gap-1.5 mb-2">
+                <GraduationCap className="h-3.5 w-3.5 text-muted-foreground/60" />
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">General Education</h3>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                {shownGenEds.map((ge) => (
+                  <div key={ge} className="flex items-center gap-2 text-sm">
+                    <Badge variant="outline" className="font-mono text-xs min-w-[52px] justify-center">{ge}</Badge>
+                    <span className="text-muted-foreground">{GEN_ED_NAMES[ge] ?? "General Education"}</span>
+                  </div>
                 ))}
               </div>
             </div>
           )}
+        </div>
 
-          <div>
-            <span className="text-sm font-medium text-muted-foreground block mb-2">Description:</span>
-            {loading ? (
-              <p className="text-sm text-muted-foreground">Loading course details...</p>
-            ) : splitDetails.description ? (
-              <p className="text-sm leading-6 text-foreground/90 whitespace-pre-wrap">
-                {renderLinkedText(splitDetails.description, selectCourse)}
-              </p>
-            ) : (
-              <p className="text-sm text-muted-foreground">No description available.</p>
-            )}
-          </div>
-
-          <div>
-            <span className="text-sm font-medium text-muted-foreground block mb-2">Prerequisites:</span>
-            {loading ? (
-              <p className="text-sm text-muted-foreground">Loading prerequisites...</p>
-            ) : prerequisitesText ? (
-              <p className="text-sm leading-6 text-foreground/90 whitespace-pre-wrap">
-                {renderLinkedText(prerequisitesText, selectCourse)}
-              </p>
-            ) : (
-              <p className="text-sm text-muted-foreground">No prerequisite information available.</p>
-            )}
-          </div>
-
-          <div className="pt-2">
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-border/50 bg-muted/20 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
             <AddToScheduleDropdown
               courseCode={activeCourseCode}
               courseTitle={shownTitle}
@@ -271,13 +341,17 @@ export function CourseDetailsPopup({
               genEds={shownGenEds}
               onMessage={setAddMessage}
             />
-            {addMessage && <p className="mt-2 text-xs text-muted-foreground">{addMessage}</p>}
+            {addMessage && <span className="text-xs text-muted-foreground">{addMessage}</span>}
           </div>
-
-          {/* Course Code for reference */}
-          <div className="pt-4 mt-4 border-t border-border">
-            <p className="text-xs text-muted-foreground">Course Code: {activeCourseCode}</p>
-          </div>
+          <a
+            href={`https://app.testudo.umd.edu/soc/search?courseId=${activeCourseCode}&sectionId=&termId=&_openSectionsOnly=on&creditCompare=&credits=&courseLevelFilter=ALL&instructor=&_face498to498=on&courseStartCompare=&courseStartHour=&courseStartMin=&courseStartAM=&courseEndHour=&courseEndMin=&courseEndAM=&teachingCenter=ALL&_classDay1=on&_classDay2=on&_classDay3=on&_classDay4=on&_classDay5=on`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ExternalLink className="h-3 w-3" />
+            Testudo
+          </a>
         </div>
       </DialogContent>
     </Dialog>
