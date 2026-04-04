@@ -6,6 +6,7 @@ import { Button } from "../components/ui/button";
 import type { AuditCourseStatus } from "@/lib/requirements/audit";
 import { lookupCourseDetails, type CourseDetails } from "@/lib/requirements/courseDetailsLoader";
 import { AddToScheduleDropdown } from "./AddToScheduleDropdown";
+import "./course-details-popup.css";
 
 interface CourseDetailsPopupProps {
   isOpen: boolean;
@@ -17,11 +18,11 @@ interface CourseDetailsPopupProps {
   status: AuditCourseStatus;
 }
 
-function statusStyle(status: AuditCourseStatus): { bg: string; text: string; label: string } {
-  if (status === "completed") return { bg: "bg-emerald-50 dark:bg-emerald-950/40", text: "text-emerald-700 dark:text-emerald-400", label: "Completed" };
-  if (status === "in_progress") return { bg: "bg-amber-50 dark:bg-amber-950/40", text: "text-amber-700 dark:text-amber-400", label: "In Progress" };
-  if (status === "planned") return { bg: "bg-blue-50 dark:bg-blue-950/40", text: "text-blue-700 dark:text-blue-400", label: "Planned" };
-  return { bg: "bg-slate-100 dark:bg-slate-800/40", text: "text-slate-500 dark:text-slate-400", label: "Not Started" };
+function statusStyle(status: AuditCourseStatus): { tone: string; label: string } {
+  if (status === "completed") return { tone: "cdp-tone-completed", label: "Completed" };
+  if (status === "in_progress") return { tone: "cdp-tone-progress", label: "In Progress" };
+  if (status === "planned") return { tone: "cdp-tone-planned", label: "Planned" };
+  return { tone: "cdp-tone-default", label: "Not Started" };
 }
 
 function statusDot(status: AuditCourseStatus): string {
@@ -80,7 +81,7 @@ function renderLinkedText(
       <button
         key={`${normalized}-${start}`}
         type="button"
-        className="font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 underline underline-offset-2 decoration-red-300/50 hover:decoration-red-400 transition-colors"
+        className="cdp-course-link"
         title={`View ${matched}`}
         onClick={() => onSelectCourse(normalized)}
       >
@@ -213,48 +214,46 @@ export function CourseDetailsPopup({
         if (!nextOpen) onClose();
       }}
     >
-      <DialogContent className="max-w-2xl p-0 gap-0 overflow-hidden">
-        {/* Header */}
-        <div className={`${st.bg} px-6 pt-5 pb-4`}>
-          <DialogHeader className="space-y-1">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-semibold tracking-wider uppercase text-muted-foreground/70">{dept}</span>
-                  {level && <span className="text-xs text-muted-foreground/50">·</span>}
-                  {level && <span className="text-xs text-muted-foreground/50">{level}</span>}
+      <DialogContent className="cdp-dialog">
+        <div className={`cdp-hero ${st.tone}`}>
+          <DialogHeader className="cdp-header">
+            <div className="cdp-headline-row">
+              <div className="cdp-headline-copy">
+                <div className="cdp-meta-row">
+                  <span className="cdp-dept-pill">{dept}</span>
+                  {level && <span className="cdp-meta-separator">•</span>}
+                  {level && <span className="cdp-level-label">{level}</span>}
                 </div>
-                <DialogTitle className="text-xl font-bold leading-tight">
+                <DialogTitle className="cdp-title">
                   {displayCode}
                 </DialogTitle>
-                <DialogDescription className="text-sm mt-1 text-foreground/70 font-medium">
+                <DialogDescription className="cdp-subtitle">
                   {shownTitle}
                 </DialogDescription>
               </div>
-              <div className="flex items-center gap-1 flex-shrink-0 pt-1">
-                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={goBack} disabled={historyIndex <= 0} title="Go back">
+              <div className="cdp-history-actions">
+                <Button type="button" size="icon" variant="ghost" className="cdp-history-btn" onClick={goBack} disabled={historyIndex <= 0} title="Go back">
                   <ChevronLeft className="h-4 w-4" />
                 </Button>
-                <Button type="button" size="icon" variant="ghost" className="h-7 w-7" onClick={goForward} disabled={historyIndex >= history.length - 1} title="Go forward">
+                <Button type="button" size="icon" variant="ghost" className="cdp-history-btn" onClick={goForward} disabled={historyIndex >= history.length - 1} title="Go forward">
                   <ChevronRight className="h-4 w-4" />
                 </Button>
               </div>
             </div>
 
-            {/* Quick stats row */}
-            <div className="flex items-center gap-2 pt-2 flex-wrap">
-              <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${st.bg} ${st.text} ring-1 ring-inset ring-current/15`}>
+            <div className="cdp-chip-row">
+              <span className={`cdp-status-pill ${st.tone}`}>
                 <span className={`w-1.5 h-1.5 rounded-full ${statusDot(shownStatus)}`} />
                 {st.label}
               </span>
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground bg-background/60 px-2.5 py-1 rounded-full ring-1 ring-inset ring-border/50">
+              <span className="cdp-chip-pill">
                 <BookOpen className="h-3 w-3" />
                 {shownCredits} credit{shownCredits !== 1 ? "s" : ""}
               </span>
               {shownGenEds.map((ge) => (
                 <span
                   key={ge}
-                  className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground bg-background/60 px-2.5 py-1 rounded-full ring-1 ring-inset ring-border/50"
+                  className="cdp-chip-pill"
                   title={GEN_ED_NAMES[ge] ?? ge}
                 >
                   <GraduationCap className="h-3 w-3" />
@@ -265,41 +264,38 @@ export function CourseDetailsPopup({
           </DialogHeader>
         </div>
 
-        {/* Body */}
-        <div className="px-6 py-5 space-y-5 max-h-[60vh] overflow-y-auto">
-          {/* Description */}
-          <div>
-            <div className="flex items-center gap-1.5 mb-2">
+        <div className="cdp-body">
+          <div className="cdp-section">
+            <div className="cdp-section-label-row">
               <Info className="h-3.5 w-3.5 text-muted-foreground/60" />
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">Description</h3>
+              <h3 className="cdp-section-label">Description</h3>
             </div>
             {loading ? (
-              <div className="flex items-center gap-2 py-3">
-                <div className="h-4 w-4 rounded-full border-2 border-muted-foreground/20 border-t-muted-foreground/60 animate-spin" />
-                <span className="text-sm text-muted-foreground">Loading course details...</span>
+              <div className="cdp-loading-row">
+                <div className="cdp-loading-spinner" />
+                <span className="cdp-loading-copy">Loading course details...</span>
               </div>
             ) : splitDetails.description ? (
-              <p className="text-sm leading-relaxed text-foreground/85">
+              <p className="cdp-section-body">
                 {renderLinkedText(splitDetails.description, selectCourse)}
               </p>
             ) : (
-              <p className="text-sm text-muted-foreground italic">No description available for this course.</p>
+              <p className="cdp-empty-copy">No description available for this course.</p>
             )}
           </div>
 
-          {/* Prerequisites */}
           {(loading || prerequisitesText) && (
-            <div>
-              <div className="flex items-center gap-1.5 mb-2">
+            <div className="cdp-section">
+              <div className="cdp-section-label-row">
                 <svg className="h-3.5 w-3.5 text-muted-foreground/60" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
                   <path d="M3 8h10M10 5l3 3-3 3" />
                 </svg>
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">Prerequisites</h3>
+                <h3 className="cdp-section-label">Prerequisites</h3>
               </div>
               {loading ? (
-                <p className="text-sm text-muted-foreground">Loading...</p>
+                <p className="cdp-loading-copy">Loading...</p>
               ) : prerequisitesText ? (
-                <div className="text-sm leading-relaxed text-foreground/85 bg-muted/30 rounded-lg p-3 border border-border/50">
+                <div className="cdp-prereq-box">
                   {renderLinkedText(prerequisitesText, selectCourse)}
                 </div>
               ) : null}
@@ -307,23 +303,22 @@ export function CourseDetailsPopup({
           )}
 
           {!loading && !prerequisitesText && !splitDetails.description && (
-            <p className="text-sm text-muted-foreground italic py-2">
+            <p className="cdp-empty-copy">
               No additional details available. This course may not be in the current catalog.
             </p>
           )}
 
-          {/* Gen Ed details (expanded) */}
           {shownGenEds.length > 0 && (
-            <div>
-              <div className="flex items-center gap-1.5 mb-2">
+            <div className="cdp-section">
+              <div className="cdp-section-label-row">
                 <GraduationCap className="h-3.5 w-3.5 text-muted-foreground/60" />
-                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/70">General Education</h3>
+                <h3 className="cdp-section-label">General Education</h3>
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="cdp-gened-list">
                 {shownGenEds.map((ge) => (
-                  <div key={ge} className="flex items-center gap-2 text-sm">
-                    <Badge variant="outline" className="font-mono text-xs min-w-[52px] justify-center">{ge}</Badge>
-                    <span className="text-muted-foreground">{GEN_ED_NAMES[ge] ?? "General Education"}</span>
+                  <div key={ge} className="cdp-gened-row">
+                    <Badge variant="outline" className="cdp-gened-tag">{ge}</Badge>
+                    <span className="cdp-gened-copy">{GEN_ED_NAMES[ge] ?? "General Education"}</span>
                   </div>
                 ))}
               </div>
@@ -331,9 +326,8 @@ export function CourseDetailsPopup({
           )}
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-border/50 bg-muted/20 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+        <div className="cdp-footer">
+          <div className="cdp-footer-left">
             <AddToScheduleDropdown
               courseCode={activeCourseCode}
               courseTitle={shownTitle}
@@ -341,13 +335,13 @@ export function CourseDetailsPopup({
               genEds={shownGenEds}
               onMessage={setAddMessage}
             />
-            {addMessage && <span className="text-xs text-muted-foreground">{addMessage}</span>}
+            {addMessage && <span className="cdp-footer-message">{addMessage}</span>}
           </div>
           <a
             href={`https://app.testudo.umd.edu/soc/search?courseId=${activeCourseCode}&sectionId=&termId=&_openSectionsOnly=on&creditCompare=&credits=&courseLevelFilter=ALL&instructor=&_face498to498=on&courseStartCompare=&courseStartHour=&courseStartMin=&courseStartAM=&courseEndHour=&courseEndMin=&courseEndAM=&teachingCenter=ALL&_classDay1=on&_classDay2=on&_classDay3=on&_classDay4=on&_classDay5=on`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
+            className="cdp-testudo-link"
           >
             <ExternalLink className="h-3 w-3" />
             Testudo

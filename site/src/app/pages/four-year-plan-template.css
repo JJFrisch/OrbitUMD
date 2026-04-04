@@ -30,6 +30,22 @@
   overflow: hidden;
 }
 
+/* Dialogs render in a portal, so they need local fallbacks for page theme vars. */
+.fyp-plan-dialog,
+.cd-dialog {
+  --red: #c62828;
+  --red-mid: #e53935;
+  --gold: #f9a825;
+  --cream: #fdfaf5;
+  --ink: #17120e;
+  --ink-2: #3d2e26;
+  --ink-muted: #7a6358;
+  --ink-ghost: #b09a8e;
+  --surface: #ffffff;
+  --surface-2: #faf7f3;
+  --border-soft: rgba(55, 35, 25, 0.08);
+}
+
 .fyp-page::before {
   content: "";
   position: fixed;

@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "../components/ui/dropdown-menu";
 import { CourseRowDisplay } from "../components/CourseRowDisplay";
+import { CourseDetailsPopup } from "../components/CourseDetailsPopup";
 import { AddToScheduleDropdown } from "../components/AddToScheduleDropdown";
 import { toast } from "sonner";
 import { plannerApi } from "@/lib/api/planner";
@@ -761,8 +762,6 @@ function RequirementSectionTableCard({
   const [addSearchResults, setAddSearchResults] = useState<CourseSearchResult[]>([]);
   // Course detail panel
   const [detailCode, setDetailCode] = useState<string | null>(null);
-  const [detailData, setDetailData] = useState<CourseDetails | null>(null);
-  const [detailLoading, setDetailLoading] = useState(false);
   const [addScheduleMessage, setAddScheduleMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -845,31 +844,6 @@ function RequirementSectionTableCard({
     }, 220);
     return () => { active = false; window.clearTimeout(timeout); };
   }, [addQuery, addingCourse]);
-
-  // Load course detail when detailCode changes
-  useEffect(() => {
-    if (!detailCode) { setDetailData(null); return; }
-    setAddScheduleMessage(null);
-    // Check cached courseDetails first
-    const cached = courseDetails.get(detailCode.toUpperCase());
-    if (cached) { setDetailData(cached); return; }
-    let active = true;
-    setDetailLoading(true);
-    setDetailData(null);
-    const run = async () => {
-      try {
-        const { lookupCourseDetails: lookup } = await import("@/lib/requirements/courseDetailsLoader");
-        const map = await lookup([detailCode.toUpperCase()]);
-        if (active) setDetailData(map.get(detailCode.toUpperCase()) ?? null);
-      } catch {
-        if (active) setDetailData(null);
-      } finally {
-        if (active) setDetailLoading(false);
-      }
-    };
-    void run();
-    return () => { active = false; };
-  }, [detailCode, courseDetails]);
 
   const sectionIsExpanded = expandedSectionIds.has(section.id);
 
@@ -1659,68 +1633,15 @@ function RequirementSectionTableCard({
       </Card>
 
       {detailCode && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setDetailCode(null)}>
-          <Card className="max-w-xl w-full p-5 bg-card border-border max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-start justify-between gap-3 mb-4">
-              <div>
-                <h3 className="text-xl text-foreground">{detailCode}</h3>
-                {detailData && <p className="text-muted-foreground text-sm mt-0.5">{detailData.title}</p>}
-              </div>
-              <div className="flex items-center gap-2">
-                <AddToScheduleDropdown
-                  courseCode={detailCode}
-                  courseTitle={detailData?.title ?? detailCode}
-                  credits={Number(detailData?.credits ?? 0) || 0}
-                  genEds={detailData?.genEds ?? []}
-                  onMessage={setAddScheduleMessage}
-                />
-                <a href={`https://app.testudo.umd.edu/soc/search?courseId=${detailCode}&sectionId=&termId=&_openSectionsOnly=on&credits=ANY&courseLevelFilter=ALL&instructor=&_facetoface=on&_blended=on&_online=on&courseStartHour=0700&courseStartMin=00&courseStartAM=AM&courseEndHour=1200&courseEndMin=00&courseEndAM=AM&teachingCenter=ALL`} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground" aria-label={`Open ${detailCode} in Testudo`} title={`Open ${detailCode} in Testudo`}><ExternalLink className="h-4 w-4" /></a>
-                <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setDetailCode(null)}><X className="h-4 w-4" /></Button>
-              </div>
-            </div>
-
-            {addScheduleMessage && <p className="mb-3 text-xs text-muted-foreground">{addScheduleMessage}</p>}
-
-            {detailLoading && <p className="text-muted-foreground text-sm">Loading…</p>}
-
-            {detailData && (
-              <div className="space-y-4">
-                <div className="flex flex-wrap gap-2 text-xs">
-                  <Badge variant="outline" className="border-border">{detailData.credits} credits</Badge>
-                  {(() => {
-                    const status = byCourseCode.get(detailCode.toUpperCase()) ?? "not_started";
-                    return statusBadge(status);
-                  })()}
-                  {detailData.genEds.map((g) => (
-                    <Badge key={g} variant="outline" className="border-border">{g}</Badge>
-                  ))}
-                </div>
-
-                {detailData.description && (
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Description</p>
-                    <p className="text-sm text-foreground/90 leading-relaxed">
-                      <LinkedCourseText text={detailData.description} onCourseClick={setDetailCode} />
-                    </p>
-                  </div>
-                )}
-
-                {detailData.prereqs && (
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground mb-1">Prerequisites</p>
-                    <p className="text-sm text-foreground/90 leading-relaxed">
-                      <LinkedCourseText text={detailData.prereqs} onCourseClick={setDetailCode} />
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {!detailLoading && !detailData && (
-              <p className="text-sm text-muted-foreground">No details available for {detailCode} in the current term catalog.</p>
-            )}
-          </Card>
-        </div>
+        <CourseDetailsPopup
+          isOpen={Boolean(detailCode)}
+          onClose={() => setDetailCode(null)}
+          courseCode={detailCode}
+          courseTitle={sectionCoursesByCode.get(detailCode.toUpperCase())?.title ?? detailCode}
+          credits={Number(sectionCoursesByCode.get(detailCode.toUpperCase())?.credits ?? 0) || 0}
+          genEds={sectionCoursesByCode.get(detailCode.toUpperCase())?.genEds ?? []}
+          status={sectionCoursesByCode.get(detailCode.toUpperCase())?.status ?? (byCourseCode.get(detailCode.toUpperCase()) ?? "not_started")}
+        />
       )}
     </>
   );
