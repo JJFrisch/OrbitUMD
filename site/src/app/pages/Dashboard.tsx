@@ -190,6 +190,7 @@ export default function Dashboard() {
   const [programSummary, setProgramSummary] = useState<Array<{ name: string; status: AuditCourseStatus; percent: number }>>([]);
   const [requirementItems, setRequirementItems] = useState<RequirementItem[]>([]);
   const [currentCourses, setCurrentCourses] = useState<Array<{ code: string; title: string; credits: number }>>([]);
+  const [activeProgressTab, setActiveProgressTab] = useState<"degree" | "genEd">("degree");
 
   useEffect(() => {
     let active = true;
@@ -737,43 +738,116 @@ export default function Dashboard() {
               <section className="card" data-tour-target="dashboard-term-overview">
                 <div className="card-header">
                   <div>
-                    <div className="card-title">Degree Progress</div>
+                    <div className="card-title">Progress</div>
                     <div className="card-subtitle">
-                      {programSummary.length > 0 ? programSummary[0].name : "Overall credit progress"}
+                      {activeProgressTab === "degree"
+                        ? (programSummary.length > 0 ? programSummary[0].name : "Overall credit progress")
+                        : "Computed from schedule selections and prior credits"}
                     </div>
                   </div>
-                  <Link to="/degree-audit" className="card-link">Full view →</Link>
+                  <Link to={activeProgressTab === "degree" ? "/degree-audit" : "/gen-eds"} className="card-link">
+                    Full view →
+                  </Link>
                 </div>
 
-                <div className="progress-hero">
-                  <ProgressRing percent={creditTotals.percent} label="complete" />
-                  <div className="ring-details">
-                    <p>
-                      {creditTotals.percent >= 100
-                        ? "You have met the credit requirement!"
-                        : creditTotals.remaining <= 30
-                          ? `Almost there — ${creditTotals.remaining} credits to go.`
-                          : `Keep going — ${creditTotals.remaining} credits remaining.`}
-                    </p>
-                    <div className="ring-meta">
-                      <div className="ring-meta-item">
-                        <div className="ring-meta-dot red" />
-                        <span className="ring-meta-label">Credits earned</span>
-                        <span className="ring-meta-val">{creditTotals.completed} / {creditTotals.totalNeeded}</span>
-                      </div>
-                      <div className="ring-meta-item">
-                        <div className="ring-meta-dot gold" />
-                        <span className="ring-meta-label">In progress</span>
-                        <span className="ring-meta-val">{creditTotals.inProgress} credits</span>
-                      </div>
-                      <div className="ring-meta-item">
-                        <div className="ring-meta-dot muted" />
-                        <span className="ring-meta-label">Remaining</span>
-                        <span className="ring-meta-val">{creditTotals.remaining} credits</span>
+                <div className="progress-tabs" aria-label="Progress sections">
+                  <button
+                    type="button"
+                    className={`progress-tab ${activeProgressTab === "degree" ? "active" : ""}`}
+                    onClick={() => setActiveProgressTab("degree")}
+                  >
+                    Degree Progress
+                  </button>
+                  <button
+                    type="button"
+                    className={`progress-tab ${activeProgressTab === "genEd" ? "active" : ""}`}
+                    onClick={() => setActiveProgressTab("genEd")}
+                  >
+                    Gen Ed Progress
+                  </button>
+                </div>
+
+                {activeProgressTab === "degree" ? (
+                  <div className="progress-hero">
+                    <ProgressRing percent={creditTotals.percent} label="complete" />
+                    <div className="ring-details">
+                      <p>
+                        {creditTotals.percent >= 100
+                          ? "You have met the credit requirement!"
+                          : creditTotals.remaining <= 30
+                            ? `Almost there — ${creditTotals.remaining} credits to go.`
+                            : `Keep going — ${creditTotals.remaining} credits remaining.`}
+                      </p>
+                      <div className="ring-meta">
+                        <div className="ring-meta-item">
+                          <div className="ring-meta-dot red" />
+                          <span className="ring-meta-label">Credits earned</span>
+                          <span className="ring-meta-val">{creditTotals.completed} / {creditTotals.totalNeeded}</span>
+                        </div>
+                        <div className="ring-meta-item">
+                          <div className="ring-meta-dot gold" />
+                          <span className="ring-meta-label">In progress</span>
+                          <span className="ring-meta-val">{creditTotals.inProgress} credits</span>
+                        </div>
+                        <div className="ring-meta-item">
+                          <div className="ring-meta-dot muted" />
+                          <span className="ring-meta-label">Remaining</span>
+                          <span className="ring-meta-val">{creditTotals.remaining} credits</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="metric-list progress-gen-ed-list">
+                    <div className="metric-row">
+                      <div className="metric-top">
+                        <span className="metric-name">Fundamental Studies</span>
+                        <span className="metric-value">
+                          {genEdCategoryProgress.fundamental.completed}/{genEdCategoryProgress.fundamental.total}
+                        </span>
+                      </div>
+                      <div className="metric-bar-wrap">
+                        <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.fundamental.completed, genEdCategoryProgress.fundamental.total)}%` }}></div>
+                      </div>
+                    </div>
+
+                    <div className="metric-row">
+                      <div className="metric-top">
+                        <span className="metric-name">Distributive Studies</span>
+                        <span className="metric-value">
+                          {genEdCategoryProgress.distributive.completed}/{genEdCategoryProgress.distributive.total}
+                        </span>
+                      </div>
+                      <div className="metric-bar-wrap">
+                        <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.distributive.completed, genEdCategoryProgress.distributive.total)}%` }}></div>
+                      </div>
+                    </div>
+
+                    <div className="metric-row">
+                      <div className="metric-top">
+                        <span className="metric-name">I-Series</span>
+                        <span className="metric-value">
+                          {genEdCategoryProgress.iSeries.completed}/{genEdCategoryProgress.iSeries.total}
+                        </span>
+                      </div>
+                      <div className="metric-bar-wrap">
+                        <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.iSeries.completed, genEdCategoryProgress.iSeries.total)}%` }}></div>
+                      </div>
+                    </div>
+
+                    <div className="metric-row">
+                      <div className="metric-top">
+                        <span className="metric-name">Diversity</span>
+                        <span className="metric-value">
+                          {genEdCategoryProgress.diversity.completed}/{genEdCategoryProgress.diversity.total}
+                        </span>
+                      </div>
+                      <div className="metric-bar-wrap">
+                        <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.diversity.completed, genEdCategoryProgress.diversity.total)}%` }}></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </section>
 
               <section className="card">
@@ -944,68 +1018,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Row 4: Gen Ed Progress */}
-            <div className="grid-2">
-              <section className="card">
-                <div className="card-header">
-                  <div>
-                    <div className="card-title">General Education Progress</div>
-                    <div className="card-subtitle">Computed from schedule selections and prior credits</div>
-                  </div>
-                  <Link to="/gen-eds" className="card-link">Details →</Link>
-                </div>
-
-                <div className="metric-list">
-                  <div className="metric-row">
-                    <div className="metric-top">
-                      <span className="metric-name">Fundamental Studies</span>
-                      <span className="metric-value">
-                        {genEdCategoryProgress.fundamental.completed}/{genEdCategoryProgress.fundamental.total}
-                      </span>
-                    </div>
-                    <div className="metric-bar-wrap">
-                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.fundamental.completed, genEdCategoryProgress.fundamental.total)}%` }}></div>
-                    </div>
-                  </div>
-
-                  <div className="metric-row">
-                    <div className="metric-top">
-                      <span className="metric-name">Distributive Studies</span>
-                      <span className="metric-value">
-                        {genEdCategoryProgress.distributive.completed}/{genEdCategoryProgress.distributive.total}
-                      </span>
-                    </div>
-                    <div className="metric-bar-wrap">
-                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.distributive.completed, genEdCategoryProgress.distributive.total)}%` }}></div>
-                    </div>
-                  </div>
-
-                  <div className="metric-row">
-                    <div className="metric-top">
-                      <span className="metric-name">I-Series</span>
-                      <span className="metric-value">
-                        {genEdCategoryProgress.iSeries.completed}/{genEdCategoryProgress.iSeries.total}
-                      </span>
-                    </div>
-                    <div className="metric-bar-wrap">
-                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.iSeries.completed, genEdCategoryProgress.iSeries.total)}%` }}></div>
-                    </div>
-                  </div>
-
-                  <div className="metric-row">
-                    <div className="metric-top">
-                      <span className="metric-name">Diversity</span>
-                      <span className="metric-value">
-                        {genEdCategoryProgress.diversity.completed}/{genEdCategoryProgress.diversity.total}
-                      </span>
-                    </div>
-                    <div className="metric-bar-wrap">
-                      <div className="metric-bar" style={{ width: `${getPercent(genEdCategoryProgress.diversity.completed, genEdCategoryProgress.diversity.total)}%` }}></div>
-                    </div>
-                  </div>
-                </div>
-              </section>
-            </div>
           </>
         )}
       </div>

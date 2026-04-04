@@ -332,6 +332,49 @@
   gap: 12px;
 }
 
+.dashboard-template .progress-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  margin-bottom: 14px;
+  border-radius: 9px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-2);
+}
+
+.dashboard-template .progress-tab {
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  padding: 6px 10px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dashboard-template .progress-tab:hover {
+  color: var(--ink-2);
+}
+
+.dashboard-template .progress-tab.active {
+  color: var(--red);
+  background: #FFF;
+  box-shadow: 0 1px 4px rgba(23, 18, 14, 0.08);
+}
+
+.dashboard-template .progress-tab:focus-visible {
+  outline: 2px solid rgba(198, 40, 40, 0.28);
+  outline-offset: 1px;
+}
+
+.dashboard-template .progress-gen-ed-list {
+  margin-top: 4px;
+}
+
 .dashboard-template .metric-row {
   display: flex;
   flex-direction: column;
@@ -867,6 +910,16 @@
   .dashboard-template .topbar-btn {
     flex: 1;
     justify-content: center;
+  }
+
+  .dashboard-template .progress-tabs {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .dashboard-template .progress-tab {
+    width: 100%;
   }
 
   .dashboard-template .stat-trio {
