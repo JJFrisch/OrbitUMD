@@ -39,6 +39,10 @@ import {
   buildProgramTemplateKey,
   saveProgramRequirementTemplate,
 } from "@/lib/repositories/programRequirementTemplatesRepository";
+import {
+  loadNotificationPreferences,
+  saveNotificationPreferences,
+} from "@/lib/repositories/notificationPreferencesRepository";
 import { GlobalSearchPanel } from "../components/GlobalSearchPanel";
 import { resetAllPageTours } from "../components/PageOnboardingTour";
 import "./settings-template.css";
@@ -262,6 +266,8 @@ export default function Settings() {
         if (profileError) throw profileError;
         if (termError) throw termError;
 
+        const notificationPreferences = await loadNotificationPreferences();
+
         await refreshAcademicData(metadataBackup.expectedGraduationTermId ?? null);
 
         const seasonLabel: Record<string, string> = {
@@ -291,14 +297,14 @@ export default function Settings() {
           year: Number(row.year),
         })));
         setPriorCreditSummary(summarizePriorCredits(priorCredits));
-        setNotifyRegistrationWindow(readBooleanSetting(metadataBackup.notifyRegistrationWindow, true));
-        setNotifySeatAvailability(readBooleanSetting(metadataBackup.notifySeatAvailability, true));
-        setNotifyWaitlistMovement(readBooleanSetting(metadataBackup.notifyWaitlistMovement, true));
-        setNotifyGraduationGaps(readBooleanSetting(metadataBackup.notifyGraduationGaps, true));
-        setNotifyDropDeadlines(readBooleanSetting(metadataBackup.notifyDropDeadlines, true));
-        setNotifyFeatureAnnouncements(readBooleanSetting(metadataBackup.notifyFeatureAnnouncements, false));
-        setNotifyEmail(readBooleanSetting(metadataBackup.notifyEmail, true));
-        setNotifyPush(readBooleanSetting(metadataBackup.notifyPush, false));
+        setNotifyRegistrationWindow(notificationPreferences.notifyRegistrationWindow);
+        setNotifySeatAvailability(notificationPreferences.notifySeatAvailability);
+        setNotifyWaitlistMovement(notificationPreferences.notifyWaitlistMovement);
+        setNotifyGraduationGaps(notificationPreferences.notifyGraduationGaps);
+        setNotifyDropDeadlines(notificationPreferences.notifyDropDeadlines);
+        setNotifyFeatureAnnouncements(notificationPreferences.notifyFeatureAnnouncements);
+        setNotifyEmail(notificationPreferences.notifyEmail);
+        setNotifyPush(notificationPreferences.notifyPush);
         setShareAnonymousUsage(readBooleanSetting(metadataBackup.shareAnonymousUsage, true));
         setStoreScheduleHistory(readBooleanSetting(metadataBackup.storeScheduleHistory, true));
         setGoogleCalendarConnected(readBooleanSetting(metadataBackup.googleCalendarConnected, false));
@@ -329,21 +335,36 @@ export default function Settings() {
     setToggleSyncError(null);
 
     const timeout = window.setTimeout(() => {
-      void persistAccountBackup({
-        notifyRegistrationWindow,
-        notifySeatAvailability,
-        notifyWaitlistMovement,
-        notifyGraduationGaps,
-        notifyDropDeadlines,
-        notifyFeatureAnnouncements,
-        notifyEmail,
-        notifyPush,
-        shareAnonymousUsage,
-        storeScheduleHistory,
-        googleCalendarConnected,
-        outlookConnected,
-        canvasConnected,
-      }).then(() => {
+      const updatedAt = new Date().toISOString();
+      void Promise.all([
+        saveNotificationPreferences({
+          notifyRegistrationWindow,
+          notifySeatAvailability,
+          notifyWaitlistMovement,
+          notifyGraduationGaps,
+          notifyDropDeadlines,
+          notifyFeatureAnnouncements,
+          notifyEmail,
+          notifyPush,
+          updatedAt,
+        }),
+        persistAccountBackup({
+          notifyRegistrationWindow,
+          notifySeatAvailability,
+          notifyWaitlistMovement,
+          notifyGraduationGaps,
+          notifyDropDeadlines,
+          notifyFeatureAnnouncements,
+          notifyEmail,
+          notifyPush,
+          shareAnonymousUsage,
+          storeScheduleHistory,
+          googleCalendarConnected,
+          outlookConnected,
+          canvasConnected,
+          updatedAt,
+        }),
+      ]).then(() => {
         setToggleSyncState("synced");
       }).catch((error) => {
         setToggleSyncState("error");
