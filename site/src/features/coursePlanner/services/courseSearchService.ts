@@ -983,20 +983,17 @@ export async function getSectionsForCourse(
 
   return mergedSectionCache.getOrSet(`merged-sections:${baseKey}`, async () => {
     const uKey = `umd-sections:${baseKey}`;
-    const jKey = `jupiter-sections:${baseKey}`;
-
-    const [umdSections, jupiterSections] = await Promise.all([
-      settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal))),
-      settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal))),
-    ]);
-
+    const umdSections = await settledSource(() => sectionUmdCache.getOrSet(uKey, () => fetchUmdSectionsForCourse(courseCode, term, year, signal)));
     const umd = umdSections.data ?? [];
+    if (umd.length > 0) {
+      return umd.sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+    }
+
+    const jKey = `jupiter-sections:${baseKey}`;
+    const jupiterSections = await settledSource(() => sectionJupiterCache.getOrSet(jKey, () => fetchJupiterSectionsForCourse(courseCode, term, year, signal)));
     const jupiter = jupiterSections.data ?? [];
-    if (umd.length > 0 || jupiter.length > 0) {
-      if (umd.length > 0 && jupiter.length > 0) {
-        return mergeSections(courseCode, jupiter, umd);
-      }
-      return (umd.length > 0 ? umd : jupiter).sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+    if (jupiter.length > 0) {
+      return jupiter.sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
     }
 
     // Fall back to catalog snapshots only when live section sources are unavailable.

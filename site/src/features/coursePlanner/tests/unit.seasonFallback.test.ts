@@ -129,4 +129,69 @@ describe("season fallback resolution", () => {
     const requests = fetchMock.mock.calls.map(([input]) => String(input));
     expect(requests.some((url) => url.includes("jupiterp.com"))).toBe(false);
   });
+
+  it("prefers UMD section rows over Jupiter for standard terms", async () => {
+    fetchMock.mockImplementation(async (input: RequestInfo | URL) => {
+      const url = String(input);
+
+      if (url.includes("courses/semesters")) {
+        return mockJsonResponse(["202601", "202608"]);
+      }
+
+      if (url.includes("courses/sections") && url.includes("semester=202601")) {
+        return mockJsonResponse([
+          {
+            section_id: "CMSC351-0201",
+            course: "CMSC351",
+            number: "0201",
+            instructor: "UMD Spring Instructor",
+            open_seats: 12,
+            seats: 30,
+            meetings: [
+              {
+                days: ["M", "W", "F"],
+                start_time: "11:00",
+                end_time: "11:50",
+                building: "IRB",
+                room: "0324",
+              },
+            ],
+          },
+        ]);
+      }
+
+      if (url.includes("jupiterp.com")) {
+        return mockJsonResponse([
+          {
+            sections: [
+              {
+                id: "CMSC351-0201-JUP",
+                sectionCode: "0201",
+                instructors: ["Jupiter Different Instructor"],
+                totalSeats: 999,
+                openSeats: 999,
+                meetings: [
+                  {
+                    days: "MWF",
+                    start_time: "15:00",
+                    end_time: "15:50",
+                    building: "IRB",
+                    room: "1116",
+                  },
+                ],
+              },
+            ],
+          },
+        ]);
+      }
+
+      return mockJsonResponse([]);
+    });
+
+    const sections = await getSectionsForCourse("CMSC351", "01", 2026);
+
+    expect(sections).toHaveLength(1);
+    expect(sections[0]?.instructor).toBe("UMD Spring Instructor");
+    expect(sections[0]?.meetings[0]?.startTime).toBe("11:00");
+  });
 });
