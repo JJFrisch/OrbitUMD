@@ -350,13 +350,24 @@
 
   /* ── Schedule Print ── */
 
+  /* Unwrap all scroll/overflow containers so the calendar renders fully */
+  .cp-schedules-unified,
+  .cp-schedules-content,
   .course-planner-root,
-  .cp-view-root {
+  .cp-view-root,
+  .cp-view-layout,
+  .cp-view-preview-panel,
+  .cp-view-preview-body {
     height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     overflow: visible !important;
     background: #fff !important;
+    display: block !important;
   }
 
+  /* Hide all chrome: tabs, list panel, action buttons, term picker */
+  .cp-schedules-topbar,
   .cp-view-header,
   .cp-view-subheader,
   .cp-view-list-panel,
@@ -373,10 +384,6 @@
     display: none !important;
   }
 
-  .cp-view-layout {
-    display: block !important;
-  }
-
   .cp-view-preview-panel {
     width: 100% !important;
     max-width: 100% !important;
@@ -387,10 +394,6 @@
   .cp-view-preview-head {
     margin-bottom: 8px;
     break-inside: avoid;
-  }
-
-  .cp-view-preview-head .cp-view-preview-actions {
-    display: none !important;
   }
 
   .cp-view-preview-title h3 {
@@ -415,27 +418,44 @@
     grid-template-columns: 1fr !important;
   }
 
-  .cp-calendar {
+  /* Calendar grid: remove scroll constraints, render at natural height */
+  .cp-calendar,
+  .cp-calendar-preview {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
     border: 1px solid #ddd !important;
     border-radius: 6px !important;
     width: 100% !important;
-    page-break-inside: avoid !important;
-  }
-
-  .cp-calendar-preview {
-    border: 1px solid #ddd !important;
-    border-radius: 6px !important;
     box-shadow: none !important;
   }
 
-  .cp-view-preview-body {
+  .cp-view-preview-body .cp-calendar {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  /* Ensure the inner grid doesn't overflow the page */
+  .cp-grid {
+    min-width: 0 !important;
     overflow: visible !important;
   }
 
-  /* Schedule course blocks – keep colors */
+  .cp-day-column {
+    overflow: visible !important;
+  }
+
+  /* Time labels: slightly tighter for print */
+  .cp-time-label {
+    height: 80px !important;
+  }
+
+  /* Course blocks: keep colors, clean borders */
   .cp-block {
     border: 1px solid rgba(0, 0, 0, 0.15) !important;
     box-shadow: none !important;
+    overflow: visible !important;
   }
 
   /* ── Hide on screen, show in print ── */
