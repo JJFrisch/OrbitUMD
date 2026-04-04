@@ -48,6 +48,7 @@ const GenEds = lazyWithRetry(() => import("./pages/GenEds"), "GenEds");
 const CreditImport = lazyWithRetry(() => import("./pages/CreditImport"), "CreditImport");
 const DegreeRequirements = lazyWithRetry(() => import("./pages/DegreeRequirement"), "DegreeRequirements");
 const Settings = lazyWithRetry(() => import("./pages/Settings"), "Settings");
+const Notifications = lazyWithRetry(() => import("./pages/Notifications"), "Notifications");
 const Suggestions = lazyWithRetry(() => import("./pages/Suggestions"), "Suggestions");
 const NotFound = lazyWithRetry(() => import("./pages/NotFound"), "NotFound");
 const SignIn = lazyWithRetry(() => import("./pages/SignIn"), "SignIn");
@@ -235,6 +236,7 @@ export const router = createBrowserRouter([
       { path: "credit-import", element: withSuspense(<RequireAuth><CreditImport /></RequireAuth>) },
       { path: "degree-requirements", element: withSuspense(<RequireAuth><DegreeRequirements /></RequireAuth>) },
       { path: "suggestions", element: withSuspense(<RequireAuth><Suggestions /></RequireAuth>) },
+      { path: "notifications", element: withSuspense(<RequireAuth><Notifications /></RequireAuth>) },
       { path: "settings", element: withSuspense(<Settings />) },
       { path: "*", element: withSuspense(<NotFound />) },
     ],

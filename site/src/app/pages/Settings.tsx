@@ -43,6 +43,10 @@ import {
   loadNotificationPreferences,
   saveNotificationPreferences,
 } from "@/lib/repositories/notificationPreferencesRepository";
+import {
+  loadSettingsAccountBackup,
+  saveSettingsAccountBackup,
+} from "@/lib/repositories/settingsAccountRepository";
 import { GlobalSearchPanel } from "../components/GlobalSearchPanel";
 import { resetAllPageTours } from "../components/PageOnboardingTour";
 import "./settings-template.css";
@@ -56,32 +60,6 @@ interface TermOption {
 
 const ADMIN_UNLOCK_PASSWORD = import.meta.env.VITE_ADMIN_UNLOCK_PASSWORD ?? "";
 const GRADUATION_SEASONS = ["spring", "summer", "fall", "winter"] as const;
-const SETTINGS_BACKUP_KEY = "orbitumd_settings_backup_v1";
-
-interface SettingsAccountBackup {
-  fullName?: string;
-  email?: string;
-  uid?: string;
-  defaultTerm?: string;
-  scheduleView?: string;
-  expectedGraduationTermId?: string | null;
-  expectedGraduationSeason?: string | null;
-  expectedGraduationYear?: string | null;
-  notifyRegistrationWindow?: boolean;
-  notifySeatAvailability?: boolean;
-  notifyWaitlistMovement?: boolean;
-  notifyGraduationGaps?: boolean;
-  notifyDropDeadlines?: boolean;
-  notifyFeatureAnnouncements?: boolean;
-  notifyEmail?: boolean;
-  notifyPush?: boolean;
-  shareAnonymousUsage?: boolean;
-  storeScheduleHistory?: boolean;
-  googleCalendarConnected?: boolean;
-  outlookConnected?: boolean;
-  canvasConnected?: boolean;
-  updatedAt?: string;
-}
 
 type SettingsSectionId = "account" | "academic" | "scheduling" | "notifications" | "privacy" | "integrations";
 type ToggleSyncState = "idle" | "saving" | "synced" | "error";
@@ -180,38 +158,6 @@ export default function Settings() {
   const [toggleSyncState, setToggleSyncState] = useState<ToggleSyncState>("idle");
   const [toggleSyncError, setToggleSyncError] = useState<string | null>(null);
 
-  const readAccountBackup = (authUser: any): SettingsAccountBackup => {
-    const candidate = authUser?.user_metadata?.[SETTINGS_BACKUP_KEY];
-    if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) {
-      return {};
-    }
-    return candidate as SettingsAccountBackup;
-  };
-
-  const persistAccountBackup = async (patch: Partial<SettingsAccountBackup>) => {
-    const supabase = getSupabaseClient();
-    const { data, error } = await supabase.auth.getUser();
-    if (error) throw error;
-
-    const authUser = data.user;
-    if (!authUser) return;
-
-    const current = readAccountBackup(authUser);
-    const nextBackup: SettingsAccountBackup = {
-      ...current,
-      ...patch,
-      updatedAt: new Date().toISOString(),
-    };
-
-    const { error: updateError } = await supabase.auth.updateUser({
-      data: {
-        [SETTINGS_BACKUP_KEY]: nextBackup,
-      },
-    });
-
-    if (updateError) throw updateError;
-  };
-
   const refreshAcademicData = async (fallbackExpectedGraduationTermId?: string | null) => {
     const [declared, available] = await Promise.all([listUserDegreePrograms(), listProgramCatalogOptions()]);
     setUserPrograms(declared);
@@ -247,7 +193,7 @@ export default function Settings() {
           setErrorMessage(null);
           return;
         }
-        const metadataBackup = readAccountBackup(authUser);
+        const metadataBackup = await loadSettingsAccountBackup(authUser);
 
         const [{ data: profileRow, error: profileError }, { data: terms, error: termError }, priorCredits] = await Promise.all([
           supabase
@@ -348,15 +294,7 @@ export default function Settings() {
           notifyPush,
           updatedAt,
         }),
-        persistAccountBackup({
-          notifyRegistrationWindow,
-          notifySeatAvailability,
-          notifyWaitlistMovement,
-          notifyGraduationGaps,
-          notifyDropDeadlines,
-          notifyFeatureAnnouncements,
-          notifyEmail,
-          notifyPush,
+        saveSettingsAccountBackup({
           shareAnonymousUsage,
           storeScheduleHistory,
           googleCalendarConnected,
@@ -471,7 +409,7 @@ export default function Settings() {
       );
 
       if (error) throw error;
-      await persistAccountBackup({
+      await saveSettingsAccountBackup({
         fullName: fullName.trim() || undefined,
         email: email.trim() || undefined,
         uid: uid.trim() || undefined,
@@ -564,7 +502,7 @@ export default function Settings() {
           primaryProgram.id,
           termIdToSave === "none" ? null : termIdToSave,
         );
-        await persistAccountBackup({
+        await saveSettingsAccountBackup({
           expectedGraduationTermId: termIdToSave === "none" ? null : termIdToSave,
           expectedGraduationSeason: expectedGraduationSeason === "none" ? null : expectedGraduationSeason,
           expectedGraduationYear: expectedGraduationYear === "none" ? null : expectedGraduationYear,
@@ -585,7 +523,7 @@ export default function Settings() {
 
       if (error) throw error;
 
-      await persistAccountBackup({
+      await saveSettingsAccountBackup({
         expectedGraduationTermId: termIdToSave === "none" ? null : termIdToSave,
         expectedGraduationSeason: expectedGraduationSeason === "none" ? null : expectedGraduationSeason,
         expectedGraduationYear: expectedGraduationYear === "none" ? null : expectedGraduationYear,
@@ -642,7 +580,7 @@ export default function Settings() {
       );
 
       if (error) throw error;
-      await persistAccountBackup({
+      await saveSettingsAccountBackup({
         defaultTerm,
         scheduleView,
       });

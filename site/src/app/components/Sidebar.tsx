@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router";
 import {
   LayoutDashboard,
@@ -7,6 +7,7 @@ import {
   GraduationCap,
   FileCheck2,
   BookOpen,
+  Bell,
   Settings,
   Lightbulb,
   ChevronDown,
@@ -17,6 +18,7 @@ import {
 import type { LucideIcon } from "lucide-react";
 import { cn } from "./ui/utils";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { countUnreadNotifications } from "@/lib/repositories/notificationsRepository";
 import "./sidebar-template.css";
 
 interface NavigationItem {
@@ -52,6 +54,7 @@ const navigationSections: NavigationSection[] = [
       { name: "Degree Audit", href: "/degree-audit", icon: FileCheck2 },
       { name: "Gen Eds", href: "/gen-eds", icon: BookOpen },
       { name: "Suggestions", href: "/suggestions", icon: Lightbulb },
+      { name: "Notifications", href: "/notifications", icon: Bell },
     ],
   },
 ];
@@ -64,6 +67,7 @@ interface SidebarProps {
 export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const location = useLocation();
   const [userDisplay, setUserDisplay] = useState("Student");
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -109,6 +113,44 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       subscription.unsubscribe();
     };
   }, []);
+
+  useEffect(() => {
+    let active = true;
+
+    const loadUnread = async () => {
+      try {
+        const count = await countUnreadNotifications();
+        if (!active) return;
+        setUnreadNotifications(count);
+      } catch {
+        if (!active) return;
+        setUnreadNotifications(0);
+      }
+    };
+
+    void loadUnread();
+    const interval = window.setInterval(() => {
+      void loadUnread();
+    }, 30000);
+
+    return () => {
+      active = false;
+      window.clearInterval(interval);
+    };
+  }, [location.pathname]);
+
+  const navSections = useMemo(() => {
+    return navigationSections.map((section) => ({
+      ...section,
+      items: section.items.map((item) => {
+        if (item.href !== "/notifications") return item;
+        return {
+          ...item,
+          badge: unreadNotifications > 0 ? String(unreadNotifications) : undefined,
+        };
+      }),
+    }));
+  }, [unreadNotifications]);
 
   const userInitials = userDisplay
     .split(/\s+/)
@@ -167,7 +209,7 @@ export default function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       </div>
 
       <nav className="nav-section">
-        {navigationSections.map((section) => (
+        {navSections.map((section) => (
           <div key={section.label} className="nav-group">
             <div className="nav-label">{section.label}</div>
             {section.items.map((item) => {

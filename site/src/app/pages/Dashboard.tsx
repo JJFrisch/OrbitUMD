@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
-import { AlertCircle, ArrowRight, Calendar, CheckCircle2, Clock } from "lucide-react";
+import { AlertCircle, ArrowRight, Calendar, Check, CheckCircle2, Circle, Clock, Minus } from "lucide-react";
 import { plannerApi } from "@/lib/api/planner";
 import { evaluateRequirementSection, loadProgramRequirementBundles, type AuditCourseStatus } from "@/lib/requirements/audit";
 import { listUserDegreePrograms } from "@/lib/repositories/degreeProgramsRepository";
 import { listUserPriorCredits } from "@/lib/repositories/priorCreditsRepository";
+import { ingestNotificationEvent } from "@/lib/notifications/notificationEventService";
 import { getAcademicProgressStatus, getCurrentAcademicTerm } from "@/lib/scheduling/termProgress";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { isDemoMode } from "@/lib/demo/demoMode";
@@ -12,6 +13,7 @@ import "./dashboard-template.css";
 
 interface CourseSnapshot {
   code: string;
+  title: string;
   credits: number;
   status: AuditCourseStatus;
   genEds: string[];
@@ -24,6 +26,14 @@ interface TermSummary {
   status: AuditCourseStatus;
   courseCount: number;
   credits: number;
+}
+
+interface RequirementItem {
+  name: string;
+  detail: string;
+  status: AuditCourseStatus;
+  completed: number;
+  total: number;
 }
 
 const TERM_NAME: Record<string, string> = {
@@ -109,6 +119,51 @@ function toneVisual(tone: "amber" | "blue" | "green"): { iconWrap: "gold" | "blu
   return { iconWrap: "green", urgency: "high" };
 }
 
+function ProgressRing({ percent, label }: { percent: number; label: string }) {
+  const r = 46;
+  const circ = 2 * Math.PI * r;
+  const ringRef = useRef<SVGCircleElement>(null);
+  const [displayPct, setDisplayPct] = useState(0);
+
+  useEffect(() => {
+    const ring = ringRef.current;
+    if (!ring) return;
+
+    ring.style.strokeDasharray = String(circ);
+    ring.style.strokeDashoffset = String(circ);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const offset = circ * (1 - percent / 100);
+        ring.style.strokeDashoffset = String(offset);
+      });
+    });
+
+    let current = 0;
+    const target = percent;
+    const step = target / (1400 / 16);
+    function tick() {
+      current = Math.min(current + step, target);
+      setDisplayPct(Math.round(current));
+      if (current < target) requestAnimationFrame(tick);
+    }
+    setTimeout(tick, 100);
+  }, [percent, circ]);
+
+  return (
+    <div className="ring-wrap">
+      <svg className="ring-svg" width="110" height="110" viewBox="0 0 110 110">
+        <circle className="ring-track" cx="55" cy="55" r={r} />
+        <circle ref={ringRef} className="ring-fill" cx="55" cy="55" r={r} />
+      </svg>
+      <div className="ring-label">
+        <div className="ring-pct">{displayPct}%</div>
+        <div className="ring-sub">{label}</div>
+      </div>
+    </div>
+  );
+}
+
 export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -117,6 +172,8 @@ export default function Dashboard() {
   const [completedTermsMissingGrades, setCompletedTermsMissingGrades] = useState<string[]>([]);
   const [courses, setCourses] = useState<CourseSnapshot[]>([]);
   const [programSummary, setProgramSummary] = useState<Array<{ name: string; status: AuditCourseStatus; percent: number }>>([]);
+  const [requirementItems, setRequirementItems] = useState<RequirementItem[]>([]);
+  const [currentCourses, setCurrentCourses] = useState<Array<{ code: string; title: string; credits: number }>>([]);
 
   useEffect(() => {
     let active = true;
@@ -178,25 +235,36 @@ export default function Dashboard() {
 
         const termRows: TermSummary[] = [];
         const byCourse = new Map<string, CourseSnapshot>();
+        const currentTermCourses: Array<{ code: string; title: string; credits: number }> = [];
+        const now = getCurrentAcademicTerm();
 
         for (const schedule of mainSchedules) {
           const status = getAcademicProgressStatus({ termCode: schedule.term_code!, termYear: schedule.term_year! });
           const selected = parseSelections(schedule.selections_json);
           const uniqueCodes = new Set<string>();
           let credits = 0;
+          const isCurrentTerm = schedule.term_code === now.termCode && schedule.term_year === now.termYear;
 
           for (const row of selected) {
             const code = String(row?.course?.courseCode ?? "").toUpperCase();
             if (!code || uniqueCodes.has(code)) continue;
             uniqueCodes.add(code);
 
+            const title = String(row?.course?.title ?? row?.course?.courseTitle ?? code);
+            const courseCredits = Number(row?.course?.maxCredits ?? row?.course?.credits ?? 0) || 0;
+
             const nextCourse: CourseSnapshot = {
               code,
-              credits: Number(row?.course?.maxCredits ?? row?.course?.credits ?? 0) || 0,
+              title,
+              credits: courseCredits,
               status,
               genEds: Array.isArray(row?.course?.genEds) ? row.course.genEds.map(String) : [],
             };
             credits += nextCourse.credits;
+
+            if (isCurrentTerm || status === "in_progress") {
+              currentTermCourses.push({ code, title, credits: courseCredits });
+            }
 
             const existing = byCourse.get(code);
             if (!existing || statusRank(nextCourse.status) > statusRank(existing.status)) {
@@ -228,6 +296,7 @@ export default function Dashboard() {
             const existing = byCourse.get(code);
             const nextCourse: CourseSnapshot = {
               code,
+              title: code,
               credits: Number(credit.credits ?? 0) || 0,
               status: "completed",
               genEds: Array.isArray(credit.genEdCodes) ? credit.genEdCodes.map(String) : [],
@@ -270,12 +339,38 @@ export default function Dashboard() {
           };
         });
 
+        // Build section-level requirement items
+        const reqItems: RequirementItem[] = [];
+        for (const bundle of bundles) {
+          for (const section of bundle.sections) {
+            const audit = evaluateRequirementSection(section, byCourseStatus);
+            if (audit.requiredSlots === 0) continue;
+            const completedCount = audit.completedSlots + audit.inProgressSlots;
+            const remaining = audit.requiredSlots - completedCount;
+            let detail = "";
+            if (audit.status === "completed") {
+              detail = `All ${audit.requiredSlots} requirement${audit.requiredSlots > 1 ? "s" : ""} satisfied`;
+            } else if (remaining > 0) {
+              detail = `${remaining} of ${audit.requiredSlots} remaining`;
+            }
+            reqItems.push({
+              name: section.title,
+              detail,
+              status: audit.status,
+              completed: completedCount,
+              total: audit.requiredSlots,
+            });
+          }
+        }
+
         if (!active) return;
         setDisplayName(profileName);
         setTerms(termRows);
         setCompletedTermsMissingGrades(missingGradeTerms);
         setCourses(Array.from(byCourse.values()));
         setProgramSummary(summaries);
+        setRequirementItems(reqItems);
+        setCurrentCourses(currentTermCourses);
         setErrorMessage(null);
       } catch (error) {
         if (!active) return;
@@ -301,6 +396,24 @@ export default function Dashboard() {
 
     return terms[terms.length - 1] ?? null;
   }, [terms]);
+
+  const creditTotals = useMemo(() => {
+    let completed = 0;
+    let inProgress = 0;
+    let planned = 0;
+
+    for (const course of courses) {
+      if (course.status === "completed") completed += course.credits;
+      else if (course.status === "in_progress") inProgress += course.credits;
+      else if (course.status === "planned") planned += course.credits;
+    }
+
+    const totalNeeded = 120;
+    const remaining = Math.max(0, totalNeeded - completed - inProgress);
+    const percent = getPercent(completed + inProgress, totalNeeded);
+
+    return { completed, inProgress, planned, remaining, totalNeeded, percent };
+  }, [courses]);
 
   const courseStatusCounts = useMemo(() => {
     let completed = 0;
@@ -356,6 +469,10 @@ export default function Dashboard() {
 
     return categories;
   }, [courses]);
+
+  const semestersLeft = useMemo(() => {
+    return terms.filter((t) => t.status === "planned" || t.status === "not_started").length;
+  }, [terms]);
 
   const suggestions = useMemo(() => {
     const items: Array<{ id: string; title: string; subtitle: string; href: string; tone: "amber" | "blue" | "green" }> = [];
@@ -417,6 +534,59 @@ export default function Dashboard() {
 
   const primarySuggestion = suggestions[0];
 
+  const reqCheckIcon = (status: AuditCourseStatus) => {
+    if (status === "completed") return <Check className="h-3 w-3" />;
+    if (status === "in_progress") return <Minus className="h-3 w-3" />;
+    return <Circle className="h-3 w-3" />;
+  };
+
+  const reqCheckClass = (status: AuditCourseStatus) => {
+    if (status === "completed") return "done";
+    if (status === "in_progress" || status === "planned") return "warn";
+    return "open";
+  };
+
+  const reqTagLabel = (item: RequirementItem) => {
+    if (item.status === "completed") return "Complete";
+    if (item.status === "in_progress") return "In Progress";
+    if (item.status === "planned") return "Planned";
+    return "Not started";
+  };
+
+  const semDotClass = (status: AuditCourseStatus) => {
+    if (status === "completed") return "done";
+    if (status === "in_progress") return "current-dot";
+    return "future";
+  };
+
+  const semBarClass = (status: AuditCourseStatus) => {
+    if (status === "completed") return "done";
+    if (status === "in_progress") return "cur";
+    return "fut";
+  };
+
+  const semStatusLabel = (status: AuditCourseStatus) => {
+    if (status === "completed") return "Done";
+    if (status === "in_progress") return "In Progress";
+    if (status === "planned") return "Planned";
+    return "Future";
+  };
+
+  useEffect(() => {
+    if (loading || errorMessage || completedTermsMissingGrades.length === 0) return;
+
+    const termSummary = completedTermsMissingGrades.join(" | ");
+    void ingestNotificationEvent({
+      type: "graduation_gaps",
+      title: "Completed terms are missing final grades",
+      message: `Update final grades for: ${termSummary}`,
+      dedupeScope: "dashboard-missing-grades",
+      metadata: {
+        terms: completedTermsMissingGrades,
+      },
+    });
+  }, [completedTermsMissingGrades, errorMessage, loading]);
+
   return (
     <div className="dashboard-template">
       <div className="topbar">
@@ -474,67 +644,219 @@ export default function Dashboard() {
 
         {!loading && !errorMessage && (
           <>
+            {/* Row 1: Degree Progress Ring + Semester Timeline */}
             <div className="grid-2">
               <section className="card" data-tour-target="dashboard-term-overview">
                 <div className="card-header">
                   <div>
-                    <div className="card-title">Current Term Snapshot</div>
+                    <div className="card-title">Degree Progress</div>
                     <div className="card-subtitle">
-                      {currentTerm ? currentTerm.label : "No active term yet"}
+                      {programSummary.length > 0 ? programSummary[0].name : "Overall credit progress"}
                     </div>
-                  </div>
-                  {currentTerm && (
-                    <span className={`status-pill ${statusClass(currentTerm.status)}`}>
-                      {statusLabel(currentTerm.status)}
-                    </span>
-                  )}
-                </div>
-
-                <div className="stat-trio">
-                  <div className="stat-cell">
-                    <div className="stat-num">{courseStatusCounts.completed}</div>
-                    <div className="stat-label">Completed</div>
-                  </div>
-                  <div className="stat-cell">
-                    <div className="stat-num">{courseStatusCounts.inProgress}</div>
-                    <div className="stat-label">In Progress</div>
-                  </div>
-                  <div className="stat-cell">
-                    <div className="stat-num">{courseStatusCounts.planned}</div>
-                    <div className="stat-label">Planned</div>
-                  </div>
-                </div>
-              </section>
-
-              <section className="card" data-tour-target="dashboard-program-progress">
-                <div className="card-header">
-                  <div>
-                    <div className="card-title">Program Progress</div>
-                    <div className="card-subtitle">Requirement fulfillment by declared program</div>
                   </div>
                   <Link to="/degree-audit" className="card-link">Full view →</Link>
                 </div>
 
-                {programSummary.length === 0 ? (
-                  <p className="empty-note">No declared major/minor yet. Add programs in Settings to activate auditing.</p>
-                ) : (
-                  <div className="metric-list">
-                    {programSummary.slice(0, 4).map((program) => (
-                      <div key={program.name} className="metric-row">
-                        <div className="metric-top">
-                          <span className="metric-name">{program.name}</span>
-                          <span className="metric-value">{program.percent}%</span>
-                        </div>
-                        <div className="metric-bar-wrap">
-                          <div className="metric-bar" style={{ width: `${program.percent}%` }}></div>
-                        </div>
+                <div className="progress-hero">
+                  <ProgressRing percent={creditTotals.percent} label="complete" />
+                  <div className="ring-details">
+                    <p>
+                      {creditTotals.percent >= 100
+                        ? "You have met the credit requirement!"
+                        : creditTotals.remaining <= 30
+                          ? `Almost there — ${creditTotals.remaining} credits to go.`
+                          : `Keep going — ${creditTotals.remaining} credits remaining.`}
+                    </p>
+                    <div className="ring-meta">
+                      <div className="ring-meta-item">
+                        <div className="ring-meta-dot" style={{ background: "var(--red)" }} />
+                        <span className="ring-meta-label">Credits earned</span>
+                        <span className="ring-meta-val">{creditTotals.completed} / {creditTotals.totalNeeded}</span>
                       </div>
-                    ))}
+                      <div className="ring-meta-item">
+                        <div className="ring-meta-dot" style={{ background: "var(--gold)" }} />
+                        <span className="ring-meta-label">In progress</span>
+                        <span className="ring-meta-val">{creditTotals.inProgress} credits</span>
+                      </div>
+                      <div className="ring-meta-item">
+                        <div className="ring-meta-dot" style={{ background: "#EDE7E1" }} />
+                        <span className="ring-meta-label">Remaining</span>
+                        <span className="ring-meta-val">{creditTotals.remaining} credits</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section className="card">
+                <div className="card-header">
+                  <div>
+                    <div className="card-title">Semester Timeline</div>
+                    <div className="card-subtitle">Credits per term</div>
+                  </div>
+                  <Link to="/four-year-plan" className="card-link">Edit plan →</Link>
+                </div>
+
+                {terms.length === 0 ? (
+                  <p className="empty-note">No MAIN schedules found. Create one to see your timeline.</p>
+                ) : (
+                  <div className="semester-track">
+                    {terms.map((term) => {
+                      const barWidth = term.status === "completed" ? 100
+                        : term.status === "in_progress" ? 60
+                        : 100;
+                      return (
+                        <div key={`${term.code}-${term.year}`} className={`sem-row${term.status === "in_progress" ? " current" : ""}`}>
+                          <div className={`sem-dot ${semDotClass(term.status)}`} />
+                          <div className="sem-name">{term.label}</div>
+                          <div className="sem-bar-wrap">
+                            <SemBar className={semBarClass(term.status)} width={barWidth} />
+                          </div>
+                          <div className="sem-credits">{term.credits > 0 ? `${term.credits} cr` : "—"}</div>
+                          <div className={`sem-status ${semBarClass(term.status)}`}>{semStatusLabel(term.status)}</div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </section>
             </div>
 
+            {/* Row 2: Requirements Checklist + Action Items */}
+            <div className="grid-2">
+              <section className="card">
+                <div className="card-header">
+                  <div>
+                    <div className="card-title">Requirements Checklist</div>
+                    <div className="card-subtitle">Major · Gen Ed · University</div>
+                  </div>
+                  <Link to="/degree-audit" className="card-link">All reqs →</Link>
+                </div>
+
+                {requirementItems.length === 0 ? (
+                  <p className="empty-note">No declared major/minor yet. Add programs in Settings to activate auditing.</p>
+                ) : (
+                  <div className="req-list">
+                    {requirementItems.slice(0, 6).map((item, i) => (
+                      <Link to="/degree-audit" key={i} className="req-item">
+                        <div className={`req-check ${reqCheckClass(item.status)}`}>
+                          {reqCheckIcon(item.status)}
+                        </div>
+                        <div className="req-text">
+                          <div className="req-name">{item.name}</div>
+                          <div className="req-detail">{item.detail}</div>
+                        </div>
+                        <div className={`req-tag ${reqCheckClass(item.status)}`}>{reqTagLabel(item)}</div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </section>
+
+              <section className="card" data-tour-target="dashboard-next-actions">
+                <div className="card-header">
+                  <div>
+                    <div className="card-title">Action Items</div>
+                    <div className="card-subtitle">Things that need your attention</div>
+                  </div>
+                </div>
+
+                <div className="nudge-list">
+                  {suggestions.map((suggestion) => {
+                    const visual = toneVisual(suggestion.tone);
+                    return (
+                      <Link key={suggestion.id} to={suggestion.href} className="nudge">
+                        <div className={`nudge-icon-wrap ${visual.iconWrap}`}>
+                          {suggestion.tone === "amber" ? (
+                            <Clock className="h-4 w-4" />
+                          ) : suggestion.tone === "blue" ? (
+                            <Calendar className="h-4 w-4" />
+                          ) : (
+                            <CheckCircle2 className="h-4 w-4" />
+                          )}
+                        </div>
+                        <div className="nudge-body">
+                          <div className="nudge-title">{suggestion.title}</div>
+                          <div className="nudge-desc">{suggestion.subtitle}</div>
+                        </div>
+                        <span className={`nudge-urgency ${visual.urgency}`}></span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </section>
+            </div>
+
+            {/* Row 3: Current Courses + Stats */}
+            <div className="grid-2">
+              <section className="card">
+                <div className="section-heading">
+                  Current Semester Courses
+                  <Link to="/four-year-plan">Edit this term →</Link>
+                </div>
+
+                {currentCourses.length === 0 ? (
+                  <p className="empty-note">No courses found for the current term.</p>
+                ) : (
+                  <div className="course-grid">
+                    {currentCourses.map((course) => (
+                      <div key={course.code} className="course-slot">
+                        <div className="course-code">{course.code}</div>
+                        <div className="course-name">{course.title}</div>
+                        <div className="course-meta">{course.credits} cr</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+
+              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+                <section className="card" data-tour-target="dashboard-program-progress">
+                  <div className="card-header">
+                    <div>
+                      <div className="card-title">Program Progress</div>
+                      <div className="card-subtitle">Requirement fulfillment by declared program</div>
+                    </div>
+                    <Link to="/degree-audit" className="card-link">Full view →</Link>
+                  </div>
+
+                  {programSummary.length === 0 ? (
+                    <p className="empty-note">No declared major/minor yet. Add programs in Settings to activate auditing.</p>
+                  ) : (
+                    <div className="metric-list">
+                      {programSummary.slice(0, 4).map((program) => (
+                        <div key={program.name} className="metric-row">
+                          <div className="metric-top">
+                            <span className="metric-name">{program.name}</span>
+                            <span className="metric-value">{program.percent}%</span>
+                          </div>
+                          <div className="metric-bar-wrap">
+                            <div className="metric-bar" style={{ width: `${program.percent}%` }}></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </section>
+
+                <div className="stat-trio">
+                  <div className="stat-cell">
+                    <div className="stat-num red">{creditTotals.completed}</div>
+                    <div className="stat-label">Credits Earned</div>
+                  </div>
+                  <div className="stat-cell">
+                    <div className="stat-num">{courseStatusCounts.inProgress}</div>
+                    <div className="stat-label">Courses Now</div>
+                  </div>
+                  <div className="stat-cell">
+                    <div className="stat-num gold">{semestersLeft}</div>
+                    <div className="stat-label">Semesters Left</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Row 4: Gen Ed Progress */}
             <div className="grid-2">
               <section className="card">
                 <div className="card-header">
@@ -595,43 +917,32 @@ export default function Dashboard() {
                   </div>
                 </div>
               </section>
-
-              <section className="card" data-tour-target="dashboard-next-actions">
-                <div className="card-header">
-                  <div>
-                    <div className="card-title">Suggested Next Steps</div>
-                    <div className="card-subtitle">Prioritized actions based on your planning data</div>
-                  </div>
-                </div>
-
-                <div className="nudge-list">
-                  {suggestions.map((suggestion) => {
-                    const visual = toneVisual(suggestion.tone);
-                    return (
-                      <Link key={suggestion.id} to={suggestion.href} className="nudge">
-                        <div className={`nudge-icon-wrap ${visual.iconWrap}`}>
-                          {suggestion.tone === "amber" ? (
-                            <Clock className="h-4 w-4" />
-                          ) : suggestion.tone === "blue" ? (
-                            <Calendar className="h-4 w-4" />
-                          ) : (
-                            <CheckCircle2 className="h-4 w-4" />
-                          )}
-                        </div>
-                        <div className="nudge-body">
-                          <div className="nudge-title">{suggestion.title}</div>
-                          <div className="nudge-desc">{suggestion.subtitle}</div>
-                        </div>
-                        <span className={`nudge-urgency ${visual.urgency}`}></span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </section>
             </div>
           </>
         )}
       </div>
     </div>
+  );
+}
+
+function SemBar({ className, width }: { className: string; width: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || className === "fut") return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.style.width = `${width}%`;
+      });
+    });
+  }, [width, className]);
+
+  return (
+    <div
+      ref={ref}
+      className={`sem-bar ${className}`}
+      style={className === "fut" ? { width: "100%" } : undefined}
+    />
   );
 }
