@@ -155,6 +155,5 @@ I’m actively seeking:
 University of Maryland, College Park  
 B.S. Computer Science & B.S. Physics (Quantum Science and Engineering minor)  
 Class of 2029  
-UID: 122214590
 
 I’m a freshman dual‑degree student interested in systems that improve student experience, with particular focus on tooling, planning, and transparency in academic paths.
