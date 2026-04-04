@@ -1273,7 +1273,7 @@ function RequirementSectionTableCard({
         row.choices.forEach((choice, choiceIndex) => {
           const rowKey = `${row.key}-choice-${choiceIndex}`;
           // Tag each choice group with a unique OR block key + choice index
-          const reqType = `OR_BLOCK::${row.key}::${choiceIndex}`;
+          const reqType = `OR_BLOCK::${row.key}::${choiceIndex}::${row.label ?? ""}`;
           choice.forEach((token, codeIndex) => pushToken(token, rowKey, codeIndex, reqType));
         });
       } else {
@@ -1394,7 +1394,7 @@ function RequirementSectionTableCard({
               // and keep required rows as standalone entries.
               type RowGroup =
                 | { kind: "required"; row: (typeof sectionCourseRows)[0] }
-                | { kind: "or-block"; blockKey: string; choices: { choiceIndex: number; rows: (typeof sectionCourseRows) }[] };
+                | { kind: "or-block"; blockKey: string; label?: string; choices: { choiceIndex: number; rows: (typeof sectionCourseRows) }[] };
 
               const groups: RowGroup[] = [];
               let currentOrBlock: Extract<RowGroup, { kind: "or-block" }> | null = null;
@@ -1404,9 +1404,10 @@ function RequirementSectionTableCard({
                   const parts = row.reqType.split("::");
                   const blockKey = parts[1] ?? "";
                   const choiceIndex = Number(parts[2] ?? "0");
+                  const blockLabel = parts[3] || undefined;
 
                   if (!currentOrBlock || currentOrBlock.blockKey !== blockKey) {
-                    currentOrBlock = { kind: "or-block", blockKey, choices: [] };
+                    currentOrBlock = { kind: "or-block", blockKey, label: blockLabel, choices: [] };
                     groups.push(currentOrBlock);
                   }
 
@@ -1531,6 +1532,9 @@ function RequirementSectionTableCard({
                   >
                     <div className="da2-or-bracket" aria-hidden="true" />
                     <div className="da2-or-choices">
+                      {group.label && (
+                        <div className="da2-or-block-label">{group.label}</div>
+                      )}
                       {group.choices.map((choice, choiceIdx) => (
                         <div key={`choice-${choiceIdx}`} className="da2-or-choice-group">
                           {choiceIdx > 0 && (
