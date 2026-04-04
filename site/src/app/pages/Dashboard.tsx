@@ -669,17 +669,17 @@ export default function Dashboard() {
                     </p>
                     <div className="ring-meta">
                       <div className="ring-meta-item">
-                        <div className="ring-meta-dot" style={{ background: "var(--red)" }} />
+                        <div className="ring-meta-dot red" />
                         <span className="ring-meta-label">Credits earned</span>
                         <span className="ring-meta-val">{creditTotals.completed} / {creditTotals.totalNeeded}</span>
                       </div>
                       <div className="ring-meta-item">
-                        <div className="ring-meta-dot" style={{ background: "var(--gold)" }} />
+                        <div className="ring-meta-dot gold" />
                         <span className="ring-meta-label">In progress</span>
                         <span className="ring-meta-val">{creditTotals.inProgress} credits</span>
                       </div>
                       <div className="ring-meta-item">
-                        <div className="ring-meta-dot" style={{ background: "#EDE7E1" }} />
+                        <div className="ring-meta-dot muted" />
                         <span className="ring-meta-label">Remaining</span>
                         <span className="ring-meta-val">{creditTotals.remaining} credits</span>
                       </div>
@@ -810,7 +810,7 @@ export default function Dashboard() {
                 )}
               </section>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <div className="stacked-col">
                 <section className="card" data-tour-target="dashboard-program-progress">
                   <div className="card-header">
                     <div>
