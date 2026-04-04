@@ -2197,7 +2197,7 @@ export default function FourYearPlan() {
           setShowPredictionInfo(false);
         }
       }}>
-        <DialogContent className="fyp-plan-dialog max-w-2xl max-h-[85vh] overflow-y-auto">
+        <DialogContent className="fyp-plan-dialog add-course-dialog max-w-4xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {replaceCourseTarget ? "Change Course" : "Add Course"} for {addCourseTerm?.termLabel ?? "Term"}
@@ -2209,27 +2209,8 @@ export default function FourYearPlan() {
             </DialogDescription>
           </DialogHeader>
 
-          {addCourseTerm && (
-            <section className="add-course-hero" aria-label="Course search term details">
-              <div className="add-course-hero-top">
-                <p className="add-course-hero-label">Searching catalog for</p>
-                <span className="add-course-term-pill">{addCourseTerm.termLabel}</span>
-              </div>
-              <p className="add-course-hero-copy">
-                Course matches are saved into your MAIN plan for this term. You can change sections later after adding a course.
-              </p>
-              {addCourseLookupResolution?.isPredicted && (
-                <div className="add-course-disclaimer" role="note">
-                  <Info size={14} />
-                  <p>
-                    Results are <button type="button" className="add-course-disclaimer-link" onClick={() => setShowPredictionInfo(true)}>predicted</button> using {addCourseLookupResolution.resolvedLabel} because official {addCourseLookupResolution.requestedLabel} offerings are not published yet.
-                  </p>
-                </div>
-              )}
-            </section>
-          )}
-
-          <div className="add-course-lookup">
+          <section className="add-course-search-spotlight" aria-label="Search for a course">
+            <div className="add-course-lookup">
             <div className="add-course-lookup-row">
               <label className="add-course-input-wrap" htmlFor="add-course-query-input">
                 <Search size={15} className="add-course-input-icon" />
@@ -2267,6 +2248,30 @@ export default function FourYearPlan() {
                 <span className="add-course-result-count">{addCourseResults.length} results</span>
               ) : null}
             </div>
+            </div>
+          </section>
+
+          {addCourseTerm && (
+            <section className="add-course-hero" aria-label="Course search term details">
+              <div className="add-course-hero-top">
+                <p className="add-course-hero-label">Searching catalog for</p>
+                <span className="add-course-term-pill">{addCourseTerm.termLabel}</span>
+              </div>
+              <p className="add-course-hero-copy">
+                Course matches are saved into your MAIN plan for this term. You can change sections later after adding a course.
+              </p>
+              {addCourseLookupResolution?.isPredicted && (
+                <div className="add-course-disclaimer" role="note">
+                  <Info size={14} />
+                  <p>
+                    Results are <button type="button" className="add-course-disclaimer-link" onClick={() => setShowPredictionInfo(true)}>predicted</button> using {addCourseLookupResolution.resolvedLabel} because official {addCourseLookupResolution.requestedLabel} offerings are not published yet.
+                  </p>
+                </div>
+              )}
+            </section>
+          )}
+
+          <div className="add-course-lookup">
 
             <div className="add-course-results">
               {addCourseResults.length === 0 ? (

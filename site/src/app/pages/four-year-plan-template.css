@@ -144,6 +144,20 @@
   text-decoration: none;
 }
 
+.add-course-dialog {
+  width: min(1000px, 96vw) !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(198, 40, 40, 0.18) !important;
+  background:
+    radial-gradient(130% 170% at 100% -10%, rgba(198, 40, 40, 0.14) 0%, rgba(198, 40, 40, 0) 58%),
+    radial-gradient(180% 120% at 0% 0%, rgba(249, 168, 37, 0.14) 0%, rgba(249, 168, 37, 0) 65%),
+    #fff9f2 !important;
+  box-shadow:
+    0 24px 55px rgba(23, 18, 14, 0.2),
+    0 6px 18px rgba(198, 40, 40, 0.14) !important;
+  padding: 1rem 1.1rem 1.15rem !important;
+}
+
 .fyp-page .topbar-btn:hover,
 .fyp-plan-dialog .topbar-btn:hover {
   border-color: rgba(198, 40, 40, 0.25);
@@ -1117,6 +1131,21 @@
   gap: 10px;
 }
 
+.add-course-search-spotlight {
+  display: flex;
+  justify-content: center;
+  border-radius: 14px;
+  border: 1px solid rgba(198, 40, 40, 0.18);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(253, 244, 236, 0.95) 100%);
+  padding: 14px 12px;
+}
+
+.add-course-search-spotlight .add-course-lookup {
+  width: min(760px, 100%);
+  gap: 12px;
+}
+
 .add-course-hero {
   border: 1px solid rgba(198, 40, 40, 0.16);
   border-radius: 12px;
@@ -1196,29 +1225,31 @@
 
 .add-course-lookup-row {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
 }
 
 .add-course-input-wrap {
   flex: 1;
-  border: 1px solid var(--border-soft);
-  border-radius: 8px;
-  height: 38px;
-  padding: 0 10px;
-  background: var(--surface);
+  border: 1px solid rgba(198, 40, 40, 0.28);
+  border-radius: 11px;
+  min-height: 54px;
+  padding: 0 14px;
+  background: #fffdfb;
   color: var(--ink-2);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  box-shadow: 0 10px 28px rgba(198, 40, 40, 0.14);
 }
 
 .add-course-input-wrap:focus-within {
-  outline: 2px solid rgba(198, 40, 40, 0.25);
-  border-color: rgba(198, 40, 40, 0.5);
+  outline: 3px solid rgba(198, 40, 40, 0.2);
+  border-color: rgba(198, 40, 40, 0.72);
 }
 
 .add-course-input-icon {
-  color: var(--ink-ghost);
+  color: rgba(198, 40, 40, 0.72);
   flex-shrink: 0;
 }
 
@@ -1229,7 +1260,8 @@
   padding: 0;
   background: transparent;
   color: var(--ink-2);
-  font-size: 0.88rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .add-course-input:focus {
@@ -1237,13 +1269,15 @@
 }
 
 .add-course-search-status {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
+  font-weight: 600;
   color: var(--ink-muted);
   white-space: nowrap;
 }
 
 .add-course-refresh {
-  min-width: 90px;
+  min-width: 110px;
+  min-height: 50px;
 }
 
 .fyp-page .topbar-btn,
@@ -1327,11 +1361,11 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 14px;
 }
 
 .add-course-hint {
-  font-size: 0.76rem;
+  font-size: 0.8rem;
   color: var(--ink-muted);
 }
 
@@ -1574,6 +1608,30 @@
 
   .fyp-page .topbar-right {
     flex-wrap: wrap;
+  }
+
+  .add-course-dialog {
+    width: min(100vw - 18px, 1000px) !important;
+    max-height: 92vh !important;
+    padding: 0.9rem !important;
+  }
+
+  .add-course-search-spotlight {
+    padding: 12px 10px;
+  }
+
+  .add-course-lookup-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .add-course-refresh {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .add-course-input-wrap {
+    min-height: 50px;
   }
 }
 
