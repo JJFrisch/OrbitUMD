@@ -950,6 +950,36 @@ export async function getSectionsForCourse(
   }
 
   const baseKey = `${year}${term}:${courseCode}`;
+  const normalizedRequestedTerm = normalizeTermCode(term);
+  const resolvedRequestedTerm = await resolveSeasonFallbackTerm(normalizedRequestedTerm, year, signal);
+  const isProjectedTerm = resolvedRequestedTerm.term !== normalizedRequestedTerm || resolvedRequestedTerm.year !== year;
+
+  // For projected terms, rely on a single source path to avoid blending stale/current
+  // semester snapshots that can duplicate sections or mix instructor/time data.
+  if (isProjectedTerm) {
+    return sectionUmdCache.getOrSet(`umd-sections-projected:${baseKey}`, async () => {
+      const sections = await settledSource(() => fetchUmdSectionsForCourse(courseCode, normalizedRequestedTerm, year, signal));
+      if (sections.data && sections.data.length > 0) {
+        return sections.data.sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+      }
+
+      const catalogSections = await settledSource(async () => {
+        const termCode = `${year}${normalizedRequestedTerm}`;
+        const rows = await fetchPlannerSectionsFallback(termCode, courseCode);
+        return rows.map(toPlannerSectionFromFallback);
+      });
+
+      if (catalogSections.data && catalogSections.data.length > 0) {
+        return catalogSections.data.sort((a, b) => a.sectionCode.localeCompare(b.sectionCode));
+      }
+
+      if (catalogSections.error || sections.error) {
+        throw new Error(catalogSections.error ?? sections.error ?? "Projected section lookup failed");
+      }
+
+      return [];
+    });
+  }
 
   return mergedSectionCache.getOrSet(`merged-sections:${baseKey}`, async () => {
     const uKey = `umd-sections:${baseKey}`;
